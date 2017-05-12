@@ -137,3 +137,5 @@ def polar(X=[-1, 1], Y=[-1, 1]):
             return f(r, t)
 
         return F
+
+    return domain
