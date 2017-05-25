@@ -2,15 +2,15 @@ import numpy as np
 from PIL import Image
 
 
-def new_image(width, height, alpha=False):
+def new_image(width, height, color=(0, 0, 0)):
     """
     Create a new numpy ndarray of width x height where each entry is
     either 3 (RGB) for 4 (RGBA) uint8's
     """
 
-    n = 4 if alpha else 3
+    n = len(color)
 
-    return np.zeros((height, width, n), dtype=np.uint8)
+    return np.full((height, width, n), color, dtype=np.uint8)
 
 
 def imgmap(img, f):
