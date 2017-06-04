@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import PIL as P
 
 
 class Image:
@@ -47,15 +48,16 @@ class Image:
 
             if len(shape) != 3 or shape[-1] != 4:
                 raise ValueError("Pixels array must have shape"
-                                   " (height, width, 4)")
+                                 " (height, width, 4)")
 
             self.pixels = pixels
         else:
             if width is None or height is None:
                 raise ValueError("If no pixels array is given you"
-                                   " must specify a width and height")
+                                 " must specify a width and height")
 
-            self.pixels = np.full((width, height, 4), background, dtype=np.uint8)
+            self.pixels = np.full((width, height, 4), background,
+                                  dtype=np.uint8)
 
     @classmethod
     def fromarray(cls, px):
@@ -88,9 +90,29 @@ class Image:
         """
         return '%ix%i Image' % self.pixels.shape[0:2]
 
+    def __or__(self, other):
+        """
+        "OR" Implementation
+
+        Like a union, combines the output of the two images
+        """
+
+        return 1
+
     def show(self):
         """
         Show the image using a matplotlib figure - useful for use in
         notebooks
         """
         return plt.imshow(self.pixels)
+
+    def save(self, filename):
+        """
+        Save the image to the given filename
+        """
+
+        image = P.Image.frombuffer('RGBA', self.pixels.shape[0:2],
+                                   self.pixels, 'raw', 'RGBA', 0, 1)
+
+        with open(filename, 'wb') as f:
+            image.save(f)
