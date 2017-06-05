@@ -63,20 +63,15 @@ class LayeredImage:
         return cls(pixels=px)
 
     def __getitem__(self, index):
-        """
-        Allows for the use of img[] syntax.
-
-        We let numpy handle most of the indexing, but sometimes we could
-        be left with a single layer image in which case we wrap it in an image
-        class.
-        """
         px = self.pixels[index]
         shape = px.shape
 
         if len(shape) == 3:
             return Image.fromarray(px)
-        else:
+        elif len(shape) == 4:
             return LayeredImage.fromarray(px)
+        else:
+            return px
 
     def __setitem__(self, index, value):
         self.pixels[index] = value
@@ -84,6 +79,37 @@ class LayeredImage:
     def __repr__(self):
         shape = self.pixels.shape
         return "%ix%i Layered Image with %i layers" % (shape[1], shape[2], shape[0])
+
+    def _collapse(self):
+
+        _, jmax, imax, _ = self.pixels.shape
+
+        img = Image(imax, jmax)
+
+        for j in range(jmax):
+            for i in range(imax):
+
+                px = self.pixels[:, j, i]
+
+                try:
+                    img[j, i] = next(filter(lambda rgba: rgba[-1] > 0, px))
+                except StopIteration:
+                    continue
+
+        return img
+
+    def show(self):
+        img = self._collapse()
+        return plt.imshow(img.pixels)
+
+    def save(self, filename):
+        img = self._collapse()
+
+        image = P.Image.frombuffer('RGBA', img.pixels.shape[0:2],
+                                   img.pixels, 'raw', 'RGBA', 0, 1)
+
+        with open(filename, 'wb') as f:
+            image.save(f)
 
 
 class Image:
