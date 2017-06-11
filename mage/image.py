@@ -2,6 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import PIL as P
 
+from math import floor
+
 
 class LayeredImage:
     """
@@ -173,7 +175,15 @@ class Image:
         return cls(pixels=px)
 
     def __getitem__(self, index):
-        return Image.fromarray(self.pixels[index])
+        px = self.pixels[index]
+        shape = px.shape
+        print(shape)
+
+        if len(shape) == 3:
+            return Image.fromarray(px)
+        else:
+            return px
+
 
     def __setitem__(self, index, value):
         self.pixels[index] = value
@@ -181,9 +191,28 @@ class Image:
     def __repr__(self):
         return '%ix%i Image' % self.pixels.shape[0:2]
 
-    def __or__(self, other):
-        # TODO: Implement boolean OR for images
-        return 1
+    def __and__(self, mask):
+
+        if not isinstance(mask, (Image,)):
+            raise ValueError("AND is only supported between instances of "
+                             "the Image class")
+
+        if self.pixels.shape != mask.pixels.shape:
+            raise ValueError("AND can only be used with Images that have "
+                             "the same dimensions")
+
+        height, width, _ = self.pixels.shape
+        vfloor = np.vectorize(floor)
+        img = Image(width, height)
+        pix = self.pixels
+        mix = mask.pixels
+
+        for j in range(height):
+            for i in range(width):
+
+                img[j, i] = vfloor(pix[j, i] * (mix[j, i] / 255))
+
+        return img
 
     def __call__(self, f):
 
