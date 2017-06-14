@@ -174,8 +174,30 @@ class Image:
     def fromarray(cls, px):
         return cls(pixels=px)
 
+    def _flip_index(self, index):
+        """
+        The underlying representation is in (y,x) 'coordinates' which
+        breaks normal mental models of coordinates being (x,y). So in
+        an effort to keep this mental model consistent throughout this
+        method reorders a given index in that manner.
+
+        If index is just a number, we assume it to be indexing the x
+        coordinate so we return (:, x)
+
+        If index is tuple of indices we swap the first two entries
+        """
+
+        if isinstance(index, (tuple,)):
+            if len(index) == 2:
+                return (index[1], index[0])
+            else:
+                return (index[1], index[0], *index[2:])
+        else:
+            return (slice(None), index)
+
+
     def __getitem__(self, index):
-        px = self.pixels[index]
+        px = self.pixels[self._flip_index(index)]
         shape = px.shape
         print(shape)
 
@@ -184,9 +206,14 @@ class Image:
         else:
             return px
 
-
     def __setitem__(self, index, value):
-        self.pixels[index] = value
+
+        # If we are given something that looks like RGB
+        # convert it to RGBA
+        if len(value) == 3:
+            value = tuple([*value, 255])
+
+        self.pixels[self._flip_index(index)] = value
 
     def __repr__(self):
         return '%ix%i Image' % self.pixels.shape[0:2]
