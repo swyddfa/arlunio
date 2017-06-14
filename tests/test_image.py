@@ -50,6 +50,11 @@ def test_pixel_init(width, height):
     assert img.pixels.shape == (height, width, 4)
     assert (img.pixels == px).all()
 
+    img = Image.fromarray(px)
+
+    assert img.pixels.shape == (height, width, 4)
+    assert (img.pixels == px).all()
+
 
 def test_init_exceptions():
 
@@ -85,3 +90,16 @@ def test_pixel_init_exceptions(width, height):
         img = Image(pixels=px)
 
     assert 'must have shape:' in str(err.value)
+
+
+@given(width=smalldim, height=smalldim)
+def test_repr(width, height):
+
+    img = Image(width, height)
+    assert repr(img) == '%ix%i Image' % (width, height)
+
+
+def test_getitem():
+
+    img = Image(512, 512)
+    assert isinstance(img[1:10], (Image,))
