@@ -79,8 +79,8 @@ class LayeredImage:
         self.pixels[index] = value
 
     def __repr__(self):
-        shape = self.pixels.shape
-        return "%ix%i Layered Image with %i layers" % (shape[1], shape[2], shape[0])
+        dim = self.pixels.shape
+        return "%ix%i Layered Image with %i layers" % (dim[1], dim[2], dim[0])
 
     def _collapse(self):
 
@@ -216,7 +216,8 @@ class Image:
         self.pixels[self._flip_index(index)] = value
 
     def __repr__(self):
-        return '%ix%i Image' % self.pixels.shape[0:2]
+        shape = self.pixels.shape
+        return '%ix%i Image' % (shape[1], shape[0])
 
     def __and__(self, mask):
 
