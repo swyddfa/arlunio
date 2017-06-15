@@ -174,6 +174,13 @@ class Image:
     def fromarray(cls, px):
         return cls(pixels=px)
 
+    @classmethod
+    def fromfile(cls, filename):
+        img = P.Image.open(filename)
+        arr = np.array(img.getdata(), dtype=np.uint8)
+        arr = arr.reshape(img.size[1], img.size[0], 4)
+        return Image(pixels=arr)
+
     def _flip_index(self, index):
         """
         The underlying representation is in (y,x) 'coordinates' which
@@ -194,7 +201,6 @@ class Image:
                 return (index[1], index[0], *index[2:])
         else:
             return (slice(None), index)
-
 
     def __getitem__(self, index):
         px = self.pixels[self._flip_index(index)]
@@ -238,7 +244,7 @@ class Image:
         for j in range(height):
             for i in range(width):
 
-                img[j, i] = vfloor(pix[j, i] * (mix[j, i] / 255))
+                img[i, j] = vfloor(pix[j, i] * (mix[j, i] / 255))
 
         return img
 
