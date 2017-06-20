@@ -5,11 +5,23 @@ import scipy.integrate as I
 
 class Motion:
     """
-    This class provides most of the boilerplate needed to
-    model motion, e.g. keeping track of position, velocity
-    etc.
+    **Note:** This class is not intended to be used directly.
+    In order to implement a particular type of motion create
+    a new class and inherit from this one.
 
-    "Simply" 'inherit and write the _simulate() method'TM
+    The way the motion simulation works is that you specify
+    the initial position of the object (x0,y0) and the initial
+    velocity of the object (vx0, vy0).
+
+    Then given functions which describe the acceleration in both
+    the x and y directions the simulation will integrate them
+    up until the current time to get the velocities and positions
+    at the current instance.
+
+    Therefore since the intial conditions are all handled by this
+    class, in order to implement a new type of motion, inherit from
+    this class and override the `_acceleration_x` and
+    `_acceleration_y` methods.
 
     Parameters
     ----------
@@ -81,14 +93,14 @@ class Motion:
     """
 
     def __init__(self, x0=0, y0=1, vx0=1, vy0=0, t=0, T=1, FPS=25):
-        self._t = t
-        self._T = T
-        self._FPS = FPS
-
         self._x0 = x0
         self._y0 = y0
         self._vx0 = vx0
         self._vy0 = vy0
+
+        self._t = t
+        self._T = T
+        self._FPS = FPS
 
     def __repr__(self):
         s = f"x0:\t{self._x0}\n"
@@ -292,9 +304,10 @@ class Motion:
 
 class Projectile(Motion):
     """
-    An object responsible for modelling the motion of a
-    particle using the "A-Level" model of projectiles.
-    i.e. the SUVAT equations
+    This implements a very basic notion of projectile motion.
+    We assume the following:
+      - The object experiences no drag
+      - The object has acceleration given by the constant g
     """
 
     def __init__(self, g=-9.8, *args, **kwargs):
