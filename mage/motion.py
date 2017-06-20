@@ -1,77 +1,122 @@
-from copy import deepcopy
 import numpy as np
 import matplotlib.pyplot as plt
+import scipy.integrate as I
 
 
-class Projectile:
+class Motion:
     """
-    An object responsible for modelling the motion of a
-    particle using the "A-Level" model of projectiles.
-    i.e. the SUVAT equations
+    This class provides most of the boilerplate needed to
+    model motion, e.g. keeping track of position, velocity
+    etc.
+
+    "Simply" 'inherit and write the _simulate() method'TM
+
+    Parameters
+    ----------
+    These are all the parameters that will be common to any
+    motion simualtion:
+
+    x0 : float
+        The x coordinate of the starting position of the object.
+        Changing this value will trigger the simulation.
+        Default: 0
+    y0 : float
+        The y coordinate of the starting position of the object.
+        Changing this value will trigger the simulation.
+        Default: 1
+
+    vx0 : float
+        The initial x component of velocity of the object.
+        Changing this value will trigger the simulation.
+        Default: 1
+    vy0 : float
+        The intial y component of the velocity of the object.
+        Changing this value will trigger the simulation.
+        Default: 0
+
+    t : int
+        This is the time (in seconds) that the simulaion starts
+        at. Changing this value will trigger the simulation.
+        Default: 0s
+    T : int
+        This is the time (in seconds) that the simulation will
+        finish at. Changing this value will trigger the simulation
+        Default: 1s
+    FPS: int
+        This sets the resolution of the motion, it should match
+        the value for the animation. Changing this value will trigger
+        the simulation. Default: 25
+
+    Attributes
+    ----------
+    These are all the attributes that are common to any motion
+    simulation
+
+    x : [float]
+        This is a list of the x coordinates of the object at each time
+        instance
+    y : [float]
+        This is a list of the y coordinates of the object at each time
+        instance
+    p : [(float, float)]
+        A list of the x-y coordinate of the object at each time instance
+
+    vx : [float]
+        A list of the velocities in the x direction at each time
+        instance
+    vy : [float]
+        A list of the velocities in the y direction at each time
+        instance
+    v : [(float, float)]
+        A list of the velocity of the object at each time instance
+
+    ax : [float]
+        List of the acceleration in the x direction at each time
+        instance
+    ay : [float]
+        List of the acceleration in the y direction at each time
+        instance
+    a : [(float, float)]
+        List of the acceleration of the object at each time instance
     """
 
-    def __init__(self, x0, y0, ux, uy, t=0, T=5, a=-9.8, fps=25):
-        """
-        Parameters
-        ----------
-        x0 : float
-            The initial x coordinate of the particle
-        y0 : float
-            The initial y coordinate of the particle
-        ux : float
-            The initial velocity in the x-direction
-        uy : float
-            The initial velocity in the y-direction
-        t : int, optional
-            The start time of the simulation (in seconds)
-            Default: 0s
-        T : int, optional
-            The length of time to simulate the motion
-            (in seconds). Default: 5s
-        a : float, optional
-            The acceleration due to gravity (in
-            meters per second). Default: -9.8m/s
-        fps : int, optional
-            The number of frames in each second of motion
-            Default: 25
-        """
-        self._x0 = x0
-        self._y0 = y0
-        self._ux = ux
-        self._uy = uy
+    def __init__(self, x0=0, y0=1, vx0=1, vy0=0, t=0, T=1, FPS=25):
         self._t = t
         self._T = T
-        self._a = a
-        self._fps = fps
+        self._FPS = FPS
 
-        self.simulate()
+        self._x0 = x0
+        self._y0 = y0
+        self._vx0 = vx0
+        self._vy0 = vy0
 
     def __repr__(self):
-        s = "Projectile Motion:\n"
-        s += "    x0:\t%.2fm\n" % self._x0
-        s += "    y0:\t%.2fm\n" % self._y0
-        s += "    ux:\t%.2fm/s\n" % self._ux
-        s += "    uy:\t%.2fm/s\n" % self._uy
-        s += "     T:\t%is\n" % self._T
-        s += "     a:\t%.2fm/s\n" % self._a
+        s = f"x0:\t{self._x0}\n"
+        s += f"y0:\t{self._y0}\n"
+        s += f"vx0:\t{self._vx0}\n"
+        s += f"vy0:\t{self._vy0}\n"
         s += "\n"
-        s += "FPS: %i" % self._fps
+        s += f"t:\t{self._t}\n"
+        s += f"T:\t{self._T}\n"
+        s += f"FPS:\t{self._FPS}\n"
+
         return s
 
-    def __getitem__(self, index):
-        return self._data[index]
+    def _velocity_x(self, t):
+        return I.quad(lambda s: self._acceleration_x(s), self._t, t)[0]\
+               + self._vx0
 
-    def _sx(self, t):
-        return self._x0 + t*self._ux
+    def _velocity_y(self, t):
+        return I.quad(lambda s: self._acceleration_y(s), self._t, t)[0]\
+               + self._vy0
 
-    def _sy(self, t):
-        return self._y0 + t*self._uy + t**2*self._a/2
+    def _position_x(self, t):
+        return I.quad(lambda s: self._velocity_x(s), self._t, t)[0]\
+               + self._x0
 
-    def _vx(self, t):
-        return self._ux
-
-    def _vy(self, t):
-        return self._uy + t*self._a
+    def _position_y(self, t):
+        return I.quad(lambda s: + self._velocity_y(s), self._t, t)[0]\
+               + self._y0
 
     @property
     def x0(self):
@@ -80,7 +125,7 @@ class Projectile:
     @x0.setter
     def x0(self, value):
         self._x0 = value
-        self.simulate()
+        self._simulate()
 
     @property
     def y0(self):
@@ -89,25 +134,25 @@ class Projectile:
     @y0.setter
     def y0(self, value):
         self._y0 = value
-        self.simulate()
+        self._simulate()
 
     @property
-    def ux(self):
-        return self._ux
+    def vx0(self):
+        return self._vx0
 
-    @ux.setter
-    def ux(self, value):
-        self._ux = value
-        self.simulate()
+    @vx0.setter
+    def vx0(self, value):
+        self._vx0 = value
+        self._simulate()
 
     @property
-    def uy(self):
-        return self._uy
+    def vy0(self):
+        return self._vy0
 
-    @uy.setter
-    def uy(self, value):
-        self._uy = value
-        self.simulate()
+    @vy0.setter
+    def vy0(self, value):
+        self._vy0 = value
+        self._simulate()
 
     @property
     def t(self):
@@ -116,14 +161,14 @@ class Projectile:
     @t.setter
     def t(self, value):
 
-        if value <= 0:
-            raise ValueError("Start time must be positive!")
+        if value < 0:
+            raise ValueError('Start time cannot be negative!')
 
         if value >= self._T:
-            raise ValueError('Start time cannot be after end time!')
+            raise ValueError('Start time cannot be later than end time!')
 
         self._t = value
-        self.simulate()
+        self._simulate()
 
     @property
     def T(self):
@@ -133,58 +178,148 @@ class Projectile:
     def T(self, value):
 
         if value <= 0:
-            raise ValueError("End time must be positive!")
+            raise ValueError('End time must be positive!')
+
+        if value <= self._t:
+            raise ValueError('End time cannot be before start time!')
 
         self._T = value
-        self.simulate()
+        self._simulate()
 
     @property
-    def a(self):
-        return self._a
+    def FPS(self):
+        return self._FPS
 
-    @a.setter
-    def a(self, value):
-        self._a = value
-        self.simulate()
+    @FPS.setter
+    def FPS(self, value):
 
-    @property
-    def fps(self):
-        return self._fps
+        if not isinstance(value, (int,)):
+            raise ValueError('FPS must be an integer!')
 
-    @fps.setter
-    def fps(self, value):
+        if value <= 0:
+            raise ValueError('FPS must be positive!')
 
-        if not isinstance(value, (int,)) or value <= 0:
-            raise ValueError("FPS must be a positive integer!")
-
-        self._fps = value
-        self.simulate()
+        self._FPS = value
+        self._simulate()
 
     @property
-    def xs(self):
-        return [sx for (sx, _, _, _) in self._data]
+    def x(self):
+        return [x for (x, _, _, _, _, _) in self._data]
 
     @property
-    def ys(self):
-        return [sy for (_, sy, _, _) in self._data]
+    def y(self):
+        return [y for (_, y, _, _, _, _) in self._data]
+
+    @property
+    def p(self):
+        return list(zip(self.x, self.y))
 
     @property
     def vx(self):
-        return [vx for (_, _, vx, _) in self._data]
+        return [vx for (_, _, vx, _, _, _) in self._data]
 
     @property
     def vy(self):
-        return [vy for (_, _, _, vy) in self._data]
+        return [vy for (_, _, _, vy, _, _) in self._data]
 
-    def show(self):
-        return plt.plot(self.xs, self.ys)
+    @property
+    def v(self):
+        return list(zip(self.vx, self.vy))
 
-    def simulate(self):
+    @property
+    def ax(self):
+        return [ax for (_, _, _, _, ax, _) in self._data]
 
-        frames = np.linspace(self._t, self._T, self._T*self._fps)
+    @property
+    def ay(self):
+        return [ay for (_, _, _, _, _, ay) in self._data]
+
+    @property
+    def a(self):
+        return list(zip(self.ax, self.ay))
+
+    def _acceleration_x(self, t):
+        return 0
+
+    def _acceleration_y(self, t):
+        return 0
+
+    def _simulate(self):
+
         self._data = []
+        frames = np.linspace(self._t, self._T, (self._T - self._t) * self._FPS)
 
         for t in frames:
-            vx, vy = self._vx(t), self._vy(t)
-            sx, sy = self._sx(t), self._sy(t)
-            self._data.append((sx, sy, vx, vy))
+
+            # Compute the _accelerations
+            ax = self._acceleration_x(t)
+            ay = self._acceleration_y(t)
+
+            # Compute the velocities
+            vx = self._velocity_x(t)
+            vy = self._velocity_y(t)
+
+            # Compute the positions
+            x = self._position_x(t)
+            y = self._position_y(t)
+
+            self._data.append((x, y, vx, vy, ax, ay))
+
+    def show(self, vel=False, acc=False):
+
+        if vel or acc:
+            fig, (pos, velacc) = plt.subplots(1, 2, figsize=(12, 4))
+        else:
+            fig, pos = plt.subplots(1)
+
+        pos.plot(self.x, self.y, label='position')
+        pos.set_xlabel(r'$x$')
+        pos.set_ylabel(r'$y$')
+        pos.legend(loc=0)
+
+        if vel:
+            velacc.plot(self.vx, label=r'$v_x$')
+            velacc.plot(self.vy, label=r'$v_y$')
+
+        if acc:
+            velacc.plot(self.ax, label=r'$a_x$')
+            velacc.plot(self.ay, label=r'$a_y$')
+
+        if vel or acc:
+            velacc.set_xlabel(r'$t$')
+            velacc.legend(loc=0)
+
+
+class Projectile(Motion):
+    """
+    An object responsible for modelling the motion of a
+    particle using the "A-Level" model of projectiles.
+    i.e. the SUVAT equations
+    """
+
+    def __init__(self, g=-9.8, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self._g = g
+        self._simulate()
+
+    def __repr__(self):
+        s = "Projectile Motion\n"
+        s += "-----------------\n"
+        s += f"g:\t{self._g}\n"
+        s += '\n'
+        s += super().__repr__()
+
+        return s
+
+    def _acceleration_y(self, t):
+        return self.g
+
+    @property
+    def g(self):
+        return self._g
+
+    @g.setter
+    def g(self, value):
+        self._g = value
+        self._simulate()
