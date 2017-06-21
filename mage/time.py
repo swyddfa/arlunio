@@ -1,0 +1,19 @@
+import multiprocessing as mp
+
+
+def animate(f, start=0, stop=10, fps=25, frames=None):
+    """
+    Given a function `f`, with only the frame number as a
+    parameter, evaluate it in parallel to quickly construct
+    all frames.
+
+    You can either specify start and stop times (in seconds)
+    and the fps or just specify the number of total frames.
+    """
+
+    pool = mp.Pool()
+
+    if frames is not None:
+        pool.map(f, range(frames))
+    else:
+        pool.map(f, range((stop - start) * fps))
