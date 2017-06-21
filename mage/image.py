@@ -175,6 +175,10 @@ class Image:
                 raise ValueError("If no pixels array is given you"
                                  " must specify a width and height")
 
+            # If given an RGB lookalike, convert it to RGBA
+            if len(background) == 3:
+                background = tuple([*background, 255])
+
             self.pixels = np.full((height, width, 4), background,
                                   dtype=np.uint8)
 
@@ -283,7 +287,7 @@ class Image:
                 res = f(I, J)
 
                 if res is not None:
-                    self.pixels[j, i] = res
+                    self[j, i] = res
 
     def show(self):
         """
