@@ -108,7 +108,7 @@ def polar(X=[-1, 1], Y=[-1, 1]):
         actually where we do the mapping onto the domain
         """
 
-        def F(i, j):
+        def F(j, i):
 
             x = (1 - i)*xmin + i*xmax
 
