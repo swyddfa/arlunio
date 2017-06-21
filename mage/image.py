@@ -60,6 +60,14 @@ class LayeredImage:
             self.pixels = np.full((layers, height, width, 4), background,
                                   dtype=np.uint8)
 
+    @property
+    def width(self):
+        return self.pixels.shape[1]
+
+    @property
+    def height(self):
+        return self.pixels.shape[0]
+
     @classmethod
     def fromarray(cls, px):
         return cls(pixels=px)
@@ -107,7 +115,7 @@ class LayeredImage:
     def save(self, filename):
         img = self._collapse()
 
-        image = P.Image.frombuffer('RGBA', img.pixels.shape[0:2],
+        image = P.Image.frombuffer('RGBA', (img.width, img.height),
                                    img.pixels, 'raw', 'RGBA', 0, 1)
 
         with open(filename, 'wb') as f:
@@ -169,6 +177,14 @@ class Image:
 
             self.pixels = np.full((height, width, 4), background,
                                   dtype=np.uint8)
+
+    @property
+    def width(self):
+        return self.pixels.shape[1]
+
+    @property
+    def height(self):
+        return self.pixels.shape[0]
 
     @classmethod
     def fromarray(cls, px):
@@ -281,7 +297,7 @@ class Image:
         Save the image to the given filename
         """
 
-        image = P.Image.frombuffer('RGBA', self.pixels.shape[0:2],
+        image = P.Image.frombuffer('RGBA', (self.width, self.height),
                                    self.pixels, 'raw', 'RGBA', 0, 1)
 
         with open(filename, 'wb') as f:
