@@ -284,7 +284,7 @@ class Image:
                 # current pixel is
                 J = j / jmax
 
-                res = f(I, J)
+                res = f(J, I)
 
                 if res is not None:
                     self[j, i] = res
