@@ -92,6 +92,58 @@ def translate(X=[0, 0], r=0):
     return wrapper
 
 
+def reflect(Y=False, X=False):
+    """
+    A decorator to reflect about the x-axis, the y-axis
+    or both!
+
+    Arguments
+    ---------
+
+    X : bool, optional
+        If true function is reflected across the x axis
+        Default: False
+    Y : bool, optional
+        If true, function is reflected across the y axis
+        Default: False
+    """
+
+    if X and Y:
+        def wrapper(f):
+
+            def F(x, y):
+
+                return f(abs(x), abs(y))
+            return F
+        return wrapper
+
+    if X:
+        def wrapper(f):
+
+            def F(x, y):
+
+                return f(x, abs(y))
+            return F
+        return wrapper
+
+    if Y:
+        def wrapper(f):
+
+            def F(x, y):
+
+                return f(abs(x), y)
+            return F
+        return wrapper
+
+    def wrapper(f):
+
+        def F(x, y):
+
+            return f(x, y)
+        return F
+    return wrapper
+
+
 def polar(X=[-1, 1], Y=[-1, 1]):
     """
     A function decorator which constructs a wrapper function that
