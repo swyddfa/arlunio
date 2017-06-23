@@ -133,8 +133,8 @@ class Image:
         The numpy array holding the raw image data
     """
 
-    def __init__(self, width=None, height=None, background=(0, 0, 0, 0),
-                 pixels=None):
+    def __init__(self, width=None, height=None,
+                 background=(255, 255, 255, 255), pixels=None):
         """
         Image Constructor
 
