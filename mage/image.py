@@ -284,10 +284,10 @@ class Image:
                 # current pixel is
                 J = j / jmax
 
-                res = f(J, I)
+                res = f(I, J)
 
                 if res is not None:
-                    self[j, i] = res
+                    self[i, j] = res
 
     def show(self):
         """
