@@ -147,7 +147,7 @@ def cartesian(X=[-1, 1], Y=[-1, 1]):
 
             return np.meshgrid(xs, ys)
 
-        return {'grid': gridfunc, 'mask': np.vectorize(f)}
+        return Drawable(domain=gridfunc, mask=f, name=f.__name__)
 
     return domain
 
