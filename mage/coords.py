@@ -4,9 +4,10 @@ from math import sqrt, atan2, sin, cos
 
 def cartesian(X=[-1, 1], Y=[-1, 1]):
     """
-    A function decorator which constructs a wrapper function that
-    maps a given function onto a domain with given dimensions and
-    cartesian coordinates
+    A function decorator which given the function and
+    the domain it should be mapped onto, construct the
+    necessary data structure so that the Image classes
+    can apply it
     """
 
     xmin, xmax = X
@@ -18,20 +19,14 @@ def cartesian(X=[-1, 1], Y=[-1, 1]):
         actually where we do the mapping onto the domain
         """
 
-        def F(i, j):
+        def gridfunc(width, height):
 
-            x = (1 - i)*xmin + i*xmax
+            xs = np.linspace(xmin, xmax, width)
+            ys = np.linspace(ymax, ymin, height)
 
-            # Annoyingly convention for images is to have the orign in the
-            # upper left of the image, but for maths convention for the origin
-            # to be in the lower left of the image. Simply interpolating the
-            # max, min y values the 'wrong' way should allow us to keep
-            # thinking mathematically while the code behind the scenes works as
-            # expected
-            y = (1 - j)*ymax + j*ymin
-            return f(x, y)
+            return np.meshgrid(xs, ys)
 
-        return F
+        return {'grid': gridfunc, 'mask': np.vectorize(f)}
 
     return domain
 

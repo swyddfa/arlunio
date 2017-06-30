@@ -270,24 +270,10 @@ class Image:
 
     def __call__(self, f):
 
-        jmax, imax, _ = self.pixels.shape
+        XS, YS = f['grid'](self.width, self.height)
+        mask = f['mask'](XS, YS)
 
-        for i in range(imax):
-
-            # Calculate the percentage across the image the
-            # current pixel is
-            I = i / imax
-
-            for j in range(jmax):
-
-                # Calculate the percentage down the image the
-                # current pixel is
-                J = j / jmax
-
-                res = f(I, J)
-
-                if res is not None:
-                    self[i, j] = res
+        self.pixels[mask] = (255, 0, 0, 255)
 
     def show(self):
         """
