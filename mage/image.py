@@ -272,9 +272,16 @@ class Image:
 
         XS, YS = f.domainfunc(self.width, self.height)
         mask = f.maskfunc(XS, YS)
-        color = f.colorfunc(XS, YS)
 
-        self.pixels[mask] = color[mask]
+        # When it comes to the color function, there are some cases
+        # to consider. If the 'function' is in fact just a tuple
+        # then we don't have to evaluate it across the entire domain
+        colorfunc = f.colorfunc
+
+        if isinstance(colorfunc, (tuple,)):
+            self.pixels[mask] = colorfunc
+        else:
+            self.pixels[mask] = colorfunc(XS[mask], YS[mask])
 
     def show(self):
         """

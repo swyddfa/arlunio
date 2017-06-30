@@ -83,6 +83,8 @@ class Drawable:
     def domainfunc(self, value):
         self._domainfunc = value
 
+    # The only purpose of this is to enable the nice decorator syntax
+    # it simply passes the function to the above setter
     def domain(self, f):
         self.domainfunc = f
 
@@ -101,6 +103,8 @@ class Drawable:
     def maskfunc(self, value):
         self._maskfunc = np.vectorize(value)
 
+    # The only purpose of this is to enable the nice decorator syntax
+    # it simply passes the function to the above setter
     def mask(self, f):
         self.maskfunc = f
 
@@ -111,14 +115,48 @@ class Drawable:
             def default_color(x, y):
                 return np.array([0, 0, 0, 255], dtype=np.uint8)
 
-            return np.vectorize(default_color, signature='(),()->(4)')
+            return default_color
         else:
             return self._colorfunc
 
     @colorfunc.setter
-    def colorfunc(self, value):
-        self._colorfunc = np.vectorize(value, signature='(),()->(4)')
+    def colorfunc(self, f):
+        """
+        This is where we do some kung-fu introspection to try and
+        optimize the code a bit better.
+        """
+        vcode = f.__code__
+        vargs = vcode.co_varnames
 
+        # If the color is independant of any of the arguments
+        # then there is no point in evaluating the function over
+        # every point in the domain, so we may as well save the result
+        # now and save time later
+        if len(vargs) == 0:
+
+            # We will evaluate it and look to see if the result
+            # makes sense to us
+            color = f()
+
+            if not isinstance(color, (tuple,)):
+                raise TypeError('Colors must be represented by a tuple')
+
+            # If the color is an RGB lookalike, convert it to RGBA
+            if len(color) == 3:
+                color = tuple([*color, 255])
+
+            if len(color) != 4:
+                raise ValueError('Colors must be in RGB (r,g,b) '
+                                 'or RGBA (r,g,b,a) format!')
+
+            self._colorfunc = color
+
+        else:
+            print('Doing it!')
+            self._colorfunc = np.vectorize(f, signature='(),()->(4)')
+
+    # The only purpose of this is to enable the nice decorator syntax
+    # it simply passes the function to the above setter
     def colormap(self, f):
         self.colorfunc = f
 
@@ -180,6 +218,8 @@ def extend_periodically(X=[-1, 1], Y=[-1, 1]):
 
             return f(x, y)
 
+        extended.__name__ = f.__name__ + '_' + extended.__name__
+
         return extended
 
     return wrapper
@@ -202,6 +242,8 @@ def translate(X=[0, 0], r=0):
 
             (x, y, _) = np.dot(M, np.array([x, y, 1]))
             return f(x, y)
+
+        transformed.__name__ = f.__name__ + '_translated'
 
         return transformed
 
@@ -230,6 +272,9 @@ def reflect(Y=False, X=False):
             def F(x, y):
 
                 return f(abs(x), abs(y))
+
+            F.__name__ = f.__name__ + '_reflected'
+
             return F
         return wrapper
 
@@ -239,6 +284,8 @@ def reflect(Y=False, X=False):
             def F(x, y):
 
                 return f(x, abs(y))
+
+            F.__name__ = f.__name__ + '_reflected'
             return F
         return wrapper
 
@@ -248,6 +295,8 @@ def reflect(Y=False, X=False):
             def F(x, y):
 
                 return f(abs(x), y)
+
+            F.__name__ = f.__name__ + '_reflected'
             return F
         return wrapper
 
@@ -256,6 +305,8 @@ def reflect(Y=False, X=False):
         def F(x, y):
 
             return f(x, y)
+
+        F.__name__ = f.__name__ + '_reflected'
         return F
     return wrapper
 
