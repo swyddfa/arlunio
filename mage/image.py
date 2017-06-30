@@ -270,10 +270,11 @@ class Image:
 
     def __call__(self, f):
 
-        XS, YS = f['grid'](self.width, self.height)
-        mask = f['mask'](XS, YS)
+        XS, YS = f.domainfunc(self.width, self.height)
+        mask = f.maskfunc(XS, YS)
+        color = f.colorfunc(XS, YS)
 
-        self.pixels[mask] = (255, 0, 0, 255)
+        self.pixels[mask] = color[mask]
 
     def show(self):
         """
