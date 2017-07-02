@@ -119,6 +119,9 @@ def thicken(f, pt):
 
     return test_func
 
+def between(lower, value, upper):
+    return lower <= value and value <= upper
+
 
 def rectangle(x0, y0, width, height, pt=0.2, fill=False):
     """
