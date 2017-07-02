@@ -1,4 +1,4 @@
-from .coords import cartesian, extend_periodically, translate
+from .coords import cartesian, extend_periodically, translate, reflect, polar
 from .color import hex_to_rgb
 from .image import Image
 from .motion import Projectile

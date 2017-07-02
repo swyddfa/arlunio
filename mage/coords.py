@@ -311,15 +311,12 @@ def reflect(Y=False, X=False):
     return wrapper
 
 
-def polar(X=[-1, 1], Y=[-1, 1]):
+def polar():
     """
     A function decorator which constructs a wrapper function that
     maps a given function onto a domain with given dimensions and
     polar coordinates
     """
-
-    xmin, xmax = X
-    ymin, ymax = Y
 
     def domain(f):
         """
@@ -327,23 +324,14 @@ def polar(X=[-1, 1], Y=[-1, 1]):
         actually where we do the mapping onto the domain
         """
 
-        def F(j, i):
+        def F(x, y):
 
-            x = (1 - i)*xmin + i*xmax
-
-            # Annoyingly convention for images is to have the orign in the
-            # upper left of the image, but for maths convention for the origin
-            # to be in the lower left of the image. Simply interpolating the
-            # max, min y values the 'wrong' way should allow us to keep
-            # thinking mathematically while the code behind the scenes works as
-            # expected
-            y = (1 - j)*ymax + j*ymin
-
-            # Convert to polar coordinates
             r = sqrt(x**2 + y**2)
             t = atan2(y, x)
 
             return f(r, t)
+
+        F.__name__ = f.__name__ + '_polar'
 
         return F
 
