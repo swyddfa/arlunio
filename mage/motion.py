@@ -86,7 +86,7 @@ class Driver:
             if not self._cycle:
                 return self._data[0]
             else:
-                return self._get_single(idx + length)
+                return self._get_single(idx % length)
 
         # If the index is not negative, just try using it normally
         try:
@@ -97,7 +97,7 @@ class Driver:
             if not self._cycle:
                 return self._data[-1]
             else:
-                return self._get_single(idx - length)
+                return self._get_single(idx % length)
 
     def _get_slice(self, key):
         """
@@ -144,6 +144,18 @@ class Driver:
                       key=lambda i: i[0])
 
     @property
+    def name(self):
+        return self._name
+
+    @name.setter
+    def name(self, value):
+
+        if not isinstance(value, (str,)):
+            raise TypeError('Name must be a string!')
+
+        self._name = value
+
+    @property
     def frames(self):
         return self._data
 
@@ -159,7 +171,7 @@ class Driver:
     def cycle(self, value):
 
         if not isinstance(value, (bool,)):
-            raise ValueError('Cycle property is a boolean!')
+            raise TypeError('Cycle property must be a boolean!')
 
         self._cycle = value
 
@@ -169,6 +181,13 @@ class Driver:
 
     @FPS.setter
     def FPS(self, value):
+
+        if not isinstance(value, (int,)):
+            raise TypeError('FPS must be an integer!')
+
+        if value <= 0:
+            raise ValueError('FPS must be a positive integer!')
+
         self._FPS = value
         self._calculate()
 
@@ -186,8 +205,12 @@ class Driver:
         for idx, key in enumerate(keys[:-1]):
             nextkey = keys[idx + 1]
             newvalues = np.linspace(key[1], nextkey[1],
-                                    (nextkey[0] - key[0]))[:-1]
-            self._data = np.append(self._data, newvalues)
+                                    (nextkey[0] - key[0]))
+
+            if len(newvalues) == 1:
+                self._data = np.append(self._data, newvalues)
+            else:
+                self._data = np.append(self._data, newvalues)[:-1]
 
         self._data = np.append(self._data, np.array([keys[-1][1]]))
 

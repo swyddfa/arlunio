@@ -24,7 +24,7 @@ def test_width_height_init(width, height):
 
     unique = np.unique(img.pixels)
     assert unique.shape == (1,)
-    assert (unique == [(0, 0, 0, 0)]).all()
+    assert (unique == [(255, 255, 255, 255)]).all()
 
 
 @given(width=smalldim, height=smalldim, background=color)
