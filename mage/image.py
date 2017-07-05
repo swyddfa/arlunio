@@ -133,7 +133,7 @@ class Image:
         The numpy array holding the raw image data
     """
 
-    def __init__(self, width=None, height=None,
+    def __init__(self, width=None, height=None, domain=None,
                  background=(255, 255, 255, 255), pixels=None):
         """
         Image Constructor
@@ -153,6 +153,10 @@ class Image:
             The width of the image in pixels. Default None
         height : int, optional. Default None
             The height of the image in pixels
+        domain : (int, int) -> np.meshgrid-like
+            This is a function which given a width and a height returns a grid
+            containing the mathematical points associated with each pixel.
+            Default: None
         background : 4-tuple, optional
             The fill RGBA colour of the image, each value can be in the range
             0-255 (default is (0, 0, 0, 0) - fully transparent black)
@@ -161,6 +165,8 @@ class Image:
             simply pass it in here. **Note:** The array must have the shape
             (height, width, 4). Default value None.
         """
+
+        self._domain = domain
 
         if pixels is not None:
             shape = pixels.shape
@@ -189,6 +195,14 @@ class Image:
     @property
     def height(self):
         return self.pixels.shape[0]
+
+    @property
+    def domain(self):
+        return self._domain
+
+    @domain.setter
+    def domain(self, value):
+        self._domain = value
 
     @classmethod
     def fromarray(cls, px):
@@ -222,15 +236,102 @@ class Image:
         else:
             return (slice(None), index)
 
-    def __getitem__(self, index):
-        px = self.pixels[self._flip_index(index)]
+    def _get_by_pixels(self, index):
+        """
+        Once we have decided that the index represents pixels
+        this method is responsible for interpreting it and
+        returning the appropriate object
+        """
+        px = self.pixels[index]
         shape = px.shape
-        print(shape)
 
         if len(shape) == 3:
             return Image.fromarray(px)
         else:
             return px
+
+    def _is_pixel_addr(self, index):
+        """
+        This method is for deciding whether or not a given
+        index represents a pixel index or mathematical points
+        """
+
+        for idx in index:
+
+            # Is this item a simple integer - hence pixel address?
+            if isinstance(idx, (int,)):
+                continue
+
+            # Is it a float?
+            if isinstance(idx, (float,)):
+                return False
+
+            # Is it a slice?
+            if isinstance(idx, (slice,)):
+
+                if isinstance(idx.start, (float,)) or\
+                   isinstance(idx.stop, (float,)):
+                    return False
+
+        # If we get this far, then it must be a pixel address
+        return True
+
+    def __getitem__(self, index):
+        idx = self._flip_index(index)
+
+        if self._is_pixel_addr(idx):
+            return self._get_by_pixels(idx)
+
+        # If we get this far, we must be dealing with a 'mathematical
+        # address' So we 'simply' have to figure out which pixels are mapped
+        # to the mathematial points in question
+
+        # This involves using the built-in domain function - which
+        # of course has to exist for this to work
+        if self._domain is None:
+            raise RuntimeError('In order to index pixels by mathematical '
+                               'points the image must be associated with '
+                               'a domain!')
+
+        # For the moment we will restrict ourselves to the index being made
+        # up of 2 slices. This might change eventually
+        if not isinstance(idx[0], (slice,)) or\
+           not isinstance(idx[1], (slice,)):
+            raise ValueError('Mathematical indexing is currently only '
+                             'supported for slices')
+
+        # Step 0: Unpack the slices
+        yslice = idx[0]
+        ystart = yslice.start
+        ystop = yslice.stop
+
+        xslice = idx[1]
+        xstart = xslice.start
+        xstop = xslice.stop
+
+        # Step 1: Evaluate the domain function to get the points
+        (xs, *_), YS = self._domain(self.width, self.height)
+        ys = np.array([it[0] for it in YS])
+
+        # Step 2: See which pixels the values are closest to
+        xstart_d = [(None, None)] if xstart is None else\
+                   sorted([(abs(x - xstart), i) for i, x in enumerate(xs)])
+
+        xstop_d = [(None, None)] if xstop is None else\
+                  sorted([(abs(x - xstop), i) for i, x in enumerate(xs)])
+
+        ystart_d = [(None, None)] if ystart is None else\
+                   sorted([(abs(y - ystart), i) for i, y in enumerate(ys)])
+
+        ystop_d = [(None, None)] if ystop is None else\
+                  sorted([(abs(y - ystop), i) for i, y in enumerate(ys)])
+
+        # Step 3: Construct new slice objects with the new pixel addresses
+        # and pass it off to the _get_by_pixels method
+        slice_x = slice(xstart_d[0][1], xstop_d[0][1], None)
+        slice_y = slice(ystop_d[0][1], ystart_d[0][1], None)
+
+        return self._get_by_pixels((slice_y, slice_x))
 
     def __setitem__(self, index, value):
 
@@ -268,9 +369,44 @@ class Image:
 
         return img
 
-    def __call__(self, f):
+    def __call__(self, f, overwrite_domain=True, use_host_domain=False):
+        """
+        Implementing this 'magic' method allows us to use img(drawable)
+        to trigger the 'drawing' of an object onto an arbitrary image.
 
-        XS, YS = f.domainfunc(self.width, self.height)
+        The default behavior of this function is to take the drawable
+        f, extract it's domain function and proceed to compute the mask
+        and color of the affected pixels. Once that is done, the extracted
+        domain function is stored internally so that users may optionally
+        index the pixels by mathematical points, instead of raw pixels.
+
+        However, it is possible to override this behavior with the two
+        options:
+            - use_host_domain -> False by default
+            - overwrite_domain -> True by default
+
+        If use_host_domain is True, instead of using the domain that
+        comes with the drawable, the domain already associated with
+        the underlying image is used instead.
+
+        If overwrite_domain is False, the image keeps its original
+        domain, instead of saving the new one that the drawable
+        possesses
+        """
+
+        # Of course, the image has to have a domain already if we are
+        # to use this one instead
+        if use_host_domain and self._domain is None:
+            raise RuntimeError('The image does not have an associated '
+                               'domain!')
+
+        # Get the domain from the correct place
+        if use_host_domain:
+            XS, YS = self._domain(self.width, self.height)
+        else:
+            XS, YS = f.domainfunc(self.width, self.height)
+
+        # Compute the mask
         mask = f.maskfunc(XS, YS)
 
         # When it comes to the color function, there are some cases
@@ -282,6 +418,11 @@ class Image:
             self.pixels[mask] = colorfunc
         else:
             self.pixels[mask] = colorfunc(XS[mask], YS[mask])
+
+        # Only now that all is said and done do we overwrite the domain,
+        # that way we don't get something halfway between one or the other
+        if overwrite_domain and not use_host_domain:
+            self._domain = f.domainfunc
 
     def show(self):
         """

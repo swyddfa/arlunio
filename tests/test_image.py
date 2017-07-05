@@ -30,7 +30,7 @@ def test_width_height_init(width, height):
 @given(width=smalldim, height=smalldim, background=color)
 def test_width_height_background_init(width, height, background):
 
-    img = Image(width, height, background)
+    img = Image(width, height, background=background)
 
     assert img.pixels.shape == (height, width, 4)
     assert img.pixels.dtype == np.uint8
@@ -99,7 +99,36 @@ def test_repr(width, height):
     assert repr(img) == '%ix%i Image' % (width, height)
 
 
-def test_getitem():
+@given(index=integers(min_value=4, max_value=512))
+def test_getitem_pixels(index):
 
     img = Image(512, 512)
-    assert isinstance(img[1:10], (Image,))
+
+    # Test that slicing by x works as expected
+    sliced_x = img[:index]
+
+    assert isinstance(sliced_x, (Image,))
+    assert sliced_x.width == index
+    assert sliced_x.height == 512
+
+    # Test that slicing by y works as expected
+    sliced_y = img[:, :index]
+
+    assert isinstance(sliced_y, (Image,))
+    assert sliced_y.width == 512
+    assert sliced_y.height == index
+
+    # Test that slicing by both works as expected
+    sliced_both = img[:index, :index]
+
+    assert isinstance(sliced_both, (Image,))
+    assert sliced_both.width == index
+    assert sliced_both.height == index
+
+    # As a further test ensure that the smaller images
+    # point back to subsets of the original pixel
+    # data
+    sliced_both[:, :] = (255, 0, 0, 255)
+
+    assert (img.pixels[:index, :index] == sliced_both.pixels).all()
+    assert (img.pixels[index:, index:] == (255, 255, 255, 255)).all()
