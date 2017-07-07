@@ -152,7 +152,6 @@ class Drawable:
             self._colorfunc = color
 
         else:
-            print('Doing it!')
             self._colorfunc = np.vectorize(f, signature='(),()->(4)')
 
     # The only purpose of this is to enable the nice decorator syntax
