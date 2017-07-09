@@ -229,8 +229,12 @@ def driver(cycle=False, FPS=25):
     decorator does the rest using Python kung-fu!
     """
     def wrapper(f):
-        constants = f.__code__.co_consts
-        keys = list(filter(lambda i: isinstance(i, (tuple,)), constants))
+        keys = f()
+
+        if keys is None:
+            constants = f.__code__.co_consts
+            keys = list(filter(lambda i: isinstance(i, (tuple,)), constants))
+
         return Driver(name=f.__name__, keyframes=keys, cycle=cycle, FPS=FPS)
 
     return wrapper
