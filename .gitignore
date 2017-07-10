@@ -5,6 +5,11 @@ docs/_build
 
 .cache
 .hypothesis
+
 frames/
+
 *.ipynb
 *.png
+
+.eggs/
+*.egg-info/
