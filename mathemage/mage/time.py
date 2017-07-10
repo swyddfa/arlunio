@@ -1,4 +1,5 @@
 import multiprocessing as mp
+from tqdm import tqdm
 
 
 def animate(f, start=0, stop=10, fps=25, frames=None):
@@ -14,6 +15,12 @@ def animate(f, start=0, stop=10, fps=25, frames=None):
     pool = mp.Pool()
 
     if frames is not None:
-        pool.map(f, range(frames))
+        num_frames = frames
     else:
+        num_frames = (stop - start) * fps
         pool.map(f, range((stop - start) * fps))
+
+    print('Animating...')
+    pool.map(f, tqdm(range(num_frames)))
+
+    pool.close()

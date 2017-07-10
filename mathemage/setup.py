@@ -7,7 +7,7 @@ def readme():
 
 
 setup(name='mage',
-      version='0.1',
+      version='0.1.1',
       description='A DSL/Framework for the creation of images',
       long_description=readme(),
       classifiers=[
@@ -22,9 +22,11 @@ setup(name='mage',
       license='MIT',
       packages=['mage'],
       install_requires=[
+          'matplotlib',
           'numpy',
           'Pillow',
-          'matplotlib'
+          'scipy',
+          'tqdm'
       ],
       setup_requires=['pytest-runner'],
       test_suite='tests',
