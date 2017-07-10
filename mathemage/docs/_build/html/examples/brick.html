@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Brick &#8212; Mathemage  documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Checkerboard" href="checkerboard.html" />
+    <link rel="prev" title="Examples" href="index.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="brick">
+<h1>Brick<a class="headerlink" href="#brick" title="Permalink to this headline">¶</a></h1>
+<p>On a domain of <span class="math">\([-1 ,1] \times [-1, 1]\)</span> we can define a brick pattern
+that we want to repeat as follows:</p>
+<div class="math">
+\[\begin{split}brick(x, y) = \begin{cases}
+    brickcolor_1, \text{ if } x \in [-0.95, 0.95] \text{ and } y \in [0.05, 0.95] \\
+    brickcolor_2, \text{ if } x &lt; -0.05 \text{ and } y \in [-0.95, -0.05] \\
+    brickcolor_2, \text{ if } x &gt; 0.05 \text{ and } y \in [-0.95, -0.05] \\
+    mortarcolor, otherwise
+\end{cases}\end{split}\]</div>
+<p>where <span class="math">\(x, y \in [-1, 1]\)</span>. In Python we may write this as:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">mage.image</span> <span class="kn">import</span> <span class="n">make_img</span>
+<span class="kn">from</span> <span class="nn">mage.coords</span> <span class="kn">import</span> <span class="n">cartesian</span><span class="p">,</span> <span class="n">extend_periodically</span>
+<span class="kn">from</span> <span class="nn">mage.color</span> <span class="kn">import</span> <span class="n">hex_to_rgb</span>
+
+<span class="nd">@cartesian</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">brick</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+
+    <span class="c1"># Top long brick</span>
+    <span class="k">if</span> <span class="n">y</span> <span class="o">&gt;=</span> <span class="mf">0.05</span> <span class="ow">and</span> <span class="n">y</span> <span class="o">&lt;=</span><span class="mf">0.95</span> <span class="ow">and</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mf">0.95</span> <span class="ow">and</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="mf">0.95</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">hex_to_rgb</span><span class="p">(</span><span class="s1">&#39;C77826&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Bottom left half brick</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="o">-</span><span class="mf">0.05</span> <span class="ow">and</span> <span class="n">y</span> <span class="o">&lt;=</span> <span class="o">-</span><span class="mf">0.05</span> <span class="ow">and</span> <span class="n">y</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mf">0.95</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">hex_to_rgb</span><span class="p">(</span><span class="s1">&#39;CC7F32&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Bottom right half brick</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="mf">0.05</span> <span class="ow">and</span> <span class="n">y</span> <span class="o">&lt;=</span> <span class="o">-</span><span class="mf">0.05</span> <span class="ow">and</span> <span class="n">y</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mf">0.95</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">hex_to_rgb</span><span class="p">(</span><span class="s1">&#39;CC7F32&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">hex_to_rgb</span><span class="p">(</span><span class="s1">&#39;cccccc&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Which results with the following:</p>
+<a class="reference internal image-reference" href="../_images/brick.png"><img alt="../_images/brick.png" class="align-center" src="../_images/brick.png" style="width: 45%;" /></a>
+<p>Now by extending this periodically and choosing a larger domain we can now tile
+the pattern to create a wall</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="nd">@cartesian</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="n">Y</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<span class="nd">@extend_periodically</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">brick_wall</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+
+    <span class="c1"># Top long brick</span>
+    <span class="k">if</span> <span class="n">y</span> <span class="o">&gt;=</span> <span class="mf">0.05</span> <span class="ow">and</span> <span class="n">y</span> <span class="o">&lt;=</span><span class="mf">0.95</span> <span class="ow">and</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mf">0.95</span> <span class="ow">and</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="mf">0.95</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">hex_to_rgb</span><span class="p">(</span><span class="s1">&#39;C77826&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Bottom left half brick</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="o">-</span><span class="mf">0.05</span> <span class="ow">and</span> <span class="n">y</span> <span class="o">&lt;=</span> <span class="o">-</span><span class="mf">0.05</span> <span class="ow">and</span> <span class="n">y</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mf">0.95</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">hex_to_rgb</span><span class="p">(</span><span class="s1">&#39;CC7F32&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Bottom right half brick</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="mf">0.05</span> <span class="ow">and</span> <span class="n">y</span> <span class="o">&lt;=</span> <span class="o">-</span><span class="mf">0.05</span> <span class="ow">and</span> <span class="n">y</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mf">0.95</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">hex_to_rgb</span><span class="p">(</span><span class="s1">&#39;CC7F32&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">hex_to_rgb</span><span class="p">(</span><span class="s1">&#39;cccccc&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Which gives us:</p>
+<a class="reference internal image-reference" href="../_images/brick_wall.png"><img alt="../_images/brick_wall.png" class="align-center" src="../_images/brick_wall.png" style="width: 45%;" /></a>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Examples</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Examples</a></li>
+      <li>Next: <a href="checkerboard.html" title="next chapter">Checkerboard</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/examples/brick.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Alex Carney.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="../_sources/examples/brick.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
