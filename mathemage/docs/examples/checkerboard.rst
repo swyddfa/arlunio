@@ -13,20 +13,14 @@ where :math:`x, y \in [-1, 1]` Which we can write in python as such:
 
 .. code-block:: python
 
-  from mage.image import make_img
-  from mage.coords import cartesian
-
+  from mage import Image, cartesian
 
   @cartesian(X=[-1, 1], Y=[-1, 1])
   def checker(x, y):
+      return x * y > 0
 
-      if x * y > 0:
-          return (255, 255, 255)
-      else:
-          return (128, 128, 128)
-
-
-  img = make_img(512, 512, checker, 'checker.png')
+  img = Image(512, 512)
+  img(checker)
 
 Which gives us the result below:
 
@@ -49,21 +43,15 @@ the extended function onto larger/smaller domains. In Python we write this as:
 
 .. code-block:: python
 
-  from mage.image import make_img
-  from mage.coords import cartesian, extend_periodically
-
+  from mage import Image, cartesian, extend_periodically
 
   @cartesian(X=[-4, 4], Y=[-4, 4])  # Changing these values affect the grid size
   @extend_periodically(X=[-1, 1], Y=[-1, 1])
   def checker(x, y):
+      return x * y > 0
 
-      if x * y > 0:
-          return (255, 255, 255)
-      else:
-          return (128, 128, 128)
-
-
-  img = make_img(512, 512, scaled_checker, 'scaled_checker.png')
+  img = Image(512, 512)
+  img(checker)
 
 .. image:: /_static/examples/scaled_checker.png
     :width: 45%
