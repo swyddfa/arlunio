@@ -13,3 +13,4 @@ frames/
 
 .eggs/
 *.egg-info/
+dist/
