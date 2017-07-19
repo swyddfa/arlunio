@@ -160,6 +160,17 @@ class Drawable:
         self.colorfunc = f
 
 
+def mk_domain(xmin=0, xmax=1, ymin=0, ymax=1):
+
+    def domain(width, height):
+        xs = np.linspace(xmin, xmax, width)
+        ys = np.linspace(ymin, ymax, height)
+
+        return np.meshgrid(xs, ys)
+
+    return domain
+
+
 def cartesian(X=[-1, 1], Y=[-1, 1]):
     """
     A function decorator which given the function and
