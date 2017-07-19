@@ -5,126 +5,10 @@ import PIL as P
 from math import floor
 
 
-class LayeredImage:
-    """
-    A representation of image data, making use of layers
-    """
-
-    def __init__(self, width=None, height=None, layers=None,
-                 background=(0, 0, 0, 0), pixels=None):
-        """
-        Layered Image Constructor
-
-        There are two ways to construct a layered image, the first is to
-        specify the width, height and number of layers you wish to have
-        along with a fill colour.
-
-        Alternatively you can provide a numpy array with the shape
-        (layers, height, width, 4) that can be used as the image.
-
-        It's important to note that if you provide the pixels argument
-        it will override all the others.
-
-        Parameters
-        ----------
-        width : int, optional
-            The width of the image in pixels. Default None
-        height : int, optional. Default None
-            The height of the image in pixels
-        layers : int, optional
-            The number of layers to include in the image.
-            Default None.
-        background : 4-tuple, optional
-            The fill RGBA colour of the image, each value can be in the range
-            0-255 (default is (0, 0, 0, 0) - fully transparent black)
-        pixels : numpy array, optional
-            If you already have a numpy array you want to use as an image
-            simply pass it in here. **Note:** The array must have the shape
-            (height, width, 4). Default value None.
-        """
-
-        if pixels is not None:
-            shape = pixels.shape
-
-            if len(shape) != 4 or shape[-1] != 4:
-                raise ValueError("Pixels array must have shape: "
-                                 "(layers, height, width, 4)")
-
-            self.pixels = pixels
-        else:
-            if width is None or height is None or layers is None:
-                raise ValueError("If no pixels array is given you must "
-                                 "specify number of layers and the widht and "
-                                 "height of the image.")
-
-            self.pixels = np.full((layers, height, width, 4), background,
-                                  dtype=np.uint8)
-
-    @property
-    def width(self):
-        return self.pixels.shape[1]
-
-    @property
-    def height(self):
-        return self.pixels.shape[0]
-
-    @classmethod
-    def fromarray(cls, px):
-        return cls(pixels=px)
-
-    def __getitem__(self, index):
-        px = self.pixels[index]
-        shape = px.shape
-
-        if len(shape) == 3:
-            return Image.fromarray(px)
-        elif len(shape) == 4:
-            return LayeredImage.fromarray(px)
-        else:
-            return px
-
-    def __setitem__(self, index, value):
-        self.pixels[index] = value
-
-    def __repr__(self):
-        dim = self.pixels.shape
-        return "%ix%i Layered Image with %i layers" % (dim[1], dim[2], dim[0])
-
-    def _collapse(self):
-
-        _, jmax, imax, _ = self.pixels.shape
-
-        img = Image(imax, jmax)
-
-        for j in range(jmax):
-            for i in range(imax):
-
-                px = self.pixels[:, j, i]
-
-                try:
-                    img[j, i] = next(filter(lambda rgba: rgba[-1] > 0, px))
-                except StopIteration:
-                    continue
-
-        return img
-
-    def show(self):
-        img = self._collapse()
-        return plt.imshow(img.pixels)
-
-    def save(self, filename):
-        img = self._collapse()
-
-        image = P.Image.frombuffer('RGBA', (img.width, img.height),
-                                   img.pixels, 'raw', 'RGBA', 0, 1)
-
-        with open(filename, 'wb') as f:
-            image.save(f)
-
-
 class Image:
     """
-    A basic representation of image data
+    Our base representation of image data, perfectly functional for the
+    majority of use cases.
 
     Attributes
     ----------
@@ -195,6 +79,22 @@ class Image:
     @property
     def height(self):
         return self.pixels.shape[0]
+
+    @property
+    def color(self):
+        return self.pixels[:, :, 0:3]
+
+    @color.setter
+    def color(self, value):
+        self.pixels[:, :, 0:3] = value
+
+    @property
+    def alpha(self):
+        return self.pixels[:, :, 3]
+
+    @alpha.setter
+    def alpha(self, value):
+        self.pixels[:, :, 3] = value
 
     @property
     def domain(self):
@@ -346,28 +246,44 @@ class Image:
         shape = self.pixels.shape
         return '%ix%i Image' % (shape[1], shape[0])
 
-    def __and__(self, mask):
+    def __neg__(self):
+        """
+        Easily obtain the negative of an image by typing
+        (-img)
+        """
 
-        if not isinstance(mask, (Image,)):
-            raise ValueError("AND is only supported between instances of "
-                             "the Image class")
+        # Create the function that will invert the values of
+        # the color pixels and vectorize it
+        neg = lambda v: abs(v - 255)
+        vneg = np.vectorize(neg, otypes=(np.uint8,))
 
-        if self.pixels.shape != mask.pixels.shape:
-            raise ValueError("AND can only be used with Images that have "
-                             "the same dimensions")
+        # Create the new pixel array
+        alphas = self.alpha
+        alphas.shape = (self.width, self.height, 1)
+        colors = vneg(self.color)
 
-        height, width, _ = self.pixels.shape
-        vfloor = np.vectorize(floor)
-        img = Image(width, height)
-        pix = self.pixels
-        mix = mask.pixels
+        px = np.append(colors, alphas, axis=2)
 
-        for j in range(height):
-            for i in range(width):
+        return Image(pixels=px)
 
-                img[i, j] = vfloor(pix[j, i] * (mix[j, i] / 255))
+    def __and__(self, other):
+        """
+        Implementation of the boolean AND, best when used with black and
+        white images
+        """
 
-        return img
+        if not isinstance(other, (Image,)):
+            raise TypeError('AND is only supported between instances of '
+                            'the Image class')
+
+        if self.pixels.shape != other.pixels.shape:
+            raise ValueError('AND can only be used with Images that have '
+                             'the same dimensions!')
+
+        ax = self.pixels
+        bx = other.pixels
+
+        return Image(pixels=(ax + bx))
 
     def __call__(self, f, overwrite_domain=True, use_host_domain=False):
         """
@@ -441,3 +357,55 @@ class Image:
 
         with open(filename, 'wb') as f:
             image.save(f)
+
+
+class LayeredImage:
+    """
+    This is a container for a number of images, with a number of conveniences
+    for blending/merging them together - just as you would in GIMP/Photoshop
+    etc.
+    """
+
+    def __init__(self, width=None, height=None, num_layers=4, imgs=None):
+
+        if imgs is not None:
+
+            # TODO: Do a check to make sure given images make sense
+            self._layers = imgs
+            self._width = imgs[0].width
+            self._height = imgs[0].height
+
+        else:
+            self._layers = [Image(width, height, background=(0, 0, 0, 0))
+                            for _ in range(num_layers)]
+
+            self._width = width
+            self._height = height
+
+    def __repr__(self):
+        return "%ix%i Layered Image with %i layers"\
+                % (self.width, self.height, self.nlayers)
+
+    def __getitem__(self, key):
+
+        if isinstance(key, (int,)):
+            return self._layers[key]
+
+        else:
+            return 'Other methods coming soon'
+
+    @classmethod
+    def fromlist(cls, imgs):
+        return cls(imgs=imgs)
+
+    @property
+    def width(self):
+        return self._width
+
+    @property
+    def height(self):
+        return self._height
+
+    @property
+    def nlayers(self):
+        return len(self._layers)
