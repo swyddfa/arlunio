@@ -53,8 +53,6 @@ class Image:
 
         self._domain = domain
         self._xAA = xAA
-        self._height = height
-        self._width = width
 
         if pixels is not None:
             shape = pixels.shape
@@ -64,6 +62,8 @@ class Image:
                                  " (height, width, 4)")
 
             self.pixels = pixels
+            self._width = shape[1]
+            self._height = shape[0]
         else:
             if width is None or height is None:
                 raise ValueError("If no pixels array is given you"
@@ -72,6 +72,9 @@ class Image:
             # If given an RGB lookalike, convert it to RGBA
             if len(background) == 3:
                 background = tuple([*background, 255])
+
+            self._height = height
+            self._width = width
 
             self.pixels = np.full((height * xAA, width * xAA, 4), background,
                                   dtype=np.uint8)
