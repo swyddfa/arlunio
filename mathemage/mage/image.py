@@ -19,7 +19,7 @@ class Image:
     """
 
     def __init__(self, width=None, height=None, domain=None,
-                 background=(255, 255, 255, 255), pixels=None):
+                 background=(255, 255, 255, 255), xAA=1, pixels=None):
         """
         Image Constructor
 
@@ -52,6 +52,9 @@ class Image:
         """
 
         self._domain = domain
+        self._xAA = xAA
+        self._height = height
+        self._width = width
 
         if pixels is not None:
             shape = pixels.shape
@@ -70,16 +73,16 @@ class Image:
             if len(background) == 3:
                 background = tuple([*background, 255])
 
-            self.pixels = np.full((height, width, 4), background,
+            self.pixels = np.full((height * xAA, width * xAA, 4), background,
                                   dtype=np.uint8)
 
     @property
     def width(self):
-        return self.pixels.shape[1]
+        return self._width
 
     @property
     def height(self):
-        return self.pixels.shape[0]
+        return self._height
 
     @property
     def color(self):
@@ -96,6 +99,10 @@ class Image:
     @alpha.setter
     def alpha(self, value):
         self.pixels[:, :, 3] = value
+
+    @property
+    def xAA(self):
+        return self._xAA
 
     @property
     def domain(self):
@@ -319,9 +326,11 @@ class Image:
 
         # Get the domain from the correct place
         if use_host_domain:
-            XS, YS = self._domain(self.width, self.height)
+            XS, YS = self._domain(self.width * self.xAA,
+                                  self.height * self.xAA)
         else:
-            XS, YS = f.domainfunc(self.width, self.height)
+            XS, YS = f.domainfunc(self.width * self.xAA,
+                                  self.height * self.xAA)
 
         # Compute the mask
         mask = f.maskfunc(XS, YS)
@@ -353,8 +362,13 @@ class Image:
         Save the image to the given filename
         """
 
-        image = P.Image.frombuffer('RGBA', (self.width, self.height),
-                                   self.pixels, 'raw', 'RGBA', 0, 1)
+        image = P.Image.frombuffer('RGBA', (self.width * self.xAA,
+                                   self.height * self.xAA), self.pixels,
+                                   'raw', 'RGBA', 0, 1)
+
+        # Apply our naive AA by downscaling the image
+        if self.xAA > 1:
+            image = image.resize((self.width, self.height), resample=P.Image.BICUBIC)
 
         with open(filename, 'wb') as f:
             image.save(f)
