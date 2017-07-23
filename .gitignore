@@ -7,6 +7,7 @@ docs/_build
 .hypothesis
 
 frames/
+example_notebooks/
 
 *.ipynb
 *.png
