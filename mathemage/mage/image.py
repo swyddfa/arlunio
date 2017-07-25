@@ -221,7 +221,8 @@ class Image:
         xstop = xslice.stop
 
         # Step 1: Evaluate the domain function to get the points
-        (xs, *_), YS = self._domain(self.width, self.height)
+        (xs, *_), YS = self._domain(self.width * self.xAA,
+                                    self.height * self.xAA)
         ys = np.array([it[0] for it in YS])
 
         # Step 2: See which pixels the values are closest to
