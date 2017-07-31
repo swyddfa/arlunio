@@ -11,6 +11,7 @@ Mathemage: Documentation
    :caption: Contents:
 
    examples/index.rst
+   reference/index.rst
 
 
 
