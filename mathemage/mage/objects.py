@@ -1,4 +1,6 @@
-from math import floor
+import numpy as np
+
+from math import floor, ceil, sqrt
 
 from .coords import Drawable
 
@@ -54,4 +56,53 @@ class TileSet(metaclass=MetaSet):
         return (self._tiles, layout)
 
     def layout(self, frame, time):
-        raise NotImplementedError('Tilesets must define a layout!')
+        """
+        This implements the default layout, which simply
+        displays all available tiles in a grid
+        """
+
+        num_tiles = len(self._tiles)
+
+        # Find out what the dimension of the grid will be
+        N = ceil(sqrt(num_tiles))
+
+        # Make that many Nones
+        nones = [None for _ in range(N*N)]
+
+        # Replace with the appropriate numbers
+        nones[:num_tiles] = range(num_tiles)
+
+        # Finally convert to numpy array and
+        # make it 2D
+        grid = np.array(nones, dtype='O')
+        return grid.reshape(N, N)
+
+
+def write(text, charset, font):
+    """
+    This is a VERY naive and basic implementation of taking a
+    string and converting it to an appropriate drawable. It
+    pays no attension to anything like text wrapping etc.
+
+    Arguments:
+    ----------
+
+    text: str
+        The text you actually want written.
+    charset: str
+        A string containing the characters which comprise
+        of the alphabet your text is written in
+    font: TileSet
+        The class which defines the font the text is to
+        be written in
+    """
+
+    chars = [charset.find(t) for t in text]
+
+    def layout(frame, time):
+        return np.array([chars])
+
+    inscription = font()
+    inscription.layout = layout
+
+    return inscription
