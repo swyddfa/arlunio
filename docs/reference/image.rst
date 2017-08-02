@@ -16,7 +16,7 @@ From Dimensions
 
 .. doctest:: img-creation
 
-  >>> from mage import Image
+  >>> from stylo import Image
   >>> Image(1920, 1080)
   1920x1080 Image
 
@@ -96,7 +96,7 @@ domain :math:`[0, 1] \times [0, 1]` with an Image we can do the following
 
 .. doctest:: img-creation
 
-   >>> from mage import mk_domain
+   >>> from stylo import mk_domain
    >>> Image(512, 512, domain=mk_domain(0, 1, 0, 1))
    512x512 Image
 
@@ -158,7 +158,7 @@ Properties
 
 .. testsetup:: img-prop
 
-   from mage import Image
+   from stylo import Image
 
 Image objects have a number of properties that allow you to query or adjust
 certain aspects of an Image object
