@@ -34,31 +34,3 @@ Alternatively you can grab the latest source code using Git:
 
     $ git clone https://github.com/alcarney/stylo
 
-
-Getting Started
----------------
-
-Once installed it's relatively straightforward to get started - provided you
-are familiar with a few concepts from mathematics such as Cartesian and Polar
-coordinates.
-
-Here is a 'Hello World' example where we draw Pacman::
-
-.. code::
-
-    from stylo import Image, cartesian, polar, between
-
-    @cartesian()
-    @polar()
-    def pacman(x, y, r, t):
-        return r <= 0.8 and not between(-0.6, t, 0.6)
-
-    @pacman.colormap
-    def color():
-    return (255, 255, 0)
-
-    img = Image(512, 512)
-    img(pacman)
-    img.save('pacman.png')
-
-<Insert nice explanation here>
