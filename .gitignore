@@ -6,13 +6,9 @@ docs/_build
 .cache
 .hypothesis
 
-frames/
-example_notebooks/
-
-*.ipynb
 *.png
+!docs/**/*.png
 
 .eggs/
 *.egg-info/
 dist/
-animations
