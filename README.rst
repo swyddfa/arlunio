@@ -1,6 +1,13 @@
 Stylo
 ---------
 
+.. image:: https://travis-ci.org/alcarney/stylo.svg?branch=master
+    :target: https://travis-ci.org/alcarney/stylo
+
+.. image:: https://readthedocs.org/projects/stylo/badge/?version=latest
+    :target: http://stylo.readthedocs.io/en/latest/?badge=latest
+    :alt: Documentation Status
+
 Stylo is a framework that attempts to allow users to easily describe the
 contents of an image using a blend of Python and Mathematics. It also provides
 tools that allow for easy parameterisation of the contents of an image opening
@@ -33,4 +40,3 @@ Alternatively you can grab the latest source code using Git:
 .. code::
 
     $ git clone https://github.com/alcarney/stylo
-
