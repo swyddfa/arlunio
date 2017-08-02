@@ -11,9 +11,6 @@ class Image:
     Our base representation of image data, perfectly functional for the
     majority of use cases.
 
-    Attributes
-    ----------
-
     pixels : ndarry
         The numpy array holding the raw image data
     """
@@ -32,8 +29,6 @@ class Image:
         It's important to note that if you provide the pixels argument it will
         override all the others.
 
-        Parameters
-        ----------
         width : int, optional
             The width of the image in pixels. Default None
         height : int, optional. Default None
@@ -94,6 +89,30 @@ class Image:
     @color.setter
     def color(self, value):
         self.pixels[:, :, 0:3] = value
+
+    @property
+    def red(self):
+        return self.pixels[:, :, 0]
+
+    @red.setter
+    def red(self, value):
+        self.pixels[:, :, 0] = value
+
+    @property
+    def green(self):
+        return self.pixels[:, :, 1]
+
+    @green.setter
+    def green(self, value):
+        self.pixels[:, :, 1] = value
+
+    @property
+    def blue(self):
+        return self.pixels[:, :, 2]
+
+    @blue.setter
+    def blue(self, value):
+        self.pixels[:, :, 2] = value
 
     @property
     def alpha(self):
