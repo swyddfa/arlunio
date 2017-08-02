@@ -8,7 +8,10 @@ Stylo
     :target: http://stylo.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
 
-Stylo is a framework that attempts to allow users to easily describe the
+.. image:: https://coveralls.io/repos/github/alcarney/stylo/badge.svg?branch=master
+    :target: https://coveralls.io/github/alcarney/stylo?branch=master
+
+Stylo is a library that attempts to allow users to easily describe the
 contents of an image using a blend of Python and Mathematics. It also provides
 tools that allow for easy parameterisation of the contents of an image opening
 up the possibilities for the creation of animations.
@@ -22,6 +25,7 @@ Requirements
 This framework is Python 3 only, and has the following dependencies:
 
 - Numpy
+- Scipy
 - Pillow
 - Matplotlib
 
