@@ -4,7 +4,7 @@ from hypothesis.strategies import tuples, lists, floats,\
                                   booleans, integers, text,\
                                   one_of
 
-from mage.motion import Driver
+from stylo.motion import Driver
 
 # Some useful strategies
 frameno = integers(min_value=-1e6, max_value=1e6)

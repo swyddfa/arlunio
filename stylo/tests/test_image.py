@@ -5,7 +5,7 @@ from hypothesis.strategies import integers, tuples
 
 import numpy as np
 import numpy.random as npr
-from mage.image import Image
+from stylo.image import Image
 
 
 dimension = integers(min_value=2, max_value=5000)

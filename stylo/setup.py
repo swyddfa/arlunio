@@ -6,9 +6,10 @@ def readme():
         return f.read()
 
 
-setup(name='mage',
-      version='0.1.1',
-      description='A DSL/Framework for the creation of images',
+setup(name='stylo',
+      version='0.1.0',
+      description='Using a blend of Python and Maths for the '
+      'creation of images',
       long_description=readme(),
       classifiers=[
           'Development Status :: 3 - Alpha',
@@ -20,13 +21,12 @@ setup(name='mage',
       author='Alex, Carney',
       author_email='alcarneyme@gmail.com',
       license='MIT',
-      packages=['mage'],
+      packages=['stylo'],
       install_requires=[
           'matplotlib',
           'numpy',
           'Pillow',
-          'scipy',
-          'tqdm'
+          'scipy'
       ],
       setup_requires=['pytest-runner'],
       test_suite='tests',
