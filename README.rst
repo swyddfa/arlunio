@@ -1,6 +1,10 @@
 Stylo
 ---------
 
+.. image:: https://badges.gitter.im/alcarney-stylo/Lobby.svg
+   :alt: Join the chat at https://gitter.im/alcarney-stylo/Lobby
+   :target: https://gitter.im/alcarney-stylo/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
+
 .. image:: https://travis-ci.org/alcarney/stylo.svg?branch=master
     :target: https://travis-ci.org/alcarney/stylo
 
