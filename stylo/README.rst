@@ -1,7 +1,7 @@
-MatheMage
+Stylo
 ---------
 
-Mathemage is a framework that attempts to allow users to easily describe the
+Stylo is a framework that attempts to allow users to easily describe the
 contents of an image using a blend of Python and Mathematics. It also provides
 tools that allow for easy parameterisation of the contents of an image opening
 up the possibilities for the creation of animations.
@@ -22,17 +22,17 @@ This framework is Python 3 only, and has the following dependencies:
 Installation
 ------------
 
-Mathemage is available on PyPi and can easily be installed using Pip:
+Stylo is available on PyPi and can easily be installed using Pip:
 
 .. code::
 
-    $ pip install mathemage
+    $ pip install stylo
 
 Alternatively you can grab the latest source code using Git:
 
 .. code::
 
-    $ git clone https://github.com/alcarney/mathemage
+    $ git clone https://github.com/alcarney/stylo
 
 
 Getting Started
@@ -46,7 +46,7 @@ Here is a 'Hello World' example where we draw Pacman::
 
 .. code::
 
-    from mage import Image, cartesian, polar, between
+    from stylo import Image, cartesian, polar, between
 
     @cartesian()
     @polar()
