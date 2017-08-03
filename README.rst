@@ -1,15 +1,15 @@
 Stylo
 ---------
 
-.. image:: https://travis-ci.org/alcarney/stylo.svg?branch=master
+.. image:: https://travis-ci.org/alcarney/stylo.svg?branch=develop
     :target: https://travis-ci.org/alcarney/stylo
 
-.. image:: https://readthedocs.org/projects/stylo/badge/?version=latest
-    :target: http://stylo.readthedocs.io/en/latest/?badge=latest
+.. image:: https://readthedocs.org/projects/stylo/badge/?version=develop
+    :target: http://stylo.readthedocs.io/en/develop/?badge=develop
     :alt: Documentation Status
 
-.. image:: https://coveralls.io/repos/github/alcarney/stylo/badge.svg?branch=master
-    :target: https://coveralls.io/github/alcarney/stylo?branch=master
+.. image:: https://coveralls.io/repos/github/alcarney/stylo/badge.svg?branch=develop
+    :target: https://coveralls.io/github/alcarney/stylo?branch=develop
 
 Stylo is a library that attempts to allow users to easily describe the
 contents of an image using a blend of Python and Mathematics. It also provides
