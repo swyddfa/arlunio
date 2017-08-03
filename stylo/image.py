@@ -290,7 +290,7 @@ class Image:
 
         # Create the new pixel array
         alphas = self.alpha
-        alphas.shape = (self.width, self.height, 1)
+        alphas.shape = (self.height, self.width, 1)
         colors = vneg(self.color)
 
         px = np.append(colors, alphas, axis=2)
@@ -314,7 +314,18 @@ class Image:
         ax = self.pixels
         bx = other.pixels
 
-        return Image(pixels=(ax + bx))
+        # Scale the pixels of b
+        scaled = bx / 255
+
+        # Do the multiplication - it's important to note that the entries
+        # of cx are now 'float64'
+        cx = ax * scaled
+
+        # Create a new numpy array so that the conversion back to uint8 is
+        # correct
+        px = np.array(cx, dtype=np.uint8)
+
+        return Image.fromarray(px)
 
     def __call__(self, f, overwrite_domain=True, use_host_domain=False):
         """

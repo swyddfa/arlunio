@@ -1,7 +1,7 @@
 Image
 =====
 
-The Image object is how you take one or more Drawables and produce an image
+The Image object is how you take one or more `Drawables`_ and produce an image
 that can be saved as a PNG or other format.
 
 Creation
@@ -73,7 +73,7 @@ pass in an optional :code:`xAA` which acts as a multiplier and controls the
 level of anti-aliasing. The default value of this parameter is :code:`1` which
 is equivalent to no anti-aliasing.
 
-.. figure:: /_static/xAA-1-vs-xAA-4.png
+.. figure:: /_static/reference/image/xAA-1-vs-xAA-4.png
     :width: 75%
     :align: center
 
@@ -112,7 +112,7 @@ syntax for accessing individual pixel values or subsections of an image. This
 makes a number of image manipulation tasks easier. For example consider the
 following example image
 
-.. figure:: /_static/example.png
+.. figure:: /_static/reference/image/example.png
     :width: 65%
     :align: center
 
@@ -132,7 +132,7 @@ says the first colour channel - which in this case is red which we set to
 :code:`0`. We write the zero as :code:`(0,)` simply because numpy is expecting
 an iterable when assigning a range.
 
-.. figure:: /_static/example-no-red.png
+.. figure:: /_static/reference/image/example-no-red.png
     :width: 65%
     :align: center
 
@@ -222,4 +222,266 @@ red color value at each pixel.
    >>> (reds == 255).all()
    True
 
+Green
+^^^^^
+
+This returns a numpy array with the shape :code:`(height, width)` representing
+the green colour value at each pixel in the Image. This can be used to alter
+the green colour value at each pixel
+
+.. doctest:: img-prop
+
+   >>> img = Image(1920, 1080, background=(255, 128, 0, 255))
+   >>> greens = img.green
+   >>> (greens == 128).all()
+   True
+
+Blue
+^^^^
+
+This returns a numpy array with the shape :code:`(height, width)` representing
+the blue colour value at each pixel in the Image. This can be used to alter the
+blue colour value at each pixel.
+
+.. doctest:: img-prop
+
+   >>> img = Image(1920, 1080, background=(255, 128, 0, 255))
+   >>> blues = img.blue
+   >>> (blues == 0).all()
+   True
+
+Alpha
+^^^^^
+
+This returns a numpy array with the shape :code:`(height, width)` representing
+the alpha value at each pixel in the Image. This can be used to alter the alpha
+value at each pixel.
+
+.. doctest:: img-prop
+
+   >>> img = Image(1920, 1080, background=(255, 128, 0, 255))
+   >>> alphas = img.alpha
+   >>> (alphas == 255).all()
+   True
+
+xAA
+^^^
+
+This property returns the value of the anti-aliasing multiplier :code:`xAA`.
+
+.. doctest:: img-prop
+
+   >>> img = Image(1920, 1080)
+   >>> img.xAA
+   1
+
+.. note::
+
+    This property is read-only
+
+Domain
+^^^^^^
+
+A domain can be associated with an image, it is a function in the :code:`width`
+and :code:`height` of an image which returns a numpy meshgrid object
+representing the mathematical coordinates at each point. Domains can easily be
+created using the :code:`mk_domain` function
+
+.. doctest:: img-prop
+
+    >>> from stylo import mk_domain
+    >>> img = Image(1920, 1080)
+    >>> img.domain = mk_domain(0, 1, 0, 1)
+
+This associates the domain :math:`[0, 1] \times [0, 1]` with the image
+:code:`img`. The domain produced by the call to :code:`mk_domain` is
+represented by a function equivalent to
+
+.. code-block:: python
+
+   import numpy as np
+
+   def domain(width, height):
+       xs = np.linspace(0, 1, width)
+       ys = np.linspace(1, 0, height)
+
+       return np.meshgrid(xs, ys)
+
+.. note::
+
+    See how the values for :code:`ys` are "backwards"? This is due to the
+    differences in convention between image processing and mathematics. Images
+    tend to have their origin in the upper left, wheras the origin in
+    mathematics is usually in the lower left. Reversing the direction of the
+    :code:`ys` makes the Image consistent with the mathematical convention.
+
+
+Manipulations
+-------------
+
+There are a couple of manipulations built into Image objects
+
+Inverting Colours
+^^^^^^^^^^^^^^^^^
+
+.. figure:: /_static/reference/image/example-inverted.png
+    :width: 65%
+    :align: center
+
+    The original image with inverted colours
+
+You can very easily invert the colours of an Image object due to the fact that
+:code:`Image` objects redefine Python's negation operator
+
+
+.. code-block:: python
+
+   >>> img = Image.fromfile('example.png')
+   >>> (-img).save('example-inverted.png')
+
+"AND"-ing Images
+^^^^^^^^^^^^^^^^
+
+.. note::
+
+    This operation will only work between images with identical dimensions!
+
+:code:`Image` objects also overload the bitwise AND syntax in Python (the
+:code:`&` operator), which can be used as a Boolean AND in certain
+circumstances. For example consider the images :code:`A.png` and :code:`B.png`
+below
+
+.. table::
+    :class: borderless
+
+    +-------------------------------------------+-------------------------------------------+
+    | .. image:: /_static/reference/image/A.png | .. image:: /_static/reference/image/B.png |
+    |     :width: 95%                           |     :width: 95%                           |
+    |     :align: center                        |     :align: center                        |
+    |                                           |                                           |
+    | :code:`A.png`                             | :code:`B.png`                             |
+    +-------------------------------------------+-------------------------------------------+
+
+Taking the Boolean AND of the two images as follows
+
+.. code-block:: python
+
+   >>> A = Image.fromfile('A.png')
+   >>> B = Image.fromfile('B.png')
+   >>> (A & B).save('A_and_B.png')
+
+.. figure:: /_static/reference/image/A_and_B.png
+    :width: 55%
+    :align: center
+
+    The resulting image
+
+.. note::
+
+    It's important to note that for this to work as expected the areas where
+    there is nothing have to have zero alpha value - so the colour is
+    :code:`(0, 0, 0, 0)` otherwise due to the implementation you might
+    encounter some unexpected results.
+
+In other circumstances it can be used to apply masks, for example consider the
+images below
+
+.. table::
+    :class: borderless
+
+    +-------------------------------------------------+--------------------------------------------------+
+    | .. image:: /_static/reference/image/example.png | .. image:: /_static/reference/image/vignette.png |
+    |     :width: 95%                                 |     :width: 95%                                  |
+    |     :align: center                              |     :align: center                               |
+    |                                                 |                                                  |
+    | :code:`example.png`                             | :code:`mask.png`                                 |
+    +-------------------------------------------------+--------------------------------------------------+
+
+Together along with the :code:`&` operator we can apply a vignette (albeit
+quite extreme in this case) to the image as such
+
+.. code-block:: python
+
+    >>> img = Image.fromfile('example.png')
+    >>> mask = Image.fromfile('mask.png')
+    >>> (img & mask).save('example-vignette.png')
+
+.. figure:: /_static/reference/image/example-vignette.png
+    :width: 65%
+    :align: center
+
+    The final result.
+
+Mapping Drawables
+-----------------
+
+Drawables are the mathematical/abstract description of a shape/texture. They
+must be "mapped" onto an Image object in order to be seen, thankfully the
+syntax for this is very straightforward
+
+.. code-block:: python
+
+    from mage import Image, cartesian, circle
+
+    dot = circle(0, 0, 0.8, fill=True)
+
+    @cartesian()
+    def blackspot(x, y):
+        return dot(x, y)
+
+    img = Image(512, 512)
+    img(blackspot)
+    img.save('blackspot.png')
+
+In this example we create a Drawable called :code:`blackspot` and to map it
+onto an Image all we have to do is call the Image object like we would a normal
+function :code:`img(blackspot)`.
+
+.. figure:: /_static/reference/image/blackspot.png
+    :width: 45%
+    :align: center
+
+    :code:`blackspot.png`
+
+.. note::
+
+    For full details on what Drawables are and how they are created please see
+    the page on `Drawables`_
+
+The default behavior of this mapping is to then overwrite the domain associated
+with the Image (if there is one) with the domain of the newly mapped Drawable.
+This can be overridden by passing in the :code:`overwrite_domain=False` option
+along with the Drawable.
+
+Alternatively if the Image does have a domain associated with it then you can
+optionally ignore the domain that comes with the Drawable object and use the
+Image's domain instead this is done by passing the :code:`use_host_domain=True`.
+option along with the drawable
+
+Interactive Editing
+-------------------
+
+If you are working interactively in a Jupyter Notebook you can easily preview
+Image objects using the built-in :code:`show()` method. Be sure to also run the
+:code:`%matplotlib inline` magic method when importing the library.
+
+For example, to preview the :code:`example.png` image in a Jupyter Notebook
+simply run the following
+
+.. code-block:: python
+
+   from stylo import Image
+   %matplotlib inline
+
+   img = Image.fromfile('example.png')
+   img.show()
+
+.. note::
+
+    Keep in mind that this is only a preview, and some details - especially at
+    higher resolutions will be lost. So the only way currently to get a true
+    impression of your Image is to save it and open it in your favourite Image
+    viewer
+
+.. _Drawables: ./drawable.html
 .. _indexing: https://docs.scipy.org/doc/numpy/user/basics.indexing.html
