@@ -7,3 +7,5 @@ from .objects import TileSet
 from .prims import between, circle, ellipse, rectangle, square, thicken,\
                    Puppet
 from .time import animate
+
+from .version import __version__

@@ -6,8 +6,10 @@ def readme():
         return f.read()
 
 
+exec(open('stylo/version.py', 'r').read())
+
 setup(name='stylo',
-      version='0.1.0',
+      version=__version__,
       description='Using a blend of Python and Maths for the '
       'creation of images',
       long_description=readme(),
@@ -31,5 +33,6 @@ setup(name='stylo',
       setup_requires=['pytest-runner'],
       test_suite='tests',
       tests_require=['pytest', 'hypothesis'],
+      python_requires='>=3.0',
       include_package_data=True,
       zip_safe=False)
