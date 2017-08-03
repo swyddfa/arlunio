@@ -3,15 +3,16 @@ python:
     - "3.6"
 
 before_install:
-    - "pip install pytest pytest-cov"
+    - "pip install pytest"
     - "pip install coveralls"
 
 install:
     - "pip install -r requirements.txt"
     - "pip install ."
 script:
-    - "python setup.py test"
-    - "cd docs ; make doctest"
+    - "coverage run --source stylo setup.py test"
+    - "coverage report"
+    - "cd docs ; make doctest ; cd .."
 
 after_success:
     - "coveralls"
