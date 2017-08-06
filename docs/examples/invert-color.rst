@@ -3,7 +3,7 @@ Invert the Colours of an Image
 
 Considering the following image
 
-.. figure:: /_static/example.png
+.. figure:: /_static/reference/image/example.png
     :width: 65%
     :align: center
 
@@ -18,7 +18,7 @@ We can invert its colors as follows
     img = Image.fromfile('example.png')
     (-img).save('example-inverted.png')
 
-.. figure:: /_static/example-inverted.png
+.. figure:: /_static/reference/image/example-inverted.png
     :width: 65%
     :align: center
 
