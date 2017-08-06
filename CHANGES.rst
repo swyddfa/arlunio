@@ -3,13 +3,17 @@
 
 Added
 -----
-- Initial draft of Image class reference documentation
-- A How-To section in the documentation
-- How-To invert the colours of an Image example
+
+Docs
+^^^^
+- Initial draft of Image class reference
+- Initial draft of Drawable class reference
+- A How-To section
+- How-To invert the colours of an Image
 
 Changed
 -------
-- Image.__and__() now uses a better method which produces better results with
+- Image.__and__() now uses a new method which produces better results with
   colour images
 
 Fixed
