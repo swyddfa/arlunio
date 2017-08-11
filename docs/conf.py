@@ -36,6 +36,7 @@ sys.path.append(
 extensions = ['sphinx.ext.mathjax',
     'sphinx.ext.viewcode',
     'sphinx.ext.autodoc',
+    'sphinx.ext.napoleon',
     'sphinx.ext.doctest',
     'sphinx.ext.githubpages']
 
