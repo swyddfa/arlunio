@@ -9,3 +9,4 @@ The Reference section
 
    drawable.rst
    image.rst
+   primitives.rst

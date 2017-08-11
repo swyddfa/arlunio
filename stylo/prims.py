@@ -196,14 +196,28 @@ class Puppet(metaclass=PuppetMaster):
 
 def ellipse(x0, y0, a, b, r, pt=0.2, fill=False):
     """
-    An ellipse can be defined in the following manner:
+    Mathematically we can define an ellipse to be the set
+    of points :math:`(x, y)` which satisfy:
 
-        1/a(x - x0)^2 + 1/b(y - y0)^2 = r^2
+    .. math::
 
-    This function returns a function in (x, y) and will
-    return true if the given point is in the ellipse
+        \\frac{(x - x_0)^2}{a^2} + \\frac{(y - y_0)^2}{b^2} = r^2
 
-    Arguments:
+    where:
+
+    - :math:`(x_0, y_0)` is the center of the ellipse
+    - :math:`a` is known as the semi major axis, larger values make the
+      ellipse more elongated in the :math:`x`-direction
+    - :math:`b` is known as the semi minor axis, larger values make the
+      ellipse more elongated in the :math:`y`-direction
+    - :math:`r` is the "radius" of the ellipse and controls the overall
+      size of the ellipse
+
+    This function will return another function that when given a point
+    :code:`(x,y)` that will return :code:`True` if the point is in the
+    ellipse.
+
+    Parameters
     ----------
 
     x0 : float
@@ -211,24 +225,29 @@ def ellipse(x0, y0, a, b, r, pt=0.2, fill=False):
     y0 : float
         Represents the y coordinate of the ellipse's center
     a : float
-        This controls how elongated the ellipse is in the x
-        direction
+        Represents the semi major axis of the ellipse
     b : float
-        This controls how elongated the ellipse is in the y
-        direction
+        Represents the semi minor axis of the ellipse
     r : float
-        This represents the radius of the ellipse
+        Represents the "radius" of the ellipse
     pt : float, optional
-        Represents the thickness of the lines of the ellipse.
+        Represents the thickness of the line of the ellipse.
         Default: 0.2
     fill : bool, optional
         Fill the ellipse rather than outline it
         Default: False
         **Note:** If fill is true, this function will ignore the value
         of pt
+
+    Returns
+    -------
+
+    function:
+        A function in 2 arguments :code:`(x,y)` which returns :code:`True`
+        if that point is in the ellipse defined by the above parameters
     """
 
-    lhs = lambda x, y: 1/a*(x - x0)**2 + 1/b*(y - y0)**2
+    lhs = lambda x, y: ((x - x0)**2)/a**2 + ((y - y0)**2)/b**2
 
     if fill:
 
@@ -256,14 +275,18 @@ def ellipse(x0, y0, a, b, r, pt=0.2, fill=False):
 
 def circle(x0, y0, r, *args, **kwargs):
     """
-    A circle can be defined in the following manner:
+    Mathematically a circle can be defined as the set of all
+    points :math:`(x, y)` that satisfy
+
+    .. math::
 
         (x - x0)^2 + (y - y0)^2 = r^2
 
-    This function returns a function in (x, y) and
-    will return true if the point is in the circle
+    This function returns another function which when given
+    a point :code:`(x, y)` will return :code:`True` if that
+    point is in the circle
 
-    Arugments:
+    Parameters
     ----------
 
     x0 : float
@@ -280,6 +303,14 @@ def circle(x0, y0, r, *args, **kwargs):
         Default: False
         **Note:** If fill is true, this function will ignore the value
         of pt
+
+    Returns
+    -------
+
+    function:
+        A function in 2 arguments :code:`(x, y)` that returns
+        :code:`True` if that point is in the circle defined by the
+        above parameters
     """
 
     return ellipse(x0, y0, 1, 1, r, *args, **kwargs)
