@@ -228,7 +228,7 @@ def ellipse(x0, y0, a, b, r, pt=0.2, fill=False):
         of pt
     """
 
-    lhs = lambda x, y: 1/a*(x - x0)**2 + 1/b*(y - y0)**2
+    lhs = lambda x, y: ((x - x0)**2)/a**2 + ((y - y0)**2)/b**2
 
     if fill:
 
