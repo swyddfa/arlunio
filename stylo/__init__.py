@@ -4,7 +4,7 @@ from .color import hex_to_rgb
 from .image import Image, LayeredImage, TiledImage
 from .motion import Projectile, driver
 from .objects import TileSet
-from .prims import between, circle, ellipse, rectangle, square, thicken,\
+from .prims import between, circle, ellipse, rectangle, square,\
                    Puppet
 from .time import animate
 
