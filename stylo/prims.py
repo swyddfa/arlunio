@@ -280,7 +280,7 @@ def circle(x0, y0, r, *args, **kwargs):
 
     .. math::
 
-        (x - x0)^2 + (y - y0)^2 = r^2
+        (x - x_0)^2 + (y - y_0)^2 = r^2
 
     This function returns another function which when given
     a point :code:`(x, y)` will return :code:`True` if that
@@ -316,47 +316,38 @@ def circle(x0, y0, r, *args, **kwargs):
     return ellipse(x0, y0, 1, 1, r, *args, **kwargs)
 
 
-def thicken(f, pt):
-    """
-    Mathematical paths are all well and good but in order
-    to see them they have to have some amount of thickness.
-
-    Given some function which describes a path and a thickness
-    this function construct and returns a function which determines
-    if some given y is in the neighbourhood of the given function
-    at x
-
-    Arguments:
-    ----------
-
-    f: callable
-        The function you want 'thickened'
-    pt: float
-        Determines the size of the neighbourhood to test
-        in
-    """
-
-    def test_func(x, y):
-
-        if y >= f(x) - pt and y <= f(x) + pt:
-            return True
-        else:
-            return False
-
-    return test_func
-
-
 def between(lower, value, upper):
+    """
+    A simple function which provides a shorthand
+    for checking if a given value is between some lower
+    and upper bound
+
+    Parameters
+    ----------
+    lower : float
+        The lower bound to check
+    value : float
+        The value you want checked
+    upper: float
+        The upper bound to check
+
+    Returns
+    -------
+    bool
+        :code:`True` if :code:`lower <= value` and
+        :code:`value <= upper`. :code:`False` otherwise
+    """
     return lower <= value and value <= upper
 
 
 def rectangle(x0, y0, width, height, pt=0.2, fill=False):
     """
-    Returns a function in (x, y) which returns true
-    when the given point in in/on the rectangle defined by the
-    arguments.
+    It's quite simple to define a rectangle, simply pick a
+    point :math:`(x_0,y_0)` that you want to be the center
+    and then two numbers which will represent the width and
+    height of the rectangle.
 
-    Arguments:
+    Parameters
     ----------
 
     x0 : float
@@ -375,6 +366,13 @@ def rectangle(x0, y0, width, height, pt=0.2, fill=False):
         Default: False
         **Note:** If fill is true, this function will ignore the value
         of pt
+
+    Returns
+    -------
+
+    function
+        A function in 2 arguments :code:`(x, y)` that returns :code:`True`
+        if the point is in the rectangle defined by the above parameters
     """
     left = x0 - (width / 2)
     right = x0 + (width / 2)
@@ -412,27 +410,34 @@ def rectangle(x0, y0, width, height, pt=0.2, fill=False):
 
 def square(x0, y0, size, *args, **kwargs):
     """
-    Returns a function in (x, y) which returns true
-    when the given point in in/on the square defined by the
-    arguments.
+    It's quite simple to define a square, simply pick a
+    point :math:`(x_0,y_0)` that you want to be the center
+    and then a number which will represent the size of the
+    square.
 
-    Arguments:
+    Parameters
     ----------
 
     x0 : float
-        Represents the x-coordinate of the rectangle's center
+        Represents the x-coordinate of the square's center
     y0 : float
-        Represents the y-coordinate of the rectangle's center
+        Represents the y-coordinate of the square's center
     size : float
-        Represents the size of the rectangle
+        Represents the size of the square
     pt : float, optional
-        Represents the thickness of the lines of the rectangle.
+        Represents the thickness of the lines of the square.
         Default: 0.2
     fill : bool, optional
-        Fill the rectangle rather than outline it
+        Fill the square rather than outline it
         Default: False
         **Note:** If fill is true, this function will ignore the value
         of pt
 
+    Returns
+    -------
+
+    function
+        A function in 2 arguments :code:`(x, y)` that returns :code:`True`
+        if the point is in the square defined by the parameters above
     """
     return rectangle(x0, y0, size, size, *args, **kwargs)
