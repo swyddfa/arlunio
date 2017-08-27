@@ -23,7 +23,7 @@ Fixed
 
 Removed
 -------
-- stylo.prims.thicken was redundant so its been removed
+- stylo.prims.thicken was redundant so it has been removed
 
 
 v0.1.0 - 2017-08-02
