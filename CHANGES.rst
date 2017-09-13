@@ -4,11 +4,17 @@
 Added
 -----
 
+- New Sampler object which forms the basis of the new Driver implementations
+- linear, quad_ease_in, quad_ease_out interpolation functions
+
 Docs
 ^^^^
-- Initial draft of Image class reference
-- Initial draft of Drawable class reference
-- Initial draft of Primitive reference page
+
+-Added the following reference pages
+    + Image
+    + Drawable
+    + Primitive
+    + Sampler
 - A How-To section
 - How-To invert the colours of an Image
 
