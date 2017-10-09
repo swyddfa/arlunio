@@ -1,233 +1,201 @@
 import pytest
-from hypothesis import given
-from hypothesis.strategies import tuples, lists, floats,\
-                                  booleans, integers, text,\
-                                  one_of
+import numpy as np
 
-from stylo.motion import Driver
+from stylo.interpolate import Driver, Channel
+
+from pytest import raises
+from hypothesis import given, assume
+from hypothesis.strategies import text, lists, integers,\
+                                  composite, floats
+
 
 # Some useful strategies
-frameno = integers(min_value=-1e6, max_value=1e6)
-realtime = floats(min_value=--1000, max_value=1000)
-time = one_of(frameno, realtime)
-value = floats(min_value=-1e6, max_value=1e6)
-keyframe = tuples(time, value)
-fps = integers(min_value=1, max_value=500)
+names = text(min_size=1, average_size=12)
+pveint = integers(min_value=1, max_value=1024)
+real = floats(min_value=-1e6, max_value=1e6)
 
 
-def test_init_defaults():
+@composite
+def data(draw):
+    length = draw(pveint)
+    start = draw(real)
+    stop = draw(real)
 
-    d = Driver()
+    return (0, np.linspace(start, stop, length))
 
-    assert d.FPS == d._FPS
-    assert d.FPS == 25
 
-    assert d.cycle == d._cycle
-    assert d.cycle is False
+class TestProperties(object):
 
-    assert d.name == d._name
-    assert d.name == ''
+    @given(c_names=lists(names, average_size=4))
+    def test_channels_property(self, c_names):
+        assume(len(set(c_names)) == len(c_names))
 
-    assert d.keyframes == d._keys
-    assert d.keyframes == [(0.0, 0), (1.0, 1)]
+        driver = Driver()
 
-    assert (d.frames == d._data).all()
-    assert len(d.frames) == 25
-    assert d.frames[0] == 0
-    assert d.frames[-1] == 1
+        for name in c_names:
+            driver.add_channel(name)
 
+        # This should simply return a list of the available
+        # channels
+        assert driver.channels == c_names
 
-@given(FPS=fps)
-def test_FPS_property(FPS):
+        # This attribute should be read only
+        with raises(AttributeError) as err:
+            driver.channels = 2
 
-    d = Driver(FPS=FPS)
+        assert 'can\'t set attribute' in str(err.value)
 
-    assert d.FPS == FPS
+    @given(fps=pveint)
+    def test_fps_property_with_good_values(self, fps):
 
-    with pytest.raises(TypeError) as err:
-        d.FPS = 'string'
+        driver = Driver()
 
-    assert 'must be an integer' in str(err.value)
+        # By default fps should be 25
+        assert driver.FPS == 25
 
-    with pytest.raises(ValueError) as err:
-        d.FPS = -FPS
+        # We should be able to change this
+        driver.FPS = fps
+        assert driver.FPS == fps
 
-    assert 'must be a positive' in str(err.value)
+    @given(fps=pveint)
+    def test_fps_property_with_bad_values(self, fps):
 
+        driver = Driver()
 
-@given(cycle=booleans())
-def test_cycle_property(cycle):
+        with raises(TypeError) as err:
+            driver.FPS = 'a str'
 
-    d = Driver(cycle=cycle)
+        assert 'must be an integer' in str(err.value)
 
-    assert d.cycle == cycle
+        with raises(ValueError) as err:
+            driver.FPS = -fps
 
-    with pytest.raises(TypeError) as err:
-        d.cycle = ('bob', 'trudy')
+        assert 'must be larger than zero' in str(err.value)
 
-    assert 'must be a boolean' in str(err.value)
+    @pytest.mark.slow
+    @given(segments=lists(data(), min_size=1, average_size=4),
+           names=lists(names, min_size=1, average_size=4))
+    def test_len_property(self, names, segments):
 
+        assume(len(names) == len(set(names)))
+        assume(len(segments) == len(names))
+        lengths = []
 
-@given(name=text())
-def test_name_property(name):
+        driver = Driver()
 
-    d = Driver(name=name)
+        for name, data in zip(names, segments):
+            driver.add_channel(name, segments=[data])
+            lengths.append(len(data[1]))
 
-    assert d.name == name
+        # When we ask for the length of the driver, it should be
+        # be equal to the longest of its component channels
+        assert len(driver) == max(lengths)
 
-    with pytest.raises(TypeError) as err:
-        d.name = 123
 
-    assert 'must be a string' in str(err.value)
+class TestChannelManagement(object):
 
+    @given(name=names)
+    def test_adding_new_channel(self, name):
 
-@given(keyframes=lists(keyframe, min_size=2, max_size=12))
-def test_keyframes_properties(keyframes):
+        driver = Driver()
+        driver.add_channel(name, FPS=50, cycle=True)
 
-    d = Driver(keyframes=keyframes)
+        # The name should have been added into the internal record
+        # of channels
+        assert name in driver._channels
 
-    assert d.keyframes == keyframes
+        # We should now be able to access the Channel object
+        # directly
+        assert isinstance(driver.__getattribute__(name), (Channel,))
 
-    with pytest.raises(AttributeError) as err:
-        d.keyframes = keyframes[:-1]
+        # It should also have respected its own __init__ arguments
+        assert driver.__getattribute__(name).FPS == 50
+        assert driver.__getattribute__(name).cycle
 
-    assert "can't set attribute" in str(err.value)
+    @given(name=names)
+    def test_adding_existing_channel(self, name):
 
+        channel = Channel()
+        driver = Driver()
 
-@given(keyframes=lists(keyframe, min_size=2, max_size=12))
-def test_sorted_keys(keyframes):
+        driver.add_channel(name, channel=channel)
+        assert name in driver._channels
+        assert isinstance(driver.__getattribute__(name), (Channel,))
 
-    d = Driver(keyframes=keyframes)
+        # By default the Channel should be added with a zero offset.
+        assert driver._channels[name] == 0
 
-    keys = d._sorted_keys()
+    @given(name=names)
+    def test_add_channel_throws_errors(self, name):
 
-    # We shouldn't lose or gain any keyframes
-    assert len(keys) == len(keyframes)
+        driver = Driver()
 
-    times = [it[0] for it in keys]
+        # Name should only be a str
+        with raises(TypeError) as err:
+            driver.add_channel(1)
 
-    # All time codes should now be integers
-    assert all([isinstance(time, (int,)) for time in times])
+        assert 'must be a string' in str(err.value)
 
-    # The times should already be sorted
-    assert times == sorted(times)
+        # And the string cannot be empty
+        with raises(ValueError) as err:
+            driver.add_channel('')
 
-    ## How to test the time conversion??
+        assert 'cannot be the empty string' in str(err.value)
 
+        driver.add_channel(name)
 
-@given(FPS=fps, index=frameno)
-def test_get_single_frameno(FPS, index):
+        # Adding a new channel with an exisiting name should throw an
+        # error
+        with raises(RuntimeError) as err:
+            driver.add_channel(name)
 
-    drive = Driver(FPS=FPS)
+        assert 'already exists' in str(err.value)
 
-    # If index < 0 we should be seeing the value zero
-    if index < 0:
-        assert drive._get_single(index) == 0
-        return
+        with raises(TypeError) as err:
+            driver.add_channel('new name', 3)
 
-    # If index > fps then we should be seeing the value one
-    if index > FPS:
-        assert drive._get_single(index) == 1
-        return
+        assert 'Expected Channel instance' in str(err.value)
 
-    # Otherwise, some value between 0 and 1 will driveo
-    assert 0 <= drive._get_single(index)
-    assert 1 >= drive._get_single(index)
+    @given(name=names)
+    def test_deleting_channel(self, name):
 
+        driver = Driver()
+        driver.add_channel(name)
 
-@given(FPS=fps, index=frameno)
-def test_get_single_frameno_cycled(FPS, index):
+        assert name in driver._channels
+        assert isinstance(driver.__getattribute__(name), (Channel,))
 
-    drive = Driver(FPS=FPS, cycle=True)
-    length = len(drive._data)
+        driver.del_channel(name)
 
-    # If index mod length = 0, we should see the value
-    # zero
-    if index % length == 0:
-        assert drive._get_single(index) == 0
-        return
+        assert name not in driver._channels
 
-    # If index mod length = (length - 1), we should see the value 1
-    if index % length == (length - 1):
-        assert drive._get_single(index) == 1
-        return
+        with raises(AttributeError):
+            driver.__getattribute__(name)
 
-    # Otherwise we should see a value in the range 0 - 1
-    assert 0 <= drive._get_single(index)
-    assert 1 >= drive._get_single(index)
+    @given(name=names)
+    def test_del_channel_throws_errors(self, name):
 
+        driver = Driver()
 
-@given(FPS=fps, index=frameno)
-def test_getitem_frameno(FPS, index):
+        with raises(TypeError) as err:
+            driver.del_channel(2)
 
-    drive = Driver(FPS=FPS)
+        assert 'by a string' in str(err.value)
 
-    # If index < 0 we should be seeing the value zero
-    if index < 0:
-        assert drive[index] == 0
-        return
+        with raises(RuntimeError) as err:
+            driver.del_channel(name)
 
-    # If index > fps then we should be seeing the value one
-    if index > FPS:
-        assert drive[index] == 1
-        return
+        assert 'does not exist' in str(err.value)
 
-    # Otherwise, some value between 0 and 1 will driveo
-    assert 0 <= drive[index]
-    assert 1 >= drive[index]
 
+class TestGetItem(object):
 
-@given(FPS=fps, index=frameno)
-def test_getitem_frameno_cycled(FPS, index):
+    @given(name=names)
+    def test_get_channel_by_name(self, name):
 
-    drive = Driver(FPS=FPS, cycle=True)
-    length = len(drive._data)
+        driver = Driver()
+        driver.add_channel(name)
 
-    # If index mod length = 0, we should see the value
-    # zero
-    if index % length == 0:
-        assert drive[index] == 0
-        return
+        channel = driver[name]
 
-    # If index mod length = (length - 1), we should see the value 1
-    if index % length == (length - 1):
-        assert drive[index] == 1
-        return
-
-    # Otherwise we should see a value in the range 0 - 1
-    assert 0 <= drive[index]
-    assert 1 >= drive[index]
-
-
-@given(FPS=fps, index=realtime)
-def test_getitem_realtime(FPS, index):
-
-    drive = Driver(FPS=FPS)
-
-    # If index < 0, we should see the value zero
-    if index < 0:
-        assert drive[index] == 0
-        return
-
-    # If index > 1 we should see the value one
-    if index > 1:
-        assert drive[index] == 1
-        return
-
-    # Otherwise we should see a value between zero and 1
-    assert 0 <= drive[index]
-    assert 1 <= drive[index]
-
-
-@given(FPS=fps, index=realtime)
-def test_getitem_realtime_cycled(FPS, index):
-
-    drive = Driver(FPS=FPS, cycle=True)
-
-    # If index is a whole number we should see the value zero
-    if index % 1 == 0:
-        assert drive[index] == 0
-
-    # Otherwise we should see a value between 0 and 1
-    assert 0 <= drive[index]
-    assert 1 >= drive[index]
+        assert isinstance(channel, (Channel,))
