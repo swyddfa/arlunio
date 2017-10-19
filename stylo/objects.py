@@ -76,33 +76,3 @@ class TileSet(metaclass=MetaSet):
         # make it 2D
         grid = np.array(nones, dtype='O')
         return grid.reshape(N, N)
-
-
-def write(text, charset, font):
-    """
-    This is a VERY naive and basic implementation of taking a
-    string and converting it to an appropriate drawable. It
-    pays no attension to anything like text wrapping etc.
-
-    Arguments:
-    ----------
-
-    text: str
-        The text you actually want written.
-    charset: str
-        A string containing the characters which comprise
-        of the alphabet your text is written in
-    font: TileSet
-        The class which defines the font the text is to
-        be written in
-    """
-
-    chars = [charset.find(t) for t in text]
-
-    def layout(frame, time):
-        return np.array([chars])
-
-    inscription = font()
-    inscription.layout = layout
-
-    return inscription
