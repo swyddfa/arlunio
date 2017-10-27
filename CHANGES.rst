@@ -7,6 +7,8 @@ Added
 - Sampler object which forms the basis of the new Driver implementations
 - Channel object which can manage many Sampler-like objects to form a
   single 'track' of animation data
+- A very simple Driver object which allows you to collect multiple Channel
+  objects into a single place
 - linear, quad_ease_in, quad_ease_out interpolation functions
 
 Docs

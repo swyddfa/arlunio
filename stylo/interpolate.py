@@ -1,7 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+
 from itertools import cycle
+from math import floor
 
 
 class Channel:
@@ -103,7 +105,8 @@ class Channel:
             if self._cycle:
 
                 data = cycle(reversed(self._data))
-                prepension = list(reversed([next(data) for _ in range(length)]))
+                prepension = list(
+                                reversed([next(data) for _ in range(length)]))
 
             else:
                 prepension = [self._data[0] for _ in range(length)]
@@ -199,7 +202,7 @@ class Channel:
             data = item[1]
 
             try:
-                _ = (v for v in data)
+                (v for v in data)
             except:
                 raise TypeError('The segment data must be iterable!')
 
@@ -253,54 +256,144 @@ class Driver:
     each of the tracks.
     """
 
-    def __init__(self, channels=None, FPS=25):
-
+    def __init__(self, FPS=25):
         self._channels = {}
-
-        if channels is not None:
-            for c in channels:
-                self.add_channel(c)
-                self._channels[c] = c
-
         self._FPS = FPS
+
+    def __len__(self):
+
+        lengths = []
+
+        for name in self._channels:
+            channel = self.__getattribute__(name)
+            lengths.append(len(channel))
+
+        return max(lengths)
+
+    def _to_frame_number(self, realtime):
+
+        if isinstance(realtime, (int,)):
+            return realtime
+
+        return floor(realtime * self.FPS)
+
+    def _get_from_str(self, index):
+
+        if index not in self._channels:
+            raise IndexError('No such Channel: {}'.format(index))
+
+        return self.__getattribute__(index)
 
     def __getitem__(self, index):
 
         if isinstance(index, (str,)):
-            if index in self._channels:
-                return self.__getattribute__(index)
+            return self._get_from_str(index)
 
-        return None
+    def add_channel(self, name, channel=None, offset=0.0, *args, **kwargs):
+        """
+        Add a Channel to the Driver object.
 
-    def add_channel(self, name):
+        Either you can provide a name and the relevant __init__ arguments
+        to this method and a new Channel instance will be created and added
+        under the given name.
+
+        Or you can provide a name and an existing Channel instance which will
+        be added to the Driver under the given name
+
+        Parameters:
+        -----------
+
+        name: str
+            The name you want to give to the Channel
+        offset: float, optional
+            The time you want to delay the start of the channel by, in seconds
+            Default: 0.0
+        channel : Channel, optional
+            The instance of the Channel you want to add.
+            Default: None
+
+        See the documentation for the Channel's __init__ for more information
+        on what can be passed to this function
+        """
+
+        if not isinstance(name, (str,)):
+            raise TypeError('Channel names must be a string!')
+
+        if name == '':
+            raise ValueError('Channel names cannot be the empty string')
 
         if name in self._channels:
-            raise RuntimeError('There is already a %s channel!' % name)
+            raise RuntimeError('A Channel with the name "{}" '.format(name)
+                               + 'already exists!')
 
-        # Add the actual channel object
-        self.__setattr__(name, Channel(name=name))
+        if channel is not None and not isinstance(channel, (Channel,)):
+            raise TypeError('Expected Channel instance, got ' +
+                            '{} instead'.format(type(channel)))
 
-        # Also don't forget to add the name to the dict of channels
-        self._channels[name] = name
+        # Did the user provide an exisiting channel?
+        if channel is not None:
+            # Enforce the new name on the channel
+            channel.name = name
+            self.__setattr__(name, channel)
+
+        else:
+            # Otherwise add new Channel object, accessible as an attribute
+            # of the same name
+            self.__setattr__(name, Channel(name=name, *args, **kwargs))
+
+        # Don't forget to add the name to the internal record
+        self._channels[name] = offset
 
     def del_channel(self, name):
+        """
+        Delete a Channel from the Driver instance.
 
-        if name in self._channels:
+        Given a name representing the channel you want deleted
+        the method removes the channel instance from the driver.
 
-            # Delete it from the dict of channels
-            del self._channels[name]
+        Parameters:
+        -----------
 
-            # Don't forget the actual channels
-            self.__delattr__(name)
+        name: str
+            The name of the channel you want deleted
+        """
+
+        if not isinstance(name, (str,)):
+            raise TypeError('Channel names must be referenced by a string')
+
+        if name not in self._channels:
+            raise RuntimeError('Channel name "{}" '.format(name) +
+                               'does not exist!')
+
+        # Delete the Channel instance
+        self.__delattr__(name)
+
+        # Remove the entry from the internal record
+        del self._channels[name]
 
     @property
     def channels(self):
         return list(self._channels.keys())
 
+    @property
+    def FPS(self):
+        return self._FPS
+
+    @FPS.setter
+    def FPS(self, value):
+
+        if not isinstance(value, (int,)):
+            raise TypeError('FPS property must be an integer!')
+
+        if value < 1:
+            raise ValueError('FPS property must be larger than zero!')
+
+        self._FPS = value
+
 
 class Sampler:
 
-    def __init__(self, f=None, num_points=25, name=None):
+    def __init__(self, f=None, num_points=25, name=None, domain=[0, 1]):
 
         if f is not None and not callable(f):
             raise TypeError('f must be a function!')
@@ -308,6 +401,7 @@ class Sampler:
         self._f = f
         self._num_points = num_points
         self._name = name
+        self._domain = domain
         self._sample()
 
     def __getitem__(self, index):
@@ -329,13 +423,60 @@ class Sampler:
     def __len__(self):
         return len(self._data)
 
+    def __neg__(self):
+        return Sampler(lambda x: -self.f(x))
+
+    def __add__(self, other):
+
+        if not isinstance(other, (Sampler,)):
+            raise TypeError('Addition is only supported '
+                            'between Sampler objects!')
+
+        return Sampler(lambda x: self.f(x) + other.f(x))
+
+    def __sub__(self, other):
+
+        if not isinstance(other, (Sampler,)):
+            raise TypeError('Subtraction is only supported '
+                            'between Sampler objects!')
+
+        return Sampler(lambda x: self.f(x) - other.f(x))
+
+    def __mul__(self, other):
+
+        if not isinstance(other, (Sampler,)):
+            raise TypeError('Multiplication is only supported '
+                            'between Sampler objects!')
+
+        return Sampler(lambda x: self.f(x) * other.f(x))
+
     def _sample(self):
-        points = np.linspace(0, 1, self._num_points)
+        a, b = self.domain
+        points = np.linspace(a, b, self._num_points)
 
         if self._f is None:
             self._data = points
         else:
             self._data = np.array([self._f(t) for t in points])
+
+    @property
+    def domain(self):
+        return self._domain
+
+    @domain.setter
+    def domain(self, value):
+
+        if not isinstance(value, (list,)):
+            raise TypeError('Domain property must be a list in the form [a,b]')
+
+        a, b = value
+
+        if a >= b:
+            raise ValueError('The start of the domain must be strictly less '
+                             'than the end!')
+
+        self._domain = value
+        self._sample()
 
     @property
     def f(self):
@@ -348,7 +489,11 @@ class Sampler:
     def f(self, value):
 
         if not callable(value):
-            raise TypeError('f must be a function!')
+            raise TypeError('f property must be a function!')
+
+        # I'd love to use __code__.co_argcount to make sure we are given
+        # a function in a single argument. However this breaks for
+        # builtin functions such as math.cos
 
         self._f = value
         self._sample()
@@ -363,8 +508,8 @@ class Sampler:
         if not isinstance(value, (int,)):
             raise TypeError('num_points must be an integer!')
 
-        if value < 2:
-            raise ValueError('num_points must be larger than 2!')
+        if value <= 1:
+            raise ValueError('num_points must be larger than 1!')
 
         self._num_points = value
         self._sample()
@@ -389,8 +534,9 @@ class Sampler:
         """
         Returns a matplotlib figure of both the function and the sampled points
         """
-        points = np.linspace(0, 1, self._num_points)
-        interval = np.linspace(0, 1, 512)
+        a, b = self.domain
+        points = np.linspace(a, b, self._num_points)
+        interval = np.linspace(a, b, 512)
         fs = [self._f(x) for x in interval]
 
         plt.plot(interval, fs, 'k')
