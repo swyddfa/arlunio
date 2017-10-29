@@ -6,6 +6,9 @@ from itertools import cycle
 from math import floor
 
 
+from .coords import cartesian
+
+
 class Channel:
     """
     A Channel is a single 'track' of Sampler objects and the
@@ -529,6 +532,38 @@ class Sampler:
             raise TypeError('property name must be a string!')
 
         self._name = value
+
+    def draw(self, N=128, pt=0.01, pat=(True,)):
+        """
+        Returns a drawable that can then be applied to an image object
+        """
+
+        # Unpack the domain and discretise it at the given resolution
+        # taking into account the pattern given by user
+        a, b = self.domain
+        xs = np.linspace(a, b, N)
+        mask = [p for _, p in zip(xs, cycle(pat))]
+        ps = [(x, self.f(x)) for x in xs[mask]]
+
+        # Apply the function and determine the range
+        c = min(ps, key=lambda p: p[1])[1]
+        d = max(ps, key=lambda p: p[1])[1]
+
+        # Determine the domain for the drawbale
+        min_ac = min(a, c)
+        max_bd = max(b, d)
+        domain = [min_ac, max_bd]
+
+        @cartesian(X=domain, Y=domain)
+        def path(x, y):
+
+            d = np.array([(x - X)**2 + (y - Y)**2 for X, Y in ps]).min()
+
+            return d <= pt
+
+        return path
+
+
 
     def show(self):
         """
