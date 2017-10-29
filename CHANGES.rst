@@ -1,4 +1,18 @@
-v0.2.0 - 2017-08-02
+v0.2.1 - 2017-10-29
+===================
+
+Fixed
+-----
+- Stylo should now also work on python 3.5
+
+Removed
+-------
+- Deleted stylo/motion.py as its something better suited to a plugin
+- Deleted Pupptet, PuppetMaster and supporting functions as they are broken and
+  better to be rewritten from scratch
+
+
+v0.2.0 - 2017-10-27
 ===================
 
 Added
