@@ -37,7 +37,7 @@ class TestProperties(object):
 
         # This should simply return a list of the available
         # channels
-        assert driver.channels == c_names
+        assert set(driver.channels) == set(c_names)
 
         # This attribute should be read only
         with raises(AttributeError) as err:
