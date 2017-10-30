@@ -1,7 +1,7 @@
 import numpy as np
 
 from hypothesis import given, assume
-from hypothesis.strategies import floats, integers, composite
+from hypothesis.strategies import floats, integers, composite, text
 from pytest import raises
 from unittest import mock
 
@@ -21,6 +21,46 @@ def linear_transform(draw):
 
 
 class TestProperties(object):
+
+    @given(name=text(average_size=32))
+    def test_name_property(self, name):
+
+        sampler = Sampler()
+
+        # By default this should be 'Sampled function:'
+        assert sampler.name == 'Sampled function:'
+        # We should be able to change that
+        sampler.name = name
+        assert sampler.name == name
+
+        # But only to a string
+        with raises(TypeError) as err:
+            sampler.name = True
+
+        assert 'must be a str' in str(err.value)
+
+        # We should also check that the old value was preserved
+        assert sampler.name == name
+
+    @given(N=numpoints)
+    def test_repr_with_no_name(self, N):
+
+        s = Sampler(num_points=N)
+        result = repr(s)
+
+        output = 'Sampled function:\nNum Points: ' + str(N)
+
+        assert result == output
+
+    @given(name=text(average_size=32), N=numpoints)
+    def test_repr_with_name(self, name, N):
+
+        s = Sampler(name=name, num_points=N)
+        result = repr(s)
+
+        output = str(name) + '\nNum Points: ' + str(N)
+
+        assert result == output
 
     @given(N=numpoints)
     @mock.patch.object(Sampler, '_sample')
