@@ -74,6 +74,15 @@ def channel_data_cycle():
 
 class TestProperties(object):
 
+
+    @given(data=data())
+    def test_iter_property(self, data):
+
+        channel = Channel(segments=[(0, data)])
+        result = list(iter(channel))
+
+        assert (len(result) == len(data))
+
     def test_data_property(self):
 
         channel = Channel()
