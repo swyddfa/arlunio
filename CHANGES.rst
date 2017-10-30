@@ -1,3 +1,12 @@
+[Unreleased]
+============
+
+Added
+-----
+
+- Keyword argument 'only' to the 'polar' decorator which allows you to ignore
+  the x and y variables if you dont need them
+
 v0.2.1 - 2017-10-29
 ===================
 

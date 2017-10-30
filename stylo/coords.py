@@ -321,7 +321,7 @@ def reflect(Y=False, X=False):
     return wrapper
 
 
-def polar():
+def polar(only=False):
     """
     A function decorator which constructs a wrapper function that
     additionally calculates the conversion from cartesian to polar
@@ -330,6 +330,26 @@ def polar():
 
     This means your funtion now must be defined: f(x, y, r, t)
     """
+
+    if only:
+        def domain(f):
+            """
+            This is the constructed decorator made by _polar_ and is
+            actually where we do the mapping onto the domain
+            """
+
+            def F(x, y):
+
+                r = sqrt(x**2 + y**2)
+                t = atan2(y, x)
+
+                return f(r, t)
+
+            F.__name__ = f.__name__ + '_polar'
+
+            return F
+
+        return domain
 
     def domain(f):
         """
