@@ -4,7 +4,7 @@ import numpy as np
 
 import pytest
 from pytest import raises, fixture
-from hypothesis import given, assume
+from hypothesis import given, assume, settings
 from hypothesis.strategies import composite, integers,\
                                   tuples, lists, floats,\
                                   text
@@ -73,6 +73,15 @@ def channel_data_cycle():
 
 
 class TestProperties(object):
+
+
+    @given(data=data())
+    def test_iter_property(self, data):
+
+        channel = Channel(segments=[(0, data)])
+        result = list(iter(channel))
+
+        assert len(result) == len(data)
 
     def test_data_property(self):
 
@@ -507,6 +516,7 @@ class TestConstruct(object):
         assert mask.all()
 
     @pytest.mark.slow
+    @settings(deadline=None)
     @given(intervals=lists(data(), average_size=12))
     def test_with_many_sequential_intervals(self, intervals):
 

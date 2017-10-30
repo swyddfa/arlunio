@@ -2,7 +2,7 @@ import pytest
 import numpy as np
 
 from stylo.interpolate import Driver, Channel
-
+from math import floor
 from pytest import raises
 from hypothesis import given, assume
 from hypothesis.strategies import text, lists, integers,\
@@ -199,3 +199,19 @@ class TestGetItem(object):
         channel = driver[name]
 
         assert isinstance(channel, (Channel,))
+
+        @given(frame=pveint)
+        def test_to_frame_number_with_int(self, frame):
+
+            driver = Driver()
+            result = driver._to_frame_number(frame)
+
+            assert (result == frame)
+
+        @given(frame=real, fps=pveint)
+        def test_to_frame_number_with_float(self, frame, fps):
+
+            driver = Driver(FPS=fps)
+            result = driver._to_frame_number(frame)
+
+            assert (result == floor(frame * fps))
