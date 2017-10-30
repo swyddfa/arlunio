@@ -1,58 +1,58 @@
 Checkerboard
 ============
 
-Mathematically we can define a basic checkerboard as follows:
 
-.. math::
-    checkerboard(x, y) =  \begin{cases}
-        white, \text{ if } xy > 0 \\
-        black, \text{ otherwise}
-    \end{cases}
+We a can represent a basic checkerboard pattern by defining a function on
+:math:`[-1, 1] \times [-1, 1]` that returns :code:`True` if the product of
+:math:`x` and :math:`y` is positive
 
-where :math:`x, y \in [-1, 1]` Which we can write in python as such:
+.. testcode:: small-checker
 
-.. code-block:: python
+    from stylo import Image, cartesian
 
-  from mage import Image, cartesian
+    @cartesian()
+    def checker(x, y):
+        return x * y > 0
 
-  @cartesian(X=[-1, 1], Y=[-1, 1])
-  def checker(x, y):
-      return x * y > 0
+Applying this then to an Image returns the following result
 
-  img = Image(512, 512)
-  img(checker)
+.. testcode:: small-checker
 
-Which gives us the result below:
+    img = Image(512, 512)
+    img(checker)
+    img.show()
+
 
 .. image:: /_static/examples/checker.png
     :width: 45%
     :align: center
 
+But say that we wanted to create a chess board. Instead of trying to redefine
+the pattern so that it repeats we can let :code:`stylo` do that for us using
+the :code:`extend_periodically` decorator. To use it we simply put the
+decorator in between our :code:`@cartesian` decorator and our function
+definition.
 
-However, it would be good if we could alter the size of the squares. We can do
-this by extending the function we defined above. If we periodically extend the
-function, then any time we deviate from the original domain, we shift the value
-so that it has the same relative offset in the original domain. For example if
-we are given a value of :math:`1.5`, it's outside the interval :math:`[-1,1]`
-so we shift it left by the length of the interval - which in this case is 2 and
-that gives us the final value of -0.5.
+.. testcode:: large-checker
 
-By defining the checkerboard in this way allows us to keep the nice simple
-definition we started with and control the size of the square by simply mapping
-the extended function onto larger/smaller domains. In Python we write this as:
+    from stylo import Image, cartesian, extend_periodically
 
-.. code-block:: python
+    @cartesian(X=[-4, 4], Y=[-4, 4])
+    @extend_periodically()
+    def checker(x, y):
+        return x * y > 0
 
-  from mage import Image, cartesian, extend_periodically
+You specify what domain your original pattern is defined on to the
+:code:`extend_periodically` (which defaults to :math:`[-1, 1] \times [-1, 1]`)
+and provide a larger domain to the :code:`@cartesian`. Then by passing the
+result to an image as normal we get
 
-  @cartesian(X=[-4, 4], Y=[-4, 4])  # Changing these values affect the grid size
-  @extend_periodically(X=[-1, 1], Y=[-1, 1])
-  def checker(x, y):
-      return x * y > 0
+.. testcode:: large-checker
 
-  img = Image(512, 512)
-  img(checker)
+    img = Image(512, 512)
+    img(checker)
+    img.show()
 
-.. image:: /_static/examples/scaled_checker.png
+.. image:: /_static/examples/large-checker.png
     :width: 45%
     :align: center
