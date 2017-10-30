@@ -7,6 +7,13 @@ Added
 - Keyword argument 'only' to the 'polar' decorator which allows you to ignore
   the x and y variables if you dont need them
 
+Fixed
+-----
+
+- Forgot to expose the objects from interpolate.py to the top level stylo
+  import
+- Examples in the documentation and enabled doctests for them
+
 v0.2.1 - 2017-10-29
 ===================
 
