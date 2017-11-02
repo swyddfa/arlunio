@@ -20,12 +20,15 @@ Applying this then to an Image returns the following result
 
     img = Image(512, 512)
     img(checker)
-    img.show()
 
 
 .. image:: /_static/examples/checker.png
     :width: 45%
     :align: center
+
+.. note::
+
+    Don't forget to call :code:`img.show()` or :code:`img.save()`!
 
 But say that we wanted to create a chess board. Instead of trying to redefine
 the pattern so that it repeats we can let :code:`stylo` do that for us using
@@ -51,7 +54,6 @@ result to an image as normal we get
 
     img = Image(512, 512)
     img(checker)
-    img.show()
 
 .. image:: /_static/examples/large-checker.png
     :width: 45%
