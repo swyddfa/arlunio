@@ -3,17 +3,17 @@ python:
     - "3.5"
     - "3.6"
 
+env:
+    - "TASK=lint"
+    - "TASK=doctest"
+    - "TASK=test_travis"
+
 before_install:
-    - "pip install pytest"
-    - "pip install coveralls"
+    - "pip install pytest coveralls flake8"
 
 install:
     - "pip install -r requirements.txt"
     - "pip install ."
-script:
-    - "coverage run --source stylo setup.py test"
-    - "coverage report"
-    - "cd docs && make doctest && cd .."
 
-after_success:
-    - "coveralls"
+script:
+    - "make $TASK"
