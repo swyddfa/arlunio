@@ -206,7 +206,7 @@ class Channel:
 
             try:
                 (v for v in data)
-            except:
+            except TypeError:
                 raise TypeError('The segment data must be iterable!')
 
         # Only now do we accept it and do our thing
@@ -291,7 +291,6 @@ class Driver:
 
         if isinstance(index, (str,)):
             return self._get_from_str(index)
-
 
     def add_channel(self, name, channel=None, offset=0.0, *args, **kwargs):
         """
