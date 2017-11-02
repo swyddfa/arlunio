@@ -1,3 +1,13 @@
+[Unreleased]
+============
+
+Changed
+-------
+
+- Renamed hex_to_rgb to hexcolor. It now also can cope with rgb and rgba
+  arguments, with the ability to promote rgb to rgba colors
+
+
 v0.2.2 - 2017-10-30
 ===================
 

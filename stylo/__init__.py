@@ -1,6 +1,6 @@
 from .coords import cartesian, extend_periodically, translate, reflect,\
                     polar, mk_domain
-from .color import hex_to_rgb
+from .color import hexcolor
 from .image import Image, LayeredImage, TiledImage
 from .interpolate import sampled, Sampler, Channel, Driver,\
                         linear, quadratic_ease_in, quadratic_ease_out
