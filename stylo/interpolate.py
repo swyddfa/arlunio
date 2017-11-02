@@ -292,6 +292,7 @@ class Driver:
         if isinstance(index, (str,)):
             return self._get_from_str(index)
 
+
     def add_channel(self, name, channel=None, offset=0.0, *args, **kwargs):
         """
         Add a Channel to the Driver object.
@@ -326,8 +327,8 @@ class Driver:
             raise ValueError('Channel names cannot be the empty string')
 
         if name in self._channels:
-            raise RuntimeError('A Channel with the name "{}" '.format(name)
-                               + 'already exists!')
+            raise RuntimeError('A Channel with the name "{}" '.format(name) +
+                               'already exists!')
 
         if channel is not None and not isinstance(channel, (Channel,)):
             raise TypeError('Expected Channel instance, got ' +
@@ -562,8 +563,6 @@ class Sampler:
             return d <= pt
 
         return path
-
-
 
     def show(self):
         """

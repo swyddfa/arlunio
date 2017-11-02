@@ -3,3 +3,4 @@ hypothesis
 pytest
 sphinx
 sphinx-autobuild
+flake8

@@ -12,3 +12,4 @@ docs/_build
 .eggs/
 *.egg-info/
 dist/
+.coverage

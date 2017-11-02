@@ -1,4 +1,6 @@
 
+tests: lint test doctest
+
 test:
 	coverage run --source stylo setup.py test && coverage report
 
