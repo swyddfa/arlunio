@@ -88,7 +88,18 @@ class Image:
 
     @color.setter
     def color(self, value):
-        self.pixels[:, :, 0:3] = value
+
+        try:
+            self.pixels[:, :, 0:3] = value
+        except ValueError:
+            given = np.array(value).shape
+            expected = self.pixels[:, :, 0:3].shape
+
+            given_str = 'Color values with shape {} '.format(given)
+            expected_str = 'are incompatible with this image {}\n'.format(expected)
+            details = 'For more details please see '
+            link = 'https://docs.scipy.org/doc/numpy/user/basics.broadcasting.html'
+            raise ValueError(given_str + expected_str + details + link)
 
     @property
     def red(self):

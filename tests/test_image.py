@@ -1,4 +1,4 @@
-import pytest
+from pytest import raises
 from hypothesis import given
 from hypothesis.strategies import integers, tuples
 
@@ -11,92 +11,275 @@ from stylo.image import Image
 dimension = integers(min_value=2, max_value=5000)
 smalldim = integers(min_value=2, max_value=256)
 colvalue = integers(min_value=0, max_value=255)
-color = tuples(colvalue, colvalue, colvalue, colvalue)
+rgb = tuples(colvalue, colvalue, colvalue)
+rgba = tuples(colvalue, colvalue, colvalue, colvalue)
 
 
-@given(width=smalldim, height=smalldim)
-def test_width_height_init(width, height):
+class TestInit(object):
 
-    img = Image(width, height)
+    @given(width=smalldim, height=smalldim)
+    def test_with_width_height(self, width, height):
 
-    assert img.pixels.shape == (height, width, 4)
-    assert img.pixels.dtype == np.uint8
+        img = Image(width, height)
 
-    unique = np.unique(img.pixels)
-    assert unique.shape == (1,)
-    assert (unique == [(255, 255, 255, 255)]).all()
+        assert img.pixels.shape == (height, width, 4)
+        assert img.pixels.dtype == np.uint8
 
-
-@given(width=smalldim, height=smalldim, background=color)
-def test_width_height_background_init(width, height, background):
-
-    img = Image(width, height, background=background)
-
-    assert img.pixels.shape == (height, width, 4)
-    assert img.pixels.dtype == np.uint8
-
-    unique = np.unique(img.pixels, axis=0)
-    unique = np.unique(unique, axis=1).flatten()
-    assert unique.shape == (4,)
-    assert (unique == [background]).all()
+        unique = np.unique(img.pixels)
+        assert unique.shape == (1,)
+        assert (unique == [(255, 255, 255, 255)]).all()
 
 
-@given(width=smalldim, height=smalldim)
-def test_pixel_init(width, height):
+    @given(width=smalldim, height=smalldim, background=rgba)
+    def test_with_width_height_rgba_background(self, width, height, background):
 
-    px = npr.randint(0, 255, (height, width, 4), dtype=np.uint8)
-    img = Image(pixels=px)
+        img = Image(width, height, background=background)
 
-    assert img.pixels.shape == (height, width, 4)
-    assert (img.pixels == px).all()
+        assert img.pixels.shape == (height, width, 4)
+        assert img.pixels.dtype == np.uint8
 
-    img = Image.fromarray(px)
+        unique = np.unique(img.pixels, axis=0)
+        unique = np.unique(unique, axis=1).flatten()
+        assert unique.shape == (4,)
+        assert (unique == [background]).all()
 
-    assert img.pixels.shape == (height, width, 4)
-    assert (img.pixels == px).all()
+    @given(width=smalldim, height=smalldim, color=rgb)
+    def test_with_width_height_rgb_background(self, width, height, color):
 
+        img = Image(width, height, background=color)
 
-def test_init_exceptions():
+        assert img.pixels.shape == (height, width, 4)
+        assert img.pixels.dtype == np.uint8
 
-    with pytest.raises(ValueError) as err:
-        img = Image()
+        unique = np.unique(img.pixels, axis=0)
+        unique = np.unique(unique, axis=1).flatten()
+        assert unique.shape == (4,)
 
-    assert 'specify a width and height' in str(err.value)
-
-    with pytest.raises(ValueError) as err:
-        img = Image(width=12)
-
-    assert 'specify a width and height' in str(err.value)
-
-    with pytest.raises(ValueError) as err:
-        img = Image(height=12)
-
-    assert 'specify a width and height' in str(err.value)
+        background = (*color, 255)
+        assert (unique == [background]).all()
 
 
-@given(width=smalldim, height=smalldim)
-def test_pixel_init_exceptions(width, height):
+    @given(width=smalldim, height=smalldim)
+    def test_with_pixels(self, width, height):
 
-    px = npr.randint(0, 255, (height, width), dtype=np.uint8)
-
-    with pytest.raises(ValueError) as err:
+        px = npr.randint(0, 255, (height, width, 4), dtype=np.uint8)
         img = Image(pixels=px)
 
-    assert 'must have shape:' in str(err.value)
+        assert img.pixels.shape == (height, width, 4)
+        assert (img.pixels == px).all()
 
-    px = npr.randint(0, 255, (height, width, 5), dtype=np.uint8)
+        img = Image.fromarray(px)
 
-    with pytest.raises(ValueError) as err:
-        img = Image(pixels=px)
-
-    assert 'must have shape:' in str(err.value)
+        assert img.pixels.shape == (height, width, 4)
+        assert (img.pixels == px).all()
 
 
-@given(width=smalldim, height=smalldim)
-def test_repr(width, height):
+    def test_with_bad_values(self):
 
-    img = Image(width, height)
-    assert repr(img) == '%ix%i Image' % (width, height)
+        with raises(ValueError) as err:
+            img = Image()
+
+        assert 'specify a width and height' in str(err.value)
+
+        with raises(ValueError) as err:
+            img = Image(width=12)
+
+        assert 'specify a width and height' in str(err.value)
+
+        with raises(ValueError) as err:
+            img = Image(height=12)
+
+        assert 'specify a width and height' in str(err.value)
+
+
+    @given(width=smalldim, height=smalldim)
+    def test_with_bad_pixels(self, width, height):
+
+        px = npr.randint(0, 255, (height, width), dtype=np.uint8)
+
+        with raises(ValueError) as err:
+            img = Image(pixels=px)
+
+        assert 'must have shape:' in str(err.value)
+
+        px = npr.randint(0, 255, (height, width, 5), dtype=np.uint8)
+
+        with raises(ValueError) as err:
+            img = Image(pixels=px)
+
+        assert 'must have shape:' in str(err.value)
+
+
+class TestProperties(object):
+
+    @given(width=smalldim, height=smalldim)
+    def test_repr(self, width, height):
+
+        img = Image(width, height)
+        assert repr(img) == '%ix%i Image' % (width, height)
+
+    @given(width=smalldim, height=smalldim, color=rgb)
+    def test_color_property(self, width, height, color):
+
+        img = Image(width, height, background=color)
+
+        colors = img.color
+        assert colors.shape == (height, width, 3)
+
+        unique = np.unique(colors, axis=0)
+        unique = np.unique(unique, axis=1).flatten()
+        assert unique.shape == (3,)
+
+        assert (unique == [color]).all()
+
+    @given(width=smalldim, height=smalldim, color=rgb)
+    def test_set_color_property(self, width, height, color):
+
+        img = Image(width, height)
+
+        unique = np.unique(img.color, axis=0)
+        unique = np.unique(unique, axis=1).flatten()
+        assert (unique == [255, 255, 255]).all()
+
+        img.color = color
+
+        unique = np.unique(img.color, axis=0)
+        unique = np.unique(unique, axis=1).flatten()
+        assert (unique == color).all()
+
+    def test_color_property_with_bad_values(self):
+
+        img = Image(4, 4)
+
+        unique = np.unique(img.color, axis=0)
+        unique = np.unique(unique, axis=1).flatten()
+        assert (unique == [255, 255, 255]).all()
+
+        with raises(ValueError) as err:
+            img.color = [2, 3]
+
+        assert 'For more details' in str(err.value)
+
+        unique = np.unique(img.color, axis=0)
+        unique = np.unique(unique, axis=1).flatten()
+        assert (unique == [255, 255, 255]).all()
+
+
+    @given(width=smalldim, height=smalldim, color=rgb)
+    def test_red_property(self, width, height, color):
+
+        img = Image(width, height, background=color)
+
+        reds = img.red
+        assert reds.shape == (height, width,)
+
+        unique = np.unique(reds, axis=0)
+        unique = np.unique(unique, axis=1).flatten()
+        assert unique.shape == (1,)
+
+        assert (unique == color[0]).all()
+
+    @given(width=smalldim, height=smalldim, color=colvalue)
+    def test_set_red_property(self, width, height, color):
+
+        img = Image(width, height)
+
+        unique = np.unique(img.red, axis=0)
+        unique = np.unique(unique, axis=1).flatten()
+        assert (unique == [255]).all()
+
+        img.red = color
+
+        unique = np.unique(img.red, axis=0)
+        unique = np.unique(unique, axis=1).flatten()
+        assert (unique == color).all()
+
+    @given(width=smalldim, height=smalldim, color=rgb)
+    def test_green_property(self, width, height, color):
+
+        img = Image(width, height, background=color)
+
+        greens = img.green
+        assert greens.shape == (height, width,)
+
+        unique = np.unique(greens, axis=0)
+        unique = np.unique(unique, axis=1).flatten()
+        assert unique.shape == (1,)
+
+        assert (unique == color[1]).all()
+
+    @given(width=smalldim, height=smalldim, color=colvalue)
+    def test_set_green_property(self, width, height, color):
+
+        img = Image(width, height)
+
+        unique = np.unique(img.green, axis=0)
+        unique = np.unique(unique, axis=1).flatten()
+        assert (unique == [255]).all()
+
+        img.green = color
+
+        unique = np.unique(img.green, axis=0)
+        unique = np.unique(unique, axis=1).flatten()
+        assert (unique == color).all()
+
+    @given(width=smalldim, height=smalldim, color=rgb)
+    def test_blue_property(self, width, height, color):
+
+        img = Image(width, height, background=color)
+
+        blues = img.blue
+        assert blues.shape == (height, width,)
+
+        unique = np.unique(blues, axis=0)
+        unique = np.unique(unique, axis=1).flatten()
+        assert unique.shape == (1,)
+
+        assert (unique == color[2]).all()
+
+    @given(width=smalldim, height=smalldim, color=colvalue)
+    def test_set_blue_property(self, width, height, color):
+
+        img = Image(width, height)
+
+        unique = np.unique(img.blue, axis=0)
+        unique = np.unique(unique, axis=1).flatten()
+        assert (unique == [255]).all()
+
+        img.blue = color
+
+        unique = np.unique(img.blue, axis=0)
+        unique = np.unique(unique, axis=1).flatten()
+        assert (unique == color).all()
+
+    @given(width=smalldim, height=smalldim, color=rgba)
+    def test_alpha_property(self, width, height, color):
+
+        img = Image(width, height, background=color)
+
+        alphas = img.alpha
+        assert alphas.shape == (height, width,)
+
+        unique = np.unique(alphas, axis=0)
+        unique = np.unique(unique, axis=1).flatten()
+        assert unique.shape == (1,)
+
+        assert (unique == color[3]).all()
+
+    @given(width=smalldim, height=smalldim, color=colvalue)
+    def test_set_alpha_property(self, width, height, color):
+
+        img = Image(width, height)
+
+        unique = np.unique(img.alpha, axis=0)
+        unique = np.unique(unique, axis=1).flatten()
+        assert (unique == [255]).all()
+
+        img.alpha = color
+
+        unique = np.unique(img.alpha, axis=0)
+        unique = np.unique(unique, axis=1).flatten()
+        assert (unique == color).all()
 
 
 @given(index=integers(min_value=4, max_value=512))
