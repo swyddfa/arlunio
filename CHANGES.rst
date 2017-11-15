@@ -1,5 +1,13 @@
-[Unreleased]
-============
+v.0.2.3 2017-11-15
+==================
+
+Added
+-----
+
+- Image objects can now be added together, this is simply the sum of the color
+  values at each pixel
+- Image objects can now be subtracted, which is simply the difference of the
+  colour values at each pixel
 
 Changed
 -------

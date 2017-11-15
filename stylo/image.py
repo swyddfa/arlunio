@@ -338,6 +338,72 @@ class Image:
 
         return Image.fromarray(px)
 
+    def __add__(self, other):
+        """
+        Create a new image from two others by adding their pixel values together,
+        bounding above and below by 255 and 0 respectively
+        """
+
+        if not isinstance(other, (Image,)):
+            raise TypeError('ADD id only supported between instances of the '
+                            'Image class')
+
+        if self.pixels.shape != other.pixels.shape:
+            raise ValueError('ADD can only be used with Images that have '
+                             'the same dimensions!')
+
+        height, width, _ = self.pixels.shape
+        ax = self.color
+        bx = other.color
+
+        # As far as I know, this is the only way to add these two together and
+        # capping the result at 255. However it will not be quick
+        def bounded_add(a, b):
+            v = int(a) + int(b)
+            return min(255, v)
+
+        # To make the above work well with arrays we need to vectorize it
+        vbounded_add = np.vectorize(bounded_add, otypes=('uint8',))
+
+        cx = vbounded_add(ax, bx)
+        img = Image(width, height)
+        img.color = cx
+
+        return img
+
+    def __sub__(self, other):
+        """
+        Create a new image from two others by subtracting their pixel values,
+        bounding above and below by 255 and 0 respectively
+        """
+
+        if not isinstance(other, (Image,)):
+            raise TypeError('SUB is only supported between instances of the '
+                            'Image class')
+
+        if self.pixels.shape != other.pixels.shape:
+            raise ValueError('SUB can only be used with Images that have '
+                             'the same dimensions!')
+
+        height, width, _ = self.pixels.shape
+        ax = self.color
+        bx = other.color
+
+        # As far as I know, this is the only way to add these two together and
+        # capping the result at 255. However it will not be quick
+        def bounded_sub(a, b):
+            v = int(a) - int(b)
+            return max(0, v)
+
+        # To make the above work well with arrays we need to vectorize it
+        vbounded_sub = np.vectorize(bounded_sub, otypes=('uint8',))
+
+        cx = vbounded_sub(ax, bx)
+        img = Image(512, 512)
+        img.color = cx
+
+        return img
+
     def __call__(self, f, overwrite_domain=True, use_host_domain=False):
         """
         Implementing this 'magic' method allows us to use img(drawable)
