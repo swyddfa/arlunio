@@ -1,4 +1,13 @@
-v.0.2.3 2017-11-15
+[Unreleased]
+============
+
+Changed
+-------
+
+- ANDing Images (a & b) has been reimplemented so that it hopefully makes more
+  sense. The alpha value of b is used to scale the color values of a.
+
+v0.2.3 2017-11-15
 ==================
 
 Added

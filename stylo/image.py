@@ -322,11 +322,13 @@ class Image:
             raise ValueError('AND can only be used with Images that have '
                              'the same dimensions!')
 
-        ax = self.pixels
-        bx = other.pixels
+        height, width, _ = self.pixels.shape
+        ax = self.color
+        bx = other.alpha
 
         # Scale the pixels of b
         scaled = bx / 255
+        scaled.shape = (height, width, 1)
 
         # Do the multiplication - it's important to note that the entries
         # of cx are now 'float64'
@@ -334,9 +336,11 @@ class Image:
 
         # Create a new numpy array so that the conversion back to uint8 is
         # correct
-        px = np.array(cx, dtype=np.uint8)
+        colors = np.array(cx, dtype=np.uint8)
+        img = Image(width, height)
+        img.color = colors
 
-        return Image.fromarray(px)
+        return img
 
     def __add__(self, other):
         """
