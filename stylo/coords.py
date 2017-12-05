@@ -22,10 +22,9 @@ class Drawable:
 
     def __init__(self, domain=None, mask=None, color=None, name=None):
         self._name = name
-        self._domainfunc = domain
-        self._maskfunc = np.vectorize(mask) if mask is not None else None
-        self._colorfunc = np.vectorize(color, signature='(),()->(4)')\
-                          if color is not None else None
+        self._domain = domain
+        self._mask = mask
+        self._color = color
 
     def __repr__(self):
 
@@ -67,8 +66,8 @@ class Drawable:
         self._name = value
 
     @property
-    def domainfunc(self):
-        if self._domainfunc is None:
+    def domain(self):
+        if self._domain is None:
 
             def default_domain(width, height):
                 xs = np.linspace(-1, 1, width)
@@ -77,94 +76,48 @@ class Drawable:
 
             return default_domain
         else:
-            return self._domainfunc
+            return self._domain
 
-    @domainfunc.setter
-    def domainfunc(self, value):
-        self._domainfunc = value
-
-    # The only purpose of this is to enable the nice decorator syntax
-    # it simply passes the function to the above setter
-    def domain(self, f):
-        self.domainfunc = f
+    @domain.setter
+    def domain(self, value):
+        self._domain = value
 
     @property
-    def maskfunc(self):
-        if self._maskfunc is None:
+    def mask(self):
+        if self._mask is None:
 
-            def default_mask(x, y):
+            def default_mask():
                 return True
 
-            return np.vectorize(default_mask)
+            return default_mask
         else:
-            return self._maskfunc
+            return self._mask
 
-    @maskfunc.setter
-    def maskfunc(self, value):
-        self._maskfunc = np.vectorize(value)
-
-    # The only purpose of this is to enable the nice decorator syntax
-    # it simply passes the function to the above setter
-    def mask(self, f):
-        self.maskfunc = f
+    @mask.setter
+    def mask(self, value):
+        self._mask = value
 
     @property
-    def colorfunc(self):
-        if self._colorfunc is None:
+    def color(self):
+        if self._color is None:
 
-            def default_color(x, y):
-                return np.array([0, 0, 0, 255], dtype=np.uint8)
+            def default_color():
+                return (0, 0, 0)
 
             return default_color
         else:
-            return self._colorfunc
+            return self._color
 
-    @colorfunc.setter
-    def colorfunc(self, f):
-        """
-        This is where we do some kung-fu introspection to try and
-        optimize the code a bit better.
-        """
-        vcode = f.__code__
-        vargs = vcode.co_varnames
-
-        # If the color is independant of any of the arguments
-        # then there is no point in evaluating the function over
-        # every point in the domain, so we may as well save the result
-        # now and save time later
-        if len(vargs) == 0:
-
-            # We will evaluate it and look to see if the result
-            # makes sense to us
-            color = f()
-
-            if not isinstance(color, (tuple,)):
-                raise TypeError('Colors must be represented by a tuple')
-
-            # If the color is an RGB lookalike, convert it to RGBA
-            if len(color) == 3:
-                color = tuple([*color, 255])
-
-            if len(color) != 4:
-                raise ValueError('Colors must be in RGB (r,g,b) '
-                                 'or RGBA (r,g,b,a) format!')
-
-            self._colorfunc = color
-
-        else:
-            self._colorfunc = np.vectorize(f, signature='(),()->(4)')
-
-    # The only purpose of this is to enable the nice decorator syntax
-    # it simply passes the function to the above setter
-    def colormap(self, f):
-        self.colorfunc = f
+    @color.setter
+    def color(self, f):
+        self._color = f
 
 
 def mk_domain(xmin=0, xmax=1, ymin=0, ymax=1):
 
     def domain(width, height):
         xs = np.linspace(xmin, xmax, width)
-        ys = np.linspace(ymin, ymax, height)
+        ys = np.linspace(ymax, ymin, height)
 
         return np.meshgrid(xs, ys)
 

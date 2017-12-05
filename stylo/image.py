@@ -1,9 +1,120 @@
+from inspect import signature
+from warnings import warn
+
 import numpy as np
 import matplotlib.pyplot as plt
 import PIL as P
 
 from .coords import Drawable, mk_domain
+from .codefu import get_parameters
+from .color import is_rgb, is_rgba
 from .objects import TileSet
+
+
+def compute_mask(domain, mask, width, height):
+    """
+    Compute the mask for a given function on a domain.
+
+    Given the domain of some drawable, its mask function
+    and the width and height of the Image, compute the mask
+    and return it.
+
+    Parameters
+    ----------
+    domain: Domain()
+        The function to evaluate
+    width : int
+        The width of the image in pixels
+    height : int
+        The height of the image in pixels
+
+    Returns
+    -------
+    mask : ndarry
+        Returns a (height, width) shaped numpy array of bools
+        indicating which pixels are to be coloured
+    """
+
+    # First inspect the function - does it actually depend on
+    # anything?
+    coordstr = get_parameters(mask)
+
+    if coordstr == ():
+
+        # If it doesn't depend on anything - then it must be True
+        # everywhere, why else would the user define a drawable?
+        return np.full((height, width), True)
+
+    else:
+
+        # Otherwise we have to do the legwork to evaluate this
+        coordstr = (''.join(coordstr)).lower()
+        coords = domain[coordstr, width, height]
+
+        # Vectorise the mask and compute
+        vmask_f = np.vectorize(mask)
+        mask = vmask_f(*coords)
+
+        # TODO: Perhaps we could get even fancier than what we did
+        # above. It *may* be possible to walk the ast of the function
+        # in some cases and replace operations with their numpy equivalent.
+        # That might lead to further performance improvements?
+        return mask
+
+
+def compute_color(domain, mask, color, width, height):
+    """
+    Compute the color of the pixels affected by a drawable
+    """
+
+    # First, inspect the function - does it depend on anything?
+    coordstr = get_parameters(color)
+
+    if coordstr == ():
+
+        # We have to assume that the user wants to use a single
+        # color, so let's evaluate the function and see if we can
+        # deduce the color they wanted to use
+        user_color = color()
+
+        # Try and validate the color
+        if is_rgb(user_color):
+            pixel_color = tuple([*user_color, 255])
+
+        elif is_rgba(user_color):
+            # If its a valid rgba then we don't need to touch it
+            pixel_color = user_color
+        else:
+            # Color is not recognised, default to black
+            message = "Color {!s} ".format(user_color)
+            message += "is not recognised. Using black as a "
+            message += "fallback"
+            warn(message)
+
+            pixel_color = (0, 0, 0, 255)
+
+        # Finally construct the pixel array
+        pixels = np.full((height, width, 4), pixel_color)
+        return pixels[mask]
+
+    else:
+
+        # Otherwise the user's color depends on
+        coordstr = (''.join(coordstr)).lower()
+
+        coords = domain[coordstr, width, height]
+
+        # Don't forget we don't need to compute the color for pixels
+        # not in the drawable!
+        coords = tuple(coord[mask] for coord in coords)
+
+        # Vectorise the color function, bear in mind that the signature
+        # depends on the number of vars in the colour function
+        sig = ','.join('()' for _ in range(len(coords))) + '->(4)'
+        vcolor_f = np.vectorize(color, signature=sig)
+
+        pixels = vcolor_f(coords)
+        return pixels
 
 
 class Image:
@@ -408,7 +519,7 @@ class Image:
 
         return img
 
-    def __call__(self, f, overwrite_domain=True, use_host_domain=False):
+    def __call__(self, drawable, overwrite_domain=True, use_host_domain=False):
         """
         Implementing this 'magic' method allows us to use img(drawable)
         to trigger the 'drawing' of an object onto an arbitrary image.
@@ -441,29 +552,26 @@ class Image:
 
         # Get the domain from the correct place
         if use_host_domain:
-            XS, YS = self._domain(self.width * self.xAA,
-                                  self.height * self.xAA)
+            domain = self._domain
         else:
-            XS, YS = f.domainfunc(self.width * self.xAA,
-                                  self.height * self.xAA)
+            domain = drawable.domain
 
         # Compute the mask
-        mask = f.maskfunc(XS, YS)
+        mask = compute_mask(domain, drawable.mask, self.width * self.xAA,
+                            self.height * self.xAA)
 
-        # When it comes to the color function, there are some cases
-        # to consider. If the 'function' is in fact just a tuple
-        # then we don't have to evaluate it across the entire domain
-        colorfunc = f.colorfunc
+        # Compute the colors
+        colors = compute_color(domain, mask, drawable.color,
+                               self.width * self.xAA,
+                               self.height * self.xAA)
 
-        if isinstance(colorfunc, (tuple,)):
-            self.pixels[mask] = colorfunc
-        else:
-            self.pixels[mask] = colorfunc(XS[mask], YS[mask])
+        # Color the image
+        self.pixels[mask] = colors
 
         # Only now that all is said and done do we overwrite the domain,
         # that way we don't get something halfway between one or the other
-        if overwrite_domain and not use_host_domain:
-            self._domain = f.domainfunc
+        if overwrite_domain:
+            self._domain = domain
 
     def show(self):
         """

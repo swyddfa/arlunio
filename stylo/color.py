@@ -6,6 +6,64 @@ rgb = re.compile('\A[0-9a-fA-F]{6}\Z')
 rgba = re.compile('\A[0-9a-fA-F]{8}\Z')
 
 
+def is_rgba(color):
+    """
+    This function validates if the given argument can behave
+    like an RGB color. That is
+
+    - The argument has a length of 4
+    - Each element is an integer 0-225
+    """
+
+    try:
+        n = len(color)
+
+        if n != 4:
+            return False
+
+        for c in color:
+
+            if not isinstance(c, (int,)):
+                return False
+
+            if not (0 <= c and c <= 255):
+                return False
+
+        return True
+
+    except TypeError:
+        return False
+
+
+def is_rgb(color):
+    """
+    This function validates if the given argument can behave
+    like an RGB color. That is
+
+    - The argument has a length of 3
+    - Each element is an integer 0-225
+    """
+
+    try:
+        n = len(color)
+
+        if n != 3:
+            return False
+
+        for c in color:
+
+            if not isinstance(c, (int,)):
+                return False
+
+            if not (0 <= c and c <= 255):
+                return False
+
+        return True
+
+    except TypeError:
+        return False
+
+
 def hexcolor(hexstr, alpha=False):
     """
     This function converts colours written as a hex code - like
