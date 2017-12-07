@@ -4,15 +4,38 @@ import re
 
 class Domain:
     """
-    How we represent a mathematical domain.
+    How we represent a 2D mathematical domain.
     """
 
     def __init__(self, x_min=-1, x_max=1, y_min=-1, y_max=1):
+
+        if x_min >= x_max:
+            message = 'Invalid range for X domain: '
+            message += '[{}, {}]\n'.format(x_min, x_max)
+            message += 'x_min must be less than x_max'
+
+            raise ValueError(message)
+
+        if y_min >= y_max:
+            message = 'Invalid range for Y domain: '
+            message += '[{}, {}]\n'.format(y_min, y_max)
+            message += 'y_min must be less than y_max'
+
+            raise ValueError(message)
 
         self._xmin = x_min
         self._xmax = x_max
         self._ymin = y_min
         self._ymax = y_max
+
+        # Here we build a dict containing "instructions" on how to get the
+        # values for the desired coordinate values
+        self._coords = {
+            'x': lambda w, h: self._X(w, h),
+            'y': lambda w, h: self._Y(w, h),
+            'r': lambda w, h: self._R(w, h),
+            't': lambda w, h: self._T(w, h),
+        }
 
     def __str__(self):
         return "[{}, {}] x [{}, {}]".format(self._xmin, self._xmax,
@@ -29,26 +52,24 @@ class Domain:
         try:
             coordstr, width, height = key
         except ValueError:
-            raise ValueError('Please specify the coordinate variables you '
-                             'want along with the width and height of the '
-                             'image')
+            message = ('Expected: \'coordstr\', i, j where\n'
+                       'coordstr: a string representing the variables '
+                       'you wanted e.g. \'xy\'\n'
+                       'i: the width of the picture in pixels\n'
+                       'j: the height of the picture in pixels')
 
-        # Here we build a dict containing "instructions" on how to get the
-        # values for the desired coordinate values
-        coords = {
-            'x': lambda w, h: self.X(w, h),
-            'y': lambda w, h: self.Y(w, h),
-            'r': lambda w, h: self.R(w, h),
-            't': lambda w, h: self.T(w, h),
-        }
+            raise ValueError(message)
 
         # Next, we need to validate the coordinate string
-        coordstr = ''.join(coordstr.lower())
-        fmt = re.compile('\A[xyrt]+\Z')
+        coordstr = ''.join(coordstr)
+        fmt = re.compile('\A[' + self.coords + ']+\Z')
 
         if not fmt.match(coordstr):
-            raise ValueError('Coordinate string can only contain one '
-                             'of the following: x, y, r, t')
+            message = 'Coordinate string can only contain one '
+            message += 'of the following: '
+            message += ', '.join(self.coords)
+
+            raise ValueError(message)
 
         # Next just make sure the dimensions are ok
         width_ok = isinstance(width, (int,)) and width > 0
@@ -58,11 +79,15 @@ class Domain:
             raise ValueError('Width and Height must be specified by positive integers!')
 
         # Finally! We can return the coordinates asked for
-        return tuple(coords[c](width, height) for c in coordstr)
+        return tuple(self._coords[c](width, height) for c in coordstr)
+
+    @property
+    def coords(self):
+        return ''.join(self._coords.keys())
 
 
     @property
-    def X(self):
+    def _X(self):
 
         def mk_xs(width, height):
             xs = np.linspace(self._xmin, self._xmax, width)
@@ -71,7 +96,7 @@ class Domain:
         return mk_xs
 
     @property
-    def Y(self):
+    def _Y(self):
 
         def mk_ys(width, height):
             ys = np.linspace(self._ymax, self._ymin, height)
@@ -81,10 +106,10 @@ class Domain:
         return mk_ys
 
     @property
-    def R(self):
+    def _R(self):
 
-        X = self.X
-        Y = self.Y
+        X = self._X
+        Y = self._Y
 
         def mk_rs(width, height):
 
@@ -96,10 +121,10 @@ class Domain:
         return mk_rs
 
     @property
-    def T(self):
+    def _T(self):
 
-        X = self.X
-        Y = self.Y
+        X = self._X
+        Y = self._Y
 
         def mk_ts(width, height):
 

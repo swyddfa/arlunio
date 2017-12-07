@@ -48,7 +48,7 @@ def compute_mask(domain, mask, width, height):
     else:
 
         # Otherwise we have to do the legwork to evaluate this
-        coordstr = (''.join(coordstr)).lower()
+        coordstr = ''.join(coordstr)
         coords = domain[coordstr, width, height]
 
         # Vectorise the mask and compute
@@ -100,7 +100,7 @@ def compute_color(domain, mask, color, width, height):
     else:
 
         # Otherwise the user's color depends on
-        coordstr = (''.join(coordstr)).lower()
+        coordstr = ''.join(coordstr)
 
         coords = domain[coordstr, width, height]
 
