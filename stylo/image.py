@@ -68,7 +68,11 @@ def compute_color(domain, mask, color, width, height):
     """
 
     # First, inspect the function - does it depend on anything?
-    coordstr = get_parameters(color)
+    if color is None:
+        color = lambda: (0, 0, 0, 255)
+        coordstr = ()
+    else:
+        coordstr = get_parameters(color)
 
     if coordstr == ():
 

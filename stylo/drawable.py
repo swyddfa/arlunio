@@ -1,6 +1,7 @@
 import numpy as np
 import re
 
+from collections import namedtuple
 
 def mk_repeater(x_min, x_max):
     """
@@ -120,7 +121,7 @@ class Domain:
         return tuple(self._coords[c](width, height) for c in coordstr)
 
     def __call__(self, f):
-        return Drawable(domain=self, mask=f, name=f.__name__)
+        return Drawable(domain=self, mask=f, color=None, name=f.__name__)
 
     def _gen_coords(self, width, height):
         # Generate the 'vanilla' grid of coordinates
@@ -210,78 +211,4 @@ class Domain:
         return mk_ts
 
 
-class Drawable:
-    """
-    A drawable consists of three things, a mask,
-    a domain, and a colormap.
-
-    The domain is a function, which given the height and
-    width of the image, returns a numpy meshgrid of all the
-    mathematical point in the domain each pixel represents
-
-    The mask, is a function - which given a point in the domain
-    of the drawable returns true or false indicating if that point
-    is part of the drawable
-
-    The colormap is a function - also given points in the domain
-    which returns a numpy array of length 3/4 representing the
-    RGB/RGBA color of that point respectively
-    """
-
-    def __init__(self, domain=None, mask=None, color=None, name=None):
-        self._name = name
-        self._domain = domain
-        self._mask = mask
-        self._color = color
-
-    @property
-    def name(self):
-        if self._name is not None:
-            return self._name
-        else:
-            return ''
-
-    @name.setter
-    def name(self, value):
-        self._name = value
-
-    @property
-    def domain(self):
-        if self._domain is None:
-            return Domain()
-        else:
-            return self._domain
-
-    @domain.setter
-    def domain(self, value):
-        self._domain = value
-
-    @property
-    def mask(self):
-        if self._mask is None:
-
-            def default_mask():
-                return True
-
-            return default_mask
-        else:
-            return self._mask
-
-    @mask.setter
-    def mask(self, value):
-        self._mask = value
-
-    @property
-    def color(self):
-        if self._color is None:
-
-            def default_color():
-                return (0, 0, 0)
-
-            return default_color
-        else:
-            return self._color
-
-    @color.setter
-    def color(self, f):
-        self._color = f
+Drawable = namedtuple('Drawable', ['domain', 'mask', 'color', 'name'])
