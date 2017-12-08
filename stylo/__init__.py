@@ -1,10 +1,10 @@
-from .coords import cartesian, extend_periodically, translate, reflect,\
-                    polar, mk_domain
+from .coords import translate, reflect, mk_domain
 from .color import hexcolor
-from .image import Image, LayeredImage, TiledImage
+from .drawable import Domain, Drawable
+from .image import Image, LayeredImage
 from .interpolate import sampled, Sampler, Channel, Driver,\
                         linear, quadratic_ease_in, quadratic_ease_out
-from .objects import TileSet
+#from .objects import TileSet
 from .prims import between, circle, ellipse, rectangle, square
 from .time import animate
 
