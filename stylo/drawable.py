@@ -1,6 +1,8 @@
 import numpy as np
 import re
 
+from math import sin, cos
+
 from collections import namedtuple
 
 def mk_repeater(x_min, x_max):
@@ -145,6 +147,19 @@ class Domain:
 
         return (X, Y)
 
+    def transform(self, dx=[0, 0], r=0):
+
+        def transformation(X, Y):
+            # The following is the equivalent of doing the
+            # transformation matrix multiplication 'by hand'
+            Xp = X * np.cos(-r) - Y * np.sin(-r) - dx[0]
+            Yp = X * np.sin(-r) + Y * np.cos(-r) - dx[1]
+
+            return (Xp, Yp)
+
+        self._mods.insert(0, transformation)
+
+
     def repeat(self, x_min, x_max, y_min, y_max):
 
         x_repeat = mk_repeater(self._xmin, self._xmax)
@@ -155,7 +170,7 @@ class Domain:
         self._ymin = y_min
         self._ymax = y_max
 
-        self._mods.append(lambda x, y: (x_repeat(x), y_repeat(y)))
+        self._mods.insert(0, lambda x, y: (x_repeat(x), y_repeat(y)))
 
     @property
     def coords(self):
