@@ -6,7 +6,7 @@ from hypothesis import given, assume
 from hypothesis.strategies import floats, tuples, integers, one_of,\
                                   composite
 
-from stylo.domain import Domain
+from stylo.drawable import Domain
 
 
 # Some useful strategies
