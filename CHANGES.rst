@@ -1,11 +1,36 @@
-[Unreleased]
-============
+v0.3.0 2017-12-09
+=================
+
+Added
+-----
+
+- New Domain class, it is responsible for generating the grids of numbers
+  passed to Drawables when they are mapped onto Images. It replaces most of the
+  old decorators.
+- Drawables are now classes! Any drawable is now a class that inherits from
+  Drawable, it brings back much of the old Puppet functionality with some
+  improvements.
+- More tests!
 
 Changed
 -------
 
 - ANDing Images (a & b) has been reimplemented so that it hopefully makes more
   sense. The alpha value of b is used to scale the color values of a.
+- Along with the new Domain system mapping Drawables onto Images has been
+  reworked to hopefully make coordinate calculations faster
+
+Removed
+-------
+
+- stylo/coords.py has been deleted, this means the following functions and
+  decorators no longer exist
+  + mk_domain - Domains are now a class
+  + cartesian (now built into the new Domain object)
+  + polar     (now built into the new Domain object)
+  + extend_periocally (now the .repeat() method on the new Domain object)
+  + translate (now the .transform() method on the new Domain object)
+  + reflect (not yet implemented in the new system)
 
 v0.2.3 2017-11-15
 ==================
