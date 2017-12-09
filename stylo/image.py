@@ -5,7 +5,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import PIL as P
 
-from .coords import mk_domain
 from .codefu import get_parameters
 from .color import is_rgb, is_rgba
 #from .objects import TileSet
@@ -38,6 +37,7 @@ def compute_mask(domain, mask, width, height):
     # First inspect the function - does it actually depend on
     # anything?
     coordstr = get_parameters(mask)
+    coordstr = tuple(s for s in coordstr if s != 'self')
 
     if coordstr == ():
 
@@ -73,6 +73,7 @@ def compute_color(domain, mask, color, width, height):
         coordstr = ()
     else:
         coordstr = get_parameters(color)
+        coordstr = tuple(s for s in coordstr if s != 'self')
 
     if coordstr == ():
 
@@ -558,7 +559,7 @@ class Image:
         if use_host_domain:
             domain = self._domain
         else:
-            domain = drawable.domain
+            domain = drawable.domain()
 
         # Compute the mask
         mask = compute_mask(domain, drawable.mask, self.width * self.xAA,
