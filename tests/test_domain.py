@@ -2,7 +2,7 @@ import numpy as np
 
 from math import sqrt, pi
 from pytest import raises
-from hypothesis import given, assume
+from hypothesis import given, assume, settings, HealthCheck
 from hypothesis.strategies import floats, tuples, integers, one_of,\
                                   composite
 
@@ -77,8 +77,9 @@ class TestInit(object):
 
         assert 'x_min must be less than x_max' in str(err.value)
 
+    @settings(suppress_health_check=[HealthCheck.filter_too_much])
     @given(xmin=real, xmax=real, ymin=real, ymax=real)
-    def test_init_with_bad_xvalues(self, xmin, xmax, ymin, ymax):
+    def test_init_with_bad_yvalues(self, xmin, xmax, ymin, ymax):
 
         assume(ymin >= ymax)
         assume(xmin < xmax)

@@ -4,7 +4,7 @@ import numpy as np
 
 import pytest
 from pytest import raises, fixture
-from hypothesis import given, assume, settings
+from hypothesis import given, assume, settings, HealthCheck
 from hypothesis.strategies import composite, integers,\
                                   tuples, lists, floats,\
                                   text
@@ -548,6 +548,7 @@ class TestConstruct(object):
 
 
     @pytest.mark.slow
+    @settings(suppress_health_check=[HealthCheck.filter_too_much])
     @given(intervals=lists(data(), average_size=12),
            offsets=lists(pveint, min_size=1, average_size=12))
     def test_with_many_offset_intervals(self, intervals, offsets):
