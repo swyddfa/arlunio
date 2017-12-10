@@ -7,7 +7,7 @@ import PIL as P
 
 from .codefu import get_parameters
 from .color import is_rgb, is_rgba
-#from .objects import TileSet
+# from .objects import TileSet
 
 
 def compute_mask(domain, mask, width, height):
