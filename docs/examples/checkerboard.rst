@@ -8,16 +8,18 @@ We a can represent a basic checkerboard pattern by defining a function on
 
 .. testcode:: small-checker
 
-    from stylo import Image, cartesian
+    from stylo import Image, Drawable
 
-    @cartesian()
-    def checker(x, y):
-        return x * y > 0
+    class Checker(Drawable):
+
+        def mask(self, x, y):
+            return x * y > 0
 
 Applying this then to an Image returns the following result
 
 .. testcode:: small-checker
 
+    checker = Checker()
     img = Image(512, 512)
     img(checker)
 
@@ -38,12 +40,17 @@ definition.
 
 .. testcode:: large-checker
 
-    from stylo import Image, cartesian, extend_periodically
+    from stylo import Image, Domain, Drawable
 
-    @cartesian(X=[-4, 4], Y=[-4, 4])
-    @extend_periodically()
-    def checker(x, y):
-        return x * y > 0
+    class Checker(Drawable):
+
+        def domain(self):
+            domain = Domain()
+            domain.repeat(-4, 4, -4, 4)
+            return domain
+
+        def mask(self, x, y):
+            return x * y > 0
 
 You specify what domain your original pattern is defined on to the
 :code:`extend_periodically` (which defaults to :math:`[-1, 1] \times [-1, 1]`)
@@ -52,6 +59,7 @@ result to an image as normal we get
 
 .. testcode:: large-checker
 
+    checker = Checker()
     img = Image(512, 512)
     img(checker)
 

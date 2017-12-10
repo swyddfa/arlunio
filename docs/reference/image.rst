@@ -96,8 +96,8 @@ domain :math:`[0, 1] \times [0, 1]` with an Image we can do the following
 
 .. doctest:: img-creation
 
-   >>> from stylo import mk_domain
-   >>> Image(512, 512, domain=mk_domain(0, 1, 0, 1))
+   >>> from stylo import Domain
+   >>> Image(512, 512, domain=Domain(0, 1, 0, 1))
    512x512 Image
 
 
@@ -289,9 +289,9 @@ created using the :code:`mk_domain` function
 
 .. doctest:: img-prop
 
-    >>> from stylo import mk_domain
+    >>> from stylo import Domain
     >>> img = Image(1920, 1080)
-    >>> img.domain = mk_domain(0, 1, 0, 1)
+    >>> img.domain = Domain(0, 1, 0, 1)
 
 This associates the domain :math:`[0, 1] \times [0, 1]` with the image
 :code:`img`. The domain produced by the call to :code:`mk_domain` is
