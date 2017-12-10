@@ -516,7 +516,7 @@ class TestConstruct(object):
         assert mask.all()
 
     @pytest.mark.slow
-    @settings(deadline=None)
+    @settings(max_examples=50, deadline=2000)
     @given(intervals=lists(data(), average_size=12))
     def test_with_many_sequential_intervals(self, intervals):
 

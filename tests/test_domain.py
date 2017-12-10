@@ -40,6 +40,7 @@ class TestInit(object):
             assert item.__code__.co_argcount == 2
 
 
+    @settings(suppress_health_check=[HealthCheck.filter_too_much])
     @given(xmin=real, xmax=real, ymin=real, ymax=real)
     def test_init_with_values(self, xmin, xmax, ymin, ymax):
 
@@ -66,6 +67,7 @@ class TestInit(object):
             assert callable(item)
             assert item.__code__.co_argcount == 2
 
+    @settings(suppress_health_check=[HealthCheck.filter_too_much])
     @given(xmin=real, xmax=real, ymin=real, ymax=real)
     def test_init_with_bad_xvalues(self, xmin, xmax, ymin, ymax):
 
