@@ -538,10 +538,6 @@ class TestConstruct(object):
         start_index = 0
 
         for i in range(len(indices)):
-            print("Index: {}".format(indices[i]))
-            print("Channel: {}".format(channel[:indices[i]]))
-            print("Interval: {}".format(intervals[i]))
-
             mask = channel[start_index:indices[i]] == intervals[i]
             start_index = indices[i]
             assert mask.all()
