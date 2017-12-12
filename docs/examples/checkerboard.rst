@@ -33,10 +33,9 @@ Applying this then to an Image returns the following result
     Don't forget to call :code:`img.show()` or :code:`img.save()`!
 
 But say that we wanted to create a chess board. Instead of trying to redefine
-the pattern so that it repeats we can let :code:`stylo` do that for us using
-the :code:`extend_periodically` decorator. To use it we simply put the
-decorator in between our :code:`@cartesian` decorator and our function
-definition.
+the :code:`mask` method so that it repeats we can modify the `Domain`_ that the
+`Drawable`_ object uses. By getting the domain to repeat we can achieve the
+desired effect without having to modify the :code:`mask` method.
 
 .. testcode:: large-checker
 
@@ -52,10 +51,6 @@ definition.
         def mask(self, x, y):
             return x * y > 0
 
-You specify what domain your original pattern is defined on to the
-:code:`extend_periodically` (which defaults to :math:`[-1, 1] \times [-1, 1]`)
-and provide a larger domain to the :code:`@cartesian`. Then by passing the
-result to an image as normal we get
 
 .. testcode:: large-checker
 
@@ -66,3 +61,7 @@ result to an image as normal we get
 .. image:: /_static/examples/large-checker.png
     :width: 45%
     :align: center
+
+
+.. _Domain: ../reference/domain.html
+.. _Drawable: ../reference/drawable.html
