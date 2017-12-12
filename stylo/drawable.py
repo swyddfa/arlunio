@@ -42,7 +42,23 @@ def mk_repeater(x_min, x_max):
 
 class Domain:
     """
-    How we represent a 2D mathematical domain.
+    A representation of a 2D spatial domain of the form
+    :math:`[a, b] \\times [c, d]`.
+
+    The main purpose of the Domain object is to easily map a
+    continuous mathematical domain onto a discrete grid of pixels
+    using different coordinate systems. Currently the coordinate
+    systems supported are the cartesian :math:`(x, y)` and polar
+    :math:`(r, t)` coordinate systems. Where:
+
+    - :math:`x`: Is the horizontal left/right distance of a point from
+      the origin
+    - :math:`y`: Is the vertical up/down distance of a point from the
+      origin
+    - :math:`r`: The straight line distance of a point from the origin
+    - :math:`t`: The angle (in radians) the point makes with the positive
+      :math:`x`-axis.
+
     """
 
     def __init__(self, x_min=-1, x_max=1, y_min=-1, y_max=1):
@@ -79,12 +95,8 @@ class Domain:
             't': lambda w, h: self._T(w, h),
         }
 
-    def __str__(self):
-        return "[{}, {}] x [{}, {}]".format(self._xmin, self._xmax,
-                                            self._ymin, self._ymax)
-
     def __repr__(self):
-        return "Domain(x_min={},x_max={},y_min={},y_max{})".format(self._xmin,
+        return "[{}, {}] x [{}, {}]".format(self._xmin,
                self._xmax, self._ymin, self._ymax)
 
     def __getitem__(self, key):
@@ -148,13 +160,34 @@ class Domain:
 
         return (X, Y)
 
-    def transform(self, dx=[0, 0], r=0):
+    def transform(self, dX=(0, 0), r=0):
+        """
+        Apply a linear transformation to the domain.
+
+        A linear transformation is made up of two things a translation
+        and a rotation. The translation can be thought of as taking a sheet
+        of paper and sliding it a certain distance in the x-direction
+        (:math:`dx`) and a certain distance in the y-direction (:math:`dy`).
+        The rotation can be thought of as sticking a pin in the centre of
+        the paper and rotating it anti clockwise.
+
+        Parameters
+        ----------
+        dX : (float, float), optional
+            The translation to apply to the domain in the form
+            :math:`(dx, dy)`.
+            Deafult: (0.0, 0.0)
+        r : float, optional
+            The rotation angle to apply to the domain, measured in
+            `radians <https://en.wikipedia.org/wiki/Radian>`_
+            Default: 0.0
+        """
 
         def transformation(X, Y):
             # The following is the equivalent of doing the
             # transformation matrix multiplication 'by hand'
-            Xp = X * np.cos(-r) - Y * np.sin(-r) - dx[0]
-            Yp = X * np.sin(-r) + Y * np.cos(-r) - dx[1]
+            Xp = X * np.cos(-r) - Y * np.sin(-r) - dX[0]
+            Yp = X * np.sin(-r) + Y * np.cos(-r) - dX[1]
 
             return (Xp, Yp)
 
@@ -162,6 +195,27 @@ class Domain:
 
 
     def repeat(self, x_min, x_max, y_min, y_max):
+        """
+        Extend the domain into a larger one by repeating the values
+        contained in the original domain.
+
+        For example if you have a domain :math:`[0, 1] \\times [0, 1]`
+        and extend it to the domain :math:`[0, 2] \\times [0, 2]` you will
+        end up with a :math:`2 \\times 2` grid with each grid square a
+        copy of the original domain.
+
+        Parameters
+        ----------
+        x_min: float
+            The minimum x value of the larger domain.
+        x_max: float
+            The maximum x value of the larger domain.
+        y_min: float
+            The minimum y value of the larger domain.
+        y_max: float
+            The maximum y value of the larger domain.
+        """
+
 
         x_repeat = mk_repeater(self._xmin, self._xmax)
         y_repeat = mk_repeater(self._ymin, self._ymax)
