@@ -398,8 +398,9 @@ class MetaDrawable(type):
 
 class Drawable(metaclass=MetaDrawable):
 
-    def __init__(self):
+    def __init__(self, domain=None):
         self._current_time = 0
+        self._domain = Domain() if domain is None else domain
 
     def __getitem__(self, key):
 
@@ -408,8 +409,18 @@ class Drawable(metaclass=MetaDrawable):
 
         return self
 
+    @property
     def domain(self):
-        return Domain()
+        return self._domain
+
+    @domain.setter
+    def domain(self, value):
+
+        if not isinstance(value, (Domain,)):
+            raise TypeError('The domain property can only be set to an '
+                            'instance of a Domain object!')
+
+        self._domain = value
 
     def mask(self):
         return True

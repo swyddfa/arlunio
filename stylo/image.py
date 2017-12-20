@@ -559,7 +559,7 @@ class Image:
         if use_host_domain:
             domain = self._domain
         else:
-            domain = drawable.domain()
+            domain = drawable.domain
 
         # Compute the mask
         mask = compute_mask(domain, drawable.mask, self.width * self.xAA,
