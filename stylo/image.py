@@ -124,11 +124,14 @@ def compute_color(domain, mask, color, width, height):
 
 class Image:
     """
-    Our base representation of image data, perfectly functional for the
-    majority of use cases.
+    Base image type.
 
-    pixels : ndarry
-        The numpy array holding the raw image data
+    Currently stylo only supports one type of Image, that is an
+    Image with an 8-bit RGBA color scheme. Each pixel of the image
+    is represented by four numbers between 0-255.
+
+    Internally this is represented by a numpy array.
+
     """
 
     def __init__(self, width=None, height=None, domain=None,

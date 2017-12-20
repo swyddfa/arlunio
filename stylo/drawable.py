@@ -100,6 +100,31 @@ class Domain:
                self._xmax, self._ymin, self._ymax)
 
     def __getitem__(self, key):
+        """
+        Enables :code:`obj[...]` syntax for Domain objects.
+
+        This allows the user to map the domain onto discrete
+        2D grids with the main application being the mapping of
+        Drawables onto Image objects.
+
+        Parameters
+        ----------
+        key : coordstr, width, height
+
+            :code:`coordstr` is a string containing the coordinate variable
+            you want values generated for e.g. 'rt' for polar coordinates
+
+            :code:`width`, a positive integer is the width of the grid
+
+            :code:`height`, a positive integer is the height of the grid
+
+        Returns
+        -------
+        coords: tuple(ndarray)
+            A tuple of numpy ndarrays, one for each variable requested in
+            coordstr. Each array will have shape :code:`(height, width)` to
+            match the underlying format of Image objects
+        """
 
         # We need to make sure we get the three things we expect from
         # the user
@@ -306,6 +331,10 @@ def make_property(name):
 
     # Do the right thing depending on the type of value given
     def setter(self, value):
+
+        if isinstance(value, (int, float)):
+            value = make_sampler(name, value)
+
         self.__setattr__('_' + name, value)
 
     return property(fget=getter, fset=setter)
@@ -313,29 +342,30 @@ def make_property(name):
 
 class MetaDrawable(type):
     """
-    The MetaDrawable constructs Drawables.
+    The :code:`MetaDrawable` constructs :code:`Drawables`.
 
     Each Drawable has an internal clock which can be used when animating
     various aspects of the shape. However this clock should be nearly
     invisible to the user and the clock should be applied automatically
     when needed. Hopefully this means that this metaclass will enable the
-    following use cases.
+    following use case.
 
-    class Pacman(Drawable):
+    .. code-block:: python
 
-        open = 0.5
+        class Pacman(Drawable):
+            open = 0.5
 
-        def mask(self, r, t):
-            return r <= 0.8 and not abs(t) < self.open * 0.6
+            def mask(self, r, t):
+                return r <= 0.8 and not abs(t) < self.open * 0.6
 
-        def color():
-            return (255, 255, 0)
+            def color():
+                return (255, 255, 0)
 
-    In the example "open" is a 'tweakable' and upon creation of the pacman
-    class will be converted to a Sampler behind the scenes and stored in
+    In the example :code:`open` is a 'tweakable' and upon creation of the
+    pacman class will be converted to a Sampler behind the scenes and stored in
     self._open. Additionally a property object will be created that will
-    automatically index the Sampler object with the current internal time
-    of the drawable.
+    automatically index the Sampler object with the current internal time of
+    the drawable.
 
     This way it allows the user to write the mask and color code as if
     it was a single value. By changing the Sampler object in the Drawable

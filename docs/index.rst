@@ -1,18 +1,12 @@
-Stylo: Documentation
-========================
+About Stylo
+===========
+
+Welcome to the documentation for stylo!
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+    :hidden:
 
-   examples/index.rst
-   reference/index.rst
-
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+    users
+    extending
+    developing
+    maths
