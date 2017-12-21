@@ -545,24 +545,28 @@ class TestConstruct(object):
 
     @pytest.mark.slow
     @settings(max_examples=50, suppress_health_check=[HealthCheck.filter_too_much])
-    @given(intervals=lists(data(), average_size=12),
-           offsets=lists(pveint, min_size=1, average_size=12))
+    @given(intervals=lists(data(), min_size=1, average_size=12),
+           offsets=lists(pveint, min_size=1, average_size=24))
     def test_with_many_offset_intervals(self, intervals, offsets):
 
-        assume(len(intervals) == len(offsets))
+        # We don't need an exact match, just enough to cover the
+        # intervals
+        assume(len(intervals) <= len(offsets))
 
         segments = []
         indices = []
         frame = 0
+        offset_length = 0
 
         for offset, interval in zip(offsets, intervals):
             frame += offset
+            offset_length += offset
             indices.append(frame)
             segments.append((frame, interval))
             frame += len(interval)
             indices.append(frame)
 
-        length = sum(map(len, intervals)) + sum(offsets)
+        length = sum(map(len, intervals)) + offset_length
 
         channel = Channel(segments)
         assert len(channel) == length
