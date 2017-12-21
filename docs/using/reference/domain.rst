@@ -42,6 +42,7 @@ Domains can be modified in a number of ways.
     from stylo import Domain
 
 .. automethod:: stylo.drawable.Domain.repeat
+    :noindex:
 
 .. doctest:: dom-modifiers
 
@@ -58,6 +59,7 @@ For an example of this modifier in action please see the `Checkerboard`_
 example.
 
 .. automethod:: stylo.drawable.Domain.transform
+    :noindex:
 
 .. doctest:: dom-modifiers
 
@@ -65,10 +67,10 @@ example.
     >>> domain.transform((0,2), r=0)
     >>> domain['y', 5, 5]
     (array([[-1.  , -1.  , -1.  , -1.  , -1.  ],
-            [-1.25, -1.25, -1.25, -1.25, -1.25],
-            [-1.5 , -1.5 , -1.5 , -1.5 , -1.5 ],
-            [-1.75, -1.75, -1.75, -1.75, -1.75],
-            [-2.  , -2.  , -2.  , -2.  , -2.  ]]),)
+           [-1.25, -1.25, -1.25, -1.25, -1.25],
+           [-1.5 , -1.5 , -1.5 , -1.5 , -1.5 ],
+           [-1.75, -1.75, -1.75, -1.75, -1.75],
+           [-2.  , -2.  , -2.  , -2.  , -2.  ]]),)
 
 
 .. _Checkerboard: ../examples/checkerboard.html

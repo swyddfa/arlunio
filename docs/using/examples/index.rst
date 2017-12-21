@@ -1,19 +1,11 @@
 Examples
 ========
 
-Here you can find a number of examples showing you what is possible!
+Here you can find a number of examples showcasing different features and
+concepts from stylo
 
 
 .. toctree::
    :maxdepth: 2
 
    checkerboard.rst
-
-
-How To...
-=========
-
-.. toctree::
-   :maxdepth: 2
-
-   invert-color.rst

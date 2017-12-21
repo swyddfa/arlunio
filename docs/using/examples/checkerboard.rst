@@ -6,7 +6,7 @@ We a can represent a basic checkerboard pattern by defining a function on
 :math:`[-1, 1] \times [-1, 1]` that returns :code:`True` if the product of
 :math:`x` and :math:`y` is positive
 
-.. testcode:: small-checker
+.. testcode:: checker
 
     from stylo import Image, Drawable
 
@@ -15,9 +15,11 @@ We a can represent a basic checkerboard pattern by defining a function on
         def mask(self, x, y):
             return x * y > 0
 
-Applying this then to an Image returns the following result
+If an instance of a :code:`Drawable` is created without specifying a
+:code:`Domain` then it will automatically use a :math:`[-1, 1] \times [-1, 1]`
+domain.
 
-.. testcode:: small-checker
+.. testcode:: checker
 
     checker = Checker()
     img = Image(512, 512)
@@ -32,31 +34,27 @@ Applying this then to an Image returns the following result
 
     Don't forget to call :code:`img.show()` or :code:`img.save()`!
 
-But say that we wanted to create a chess board. Instead of trying to redefine
-the :code:`mask` method so that it repeats we can modify the `Domain`_ that the
-`Drawable`_ object uses. By getting the domain to repeat we can achieve the
-desired effect without having to modify the :code:`mask` method.
+But say that we wanted to create a chess board, then we would need to have the
+pattern repeat. One approach would be to try and redefine the :code:`mask`
+method of the :code:`Checker` drawable. Alternatively we could modify the
+domain we apply to the drawable.
 
-.. testcode:: large-checker
+.. testcode:: checker
 
-    from stylo import Image, Domain, Drawable
+    from stylo import Domain
 
-    class Checker(Drawable):
+    grid = Domain()
+    grid.repeat(-4, 4, -4, 4)
 
-        def domain(self):
-            domain = Domain()
-            domain.repeat(-4, 4, -4, 4)
-            return domain
-
-        def mask(self, x, y):
-            return x * y > 0
-
-
-.. testcode:: large-checker
-
-    checker = Checker()
+    checker = Checker(domain=grid)
     img = Image(512, 512)
     img(checker)
+
+First we create a new instance of a :code:`Domain` object, which when not given
+any arguments will default to :math:`[-1, 1] \times [-1, 1]`. Then by using the
+:code:`repeat` method we simply tell the domain to extend itself to
+:math:`[-4, 4] \times [-4, 4]` and repeat itself. This gives us a :math:`4
+\times 4` grid with each grid square being a copy of the original pattern.
 
 .. image:: /_static/examples/large-checker.png
     :width: 45%
