@@ -75,11 +75,14 @@ class TestProperties(object):
     @pytest.mark.slow
     @settings(suppress_health_check=[HealthCheck.filter_too_much])
     @given(segments=lists(data(), min_size=1, average_size=4),
-           names=lists(names, min_size=1, average_size=4))
+           names=lists(names, min_size=1, average_size=8))
     def test_len_property(self, names, segments):
 
+        # Names must be unique
         assume(len(names) == len(set(names)))
-        assume(len(segments) == len(names))
+
+        # We only need enough names to cover the segments
+        assume(len(segments) <= len(names))
         lengths = []
 
         driver = Driver()
