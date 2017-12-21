@@ -544,7 +544,7 @@ class TestConstruct(object):
 
 
     @pytest.mark.slow
-    @settings(suppress_health_check=[HealthCheck.filter_too_much])
+    @settings(max_examples=50, suppress_health_check=[HealthCheck.filter_too_much])
     @given(intervals=lists(data(), average_size=12),
            offsets=lists(pveint, min_size=1, average_size=12))
     def test_with_many_offset_intervals(self, intervals, offsets):

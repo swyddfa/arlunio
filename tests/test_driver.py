@@ -4,7 +4,7 @@ import numpy as np
 from stylo.interpolate import Driver, Channel
 from math import floor
 from pytest import raises
-from hypothesis import given, assume
+from hypothesis import given, assume, settings, HealthCheck
 from hypothesis.strategies import text, lists, integers,\
                                   composite, floats
 
@@ -73,6 +73,7 @@ class TestProperties(object):
         assert 'must be larger than zero' in str(err.value)
 
     @pytest.mark.slow
+    @settings(suppress_health_check=[HealthCheck.filter_too_much])
     @given(segments=lists(data(), min_size=1, average_size=4),
            names=lists(names, min_size=1, average_size=4))
     def test_len_property(self, names, segments):
