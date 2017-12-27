@@ -1,3 +1,21 @@
+[Unreleased]
+============
+
+Added
+-----
+
+- A new Path object which should come in very useful for line art!
+- Drawables now have a calculate() that is called each time their internal
+  clock is changed, allowing users to move out computations that don't change
+  on a frame by frame basis from their "hot" mask and color functions. When
+  used right this should provide users with marginal speed increases in
+  animations
+- A new domain keyword argument to the @sampled decorator
+- Lots of new documentation!!
+
+Changed
+-------
+
 v0.3.0 2017-12-09
 =================
 
