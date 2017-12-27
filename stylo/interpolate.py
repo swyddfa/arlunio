@@ -543,13 +543,13 @@ class Sampler:
         return plt.scatter(points, self._data, c='k')
 
 
-def sampled(num_points=25):
+def sampled(num_points=25, domain=(0, 1)):
 
     def sampler(f):
 
         name = f.__name__
 
-        return Sampler(f, num_points=num_points, name=name)
+        return Sampler(f, num_points=num_points, name=name, domain=domain)
 
     return sampler
 
