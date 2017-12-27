@@ -431,11 +431,13 @@ class Drawable(metaclass=MetaDrawable):
     def __init__(self, domain=None):
         self._current_time = 0
         self._domain = Domain() if domain is None else domain
+        self.calculate()
 
     def __getitem__(self, key):
 
         if isinstance(key, (int,)) and key >= 0:
             self._current_time = key
+            self.calculate()
 
         return self
 
@@ -451,6 +453,9 @@ class Drawable(metaclass=MetaDrawable):
                             'instance of a Domain object!')
 
         self._domain = value
+
+    def calculate(self):
+        return
 
     def mask(self):
         return True
