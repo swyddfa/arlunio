@@ -259,6 +259,10 @@ class Path:
     By giving this object the functions x(t), y(t), a thickness that we
     will call pt and the domain in which we take values for t this object
     provides you with an easy method of drawing plane paths!
+
+    pt, optionally can also be a function in t, useful if you want to use
+    stroke patterns
+
     """
 
     def __init__(self, Xt, Yt, pt=0.02, domain=(0,1)):
@@ -304,9 +308,13 @@ class Path:
         if not (a <= t <= b):
             return False
 
+        # Handle the case where pt is a function, by calling it
+        # with the t we have found
+        thickness = self._pt(t) if callable(self._pt) else self._pt
+
         # Now we will check that the same t also gets out curve to within
         # pt of the y coordinate
-        if abs(y - self._Yt(t)) <= self._pt:
+        if abs(y - self._Yt(t)) <= thickness:
             return True
 
         # I guess it didn't work then
