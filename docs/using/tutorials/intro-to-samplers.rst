@@ -44,7 +44,7 @@ passing arguments to the :code:`@sampled` decorator.
     def x_squared(x):
         return x*x
 
-    x_squared.show()
+    # x_squared.show()
 
 .. figure:: /_static/using/tutorials/sampler-plot-2.png
     :align: center
