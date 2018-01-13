@@ -265,7 +265,7 @@ class Path:
 
     """
 
-    def __init__(self, Xt, Yt, pt=0.02, domain=(0,1)):
+    def __init__(self, Xt, Yt, pt=0.02, domain=(0, 1)):
         self._Xt = Xt
         self._Yt = Yt
         self._pt = pt

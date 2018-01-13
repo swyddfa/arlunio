@@ -11,10 +11,18 @@ Added
   used right this should provide users with marginal speed increases in
   animations
 - A new domain keyword argument to the @sampled decorator
-- Lots of new documentation!!
+- Lot's of documentation!
+- More tests!
 
 Changed
 -------
+
+- The structure of the documentation has been completely revamped. There are
+  now three main sections waiting to be fleshed out.
+  + Using Stylo: Simply how to use the parts of the library
+  + Extending Stylo: How to start building on what stylo offers to create your
+    own objects
+  + Developing Stylo: What you need to know to work on stylo.
 
 v0.3.0 2017-12-09
 =================

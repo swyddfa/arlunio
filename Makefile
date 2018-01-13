@@ -11,4 +11,4 @@ lint:
 	flake8 stylo/
 
 doctest:
-	cd docs && make doctest && cd ..
+	cd docs && make doctest && rm *.png && cd ..

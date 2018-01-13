@@ -1,11 +1,14 @@
 from pytest import raises
-from hypothesis import given
-from hypothesis.strategies import integers, tuples
+from hypothesis import given, assume, settings, HealthCheck
+from hypothesis.strategies import integers, tuples, floats
 
 
 import numpy as np
+import numpy.testing as npt
 import numpy.random as npr
-from stylo.image import Image
+from stylo.drawable import Domain
+from stylo.images import Image
+from stylo.images.image import compute_mask, compute_color
 
 
 dimension = integers(min_value=2, max_value=5000)
@@ -13,6 +16,9 @@ smalldim = integers(min_value=2, max_value=256)
 colvalue = integers(min_value=0, max_value=255)
 rgb = tuples(colvalue, colvalue, colvalue)
 rgba = tuples(colvalue, colvalue, colvalue, colvalue)
+
+real = floats(min_value=-1e6, max_value=1e6)
+interval = tuples(real, real).filter(lambda t: t[0] < t[1])
 
 
 class TestInit(object):
@@ -315,3 +321,152 @@ def test_getitem_pixels(index):
 
     assert (img.pixels[:index, :index] == sliced_both.pixels).all()
     assert (img.pixels[index:, index:] == (255, 255, 255, 255)).all()
+
+
+class TestComputeMask(object):
+
+
+    @given(width=smalldim, height=smalldim,
+           Xs=interval, Ys=interval)
+    def test_with_no_arg_mask(self, Xs, Ys, width, height):
+
+        # It shouldn't matter what our function returns
+        # since it takes no arguments it should be assumed to
+        # be true everywhere
+        domain = Domain(Xs[0], Xs[1], Ys[0], Ys[1])
+        mask = compute_mask(domain, lambda: 'Cheese', width, height)
+
+        assert mask.shape == (height, width)
+        assert mask.all()
+
+    @given(width=smalldim, height=smalldim,
+            Xs=interval, Ys=interval)
+    def test_with_mask_in_x(self, Xs, Ys, width, height):
+        assume(width > 10)
+
+        domain = Domain(Xs[0], Xs[1], Ys[0], Ys[1])
+        midpoint = (Xs[0] + Xs[1]) / 2
+        mask = compute_mask(domain, lambda x: x < midpoint, width, height)
+
+        assert mask.shape == (height, width)
+
+        # Since this mask only varied in X each row should be identical
+        unique = np.unique(mask, axis=0)
+        assert unique.shape == (1, width)
+
+        # Furthermore, since we wanted all x less than the midpoint, there
+        # should be an equal measure of True to False. Which means the ratio
+        # of number numbers of trues to the length should be close to 1/2
+        unique.shape = (width,)
+        trues = unique[unique & True]
+
+        assert round(len(trues)/len(unique), 1) == 0.5
+
+
+    @given(width=smalldim, height=smalldim,
+           Xs=interval, Ys=interval)
+    def test_with_mask_in_y(self, Xs, Ys, width, height):
+        assume(height > 10)
+
+        domain = Domain(Xs[0], Xs[1], Ys[0], Ys[1])
+        midpoint = (Ys[0] + Ys[1]) / 2
+        mask = compute_mask(domain, lambda y: y < midpoint, width, height)
+
+        assert mask.shape == (height, width)
+
+        # Since the mask only varied in y, each column should be identical
+        unique = np.unique(mask, axis=1)
+        assert unique.shape == (height, 1)
+
+        # Furthermore since we asked for all y less than the midpoint, there
+        # should be an equal measure of True to False. This means that the ratio
+        # of trues to the length should be close to 1/2
+        unique.shape = (height,)
+        trues = unique[unique & True]
+
+        assert round(len(trues)/len(unique), 1) == 0.5
+
+        # TODO: Come up with a nice way to test functions in r and t
+
+
+class TestComputeColor(object):
+
+
+    @given(width=smalldim, height=smalldim,
+           mask_width=smalldim, mask_height=smalldim,
+           Xs=interval, Ys=interval)
+    def test_when_color_is_none(self, Xs, Ys, width, height, mask_width, mask_height):
+
+        assume(width - mask_width >= 1)
+        assume(height - mask_height >= 1)
+
+        domain = Domain(Xs[0], Xs[1], Ys[0], Ys[1])
+
+        mask = np.full((height, width), False)
+        mask[:mask_height, :mask_width] = True
+        colormap = compute_color(domain, mask, None, width, height)
+
+        # Doing pixels[mask] messes with the shape of the arrays
+        # so we end up with (w*h, 4) arrays
+        assert colormap.shape == (mask_height * mask_width, 4)
+
+        # It should all be one colour
+        unique = np.unique(colormap, axis=0)
+        assert unique.shape == (1, 4)
+        unique.shape = (4,)
+
+        # And as we specified None as the colour it should default to black
+        assert (unique == (0, 0, 0, 255)).all()
+
+    @settings(suppress_health_check=[HealthCheck.filter_too_much])
+    @given(width=smalldim, height=smalldim,
+           mask_width=smalldim, mask_height=smalldim,
+           Xs=interval, Ys=interval, color=rgb)
+    def test_when_color_no_args_rgb(self, Xs, Ys, width, height,
+                                    mask_width, mask_height, color):
+
+        assume(width - mask_width >= 1)
+        assume(height - mask_height >= 1)
+
+        domain = Domain(Xs[0], Xs[1], Ys[0], Ys[1])
+
+        mask = np.full((height, width), False)
+        mask[:mask_height, :mask_width] = True
+        colormap = compute_color(domain, mask, lambda: color, width, height)
+
+        assert colormap.shape == (mask_height * mask_width, 4)
+
+        # It again should all be one color
+        unique = np.unique(colormap, axis=0)
+        assert unique.shape == (1, 4)
+        unique.shape = (4,)
+
+        # And the color should be as specified with the added alpha channel
+        assert (unique == (*color, 255)).all()
+
+
+    @settings(suppress_health_check=[HealthCheck.filter_too_much])
+    @given(width=smalldim, height=smalldim,
+           mask_width=smalldim, mask_height=smalldim,
+           Xs=interval, Ys=interval, color=rgba)
+    def test_when_color_no_args_rgba(self, Xs, Ys, width, height,
+                                    mask_width, mask_height, color):
+
+        assume(width - mask_width >= 1)
+        assume(height - mask_height >= 1)
+
+        domain = Domain(Xs[0], Xs[1], Ys[0], Ys[1])
+
+        mask = np.full((height, width), False)
+        mask[:mask_height, :mask_width] = True
+        colormap = compute_color(domain, mask, lambda: color, width, height)
+
+        assert colormap.shape == (mask_height * mask_width, 4)
+
+        # It again should all be one color
+        unique = np.unique(colormap, axis=0)
+        assert unique.shape == (1, 4)
+        unique.shape = (4,)
+
+        # And the color should be as specified
+        assert (unique == color).all()

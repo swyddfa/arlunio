@@ -1,11 +1,11 @@
 Image
 =====
 
-.. autoclass:: stylo.image.Image
+.. autoclass:: stylo.images.Image
     :members:
     :private-members:
     :special-members:
 
-.. autofunction:: stylo.image.compute_mask
+.. autofunction:: stylo.images.image.compute_mask
 
-.. autofunction:: stylo.image.compute_color
+.. autofunction:: stylo.images.image.compute_color
