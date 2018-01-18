@@ -4,7 +4,6 @@ from hypothesis.strategies import integers, tuples, floats
 
 
 import numpy as np
-import numpy.testing as npt
 import numpy.random as npr
 from stylo.drawable import Domain
 from stylo.images import Image
@@ -35,7 +34,6 @@ class TestInit(object):
         assert unique.shape == (1,)
         assert (unique == [(255, 255, 255, 255)]).all()
 
-
     @given(width=smalldim, height=smalldim, background=rgba)
     def test_with_width_height_rgba_background(self, width, height, background):
 
@@ -64,7 +62,6 @@ class TestInit(object):
         background = (*color, 255)
         assert (unique == [background]).all()
 
-
     @given(width=smalldim, height=smalldim)
     def test_with_pixels(self, width, height):
 
@@ -78,7 +75,6 @@ class TestInit(object):
 
         assert img.pixels.shape == (height, width, 4)
         assert (img.pixels == px).all()
-
 
     def test_with_bad_values(self):
 
@@ -96,7 +92,6 @@ class TestInit(object):
             img = Image(height=12)
 
         assert 'specify a width and height' in str(err.value)
-
 
     @given(width=smalldim, height=smalldim)
     def test_with_bad_pixels(self, width, height):
@@ -169,7 +164,6 @@ class TestProperties(object):
         unique = np.unique(img.color, axis=0)
         unique = np.unique(unique, axis=1).flatten()
         assert (unique == [255, 255, 255]).all()
-
 
     @given(width=smalldim, height=smalldim, color=rgb)
     def test_red_property(self, width, height, color):
@@ -325,7 +319,6 @@ def test_getitem_pixels(index):
 
 class TestComputeMask(object):
 
-
     @given(width=smalldim, height=smalldim,
            Xs=interval, Ys=interval)
     def test_with_no_arg_mask(self, Xs, Ys, width, height):
@@ -362,7 +355,6 @@ class TestComputeMask(object):
 
         assert round(len(trues)/len(unique), 1) == 0.5
 
-
     @given(width=smalldim, height=smalldim,
            Xs=interval, Ys=interval)
     def test_with_mask_in_y(self, Xs, Ys, width, height):
@@ -390,7 +382,6 @@ class TestComputeMask(object):
 
 
 class TestComputeColor(object):
-
 
     @given(width=smalldim, height=smalldim,
            mask_width=smalldim, mask_height=smalldim,
@@ -444,13 +435,12 @@ class TestComputeColor(object):
         # And the color should be as specified with the added alpha channel
         assert (unique == (*color, 255)).all()
 
-
     @settings(suppress_health_check=[HealthCheck.filter_too_much])
     @given(width=smalldim, height=smalldim,
            mask_width=smalldim, mask_height=smalldim,
            Xs=interval, Ys=interval, color=rgba)
     def test_when_color_no_args_rgba(self, Xs, Ys, width, height,
-                                    mask_width, mask_height, color):
+                                     mask_width, mask_height, color):
 
         assume(width - mask_width >= 1)
         assume(height - mask_height >= 1)
@@ -470,3 +460,6 @@ class TestComputeColor(object):
 
         # And the color should be as specified
         assert (unique == color).all()
+
+        # TODO: Come up with a nice way to test functions in r and t
+

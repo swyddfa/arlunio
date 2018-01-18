@@ -55,30 +55,30 @@ def ellipse(x0, y0, a, b, r, pt=0.2, fill=False):
         if that point is in the ellipse defined by the above parameters
     """
 
-    lhs = lambda x, y: ((x - x0)**2)/a**2 + ((y - y0)**2)/b**2
+    def lhs(x, y):
+        # The LHS of the ellipse equation
+        return ((x - x0)**2)/a**2 + ((y - y0)**2)/b**2
 
     if fill:
 
-        def ell(x, y):
+        def ellipse_fill(x, y):
 
             if lhs(x, y) <= r**2:
                 return True
 
             return False
 
-        return ell
+        return ellipse_fill
 
     else:
 
-        def ipse(x, y):
+        def ellipse_pt(x, y):
 
-            val = lhs(x, y)
-
-            if val <= (r + pt)**2 and val >= (r - pt)**2:
+            if (r - pt)**2 <= lhs(x, y) <= (r + pt)**2:
                 return True
 
             return False
-        return ipse
+        return ellipse_pt
 
 
 def circle(x0, y0, r, *args, **kwargs):
@@ -145,7 +145,7 @@ def between(lower, value, upper):
         :code:`True` if :code:`lower <= value` and
         :code:`value <= upper`. :code:`False` otherwise
     """
-    return lower <= value and value <= upper
+    return lower <= value <= upper
 
 
 def rectangle(x0, y0, width, height, pt=0.2, fill=False):
@@ -187,33 +187,33 @@ def rectangle(x0, y0, width, height, pt=0.2, fill=False):
     top = y0 + (height / 2)
     bottom = y0 - (height / 2)
 
-    def rect(x, y):
+    def rectangle(x, y):
 
-        if x >= left and x <= right and\
-           y >= bottom and y <= top:
+        if left <= x <= right and \
+                bottom <= y <= top:
             return True
 
         return False
 
     if fill:
-        return rect
+        return rectangle
 
     def small(x, y):
 
-        if x >= left + pt and x <= right - pt and\
-           y >= bottom + pt and y <= top - pt:
+        if left + pt <= x <= right - pt and \
+                bottom + pt <= y <= top - pt:
             return True
 
         return False
 
-    def test(x, y):
+    def rectangle_pt(x, y):
 
-        if rect(x, y) and not small(x, y):
+        if rectangle(x, y) and not small(x, y):
             return True
 
         return False
 
-    return test
+    return rectangle_pt
 
 
 def square(x0, y0, size, *args, **kwargs):
@@ -302,7 +302,7 @@ class Path:
         guess = (a + b) / 2
 
         # Now we will find the root
-        t = newton(lambda t: x - self._Xt(t), guess)
+        t = newton(lambda s: x - self._Xt(s), guess)
 
         # We will verify it's actually in the domain
         if not (a <= t <= b):

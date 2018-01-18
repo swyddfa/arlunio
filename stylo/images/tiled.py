@@ -6,6 +6,10 @@ from stylo.drawable import Domain, Drawable
 from .image import Image
 
 
+def none_to_zero(value):
+    return value if value is not None else 0
+
+
 class TiledImage(Image):
     """
     This builds on the base image class, to allow easy creation of
@@ -65,9 +69,8 @@ class TiledImage(Image):
         # Numpy freaks out if we try to .unique() an array containing None's
         # So just turn them into zeros, as a tileset will always have a
         # zeroth tile
-        tozero = lambda v: v if v is not None else 0
-        vtoz = np.vectorize(tozero)
-        test_layout = vtoz(layout)
+        tozero = np.vectorize(none_to_zero)
+        test_layout = tozero(layout)
 
         if len(tiles) < len(np.unique(test_layout)):
             raise ValueError('The layout defined references more tiles '

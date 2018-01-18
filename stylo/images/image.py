@@ -9,6 +9,20 @@ from stylo.codefu import get_parameters
 from stylo.color import is_rgb, is_rgba
 
 
+def default_color():
+    return (0, 0, 0, 255)
+
+
+def negate_color(value):
+    """
+    "Negates" the value of a color, used to implement (-img)
+
+    :param value: The 8bit colour value
+    :return: abs(v - 255)
+    """
+    return abs(value - 255)
+
+
 def compute_mask(domain, mask, width, height):
     """
     Compute the mask for a given function on a domain.
@@ -68,7 +82,7 @@ def compute_color(domain, mask, color, width, height):
 
     # First, inspect the function - does it depend on anything?
     if color is None:
-        color = lambda: (0, 0, 0, 255)
+        color = default_color
         coordstr = ()
     else:
         coordstr = get_parameters(color)
@@ -412,10 +426,7 @@ class Image:
         (-img)
         """
 
-        # Create the function that will invert the values of
-        # the color pixels and vectorize it
-        neg = lambda v: abs(v - 255)
-        vneg = np.vectorize(neg, otypes=(np.uint8,))
+        vneg = np.vectorize(negate_color, otypes=(np.uint8,))
 
         # Create the new pixel array
         alphas = self.alpha
