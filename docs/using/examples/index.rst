@@ -8,4 +8,5 @@ concepts from stylo
 .. toctree::
    :maxdepth: 2
 
-   checkerboard.rst
+   checkerboard
+   raytracing
