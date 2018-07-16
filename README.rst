@@ -1,15 +1,26 @@
 Stylo
 ---------
 
-.. image:: https://travis-ci.org/alcarney/stylo.svg?branch=develop
+.. list-table::
+   :stub-columns: 1
+
+   * - docs
+     - |docs|
+   * - code
+     - |travis| |coveralls| |black|
+
+.. |travis| image:: https://travis-ci.org/alcarney/stylo.svg?branch=develop
     :target: https://travis-ci.org/alcarney/stylo
 
-.. image:: https://readthedocs.org/projects/stylo/badge/?version=develop
+.. |docs| image:: https://readthedocs.org/projects/stylo/badge/?version=develop
     :target: http://stylo.readthedocs.io/en/develop/?badge=develop
     :alt: Documentation Status
 
-.. image:: https://coveralls.io/repos/github/alcarney/stylo/badge.svg?branch=develop
+.. |coveralls| image:: https://coveralls.io/repos/github/alcarney/stylo/badge.svg?branch=develop
     :target: https://coveralls.io/github/alcarney/stylo?branch=develop
+
+.. |black| image:: https://img.shields.io/badge/code%20style-black-000000.svg
+    :target: https://github.com/ambv/black
 
 **DISCLAIMER!: Stylo is still in its very early stages, many of the core
 concepts are yet to be decided on. The interface can change without warning or
