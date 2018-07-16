@@ -13,3 +13,4 @@ docs/_build
 *.egg-info/
 dist/
 .coverage
+.pytest_cache
