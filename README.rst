@@ -8,6 +8,8 @@ Stylo
      - |docs|
    * - code
      - |travis| |coveralls| |black|
+   * - pypi
+     - |version| |supported-versions|
 
 .. |travis| image:: https://travis-ci.org/alcarney/stylo.svg?branch=develop
     :target: https://travis-ci.org/alcarney/stylo
@@ -21,6 +23,14 @@ Stylo
 
 .. |black| image:: https://img.shields.io/badge/code%20style-black-000000.svg
     :target: https://github.com/ambv/black
+
+.. |version| image:: https://img.shields.io/pypi/v/stylo.svg
+    :alt: PyPI Package latest release
+    :target: https://pypi.python.org/pypi/stylo
+
+.. |supported-versions| image:: https://img.shields.io/pypi/pyversions/stylo.svg
+    :alt: Supported versions
+    :target: https://pypi.python.org/pypi/stylo
 
 **DISCLAIMER!: Stylo is still in its very early stages, many of the core
 concepts are yet to be decided on. The interface can change without warning or
