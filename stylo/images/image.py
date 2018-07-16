@@ -50,7 +50,7 @@ def compute_mask(domain, mask, width, height):
     # First inspect the function - does it actually depend on
     # anything?
     coordstr = get_parameters(mask)
-    coordstr = tuple(s for s in coordstr if s != 'self')
+    coordstr = tuple(s for s in coordstr if s != "self")
 
     if coordstr == ():
 
@@ -61,7 +61,7 @@ def compute_mask(domain, mask, width, height):
     else:
 
         # Otherwise we have to do the legwork to evaluate this
-        coordstr = ''.join(coordstr)
+        coordstr = "".join(coordstr)
         coords = domain[coordstr, width, height]
 
         # Vectorise the mask and compute
@@ -86,7 +86,7 @@ def compute_color(domain, mask, color, width, height):
         coordstr = ()
     else:
         coordstr = get_parameters(color)
-        coordstr = tuple(s for s in coordstr if s != 'self')
+        coordstr = tuple(s for s in coordstr if s != "self")
 
     if coordstr == ():
 
@@ -118,7 +118,7 @@ def compute_color(domain, mask, color, width, height):
     else:
 
         # Otherwise the user's color depends on
-        coordstr = ''.join(coordstr)
+        coordstr = "".join(coordstr)
 
         coords = domain[coordstr, width, height]
 
@@ -128,7 +128,7 @@ def compute_color(domain, mask, color, width, height):
 
         # Vectorise the color function, bear in mind that the signature
         # depends on the number of vars in the colour function
-        sig = ','.join('()' for _ in range(len(coords))) + '->(4)'
+        sig = ",".join("()" for _ in range(len(coords))) + "->(4)"
         vcolor_f = np.vectorize(color, signature=sig)
 
         pixels = vcolor_f(coords)
@@ -147,8 +147,15 @@ class Image:
 
     """
 
-    def __init__(self, width=None, height=None, domain=None,
-                 background=(255, 255, 255, 255), xAA=1, pixels=None):
+    def __init__(
+        self,
+        width=None,
+        height=None,
+        domain=None,
+        background=(255, 255, 255, 255),
+        xAA=1,
+        pixels=None,
+    ):
         """
         Image Constructor
 
@@ -185,16 +192,16 @@ class Image:
             shape = pixels.shape
 
             if len(shape) != 3 or shape[-1] != 4:
-                raise ValueError("Pixels array must have shape:"
-                                 " (height, width, 4)")
+                raise ValueError("Pixels array must have shape:" " (height, width, 4)")
 
             self.pixels = pixels
             self._width = shape[1]
             self._height = shape[0]
         else:
             if width is None or height is None:
-                raise ValueError("If no pixels array is given you"
-                                 " must specify a width and height")
+                raise ValueError(
+                    "If no pixels array is given you" " must specify a width and height"
+                )
 
             # If given an RGB lookalike, convert it to RGBA
             if len(background) == 3:
@@ -203,8 +210,9 @@ class Image:
             self._height = height
             self._width = width
 
-            self.pixels = np.full((height * xAA, width * xAA, 4), background,
-                                  dtype=np.uint8)
+            self.pixels = np.full(
+                (height * xAA, width * xAA, 4), background, dtype=np.uint8
+            )
 
     @property
     def width(self):
@@ -227,10 +235,10 @@ class Image:
             given = np.array(value).shape
             expected = self.pixels[:, :, 0:3].shape
 
-            given_str = 'Color values with shape {} '.format(given)
-            expected_str = 'are incompatible with this image {}\n'.format(expected)
-            details = 'For more details please see '
-            link = 'https://docs.scipy.org/doc/numpy/user/basics.broadcasting.html'
+            given_str = "Color values with shape {} ".format(given)
+            expected_str = "are incompatible with this image {}\n".format(expected)
+            details = "For more details please see "
+            link = "https://docs.scipy.org/doc/numpy/user/basics.broadcasting.html"
             raise ValueError(given_str + expected_str + details + link)
 
     @property
@@ -342,8 +350,7 @@ class Image:
             # Is it a slice?
             if isinstance(idx, (slice,)):
 
-                if isinstance(idx.start, (float,)) or\
-                   isinstance(idx.stop, (float,)):
+                if isinstance(idx.start, (float,)) or isinstance(idx.stop, (float,)):
                     return False
 
         # If we get this far, then it must be a pixel address
@@ -362,16 +369,18 @@ class Image:
         # This involves using the built-in domain function - which
         # of course has to exist for this to work
         if self._domain is None:
-            raise RuntimeError('In order to index pixels by mathematical '
-                               'points the image must be associated with '
-                               'a domain!')
+            raise RuntimeError(
+                "In order to index pixels by mathematical "
+                "points the image must be associated with "
+                "a domain!"
+            )
 
         # For the moment we will restrict ourselves to the index being made
         # up of 2 slices. This might change eventually
-        if not isinstance(idx[0], (slice,)) or\
-           not isinstance(idx[1], (slice,)):
-            raise ValueError('Mathematical indexing is currently only '
-                             'supported for slices')
+        if not isinstance(idx[0], (slice,)) or not isinstance(idx[1], (slice,)):
+            raise ValueError(
+                "Mathematical indexing is currently only " "supported for slices"
+            )
 
         # Step 0: Unpack the slices
         yslice = idx[0]
@@ -383,22 +392,33 @@ class Image:
         xstop = xslice.stop
 
         # Step 1: Evaluate the domain function to get the points
-        (xs, *_), YS = self._domain(self.width * self.xAA,
-                                    self.height * self.xAA)
+        (xs, *_), YS = self._domain(self.width * self.xAA, self.height * self.xAA)
         ys = np.array([it[0] for it in YS])
 
         # Step 2: See which pixels the values are closest to
-        xstart_d = [(None, None)] if xstart is None else\
-                   sorted([(abs(x - xstart), i) for i, x in enumerate(xs)])
+        xstart_d = (
+            [(None, None)]
+            if xstart is None
+            else sorted([(abs(x - xstart), i) for i, x in enumerate(xs)])
+        )
 
-        xstop_d = [(None, None)] if xstop is None else\
-                  sorted([(abs(x - xstop), i) for i, x in enumerate(xs)])
+        xstop_d = (
+            [(None, None)]
+            if xstop is None
+            else sorted([(abs(x - xstop), i) for i, x in enumerate(xs)])
+        )
 
-        ystart_d = [(None, None)] if ystart is None else\
-                   sorted([(abs(y - ystart), i) for i, y in enumerate(ys)])
+        ystart_d = (
+            [(None, None)]
+            if ystart is None
+            else sorted([(abs(y - ystart), i) for i, y in enumerate(ys)])
+        )
 
-        ystop_d = [(None, None)] if ystop is None else\
-                  sorted([(abs(y - ystop), i) for i, y in enumerate(ys)])
+        ystop_d = (
+            [(None, None)]
+            if ystop is None
+            else sorted([(abs(y - ystop), i) for i, y in enumerate(ys)])
+        )
 
         # Step 3: Construct new slice objects with the new pixel addresses
         # and pass it off to the _get_by_pixels method
@@ -418,7 +438,7 @@ class Image:
 
     def __repr__(self):
         shape = self.pixels.shape
-        return '%ix%i Image' % (shape[1], shape[0])
+        return "%ix%i Image" % (shape[1], shape[0])
 
     def __neg__(self):
         """
@@ -444,12 +464,14 @@ class Image:
         """
 
         if not isinstance(other, (Image,)):
-            raise TypeError('AND is only supported between instances of '
-                            'the Image class')
+            raise TypeError(
+                "AND is only supported between instances of " "the Image class"
+            )
 
         if self.pixels.shape != other.pixels.shape:
-            raise ValueError('AND can only be used with Images that have '
-                             'the same dimensions!')
+            raise ValueError(
+                "AND can only be used with Images that have " "the same dimensions!"
+            )
 
         height, width, _ = self.pixels.shape
         ax = self.color
@@ -478,12 +500,14 @@ class Image:
         """
 
         if not isinstance(other, (Image,)):
-            raise TypeError('ADD id only supported between instances of the '
-                            'Image class')
+            raise TypeError(
+                "ADD id only supported between instances of the " "Image class"
+            )
 
         if self.pixels.shape != other.pixels.shape:
-            raise ValueError('ADD can only be used with Images that have '
-                             'the same dimensions!')
+            raise ValueError(
+                "ADD can only be used with Images that have " "the same dimensions!"
+            )
 
         height, width, _ = self.pixels.shape
         ax = self.color
@@ -496,7 +520,7 @@ class Image:
             return min(255, v)
 
         # To make the above work well with arrays we need to vectorize it
-        vbounded_add = np.vectorize(bounded_add, otypes=('uint8',))
+        vbounded_add = np.vectorize(bounded_add, otypes=("uint8",))
 
         cx = vbounded_add(ax, bx)
         img = Image(width, height)
@@ -511,12 +535,14 @@ class Image:
         """
 
         if not isinstance(other, (Image,)):
-            raise TypeError('SUB is only supported between instances of the '
-                            'Image class')
+            raise TypeError(
+                "SUB is only supported between instances of the " "Image class"
+            )
 
         if self.pixels.shape != other.pixels.shape:
-            raise ValueError('SUB can only be used with Images that have '
-                             'the same dimensions!')
+            raise ValueError(
+                "SUB can only be used with Images that have " "the same dimensions!"
+            )
 
         height, width, _ = self.pixels.shape
         ax = self.color
@@ -529,7 +555,7 @@ class Image:
             return max(0, v)
 
         # To make the above work well with arrays we need to vectorize it
-        vbounded_sub = np.vectorize(bounded_sub, otypes=('uint8',))
+        vbounded_sub = np.vectorize(bounded_sub, otypes=("uint8",))
 
         cx = vbounded_sub(ax, bx)
         img = Image(512, 512)
@@ -566,8 +592,7 @@ class Image:
         # Of course, the image has to have a domain already if we are
         # to use this one instead
         if use_host_domain and self._domain is None:
-            raise RuntimeError('The image does not have an associated '
-                               'domain!')
+            raise RuntimeError("The image does not have an associated " "domain!")
 
         # Get the domain from the correct place
         if use_host_domain:
@@ -576,13 +601,14 @@ class Image:
             domain = drawable.domain
 
         # Compute the mask
-        mask = compute_mask(domain, drawable.mask, self.width * self.xAA,
-                            self.height * self.xAA)
+        mask = compute_mask(
+            domain, drawable.mask, self.width * self.xAA, self.height * self.xAA
+        )
 
         # Compute the colors
-        colors = compute_color(domain, mask, drawable.color,
-                               self.width * self.xAA,
-                               self.height * self.xAA)
+        colors = compute_color(
+            domain, mask, drawable.color, self.width * self.xAA, self.height * self.xAA
+        )
 
         # Color the image
         self.pixels[mask] = colors
@@ -604,13 +630,19 @@ class Image:
         Save the image to the given filename
         """
 
-        image = P.Image.frombuffer('RGBA', (self.width * self.xAA,
-                                   self.height * self.xAA), self.pixels,
-                                   'raw', 'RGBA', 0, 1)
+        image = P.Image.frombuffer(
+            "RGBA",
+            (self.width * self.xAA, self.height * self.xAA),
+            self.pixels,
+            "raw",
+            "RGBA",
+            0,
+            1,
+        )
 
         # Apply our naive AA by downscaling the image
         if self.xAA > 1:
             image = image.resize((self.width, self.height), resample=P.Image.BICUBIC)
 
-        with open(filename, 'wb') as f:
+        with open(filename, "wb") as f:
             image.save(f)

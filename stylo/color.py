@@ -2,8 +2,8 @@ import re
 import struct
 
 
-rgb = re.compile('\A[0-9a-fA-F]{6}\Z')
-rgba = re.compile('\A[0-9a-fA-F]{8}\Z')
+rgb = re.compile("\A[0-9a-fA-F]{6}\Z")
+rgba = re.compile("\A[0-9a-fA-F]{8}\Z")
 
 
 def is_rgba(color):
@@ -86,20 +86,20 @@ def hexcolor(hexstr, alpha=False):
     """
 
     if not isinstance(hexstr, (str,)):
-        raise TypeError('Hex color codes must be a string!')
+        raise TypeError("Hex color codes must be a string!")
 
     is_rgb = rgb.match(hexstr)
     is_rgba = rgba.match(hexstr)
 
     if is_rgb and not alpha:
-        return struct.unpack('BBB', bytes.fromhex(hexstr))
+        return struct.unpack("BBB", bytes.fromhex(hexstr))
 
     if is_rgb and alpha:
-        col = struct.unpack('BBB', bytes.fromhex(hexstr))
+        col = struct.unpack("BBB", bytes.fromhex(hexstr))
         return (*col, 255)
 
     if is_rgba:
-        return struct.unpack('BBBB', bytes.fromhex(hexstr))
+        return struct.unpack("BBBB", bytes.fromhex(hexstr))
 
     # If we get here then the color code was not recognised!
-    raise ValueError('String does not match a known color code format!')
+    raise ValueError("String does not match a known color code format!")

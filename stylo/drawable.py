@@ -64,16 +64,16 @@ class Domain:
     def __init__(self, x_min=-1, x_max=1, y_min=-1, y_max=1):
 
         if x_min >= x_max:
-            message = 'Invalid range for X domain: '
-            message += '[{}, {}]\n'.format(x_min, x_max)
-            message += 'x_min must be less than x_max'
+            message = "Invalid range for X domain: "
+            message += "[{}, {}]\n".format(x_min, x_max)
+            message += "x_min must be less than x_max"
 
             raise ValueError(message)
 
         if y_min >= y_max:
-            message = 'Invalid range for Y domain: '
-            message += '[{}, {}]\n'.format(y_min, y_max)
-            message += 'y_min must be less than y_max'
+            message = "Invalid range for Y domain: "
+            message += "[{}, {}]\n".format(y_min, y_max)
+            message += "y_min must be less than y_max"
 
             raise ValueError(message)
 
@@ -89,15 +89,16 @@ class Domain:
         # Here we build a dict containing "instructions" on how to get the
         # values for the desired coordinate values
         self._coords = {
-            'x': lambda w, h: self._X(w, h),
-            'y': lambda w, h: self._Y(w, h),
-            'r': lambda w, h: self._R(w, h),
-            't': lambda w, h: self._T(w, h),
+            "x": lambda w, h: self._X(w, h),
+            "y": lambda w, h: self._Y(w, h),
+            "r": lambda w, h: self._R(w, h),
+            "t": lambda w, h: self._T(w, h),
         }
 
     def __repr__(self):
-        return "[{}, {}] x [{}, {}]".format(self._xmin,
-               self._xmax, self._ymin, self._ymax)
+        return "[{}, {}] x [{}, {}]".format(
+            self._xmin, self._xmax, self._ymin, self._ymax
+        )
 
     def __getitem__(self, key):
         """
@@ -131,22 +132,24 @@ class Domain:
         try:
             coordstr, width, height = key
         except ValueError:
-            message = ('Expected: \'coordstr\', i, j where\n'
-                       'coordstr: a string representing the variables '
-                       'you wanted e.g. \'xy\'\n'
-                       'i: the width of the picture in pixels\n'
-                       'j: the height of the picture in pixels')
+            message = (
+                "Expected: 'coordstr', i, j where\n"
+                "coordstr: a string representing the variables "
+                "you wanted e.g. 'xy'\n"
+                "i: the width of the picture in pixels\n"
+                "j: the height of the picture in pixels"
+            )
 
             raise ValueError(message)
 
         # Next, we need to validate the coordinate string
-        coordstr = ''.join(coordstr)
-        fmt = re.compile('\A[' + self.coords + ']+\Z')
+        coordstr = "".join(coordstr)
+        fmt = re.compile("\A[" + self.coords + "]+\Z")
 
         if not fmt.match(coordstr):
-            message = 'Coordinate string can only contain one '
-            message += 'of the following: '
-            message += ', '.join(self.coords)
+            message = "Coordinate string can only contain one "
+            message += "of the following: "
+            message += ", ".join(self.coords)
 
             raise ValueError(message)
 
@@ -155,7 +158,7 @@ class Domain:
         height_ok = isinstance(height, (int,)) and height > 0
 
         if not (width_ok and height_ok):
-            raise ValueError('Width and Height must be specified by positive integers!')
+            raise ValueError("Width and Height must be specified by positive integers!")
 
         # Finally! We can return the coordinates asked for
         return tuple(self._coords[c](width, height) for c in coordstr)
@@ -218,7 +221,6 @@ class Domain:
 
         self._mods.insert(0, transformation)
 
-
     def repeat(self, x_min, x_max, y_min, y_max):
         """
         Extend the domain into a larger one by repeating the values
@@ -241,7 +243,6 @@ class Domain:
             The maximum y value of the larger domain.
         """
 
-
         x_repeat = mk_repeater(self._xmin, self._xmax)
         y_repeat = mk_repeater(self._ymin, self._ymax)
 
@@ -254,12 +255,10 @@ class Domain:
 
     @property
     def coords(self):
-        return ''.join(self._coords.keys())
-
+        return "".join(self._coords.keys())
 
     @property
     def _X(self):
-
         def mk_xs(width, height):
             X, _ = self._get_coords(width, height)
             return X
@@ -268,7 +267,6 @@ class Domain:
 
     @property
     def _Y(self):
-
         def mk_ys(width, height):
             _, Y = self._get_coords(width, height)
             return Y
@@ -327,7 +325,7 @@ def make_property(name):
     # When the value is accessed, return its value at the
     # current internal time of the Drawable
     def getter(self):
-        return self.__getattribute__('_' + name)[self._current_time]
+        return self.__getattribute__("_" + name)[self._current_time]
 
     # Do the right thing depending on the type of value given
     def setter(self, value):
@@ -335,7 +333,7 @@ def make_property(name):
         if isinstance(value, (int, float)):
             value = make_sampler(name, value)
 
-        self.__setattr__('_' + name, value)
+        self.__setattr__("_" + name, value)
 
     return property(fget=getter, fset=setter)
 
@@ -371,6 +369,7 @@ class MetaDrawable(type):
     it was a single value. By changing the Sampler object in the Drawable
     you can then animate as you see fit - without altering the definition!
     """
+
     def __new__(cls, name, base, attrs):
         """
         Here is where the magic happens! This method is called on any class
@@ -385,13 +384,17 @@ class MetaDrawable(type):
 
         # The first step is to extract all the attrbiutes that we want to
         # mess with.
-        values = [(key, val) for key, val in attrs.items()
-                  if not key.startswith('_') and isinstance(val, (int, float))]
+        values = [
+            (key, val)
+            for key, val in attrs.items()
+            if not key.startswith("_") and isinstance(val, (int, float))
+        ]
 
         # Start building the new attrs argument, of course it should contain
         # anything we havent messed with
-        new_attrs = [(key, val) for key, val in attrs.items()
-                     if (key, val) not in values]
+        new_attrs = [
+            (key, val) for key, val in attrs.items() if (key, val) not in values
+        ]
 
         # We also would like to give Drawables a list of all the parameters
         # that can be tweaked - this should help users figure out 3rd party
@@ -406,7 +409,7 @@ class MetaDrawable(type):
 
             # Construct a Sampler object on the default value
             sampler = make_sampler(key, val)
-            new_attrs.append(('_' + key, sampler))
+            new_attrs.append(("_" + key, sampler))
 
             # Construct the property object which acts as gatekeeper
             # and liason with these animation driver objects
@@ -414,7 +417,7 @@ class MetaDrawable(type):
             new_attrs.append((key, prop))
 
         # Add the list of parameters to the new object
-        new_attrs.append(('parameters', parameters))
+        new_attrs.append(("parameters", parameters))
 
         # Now that we have rewritten what we wanted to, time to
         # tell Python to go ahead and create the object.
@@ -427,7 +430,6 @@ class MetaDrawable(type):
 
 
 class Drawable(metaclass=MetaDrawable):
-
     def __init__(self, domain=None):
         self._current_time = 0
         self._domain = Domain() if domain is None else domain
@@ -449,8 +451,10 @@ class Drawable(metaclass=MetaDrawable):
     def domain(self, value):
 
         if not isinstance(value, (Domain,)):
-            raise TypeError('The domain property can only be set to an '
-                            'instance of a Domain object!')
+            raise TypeError(
+                "The domain property can only be set to an "
+                "instance of a Domain object!"
+            )
 
         self._domain = value
 

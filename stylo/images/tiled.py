@@ -17,8 +17,9 @@ class TiledImage(Image):
     on a grid - e.g level designs etc.
     """
 
-    def __init__(self, width, height, xmax=10, ymax=10,
-                 xmin=0, ymin=0, *args, **kwargs):
+    def __init__(
+        self, width, height, xmax=10, ymax=10, xmin=0, ymin=0, *args, **kwargs
+    ):
 
         # First call the parent to set things up
         super().__init__(width, height, *args, **kwargs)
@@ -60,8 +61,7 @@ class TiledImage(Image):
             tiles, layout = tileset
 
         else:
-            raise TypeError('TiledImages only support Drawables and '
-                            'TileSets!!')
+            raise TypeError("TiledImages only support Drawables and " "TileSets!!")
 
         # With that out of the way let's get down to it. First let's check
         # that the given tileset makes sense
@@ -73,8 +73,9 @@ class TiledImage(Image):
         test_layout = tozero(layout)
 
         if len(tiles) < len(np.unique(test_layout)):
-            raise ValueError('The layout defined references more tiles '
-                             'than are defined!')
+            raise ValueError(
+                "The layout defined references more tiles " "than are defined!"
+            )
 
         # Transpose the layout array so that it makes sense to the user
         layout = layout.transpose()
@@ -88,11 +89,11 @@ class TiledImage(Image):
         # image
         for j in range(ny):
 
-            ystart = self.ymin + j*ysize
+            ystart = self.ymin + j * ysize
             yend = ystart + ysize
 
             for i in range(nx):
-                xstart = self.xmin + i*xsize
+                xstart = self.xmin + i * xsize
                 xend = xstart + xsize
 
                 tileidx = layout[i, j]
@@ -109,10 +110,10 @@ class TiledImage(Image):
     def xmin(self, value):
 
         if not isinstance(value, (int, float)):
-            raise TypeError('xmin must be a number!')
+            raise TypeError("xmin must be a number!")
 
         if value >= self.xmax:
-            raise ValueError('xmin cannot be larger than xmax!')
+            raise ValueError("xmin cannot be larger than xmax!")
 
         self._xmin = value
         self.domain = Domain(value, self.xmax, self.ymin, self.ymax)
@@ -125,10 +126,10 @@ class TiledImage(Image):
     def xmax(self, value):
 
         if not isinstance(value, (int, float)):
-            raise TypeError('xmax must be a number!')
+            raise TypeError("xmax must be a number!")
 
         if value <= self.xmin:
-            raise ValueError('xmax cannot be less than xmin!')
+            raise ValueError("xmax cannot be less than xmin!")
 
         self._xmin = value
         self.domain = Domain(self.xmin, value, self.ymin, self.ymax)
@@ -141,10 +142,10 @@ class TiledImage(Image):
     def ymin(self, value):
 
         if not isinstance(value, (int, float)):
-            raise TypeError('ymax must be a number!')
+            raise TypeError("ymax must be a number!")
 
         if value >= self.ymax:
-            raise ValueError('ymin cannot be larger than ymax!')
+            raise ValueError("ymin cannot be larger than ymax!")
 
         self._ymin = value
         self.domain = Domain(self.xmin, self.xmax, value, self.ymax)
@@ -157,25 +158,27 @@ class TiledImage(Image):
     def ymax(self, value):
 
         if not isinstance(value, (int, float)):
-            raise TypeError('ymax must be a number!')
+            raise TypeError("ymax must be a number!")
 
         if value <= self.ymin:
-            raise ValueError('ymax cannot be less than ymin!')
+            raise ValueError("ymax cannot be less than ymin!")
 
         self._ymax = value
         self.domain = Domain(self.xmin, self.xmax, self.ymin, value)
 
 
 class MetaSet(type):
-
     def __new__(cls, name, bases, attrs):
 
-        tiles = [(key, val) for key, val in attrs.items()
-                  if not key.startswith('_') and
-                  isinstance(val, (Drawable,))]
+        tiles = [
+            (key, val)
+            for key, val in attrs.items()
+            if not key.startswith("_") and isinstance(val, (Drawable,))
+        ]
 
-        new_attrs = [(key, val) for key, val in attrs.items()
-                      if (key, val) not in tiles]
+        new_attrs = [
+            (key, val) for key, val in attrs.items() if (key, val) not in tiles
+        ]
 
         tile_list = []
 
@@ -184,7 +187,7 @@ class MetaSet(type):
             tile_list.append(val)
 
         # Add the list of tiles to the new class
-        new_attrs.append(('_tiles', tile_list))
+        new_attrs.append(("_tiles", tile_list))
 
         return super().__new__(cls, name, bases, dict(new_attrs))
 
@@ -228,12 +231,12 @@ class TileSet(metaclass=MetaSet):
         N = ceil(sqrt(num_tiles))
 
         # Make that many Nones
-        nones = [None for _ in range(N*N)]
+        nones = [None for _ in range(N * N)]
 
         # Replace with the appropriate numbers
         nones[:num_tiles] = range(num_tiles)
 
         # Finally convert to numpy array and
         # make it 2D
-        grid = np.array(nones, dtype='O')
+        grid = np.array(nones, dtype="O")
         return grid.reshape(N, N)

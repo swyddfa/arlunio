@@ -22,7 +22,7 @@ def animate(f, start=0, stop=10, fps=25, frames=None):
         num_frames = (stop - start) * fps
         pool.map(f, range((stop - start) * fps))
 
-    print('Animating...')
+    print("Animating...")
     pool.map(f, range(num_frames))
 
     pool.close()

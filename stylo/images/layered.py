@@ -18,15 +18,19 @@ class LayeredImage:
             self._height = imgs[0].height
 
         else:
-            self._layers = [Image(width, height, background=(0, 0, 0, 0))
-                            for _ in range(num_layers)]
+            self._layers = [
+                Image(width, height, background=(0, 0, 0, 0)) for _ in range(num_layers)
+            ]
 
             self._width = width
             self._height = height
 
     def __repr__(self):
-        return "%ix%i Layered Image with %i layers"\
-                % (self.width, self.height, self.nlayers)
+        return "%ix%i Layered Image with %i layers" % (
+            self.width,
+            self.height,
+            self.nlayers,
+        )
 
     def __getitem__(self, key):
 
@@ -34,7 +38,7 @@ class LayeredImage:
             return self._layers[key]
 
         else:
-            return 'Other methods coming soon'
+            return "Other methods coming soon"
 
     @classmethod
     def fromlist(cls, imgs):

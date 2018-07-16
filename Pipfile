@@ -9,15 +9,16 @@ name = "pypi"
 
 numpy = "*"
 scipy = "*"
-Pillow = "*"
+pillow = "*"
 matplotlib = "*"
 
 
 [dev-packages]
 
-sphinx_rtd_theme = "*"
+sphinx-rtd-theme = "*"
 hypothesis = "*"
 pytest = "*"
 sphinx = "*"
 sphinx-autobuild = "*"
-flake8 = "*"
+"flake8" = "*"
+black = "*"

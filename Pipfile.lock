@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "408434ec815d72903ce781ac227401eb2e4b6a75b3543ba3dbcb09cef132e9d9"
+            "sha256": "e9e0a3e9d2af1d55c17767aa6f59fd0a701fff601040a6edaab4f6c8f9c14412"
         },
         "host-environment-markers": {
             "implementation_name": "cpython",
@@ -257,6 +257,13 @@
             ],
             "version": "==0.7.11"
         },
+        "appdirs": {
+            "hashes": [
+                "sha256:d8b24664561d0d34ddfaec54636d502d7cea6e29c3eaf68f3df6180863e2166e",
+                "sha256:9e5896d1372858f8dd3344faf4e5014d21849c756c8d5701f78f8a103b372d92"
+            ],
+            "version": "==1.4.3"
+        },
         "argh": {
             "hashes": [
                 "sha256:a9b3aaa1904eeb78e32394cd46c6f37ac0fb4af6dc488daa58971bdc7d7fcaf3",
@@ -285,6 +292,13 @@
             ],
             "version": "==2.6.0"
         },
+        "black": {
+            "hashes": [
+                "sha256:4b475bbd528acce094c503a3d2dbc2d05a4075f6d0ef7d9e7514518e14cc5191",
+                "sha256:22158b89c1a6b4eb333a1e65e791a3f8b998cf3b11ae094adb2570f31f769a44"
+            ],
+            "version": "==18.6b4"
+        },
         "certifi": {
             "hashes": [
                 "sha256:9fa520c1bacfb634fa7af20a76bcbd3d5fb390481724c597da32c719a7dca4b0",
@@ -298,6 +312,13 @@
                 "sha256:84ab92ed1c4d4f16916e05906b6b75a6c0fb5db821cc65e70cbd64a3e2a5eaae"
             ],
             "version": "==3.0.4"
+        },
+        "click": {
+            "hashes": [
+                "sha256:29f99fc6125fbc931b758dc053b3114e55c77a6e4c6c3a2674a2dc986016381d",
+                "sha256:f15516df478d5a56180fbf80e68f206010e6d160fc39fa508b65e035fd75130b"
+            ],
+            "version": "==6.7"
         },
         "coverage": {
             "hashes": [
@@ -557,6 +578,12 @@
                 "sha256:9de47f375baf1ea07cdb3436ff39d7a9c76042c10a769c52353ec46e4e8fc3b9"
             ],
             "version": "==1.1.0"
+        },
+        "toml": {
+            "hashes": [
+                "sha256:8e86bd6ce8cc11b9620cb637466453d94f5d57ad86f17e98a98d1f73e3baab2d"
+            ],
+            "version": "==0.9.4"
         },
         "tornado": {
             "hashes": [

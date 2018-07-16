@@ -57,13 +57,13 @@ def ellipse(x0, y0, a, b, r, pt=0.2, fill=False):
 
     def lhs(x, y):
         # The LHS of the ellipse equation
-        return ((x - x0)**2)/a**2 + ((y - y0)**2)/b**2
+        return ((x - x0) ** 2) / a ** 2 + ((y - y0) ** 2) / b ** 2
 
     if fill:
 
         def ellipse_fill(x, y):
 
-            if lhs(x, y) <= r**2:
+            if lhs(x, y) <= r ** 2:
                 return True
 
             return False
@@ -74,10 +74,11 @@ def ellipse(x0, y0, a, b, r, pt=0.2, fill=False):
 
         def ellipse_pt(x, y):
 
-            if (r - pt)**2 <= lhs(x, y) <= (r + pt)**2:
+            if (r - pt) ** 2 <= lhs(x, y) <= (r + pt) ** 2:
                 return True
 
             return False
+
         return ellipse_pt
 
 
@@ -189,8 +190,7 @@ def rectangle(x0, y0, width, height, pt=0.2, fill=False):
 
     def rectangle(x, y):
 
-        if left <= x <= right and \
-                bottom <= y <= top:
+        if left <= x <= right and bottom <= y <= top:
             return True
 
         return False
@@ -200,8 +200,7 @@ def rectangle(x0, y0, width, height, pt=0.2, fill=False):
 
     def small(x, y):
 
-        if left + pt <= x <= right - pt and \
-                bottom + pt <= y <= top - pt:
+        if left + pt <= x <= right - pt and bottom + pt <= y <= top - pt:
             return True
 
         return False
