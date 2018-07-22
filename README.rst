@@ -1,5 +1,5 @@
 Stylo
----------
+-----
 
 .. list-table::
    :stub-columns: 1
@@ -40,9 +40,6 @@ Stylo is a library that attempts to allow users to easily describe the
 contents of an image using a blend of Python and Mathematics. It also provides
 tools that allow for easy parameterisation of the contents of an image opening
 up the possibilities for the creation of animations.
-
-One of the design goals is to minimise the amount of code needed from the user
-to achieve the desired result.
 
 Requirements
 ------------
