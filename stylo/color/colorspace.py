@@ -14,6 +14,11 @@ class ColorSpace(ABC):
 
     @property
     @abstractmethod
+    def data(self):
+        pass
+
+    @property
+    @abstractmethod
     def width(self):
         """The width of this block of data"""
         pass
@@ -52,6 +57,10 @@ class ColorSpace(ABC):
     @abstractmethod
     def alpha(self):
         """The alpha color channel."""
+        pass
+
+    @abstractmethod
+    def as_rgb8(self):
         pass
 
 
@@ -112,6 +121,10 @@ class Mono(ColorSpace):
         return Mono(0, 0, array=array)
 
     @property
+    def data(self):
+        return self._data
+
+    @property
     def width(self):
         """The width of this block of data"""
         return self._data.shape[1]
@@ -145,6 +158,16 @@ class Mono(ColorSpace):
     def alpha(self):
         """The alpha color channel."""
         return np.full((self.height, self.width), True, dtype=np.bool_)
+
+    def as_rgb8(self):
+
+        rgb8 = np.full(
+            (self.width, self.height, 3), (0, 0, 0), dtype=np.uint8
+        )
+
+        # All the true values are now white
+        rgb8[self._data] = (255, 255, 255)
+        return rgb8
 
 
 class RGBA8(ColorSpace):
@@ -185,6 +208,9 @@ class RGBA8(ColorSpace):
     def alpha(self):
         return self._data[:, :, 3]
 
+    def as_rgb8(self):
+        return self._data
+
 
 class RGB8(ColorSpace):
     """The RGB color space."""
@@ -223,3 +249,6 @@ class RGB8(ColorSpace):
     @property
     def alpha(self):
         return np.full((self.height, self.width), 255, dtype=np.uint8)
+
+    def as_rgb8(self):
+        return self._data[:, :, 0:2]
