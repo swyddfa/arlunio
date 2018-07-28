@@ -15,10 +15,9 @@ matplotlib = "*"
 
 [dev-packages]
 
-sphinx-rtd-theme = "*"
 hypothesis = "*"
 pytest = "*"
 sphinx = "*"
-sphinx-autobuild = "*"
+topos-theme = "*"
 "flake8" = "*"
 black = "*"
