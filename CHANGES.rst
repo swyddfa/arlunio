@@ -4,19 +4,18 @@
 Added
 -----
 
-- A new Path object which should come in very useful for line art!
 - Drawables now have a calculate() that is called each time their internal
   clock is changed, allowing users to move out computations that don't change
   on a frame by frame basis from their "hot" mask and color functions. When
   used right this should provide users with marginal speed increases in
   animations
 - A new domain keyword argument to the @sampled decorator
-- Lot's of documentation!
-- More tests!
 
 Changed
 -------
 
+- The domain system has been rewritten from the ground up to be simpler and much
+  more flexible!
 - The structure of the documentation has been completely revamped. There are
   now three main sections waiting to be fleshed out.
   + Using Stylo: Simply how to use the parts of the library
