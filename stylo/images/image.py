@@ -5,8 +5,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import PIL as P
 
-from stylo.codefu import get_parameters
-from stylo.color import is_rgb, is_rgba
+from stylo.utils import get_parameters
+from stylo.drawable import Domain
 
 
 def default_color():
@@ -96,10 +96,10 @@ def compute_color(domain, mask, color, width, height):
         user_color = color()
 
         # Try and validate the color
-        if is_rgb(user_color):
+        if True:
             pixel_color = tuple([*user_color, 255])
 
-        elif is_rgba(user_color):
+        elif False:
             # If its a valid rgba then we don't need to touch it
             pixel_color = user_color
         else:
@@ -645,4 +645,22 @@ class Image:
             image = image.resize((self.width, self.height), resample=P.Image.BICUBIC)
 
         with open(filename, "wb") as f:
+            image.save(f)
+
+
+class NewImage:
+    """The next generation of stylo imaging."""
+
+    def __init__(self, color, domain=None):
+        self._color = color
+        self._domain = Domain()
+
+    def save(self, filename):
+        pixels = self._color.as_rgb8
+
+        image = P.Image.frombuffer(
+            "RGB", (self.width, self.height), pixels, "raw", "RGB", 0, 1
+        )
+
+        with open(filename, 'wb') as f:
             image.save(f)
