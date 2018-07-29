@@ -1,21 +1,18 @@
 from unittest import TestCase
 
 import pytest
-import numpy as np
-import numpy.testing as npt
 
 from hypothesis import given
-from hypothesis.strategies import integers, tuples
+from hypothesis.strategies import integers
 
-from stylo.images.color import Mono
-
+from stylo.color.mono import Mono
 
 # Some useful strategies
 dim = integers(min_value=2, max_value=256)
 
 
 @pytest.mark.color
-class TestRGBA8(TestCase):
+class TestMono(TestCase):
 
     @given(width=dim, height=dim)
     def test_init_width_height(self, width, height):

@@ -7,8 +7,7 @@ import numpy.testing as npt
 from hypothesis import given
 from hypothesis.strategies import integers, tuples
 
-from stylo.images.color import RGBA8
-
+from stylo.color.rgba import RGBA8
 
 # Some useful strategies
 dim = integers(min_value=2, max_value=256)
