@@ -1,4 +1,3 @@
-from .color import hexcolor
 from .drawable import Domain, Drawable
 from .interpolate import (
     sampled,
