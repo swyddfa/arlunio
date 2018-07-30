@@ -7,17 +7,25 @@ from stylo.utils import bounded_property
 class RectangularDomain(Domain):
     """A domain of the form [xmin,xmax] x [ymin,ymax]."""
 
-    xmin = bounded_property("_xmin")
-    xmax = bounded_property("_xmax")
-    ymin = bounded_property("_ymin")
-    ymax = bounded_property("_ymax")
+    xmin = bounded_property("xmin", bounded_above_by="xmax")
+    xmax = bounded_property("xmax", bounded_below_by="xmin")
+    ymin = bounded_property("ymin", bounded_above_by="ymax")
+    ymax = bounded_property("ymax", bounded_below_by="ymin")
 
     def __init__(self, xmin, xmax, ymin, ymax):
 
-        self.xmin = xmin
-        self.ymin = ymin
-        self.xmax = xmax
-        self.ymax = ymax
+        if (xmin >= xmax):
+            raise ValueError("The value of xmin must be strictly less than the "\
+                             "value of xmax")
+
+        if (ymin >= ymax):
+            raise ValueError("The value of ymin must be strictly less than the "\
+                             "value of ymax")
+
+        self._xmin = xmin
+        self._ymin = ymin
+        self._xmax = xmax
+        self._ymax = ymax
 
     def __repr__(self):
         name = self.__class__.__name__
