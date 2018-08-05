@@ -1,6 +1,5 @@
-Reference
-=========
-
+Developing Stylo
+================
 
 .. toctree::
     :glob:

@@ -4,9 +4,9 @@ About Stylo
 Welcome to the documentation for stylo!
 
 .. toctree::
-    :hidden:
 
-    users
-    extending
-    developing
-    maths
+    using/index
+    extending/index
+    developing/index
+    maths/index
+    glossary
