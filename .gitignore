@@ -14,3 +14,4 @@ docs/_build
 dist/
 .coverage
 .pytest_cache
+.idea
