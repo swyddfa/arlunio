@@ -14,36 +14,48 @@ class Domain(ABC):
 
     @property
     def x(self):
-        """The x coordinates."""
+        """Returns a function in width and height that returns the values of
+        the :math:`x` coordinate."""
         return self._get_xs()
 
     @property
     def y(self):
-        """The y coordinates."""
+        """Returns a function in width and height that returns the values of
+        the :math:`y` coordinate."""
         return self._get_ys()
 
     @property
     def r(self):
-        """The r coordinates."""
+        """Returns a function in width and height that returns the values of
+        the :math:`r` coordinate."""
         return self._get_rs()
 
     @property
     def t(self):
-        """The theta coordinates."""
+        """Returns a function in width and height that returns the values of
+        the :math:`\\theta` coordinate."""
         return self._get_ts()
 
     @abstractmethod
     def _get_xs(self):
+        """:code:`Domain` instances should implement this function to return a
+        function matching the one described in the :code:`x` property"""
         pass
 
     @abstractmethod
     def _get_ys(self):
+        """:code:`Domain` instances should implement this function to return a
+        function matching the one described in the :code:`y` property"""
         pass
 
     @abstractmethod
     def _get_rs(self):
+        """:code:`Domain` instances should implement this function to return a
+        function matching the one described in the :code:`r` property"""
         pass
 
     @abstractmethod
     def _get_ts(self):
+        """:code:`Domain` instances should implement this function to return a
+        function matching the one described in the :code:`t` property"""
         pass

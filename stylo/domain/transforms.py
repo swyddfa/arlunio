@@ -1,20 +1,23 @@
 import numpy as np
+from abc import ABC
 from textwrap import indent
 
 from .domain import Domain
 
 
-class Translation(Domain):
-    """A domain that applies a translation to the domain provided to it."""
+class DomainTransform(Domain, ABC):
+    """A base class for transformations.
 
-    def __init__(self, domain, dx, dy):
+    You cannot create an instance of this class as it leaves methods
+    from the base Domain class unimplemented. It is meant to be used
+    as a base for classes which transform the domain in some way.
+    """
 
-        self._domain = domain
-        self._dx = dx
-        self._dy = dy
+    def __init__(self, domain):
+        self.domain = domain
 
     def __repr__(self):
-        domain = "Translation: ({0.dx}, {0.dy})".format(self)
+        domain = self._repr()
         other_domain = repr(self.domain)
 
         return domain + "\n" + indent(other_domain, "  ")
@@ -22,6 +25,26 @@ class Translation(Domain):
     @property
     def domain(self):
         return self._domain
+
+    @domain.setter
+    def domain(self, value):
+
+        if not isinstance(value, (Domain,)):
+            raise TypeError("Property domain: expected Domain instance.")
+
+        self._domain = value
+
+
+class Translation(DomainTransform):
+    """A domain that applies a translation to the domain provided to it."""
+
+    def __init__(self, domain, dx, dy):
+        super().__init__(domain)
+        self._dx = dx
+        self._dy = dy
+
+    def _repr(self):
+        return "Translation: ({0.dx}, {0.dy})".format(self)
 
     @property
     def dx(self):

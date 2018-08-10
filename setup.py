@@ -1,17 +1,17 @@
 from setuptools import setup
 
+from stylo import __version__
+
 
 def readme():
     with open('README.rst') as f:
         return f.read()
 
 
-exec(open('stylo/version.py', 'r').read())
-
 setup(name='stylo',
       version=__version__,
       description='Using a blend of Python and Maths for the '
-      'creation of images',
+      'creation of image',
       long_description=readme(),
       classifiers=[
           'Development Status :: 3 - Alpha',
@@ -32,8 +32,10 @@ setup(name='stylo',
       ],
       setup_requires=['pytest-runner'],
       test_suite='tests',
-      tests_require=['pytest',
-                     'hypothesis'],
+      tests_require=[
+          'pytest',
+          'hypothesis'
+      ],
       python_requires='>=3.0',
       include_package_data=True,
       zip_safe=False)
