@@ -15,3 +15,4 @@ dist/
 .coverage
 .pytest_cache
 .idea
+.tox
