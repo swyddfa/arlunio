@@ -15,3 +15,6 @@ before_install:
 
 script:
     - "tox -e $TASK"
+
+after_success:
+    - if [ "$TASK" == "py36" ]; then coveralls; fi
