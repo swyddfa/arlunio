@@ -17,7 +17,6 @@ rgba8 = tuples(bit8, bit8, bit8, bit8)
 
 @pytest.mark.color
 class TestRGBA8(TestCase):
-
     @given(width=dim, height=dim)
     def test_init_width_height(self, width, height):
         """Test that the RGBA8 ColorData implementation initialises correctly

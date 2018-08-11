@@ -49,9 +49,7 @@ class Image(ABC):
         width = self.color.width
         height = self.color.height
 
-        image = P.Image.frombuffer(
-            "RGB", (width, height), pixels, "raw", "RGB", 0, 1
-        )
+        image = P.Image.frombuffer("RGB", (width, height), pixels, "raw", "RGB", 0, 1)
 
-        with open(filename, 'wb') as f:
+        with open(filename, "wb") as f:
             image.save(f)

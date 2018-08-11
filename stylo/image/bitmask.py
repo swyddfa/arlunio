@@ -55,4 +55,3 @@ class BitMask(Image):
         renderer = SimpleRenderer()
         mask = renderer.render(domain, shape, self.width, self.height)
         self.color = Mono.fromarray(mask)
-

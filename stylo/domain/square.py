@@ -29,7 +29,6 @@ class SquareDomain(RectangularDomain):
 
 
 class UnitSquare(SquareDomain):
-
     def __init__(self):
         super().__init__(0, 1)
 

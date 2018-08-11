@@ -66,5 +66,3 @@ class ColorSpace(ABC):
     @abstractmethod
     def as_rgb8(self):
         pass
-
-

@@ -1,1 +1,1 @@
-from .bitmask import BitMask
+from .bitmask import BitMask  # noqa: F401

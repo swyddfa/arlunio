@@ -13,7 +13,6 @@ dim = integers(min_value=2, max_value=256)
 
 @pytest.mark.color
 class TestMono(TestCase):
-
     @given(width=dim, height=dim)
     def test_init_width_height(self, width, height):
         """Test that the RGBA8 ColorData implementation initialises correctly

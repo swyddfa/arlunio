@@ -50,11 +50,15 @@ class BaseDomainTest:
         self.assertTrue(callable(xs), "The x property should return a function.")
 
         XS = xs(width, height)
-        self.assertTrue(isinstance(XS, (np.ndarray,)),
-                        "The function should return a numpy array")
+        self.assertTrue(
+            isinstance(XS, (np.ndarray,)), "The function should return a numpy array"
+        )
 
-        self.assertEqual((height, width), XS.shape,
-                         "The resulting array should have shape (height, width)")
+        self.assertEqual(
+            (height, width),
+            XS.shape,
+            "The resulting array should have shape (height, width)",
+        )
 
     def test_x_property_read_only(self):
         """Ensure that the :code:`x` property is read only."""
@@ -79,11 +83,15 @@ class BaseDomainTest:
         self.assertTrue(callable(ys), "The y property should return a function.")
 
         YS = ys(width, height)
-        self.assertTrue(isinstance(YS, (np.ndarray,)),
-                        "The function should return a numpy array")
+        self.assertTrue(
+            isinstance(YS, (np.ndarray,)), "The function should return a numpy array"
+        )
 
-        self.assertEqual((height, width), YS.shape,
-                         "The resulting array should have shape (height, width)")
+        self.assertEqual(
+            (height, width),
+            YS.shape,
+            "The resulting array should have shape (height, width)",
+        )
 
     def test_y_property_read_only(self):
         """Ensure that the :code:`y` property is read only."""
@@ -108,11 +116,15 @@ class BaseDomainTest:
         self.assertTrue(callable(rs), "The r property should return a function.")
 
         RS = rs(width, height)
-        self.assertTrue(isinstance(RS, (np.ndarray,)),
-                        "The function should return a numpy array")
+        self.assertTrue(
+            isinstance(RS, (np.ndarray,)), "The function should return a numpy array"
+        )
 
-        self.assertEqual((height, width), RS.shape,
-                         "The resulting array should have shape (height, width)")
+        self.assertEqual(
+            (height, width),
+            RS.shape,
+            "The resulting array should have shape (height, width)",
+        )
 
     def test_r_property_read_only(self):
         """Ensure that the :code:`r` property is read only."""
@@ -137,11 +149,15 @@ class BaseDomainTest:
         self.assertTrue(callable(ts), "The t property should return a function")
 
         TS = ts(width, height)
-        self.assertTrue(isinstance(TS, (np.ndarray,)),
-                        "The function should return a numpy array")
+        self.assertTrue(
+            isinstance(TS, (np.ndarray,)), "The function should return a numpy array"
+        )
 
-        self.assertEqual((height, width), TS.shape,
-                         "The resulting array should have shape (height, width)")
+        self.assertEqual(
+            (height, width),
+            TS.shape,
+            "The resulting array should have shape (height, width)",
+        )
 
     def test_t_property_read_only(self):
         """Ensure that the :code:`t` property is read only."""

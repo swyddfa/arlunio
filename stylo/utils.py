@@ -2,11 +2,12 @@ from inspect import signature
 
 
 def bounded_property(
-        name,
-        bounded_above=None,
-        bounded_above_by=None,
-        bounded_below=None,
-        bounded_below_by=None):
+    name,
+    bounded_above=None,
+    bounded_above_by=None,
+    bounded_below=None,
+    bounded_below_by=None,
+):
     """Factory function to define a bounded property.
 
     This function writes a property definition for a numeric bounded property.
@@ -50,10 +51,10 @@ def bounded_property(
 
     # First check that the given arguments make sense.
     if bounded_below is not None and bounded_below_by is not None:
-        raise ValueError("You can only use \"bounded_below\" or \"bounded_below_by\"")
+        raise ValueError('You can only use "bounded_below" or "bounded_below_by"')
 
     if bounded_above is not None and bounded_above_by is not None:
-        raise ValueError("You can only use \"bounded_above\" or \"bounded_above_by\"")
+        raise ValueError('You can only use "bounded_above" or "bounded_above_by"')
 
     if bounded_below is not None and not isinstance(bounded_below, (int, float)):
         raise TypeError("The value of bounded_below must be a number.")
@@ -67,19 +68,19 @@ def bounded_property(
     if bounded_above_by is not None and not isinstance(bounded_above_by, (str,)):
         raise TypeError("The value of bounded_above_by must be a string")
 
-    hidden_name = '_' + name
+    hidden_name = "_" + name
 
     type_error_message = "Value of property {0} must be a number".format(name)
     bounded_below_message = "Value of property {0} must be strictly larger than {1}"
-    bounded_below_by_message = "Value of property {0} must be strictly larger than the value " \
-                               "of property {1}"
+    bounded_below_by_message = (
+        "Value of property {0} must be strictly larger than the value of property {1}"
+    )
     bounded_above_message = "Value of property {0} must be strictly less than {1}"
-    bounded_above_by_message = "Value of property {0} must be strictly less than the value " \
-                               "of property {1}"
+    bounded_above_by_message = (
+        "Value of property {0} must be strictly less than the value of property {1}"
+    )
 
-    checks = [
-        (lambda s, v: isinstance(v, (int, float)), TypeError(type_error_message))
-    ]
+    checks = [(lambda s, v: isinstance(v, (int, float)), TypeError(type_error_message))]
 
     if bounded_above is not None:
         exception = ValueError(bounded_above_message.format(name, bounded_above))
@@ -87,7 +88,9 @@ def bounded_property(
 
     if bounded_above_by is not None:
         exception = ValueError(bounded_above_by_message.format(name, bounded_above_by))
-        checks.append((lambda s, v: v < s.__getattribute__(bounded_above_by), exception))
+        checks.append(
+            (lambda s, v: v < s.__getattribute__(bounded_above_by), exception)
+        )
 
     if bounded_below is not None:
         exception = ValueError(bounded_below_message.format(name, bounded_below))
@@ -95,7 +98,9 @@ def bounded_property(
 
     if bounded_below_by is not None:
         exception = ValueError(bounded_below_by_message.format(name, bounded_below_by))
-        checks.append((lambda s, v: v > s.__getattribute__(bounded_below_by), exception))
+        checks.append(
+            (lambda s, v: v > s.__getattribute__(bounded_below_by), exception)
+        )
 
     def getter(self):
         return self.__getattribute__(hidden_name)

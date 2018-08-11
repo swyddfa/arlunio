@@ -17,7 +17,7 @@ class Mono(ColorSpace):
     def __and__(self, other):
 
         if not isinstance(other, (Mono,)):
-            raise TypeError('Operation only supported between Mono instances')
+            raise TypeError("Operation only supported between Mono instances")
 
         width_ok = self.width == other.width
         height_ok = self.height == other.height
@@ -35,7 +35,7 @@ class Mono(ColorSpace):
     def __or__(self, other):
 
         if not isinstance(other, (Mono,)):
-            raise TypeError('Operation only supported between Mono instances')
+            raise TypeError("Operation only supported between Mono instances")
 
         width_ok = self.width == other.width
         height_ok = self.height == other.height
@@ -104,9 +104,7 @@ class Mono(ColorSpace):
 
     def as_rgb8(self):
 
-        rgb8 = np.full(
-            (self.width, self.height, 3), (255, 255, 255), dtype=np.uint8
-        )
+        rgb8 = np.full((self.width, self.height, 3), (255, 255, 255), dtype=np.uint8)
 
         # All the true values are now black
         rgb8[self._data] = (0, 0, 0)

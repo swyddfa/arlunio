@@ -14,13 +14,15 @@ class RectangularDomain(Domain):
 
     def __init__(self, xmin, xmax, ymin, ymax):
 
-        if (xmin >= xmax):
-            raise ValueError("The value of xmin must be strictly less than the "\
-                             "value of xmax")
+        if xmin >= xmax:
+            raise ValueError(
+                "The value of xmin must be strictly less than the " "value of xmax"
+            )
 
-        if (ymin >= ymax):
-            raise ValueError("The value of ymin must be strictly less than the "\
-                             "value of ymax")
+        if ymin >= ymax:
+            raise ValueError(
+                "The value of ymin must be strictly less than the " "value of ymax"
+            )
 
         self._xmin = xmin
         self._ymin = ymin
