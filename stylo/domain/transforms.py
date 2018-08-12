@@ -2,10 +2,10 @@ import numpy as np
 from abc import ABC
 from textwrap import indent
 
-from .domain import Domain
+from .domain import RealDomain
 
 
-class DomainTransform(Domain, ABC):
+class RealDomainTransform(RealDomain, ABC):
     """A base class for transformations.
 
     You cannot create an instance of this class as it leaves methods
@@ -29,13 +29,13 @@ class DomainTransform(Domain, ABC):
     @domain.setter
     def domain(self, value):
 
-        if not isinstance(value, (Domain,)):
+        if not isinstance(value, (RealDomain,)):
             raise TypeError("Property domain: expected Domain instance.")
 
         self._domain = value
 
 
-class Translation(DomainTransform):
+class Translation(RealDomainTransform):
     """A domain that applies a translation to the domain provided to it."""
 
     def __init__(self, domain, dx, dy):
@@ -101,6 +101,9 @@ class Translation(DomainTransform):
         return mk_ts
 
 
-def translate(domain, dx=0, dy=0):
-    """Apply a translation to a given domain."""
-    return Translation(domain, dx, dy)
+def translate(drawable, dx=0, dy=0):
+    """Apply a translation to a given drawable."""
+
+    domain = drawable.domain
+    translated = Translation(domain, -dx, -dy)
+    drawable.domain = translated

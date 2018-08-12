@@ -1,8 +1,12 @@
 from abc import ABC, abstractmethod
 
 
-class Domain(ABC):
-    """Encapsulates the notion of a mathematical domain."""
+class RealDomain(ABC):
+    """Encapsulates the notion of a mathematical domain in :math:`\\mathbb{R}^2`
+
+    This class only defines the interface for a real domain and it not meant to be
+    created directly. Refer to implementations such as :class:`RectangularDomain`
+    """
 
     _coords = "xyrt"
 

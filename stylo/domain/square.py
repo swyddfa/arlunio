@@ -2,7 +2,7 @@ from .rectangular import RectangularDomain
 
 
 class SquareDomain(RectangularDomain):
-    """ A sqaure domain [a, b] x [a, b]"""
+    """ A domain of the form :math:`[a, b] \\times [a, b] \\subset \\mathbb{R}^2`."""
 
     def __init__(self, x_min, x_max):
         super().__init__(x_min, x_max, x_min, x_max)
@@ -29,6 +29,8 @@ class SquareDomain(RectangularDomain):
 
 
 class UnitSquare(SquareDomain):
+    """The domain :math:`[0, 1] \\times [0, 1] \\subset \\mathbb{R}^2`."""
+
     def __init__(self):
         super().__init__(0, 1)
 

@@ -1,11 +1,11 @@
 import numpy as np
 
-from .domain import Domain
+from .domain import RealDomain
 from stylo.utils import bounded_property
 
 
-class RectangularDomain(Domain):
-    """A domain of the form [xmin,xmax] x [ymin,ymax]."""
+class RectangularDomain(RealDomain):
+    """A domain of the form :math:`[a, b] \\times [c, d] \\subset \\mathbb{R}^2`"""
 
     xmin = bounded_property("xmin", bounded_above_by="xmax")
     xmax = bounded_property("xmax", bounded_below_by="xmin")
