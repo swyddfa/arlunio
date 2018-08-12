@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from inspect import signature
 
-from stylo.domain.domain import Domain
+from stylo.domain.domain import RealDomain
 
 
 def get_coordinate_string(function):
@@ -33,7 +33,7 @@ class Renderer(ABC):
 
     def __call__(self, domain, definition, width, height):
 
-        if not isinstance(domain, (Domain,)):
+        if not isinstance(domain, (RealDomain,)):
             message = "Argument domain: expected instance of a Domain object."
             raise TypeError(message)
 

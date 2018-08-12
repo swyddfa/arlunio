@@ -49,9 +49,8 @@ class BitMask(Image):
         return cls(0, 0, Mono.fromarray(mask))
 
     def draw(self, drawable):
-        shape = drawable.shape
         domain = drawable.domain
 
         renderer = SimpleRenderer()
-        mask = renderer.render(domain, shape, self.width, self.height)
+        mask = renderer.render(domain, drawable.shape(), self.width, self.height)
         self.color = Mono.fromarray(mask)

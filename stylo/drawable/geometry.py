@@ -26,17 +26,16 @@ class Ellipse(Drawable):
     """
 
     def __init__(self, x, y, a, b, r):
+        super().__init__()
         self.x = x
         self.y = y
         self.a = a
         self.b = b
         self.r = r
 
-    @property
-    def domain(self):
+    def default_domain(self):
         return SquareDomain(-1, 1)
 
-    @property
     def shape(self):
 
         r = self.r * self.r
@@ -81,16 +80,15 @@ class Rectangle(Drawable):
     """
 
     def __init__(self, x, y, width, height):
+        super().__init__()
         self.x = x
         self.y = y
         self.width = width
         self.height = height
 
-    @property
-    def domain(self):
+    def default_domain(self):
         return UnitSquare()
 
-    @property
     def shape(self):
 
         left = self.x - (self.width / 2)
