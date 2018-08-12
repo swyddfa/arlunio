@@ -1,4 +1,4 @@
-Stylo
+About
 -----
 
 .. list-table::
@@ -32,28 +32,17 @@ Stylo
     :alt: Supported versions
     :target: https://pypi.python.org/pypi/stylo
 
-**DISCLAIMER!: Stylo is still in its very early stages, many of the core
-concepts are yet to be decided on. The interface can change without warning or
-features be added and removed entirely!**
+**DISCLAIMER!: Stylo is still in its early stages, many of the core
+concepts are yet to be decided on. The interface can change without warning and
+features may be added or removed without warning!**
 
-Stylo is a library that attempts to allow users to easily describe the
-contents of an image using a blend of Python and Mathematics. It also provides
-tools that allow for easy parameterisation of the contents of an image opening
-up the possibilities for the creation of animations.
-
-Requirements
-------------
-
-This framework is Python 3 only, and has the following dependencies:
-
-- Numpy
-- Scipy
-- Pillow
-- Matplotlib
-
+Stylo is library that provides a number of tools that aim to make the process of creating
+images and animations using nothing but some code and some mathematics possible. Since my
+drawing abilities are very limited I created stylo as a way of me trying to close the gap
+between my imagination and my artistic ability.
 
 Installation
-------------
+^^^^^^^^^^^^
 
 Stylo is available on PyPi and can easily be installed using Pip:
 
@@ -61,8 +50,3 @@ Stylo is available on PyPi and can easily be installed using Pip:
 
     $ pip install stylo
 
-Alternatively you can grab the latest source code using Git:
-
-.. code::
-
-    $ git clone https://github.com/alcarney/stylo

@@ -1,33 +1,20 @@
-[Unreleased]
-============
+v0.4.0 [Unreleased]
+-------------------
+
+This is biggest release to date as stylo has been rewritten from the ground up in an
+effort to be faster, more modular and easier to maintain.
 
 Added
------
+^^^^^
 
-- Drawables now have a calculate() that is called each time their internal
-  clock is changed, allowing users to move out computations that don't change
-  on a frame by frame basis from their "hot" mask and color functions. When
-  used right this should provide users with marginal speed increases in
-  animations
-- A new domain keyword argument to the @sampled decorator
+- New everything
 
-Changed
--------
-
-- The domain system has been rewritten from the ground up to be simpler and much
-  more flexible!
-- The structure of the documentation has been completely revamped. There are
-  now three main sections waiting to be fleshed out.
-  + Using Stylo: Simply how to use the parts of the library
-  + Extending Stylo: How to start building on what stylo offers to create your
-    own objects
-  + Developing Stylo: What you need to know to work on stylo.
 
 v0.3.0 2017-12-09
-=================
+-----------------
 
 Added
------
+^^^^^
 
 - New Domain class, it is responsible for generating the grids of numbers
   passed to Drawables when they are mapped onto Images. It replaces most of the
@@ -38,7 +25,7 @@ Added
 - More tests!
 
 Changed
--------
+^^^^^^^
 
 - ANDing Images (a & b) has been reimplemented so that it hopefully makes more
   sense. The alpha value of b is used to scale the color values of a.
@@ -46,7 +33,7 @@ Changed
   reworked to hopefully make coordinate calculations faster
 
 Removed
--------
+^^^^^^^
 
 - stylo/coords.py has been deleted, this means the following functions and
   decorators no longer exist
@@ -58,10 +45,10 @@ Removed
   + reflect (not yet implemented in the new system)
 
 v0.2.3 2017-11-15
-==================
+------------------
 
 Added
------
+^^^^^
 
 - Image objects can now be added together, this is simply the sum of the color
   values at each pixel
@@ -69,47 +56,47 @@ Added
   colour values at each pixel
 
 Changed
--------
+^^^^^^^
 
 - Renamed hex_to_rgb to hexcolor. It now also can cope with rgb and rgba
   arguments, with the ability to promote rgb to rgba colors
 
 
 v0.2.2 - 2017-10-30
-===================
+-------------------
 
 Added
------
+^^^^^
 
 - Keyword argument 'only' to the 'polar' decorator which allows you to ignore
   the x and y variables if you dont need them
 
 Fixed
------
+^^^^^
 
 - Forgot to expose the objects from interpolate.py to the top level stylo
   import
 - Examples in the documentation and enabled doctests for them
 
 v0.2.1 - 2017-10-29
-===================
+-------------------
 
 Fixed
------
+^^^^^
 - Stylo should now also work on python 3.5
 
 Removed
--------
+^^^^^^^
 - Deleted stylo/motion.py as its something better suited to a plugin
 - Deleted Pupptet, PuppetMaster and supporting functions as they are broken and
   better to be rewritten from scratch
 
 
 v0.2.0 - 2017-10-27
-===================
+-------------------
 
 Added
------
+^^^^^
 
 - Sampler object which forms the basis of the new Driver implementations
 - Channel object which can manage many Sampler-like objects to form a
@@ -119,9 +106,9 @@ Added
 - linear, quad_ease_in, quad_ease_out interpolation functions
 
 Docs
-^^^^
+""""
 
--Added the following reference pages
+- Added the following reference pages
     + Image
     + Drawable
     + Primitive
@@ -130,20 +117,20 @@ Docs
 - How-To invert the colours of an Image
 
 Changed
--------
+^^^^^^^
 - Image.__and__() now uses a new method which produces better results with
   colour images
 
 Fixed
------
+^^^^^
 - Numpy shape error in Image.__neg__()
 
 Removed
--------
+^^^^^^^
 - stylo.prims.thicken was redundant so it has been removed
 
 
 v0.1.0 - 2017-08-02
-===================
+-------------------
 
 Initial Release

@@ -166,7 +166,12 @@ texinfo_documents = [
 ]
 
 
-# -- Extension configuration -------------------------------------------------
+# -- Options for autodic extension -------------------------------------------
+autodoc_default_flags = [
+    "members",
+    "undoc-members",
+    "show-inheritence"
+]
 
 # -- Options for intersphinx extension ---------------------------------------
 
