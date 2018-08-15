@@ -13,4 +13,6 @@ go to find out more.
 .. toctree::
    :maxdepth: 2
 
-   coordinates
+   numbers
+   cartesian-coordinates
+   polar-coordinates

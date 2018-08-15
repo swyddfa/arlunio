@@ -8,6 +8,7 @@
    extending/index
    developing/index
    maths/index
+   glossary
    changes
 
 

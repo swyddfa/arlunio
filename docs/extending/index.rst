@@ -11,8 +11,8 @@ To be honest the distinction is somewhat arbitrary but for now we'll define exte
 :code:`stylo` as the following situation.
 
 1. You want to add a new :code:`XXX` object. e.g. a new :code:`DomainTransform` or
-  :code:`Drawable`. Perhaps with the added goal of making this new object or collection
-  of objects available to others.
+:code:`Drawable`. Perhaps with the added goal of making this new object or collection
+of objects available to others.
 
 Stylo itself is designed to be a collection of systems that work together in creating
 images and animated sequences. While it does come with a handful of objects that work
@@ -30,6 +30,12 @@ way the new object should within the rest of the :code:`stylo` ecosystem.
 Which brings us to this section of the documentation, here you will find guides all
 geared around creating new objects that play nice with the existing interfaces. Other
 tasks which affect stylo in a more fundamental way are left to the development section.
+
+
+.. toctree::
+   :maxdepth: 2
+
+   reference/index
 
 
 

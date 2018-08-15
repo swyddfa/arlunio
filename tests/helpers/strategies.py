@@ -6,7 +6,11 @@ It defines the following strategies:
   sizes etc.
 - :code:`real`: Represents a real number in the range +/-1 million
 """
+from math import pi
+
 from hypothesis.strategies import integers, floats
 
 real = floats(min_value=-1e6, max_value=1e6)
+angle = floats(min_value=-pi, max_value=pi)
+
 dimension = integers(min_value=2, max_value=1024)

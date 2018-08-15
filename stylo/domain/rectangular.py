@@ -1,10 +1,10 @@
 import numpy as np
 
-from .domain import RealDomain
+from .domain import RealDomain, PolarConversion
 from stylo.utils import bounded_property
 
 
-class RectangularDomain(RealDomain):
+class RectangularDomain(PolarConversion, RealDomain):
     """A domain of the form :math:`[a, b] \\times [c, d] \\subset \\mathbb{R}^2`"""
 
     xmin = bounded_property("xmin", bounded_above_by="xmax")
@@ -39,7 +39,6 @@ class RectangularDomain(RealDomain):
             xs = np.array([xs for _ in range(height)])
 
             return xs
-
         return mk_xs
 
     def _get_ys(self):
@@ -49,33 +48,4 @@ class RectangularDomain(RealDomain):
             ys = ys.transpose()
 
             return ys
-
         return mk_ys
-
-    def _get_rs(self):
-
-        xs = self._get_xs()
-        ys = self._get_ys()
-
-        def mk_rs(width, height):
-
-            XS = xs(width, height)
-            YS = ys(width, height)
-
-            return np.sqrt(XS * XS + YS * YS)
-
-        return mk_rs
-
-    def _get_ts(self):
-
-        xs = self._get_xs()
-        ys = self._get_ys()
-
-        def mk_rs(width, height):
-
-            XS = xs(width, height)
-            YS = ys(width, height)
-
-            return np.arctan2(YS, XS)
-
-        return mk_rs

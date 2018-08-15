@@ -1,10 +1,17 @@
+.. _use_ref:
+
 Reference
 =========
 
-Welcome to the reference documentation! Here you will find the nitty gritty documentation
-on each and every object and function in :code:`stylo`. Most of this documentation is
-automatically generated from the codebase so you might have to refer to some of the
-higher level documentation to get the appropriate context for some of the stuff here.
+Welcome to the reference section, here you will find detailed documentation on many of
+the objects in :code:`stylo`
+
+.. note::
+
+   You will not find documentation on everything here, just the objects that directly
+   useful when it comes to using :code:`stylo`'s built in objects. For details on the
+   objects that are meant to be used as helpers when writing your own extensions please
+   see the Extending :ref:`ext_ref` section.
 
 
 .. toctree::
