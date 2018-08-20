@@ -31,4 +31,4 @@ Each of the following apply a certain transformation to a given domain, this mea
 cannot be used on their own directly but depend on using a particular concrete
 implementation as a base.
 
-.. autoclass:: stylo.domain.transforms.Translation
+.. autoclass:: stylo.domain.transforms.translation.Translation

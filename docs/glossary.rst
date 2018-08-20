@@ -13,3 +13,7 @@ Glossary
       An alternate coordinate system that (in 2D) uses two variables :math:`(r, \theta)`
       to address a point in space. Useful for curves and circular objects.
       See :ref:`math_polar_coordinates`
+
+   lint
+   linting
+      Linting in software development....
