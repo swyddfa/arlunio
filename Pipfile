@@ -8,18 +8,9 @@ name = "pypi"
 [packages]
 
 numpy = "*"
-scipy = "*"
 pillow = "*"
 matplotlib = "*"
 
 
 [dev-packages]
-
-hypothesis = "*"
-pytest = "*"
-sphinx = "*"
-topos-theme = "*"
-"flake8" = "*"
-black = "*"
-jupyter = "*"
 tox = "*"
