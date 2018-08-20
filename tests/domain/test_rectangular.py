@@ -5,9 +5,9 @@ import numpy as np
 import numpy.testing as npt
 from hypothesis import given, assume
 
-from tests.helpers.strategies import real, dimension
-from tests.helpers.domain import BaseDomainTest
 from stylo.domain.rectangular import RectangularDomain
+from stylo.testing.strategies import real, dimension
+from stylo.testing.domain import BaseDomainTest
 
 
 @pytest.mark.domain

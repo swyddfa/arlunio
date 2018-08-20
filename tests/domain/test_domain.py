@@ -10,7 +10,6 @@ class TestPolarConversion(TestCase):
     """Tests for the :code:`PolarConversion` class"""
 
     def setUp(self):
-
         class MyDomain(PolarConversion, RealDomain):
             def _get_ys(self):
                 pass

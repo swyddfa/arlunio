@@ -1,11 +1,10 @@
-from unittest import TestCase
-
 import pytest
 from hypothesis import given, assume
+from unittest import TestCase
 
-from tests.helpers.domain import BaseDomainTest
-from tests.helpers.strategies import real
 from stylo.domain.square import SquareDomain, UnitSquare
+from stylo.testing.domain import BaseDomainTest
+from stylo.testing.strategies import real
 
 
 @pytest.mark.domain

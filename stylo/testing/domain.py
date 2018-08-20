@@ -2,7 +2,7 @@ import pytest
 import numpy as np
 from hypothesis import given
 
-from tests.helpers.strategies import dimension
+from stylo.testing.strategies import dimension
 
 
 class BaseDomainTest:
@@ -14,7 +14,7 @@ class BaseDomainTest:
     .. code-block:: python
 
        from unittest import TestCase
-       from tests.helpers.domain import BaseDomainTest
+       from tests.testing.domain import BaseDomainTest
 
        class TestMyDomain(TestCase, BaseDomainTest):
            ...
