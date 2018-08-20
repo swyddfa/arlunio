@@ -189,6 +189,7 @@ class CartesianConversion:
             t = ts(width, height)
 
             return r * np.cos(t)
+
         return mk_xs
 
     def _get_ys(self):
@@ -210,4 +211,5 @@ class CartesianConversion:
             t = ts(width, height)
 
             return r * np.sin(t)
+
         return mk_ys

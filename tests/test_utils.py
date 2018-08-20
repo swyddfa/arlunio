@@ -2,7 +2,7 @@ from unittest import TestCase
 
 import pytest
 from hypothesis import given, assume
-from tests.helpers.strategies import real
+from stylo.testing import real
 
 from stylo.utils import bounded_property
 

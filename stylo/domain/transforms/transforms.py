@@ -32,5 +32,3 @@ class RealDomainTransform(RealDomain, ABC):
             raise TypeError("Property domain: expected Domain instance.")
 
         self._domain = value
-
-

@@ -39,6 +39,7 @@ class RectangularDomain(PolarConversion, RealDomain):
             xs = np.array([xs for _ in range(height)])
 
             return xs
+
         return mk_xs
 
     def _get_ys(self):
@@ -48,4 +49,5 @@ class RectangularDomain(PolarConversion, RealDomain):
             ys = ys.transpose()
 
             return ys
+
         return mk_ys
