@@ -1,14 +1,13 @@
-from math import pi
-
-import pytest
 import numpy.testing as npt
+import pytest
 from hypothesis import given
+from math import pi
 from unittest import TestCase
 
 from stylo.domain import UnitSquare
 from stylo.domain.transforms.rotation import Rotation
-from stylo.testing import BaseDomainTest
-from stylo.testing import dimension, angle
+from stylo.testing.domain import BaseDomainTest
+from stylo.testing.strategies import dimension, angle
 
 
 @pytest.mark.domain

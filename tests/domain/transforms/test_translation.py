@@ -5,8 +5,8 @@ from unittest import TestCase
 
 from stylo.domain.square import UnitSquare
 from stylo.domain.transforms.translation import Translation
-from stylo.testing import BaseDomainTest
-from stylo.testing import dimension, real
+from stylo.testing.domain import BaseDomainTest
+from stylo.testing.strategies import dimension, real
 
 
 @pytest.mark.domain

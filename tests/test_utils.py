@@ -1,9 +1,8 @@
-from unittest import TestCase
-
 import pytest
 from hypothesis import given, assume
-from stylo.testing import real
+from unittest import TestCase
 
+from stylo.testing.strategies import real
 from stylo.utils import bounded_property
 
 
