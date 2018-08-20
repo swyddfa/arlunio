@@ -26,3 +26,15 @@ script:
 
 after_success:
     - if [ "$TOXENV" == "py36" ]; then coveralls; fi
+
+deploy:
+    - provider: pages
+      skip-cleanup: true
+      github-token: $GH_TOKEN
+      keep-history: true
+      local-dir: "docs/_build/html/"
+      verbose: true
+      on:
+        branch: develop
+        condition: $TOXENV = docs
+        python: 3.6
