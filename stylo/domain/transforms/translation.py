@@ -45,4 +45,6 @@ def translate(drawable, dx=0, dy=0):
 
     domain = drawable.domain
     translated = Translation(domain, -dx, -dy)
+
     drawable.domain = translated
+    return drawable

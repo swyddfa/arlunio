@@ -26,4 +26,6 @@ def rotate(drawable, angle):
 
     domain = drawable.domain
     rotated = Rotation(domain, angle)
+
     drawable.domain = rotated
+    return drawable
