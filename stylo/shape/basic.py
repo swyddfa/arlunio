@@ -1,10 +1,9 @@
 import numpy as np
 
-from stylo.domain import SquareDomain, UnitSquare
-from stylo.drawable.drawable import Drawable
+from stylo.shape.shape import Shape
 
 
-class Ellipse(Drawable):
+class Ellipse(Shape):
     """An ellipse.
 
     Mathematically we can define an ellipse to be the set
@@ -26,17 +25,13 @@ class Ellipse(Drawable):
     """
 
     def __init__(self, x, y, a, b, r):
-        super().__init__()
         self.x = x
         self.y = y
         self.a = a
         self.b = b
         self.r = r
 
-    def default_domain(self):
-        return SquareDomain(-1, 1)
-
-    def shape(self):
+    def draw(self):
 
         r = self.r * self.r
         a = self.a
@@ -71,7 +66,7 @@ class Circle(Ellipse):
         super().__init__(x, y, 1, 1, r)
 
 
-class Rectangle(Drawable):
+class Rectangle(Shape):
     """
     It's quite simple to define a rectangle, simply pick a
     point :math:`(x_0,y_0)` that you want to be the center
@@ -80,16 +75,12 @@ class Rectangle(Drawable):
     """
 
     def __init__(self, x, y, width, height):
-        super().__init__()
         self.x = x
         self.y = y
         self.width = width
         self.height = height
 
-    def default_domain(self):
-        return UnitSquare()
-
-    def shape(self):
+    def draw(self):
 
         left = self.x - (self.width / 2)
         right = self.x + (self.width / 2)

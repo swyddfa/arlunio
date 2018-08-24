@@ -2,7 +2,6 @@ import numpy as np
 
 from stylo.color.mono import Mono
 from stylo.image.image import Image
-from stylo.render.simple import SimpleRenderer
 
 
 class BitMask(Image):
@@ -48,9 +47,8 @@ class BitMask(Image):
     def frommask(cls, mask):
         return cls(0, 0, Mono.fromarray(mask))
 
-    def draw(self, drawable):
+    def draw(self, shape):
         domain = drawable.domain
 
-        renderer = SimpleRenderer()
         mask = renderer.render(domain, drawable.shape(), self.width, self.height)
         self.color = Mono.fromarray(mask)
