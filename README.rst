@@ -4,6 +4,8 @@ About
 .. list-table::
    :stub-columns: 1
 
+   * - project
+     - |license|
    * - docs
      - |docs|
    * - code
@@ -12,25 +14,29 @@ About
      - |version| |supported-versions|
 
 .. |travis| image:: https://travis-ci.org/alcarney/stylo.svg?branch=develop
-    :target: https://travis-ci.org/alcarney/stylo
+   :target: https://travis-ci.org/alcarney/stylo
 
 .. |docs| image:: https://readthedocs.org/projects/stylo/badge/?version=develop
-    :target: http://stylo.readthedocs.io/en/develop/?badge=develop
-    :alt: Documentation Status
+   :target: http://stylo.readthedocs.io/en/develop/?badge=develop
+   :alt: Documentation Status
 
 .. |coveralls| image:: https://coveralls.io/repos/github/alcarney/stylo/badge.svg?branch=develop
-    :target: https://coveralls.io/github/alcarney/stylo?branch=develop
+   :target: https://coveralls.io/github/alcarney/stylo?branch=develop
 
 .. |black| image:: https://img.shields.io/badge/code%20style-black-000000.svg
-    :target: https://github.com/ambv/black
+   :target: https://github.com/ambv/black
 
 .. |version| image:: https://img.shields.io/pypi/v/stylo.svg
-    :alt: PyPI Package latest release
-    :target: https://pypi.python.org/pypi/stylo
+   :alt: PyPI Package latest release
+   :target: https://pypi.python.org/pypi/stylo
 
 .. |supported-versions| image:: https://img.shields.io/pypi/pyversions/stylo.svg
-    :alt: Supported versions
-    :target: https://pypi.python.org/pypi/stylo
+   :alt: Supported versions
+   :target: https://pypi.python.org/pypi/stylo
+
+.. |license| image:: https://img.shields.io/github/license/alcarney/stylo.svg
+   :alt: License
+
 
 **DISCLAIMER!: Stylo is still in its early stages, many of the core
 concepts are yet to be decided on. The interface can change without warning and

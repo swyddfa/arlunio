@@ -1,74 +1,4 @@
-from abc import ABC, abstractmethod
 import numpy as np
-
-
-class RealDomain(ABC):
-    """Encapsulates the notion of a mathematical domain in :math:`\\mathbb{R}^2`
-
-    This class only defines the interface that every instance of :class:`RealDomain`
-    must adhere to. In order to make use of this interface you need to use one of the
-    many implementations such as :class:`RectangularDomain`.
-
-    There are two coordinate systems that are currently supported by :class:`RealDomain`
-    objects, these are the :term:`Cartesian coordinates` and :term:`Polar coordinates`.
-
-    """
-
-    _coords = "xyrt"
-
-    def __getitem__(self, key):
-
-        return lambda w, h: tuple(
-            self.__getattribute__(c)(w, h) for c in key if c in self._coords
-        )
-
-    @property
-    def x(self):
-        """Returns a function in width and height that returns the values of
-        the :math:`x` coordinate."""
-        return self._get_xs()
-
-    @property
-    def y(self):
-        """Returns a function in width and height that returns the values of
-        the :math:`y` coordinate."""
-        return self._get_ys()
-
-    @property
-    def r(self):
-        """Returns a function in width and height that returns the values of
-        the :math:`r` coordinate."""
-        return self._get_rs()
-
-    @property
-    def t(self):
-        """Returns a function in width and height that returns the values of
-        the :math:`\\theta` coordinate."""
-        return self._get_ts()
-
-    @abstractmethod
-    def _get_xs(self):
-        """:code:`Domain` instances should implement this function to return a
-        function matching the one described in the :code:`x` property"""
-        pass
-
-    @abstractmethod
-    def _get_ys(self):
-        """:code:`Domain` instances should implement this function to return a
-        function matching the one described in the :code:`y` property"""
-        pass
-
-    @abstractmethod
-    def _get_rs(self):
-        """:code:`Domain` instances should implement this function to return a
-        function matching the one described in the :code:`r` property"""
-        pass
-
-    @abstractmethod
-    def _get_ts(self):
-        """:code:`Domain` instances should implement this function to return a
-        function matching the one described in the :code:`t` property"""
-        pass
 
 
 class PolarConversion:
@@ -81,7 +11,7 @@ class PolarConversion:
 
     This class provides implementations of the :code:`_get_rs` and :code:`_get_ts` that
     handle this conversion for you automatically, leaving you to focus on implementing
-    the transforms that interest you.
+    the transform that interest you.
 
     To use this class, simply include it in your :code:`class` definition as follows.
 
@@ -100,7 +30,7 @@ class PolarConversion:
        The order in which the classes are listed is *very* important.
     """
 
-    def _get_rs(self):
+    def _get_r(self):
         """The conversion to the radial component in terms of :math:`x` and :math:`y`.
 
         .. math::
@@ -108,8 +38,8 @@ class PolarConversion:
            r = \\sqrt{x^2 + y^2}
         """
 
-        xs = self._get_xs()
-        ys = self._get_ys()
+        xs = self._get_x()
+        ys = self._get_y()
 
         def mk_rs(width, height):
 
@@ -120,7 +50,7 @@ class PolarConversion:
 
         return mk_rs
 
-    def _get_ts(self):
+    def _get_t(self):
         """The conversion to the angular component in terms of :math:`x` and :math:`y`.
 
         .. math::
@@ -128,8 +58,8 @@ class PolarConversion:
            \\theta = \\tan^{-1}{\\left(\\frac{y}{x}\\right)}
         """
 
-        xs = self._get_xs()
-        ys = self._get_ys()
+        xs = self._get_x()
+        ys = self._get_y()
 
         def mk_ts(width, height):
 
@@ -151,7 +81,7 @@ class CartesianConversion:
 
     This class provides implementations of the :code:`_get_xs` and :code:`_get_ys`
     methods to handle this conversion for you automatically, leaving you to focus on
-    implementing the transforms that interest you.
+    implementing the transform that interest you.
 
     To use this class, simply include it in your :code:`class` definition as follows
 
@@ -170,7 +100,7 @@ class CartesianConversion:
        The order in which the classes are listed is *very* important.
     """
 
-    def _get_xs(self):
+    def _get_x(self):
         """The conversion to the :math:`x` component in terms of :math:`r` and
         :math:`\\theta`
 
@@ -180,8 +110,8 @@ class CartesianConversion:
 
         """
 
-        rs = self._get_rs()
-        ts = self._get_ts()
+        rs = self._get_r()
+        ts = self._get_t()
 
         def mk_xs(width, height):
 
@@ -192,7 +122,7 @@ class CartesianConversion:
 
         return mk_xs
 
-    def _get_ys(self):
+    def _get_y(self):
         """The conversion to the :math:`y` component in terms of :math:`r` and
         :math:`\\theta`
 
@@ -202,8 +132,8 @@ class CartesianConversion:
 
         """
 
-        rs = self._get_rs()
-        ts = self._get_ts()
+        rs = self._get_r()
+        ts = self._get_t()
 
         def mk_ys(width, height):
 

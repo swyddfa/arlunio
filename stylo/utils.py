@@ -123,3 +123,22 @@ def get_parameters(f):
     """
 
     return tuple(signature(f).parameters.keys())
+
+
+class Mappable:
+    """A base class for classes that want to map themselves onto a :code:`Domain`.
+
+    For example the :code:`Shape` object takes the definition for some shape defined on
+    some subset of :math:`\\mathbb{R}^2` (modelled by and instance of
+    :code:`RealDomain`) and returns a boolean array that indicates which parts of the
+    domain make up that shape.
+
+    Similarly the :code:`Colormap` object takes the definition for some colormap and
+    returns a numpy array representing the color at each point in the domain.
+
+    What this class does is handle the boilerplate required to apply a domain to its
+    arguments, while documenting the methods needed to be overriden if some custom
+    behavior is required.
+    """
+
+    pass

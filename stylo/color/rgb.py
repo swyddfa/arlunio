@@ -11,12 +11,19 @@ rgb_pattern = re.compile("\A[a-fA-F0-9]{6}\Z")
 class RGB8(ColorSpace):
     """The RGB color space."""
 
-    def __init__(self, width, height, fill=None):
+    def __init__(self, width, height, fill=None, array=None):
 
         if fill is None:
             fill = RGB8.parse("000000")
 
-        self._data = np.full((height, width, 3), fill, dtype=np.uint8)
+        if array is not None:
+            self._data = array
+        else:
+            self._data = np.full((height, width, 3), fill, dtype=np.uint8)
+
+    @staticmethod
+    def fromarray(array):
+        return RGB8(0, 0, array=array)
 
     @staticmethod
     def parse(color):

@@ -4,13 +4,13 @@ from hypothesis import given
 from unittest import TestCase
 
 from stylo.domain.square import UnitSquare
-from stylo.domain.transforms.translation import Translation
-from stylo.testing.domain import BaseDomainTest
+from stylo.domain.transform.translation import Translation
+from stylo.testing.domain import BaseRealDomainTest
 from stylo.testing.strategies import dimension, real
 
 
 @pytest.mark.domain
-class TestTranslate(TestCase, BaseDomainTest):
+class TestTranslate(TestCase, BaseRealDomainTest):
     """Tests for the Translation class"""
 
     def setUp(self):
@@ -34,8 +34,8 @@ class TestTranslate(TestCase, BaseDomainTest):
         # The y values should be unaffected.
         npt.assert_array_equal(ys, t_ys)
 
-        difference = xs - t_xs
-        npt.assert_array_equal(difference, -dx)
+        difference = t_xs - xs
+        npt.assert_array_almost_equal(difference, -dx)
 
     @given(width=dimension, height=dimension, dy=real)
     def test_dy_affects_y_values(self, width, height, dy):
@@ -52,5 +52,5 @@ class TestTranslate(TestCase, BaseDomainTest):
         # The x values should be unaffected
         npt.assert_array_equal(xs, t_xs)
 
-        difference = ys - t_ys
-        npt.assert_array_equal(difference, -dy)
+        difference = t_ys - ys
+        npt.assert_array_almost_equal(difference, -dy)

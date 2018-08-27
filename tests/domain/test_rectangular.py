@@ -7,11 +7,11 @@ from hypothesis import given, assume
 
 from stylo.domain.rectangular import RectangularDomain
 from stylo.testing.strategies import real, dimension
-from stylo.testing.domain import BaseDomainTest
+from stylo.testing.domain import BaseRealDomainTest
 
 
 @pytest.mark.domain
-class TestRectangularDomain(TestCase, BaseDomainTest):
+class TestRectangularDomain(TestCase, BaseRealDomainTest):
     """Tests for the RectangularDomain class"""
 
     def setUp(self):

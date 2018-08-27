@@ -1,5 +1,5 @@
-from stylo.domain.domain import CartesianConversion
-from stylo.domain.transforms.transforms import RealDomainTransform
+from stylo.domain.helpers import CartesianConversion
+from stylo.domain.transform import RealDomainTransform
 
 
 class Rotation(CartesianConversion, RealDomainTransform):
@@ -9,10 +9,13 @@ class Rotation(CartesianConversion, RealDomainTransform):
         super().__init__(domain)
         self.angle = angle
 
-    def _get_rs(self):
+    def _repr(self):
+        return "Rotation: {}".format(self.angle)
+
+    def _get_r(self):
         return self.domain.r
 
-    def _get_ts(self):
+    def _get_t(self):
         ts = self.domain.t
 
         def mk_ts(width, height):

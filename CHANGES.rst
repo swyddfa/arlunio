@@ -1,13 +1,16 @@
 v0.4.0 [Unreleased]
 -------------------
 
-This is biggest release to date as stylo has been rewritten from the ground up in an
-effort to be faster, more modular and easier to maintain.
+The biggest release to date! Stylo has been rewritten from the ground up to be
+(hopefully) faster, more modular and easier to extend!
+
 
 Added
 ^^^^^
 
-- New everything
+- New :code:`Domain` system.
+- New :code:`Shape` system.
+- New :code:`ColorSpace` system.
 
 
 v0.3.0 2017-12-09

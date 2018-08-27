@@ -104,7 +104,7 @@ class Mono(ColorSpace):
 
     def as_rgb8(self):
 
-        rgb8 = np.full((self.width, self.height, 3), (255, 255, 255), dtype=np.uint8)
+        rgb8 = np.full((self.height, self.width, 3), (255, 255, 255), dtype=np.uint8)
 
         # All the true values are now black
         rgb8[self._data] = (0, 0, 0)

@@ -89,7 +89,7 @@ class BaseShapeTest:
         self.assertEqual(len(unique), len(coordinates))
 
         for c in coordinates:
-            if c not in RealDomain._coords:
+            if c not in RealDomain._parameters:
                 message = "{} is not a valid coordinate variable."
                 raise ValueError(message.format(c))
 

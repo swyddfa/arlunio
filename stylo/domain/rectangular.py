@@ -1,6 +1,7 @@
 import numpy as np
 
-from .domain import RealDomain, PolarConversion
+from stylo.domain import RealDomain
+from stylo.domain.helpers import PolarConversion
 from stylo.utils import bounded_property
 
 
@@ -33,7 +34,7 @@ class RectangularDomain(PolarConversion, RealDomain):
         name = self.__class__.__name__
         return "{1}: [{0.xmin}, {0.xmax}] x [{0.ymin}, {0.ymax}]".format(self, name)
 
-    def _get_xs(self):
+    def _get_x(self):
         def mk_xs(width, height):
             xs = np.linspace(self.xmin, self.xmax, width)
             xs = np.array([xs for _ in range(height)])
@@ -42,7 +43,7 @@ class RectangularDomain(PolarConversion, RealDomain):
 
         return mk_xs
 
-    def _get_ys(self):
+    def _get_y(self):
         def mk_ys(width, height):
             ys = np.linspace(self.ymax, self.ymin, height)
             ys = np.array([ys for _ in range(width)])

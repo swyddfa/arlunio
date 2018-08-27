@@ -1,5 +1,5 @@
-from stylo.domain.domain import PolarConversion
-from stylo.domain.transforms.transforms import RealDomainTransform
+from stylo.domain.helpers import PolarConversion
+from stylo.domain.transform import RealDomainTransform
 
 
 class HorizontalShear(PolarConversion, RealDomainTransform):
@@ -9,16 +9,19 @@ class HorizontalShear(PolarConversion, RealDomainTransform):
         super().__init__(domain)
         self.k = -k
 
-    def _get_ys(self):
+    def _repr(self):
+        return "HorizontalShear: {}".format(-self.k)
+
+    def _get_y(self):
         return self.domain.y
 
-    def _get_xs(self):
+    def _get_x(self):
 
         xs = self.domain.x
         ys = self.domain.y
 
         def mk_xs(width, height):
-            return xs(width, height) + self.k*ys(width, height)
+            return xs(width, height) + self.k * ys(width, height)
 
         return mk_xs
 
@@ -30,33 +33,26 @@ class VerticalShear(PolarConversion, RealDomainTransform):
         super().__init__(domain)
         self.k = -k
 
-    def _get_xs(self):
+    def _repr(self):
+        return "VerticalShear: {}".format(-self.k)
+
+    def _get_x(self):
         return self.domain.x
 
-    def _get_ys(self):
+    def _get_y(self):
 
         xs = self.domain.x
         ys = self.domain.y
 
         def mk_ys(width, height):
-            return ys(width, height) + self.k*xs(width, height)
+            return ys(width, height) + self.k * xs(width, height)
 
         return mk_ys
 
 
-def vertical_shear(drawable, k):
-
-    domain = drawable.domain
-    sheared = VerticalShear(domain, k)
-
-    drawable.domain = sheared
-    return drawable
+def vertical_shear(domain, k):
+    return VerticalShear(domain, k)
 
 
-def horizontal_shear(drawable, k):
-
-    domain = drawable.domain
-    sheared = HorizontalShear(domain, k)
-
-    drawable.domain = sheared
-    return drawable
+def horizontal_shear(domain, k):
+    return HorizontalShear(domain, k)

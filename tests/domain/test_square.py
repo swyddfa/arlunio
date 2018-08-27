@@ -3,12 +3,12 @@ from hypothesis import given, assume
 from unittest import TestCase
 
 from stylo.domain.square import SquareDomain, UnitSquare
-from stylo.testing.domain import BaseDomainTest
+from stylo.testing.domain import BaseRealDomainTest
 from stylo.testing.strategies import real
 
 
 @pytest.mark.domain
-class TestSquareDomain(TestCase, BaseDomainTest):
+class TestSquareDomain(TestCase, BaseRealDomainTest):
     """Tests for the :code:`SquareDomain` class"""
 
     def setUp(self):
@@ -67,7 +67,7 @@ class TestSquareDomain(TestCase, BaseDomainTest):
 
 
 @pytest.mark.domain
-class TestUnitSquareDomain(TestCase, BaseDomainTest):
+class TestUnitSquareDomain(TestCase, BaseRealDomainTest):
     """Tests for the :code:`UnitSquare` class"""
 
     def setUp(self):

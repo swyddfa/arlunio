@@ -11,7 +11,7 @@ def readme():
 setup(name='stylo',
       version=__version__,
       description='Using a blend of Python and Maths for the '
-      'creation of image',
+      'creation of images',
       long_description=readme(),
       classifiers=[
           'Development Status :: 3 - Alpha',
@@ -27,16 +27,14 @@ setup(name='stylo',
       license='MIT',
       packages=['stylo'],
       install_requires=[
+          'Pillow',
+          'hypothesis'
           'matplotlib',
           'numpy',
-          'Pillow'
+          'pytest',
       ],
       setup_requires=['pytest-runner'],
       test_suite='tests',
-      tests_require=[
-          'pytest',
-          'hypothesis'
-      ],
       python_requires='>=3.0',
       include_package_data=True,
       zip_safe=False)
