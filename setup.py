@@ -28,10 +28,10 @@ setup(name='stylo',
       packages=['stylo'],
       install_requires=[
           'Pillow',
-          'hypothesis'
+          'hypothesis',
           'matplotlib',
           'numpy',
-          'pytest',
+          'pytest'
       ],
       setup_requires=['pytest-runner'],
       test_suite='tests',
