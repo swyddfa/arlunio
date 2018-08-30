@@ -4,8 +4,8 @@ Real Domain Helpers
 Helpers for writing new :class:`RealDomain` or :class:`RealDomainTransform`
 implementations
 
-.. autoclass:: stylo.domain.domain.PolarConversion
+.. autoclass:: stylo.domain.helpers.PolarConversion
    :private-members:
 
-.. autoclass:: stylo.domain.domain.CartesianConversion
+.. autoclass:: stylo.domain.helpers.CartesianConversion
    :private-members:

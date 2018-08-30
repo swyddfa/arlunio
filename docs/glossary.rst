@@ -14,6 +14,10 @@ Glossary
       to address a point in space. Useful for curves and circular objects.
       See :ref:`math_polar_coordinates`
 
-   lint
    linting
-      Linting in software development....
+      Linting in software development is the process of running one or more tools
+      against a codebase that search for potential issues. Examples include undefined
+      variables or enforcing stylistic conventions such as line length.
+
+   linear interpolation
+      TBW

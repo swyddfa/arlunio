@@ -2,7 +2,5 @@ Domains
 =======
 
 
-.. toctree::
-   :maxdepth: 1
-
-   realdomains
+.. autoclass:: stylo.domain.RealDomain
+   :members:

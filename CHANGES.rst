@@ -1,5 +1,5 @@
-v0.4.0 [Unreleased]
--------------------
+v0.4.0 - [Unreleased]
+---------------------
 
 The biggest release to date! Stylo has been rewritten from the ground up to be
 (hopefully) faster, more modular and easier to extend!
@@ -13,8 +13,8 @@ Added
 - New :code:`ColorSpace` system.
 
 
-v0.3.0 2017-12-09
------------------
+v0.3.0 - 2017-12-09
+--------------------
 
 Added
 ^^^^^
@@ -47,8 +47,8 @@ Removed
   + translate (now the .transform() method on the new Domain object)
   + reflect (not yet implemented in the new system)
 
-v0.2.3 2017-11-15
-------------------
+v0.2.3 - 2017-11-15
+-------------------
 
 Added
 ^^^^^

@@ -6,8 +6,6 @@ About
 
    * - project
      - |license|
-   * - docs
-     - |docs|
    * - code
      - |travis| |coveralls| |black|
    * - pypi
@@ -15,10 +13,6 @@ About
 
 .. |travis| image:: https://travis-ci.org/alcarney/stylo.svg?branch=develop
    :target: https://travis-ci.org/alcarney/stylo
-
-.. |docs| image:: https://readthedocs.org/projects/stylo/badge/?version=develop
-   :target: http://stylo.readthedocs.io/en/develop/?badge=develop
-   :alt: Documentation Status
 
 .. |coveralls| image:: https://coveralls.io/repos/github/alcarney/stylo/badge.svg?branch=develop
    :target: https://coveralls.io/github/alcarney/stylo?branch=develop
@@ -28,11 +22,11 @@ About
 
 .. |version| image:: https://img.shields.io/pypi/v/stylo.svg
    :alt: PyPI Package latest release
-   :target: https://pypi.python.org/pypi/stylo
+   :target: https://pypi.org/project/stylo
 
 .. |supported-versions| image:: https://img.shields.io/pypi/pyversions/stylo.svg
    :alt: Supported versions
-   :target: https://pypi.python.org/pypi/stylo
+   :target: https://pypi.org/project/stylo
 
 .. |license| image:: https://img.shields.io/github/license/alcarney/stylo.svg
    :alt: License

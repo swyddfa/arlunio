@@ -1,4 +1,13 @@
-"""This module contains all the code that is required to automatically write both the
+"""A :code:`Domain` is responsible for converting some abstract notion of a mathematical
+space into a discrete representation. Since :code:`stylo` is about creating images this
+representation is typically a 2D grid of numbers.
+
+This document details the machinery behind the :code:`Domain` system. More specifically
+how the :code:`define_domain` and :code:`define_domain_transform` functions work. It
+assumes you are already familiar with how the user interacts with :code:`Domain` objects
+and is written for someone who wishes to understand how they work behind the scenes.
+
+This module contains all the code that is required to automatically write both the
 definition of a new Domain type and the test case that users can use to verify that
 their implementations of said domains adhere to the expected interface.
 """
@@ -81,7 +90,7 @@ def parameters_property(parameters):
     def getter(self):
         return parameters
 
-    return staticmethod(property(fget=getter))
+    return property(fget=getter)
 
 
 def parameter_property(name):
