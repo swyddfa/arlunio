@@ -11,6 +11,7 @@ the documentation!
    extending/index
    contributing/index
    maths/index
+   api/index
    glossary
    changes
 

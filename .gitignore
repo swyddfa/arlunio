@@ -16,3 +16,4 @@ dist/
 .pytest_cache
 .idea
 .tox
+docs/api
