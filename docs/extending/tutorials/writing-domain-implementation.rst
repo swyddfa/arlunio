@@ -288,3 +288,31 @@ returns values:
           [0.66666667, 0.66666667, 0.66666667, 0.66666667],
           [0.33333333, 0.33333333, 0.33333333, 0.33333333],
           [0.        , 0.        , 0.        , 0.        ]])
+
+_get_r
+^^^^^^
+
+_get_t
+^^^^^^
+
+Further Resources
+-----------------
+
+That's it! You now know the bare minimum required to go off and write your own domain
+implementations however :code:`stylo` comes with a few more tools and helpers that you
+can use to avoid doing a lot of the boilerplate work yourself. We'll wrap up by briefly
+outlining what these helpers are and where you can go to find out more about them.
+
+Conversion Tools
+^^^^^^^^^^^^^^^^
+
+.. todo::
+
+   Link to the tutorials outlining the usage of the various conversion helpers
+
+Testing Tools
+^^^^^^^^^^^^^
+
+.. todo::
+
+   Link to the tutorial outlining how to use the :code:`BaseDomainHelper`
