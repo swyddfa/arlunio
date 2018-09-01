@@ -21,3 +21,7 @@ Glossary
 
    linear interpolation
       TBW
+
+   transpose
+       Transposing a matrix is the act of flipping the matrix around its principal
+       diagonal. *All the columns become rows and the rows become columns*.
