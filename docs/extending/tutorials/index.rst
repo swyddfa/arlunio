@@ -7,6 +7,7 @@ Tutorials
    :maxdepth: 1
 
    writing-domain-implementation
+   cartesian-conversion
 
 
 .. todo::

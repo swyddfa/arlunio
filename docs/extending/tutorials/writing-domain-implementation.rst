@@ -401,7 +401,7 @@ implementations of methods that convert one coordinate system to another.
 
 Below are some links to tutorials introducing some of these classes.
 
-- cartesian
+- :ref:`extend_tutorial_cartesian_conversion`
 - polar
 
 .. todo::

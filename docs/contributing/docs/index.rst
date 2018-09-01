@@ -1,5 +1,5 @@
-Contributing Documentation
-==========================
+Documentation
+=============
 
 TodoList
 --------

@@ -1,5 +1,7 @@
-Mathematics and Stylo
-=====================
+.. _math:
+
+Mathematics
+===========
 
 :code:`stylo` tries its best to be usable without requiring you to be a mathematician.
 However by making use of mathematical ideas and concepts throughout there will inevitably
