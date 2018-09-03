@@ -20,8 +20,8 @@ helper class comes in, it provides implementations of the :code:`_get_x` and
 :code:`_get_y` methods to convert them from the :code:`_get_r` and :code:`_get_t`
 methods that you provide.
 
-This tutorial walks you through the process of using this helper while implementating
-a rotation domain transformation.
+This tutorial walks you through the process of using this helper to implement an example
+rotation domain transformation.
 
 Setup
 -----
@@ -96,6 +96,11 @@ to represent our rotation to the user.
    def _repr(self):
        return "Rotation: {:.2f}rad".format(self.angle)
 
+The reason domain transforms like :code:`RealDomainTransform` ask you to implement
+:code:`_repr` and not :code:`__repr__` is that the base class implements
+:code:`__repr__` in a way that also displays the domain that the transformation is
+acting upon.
+
 _get_r
 ^^^^^^
 
@@ -166,19 +171,13 @@ Which we can now use to apply a rotation to some domain
 
 .. doctest:: extend_tutorial_cartesian_conversion_b
 
-   >>> unit_square = UnitSquare()
-   >>> rotated = Rotation(unit_square, pi/4)
-
+   >>> rotated = Rotation(UnitSquare(), pi/4)
    >>> rotated
    Rotation: 0.79rad
      UnitSquare: [0, 1] x [0, 1]
 
-   >>> rotated.t(4, 4)
-   array([[ 7.85398163e-01,  4.63647609e-01,  1.97395560e-01,
-            0.00000000e+00],
-          [ 7.85398163e-01,  3.21750554e-01,  1.11022302e-16,
-           -1.97395560e-01],
-          [ 7.85398163e-01,  1.11022302e-16, -3.21750554e-01,
-           -4.63647609e-01],
-          [-7.85398163e-01, -7.85398163e-01, -7.85398163e-01,
-           -7.85398163e-01]])
+   >>> rotated.x(4, 4)
+   array([[0.70710678, 0.94280904, 1.1785113 , 1.41421356],
+          [0.47140452, 0.70710678, 0.94280904, 1.1785113 ],
+          [0.23570226, 0.47140452, 0.70710678, 0.94280904],
+          [0.        , 0.23570226, 0.47140452, 0.70710678]])

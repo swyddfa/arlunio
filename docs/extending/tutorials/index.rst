@@ -8,6 +8,7 @@ Tutorials
 
    writing-domain-implementation
    cartesian-conversion
+   polar-conversion
 
 
 .. todo::
@@ -22,7 +23,3 @@ Tutorials
 
    Write a tutorial on creating a new domain family.
 
-.. todo::
-
-   Write a tutorial on using the :code:`CartesianConversion` and :code:`PolarConversion`
-   helper classes.
