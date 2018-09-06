@@ -82,6 +82,14 @@ def domain_property(base):
     return property(fget=getter, fset=setter)
 
 
+def domain_call(self, width, height):
+    return lambda parameters: self[parameters](width, height)
+
+
+def domain_rshift(self, dimensions):
+    return self(*dimensions)
+
+
 def parameters_property(parameters):
     """Given the list of parameters this function constructs a property that simply
     returns the given list. It doesn't provide a setter so that the list of parameters
@@ -148,6 +156,8 @@ def define_domain(name, parameters):
         "parameters": parameters_property(params),
         "__doc__": "A docstring",
         "__getitem__": domain_getitem,
+        "__call__": domain_call,
+        "__rrshift__": domain_rshift,
     }
 
     for p in params:

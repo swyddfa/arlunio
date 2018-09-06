@@ -20,6 +20,13 @@ class Shape(ABC):
     def __call__(self, *args, **kwargs):
         return self._render(*args, **kwargs)
 
+    def __rrshift__(self, domain):
+
+        params = self.parameters
+        values = {k: v for k, v in zip(params, domain(params))}
+
+        return (self(**values),)
+
     def _logical_op(self, cls, other):
 
         if not isinstance(other, (Shape,)):
