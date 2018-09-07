@@ -9,6 +9,7 @@ Extending
 
    tutorials/index
    reference/index
+   examples/index
 
 
 

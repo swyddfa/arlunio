@@ -1,6 +1,10 @@
 Documentation
 =============
 
+.. toctree::
+
+   the-build
+
 TodoList
 --------
 

@@ -1,5 +1,6 @@
 import matplotlib
 import pytest
+
 matplotlib.use("Agg")
 
 
@@ -15,7 +16,6 @@ def draw_pacman(width, height):
     from stylo.image import SimpleImage
 
     class Pacman(Shape):
-
         def __init__(self, size, mouth):
             self.size = size
             self.mouth = mouth
@@ -40,6 +40,7 @@ def draw_pacman(width, height):
 
     img(width, height)
 
-@pytest.mark.parametrize('n', [256, 1024, 4096])
+
+@pytest.mark.parametrize("n", [256, 1024, 4096])
 def test_pacman(benchmark, n):
     benchmark(draw_pacman, n, n)

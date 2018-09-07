@@ -1,6 +1,28 @@
 #!/usr/bin/env python
-"""A custom script that does what the :code:`sphinx-apidoc` command does, but this gives
-us more control over the output.
+"""
+This script aims to provide similar functionality to the :code:`sphinx-apidoc` command
+but produce results with better integration with the way the documentation is structured.
+
+Usage
+-----
+
+As it currently stands this script depends only on the Python standard library. If you
+are making changes to the script and want to run it in isolation then it can be
+done as follows:
+
+::
+
+   $ python scripts/apidoc.py -m <path_to_module> -o <path_to_output>
+
+
+Todo
+----
+
+Here are some changes that would be good to make at some point
+
+- Generalise this script so that it can be applied to code in the tests/ folder
+- Add an option to ignore certain files
+
 """
 import os
 from os import path
@@ -24,6 +46,9 @@ RST_TEMPLATE="""
 
 
 RST_INDEX="""
+
+.. _api_reference: 
+
 API Reference
 =============
 
