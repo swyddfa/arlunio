@@ -7,19 +7,22 @@ matrix:
     - env: "TOXENV=py36"
       python: "3.6"
 
-    - env: "TOXENV=lint"
-      python: "3.6"
+    - env: "TOXENV=py37"
+      python: "3.7"
+      sudo: required
+      dist: xenial
 
-    - env: "TOXENV=docs"
+    - env: "TOXENV=lint"
       python: "3.6"
 
     - env: "TOXENV=benchmark"
       python: "3.6"
 
-    - env: "TOXENV=py37"
-      python: "3.7"
-      sudo: required
-      dist: xenial
+    - env: "TOXENV=docs-check"
+      python: "3.6"
+
+    - env: "TOXENV=docs-build"
+      python: "3.6"
 
 before_install:
     - "pip install tox coveralls"
@@ -34,10 +37,9 @@ deploy:
     - provider: pages
       skip-cleanup: true
       github-token: $GH_TOKEN
-      keep-history: true
       local-dir: "docs/_build/html/"
       verbose: true
       on:
         branch: develop
-        condition: $TOXENV = docs
+        condition: $TOXENV = docs-build
         python: 3.6

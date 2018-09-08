@@ -58,17 +58,20 @@ API Reference
 """
 
 
-def format_title(name):
-    """Given a module name, format it as an rst header.
+def format_title(title):
+    """Given a module name, format it as a top level rst heading.
 
-    :param name: The module name
-    :type name: str
+    This function will capitalize each word in the module name and return it with
+    the :code:`=` underline.
+
+    :param title: The module name
+    :type title: str
     """
 
-    underline = "="*len(name)
-    title = ".".join(s.capitalize() for s in name.split("."))
+    underline = "="*len(title)
+    rst_title = ".".join(s.capitalize() for s in title.split("."))
 
-    return "{0}\n{1}".format(title, underline)
+    return "{0}\n{1}".format(rst_title, underline)
 
 
 def format_rst(name):

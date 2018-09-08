@@ -1,10 +1,16 @@
-import matplotlib
-import pytest
+"""
+In this example we show how pacman can be drawn by defining your own custom :code:`Shape`
+class. Building on the built in :code:`Circle` shape the definition is quite simple as
+long as we remember that the :code:`in_circle`, and :code:`not_in_mouth` variables are
+numpy arrays so they need to be combined using the :code:`np.logical_xxx` functions
+from numpy.
+"""
+from stylo.testing.examples import define_benchmarked_example
 
-matplotlib.use("Agg")
+example_info = {"name": "pacman", "type": "extending"}
 
 
-def draw_pacman(width, height):
+def make_pacman():
 
     # <example>
 
@@ -38,9 +44,7 @@ def draw_pacman(width, height):
 
     # </example>
 
-    img(width, height)
+    return img
 
 
-@pytest.mark.parametrize("n", [256, 1024, 4096])
-def test_pacman(benchmark, n):
-    benchmark(draw_pacman, n, n)
+test_pacman = define_benchmarked_example("pacman", make_pacman)
