@@ -4,6 +4,7 @@ import pytest
 def define_benchmarked_example(name, example):
 
     import matplotlib
+
     matplotlib.use("Agg")
 
     image = example()
