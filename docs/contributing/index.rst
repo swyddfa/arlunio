@@ -9,4 +9,5 @@ Contributing
    docs/index
    code/index
    reference/index
+   tutorials/index
 

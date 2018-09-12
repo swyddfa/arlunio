@@ -14,6 +14,7 @@ the documentation!
    api/index
    glossary
    changes
+   about
 
 
 

@@ -1,9 +1,9 @@
 """
-In this example we show how pacman can be drawn by defining your own custom :code:`Shape`
-class. Building on the built in :code:`Circle` shape the definition is quite simple as
-long as we remember that the :code:`in_circle`, and :code:`not_in_mouth` variables are
-numpy arrays so they need to be combined using the :code:`np.logical_xxx` functions
-from numpy.
+In this example we show how pacman can be drawn by defining your own custom
+:code:`Shape` class. Building on the built in :code:`Circle` shape the definition is
+quite simple as long as we remember that the :code:`in_circle`, and :code:`not_in_mouth`
+variables are numpy arrays so they need to be combined using the :code:`np.logical_xxx`
+functions from numpy.
 """
 from stylo.testing.examples import define_benchmarked_example
 
@@ -22,6 +22,7 @@ def make_pacman():
     from stylo.image import SimpleImage
 
     class Pacman(Shape):
+
         def __init__(self, size, mouth):
             self.size = size
             self.mouth = mouth
