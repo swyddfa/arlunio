@@ -22,7 +22,6 @@ def make_pacman():
     from stylo.image import SimpleImage
 
     class Pacman(Shape):
-
         def __init__(self, size, mouth):
             self.size = size
             self.mouth = mouth
