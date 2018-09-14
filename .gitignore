@@ -16,6 +16,7 @@ docs/_build
 docs/using/examples
 docs/extending/examples
 docs/contributing/examples
+docs/_static/examples
 
 *.png
 !docs/**/*.png

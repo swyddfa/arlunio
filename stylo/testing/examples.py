@@ -15,7 +15,7 @@ def define_benchmarked_example(name, example):
         filename = None
 
         if n == 512:
-            filename = "docs/_static/" + name.lower() + ".png"
+            filename = "docs/_static/examples/" + name.lower() + ".png"
 
         benchmark(image, n, n, filename=filename)
 

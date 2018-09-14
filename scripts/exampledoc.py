@@ -29,10 +29,10 @@ INDEX_TEMPLATE = """
 
 {title}
 
-.. toctree:: 
+.. toctree::
 
    {files}
-   
+
 """
 
 
@@ -52,9 +52,9 @@ def write_index(index):
         index_file = "docs/{}/examples/index.rst".format(type)
 
         context = {
-            'files': files,
-            'title': format_title("Examples"),
-            "reference": "_{}_examples".format(type)
+            "files": files,
+            "title": format_title("Examples"),
+            "reference": "_{}_examples".format(type),
         }
         rst = INDEX_TEMPLATE.format(**context)
 
@@ -68,19 +68,19 @@ def write_example_page(root, example, index):
 
     info = example.example_info
     srcpath = example.__file__.replace(root, "")
-    reference = "_" + info['type'] + "_example_" + info['name']
+    reference = "_" + info["type"] + "_example_" + info["name"]
 
-    print("\t{}".format(info['name']))
+    print("\t{}".format(info["name"]))
 
     # Update the index
-    index[info['type']].append(info['name'])
+    index[info["type"]].append(info["name"])
 
     context = {
-        "title": format_title(info['name'].capitalize()),
-        'imgpath': "/_static/" + info["name"] + ".png",
-        'description': example.__doc__,
-        'srcpath': srcpath,
-        'reference': reference
+        "title": format_title(info["name"].capitalize()),
+        "imgpath": "/_static/examples/" + info["name"] + ".png",
+        "description": example.__doc__,
+        "srcpath": srcpath,
+        "reference": reference,
     }
 
     rst = EXAMPLE_TEMPLATE.format(**context)
@@ -90,8 +90,8 @@ def write_example_page(root, example, index):
     if not dirname.exists():
         os.mkdir(dirname)
 
-    filename = os.path.join(str(dirname), info['name'] + ".rst")
-    with open(filename, 'w') as f:
+    filename = os.path.join(str(dirname), info["name"] + ".rst")
+    with open(filename, "w") as f:
         f.write(rst)
 
 
@@ -115,9 +115,14 @@ def find_examples(path):
 def parse_arguments():
 
     parser = argparse.ArgumentParser(prog="exampledoc.py")
-    parser.add_argument("-e, --examples", nargs=1, type=str, dest="examples",
-                        required=True,
-                        help="the folder containing the example tests.")
+    parser.add_argument(
+        "-e, --examples",
+        nargs=1,
+        type=str,
+        dest="examples",
+        required=True,
+        help="the folder containing the example tests.",
+    )
 
     return parser.parse_args()
 
@@ -130,11 +135,7 @@ def main():
     sys.path.insert(0, root)
 
     args = parse_arguments()
-    index = {
-        'using': [],
-        'extending': [],
-        'contributing': []
-    }
+    index = {"using": [], "extending": [], "contributing": []}
 
     examples = find_examples(args.examples[0])
 
