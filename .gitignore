@@ -1,15 +1,25 @@
-.ipynb_checkpoints/
-__pycache__/
-env/
-docs/_build
-
+.benchmarks
 .cache
+.coverage
 .hypothesis
+.idea
+.ipynb_checkpoints/
+.pytest_cache
+.tox
+
+__pycache__/
+
+env/
+dist/
+docs/api
+docs/_build
+docs/using/examples
+docs/extending/examples
+docs/contributing/examples
+docs/_static/examples
 
 *.png
 !docs/**/*.png
 
 .eggs/
 *.egg-info/
-dist/
-.coverage

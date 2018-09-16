@@ -1,18 +1,21 @@
-Stylo: Documentation
-========================
+
+.. include:: ../README.rst
+
+Be sure to check out the :ref:`about_docs` page for a guide on how to get the most of
+the documentation!
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
 
-   examples/index.rst
-   reference/index.rst
+   using/index
+   extending/index
+   contributing/index
+   maths/index
+   api/index
+   glossary
+   changes
+   about
 
 
 
-Indices and tables
-==================
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`

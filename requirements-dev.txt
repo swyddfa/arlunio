@@ -1,6 +1,0 @@
-sphinx_rtd_theme
-hypothesis
-pytest
-sphinx
-sphinx-autobuild
-flake8

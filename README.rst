@@ -1,41 +1,48 @@
-Stylo
----------
+About
+-----
 
-.. image:: https://travis-ci.org/alcarney/stylo.svg?branch=develop
-    :target: https://travis-ci.org/alcarney/stylo
+.. list-table::
+   :stub-columns: 1
 
-.. image:: https://readthedocs.org/projects/stylo/badge/?version=develop
-    :target: http://stylo.readthedocs.io/en/develop/?badge=develop
-    :alt: Documentation Status
+   * - project
+     - |license|
+   * - code
+     - |travis| |coveralls| |black|
+   * - pypi
+     - |version| |supported-versions|
 
-.. image:: https://coveralls.io/repos/github/alcarney/stylo/badge.svg?branch=develop
-    :target: https://coveralls.io/github/alcarney/stylo?branch=develop
+.. |travis| image:: https://travis-ci.org/alcarney/stylo.svg?branch=develop
+   :target: https://travis-ci.org/alcarney/stylo
 
-**DISCLAIMER!: Stylo is still in its very early stages, many of the core
-concepts are yet to be decided on. The interface can change without warning or
-features be added and removed entirely!**
+.. |coveralls| image:: https://coveralls.io/repos/github/alcarney/stylo/badge.svg?branch=develop
+   :target: https://coveralls.io/github/alcarney/stylo?branch=develop
 
-Stylo is a library that attempts to allow users to easily describe the
-contents of an image using a blend of Python and Mathematics. It also provides
-tools that allow for easy parameterisation of the contents of an image opening
-up the possibilities for the creation of animations.
+.. |black| image:: https://img.shields.io/badge/code%20style-black-000000.svg
+   :target: https://github.com/ambv/black
 
-One of the design goals is to minimise the amount of code needed from the user
-to achieve the desired result.
+.. |version| image:: https://img.shields.io/pypi/v/stylo.svg
+   :alt: PyPI Package latest release
+   :target: https://pypi.org/project/stylo
 
-Requirements
-------------
+.. |supported-versions| image:: https://img.shields.io/pypi/pyversions/stylo.svg
+   :alt: Supported versions
+   :target: https://pypi.org/project/stylo
 
-This framework is Python 3 only, and has the following dependencies:
+.. |license| image:: https://img.shields.io/github/license/alcarney/stylo.svg
+   :alt: License
 
-- Numpy
-- Scipy
-- Pillow
-- Matplotlib
 
+**DISCLAIMER!: Stylo is still in its early stages, many of the core
+concepts are yet to be decided on. The interface can change without warning and
+features may be added or removed without warning!**
+
+Stylo is library that provides a number of tools that aim to make the process of creating
+images and animations using nothing but some code and some mathematics possible. Since my
+drawing abilities are very limited I created stylo as a way of me trying to close the gap
+between my imagination and my artistic ability.
 
 Installation
-------------
+^^^^^^^^^^^^
 
 Stylo is available on PyPi and can easily be installed using Pip:
 
@@ -43,8 +50,3 @@ Stylo is available on PyPi and can easily be installed using Pip:
 
     $ pip install stylo
 
-Alternatively you can grab the latest source code using Git:
-
-.. code::
-
-    $ git clone https://github.com/alcarney/stylo

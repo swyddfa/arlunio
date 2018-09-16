@@ -1,0 +1,11 @@
+exclude: '^$'
+fail_fast: true
+repos:
+- repo: https://github.com/ambv/black
+  rev: stable
+  hooks:
+  - id: black
+    language_version: python3.7
+    args:
+    - stylo/
+    - tests/
