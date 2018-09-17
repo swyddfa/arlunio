@@ -5,7 +5,7 @@ import PIL as P
 
 
 class Image(ABC):
-    def __call__(self, width, height, filename=None):
+    def __call__(self, width, height, filename=None, size=None):
 
         image = self._render(width, height)
 
@@ -13,7 +13,13 @@ class Image(ABC):
             self._save(image, filename)
             return
 
-        return plt.imshow(image)
+        if size is None:
+            size = (4, 4)
+
+        fig, ax = plt.subplots(1, figsize=size)
+        ax.imshow(image)
+
+        return fig
 
     def _save(self, image, filename):
 
