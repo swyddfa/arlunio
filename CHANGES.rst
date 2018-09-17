@@ -1,3 +1,13 @@
+v0.4.2 - 2018-09-17
+-------------------
+
+Added
+^^^^^
+
+- :code:`Image` objects can now take a :code:`size` keyword argument to adjust
+  the size of the matplotlib preview plots
+
+
 v0.4.1 - 2018-09-17
 -------------------
 
