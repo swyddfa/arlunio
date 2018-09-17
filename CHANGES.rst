@@ -1,5 +1,14 @@
-v0.4.0 - [Unreleased]
----------------------
+v0.4.1 - 2018-09-17
+-------------------
+
+Fixed
+^^^^^
+
+- Fixed an issue with :code:`setup.py` that meant most of the code wasn't
+  published to PyPi!
+
+v0.4.0 - 2018-09-16
+-------------------
 
 Out of the ashes of the previous version rises the biggest release to date!
 Stylo has been rewritten from the ground up and should now be easier to use,
