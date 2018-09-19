@@ -13,4 +13,4 @@ from hypothesis.strategies import integers, floats
 real = floats(min_value=-1e6, max_value=1e6)
 angle = floats(min_value=-pi, max_value=pi)
 
-dimension = integers(min_value=4, max_value=1024)
+dimension = integers(min_value=2, max_value=1024)
