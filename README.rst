@@ -5,7 +5,7 @@ About
    :stub-columns: 1
 
    * - project
-     - |license|
+     - |license| |gitter|
    * - code
      - |travis| |coveralls| |black|
    * - pypi
@@ -31,6 +31,9 @@ About
 .. |license| image:: https://img.shields.io/github/license/alcarney/stylo.svg
    :alt: License
 
+.. |gitter| image:: https://badges.gitter.im/stylo-py/Lobby.svg
+   :alt: Join the chat at https://gitter.im/stylo-py/Lobby
+   :target: https://gitter.im/stylo-py/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
 
 **DISCLAIMER!: Stylo is still in its early stages, many of the core
 concepts are yet to be decided on. The interface can change without warning and
@@ -49,4 +52,3 @@ Stylo is available on PyPi and can easily be installed using Pip:
 .. code::
 
     $ pip install stylo
-
