@@ -11,7 +11,7 @@ fi
 
 echo -e "    Found Python v$ver.\n"
 
-sed -i "s/VERSION/$ver/" .pre-commit-config.yaml
+sed -i.bk "s/VERSION/$ver/" .pre-commit-config.yaml
 
 echo -e "==> Checking if you have pipenv installed"
 which pipenv > /dev/null 2> /dev/null
