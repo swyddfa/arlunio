@@ -33,6 +33,10 @@ script:
 after_success:
     - if [ "$TOXENV" == "py36" ]; then coveralls; fi
 
+notifications:
+    webhooks:
+        url: https://webhooks.gitter.im/e/4bfa4fbff35ebee0a9d2
+
 deploy:
     - provider: pages
       skip-cleanup: true
