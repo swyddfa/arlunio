@@ -123,7 +123,7 @@ def write_rst(root, name, rst, index):
     dir = pathlib.Path(filename).parent
 
     if not dir.exists():
-        os.mkdir(dir)
+        os.mkdir(str(dir))
 
     with open(filename, 'w') as f:
         f.write(rst)
