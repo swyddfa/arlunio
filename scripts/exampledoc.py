@@ -88,7 +88,7 @@ def write_example_page(root, example, index):
     dirname = pathlib.Path("docs/" + info["type"] + "/examples/")
 
     if not dirname.exists():
-        os.mkdir(dirname)
+        os.mkdir(str(dirname))
 
     filename = os.path.join(str(dirname), info["name"] + ".rst")
     with open(filename, "w") as f:
