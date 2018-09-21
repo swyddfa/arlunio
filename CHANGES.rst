@@ -1,3 +1,30 @@
+v0.4.3 [Unreleased]
+-------------------
+
+Added
+^^^^^
+
+- Added an introductory tutorial for first time users to the documentation
+
+Fixed
+^^^^^
+
+Contributors
+""""""""""""
+
+- Fixed crashes in :code:`exampledoc.py` and :code:`apidoc.py` for first time
+  users
+- Fixed issue with :code:`sed` on a Mac for people running the
+  :code:`devenv-setup.sh` script
+
+
+This release of :code:`stylo` was brought to you thanks to the following awesome
+people!
+
+- `mvinoba <https://github.com/mvinoba>`_
+- `LordTandy <https://github.com/LordTandy>`_
+- `StephanieAngharad <https://github.com/StephanieAngharad>`_
+
 v0.4.2 - 2018-09-17
 -------------------
 
