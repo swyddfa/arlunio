@@ -5,7 +5,7 @@ import numpy as np
 import numpy.testing as npt
 from hypothesis import given, assume
 
-from stylo.domain.rectangular import RectangularDomain
+from stylo.domain.rectangular import RectangularDomain, get_real_domain
 from stylo.testing.strategies import real, dimension
 from stylo.testing.domain import BaseRealDomainTest
 
@@ -295,3 +295,30 @@ class TestRectangularDomain(TestCase, BaseRealDomainTest):
         self.assertTrue(
             (TS >= -np.pi / 2).all(), "Angles should be greater than or equal to -pi/2"
         )
+
+
+@pytest.mark.domain
+class TestGetRealDomain:
+    """Tests for the :code:`get_real_domain` function."""
+
+    @given(width=dimension)
+    def test_checks_width_parameter(self, width):
+        """Ensure that an error is thrown if a zero or negative value for :code:`width`
+        is given.
+        """
+
+        with pytest.raises(ValueError) as err:
+            get_real_domain(-width, 4)
+
+        assert "must be a positive number" in str(err.value)
+
+    @given(height=dimension)
+    def test_checks_height_parameter(self, height):
+        """Ensure that an error is thrown if a zero or negative value for :code:`height`
+        is given.
+        """
+
+        with pytest.raises(ValueError) as err:
+            get_real_domain(4, -height)
+
+        assert "must be a positive number" in str(err.value)
