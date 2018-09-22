@@ -1,10 +1,37 @@
-v0.4.3 [Unreleased]
+v0.5.0 [Unreleased]
 -------------------
 
 Added
 ^^^^^
 
+Users
+"""""
+
+- Added a new Image object :code:`LayeredImage` object that can now draw more
+  than one object
 - Added an introductory tutorial for first time users to the documentation
+
+Contributors
+""""""""""""
+
+- Added a :code:`Drawable` class, this allows a domain, shape and colormap to
+  be treated as a single entity.
+- Added a :code:`render_drawable` function that takes a drawable and some
+  existing image data and applies it to the data.
+- Added a :code:`get_real_domain` function that given a width, height and scale
+  returns a :code:`RectangularDomain` with appropriate aspect ratio,
+  :math:`(0, 0)` at the centre of the image and the scale corresponding to the
+  interval :math:`[ymin, ymax]`
+
+Changed
+^^^^^^^
+
+- Altered :code:`SimpleImage` to no longer take a domain, reducing the
+  cognitive load on first time users. It now instead takes an optional
+  :code:`scale` variable to control the size of the domain underneath. This
+  also means that the domain now automatically matches the aspect ratio of the
+  image so no more distortion in non-square images.
+
 
 Fixed
 ^^^^^
@@ -18,8 +45,8 @@ Contributors
   :code:`devenv-setup.sh` script
 
 
-This release of :code:`stylo` was brought to you thanks to the following awesome
-people!
+This release of :code:`stylo` was brought to you thanks to contributions from
+the following awesome people!
 
 - `mvinoba <https://github.com/mvinoba>`_
 - `LordTandy <https://github.com/LordTandy>`_
