@@ -16,9 +16,8 @@ def make_pacman():
 
     import numpy as np
 
-    from stylo.domain import SquareDomain
     from stylo.shape import Shape, Circle
-    from stylo.color import FillColor, RGB8
+    from stylo.color import FillColor
     from stylo.image import SimpleImage
 
     class Pacman(Shape):
@@ -38,9 +37,8 @@ def make_pacman():
 
             return pacman
 
-    domain = SquareDomain(-1, 1)
-    yellow = FillColor(RGB8.parse("ffff00"))
-    img = SimpleImage(domain, Pacman(0.75, 1), yellow)
+    yellow = FillColor("ffff00")
+    img = SimpleImage(Pacman(0.75, 1), yellow)
 
     # </example>
 

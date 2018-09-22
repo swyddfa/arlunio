@@ -2,26 +2,21 @@
 
 An Introduction To Stylo - Part 1
 =================================
-Stylo is a package that enables you to create images through the use of mathematical functions and basic shapes. This is done via a three step process:
 
-        - Define a domain
+Stylo is a package that enables you to create images through the use of
+mathematical functions and basic shapes. This is done via a two step process:
+
         - Define a shape
         - Set a colour
 
 But how?
 
-Defining Our Domain
--------------------
-In order to define our domain, we need to import the SquareDomain class from the domain library. Then we create a domain from 0 to 1.
-
-.. doctest:: use_tutorial_basics
-        
-   >>> from stylo.domain import SquareDomain
-   >>> domain = SquareDomain(0, 1)
-
 Defining Our Shape
 ------------------
-We now need to define the shape we intend to draw. We will need to import the Rectangle shape from the shape library. We then create our rectangle at coordinates (0,0) and with width=1, height=1.
+
+We now need to define the shape we intend to draw. We will need to import the
+Rectangle shape from the shape library. We then create our rectangle at
+coordinates (0,0) and with width=1, height=1.
 
 .. doctest:: use_tutorial_basics
 
@@ -30,7 +25,10 @@ We now need to define the shape we intend to draw. We will need to import the Re
 
 Defining Our Colour
 -------------------
-Finally, we need to se the colour that we wish our shape to be. We import color from the color library, and use the default fill colour, which will be black.
+
+Finally, we need to define the colour that we wish our shape to be. We import
+color from the color library, and use the default fill colour, which will be
+black.
 
 .. doctest:: use_tutorial_basics
 
@@ -39,16 +37,20 @@ Finally, we need to se the colour that we wish our shape to be. We import color 
 
 Creating Our Image
 ------------------
-To display our image, we import the SimpleImage from the image library, and pass it our three parameters.
+
+To display our image, we import the SimpleImage from the image library, and
+pass it our two parameters.
 
 .. doctest:: use_tutorial_basics
 
    >>> from stylo.image import SimpleImage
-   >>> image = SimpleImage(domain, shape, color)
+   >>> image = SimpleImage( shape, color)
 
 Saving Our Image
 ----------------
-The following saves our image with size 1024x1024px in the current directory as myImage.png.
+
+The following saves our image with size 1024x1024px in the current directory as
+myImage.png.
 
 .. code-block:: python
 
