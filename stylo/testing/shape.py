@@ -17,7 +17,7 @@ class BaseShapeTest:
        from unittest import TestCase
        from stylo.testing.shape import BaseShapeTest
 
-       class TestMyShape(TestCase, BaseShapeTest)L
+       class TestMyShape(TestCase, BaseShapeTest):
            ...
 
     .. note::
