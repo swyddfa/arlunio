@@ -1,37 +1,34 @@
-import numpy as np
 from abc import ABC, abstractmethod
+
+from stylo.color.colorspaces import ColorSpace, RGB8
 
 
 class ColorMap(ABC):
-    def __call__(self, shape):
-        return self._paint(shape)
+    def __init__(self, colorspace=None):
 
-    def __rrshift__(self, shape):
-        return self(shape[0])
+        if colorspace is None:
+            colorspace = RGB8
+
+        self.colorspace = colorspace
+
+    def __call__(self, shape, image_data=None):
+        return self._paint(shape, image_data)
+
+    def _parse_color(self, color):
+        return self.colorspace.parse(color)
 
     @abstractmethod
-    def _paint(self, shape):
+    def _paint(self, shape, image_data):
         pass
 
+    @property
+    def colorspace(self):
+        return self._colorspace
 
-class FillColor(ColorMap):
-    def __init__(self, color=None, background=None):
+    @colorspace.setter
+    def colorspace(self, value):
 
-        if color is None:
-            color = (0, 0, 0)
+        if not issubclass(value, (ColorSpace,)):
+            raise TypeError("Expected ColorSpace")
 
-        if background is None:
-            background = (255, 255, 255)
-
-        self.color = color
-        self.background = background
-
-    def _paint(self, shape):
-
-        height, width = shape.shape
-        dimensions = (height, width, 3)
-
-        colors = np.full(dimensions, self.background, np.uint8)
-        colors[shape] = self.color
-
-        return colors
+        self._colorspace = value
