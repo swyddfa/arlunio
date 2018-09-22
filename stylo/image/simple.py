@@ -1,48 +1,32 @@
-from abc import ABC, abstractmethod
+import numpy as np
 
-import matplotlib.pyplot as plt
-import PIL as P
-
-
-class Image(ABC):
-    def __call__(self, width, height, filename=None, size=None):
-
-        image = self._render(width, height)
-
-        if filename is not None:
-            self._save(image, filename)
-            return
-
-        if size is None:
-            size = (4, 4)
-
-        fig, ax = plt.subplots(1, figsize=size)
-        ax.imshow(image)
-
-        return fig
-
-    def _save(self, image, filename):
-
-        width, height, _ = image.shape
-
-        pil_image = P.Image.frombuffer(
-            "RGB", (width, height), image, "raw", "RGB", 0, 1
-        )
-
-        with open(filename, "wb") as f:
-            pil_image.save(f)
-
-    @abstractmethod
-    def _render(self, width, height):
-        pass
+from stylo.domain import get_real_domain
+from stylo.image.image import Image
 
 
 class SimpleImage(Image):
-    def __init__(self, domain, shape, color):
+    def __init__(self, shape, color, background=None, scale=2):
 
-        self.domain = domain
         self.shape = shape
         self.color = color
+        self.scale = scale
+
+        if background is None:
+            background = "ffffff"
+
+        self.background = color._parse_color(background)
 
     def _render(self, width, height):
-        return (width, height) >> self.domain >> self.shape >> self.color
+
+        domain = get_real_domain(width, height, scale=self.scale)
+        parameters = self.shape.parameters
+        values = domain[parameters](width, height)
+
+        coords = {k: v for k, v in zip(parameters, values)}
+        mask = self.shape(**coords)
+
+        height, width = mask.shape
+        dimensions = (height, width, len(self.background))
+        color = np.full(dimensions, self.background)
+
+        return self.color(mask, image_data=color)
