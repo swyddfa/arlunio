@@ -1,7 +1,18 @@
 from abc import ABC, abstractmethod
 
-import matplotlib.pyplot as plt
 import PIL as P
+import matplotlib.pyplot as plt
+
+
+class Drawable:
+    def __init__(self, domain, shape, color):
+        self.domain = domain
+        self.shape = shape
+        self.color = color
+
+    def __iter__(self):
+
+        return iter([self.domain, self.shape, self.color])
 
 
 class Image(ABC):
@@ -24,7 +35,7 @@ class Image(ABC):
 
     def _save(self, image, filename):
 
-        width, height, _ = image.shape
+        height, width, _ = image.shape
 
         pil_image = P.Image.frombuffer(
             "RGB", (width, height), image, "raw", "RGB", 0, 1
@@ -44,3 +55,18 @@ class Image(ABC):
     @abstractmethod
     def _render(self, width, height):
         pass
+
+
+def render_drawable(drawable, image_data):
+    """Given a drawable, render it onto the given image data."""
+
+    domain, shape, color = drawable
+    width, height, depth = image_data.shape
+
+    parameters = shape.parameters
+    values = domain[parameters](width, height)
+
+    coords = {k: v for k, v in zip(parameters, values)}
+    mask = shape(**coords)
+
+    return color(mask, image_data=image_data)

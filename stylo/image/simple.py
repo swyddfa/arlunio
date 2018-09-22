@@ -1,7 +1,7 @@
 import numpy as np
 
 from stylo.domain import get_real_domain
-from stylo.image.image import Image
+from stylo.image.image import Drawable, Image, render_drawable
 
 
 class SimpleImage(Image):
@@ -19,14 +19,9 @@ class SimpleImage(Image):
     def _render(self, width, height):
 
         domain = get_real_domain(width, height, scale=self.scale)
-        parameters = self.shape.parameters
-        values = domain[parameters](width, height)
+        drawable = Drawable(domain, self.shape, self.color)
 
-        coords = {k: v for k, v in zip(parameters, values)}
-        mask = self.shape(**coords)
-
-        height, width = mask.shape
         dimensions = (height, width, len(self.background))
-        color = np.full(dimensions, self.background)
+        image_data = np.full(dimensions, self.background, dtype=np.uint8)
 
-        return self.color(mask, image_data=color)
+        return render_drawable(drawable, image_data)
