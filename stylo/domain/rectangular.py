@@ -85,6 +85,9 @@ def get_real_domain(width, height, scale=2):
     if width <= 0:
         raise ValueError("The width of the image must be a positive number.")
 
+    if scale <= 0:
+        raise ValueError("The scale of the image must be strictly positive.")
+
     aspect_ratio = width / height
 
     ylength = scale / 2
