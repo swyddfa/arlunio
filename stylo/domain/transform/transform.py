@@ -1,5 +1,6 @@
 from stylo.domain import RealDomain
 from stylo.domain._factory import define_domain_transform
+from stylo.shape import Shape
 
 RealDomainTransform = define_domain_transform(RealDomain)
 
@@ -29,27 +30,42 @@ def find_base_domain(base_transform):
     raise TypeError("{} is not a base domain transform".format(name))
 
 
-def define_transform(transform):
-    """Define a transformation function for a given domain transform.
+class DomainTransformer:
+    """A class used to apply transformations, it enables us to do the syntactic
+    nicities when applying domain transforms."""
 
-    Given a domain transform this function will automatically write a function
-    that can be used to apply the given transform to various objects in stylo.
+    def __init__(self, transform, *args, **kwargs):
+        self.transform = transform
+        self.args = args
+        self.kwargs = kwargs
 
-    :param transform: The :code:`DomainTransform` to write the function for.
-    """
+        self.base_transform = find_base_transform(transform)
+        self.base_domain = find_base_domain(self.base_transform)
+        self.name = transform.__name__.lower
 
-    base_transform = find_base_transform(transform)
-    base_domain = find_base_domain(base_transform)
+    def __rrshift__(self, other):
+        return self.apply_transform(other)
 
-    name = transform.__name__.lower()
+    def apply_transform(self, obj):
 
-    def transform_func(obj, *args, **kwargs):
+        transform = self.transform
+        args = self.args
+        kwargs = self.kwargs
 
-        if isinstance(obj, (base_domain,)):
+        if isinstance(obj, (self.base_domain,)):
             return transform(obj, *args, **kwargs)
+
+        if isinstance(obj, (Shape,)):
+            obj._add_transform(lambda domain: self.transform(domain, *args, **kwargs))
+            return obj
 
         obj_name = obj.__class__.__name__
         message = "Unable to perform a {} to a {}."
-        raise TypeError(message.format(name, obj_name))
+        raise TypeError(message.format(self.name, obj_name))
+
+
+def define_transform(transform):
+    def transform_func(*args, **kwargs):
+        return DomainTransformer(transform, *args, **kwargs)
 
     return transform_func
