@@ -1,5 +1,5 @@
 from stylo.domain.helpers import PolarConversion
-from stylo.domain.transform import RealDomainTransform
+from stylo.domain.transform import RealDomainTransform, define_transform
 
 
 class HorizontalShear(PolarConversion, RealDomainTransform):
@@ -50,9 +50,5 @@ class VerticalShear(PolarConversion, RealDomainTransform):
         return mk_ys
 
 
-def vertical_shear(domain, k):
-    return VerticalShear(domain, k)
-
-
-def horizontal_shear(domain, k):
-    return HorizontalShear(domain, k)
+vertical_shear = define_transform(VerticalShear)
+horizontal_shear = define_transform(HorizontalShear)

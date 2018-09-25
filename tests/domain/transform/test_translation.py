@@ -4,13 +4,13 @@ from hypothesis import given
 from unittest import TestCase
 
 from stylo.domain.square import UnitSquare
-from stylo.domain.transform.translation import Translation
-from stylo.testing.domain import BaseRealDomainTest
+from stylo.domain.transform.translation import Translation, translate
+from stylo.testing.domain import BaseRealDomainTest, BaseDomainTransformTest
 from stylo.testing.strategies import dimension, real
 
 
 @pytest.mark.domain
-class TestTranslate(TestCase, BaseRealDomainTest):
+class TestTranslation(TestCase, BaseRealDomainTest):
     """Tests for the Translation class"""
 
     def setUp(self):
@@ -54,3 +54,11 @@ class TestTranslate(TestCase, BaseRealDomainTest):
 
         difference = t_ys - ys
         npt.assert_array_almost_equal(difference, -dy)
+
+
+@pytest.mark.domain
+class TestTranslate(TestCase, BaseDomainTransformTest):
+    def setUp(self):
+        self.transformation = Translation
+        self.transform = translate
+        self.args = [1, 1]
