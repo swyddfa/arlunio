@@ -61,7 +61,7 @@ def write_index(index):
         with open(index_file, "w") as f:
             f.write(rst)
 
-        print("Wrote {} index.".format(type))
+        # print("Wrote {} index.".format(type))
 
 
 def write_example_page(root, example, index):
@@ -70,7 +70,7 @@ def write_example_page(root, example, index):
     srcpath = example.__file__.replace(root, "")
     reference = "_" + info["type"] + "_example_" + info["name"]
 
-    print("\t{}".format(info["name"]))
+    # print("\t{}".format(info["name"]))
 
     # Update the index
     index[info["type"]].append(info["name"])

@@ -15,3 +15,9 @@ pytest-benchmark = "*"
 tox = "*"
 pre-commit = "*"
 jupyter = "*"
+
+[scripts]
+test = "tox -q -e py36,py37"
+lint = "tox -q -e lint"
+docs = "tox -q -e docs-build"
+docs_fast = "tox -q -e docs-check"
