@@ -60,7 +60,7 @@ def render_drawable(drawable, image_data):
     """Given a drawable, render it onto the given image data."""
 
     domain, shape, color = drawable
-    domain = shape._apply_transforms(domain)
+    domain = shape._apply_transform(domain)
 
     height, width, depth = image_data.shape
 

@@ -3,7 +3,7 @@ from unittest import TestCase
 import pytest
 import numpy as np
 import numpy.testing as npt
-from hypothesis import given, assume, example, note
+from hypothesis import given, assume, example
 
 from stylo.domain.rectangular import RectangularDomain, get_real_domain
 from stylo.testing.strategies import real, dimension
