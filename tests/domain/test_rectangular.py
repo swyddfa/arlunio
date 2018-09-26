@@ -3,7 +3,7 @@ from unittest import TestCase
 import pytest
 import numpy as np
 import numpy.testing as npt
-from hypothesis import given, assume, example
+from hypothesis import given, assume, example, note
 
 from stylo.domain.rectangular import RectangularDomain, get_real_domain
 from stylo.testing.strategies import real, dimension
@@ -223,10 +223,10 @@ class TestRectangularDomain(TestCase, BaseRealDomainTest):
 
         interior = XS[:, 1:-1]
         self.assertTrue(
-            (interior < xmax).all(), "The interior should be less than xmax"
+            (interior <= xmax).all(), "The interior should be less than xmax"
         )
         self.assertTrue(
-            (xmin < interior).all(), "The interior should be greater then xmin"
+            (xmin <= interior).all(), "The interior should be greater then xmin"
         )
 
     @given(ymin=real, ymax=real, width=dimension, height=dimension)
@@ -254,11 +254,12 @@ class TestRectangularDomain(TestCase, BaseRealDomainTest):
         npt.assert_array_equal(YS[-1, :], ymin)
 
         interior = YS[1:-1,]
+
         self.assertTrue(
-            (interior < ymax).all(), "The interior should be less than ymax"
+            (interior <= ymax).all(), "The interior should be less than ymax"
         )
         self.assertTrue(
-            (ymin < interior).all(), "The interior should be greater than ymin"
+            (ymin <= interior).all(), "The interior should be greater than ymin"
         )
 
     @given(width=dimension, height=dimension)
