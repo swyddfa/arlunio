@@ -36,7 +36,7 @@ class Shape(ABC):
     def _add_transform(self, transform_func):
         self._transforms.insert(0, transform_func)
 
-    def _apply_transforms(self, domain):
+    def _apply_transform(self, domain):
 
         if not self._transforms:
             return domain

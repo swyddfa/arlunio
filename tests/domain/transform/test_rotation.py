@@ -5,8 +5,8 @@ from math import pi
 from unittest import TestCase
 
 from stylo.domain import UnitSquare
-from stylo.domain.transform.rotation import Rotation, rotate
-from stylo.testing.domain import BaseRealDomainTest, BaseDomainTransformTest
+from stylo.domain.transform.rotation import Rotation
+from stylo.testing.domain import BaseRealDomainTest
 from stylo.testing.strategies import dimension, angle
 
 
@@ -35,11 +35,3 @@ class TestRotatation(TestCase, BaseRealDomainTest):
 
         difference = ts - r_ts
         npt.assert_almost_equal(difference, -angle)
-
-
-@pytest.mark.domain
-class TestRotate(TestCase, BaseDomainTransformTest):
-    def setUp(self):
-        self.transformation = Rotation
-        self.transform = rotate
-        self.args = [2.54]

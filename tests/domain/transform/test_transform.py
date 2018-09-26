@@ -1,9 +1,13 @@
 import pytest
 
-from stylo.domain import RealDomain
+from stylo.domain import RealDomain, UnitSquare
 from stylo.domain.transform import RealDomainTransform
 from stylo.domain.transform.translation import Translation
-from stylo.domain.transform.transform import find_base_transform, find_base_domain
+from stylo.domain.transform.transform import (
+    find_base_transform,
+    find_base_domain,
+    DomainTransformer,
+)
 from stylo.shape import Circle
 
 
@@ -56,3 +60,29 @@ class TestFindBaseDomain:
             find_base_domain(Translation)
 
         assert "is not a base domain transform" in str(err.value)
+
+
+@pytest.mark.domain
+class TestDomainTransformer:
+    """Tests for the :code:`DomainTransformer` class."""
+
+    def test_apply_transform_bad_type(self):
+        """Ensure that an exception is raised if the transform is applied to an
+        unsupported type."""
+
+        transformer = DomainTransformer(Translation, 1, 1)
+
+        with pytest.raises(TypeError, match="Unable to perform"):
+            transformer.apply_transform(3)
+
+    def test_apply_transform_with_domain(self):
+        """Ensure that a transform is properly applied to a domain object."""
+
+        domain = UnitSquare()
+        transform = DomainTransformer(Translation, 1, 2)
+
+        transformed = transform.apply_transform(domain)
+
+        assert -1 == transformed.dx
+        assert -2 == transformed.dy
+        assert domain == transformed.domain

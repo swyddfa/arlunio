@@ -108,3 +108,34 @@ class BaseShapeTest:
         parameters = get_parameters(method)
 
         self.assertEqual(parameters, self.shape.parameters)
+
+    def test_has_transforms(self):
+        """Ensure that a shape has a :code:`_transforms` attribute that is equal to the
+        empty list."""
+
+        assert self.shape._transforms == []
+
+    def test_add_transform(self):
+        """Ensure that when transforms are added to the list that they are added to the
+        front of the list."""
+
+        shape = self.shape
+        shape._add_transform(1)
+        shape._add_transform(2)
+
+        assert [2, 1] == shape._transforms
+
+    def test_apply_transform_none(self):
+        """Ensure that when a shape carries no transforms that the domain is returned
+        untouched."""
+
+        domain = UnitSquare()
+        assert self.shape._apply_transform(domain) == domain
+
+    def test_apply_transform(self):
+        """Ensure that when a shape carries transforms that they are applied."""
+
+        self.shape._add_transform(lambda n: 2 * n)
+        self.shape._add_transform(lambda n: n + 1)
+
+        assert 22 == self.shape._apply_transform(10)

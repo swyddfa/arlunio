@@ -4,13 +4,8 @@ from hypothesis import given
 from unittest import TestCase
 
 from stylo.domain import UnitSquare
-from stylo.domain.transform.shear import (
-    HorizontalShear,
-    VerticalShear,
-    vertical_shear,
-    horizontal_shear,
-)
-from stylo.testing.domain import BaseRealDomainTest, BaseDomainTransformTest
+from stylo.domain.transform.shear import HorizontalShear, VerticalShear
+from stylo.testing.domain import BaseRealDomainTest
 from stylo.testing.strategies import real, dimension
 
 
@@ -64,19 +59,3 @@ class TestVerticalShear(TestCase, BaseRealDomainTest):
         # Y values should only differ by -kx
         difference = t_ys - ys
         npt.assert_almost_equal(difference, -k * xs)
-
-
-@pytest.mark.domain
-class TestVerticalShearTransform(TestCase, BaseDomainTransformTest):
-    def setUp(self):
-        self.transformation = VerticalShear
-        self.transform = vertical_shear
-        self.args = [0.8]
-
-
-@pytest.mark.domain
-class TestHorizontalShearTransform(TestCase, BaseDomainTransformTest):
-    def setUp(self):
-        self.transformation = HorizontalShear
-        self.transform = horizontal_shear
-        self.args = [0.8]

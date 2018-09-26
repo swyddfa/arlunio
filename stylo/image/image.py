@@ -11,7 +11,6 @@ class Drawable:
         self.color = color
 
     def __iter__(self):
-
         return iter([self.domain, self.shape, self.color])
 
 
