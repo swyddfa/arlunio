@@ -52,3 +52,48 @@ class RectangularDomain(PolarConversion, RealDomain):
             return ys
 
         return mk_ys
+
+
+def get_real_domain(width, height, scale=2):
+    """Given the width and height for an image return a rectangular domain with
+    appropriate bounds for the image's aspect ratio.
+
+    So that shapes are not distorted when mapped onto non-square images the domain they
+    are mapped onto needs to match the aspect ratio of the image otherwise the shape
+    will be distorted in some way.
+
+    This function will construct a RectangularDomain domain with :math:`(0, 0)` at the
+    centre of the image, the overall size of the domain can be controlled with the
+    :code:`scale` parameter
+
+    :param width: The width of the image in pixels
+    :param height: The height of the image in pixels
+    :param scale: This constrols the size of the domain and corresponds to the length of
+                  the interval :math:`[ymin, ymax]`
+
+    :type width: int
+    :type height: int
+    :type scale: float
+
+    :returns: An appropriately sized domain.
+    :rtype: RectangularDomain
+    """
+
+    if height <= 0:
+        raise ValueError("The height of the image must be a positive number.")
+
+    if width <= 0:
+        raise ValueError("The width of the image must be a positive number.")
+
+    if scale <= 0:
+        raise ValueError("The scale of the image must be strictly positive.")
+
+    aspect_ratio = width / height
+
+    ylength = scale / 2
+    xlength = ylength * aspect_ratio
+
+    ymin, ymax = -ylength, ylength
+    xmin, xmax = -xlength, xlength
+
+    return RectangularDomain(xmin, xmax, ymin, ymax)

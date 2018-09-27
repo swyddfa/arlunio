@@ -33,6 +33,10 @@ script:
 after_success:
     - if [ "$TOXENV" == "py36" ]; then coveralls; fi
 
+notifications:
+    webhooks:
+        url: https://webhooks.gitter.im/e/4bfa4fbff35ebee0a9d2
+
 deploy:
     - provider: pages
       skip-cleanup: true
@@ -45,6 +49,7 @@ deploy:
         python: 3.6
 
     - provider: pypi
+      distributions: "sdist bdist_wheel"
       user: alcarney
       password:
         secure: "F27QSW59xfuwTIrJMUFNB5Mi1ELQArRvawldBt8YNZH9HxPWdThEUSnXZMs3vzHYV1NwiQV1h/3XalsCbB59fJogcN9NeNdGvM2Ff0phMURlCUytn3pJvuoMDCY4Dnwyy3GZ8XX/zhmZvIYBn1awiL7/JDe6j5iVyeyeKIRbX1DRHEjbKj4XhkHb2NFsbzs8F8fkBARGcldli611LAfuD1+6UQANyzEmyfg4wAbIctRgfQ1F4swp4jCAb5TjkUDEt2/9S2ai49kI7BY5nZ68D50dFNecuVvcXYRazEvGvxvt0OuZAqeUzr7aUTOlmGLp1vTP/QyXRYQDbnnSyvIr3fii104atM30QtBf/C1MlSgH68IOzMg4ULmnBSSFny4ICMIhzosuCVZWtxnghep0LENsk8f0USGsnLja+kOcgB8kGm/PQW4m3IRJpyR9GvzBeRMKoyF4B9o2IEq1nrl/K+EyoA+jtqxzd/gIxLEVrmSWSj37StX8WC1npoGIEDcVQLppf81++TEXR4tznPS3T52gGMrxY5cPYgAg0KItArEeoe0Mfx20kkVU+XkcWsgCP9ccoXu0erYYgvquoBYzyNrAz0JGxCQYC3iCVmUbt87yJRGWUfYPoWiVBJ3haHvi+M4HmpUDOpC/6J8OIAevnEMe22fJGcQTbZtX7JwM0H4="

@@ -11,7 +11,7 @@ from stylo.testing.strategies import dimension, angle
 
 
 @pytest.mark.domain
-class TestRotate(TestCase, BaseRealDomainTest):
+class TestRotatation(TestCase, BaseRealDomainTest):
     """Tests for the translation class."""
 
     def setUp(self):

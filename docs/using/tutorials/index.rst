@@ -3,6 +3,15 @@
 Tutorials
 =========
 
+Getting Started
+---------------
+
+First time using :code:`stylo`? Then look no further, the following series of
+tutorials will help you get to grips with stylo in no time.
+
+- :ref:`use_tutorial_basics_1`
+
+
 Advanced Tutorials
 ------------------
 
@@ -17,4 +26,5 @@ All Tutorials
 .. toctree::
    :maxdepth: 1
 
+   basics-1
    adv-domain-system

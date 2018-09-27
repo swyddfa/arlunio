@@ -1,5 +1,5 @@
 from stylo.domain.helpers import CartesianConversion
-from stylo.domain.transform import RealDomainTransform
+from stylo.domain.transform import RealDomainTransform, define_transform
 
 
 class Rotation(CartesianConversion, RealDomainTransform):
@@ -24,11 +24,4 @@ class Rotation(CartesianConversion, RealDomainTransform):
         return mk_ts
 
 
-def rotate(drawable, angle):
-    """Apply a rotation to a given drawable"""
-
-    domain = drawable.domain
-    rotated = Rotation(domain, angle)
-
-    drawable.domain = rotated
-    return drawable
+rotate = define_transform(Rotation)

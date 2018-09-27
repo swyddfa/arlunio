@@ -8,6 +8,12 @@ from stylo.utils import get_parameters
 class Shape(ABC):
     """A shape constructs a boolean 2D array that represents some shape or region."""
 
+    def __new__(cls, *args, **kwargs):
+        instance = super().__new__(cls)
+        instance._transforms = []
+
+        return instance
+
     def __and__(self, other):
         return self._logical_op(ANDedShape, other)
 
@@ -20,19 +26,25 @@ class Shape(ABC):
     def __call__(self, *args, **kwargs):
         return self._render(*args, **kwargs)
 
-    def __rrshift__(self, domain):
-
-        params = self.parameters
-        values = {k: v for k, v in zip(params, domain(params))}
-
-        return (self(**values),)
-
     def _logical_op(self, cls, other):
 
         if not isinstance(other, (Shape,)):
             raise TypeError("Shape: Expected Shape instance.")
 
         return cls(self, other)
+
+    def _add_transform(self, transform_func):
+        self._transforms.insert(0, transform_func)
+
+    def _apply_transform(self, domain):
+
+        if not self._transforms:
+            return domain
+
+        for transform in self._transforms:
+            domain = transform(domain)
+
+        return domain
 
     def _render(self, *args, **kwargs):
         """Override this function if you want to change the default evaluation rules."""

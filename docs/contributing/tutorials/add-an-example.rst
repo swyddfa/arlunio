@@ -65,17 +65,15 @@ case that's constructing an :code:`Image` instance that can be used to draw a re
 
 .. testcode:: contribute_tutorial_add_example
 
-   from stylo.color import FillColor, RGB8
-   from stylo.domain import SquareDomain
+   from stylo.color import FillColor
    from stylo.image import SimpleImage
    from stylo.shape import Circle
 
 
-   domain = SquareDomain(-1, 1)
    circle = Circle(0, 0, 0.75)
-   red = FillColor(RGB8.parse("ff0000"))
+   red = FillColor("ff0000")
 
-   image = SimpleImage(domain, circle, red)
+   image = SimpleImage(circle, red)
 
 Save your code in a file such as :code:`tests/examples/test_red_circle.py`.
 
@@ -111,17 +109,15 @@ After this step your example should look something like this
 
        # <example>
 
-       from stylo.color import FillColor, RGB8
-       from stylo.domain import SquareDomain
+       from stylo.color import FillColor
        from stylo.image import SimpleImage
        from stylo.shape import Circle
 
 
-       domain = SquareDomain(-1, 1)
        circle = Circle(0, 0, 0.75)
-       red = FillColor(RGB8.parse("ff0000"))
+       red = FillColor("ff0000")
 
-       image = SimpleImage(domain, circle, red)
+       image = SimpleImage(circle, red)
 
        # </example>
 
@@ -153,17 +149,15 @@ This function a few things:
 
         # <example>
 
-        from stylo.color import FillColor, RGB8
-        from stylo.domain import SquareDomain
+        from stylo.color import FillColor
         from stylo.image import SimpleImage
         from stylo.shape import Circle
 
 
-        domain = SquareDomain(-1, 1)
         circle = Circle(0, 0, 0.75)
-        red = FillColor(RGB8.parse("ff0000"))
+        red = FillColor("ff0000")
 
-        image = SimpleImage(domain, circle, red)
+        image = SimpleImage(circle, red)
 
         # </example>
 
@@ -238,17 +232,15 @@ Below is the complete example including the :code:`example_info` dictionary:
 
         # <example>
 
-        from stylo.color import FillColor, RGB8
-        from stylo.domain import SquareDomain
+        from stylo.color import FillColor
         from stylo.image import SimpleImage
         from stylo.shape import Circle
 
 
-        domain = SquareDomain(-1, 1)
         circle = Circle(0, 0, 0.75)
-        red = FillColor(RGB8.parse("ff0000"))
+        red = FillColor("ff0000")
 
-        image = SimpleImage(domain, circle, red)
+        image = SimpleImage(circle, red)
 
         # </example>
 

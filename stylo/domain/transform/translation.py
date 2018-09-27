@@ -1,5 +1,5 @@
 from stylo.domain.helpers import PolarConversion
-from stylo.domain.transform import RealDomainTransform
+from stylo.domain.transform import RealDomainTransform, define_transform
 
 
 class Translation(PolarConversion, RealDomainTransform):
@@ -32,6 +32,4 @@ class Translation(PolarConversion, RealDomainTransform):
         return mk_ys
 
 
-def translate(domain, dx=0, dy=0):
-    """Apply a translation to a given drawable."""
-    return Translation(domain, dx, dy)
+translate = define_transform(Translation)

@@ -1,3 +1,78 @@
+v0.5.0 2018-09-27
+-----------------
+
+Added
+^^^^^
+
+Users
+"""""
+
+- New Image object :code:`LayeredImage` object that can now draw more
+  than one object
+- Added an introductory tutorial for first time users to the documentation
+- Functions from the :code:`stylo.domain.transform` package can now be applied
+  to shapes, meaning that most images can now be made without handling domains
+  directly.
+
+Contributors
+""""""""""""
+
+- Added a :code:`Drawable` class, this allows a domain, shape and colormap to
+  be treated as a single entity.
+- Added a :code:`render_drawable` function that takes a drawable and some
+  existing image data and applies it to the data.
+- Added a :code:`get_real_domain` function that given a width, height and scale
+  returns a :code:`RectangularDomain` with appropriate aspect ratio,
+  :math:`(0, 0)` at the centre of the image and the scale corresponding to the
+  interval :math:`[ymin, ymax]`
+- We now make use of the :code:`[scripts]` section of  :code:`Pipfile` so
+  running common commands is now easier to remember
+  + :code:`pipenv run test`: to run the test suite
+  + :code:`pipenv run lint`: to lint the codebase
+  + :code:`pipenv run docs`: to run a full build of the documentation
+  + :code:`pipenv run docs_fast`: to run a less complete but faster build of
+    the documentation.
+
+Changed
+^^^^^^^
+
+Users
+"""""
+
+- Altered :code:`SimpleImage` to no longer take a domain, reducing the
+  cognitive load on first time users. It now instead takes an optional
+  :code:`scale` variable to control the size of the domain underneath. This
+  also means that the domain now automatically matches the aspect ratio of the
+  image so no more distortion in non-square images.
+
+Contributors
+""""""""""""
+
+- The tests now take advantage of multi-core machines and should now run much
+  faster
+- Building the docs now takes advantage of multi-core machines and should now
+  run much faster.
+
+
+Fixed
+^^^^^
+
+Contributors
+""""""""""""
+
+- Fixed crashes in :code:`exampledoc.py` and :code:`apidoc.py` for first time
+  users
+- Fixed issue with :code:`sed` on a Mac for people running the
+  :code:`devenv-setup.sh` script
+
+
+This release of :code:`stylo` was brought to you thanks to contributions from
+the following awesome people!
+
+- `mvinoba <https://github.com/mvinoba>`_
+- `LordTandy <https://github.com/LordTandy>`_
+- `StephanieAngharad <https://github.com/StephanieAngharad>`_
+
 v0.4.2 - 2018-09-17
 -------------------
 

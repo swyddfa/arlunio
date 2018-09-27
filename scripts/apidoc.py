@@ -30,7 +30,7 @@ from os import path
 import argparse
 import pathlib
 
-RST_TEMPLATE="""
+RST_TEMPLATE = """
 
 .. {reference}:
 
@@ -45,9 +45,9 @@ RST_TEMPLATE="""
 """
 
 
-RST_INDEX="""
+RST_INDEX = """
 
-.. _api_reference: 
+.. _api_reference:
 
 API Reference
 =============
@@ -68,7 +68,7 @@ def format_title(title):
     :type title: str
     """
 
-    underline = "="*len(title)
+    underline = "=" * len(title)
     rst_title = ".".join(s.capitalize() for s in title.split("."))
 
     return "{0}\n{1}".format(rst_title, underline)
@@ -82,9 +82,9 @@ def format_rst(name):
     """
 
     context = {
-        'title': format_title(name),
-        'module': name,
-        'reference': "_" + name.replace(".", "_")
+        "title": format_title(name),
+        "module": name,
+        "reference": "_" + name.replace(".", "_"),
     }
 
     return RST_TEMPLATE.format(**context)
@@ -125,17 +125,17 @@ def write_rst(root, name, rst, index):
     if not dir.exists():
         os.mkdir(str(dir))
 
-    with open(filename, 'w') as f:
+    with open(filename, "w") as f:
         f.write(rst)
 
-    print("\t{}.".format(name))
+    # print("\t{}.".format(name))
 
 
 def write_index(out, index):
 
     entries = "\n   ".join(index)
 
-    with open(path.join(out, "index.rst"), 'w') as f:
+    with open(path.join(out, "index.rst"), "w") as f:
         f.write(RST_INDEX.format(entries))
 
 
@@ -143,12 +143,22 @@ def process_arguments():
 
     parser = argparse.ArgumentParser(prog="apidoc.py")
 
-    parser.add_argument('-o, --output', nargs=1, type=str, dest="output",
-                        help="the folder to write the rst files to.")
+    parser.add_argument(
+        "-o, --output",
+        nargs=1,
+        type=str,
+        dest="output",
+        help="the folder to write the rst files to.",
+    )
 
-    parser.add_argument("-m, --module", nargs=1, type=str, dest="module",
-                        required=True,
-                        help="the module to document.")
+    parser.add_argument(
+        "-m, --module",
+        nargs=1,
+        type=str,
+        dest="module",
+        required=True,
+        help="the module to document.",
+    )
 
     return parser.parse_args()
 
@@ -161,8 +171,6 @@ def main():
     modules = find_modules(args.module[0])
     index = []
 
-    print("Writing API Reference:")
-
     for module in modules:
 
         rst = format_rst(module)
@@ -170,8 +178,8 @@ def main():
 
     write_index(out, sorted(index))
 
+    print("Documented {} modules".format(len(modules)))
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()
-
-

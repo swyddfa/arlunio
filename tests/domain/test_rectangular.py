@@ -3,9 +3,9 @@ from unittest import TestCase
 import pytest
 import numpy as np
 import numpy.testing as npt
-from hypothesis import given, assume
+from hypothesis import given, assume, example
 
-from stylo.domain.rectangular import RectangularDomain
+from stylo.domain.rectangular import RectangularDomain, get_real_domain
 from stylo.testing.strategies import real, dimension
 from stylo.testing.domain import BaseRealDomainTest
 
@@ -223,10 +223,10 @@ class TestRectangularDomain(TestCase, BaseRealDomainTest):
 
         interior = XS[:, 1:-1]
         self.assertTrue(
-            (interior < xmax).all(), "The interior should be less than xmax"
+            (interior <= xmax).all(), "The interior should be less than xmax"
         )
         self.assertTrue(
-            (xmin < interior).all(), "The interior should be greater then xmin"
+            (xmin <= interior).all(), "The interior should be greater then xmin"
         )
 
     @given(ymin=real, ymax=real, width=dimension, height=dimension)
@@ -254,11 +254,12 @@ class TestRectangularDomain(TestCase, BaseRealDomainTest):
         npt.assert_array_equal(YS[-1, :], ymin)
 
         interior = YS[1:-1,]
+
         self.assertTrue(
-            (interior < ymax).all(), "The interior should be less than ymax"
+            (interior <= ymax).all(), "The interior should be less than ymax"
         )
         self.assertTrue(
-            (ymin < interior).all(), "The interior should be greater than ymin"
+            (ymin <= interior).all(), "The interior should be greater than ymin"
         )
 
     @given(width=dimension, height=dimension)
@@ -295,3 +296,75 @@ class TestRectangularDomain(TestCase, BaseRealDomainTest):
         self.assertTrue(
             (TS >= -np.pi / 2).all(), "Angles should be greater than or equal to -pi/2"
         )
+
+
+@pytest.mark.domain
+class TestGetRealDomain:
+    """Tests for the :code:`get_real_domain` function."""
+
+    @given(width=dimension)
+    @example(width=0)
+    def test_checks_width_parameter(self, width):
+        """Ensure that an error is thrown if a zero or negative value for :code:`width`
+        is given.
+        """
+
+        with pytest.raises(ValueError) as err:
+            get_real_domain(-width, 4)
+
+        assert "must be a positive number" in str(err.value)
+
+    @given(height=dimension)
+    @example(height=0)
+    def test_checks_height_parameter(self, height):
+        """Ensure that an error is thrown if a zero or negative value for :code:`height`
+        is given.
+        """
+
+        with pytest.raises(ValueError) as err:
+            get_real_domain(4, -height)
+
+        assert "must be a positive number" in str(err.value)
+
+    @given(scale=real)
+    @example(scale=0)
+    def test_checks_scale_positive(self, scale):
+        """Ensure that an error is thrown if a zero or negative value for :code:`scale`
+        is given.
+        """
+        assume(scale >= 0)
+
+        with pytest.raises(ValueError) as err:
+            get_real_domain(4, 4, scale=-scale)
+
+        assert "must be strictly positive" in str(err.value)
+
+    @given(width=dimension, height=dimension, scale=real)
+    def test_ylength_is_scale(self, width, height, scale):
+        """Ensure that the length of the y interval corresponds to the value of the
+        scale parameter.
+        """
+        assume(scale > 0)
+        domain = get_real_domain(width, height, scale)
+
+        ymax = domain.ymax
+        ymin = domain.ymin
+
+        assert (ymax - ymin) == scale
+
+    @given(width=dimension, height=dimension, scale=real)
+    def test_domain_matches_aspect_ratio(self, width, height, scale):
+        """Ensure that the aspect ratio of the domain matches the aspect ratio specified
+        by the width and height
+        """
+
+        assume(scale > 0)
+        domain = get_real_domain(width, height, scale)
+
+        ylength = domain.ymax - domain.ymin
+        xlength = domain.xmax - domain.xmin
+
+        domain_ratio = xlength / ylength
+        aspect_ratio = width / height
+
+        assert domain_ratio == pytest.approx(aspect_ratio, 0.1)

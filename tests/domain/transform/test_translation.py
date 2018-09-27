@@ -10,7 +10,7 @@ from stylo.testing.strategies import dimension, real
 
 
 @pytest.mark.domain
-class TestTranslate(TestCase, BaseRealDomainTest):
+class TestTranslation(TestCase, BaseRealDomainTest):
     """Tests for the Translation class"""
 
     def setUp(self):
