@@ -99,3 +99,39 @@ class Rectangle(Shape):
 class Square(Rectangle):
     def __init__(self, x, y, size):
         super().__init__(x, y, size, size)
+
+
+class Triangle(Shape):
+    def __init__(self, a, b, c):
+        self.a = a
+        self.b = b
+        self.c = c
+
+    def draw(self):
+
+        a = self.a
+        b = self.b
+        c = self.c
+
+        def triangle(x, y):
+            q = (
+                1
+                / 2
+                * (
+                    -b[1] * c[0]
+                    + a[1] * (-b[0] + c[0])
+                    + a[0] * (b[1] - c[1])
+                    + b[0] * c[1]
+                )
+            )
+            sign = -1 if q < 0 else 1
+            s = (
+                a[1] * c[0] - a[0] * c[1] + (c[1] - a[1]) * x + (a[0] - c[0]) * y
+            ) * sign
+            t = (
+                a[0] * b[1] - a[1] * b[0] + (a[1] - b[1]) * x + (b[0] - a[0]) * y
+            ) * sign
+
+            return np.logical_and(s > 0, np.logical_and(t > 0, (s + t) < 2 * q * sign))
+
+        return triangle
