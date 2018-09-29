@@ -1,7 +1,7 @@
 import pytest
 from unittest import TestCase
 
-from stylo.shape import Ellipse, Circle, Rectangle, Square
+from stylo.shape import Ellipse, Circle, Rectangle, Square, Triangle
 from stylo.testing.shape import BaseShapeTest
 
 
@@ -35,3 +35,10 @@ class TestSquare(TestCase, BaseShapeTest):
 
     def setUp(self):
         self.shape = Square(0, 0, 0.75)
+
+@pytest.mark.shape
+class TestTriangle(TestCase, BaseShapeTest):
+    """Tests for the :code:`Triangle` shape."""
+
+    def setUp(self):
+        self.shape = Triangle((1,.5),(.2,1),(.4,.5))
