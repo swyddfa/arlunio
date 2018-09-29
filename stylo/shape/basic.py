@@ -102,6 +102,9 @@ class Square(Rectangle):
 
 
 class Triangle(Shape):
+    """
+    A Triangle can be defined by picking three non-collinear points :math:`(a, b, c)`.
+    """
     def __init__(self, a, b, c):
         self.a = a
         self.b = b
