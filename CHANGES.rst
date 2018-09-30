@@ -12,8 +12,9 @@ Users
 Contributors
 """"""""""""
 
-- Added new shape :code:`InvertedShape` which handles the inversion of a shape behind
-  the scenes.
+- Added new shape :code:`InvertedShape` which handles the inversion of a shape
+  behind the scenes.
+- Tests for all the composite shapes and operators.
 
 Changed
 ^^^^^^^
@@ -21,9 +22,9 @@ Changed
 Users
 """""
 
-- Shapes now have defined :code:`__repr__` methods, including shapes that have been
-  combined, where a representation of a tree will be produced showing how the various
-  shapes have been combined together.
+- Shapes now have defined :code:`__repr__` methods, including shapes that have
+  been combined, where a representation of a tree will be produced showing how
+  the various shapes have been combined together.
 
 
 v0.5.0 2018-09-27
