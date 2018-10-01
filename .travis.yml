@@ -15,12 +15,6 @@ matrix:
     - env: "TOXENV=lint"
       python: "3.6"
 
-    - env: "TOXENV=benchmark"
-      python: "3.6"
-
-    - env: "TOXENV=docs-check"
-      python: "3.6"
-
     - env: "TOXENV=docs-build"
       python: "3.6"
 
