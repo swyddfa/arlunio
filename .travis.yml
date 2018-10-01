@@ -29,7 +29,8 @@ after_success:
 
 notifications:
     webhooks:
-        url: https://webhooks.gitter.im/e/4bfa4fbff35ebee0a9d2
+        urls:
+        - https://webhooks.gitter.im/e/4bfa4fbff35ebee0a9d2
 
 deploy:
     - provider: pages
