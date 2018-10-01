@@ -44,7 +44,7 @@ class TestInvertedShape(TestCase, BaseShapeTest):
         mask = self.baseshape(self.domain, width, height)
         inverted_mask = self.shape(self.domain, width, height)
 
-        assert (np.logical_and(mask, inverted_mask) == False).all()
+        assert np.logical_not(np.logical_and(mask, inverted_mask)).all()
 
     @given(width=dimension, height=dimension)
     def test_double_inversion(self, width, height):
@@ -95,7 +95,7 @@ class TestANDedShape(TestCase, BaseShapeTest):
 
         mask = self.shape(self.domain, width, height)
 
-        assert (mask == False).all()
+        assert np.logical_not(mask).all()
 
     def test_draw_method(self):
         """Rightly or wrongly, :code:`ANDedShape` currently doesn't make use of the
@@ -104,7 +104,7 @@ class TestANDedShape(TestCase, BaseShapeTest):
 
 
 @pytest.mark.shape
-class TestANDedShape(TestCase, BaseShapeTest):
+class TestORedShape(TestCase, BaseShapeTest):
     """Tests for the :code:`ORedShape` class."""
 
     def setUp(self):
@@ -142,7 +142,7 @@ class TestANDedShape(TestCase, BaseShapeTest):
 
 
 @pytest.mark.shape
-class TestANDedShape(TestCase, BaseShapeTest):
+class TestXORedShape(TestCase, BaseShapeTest):
     """Tests for the :code:`XORedShape` class."""
 
     def setUp(self):
@@ -181,7 +181,7 @@ class TestANDedShape(TestCase, BaseShapeTest):
         composite = XORedShape(self.a, self.a)
         mask = composite(self.domain, width, height)
 
-        assert (mask == False).all()
+        assert np.logical_not(mask).all()
 
     def test_draw_method(self):
         """Rightly xor wrongly, :code:`XORedShape` currently doesn't make use of the
