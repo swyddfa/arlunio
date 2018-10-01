@@ -48,7 +48,11 @@ For example here is an eye, drawn with just a few lines of python
    :width: 75%
    :align: center
 
-.. testcode:: readme-eye
+.. image:: img/readme-eye.png
+   :width: 75%
+   :align: center
+
+.. code-block:: python
 
    from stylo.image import LayeredImage
    from stylo.color import FillColor
