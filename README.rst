@@ -35,20 +35,64 @@ About
    :alt: Join the chat at https://gitter.im/stylo-py/Lobby
    :target: https://gitter.im/stylo-py/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
 
-**DISCLAIMER!: Stylo is still in its early stages, many of the core
-concepts are yet to be decided on. The interface can change without warning and
-features may be added or removed without warning!**
+**Stylo is in early development, while it is useable we cannot make any
+stability guarantees.**
 
-Stylo is library that provides a number of tools that aim to make the process of creating
-images and animations using nothing but some code and some mathematics possible. Since my
-drawing abilities are very limited I created stylo as a way of me trying to close the gap
-between my imagination and my artistic ability.
+Stylo is a Python library that allows you to create images and animations
+powered by your imagination and a little mathematics. While mathematics is very
+much at the core you do not have to be a mathematician to use it!
+
+For example here is an eye, drawn with just a few lines of python
+
+.. image:: /_static/examples/readme-eye.png
+   :width: 75%
+   :align: center
+
+.. testcode:: readme-eye
+
+   from stylo.image import LayeredImage
+   from stylo.color import FillColor
+   from stylo.shape import Circle
+
+   outer_eye = Circle(0, 0.5, 1) & Circle(0, -0.5, 1)
+   inner_eye = Circle(0, 0.5, .9) & Circle(0, -0.5, 0.9)
+   eye = outer_eye & ~inner_eye
+
+   iris = Circle(0, 0, 0.4)
+   pupil = Circle(0, 0, 0.15)
+
+   blue = FillColor("0000ff")
+   black = FillColor("000000")
+
+   image = LayeredImage(scale=1.5)
+
+   image.add_layer(iris, blue)
+   image.add_layer(pupil, black)
+   image.add_layer(eye, black)
+
+   image(1920, 1080, filename="docs/_static/examples/readme-eye.png")
+
 
 Installation
 ^^^^^^^^^^^^
 
-Stylo is available on PyPi and can easily be installed using Pip:
+Stylo is available for Python 3.5+ and can be installed using Pip:
 
 .. code::
 
     $ pip install stylo
+
+Be sure to check out the `documentation <https://alcarney.github.io/stylo>`_
+(under construction) for details on how to get started with stylo.
+
+Contributing
+^^^^^^^^^^^^
+
+Contributions are welcome! Be sure to checkout the `Contributing
+<https://alcarney.github.io/stylo/contributing/>`_ section of the documentation
+to get started.
+
+**Note:** While :code:`stylo` itself supports Python 3.5+, due to some of the
+development tools we use you need to have Python 3.6+ in order to contribute
+**code** to the library. Other versions of Python work just as well if you are
+looking to contribute documentation.

@@ -29,8 +29,8 @@ Users
 - Preview images in Jupyter notebooks are now larger by default
 
 
-v0.5.0 2018-09-27
------------------
+v0.5.0 - 2018-09-27
+-------------------
 
 Added
 ^^^^^

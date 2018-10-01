@@ -4,6 +4,9 @@
 Be sure to check out the :ref:`about_docs` page for a guide on how to get the most of
 the documentation!
 
+Contents
+^^^^^^^^
+
 .. toctree::
    :maxdepth: 2
 
