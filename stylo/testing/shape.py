@@ -2,6 +2,7 @@ import numpy as np
 from hypothesis import given
 
 from stylo.domain import UnitSquare, RealDomain
+from stylo.shape.shape import InvertedShape, ANDedShape, ORedShape, XORedShape
 from stylo.testing.strategies import dimension
 from stylo.utils import get_parameters
 
@@ -55,7 +56,7 @@ class BaseShapeTest:
     @given(width=dimension, height=dimension)
     def test_render_with_args(self, width, height):
         """Ensure that a shape can be called with keyword arguments. Each of the
-        arguments should be numpy arrays of the same shape with names corresponding to
+    arguments should be numpy arrays of the same shape with names corresponding to
         each of the coordinate names the shape is defined with. The result must:
 
         - Be a numpy array
@@ -73,6 +74,47 @@ class BaseShapeTest:
         self.assertTrue(isinstance(mask, (np.ndarray,)), "Expected numpy array.")
         self.assertEqual((height, width), mask.shape)
         self.assertTrue(mask.dtype == np.bool, "Expected boolean array.")
+
+    def test_shape_can_be_inverted(self):
+        """Ensure that a shape can be inverted by checking that an instance of
+        :code:`InvertedShape` is returned when the :code:`~` operator is used on the
+        shape.
+        """
+
+        inverted_shape = ~self.shape
+
+        assert isinstance(inverted_shape, (InvertedShape,)), "Expected inverted shape."
+        assert inverted_shape.shape == self.shape
+
+    def test_shape_can_be_anded(self):
+        """Ensure that a shape can be ANDed by checking that an instance of
+        :code:`ANDedShape` is returned when the :code:`&` operator is used."""
+
+        anded_shape = self.shape & self.shape
+
+        assert isinstance(anded_shape, (ANDedShape,)), "Expected anded shape"
+        assert anded_shape.a == self.shape
+        assert anded_shape.b == self.shape
+
+    def test_shape_can_be_ored(self):
+        """Ensure that a shape can be ored by checking that an instance of
+        :code:`ORedShape` is returned when the :code:`|` operator is used."""
+
+        ored_shape = self.shape | self.shape
+
+        assert isinstance(ored_shape, (ORedShape,)), "Expected ored shape"
+        assert ored_shape.a == self.shape
+        assert ored_shape.b == self.shape
+
+    def test_shape_can_be_xored(self):
+        """Ensure that a shape can be xored by checking that an instance of
+        :code:`XORedShape` is returned when the :code:`^` operator is used."""
+
+        xored_shape = self.shape ^ self.shape
+
+        assert isinstance(xored_shape, (XORedShape,)), "Expected xored shape"
+        assert xored_shape.a == self.shape
+        assert xored_shape.b == self.shape
 
     def test_parameters_property(self):
         """Ensure that the :code:`parameters` property returns the coordinates that the

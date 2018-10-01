@@ -1,3 +1,32 @@
+v0.5.1 [Unreleased]
+-------------------
+
+Added
+^^^^^
+
+Users
+"""""
+
+- Shapes can now be inverted using the :code:`~` operator.
+
+Contributors
+""""""""""""
+
+- Added new shape :code:`InvertedShape` which handles the inversion of a shape
+  behind the scenes.
+- Tests for all the composite shapes and operators.
+
+Changed
+^^^^^^^
+
+Users
+"""""
+
+- Shapes now have defined :code:`__repr__` methods, including shapes that have
+  been combined, where a representation of a tree will be produced showing how
+  the various shapes have been combined together.
+
+
 v0.5.0 2018-09-27
 -----------------
 
@@ -27,6 +56,7 @@ Contributors
   interval :math:`[ymin, ymax]`
 - We now make use of the :code:`[scripts]` section of  :code:`Pipfile` so
   running common commands is now easier to remember
+
   + :code:`pipenv run test`: to run the test suite
   + :code:`pipenv run lint`: to lint the codebase
   + :code:`pipenv run docs`: to run a full build of the documentation

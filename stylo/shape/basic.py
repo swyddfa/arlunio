@@ -31,6 +31,9 @@ class Ellipse(Shape):
         self.b = b
         self.r = r
 
+    def __repr__(self):
+        return "Ellipse(x={0.x}, y={0.y}, a={0.a}, b={0.b}, r={0.r})".format(self)
+
     def draw(self):
 
         r = self.r * self.r
@@ -65,6 +68,9 @@ class Circle(Ellipse):
     def __init__(self, x, y, r):
         super().__init__(x, y, 1, 1, r)
 
+    def __repr__(self):
+        return "Circle(x={0.x},y={0.y},r={0.r})".format(self)
+
 
 class Rectangle(Shape):
     """
@@ -79,6 +85,10 @@ class Rectangle(Shape):
         self.y = y
         self.width = width
         self.height = height
+
+    def __repr__(self):
+        arg_string = "x={0.x},y={0.y},width={0.width},height={0.height}".format(self)
+        return "Rectangle({})".format(arg_string)
 
     def draw(self):
 
@@ -99,3 +109,6 @@ class Rectangle(Shape):
 class Square(Rectangle):
     def __init__(self, x, y, size):
         super().__init__(x, y, size, size)
+
+    def __repr__(self):
+        return "Sqaure(x={0.x},y={0.y},size={0.width})".format(self)

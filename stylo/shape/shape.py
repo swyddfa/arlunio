@@ -1,5 +1,6 @@
 import numpy as np
 from abc import ABC, abstractmethod
+from textwrap import indent
 
 from stylo.domain import RealDomain
 from stylo.utils import get_parameters
@@ -13,6 +14,9 @@ class Shape(ABC):
         instance._transforms = []
 
         return instance
+
+    def __invert__(self):
+        return InvertedShape(self)
 
     def __and__(self, other):
         return self._logical_op(ANDedShape, other)
@@ -78,15 +82,43 @@ class Shape(ABC):
         pass
 
 
-def composite_shape_factory(op, name):
+class InvertedShape(Shape):
+    """A shape that has been inverted."""
+
+    def __init__(self, shape):
+        self.shape = shape
+
+    def __repr__(self):
+        return "NOT [ " + repr(self.shape) + " ]"
+
+    def _render_domain(self, *args):
+        mask = self.shape._render_domain(*args)
+        return np.logical_not(mask)
+
+    def _render_args(self, **kwargs):
+        mask = self.shape._render_args(**kwargs)
+        return np.logical_not(mask)
+
+    def draw(self):
+        pass
+
+    @property
+    def parameters(self):
+        return self.shape.parameters
+
+
+def composite_shape_factory(op, name, op_name):
     """A factory function that returns class definitions for composite shapes
-    constructed using logical operations such as AND, OR, etc.
+    constructed using binary logical operations such as AND, OR, etc.
 
     :param op: The function that implements the operation in question
     :param name: The name to give the composite class.
+    :param op_name: The name of the logical operation, this will be used in the objcet's
+                    __repr__
 
     :type op: callable
     :type name: str
+    :type op_name: str
 
     :rtype: class
     """
@@ -97,6 +129,12 @@ def composite_shape_factory(op, name):
         def __init__(self, a, b):
             self.a = a
             self.b = b
+
+        def __repr__(self):
+            a_repr = indent("-- " + repr(self.a), "| ")
+            b_repr = indent("-- " + repr(self.b), "| ")
+
+            return "\n".join([op_name, a_repr, b_repr])
 
         def _render_domain(self, *args):
             a = self.a._render_domain(*args)
@@ -131,6 +169,6 @@ def composite_shape_factory(op, name):
     return CompositeShape
 
 
-ANDedShape = composite_shape_factory(np.logical_and, "ANDedShape")
-ORedShape = composite_shape_factory(np.logical_or, "ORedShape")
-XORedShape = composite_shape_factory(np.logical_xor, "XORedShape")
+ANDedShape = composite_shape_factory(np.logical_and, "ANDedShape", "AND")
+ORedShape = composite_shape_factory(np.logical_or, "ORedShape", "OR")
+XORedShape = composite_shape_factory(np.logical_xor, "XORedShape", "XOR")

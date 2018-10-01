@@ -16,7 +16,7 @@ from hypothesis.extra.numpy import arrays
 real = floats(min_value=-1e6, max_value=1e6)
 angle = floats(min_value=-pi, max_value=pi)
 dimension = integers(min_value=4, max_value=1024)
-small_dimension = integers(min_value=4, max_value=256)
+small_dimension = integers(min_value=4, max_value=128)
 image_size = tuples(small_dimension, small_dimension)
 
 # Stylo data
