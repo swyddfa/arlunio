@@ -42,41 +42,6 @@ Stylo is a Python library that allows you to create images and animations
 powered by your imagination and a little mathematics. While mathematics is very
 much at the core you do not have to be a mathematician to use it!
 
-For example here is an eye, drawn with just a few lines of python
-
-.. image:: /_static/examples/readme-eye.png
-   :width: 75%
-   :align: center
-
-.. image:: img/readme-eye.png
-   :width: 75%
-   :align: center
-
-.. code-block:: python
-
-   from stylo.image import LayeredImage
-   from stylo.color import FillColor
-   from stylo.shape import Circle
-
-   outer_eye = Circle(0, 0.5, 1) & Circle(0, -0.5, 1)
-   inner_eye = Circle(0, 0.5, .9) & Circle(0, -0.5, 0.9)
-   eye = outer_eye & ~inner_eye
-
-   iris = Circle(0, 0, 0.4)
-   pupil = Circle(0, 0, 0.15)
-
-   blue = FillColor("0000ff")
-   black = FillColor("000000")
-
-   image = LayeredImage(scale=1.5)
-
-   image.add_layer(iris, blue)
-   image.add_layer(pupil, black)
-   image.add_layer(eye, black)
-
-   image(1920, 1080, filename="docs/_static/examples/readme-eye.png")
-
-
 Installation
 ^^^^^^^^^^^^
 
