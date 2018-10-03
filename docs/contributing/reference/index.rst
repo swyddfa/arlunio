@@ -7,5 +7,6 @@ Reference
 .. toctree::
 
    apidoc
+   documentation-build
    exampledoc
    tox
