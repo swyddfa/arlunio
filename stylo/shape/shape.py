@@ -113,7 +113,7 @@ def composite_shape_factory(op, name, op_name):
 
     :param op: The function that implements the operation in question
     :param name: The name to give the composite class.
-    :param op_name: The name of the logical operation, this will be used in the objcet's
+    :param op_name: The name of the logical operation, this will be used in the object's
                     __repr__
 
     :type op: callable

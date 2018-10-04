@@ -7,6 +7,7 @@ Added
 Users
 """""
 
+- New :code:`Triangle` shape
 - Shapes can now be inverted using the :code:`~` operator.
 
 Contributors
