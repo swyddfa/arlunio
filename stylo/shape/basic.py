@@ -107,8 +107,8 @@ class Triangle(Shape):
     :math:`(a, b, c)` in the form of a tuple each.
     Points inside the triangle are determined using the
     barycentric coordinate system method, which is further explained
-    `here`<https://math.stackexchange.com/a/1884485/294670> and the first method
-    `here`<http://totologic.blogspot.com/2014/01/accurate-point-in-triangle-test.html>.
+    `in this answer <https://math.stackexchange.com/a/1884485/294670>`_
+    and the first method `here <http://totologic.blogspot.com/2014/01/accurate-point-in-triangle-test.html>`_.
     """
 
     def __init__(self, a, b, c):
@@ -117,6 +117,11 @@ class Triangle(Shape):
         self.c = c
 
     def get_q(self):
+        """
+        Returns the denominator for calculating both the barycentric
+        coordinates, which absolute value is the double of the area
+        of the triangle.
+        """
         a = self.a
         b = self.b
         c = self.c
@@ -125,6 +130,10 @@ class Triangle(Shape):
         return q
 
     def get_s(self, x, y):
+        """
+        Returns one of the barycentric coordinates of the triangle using both
+        :math:`a` and :math:`c` points.
+        """
         a = self.a
         c = self.c
         sign = -1 if self.get_q() < 0 else 1
@@ -132,6 +141,10 @@ class Triangle(Shape):
         return s
 
     def get_t(self, x, y):
+        """
+        Returns one of the barycentric coordinates of the triangle using both
+        :math:`a` and :math:`b` points.
+        """
         a = self.a
         b = self.b
         sign = -1 if self.get_q() < 0 else 1
