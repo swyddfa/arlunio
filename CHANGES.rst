@@ -26,6 +26,7 @@ Users
 - Shapes now have defined :code:`__repr__` methods, including shapes that have
   been combined, where a representation of a tree will be produced showing how
   the various shapes have been combined together.
+- Preview images in Jupyter notebooks are now larger by default
 
 
 v0.5.0 2018-09-27
