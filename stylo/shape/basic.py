@@ -117,6 +117,9 @@ class Triangle(Shape):
         self.b = b
         self.c = c
 
+    def __repr__(self):
+        return "Triangle(a={0.a}, b={0.b}, c={0.c})".format(self)
+
     def get_q(self):
         """
         Returns the denominator for calculating both the barycentric
