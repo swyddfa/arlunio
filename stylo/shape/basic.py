@@ -105,6 +105,10 @@ class Triangle(Shape):
     """
     A Triangle can be defined by picking three non-collinear points
     :math:`(a, b, c)` in the form of a tuple each.
+    Points inside the triangle are determined using the
+    barycentric coordinate system method, which is further explained
+    `here`<https://math.stackexchange.com/a/1884485/294670> and the first method
+    `here`<http://totologic.blogspot.com/2014/01/accurate-point-in-triangle-test.html>.
     """
 
     def __init__(self, a, b, c):
@@ -116,16 +120,8 @@ class Triangle(Shape):
         a = self.a
         b = self.b
         c = self.c
-        q = (
-            1
-            / 2
-            * (
-                -b[1] * c[0]
-                + a[1] * (-b[0] + c[0])
-                + a[0] * (b[1] - c[1])
-                + b[0] * c[1]
-            )
-        )
+        q = -b[1] * c[0] + a[1] * (-b[0] + c[0]) + a[0] * (b[1] - c[1]) + b[0] * c[1]
+
         return q
 
     def get_s(self, x, y):
@@ -147,9 +143,7 @@ class Triangle(Shape):
             sign = -1 if self.get_q() < 0 else 1
             first_condition = self.get_s(x, y) > 0
             second_condition = self.get_t(x, y) > 0
-            third_condition = (
-                self.get_s(x, y) + self.get_t(x, y) < 2 * self.get_q() * sign
-            )
+            third_condition = self.get_s(x, y) + self.get_t(x, y) < self.get_q() * sign
 
             return np.logical_and(
                 first_condition, np.logical_and(second_condition, third_condition)
