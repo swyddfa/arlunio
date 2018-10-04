@@ -15,6 +15,7 @@ pytest-benchmark = "*"
 tox = "*"
 pre-commit = "*"
 jupyter = "*"
+black = "*"
 
 [scripts]
 test = "tox -q -e py36,py37 -- -n auto"
