@@ -110,7 +110,7 @@ class Triangle(Shape):
     `in this answer <https://math.stackexchange.com/a/1884485/294670>`_
     and the first method
     `here <http://totologic.blogspot.com/2014/01/accurate-point-in-triangle-test.html>`_.
-    """ # noqa E501
+    """  # noqa E501
 
     def __init__(self, a, b, c):
         self.a = a
