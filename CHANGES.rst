@@ -28,6 +28,11 @@ Users
   the various shapes have been combined together.
 - Preview images in Jupyter notebooks are now larger by default
 
+This release of :code:`stylo` was brought to you thanks to contributions from
+the following awesome people!
+
+- `mvinoba <https://github.com/mvinoba>`_
+
 
 v0.5.0 - 2018-09-27
 -------------------

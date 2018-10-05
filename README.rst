@@ -45,6 +45,11 @@ much at the core you do not have to be a mathematician to use it!
 For example here is a simple image of a boat that can be made with just a few
 lines of Python
 
+
+.. image:: /_static/examples/a-boat.png
+   :align: center
+   :width: 75%
+
 .. image:: /img/a-boat.png
    :align: center
    :width: 75%
@@ -84,7 +89,7 @@ lines of Python
   image.add_layer(mast, black)
   image.add_layer(sails, white)
 
-  image(1920, 1080, filename="img/a-boat.png");
+  image(1920, 1080, filename="docs/_static/examples/a-boat.png");
 
 Installation
 ^^^^^^^^^^^^

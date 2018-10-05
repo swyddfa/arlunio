@@ -1,6 +1,9 @@
 Glossary
 ========
 
+Mathematics
+-----------
+
 .. glossary::
    :sorted:
 
@@ -8,6 +11,24 @@ Glossary
       The "standard" coordinate system that (in 2D) uses two variables :math:`(x, y)`
       to address a point in space. Can be thought of as going
       *"along the corridor and up the stairs"*. See :ref:`math_cartesian_coordinates`
+
+   polar coordinates
+      An alternate coordinate system that (in 2D) uses two variables :math:`(r, \theta)`
+      to address a point in space. Useful for curves and circular objects.
+      See :ref:`math_polar_coordinates`
+
+   linear interpolation
+      TBW
+
+   transpose
+       Transposing a matrix is the act of flipping the matrix around its principal
+       diagonal. *All the columns become rows and the rows become columns*.
+
+Software Development
+--------------------
+
+.. glossary::
+   :sorted:
 
    docstrings
       docstrings are a special kind of comment in Python and are typically found
@@ -22,33 +43,19 @@ Glossary
       other without going insane. While very powerful it does have a reputation
       for being hard to understand.
 
-   polar coordinates
-      An alternate coordinate system that (in 2D) uses two variables :math:`(r, \theta)`
-      to address a point in space. Useful for curves and circular objects.
-      See :ref:`math_polar_coordinates`
-
    linting
       Linting in software development is the process of running one or more tools
       against a codebase that search for potential issues. Examples include undefined
       variables or enforcing stylistic conventions such as line length.
 
-   linear interpolation
-      TBW
-
-   transpose
-       Transposing a matrix is the act of flipping the matrix around its principal
-       diagonal. *All the columns become rows and the rows become columns*.
+   PyPi
+      `PyPi <https://pypi.org/>`_ is the Python Package Index. Any python
+      package that you can :code:`pip install` is hosted here.
 
    tox
       `tox <https://tox.readthedocs.io/en/latest/>`_ is tool commonly found in
       Python projects that automates the process of running various tasks
       against multiple Python versions or environments.
-
-Software Development
---------------------
-
-.. glossary::
-   :sorted:
 
    Travis
       `Travis <https://travis-ci.org>`_ is a continuous integration service that

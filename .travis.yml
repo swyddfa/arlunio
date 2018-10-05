@@ -33,6 +33,7 @@ notifications:
         - https://webhooks.gitter.im/e/4bfa4fbff35ebee0a9d2
 
 deploy:
+    # <publish-docs>
     - provider: pages
       skip-cleanup: true
       github-token: $GH_TOKEN
@@ -42,7 +43,9 @@ deploy:
         branch: develop
         condition: $TOXENV = docs-build
         python: 3.6
+    # </publish-docs>
 
+    # <publish-package>
     - provider: pypi
       distributions: "sdist bdist_wheel"
       user: alcarney
@@ -51,3 +54,4 @@ deploy:
       on:
         condition: $TOXENV = py36
         python: 3.6
+    # </publish-package>
