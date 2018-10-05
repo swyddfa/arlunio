@@ -15,6 +15,13 @@ Glossary
       the object/class is, what input it expects and what it returns along with
       any errors it may raise.
 
+   git
+      `Git <https://git-scm.com/>`_ is a tool used to manage multiple versions
+      of documents stored on multile computers. It allows us to see the history
+      of every file in the repository and be able to copy changes between each
+      other without going insane. While very powerful it does have a reputation
+      for being hard to understand.
+
    polar coordinates
       An alternate coordinate system that (in 2D) uses two variables :math:`(r, \theta)`
       to address a point in space. Useful for curves and circular objects.
@@ -36,6 +43,12 @@ Glossary
       `tox <https://tox.readthedocs.io/en/latest/>`_ is tool commonly found in
       Python projects that automates the process of running various tasks
       against multiple Python versions or environments.
+
+Software Development
+--------------------
+
+.. glossary::
+   :sorted:
 
    Travis
       `Travis <https://travis-ci.org>`_ is a continuous integration service that

@@ -1,4 +1,4 @@
-.. _contribute_get_started_releases:
+.. _contribute_ref_release:
 
 The Release Process
 ===================
@@ -7,9 +7,9 @@ This page outlines the release process, what has to be done before a release,
 how a release is triggered and how a release actually works. While it's not
 essential for every contributor to know the inner workings of this process it is
 certainly useful to know as it has an impact on other areas such as the
-:ref:`contribute_get_started_git_branching`
+:ref:`contribute_ref_branching`
 
-There are currently 2 dictinct release processes in :code:`stylo` there is the
+There are currently 2 distinct release processes in :code:`stylo` there is the
 release that publishes the documentation you are reading now and there is the
 package release that publishes :code:`stylo` to PyPi and makes it generally
 available.

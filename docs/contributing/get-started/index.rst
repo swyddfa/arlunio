@@ -14,7 +14,3 @@ organised by what kind of contribution you want to make.
 New Contributors - Start Here
 -----------------------------
 
-.. toctree::
-
-   branching-policy
-   release-process

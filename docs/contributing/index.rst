@@ -10,11 +10,7 @@ links below just click on the one you feel matches you the most and it should
 take you where you need to go.
 
 - :ref:`contribute_how_to`
-
-.. _contribute_i_want:
-
-I want to ..?
--------------
+- :ref:`contribute_ref`
 
 .. _contribute_how_to:
 
@@ -24,6 +20,15 @@ How do I ..?
 - How do I :ref:`contribute_tutorial_open_issue`?
 - How do I :ref:`contribute_tutorial_fork_repository`?
 
+
+.. _contribute_ref:
+
+Tell me more about ..
+---------------------
+
+- Tell me more about the :ref:`Documentation Build <contribute_ref_docs_build>`
+- Tell me more about the :ref:`Branching Policy <contribute_ref_branching>`
+- Tell me more about the :ref:`Release Process <contribute_ref_release>`
 
 Index
 -----
