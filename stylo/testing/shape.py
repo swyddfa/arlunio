@@ -56,7 +56,7 @@ class BaseShapeTest:
     @given(width=dimension, height=dimension)
     def test_render_with_args(self, width, height):
         """Ensure that a shape can be called with keyword arguments. Each of the
-    arguments should be numpy arrays of the same shape with names corresponding to
+        arguments should be numpy arrays of the same shape with names corresponding to
         each of the coordinate names the shape is defined with. The result must:
 
         - Be a numpy array
