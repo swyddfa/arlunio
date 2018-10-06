@@ -19,6 +19,7 @@ How do I ..?
 
 - How do I :ref:`contribute_tutorial_open_issue`?
 - How do I :ref:`contribute_tutorial_fork_repository`?
+- How do I :ref:`contribute_tutorial_devenv_setup`?
 
 
 .. _contribute_ref:

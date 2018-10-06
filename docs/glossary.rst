@@ -62,3 +62,11 @@ Software Development
       will automatically run the tests whenever changes are made to the
       repository and will report on any failures. It can also be configured to
       handle releases.
+
+   virtual environments
+      A virtual environment is an isolated installation of Python that can have
+      its own collection of packages installed and is completely independent of
+      the host machine's Python installation. They are highly recommended when
+      working on projects as they stop conflicts when you need multiple versions
+      of the same package installed.
+      installed
