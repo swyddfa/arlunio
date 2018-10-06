@@ -11,4 +11,5 @@ Reference
    documentation-build
    exampledoc
    release-process
+   setup-py
    tox
