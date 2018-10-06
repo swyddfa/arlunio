@@ -52,6 +52,11 @@ Software Development
       `PyPi <https://pypi.org/>`_ is the Python Package Index. Any python
       package that you can :code:`pip install` is hosted here.
 
+   static analysis
+      Static analysis tools such as `flake8 <http://flake8.pycqa.org/en/latest/>`_
+      are tools that try to detect errors in your code simply by reading the
+      source code.
+
    tox
       `tox <https://tox.readthedocs.io/en/latest/>`_ is tool commonly found in
       Python projects that automates the process of running various tasks

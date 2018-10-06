@@ -29,6 +29,7 @@ Tell me more about ..
 
 - Tell me more about the :ref:`Documentation Build <contribute_ref_docs_build>`
 - Tell me more about the :ref:`Branching Policy <contribute_ref_branching>`
+- Tell me more about the :ref:`contribute_ref_code_style`
 - Tell me more about the :ref:`Release Process <contribute_ref_release>`
 - Tell me more about the :ref:`Setup.py file <contribute_ref_setup_py>`
 
