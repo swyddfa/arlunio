@@ -1,4 +1,4 @@
-v0.5.1 [Unreleased]
+v0.6.0 - 2018-10-07
 -------------------
 
 Added
@@ -16,6 +16,7 @@ Contributors
 - Added new shape :code:`InvertedShape` which handles the inversion of a shape
   behind the scenes.
 - Tests for all the composite shapes and operators.
+- More documentation on how to get involved
 
 Changed
 ^^^^^^^
