@@ -25,7 +25,7 @@ class Image(ABC):
             return
 
         if plot_size is None:
-            plot_size = 4
+            plot_size = 12
 
         fig, ax = plt.subplots(1, figsize=(plot_size, plot_size))
         ax.imshow(image)

@@ -20,6 +20,7 @@ docs/_static/examples
 
 *.png
 !docs/**/*.png
+!img/*.png
 
 .eggs/
 *.egg-info/
