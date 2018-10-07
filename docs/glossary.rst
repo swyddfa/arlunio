@@ -52,6 +52,11 @@ Software Development
       `PyPi <https://pypi.org/>`_ is the Python Package Index. Any python
       package that you can :code:`pip install` is hosted here.
 
+   static analysis
+      Static analysis tools such as `flake8 <http://flake8.pycqa.org/en/latest/>`_
+      are tools that try to detect errors in your code simply by reading the
+      source code.
+
    tox
       `tox <https://tox.readthedocs.io/en/latest/>`_ is tool commonly found in
       Python projects that automates the process of running various tasks
@@ -62,3 +67,11 @@ Software Development
       will automatically run the tests whenever changes are made to the
       repository and will report on any failures. It can also be configured to
       handle releases.
+
+   virtual environments
+      A virtual environment is an isolated installation of Python that can have
+      its own collection of packages installed and is completely independent of
+      the host machine's Python installation. They are highly recommended when
+      working on projects as they stop conflicts when you need multiple versions
+      of the same package installed.
+      installed
