@@ -4,7 +4,7 @@ from stylo import __version__
 
 
 def readme():
-    with open("README.rst") as f:
+    with open("README.md") as f:
         return f.read()
 
 
@@ -13,6 +13,7 @@ setup(
     version=__version__,
     description="Using a blend of Python and Maths for the creation of images",
     long_description=readme(),
+    long_description_content_type="text/markdown",
     classifiers=[
         "Development Status :: 3 - Alpha",
         "License :: OSI Approved :: MIT License",
