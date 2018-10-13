@@ -1,38 +1,9 @@
 # Stylo
-
-.. list-table::
-   :stub-columns: 1
-
-   * - project
-     - |license| |gitter|
-   * - code
-     - |travis| |coveralls| |black|
-   * - pypi
-     - |version| |supported-versions|
-
-.. |travis| image:: https://travis-ci.org/alcarney/stylo.svg?branch=develop
-   :target: https://travis-ci.org/alcarney/stylo
-
-.. |coveralls| image:: https://coveralls.io/repos/github/alcarney/stylo/badge.svg?branch=develop
-   :target: https://coveralls.io/github/alcarney/stylo?branch=develop
-
-.. |black| image:: https://img.shields.io/badge/code%20style-black-000000.svg
-   :target: https://github.com/ambv/black
-
-.. |version| image:: https://img.shields.io/pypi/v/stylo.svg
-   :alt: PyPI Package latest release
-   :target: https://pypi.org/project/stylo
-
-.. |supported-versions| image:: https://img.shields.io/pypi/pyversions/stylo.svg
-   :alt: Supported versions
-   :target: https://pypi.org/project/stylo
-
-.. |license| image:: https://img.shields.io/github/license/alcarney/stylo.svg
-   :alt: License
-
-.. |gitter| image:: https://badges.gitter.im/stylo-py/Lobby.svg
-   :alt: Join the chat at https://gitter.im/stylo-py/Lobby
-   :target: https://gitter.im/stylo-py/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
+|   |   |
+|:-------------:|----|
+| **Project** | ![MIT License](https://img.shields.io/github/license/alcarney/stylo.svg) [![Gitter](https://badges.gitter.im/stylo-py/Lobby.svg)](https://gitter.im/stylo-py/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) |
+| **Code**| [![Travis](https://travis-ci.org/alcarney/stylo.svg?branch=develop)](https://travis-ci.org/alcarney/stylo) [![Coveralls](https://coveralls.io/repos/github/alcarney/stylo/badge.svg?branch=develop)](https://coveralls.io/github/alcarney/stylo?branch=develop) [![Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)|
+| **PyPi** | [![PyPi Version](https://img.shields.io/pypi/v/stylo.svg)](https://pypi.org/project/stylo) [![PyPi Supported Versions](https://img.shields.io/pypi/pyversions/stylo.svg)](https://pypi.org/project/stylo)|
 
 **Stylo is in early development, while it is useable we cannot make any
 stability guarantees.**
