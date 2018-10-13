@@ -1,5 +1,4 @@
-About
------
+# Stylo
 
 .. list-table::
    :stub-columns: 1
@@ -46,16 +45,10 @@ For example here is a simple image of a boat that can be made with just a few
 lines of Python
 
 
-.. image:: /_static/examples/a-boat.png
-   :align: center
-   :width: 75%
+![A Boat](img/a-boat.png)
 
-.. image:: /img/a-boat.png
-   :align: center
-   :width: 75%
 
-.. testcode:: readme-boat
-
+```python
   from stylo.image import LayeredImage
   from stylo.color import FillColor
   from stylo.shape import Circle, Rectangle, Triangle
@@ -90,27 +83,26 @@ lines of Python
   image.add_layer(sails, white)
 
   image(1920, 1080, filename="docs/_static/examples/a-boat.png");
+```
 
-Installation
-^^^^^^^^^^^^
+## Installation
 
 Stylo is available for Python 3.5+ and can be installed using Pip:
 
-.. code::
+```sh
+$ pip install stylo
+```
 
-    $ pip install stylo
-
-Be sure to check out the `documentation <https://alcarney.github.io/stylo>`_
+Be sure to check out the [documentation](https://alcarney.github.io/stylo)
 (under construction) for details on how to get started with stylo.
 
-Contributing
-^^^^^^^^^^^^
+## Contributing
 
-Contributions are welcome! Be sure to checkout the `Contributing
-<https://alcarney.github.io/stylo/contributing/>`_ section of the documentation
-to get started.
+Contributions are welcome! Be sure to checkout the
+[Contributing](https://alcarney.github.io/stylo/contributing/) section of the
+documentation to get started.
 
-**Note:** While :code:`stylo` itself supports Python 3.5+, due to some of the
+**Note:** While `stylo` itself supports Python 3.5+, due to some of the
 development tools we use you need to have Python 3.6+ in order to contribute
 **code** to the library. Other versions of Python work just as well if you are
 looking to contribute documentation.
