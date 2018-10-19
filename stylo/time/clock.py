@@ -1,53 +1,24 @@
-import numpy as np
-from math import floor
+from stylo.utils import get_message_bus
 
 
 class Clock:
     """This manages all the ticking etc."""
 
-    def __init__(self, duration, fps):
-        self.duration = duration
+    def __init__(self, fps=25):
         self.fps = fps
-        self._timesteps = np.linspace(0, duration, floor(duration * fps))
+        self.timedelta = 1 / fps
+        self.bus = get_message_bus()
 
-        self._clock = -1
+        self.time = 0
+        self.tick = 0
 
-        self._started = False
-        self._finished = False
+        self.event_id = self.bus.new_id()
 
-        self._time = {"f": 0, "t": 0}
+    def on_tick(self, obj):
+        self.bus.register(self.event_id, obj)
 
-    def __getitem__(self, values):
-        return tuple(self._time[v] for v in values if v in self._time)
+    def __call__(self):
+        self.tick += 1
+        self.time += self.timedelta
 
-    @property
-    def started(self):
-        return self._started
-
-    @property
-    def finished(self):
-        return self._finished
-
-    def start(self):
-        self._started = True
-
-    def tick(self):
-        """This advances the clock and computes the frame number and real time value."""
-
-        if not self._started:
-            self._time["f"] = 0
-            self._time["t"] = 0
-            return
-
-        if self._finished:
-            self._time["f"] = self._clock
-            self._time["t"] = self._timesteps[-1]
-            return
-
-        self._clock += 1
-
-        if self._clock == len(self._timesteps) - 1:
-            self._finished = True
-
-        self._time["f"] = self._clock
-        self._time["t"] = self._timesteps[self._clock]
+        self.bus.send(self.event_id, f=self.tick, t=self.time)
