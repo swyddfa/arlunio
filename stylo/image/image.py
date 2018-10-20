@@ -28,9 +28,17 @@ class Image(ABC):
             plot_size = 12
 
         fig, ax = plt.subplots(1, figsize=(plot_size, plot_size))
+
+        # Hide the axis - show just the image
+        fig.axes[0].get_yaxis().set_visible(False)
+        fig.axes[0].get_xaxis().set_visible(False)
+
+        # Draw the image
         ax.imshow(image)
 
-        return fig
+        # Return just the axis, jupyter notebooks will capture the figure and
+        # display it anyway.
+        return ax
 
     def _save(self, image, filename):
 

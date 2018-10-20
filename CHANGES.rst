@@ -1,3 +1,12 @@
+v0.6.1 [Unreleased]
+-------------------
+
+Fixed
+^^^^^
+
+- Preview images are no longer displayed twice in jupyter notebooks
+- Preview images no longer display the x and y axis numbers.
+
 v0.6.0 - 2018-10-07
 -------------------
 
