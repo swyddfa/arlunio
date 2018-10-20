@@ -16,7 +16,7 @@ For example here is a simple image of a boat that can be made with just a few
 lines of Python
 
 
-![A Boat](img/a-boat.png)
+![A Boat](https://raw.githubusercontent.com/alcarney/stylo/develop/img/a-boat.png)
 
 
 ```python
