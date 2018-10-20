@@ -1,3 +1,20 @@
+v0.6.1 [Unreleased]
+-------------------
+
+Added
+^^^^^
+
+- New :code:`preview` keyword argument to images, set this to :code:`False` if
+  you don't want a matplotlib figure returned.
+- New :code:`encode` keyword argument to images, setting this to :code:`True`
+  will return a base64 encoded string representation of the image in PNG format.
+
+Fixed
+^^^^^
+
+- Preview images are no longer displayed twice in jupyter notebooks
+- Preview images no longer display the x and y axis numbers.
+
 v0.6.0 - 2018-10-07
 -------------------
 

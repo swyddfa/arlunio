@@ -1,39 +1,9 @@
-About
------
-
-.. list-table::
-   :stub-columns: 1
-
-   * - project
-     - |license| |gitter|
-   * - code
-     - |travis| |coveralls| |black|
-   * - pypi
-     - |version| |supported-versions|
-
-.. |travis| image:: https://travis-ci.org/alcarney/stylo.svg?branch=develop
-   :target: https://travis-ci.org/alcarney/stylo
-
-.. |coveralls| image:: https://coveralls.io/repos/github/alcarney/stylo/badge.svg?branch=develop
-   :target: https://coveralls.io/github/alcarney/stylo?branch=develop
-
-.. |black| image:: https://img.shields.io/badge/code%20style-black-000000.svg
-   :target: https://github.com/ambv/black
-
-.. |version| image:: https://img.shields.io/pypi/v/stylo.svg
-   :alt: PyPI Package latest release
-   :target: https://pypi.org/project/stylo
-
-.. |supported-versions| image:: https://img.shields.io/pypi/pyversions/stylo.svg
-   :alt: Supported versions
-   :target: https://pypi.org/project/stylo
-
-.. |license| image:: https://img.shields.io/github/license/alcarney/stylo.svg
-   :alt: License
-
-.. |gitter| image:: https://badges.gitter.im/stylo-py/Lobby.svg
-   :alt: Join the chat at https://gitter.im/stylo-py/Lobby
-   :target: https://gitter.im/stylo-py/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
+# Stylo
+|   |   |
+|:-------------:|----|
+| **Project** | ![MIT License](https://img.shields.io/github/license/alcarney/stylo.svg) [![Gitter](https://badges.gitter.im/stylo-py/Lobby.svg)](https://gitter.im/stylo-py/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) |
+| **Code**| [![Travis](https://travis-ci.org/alcarney/stylo.svg?branch=develop)](https://travis-ci.org/alcarney/stylo) [![Coveralls](https://coveralls.io/repos/github/alcarney/stylo/badge.svg?branch=develop)](https://coveralls.io/github/alcarney/stylo?branch=develop) [![Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)|
+| **PyPi** | [![PyPi Version](https://img.shields.io/pypi/v/stylo.svg)](https://pypi.org/project/stylo) [![PyPi Supported Versions](https://img.shields.io/pypi/pyversions/stylo.svg)](https://pypi.org/project/stylo)|
 
 **Stylo is in early development, while it is useable we cannot make any
 stability guarantees.**
@@ -46,16 +16,10 @@ For example here is a simple image of a boat that can be made with just a few
 lines of Python
 
 
-.. image:: /_static/examples/a-boat.png
-   :align: center
-   :width: 75%
+![A Boat](https://raw.githubusercontent.com/alcarney/stylo/develop/img/a-boat.png)
 
-.. image:: /img/a-boat.png
-   :align: center
-   :width: 75%
 
-.. testcode:: readme-boat
-
+```python
   from stylo.image import LayeredImage
   from stylo.color import FillColor
   from stylo.shape import Circle, Rectangle, Triangle
@@ -90,27 +54,26 @@ lines of Python
   image.add_layer(sails, white)
 
   image(1920, 1080, filename="docs/_static/examples/a-boat.png");
+```
 
-Installation
-^^^^^^^^^^^^
+## Installation
 
 Stylo is available for Python 3.5+ and can be installed using Pip:
 
-.. code::
+```sh
+$ pip install stylo
+```
 
-    $ pip install stylo
-
-Be sure to check out the `documentation <https://alcarney.github.io/stylo>`_
+Be sure to check out the [documentation](https://alcarney.github.io/stylo)
 (under construction) for details on how to get started with stylo.
 
-Contributing
-^^^^^^^^^^^^
+## Contributing
 
-Contributions are welcome! Be sure to checkout the `Contributing
-<https://alcarney.github.io/stylo/contributing/>`_ section of the documentation
-to get started.
+Contributions are welcome! Be sure to checkout the
+[Contributing](https://alcarney.github.io/stylo/contributing/) section of the
+documentation to get started.
 
-**Note:** While :code:`stylo` itself supports Python 3.5+, due to some of the
+**Note:** While `stylo` itself supports Python 3.5+, due to some of the
 development tools we use you need to have Python 3.6+ in order to contribute
 **code** to the library. Other versions of Python work just as well if you are
 looking to contribute documentation.
