@@ -1,54 +1,223 @@
+"""This module defines the standard shapes you would expect to see from any graphics
+package such as lines, simple curves, circles, squares, ellipses etc.
+"""
 import numpy as np
+from math import pi
 
 from stylo.shape.shape import Shape
 
 
-class Ellipse(Shape):
-    """An ellipse.
-
-    Mathematically we can define an ellipse to be the set
-    of points :math:`(x, y)` which satisfy:
+def define_ellipse(a, b):
+    """An ellipse can be implicitly defined by the equation.
 
     .. math::
 
-        \\frac{(x - x_0)^2}{a^2} + \\frac{(y - y_0)^2}{b^2} \\leq r^2
+       \\frac{x^2}{a^2} + \\frac{y^2}{b^2} = r^2
 
     where:
 
-    - :math:`(x_0, y_0)` is the center of the ellipse
-    - :math:`a` is known as the semi major axis, larger values make the
-      ellipse more elongated in the :math:`x`-direction
-    - :math:`b` is known as the semi minor axis, larger values make the
-      ellipse more elongated in the :math:`y`-direction
-    - :math:`r` is the "radius" of the ellipse and controls the overall
-      size of the ellipse
+    - :math:`a` is known as the semi-major axis. Larger values stretch the ellipse along
+      the :math:`x`-direction
+    - :math:`b` is known as the semi-minor axis. Larger values stretch the ellipse along
+      the :math:`y`-direction
+    - :math:`r` is the radius and controls the overall size.
+
+    This function will calculate the value of the left hand side of the above equation.
+
+    :param a: The value of the semi-major axis
+    :param b: The value of the semi-minor axis.
+
+    :type a: float
+    :type b: float
+
+    :returns: The function in :code:`(x, y)` for the left hand side of the equation
+    above.
+    """
+    a = a * a
+    b = b * b
+
+    def ellipse(x, y):
+        return (x * x) / a + (y * y) / b
+
+    return ellipse
+
+
+def bound_angle_above(value):
+    """Return a function that checks to see if an angle is above a certain value.
+
+    If :code:`value = None` this will return a function that will always return
+    :code:`True`.
+
+    :param value: The value to use as the upper bound.
+    :type value: float or None
     """
 
-    def __init__(self, x, y, a, b, r):
+    if value:
+
+        def bound_above(t):
+            return t <= value
+
+        return bound_below
+
+    def no_bound(t):
+        return True
+
+    return no_bound
+
+
+def bound_angle_below(value):
+    """Return a function that checks to see if an angle is below a certain value.
+
+    If :code:`value = None` this will return a function that will always return
+    :code:`True`
+
+    :param value: The value to use as the lower bound
+    :type value: float or None
+    """
+
+    if value:
+
+        def bound_below(t):
+            return value <= t
+
+        return bound_below
+
+    def no_bound(t):
+        return True
+
+    return no_bound
+
+
+class Ellipse(Shape):
+    """One way of defining an ellipse centered at :math:`(x_0, y_0)` is through the
+    implicit equation.
+
+    .. math::
+
+       \\frac{(x - x_0)^2}{a^2} + \\frac{(y - y_0)^2}{b^2} - r^2 = 0
+
+    where:
+
+    - :math:`a` is known as the semi-major axis. Larger values stretch the ellipse along
+      the :math:`x`-direction
+    - :math:`b` is known as the semi-minor axis. Larger values stretch the ellipse along
+      the :math:`y`-direction
+    - :math:`r` is the radius and controls the overall size.
+
+    By playing around with this definition we can draw just the outline of the ellipse
+    with a given thickness or a filled in version of the ellipse.
+
+    """
+
+    def __init__(
+        self,
+        x=0,
+        y=0,
+        a=2,
+        b=1,
+        r=0.5,
+        pt=0.01,
+        fill=False,
+        start_angle=None,
+        end_angle=None,
+    ):
+        """Construct an instance of :code:`Ellipse` based on given parameters.
+
+        By default this will define an ellipse that only draws it's outline. If you want
+        a filled in ellipse then see the :code:`fill` parameter.
+
+        If values for :code:`start_angle` and :code:`end_angle` are provided the portion
+        of the ellipse drawn will be restricted to the portion between those two angles.
+        If only one of the the values are set then only an upper/lower bound will be
+        imposed.
+
+        .. note::
+
+           All angles are in :term:`radians`.
+
+        :param x: The :math:`x`-coordinate of the center of the ellipse. (Default:
+                  :code:`0`)
+        :param y: The :math:`y`-coordinate of the center of the ellipse. (Default:
+                  :code:`0`)
+        :param a: The length of the semi-major axis (Default: :code:`2`)
+        :param b: The length of the semi-minor axis. (Default: :code:`1`)
+        :param r: The radius of the ellipse. (Default: :code:`0.5`)
+        :param pt: This controls the thickness of the line used to draw the ellipse.
+                   (Default: :code:`0.01`). Has no effect if :code:`fill` is used.
+        :param fill: If true the ellipse is drawn as a shaded region instead of a curve.
+                     (Default: :code:`False`)
+        :param start_angle: If set only draw the ellipse for values of
+                            :math:`\\theta \geq t` (Default: :code:`None`)
+        :param end_angle: If set only draw the ellipse for values of
+                          :math:`\\theta \leq t` (Default: :code:`None`)
+
+        :type x: float
+        :type y: float
+        :type a: float
+        :type b: float
+        :type r: float
+        :type pt: float
+        :type fill: bool
+        :type start_angle: float
+        :type end_angle: float
+
+        :raises ValueError: If the provided arguments are inconsistent in some way.
+        """
+
+        # These define the properties of the ellipse itself.
         self.x = x
         self.y = y
         self.a = a
         self.b = b
         self.r = r
 
+        # These define how the ellipse is actually drawn.
+        self.pt = pt
+        self.fill = fill
+
+        if start_angle and end_angle and end_angle <= start_angle:
+            raise ValueError("start_angle must be strictly less than end_angle")
+
+        self.start_angle = start_angle
+        self.end_angle = end_angle
+
     def __repr__(self):
         return "Ellipse(x={0.x}, y={0.y}, a={0.a}, b={0.b}, r={0.r})".format(self)
 
-    def draw(self):
+    def _get_filled_ellipse(self):
+        """Return a function that will draw a filled in ellipse."""
 
-        r = self.r * self.r
-        a = self.a
-        b = self.b
         x0 = self.x
         y0 = self.y
+        r = self.r * self.r
+        ellipse = define_ellipse(self.a, self.b)
 
-        def ellipse(x, y):
-            xc = x - x0
-            yc = y - y0
+        def ellipse_fill(x, y):
+            return ellipse(x - x0, y - y0) <= r
 
-            return (xc * xc) / a + (yc * yc) / b <= r
+        return ellipse_fill
 
-        return ellipse
+    def _get_ellipse(self):
+        """Return a function that will draw an ellipse as a curve."""
+
+        x0 = self.x
+        y0 = self.y
+        pt = self.pt
+        r = self.r * self.r
+        ellipse = define_ellipse(self.a, self.b)
+
+        def ellipse_curve(x, y):
+            error = ellipse(x - x0, y - y0) - r
+            return np.abs(error) <= pt
+
+        return ellipse_curve
+
+    def draw(self):
+
+        if self.fill:
+            return self._get_filled_ellipse()
+
+        return self._get_ellipse()
 
 
 class Circle(Ellipse):
@@ -65,8 +234,8 @@ class Circle(Ellipse):
     point is in the circle
     """
 
-    def __init__(self, x, y, r):
-        super().__init__(x, y, 1, 1, r)
+    def __init__(self, x=0, y=0, r=0.5, *args, **kwargs):
+        super().__init__(x, y, 1, 1, r, *args, **kwargs)
 
     def __repr__(self):
         return "Circle(x={0.x},y={0.y},r={0.r})".format(self)
