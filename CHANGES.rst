@@ -1,3 +1,17 @@
+v0.7.0 [Unreleased]
+-------------------
+
+Added
+^^^^^
+
+- New :code:`Line` shape!
+
+Changed
+^^^^^^^
+
+- The :code:`Circle` and :code:`Ellipse` shapes now take more arguments. By
+  default the shapes will now draw an outline rather than a filled in shape.
+
 v0.6.1 - 2018-10-20
 -------------------
 

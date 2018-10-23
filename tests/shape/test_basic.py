@@ -2,10 +2,13 @@ import pytest
 import numpy as np
 from math import pi
 from unittest import TestCase
+from hypothesis import given, assume
+
 
 from stylo.domain import SquareDomain
-from stylo.shape import Ellipse, Circle, Rectangle, Square, Triangle
+from stylo.shape import Ellipse, Circle, Rectangle, Square, Triangle, Line
 from stylo.testing.shape import BaseShapeTest
+from stylo.testing.strategies import real
 
 
 @pytest.mark.shape
@@ -165,3 +168,118 @@ class TestTriangle(TestCase, BaseShapeTest):
 
     def setUp(self):
         self.shape = Triangle((1, 0.5), (0.2, 1), (0.4, 0.5))
+
+
+@pytest.mark.shape
+class TestLine(TestCase, BaseShapeTest):
+    """Tests for the :code:`Line` shape."""
+
+    def setUp(self):
+        self.shape = Line()
+
+    def test_init_defaults(self):
+        """Ensure that the :code:`Line` is created with sane defaults."""
+
+        line = Line()
+
+        assert line.p1 == (0, 0)
+        assert line.p2 == (1, 1)
+        assert line.pt == 0.01
+        assert not line.extend
+
+    @given(x1=real, y1=real, x2=real, y2=real)
+    def test_init_sorts_points(self, x1, y1, x2, y2):
+        """Ensure that the :code:`Line` object sorts the points by the x coordinate."""
+
+        assume(x1 != x2)
+
+        line = Line((x1, y1), (x2, y2))
+        assert line.p1[0] < line.p2[0]
+
+    def test_draw_segment_pt(self):
+        """Ensure we can draw a line segment."""
+
+        line = Line(pt=0.1)
+        domain = SquareDomain(-1, 1)
+
+        # fmt: off
+        expected = np.array(
+            [
+                [False, False, False, False, False, False, False, False],
+                [False, False, False, False, False, False,  True, False],
+                [False, False, False, False, False,  True, False, False],
+                [False, False, False, False,  True, False, False, False],
+                [False, False, False, False, False, False, False, False],
+                [False, False, False, False, False, False, False, False],
+                [False, False, False, False, False, False, False, False],
+                [False, False, False, False, False, False, False, False],
+            ]
+        )
+        # fmt: on
+
+        assert (expected == line(domain, 8, 8)).all()
+
+    def test_draw_line_pt(self):
+        """Ensure that we can draw a line that's been extended to infinity."""
+
+        line = Line(pt=0.1, extend=True)
+        domain = SquareDomain(-1, 1)
+
+        # fmt: off
+        expected = np.array(
+            [
+                [False, False, False, False, False, False, False,  True],
+                [False, False, False, False, False, False,  True, False],
+                [False, False, False, False, False,  True, False, False],
+                [False, False, False, False,  True, False, False, False],
+                [False, False, False,  True, False, False, False, False],
+                [False, False,  True, False, False, False, False, False],
+                [False,  True, False, False, False, False, False, False],
+                [ True, False, False, False, False, False, False, False],
+            ]
+        )
+        # fmt: on
+
+        assert (expected == line(domain, 8, 8)).all()
+
+    def test_draw_line_below(self):
+        """Ensure that we can draw a shaded region underneath a line."""
+
+        line = Line(pt=0.1, extend=True, below=True)
+        domain = SquareDomain(-1, 1)
+
+        # fmt: off
+        expected = np.array(
+            [
+                [False, False, False, False, False, False, False,  True],
+                [False, False, False, False, False, False, False,  True],
+                [False, False, False, False, False, False,  True,  True],
+                [False, False, False, False, False,  True,  True,  True],
+                [False, False, False, False,  True,  True,  True,  True],
+                [False, False, False,  True,  True,  True,  True,  True],
+                [False, False,  True,  True,  True,  True,  True,  True],
+                [ True,  True,  True,  True,  True,  True,  True,  True],
+            ]
+        )
+        # fmt: on
+
+    def test_draw_line_above(self):
+        """Ensure that we can draw a shaded region above a line."""
+
+        line = Line(pt=0.1, extend=True, below=True)
+        domain = SquareDomain(-1, 1)
+
+        # fmt: off
+        expected = np.array(
+            [
+                [True,  True,  True,  True,  True,  True,  True,  True],
+                [True,  True,  True,  True,  True,  True,  True, False],
+                [True,  True,  True,  True,  True,  True, False, False],
+                [True,  True,  True,  True,  True, False, False, False],
+                [True,  True,  True,  True, False, False, False, False],
+                [True,  True,  True, False, False, False, False, False],
+                [True,  True, False, False, False, False, False, False],
+                [True, False, False, False, False, False, False, False],
+            ]
+        )
+        # fmt: on

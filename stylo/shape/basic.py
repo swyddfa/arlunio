@@ -42,50 +42,142 @@ def define_ellipse(a, b):
     return ellipse
 
 
-def bound_angle_above(value):
-    """Return a function that checks to see if an angle is above a certain value.
+def define_line(p1, p2):
+    """Return a function than can be used to determine if a given point lies on the line
+    joining the points :math:`p_1` and :math:`p_2`.
 
-    If :code:`value = None` this will return a function that will always return
-    :code:`True`.
+    This function assumes that your line is **not** vertical.
 
-    :param value: The value to use as the upper bound.
-    :type value: float or None
+    The function returned will be the implicit form of a straight line
+
+    .. math::
+
+       f(x, y) = \\frac{(y_2 - y_1)}{(x_2 - x_1)}(x - x_1) + (y_1 - y)
+
+    :param p1: The :math:`(x_1, y_1)` coordinate of :math:`p_1`
+    :param p2: The :math:`(x_2, y_2)` coordinate of :math:`p2`
+
+    :type p1: tuple
+    :type p2: tuple
     """
 
-    if value:
+    x1, y1 = p1
+    x2, y2 = p2
 
-        def bound_above(t):
-            return t <= value
+    m = (y2 - y1) / (x2 - x1)
 
-        return bound_below
+    def line(x, y):
+        return m * (x - x1) + (y1 - y)
 
-    def no_bound(t):
-        return True
-
-    return no_bound
+    return line
 
 
-def bound_angle_below(value):
-    """Return a function that checks to see if an angle is below a certain value.
+class Line(Shape):
+    """We can define a line joining two points :math:`p_1, p_2` implicitly using the
+    following equation.
 
-    If :code:`value = None` this will return a function that will always return
-    :code:`True`
+    .. math::
 
-    :param value: The value to use as the lower bound
-    :type value: float or None
+       f(x, y) = \\frac{(y_2 - y_1)}{(x_2 - x_1)}(x - x_1) + (y_1 - y) = 0
+
+    where:
+
+    - :math:`x_2 \\neq x_1`
+    - :math:`p_1 = (x_1, y_1)`
+    - :math:`p_2 = (x_2, y_2)`
+
+    However since a line has no area we would never see it so we need to introduce an
+    error margin :math:`e > 0`. We will say a point is on the line if
+
+    .. math::
+
+       |f(x, y)| \\leq e
     """
 
-    if value:
+    def __init__(
+        self, p1=None, p2=None, pt=0.01, extend=False, above=False, below=False
+    ):
+        """Construct an instance of :code:`Line` depending on the the given parameters.
 
-        def bound_below(t):
-            return value <= t
+        By default only a line segment is drawn joining the two points :code:`p1, p2`.
+        However if :code:`extend=True` then the line will be extended off to infinity.
 
-        return bound_below
+        The thickness of the line can be controlled with the parameter :code:`pt`, which
+        corresponds to :math:`e` in the equations above.
 
-    def no_bound(t):
-        return True
+        :param p1: The first coordinate used to define the line.
+                   (Default :code:`(0, 0)`)
+        :param p2: The second coordinate used to define the line.
+                   (Default :code:`(1, 1)`)
+        :param pt: This defines the thickness of the line. (Default :code:`0.01`)
+        :param extend: If :code:`True` the line will be extended off to infinity.
+        :param above: If :code:`True` then the area above the line is shaded. Only takes
+                      effect when :code:`extend=True`
+        :param below: If code:`True` the the area below the line is shaded. Only takes
+                      effect when :code:`extend=True`
 
-    return no_bound
+        :type p1: tuple
+        :type p2: tuple
+        :type pt: float
+        :type extend: bool
+        :type above: bool
+        :type below: bool
+        """
+
+        p1 = (0, 0) if p1 is None else p1
+        p2 = (1, 1) if p2 is None else p2
+
+        # It makes things easier if we can assume x1 < x2
+        points = sorted([p1, p2], key=lambda p: p[0])
+
+        self.p1 = points[0]
+        self.p2 = points[1]
+
+        self.pt = pt
+        self.extend = extend
+        self.above = above
+        self.below = below
+
+    def draw(self):
+
+        pt = self.pt
+        line_definition = define_line(self.p1, self.p2)
+
+        if self.extend and self.above:
+
+            def above_line(x, y):
+                return line_definition(x, y) <= 0
+
+            return above_line
+
+        if self.extend and self.below:
+
+            def below_line(x, y):
+                return line_definition(x, y) >= 0
+
+            return below_line
+
+        if self.extend:
+
+            def line(x, y):
+                error = np.abs(line_definition(x, y))
+                return error <= pt
+
+            return line
+
+        x1, _ = self.p1
+        x2, _ = self.p2
+
+        def line_segment(x, y):
+            error = np.abs(line_definition(x, y)) <= pt
+
+            after = x1 < x
+            before = x < x2
+
+            in_bounds = np.logical_and(after, before)
+            return np.logical_and(in_bounds, error)
+
+        return line_segment
 
 
 class Ellipse(Shape):
@@ -147,9 +239,9 @@ class Ellipse(Shape):
         :param fill: If true the ellipse is drawn as a shaded region instead of a curve.
                      (Default: :code:`False`)
         :param start_angle: If set only draw the ellipse for values of
-                            :math:`\\theta \geq t` (Default: :code:`None`)
+                            :math:`\\theta \\geq t` (Default: :code:`None`)
         :param end_angle: If set only draw the ellipse for values of
-                          :math:`\\theta \leq t` (Default: :code:`None`)
+                          :math:`\\theta \\leq t` (Default: :code:`None`)
 
         :type x: float
         :type y: float
