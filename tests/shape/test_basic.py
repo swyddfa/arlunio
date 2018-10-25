@@ -1,6 +1,5 @@
 import pytest
 import numpy as np
-from math import pi
 from unittest import TestCase
 from hypothesis import given, assume
 
@@ -262,11 +261,12 @@ class TestLine(TestCase, BaseShapeTest):
             ]
         )
         # fmt: on
+        assert (expected == line(domain, 8, 8)).all()
 
     def test_draw_line_above(self):
         """Ensure that we can draw a shaded region above a line."""
 
-        line = Line(pt=0.1, extend=True, below=True)
+        line = Line(pt=0.1, extend=True, above=True)
         domain = SquareDomain(-1, 1)
 
         # fmt: off
@@ -283,3 +283,4 @@ class TestLine(TestCase, BaseShapeTest):
             ]
         )
         # fmt: on
+        assert (expected == line(domain, 8, 8)).all()

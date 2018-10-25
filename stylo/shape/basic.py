@@ -2,7 +2,6 @@
 package such as lines, simple curves, circles, squares, ellipses etc.
 """
 import numpy as np
-from math import pi
 
 from stylo.shape.shape import Shape
 
