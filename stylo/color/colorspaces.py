@@ -3,7 +3,7 @@ import struct
 from abc import ABC, abstractmethod
 
 
-rgb8_pattern = re.compile("\A[a-fA-F0-9]{6}\Z")
+rgb8_pattern = re.compile(r"\A[a-fA-F0-9]{6}\Z")
 
 
 class ColorSpace(ABC):
