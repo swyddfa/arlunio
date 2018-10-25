@@ -5,6 +5,8 @@ Added
 ^^^^^
 
 - New :code:`Line` shape!
+- New :code:`ImplicitXY` shape! Draw any curve that is implicitly defined by a
+  function :math:`f(x, y)`
 
 Changed
 ^^^^^^^
