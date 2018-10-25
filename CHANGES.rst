@@ -1,4 +1,20 @@
-v0.6.1 [Unreleased]
+v0.7.0 - 2018-10-25
+-------------------
+
+Added
+^^^^^
+
+- New :code:`Line` shape!
+- New :code:`ImplicitXY` shape! Draw any curve that is implicitly defined by a
+  function :math:`f(x, y)`
+
+Changed
+^^^^^^^
+
+- The :code:`Circle` and :code:`Ellipse` shapes now take more arguments. By
+  default the shapes will now draw an outline rather than a filled in shape.
+
+v0.6.1 - 2018-10-20
 -------------------
 
 Added
