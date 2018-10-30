@@ -57,9 +57,6 @@ installed into the environment in order to build the documentation.
 - `pytest`_: Not something you would typically see in a docs build, pytest
   is used to run a number of test files that generate most of the example images
   you see on this site.
-- `pytest-benchmark[histogram]`_: This is not currently used but the hope
-  is to eventually include benchmark information alongside the examples in the
-  documentation.
 
 We also make use of the :code:`whitelist_externals` variable to suppress
 warnings about using the :code:`echo` command that is not part of the
@@ -70,44 +67,11 @@ Build Overview
 
 The build breaks down into the following stages.
 
-1. The examples are tested, image files are generated and the example pages are
-   written
-2. The :term:`docstrings` are converted into the :ref:`api_reference` section
-3. All the links are checked to ensure that they are not broken
-4. Any :code:`testsetup::`, :code:`testcode::` or :code:`doctest::` sections are
+1. The :term:`docstrings` are converted into the :ref:`api_reference` section
+2. All the links are checked to ensure that they are not broken
+3. Any :code:`testsetup::`, :code:`testcode::` or :code:`doctest::` sections are
    executed to ensure that they work.
-5. Finally the documentation is built into a HTML website ready for publishing.
-
-
-Building the Examples
-^^^^^^^^^^^^^^^^^^^^^
-
-.. code-block:: sh
-
-   pytest tests/examples -q --benchmark-autosave --benchmark-group-by=func
-   python scripts/exampledoc.py -e tests.examples
-
-These two steps combine to produce all the example pages in the documentation.
-For details on how to write your own example page be sure to check out the
-:ref:`contribute_tutorial_add_example` tutorial.
-
-The first command takes the examples defined in the :code:`tests/examples`
-directory and executes them to ensure that they work. It also produces an image
-file and saves it in the :code:`docs/_static/examples` directory. Finally
-:code:`pytest-benchmark` produces performance data that we can use to track
-performance over time. The plan is to incorporate this information into the
-documentation at some point but currently it is unused.
-
-.. todo:
-
-   Link to the page that explains how the :code:`define_benchmared_example`
-   function works.
-
-Next :code:`exampledoc.py` script is called and writes the reStructuredText
-files that Sphinx will compile into the HTML that you see on the website. This
-includes inserting the example image into the page, including the example code
-and saving the file into the appropriate section of the documentation. For full
-details on this script see the :ref:`contribute_reference_exampledoc` page.
+4. Finally the documentation is built into a HTML website ready for publishing.
 
 
 Building the API Reference
@@ -179,6 +143,5 @@ Our build uses 3 builders:
 .. _autodoc: http://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html
 .. _builders: http://www.sphinx-doc.org/en/stable/usage/builders/
 .. _Sphinx: http://www.sphinx-doc.org/en/master/
-.. _pytest-benchmark[histogram]: https://pytest-benchmark.readthedocs.io/en/latest/
 .. _pytest: https://docs.pytest.org/en/latest/
 .. _topos-theme: https://topos-theme.readthedocs.io/en/latest/
