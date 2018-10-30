@@ -15,6 +15,7 @@ Here you can find detailed information on all the shapes that come built into
 
 - :ref:`use_ref_shape_circle`
 - :ref:`use_ref_shape_ellipse`
+- :ref:`use_ref_shape_implicit_xy`
 - :ref:`use_ref_shape_line`
 
 Index
@@ -25,4 +26,5 @@ Index
 
    circle
    ellipse
+   implicit_xy
    line
