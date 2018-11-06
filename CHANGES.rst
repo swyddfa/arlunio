@@ -1,3 +1,12 @@
+v0.8.0 - [Unreleased]
+---------------------
+
+Added
+^^^^^
+
+- New :code:`Timeline` system! This finally introduces explicit support for
+  animations to :code:`stylo.`
+
 v0.7.0 - 2018-10-25
 -------------------
 
