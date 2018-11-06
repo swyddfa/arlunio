@@ -1,1 +1,1 @@
-from .timeline import Timeline
+from .timeline import Timeline  # noqa: F401

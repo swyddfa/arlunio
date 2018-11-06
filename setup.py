@@ -27,7 +27,7 @@ setup(
     author_email="alcarneyme@gmail.com",
     license="MIT",
     packages=find_packages(".", exclude="tests"),
-    install_requires=["Pillow", "hypothesis", "matplotlib", "numpy", "pytest"],
+    install_requires=["Pillow", "hypothesis", "matplotlib", "numpy", "pytest", "tqdm"],
     python_requires=">=3.5",
     setup_requires=["pytest-runner"],
     test_suite="tests",

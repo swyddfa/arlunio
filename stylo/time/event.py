@@ -1,6 +1,3 @@
-import numpy as np
-from math import floor
-
 from .clock import Clock
 from stylo.utils import get_parameters
 
