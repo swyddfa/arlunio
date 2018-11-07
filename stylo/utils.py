@@ -1,3 +1,4 @@
+from uuid import uuid4
 from inspect import signature
 
 
@@ -125,20 +126,49 @@ def get_parameters(f):
     return tuple(signature(f).parameters.keys())
 
 
-class Mappable:
-    """A base class for classes that want to map themselves onto a :code:`Domain`.
-
-    For example the :code:`Shape` object takes the definition for some shape defined on
-    some subset of :math:`\\mathbb{R}^2` (modelled by and instance of
-    :code:`RealDomain`) and returns a boolean array that indicates which parts of the
-    domain make up that shape.
-
-    Similarly the :code:`Colormap` object takes the definition for some colormap and
-    returns a numpy array representing the color at each point in the domain.
-
-    What this class does is handle the boilerplate required to apply a domain to its
-    arguments, while documenting the methods needed to be overriden if some custom
-    behavior is required.
+class MessageBus:
+    """A class that is used behind the scenes to coordinate events and timings of
+    animations.
     """
 
-    pass
+    def __init__(self):
+        self.subs = {}
+
+    def new_id(self):
+        """Use this to get a name to use for your events."""
+        return str(uuid4())
+
+    def register(self, event, obj):
+        """Register to receive notifications of an event.
+
+        :param event: The name of the kind of event to receive
+        :param obj: The object to receive that kind of message.
+        """
+
+        if event not in self.subs:
+            self.subs[event] = [obj]
+            return
+
+        self.subs[event].append(obj)
+
+    def send(self, event, **kwargs):
+        """Send a message to whoever may be listening."""
+
+        if event not in self.subs:
+            return
+
+        for obj in self.subs[event]:
+
+            params = get_parameters(obj)
+            values = {k: v for k, v in kwargs.items() if k in params}
+
+            obj(**values)
+
+
+_message_bus = MessageBus()
+
+
+def get_message_bus():
+    """A function that returns an instance of the message bus to ensure everyone uses
+    the same instance."""
+    return _message_bus

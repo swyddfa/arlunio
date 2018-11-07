@@ -10,6 +10,7 @@ matplotlib = "*"
 hypothesis = {version = "*", extras = ["extra"]}
 pytest = "*"
 pytest-benchmark = "*"
+tqdm = "*"
 
 [dev-packages]
 tox = "*"

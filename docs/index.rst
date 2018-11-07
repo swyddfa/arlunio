@@ -45,11 +45,12 @@ much at the core of Stylo you don't have to be a mathematician to use it!
 For example here is a simple image of a boat that can be made in a few lines of
 Python.
 
-.. image:: /_static/examples/a-boat.png
+.. stylo-image:: 
    :align: center
-   :width: 75%
-
-.. testcode:: readme-boat
+   :img-width: 1920
+   :img-height: 1080
+   :include-code:
+   :display-width: 75%
 
    from stylo.image import LayeredImage
    from stylo.color import FillColor
@@ -64,8 +65,8 @@ Python.
    red = FillColor("dd2300")
 
    # Now for the shapes we will draw
-   sun = Circle(-7, 3.4, 1.5)
-   sea = Circle(0, -55, 55)
+   sun = Circle(-7, 3.4, 1.5, fill=True)
+   sea = Circle(0, -55, 55, fill=True)
    sails = Triangle((0.1, 0.6), (2.5, 0.6), (0.1, 3.5)) | Triangle((-0.1, 0.6), (-1.5, 0.6), (-0.1, 3.5))
    boat = Rectangle(0, 0, 3.5, 1) | Triangle((1.75, -0.5), (1.75, 0.5), (2.25, 0.5))
    mast = Rectangle(0, 2, 0.125, 3)
@@ -83,8 +84,6 @@ Python.
    image.add_layer(boat, red)
    image.add_layer(mast, black)
    image.add_layer(sails, white)
-
-   image(1920, 1080, filename="docs/_static/examples/a-boat.png");
 
 Be sure to check out `Stylo Doodles`_ - our community driven example gallery for
 plenty of inspiration!
