@@ -1,3 +1,13 @@
+v0.9.0 [Unreleased]
+-------------------
+
+Added
+^^^^^
+
+- New :code:`stylo.math` module! Currently it contains a :code:`lerp`
+  function to do linear implementation between two values :code:`a` and
+  :code:`b`
+
 v0.8.0 - 2018-11-07
 -------------------
 
