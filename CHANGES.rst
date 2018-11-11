@@ -1,3 +1,36 @@
+v0.9.0 [Unreleased]
+-------------------
+
+Added
+^^^^^
+
+- New :code:`stylo.math` module! Currently it contains a :code:`lerp`
+  function to do linear implementation between two values :code:`a` and
+  :code:`b`
+- New :code:`stylo.design` module! This is the start of the "next level" in
+  styo's API abstracting away from the lower level objects such as shapes and
+  colormaps.
+
+  - This module adds the notion of a parameter group, this is a collection of
+    values that can be passed into functions as a single object using the
+    dictionary unpacking syntax (:code:`**params`)
+
+    Parameter groups are defined using the :code:`define_parameter_group`
+    function and taking a name and a comma separated string of parameter names.
+    There is also :code:`define_time_dependent_parameter_group` that can be
+    used to define a parameter group that depends on time.
+
+    Currently there are two pre-defined paramters groups, :code:`Position` and
+    :code:`Trajectory`. They both combine the :code:`x` and :code:`y` values
+    into a single object, with the second being the time dependent version of
+    the first.
+
+    Finally there are two built-in implementations of these parameter groups.
+    :code:`StaticPosition` and :code:`ParametricPosition` the first takes two
+    values and returns them. The second takes two functions in time and calls
+    them at each supplied time value.
+
+
 v0.8.0 - 2018-11-07
 -------------------
 
