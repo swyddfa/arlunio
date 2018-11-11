@@ -22,3 +22,4 @@ docs/_build
 *.egg-info/
 build
 .vscode/
+*.pyc

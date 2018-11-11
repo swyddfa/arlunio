@@ -150,7 +150,7 @@ def define_domain(name, parameters):
     attributes = {
         "_parameters": params,
         "parameters": parameters_property(params),
-        "__doc__": "A docstring",
+        "__doc__": "TODO: Make this docstring useful.",
         "__getitem__": domain_getitem,
         "__call__": domain_call,
     }
