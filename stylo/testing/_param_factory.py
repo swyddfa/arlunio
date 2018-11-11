@@ -66,7 +66,7 @@ def mapping_check(expected_keys):
 
     def check(self):
         def map_func(**kwargs):
-            assert list(kwargs.keys()) == expected_keys
+            assert set(kwargs.keys()) == set(expected_keys)
 
         map_func(**self.params)
 
@@ -162,7 +162,7 @@ def call_check(expected_keys):
 
     def check(self, t):
         def map_check(**kwargs):
-            assert list(kwargs.keys()) == expected_keys
+            assert set(kwargs.keys()) == set(expected_keys)
 
         result = self.params(t)
 
