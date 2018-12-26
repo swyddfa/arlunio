@@ -31,7 +31,9 @@ pytest = "*"
 tqdm = "*"
 
 [tool.poetry.dev-dependencies]
-tox = "^3.6"
+pytest = "*"
+pytest-cov = "*"
+
 
 [build-system]
 requires = ["poetry>=0.12"]
