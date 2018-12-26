@@ -21,7 +21,7 @@ include = ["CHANGES.rst"]
 
 
 [tool.poetry.dependencies]
-python = "^3.5"
+python = "^3.6"
 
 numpy = "*"
 matplotlib = "*"
@@ -31,13 +31,14 @@ pytest = "*"
 tqdm = "*"
 
 [tool.poetry.dev-dependencies]
+tox = "^3.6"
 pytest = "*"
 pytest-cov = "*"
 pytest-xdist = "*"
 hypothesis = "*"
 
 flake8 = "*"
-black = "*"
+black = "^18.9b0"
 
 sphinx = "*"
 sphinx-stylo = "*"
