@@ -21,7 +21,7 @@ include = ["CHANGES.rst"]
 
 
 [tool.poetry.dependencies]
-python = "^3.6"
+python = "^3.5"
 
 numpy = "*"
 matplotlib = "*"
@@ -32,17 +32,6 @@ tqdm = "*"
 
 [tool.poetry.dev-dependencies]
 tox = "^3.6"
-pytest = "*"
-pytest-cov = "*"
-pytest-xdist = "*"
-hypothesis = "*"
-
-flake8 = "*"
-black = "^18.9b0"
-
-sphinx = "*"
-sphinx-stylo = "*"
-topos-theme = "*"
 
 [build-system]
 requires = ["poetry>=0.12"]
