@@ -1,9 +1,6 @@
 language: python
 matrix:
   include:
-    - env: "TOXENV=py35"
-      python: "3.5"
-
     - env: "TOXENV=py36"
       python: "3.6"
 
@@ -15,7 +12,7 @@ matrix:
     - env: "TOXENV=lint"
       python: "3.6"
 
-    - env: "TOXENV=docs-build"
+    - env: "TOXENV=docs"
       python: "3.6"
 
 before_install:
@@ -25,7 +22,7 @@ install:
     - "poetry install"
 
 script:
-    - "tox -v"
+    - "tox -q"
 
 after_success:
     - if [ "$TOXENV" == "py36" ]; then coveralls; fi
