@@ -45,6 +45,17 @@ jobs:
               - poetry run sphinx-build -M doctest ./docs ./docs/_build -E -a -j auto
               - poetry run sphinx-build -M html ./docs ./docs/_build -E -a -j auto
 
+        - stage: deploy
+          name: Publish to PyPi
+          python: 3.6
+          deploy:
+              provider: script
+              script:
+                  - poetry build
+                  - poetry publish --username $PYPI_USER --password $PYPI_PASS
+              on:
+                  branch: master
+
 notifications:
     webhooks:
         urls:
