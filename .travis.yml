@@ -1,19 +1,35 @@
 language: python
-python:
-    - 3.5
-    - 3.6
-    - 3.7
+
+stages:
+    - linting
+    - test
 
 before_install:
-    - "pip install tox coveralls poetry"
+    - "pip install poetry"
 
 install:
-    - "poetry install"
+    - poetry install
+
+script:
+    - poetry run pytest --cov=stylo -q
 
 jobs:
     include:
-        - stage: "Test"
-          script: poetry run pytest --cov=stylo -q
+        - python: 3.5
+        - python: 3.6
+        - python: 3.7
+          dist: xenial
+
+        - stage: linting
+          python: 3.6
+
+          install:
+              - "pip install black flake8"
+          script:
+              - black --check stylo
+              - black --check tests
+              - flake8 stylo/
+              - flake8 tests/
 
 notifications:
     webhooks:
