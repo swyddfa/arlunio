@@ -1,4 +1,5 @@
 language: python
+cache: pip
 
 stages:
     - linting
@@ -30,6 +31,14 @@ jobs:
               - black --check tests
               - flake8 stylo/
               - flake8 tests/
+
+        - stage: documentation
+          python: 3.6
+
+          script:
+              - poetry run sphinx-build -M linkcheck ./docs ./docs/_build -E -a -j auto
+              - poetry run sphinx-build -M doctest ./docs ./docs/_build -E -a -j auto
+              - poetry run sphinx-build -M html ./docs ./docs/_build -E -a -j auto
 
 notifications:
     webhooks:
