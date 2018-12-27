@@ -17,13 +17,14 @@ install:
 script:
     - poetry run pytest --cov=stylo -q
 
-after_success:
-    - if [ "$TRAVIS_PYTHON_VERSION" == "3.6" ]; then pip install coveralls; coveralls; fi
-
 jobs:
     include:
         - python: 3.5
         - python: 3.6
+          after_success:
+              - pip install coveralls
+              - coveralls
+
         - python: 3.7
           dist: xenial
 
