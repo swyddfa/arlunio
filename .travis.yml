@@ -1,57 +1,65 @@
 language: python
-matrix:
-  include:
-    - env: "TOXENV=py35"
-      python: "3.5"
+cache: pip
 
-    - env: "TOXENV=py36"
-      python: "3.6"
-
-    - env: "TOXENV=py37"
-      python: "3.7"
-      sudo: required
-      dist: xenial
-
-    - env: "TOXENV=lint"
-      python: "3.6"
-
-    - env: "TOXENV=docs-build"
-      python: "3.6"
+stages:
+    - linting
+    - test
+    - documentation
+    - name: deploy
+      if: branch = master
 
 before_install:
-    - "pip install tox coveralls"
+    - "pip install poetry"
+
+install:
+    - poetry install
 
 script:
-    - "tox -v"
+    - poetry run pytest --cov=stylo -q
 
 after_success:
-    - if [ "$TOXENV" == "py36" ]; then coveralls; fi
+    - if [ "$TRAVIS_PYTHON_VERSION" == "3.6" ]; then pip install coveralls; coveralls; fi
+
+jobs:
+    include:
+        - python: 3.5
+        - python: 3.6
+        - python: 3.7
+          dist: xenial
+
+        - stage: linting
+          python: 3.6
+
+          install:
+              - "pip install black flake8"
+          script:
+              - black --check stylo
+              - black --check tests
+              - flake8 stylo/
+              - flake8 tests/
+
+        - stage: documentation
+          python: 3.6
+
+          script:
+              - poetry run sphinx-build -M linkcheck ./docs ./docs/_build -E -a -j auto
+              - poetry run sphinx-build -M doctest ./docs ./docs/_build -E -a -j auto
+              - poetry run sphinx-build -M html ./docs ./docs/_build -E -a -j auto
+
+        - stage: deploy
+          name: Publish to PyPi
+          python: 3.6
+          skip_cleanup: true
+          script:
+              - poetry build
+          deploy:
+              provider: script
+              script:
+                - poetry publish --username $PYPI_USER --password $PYPI_PASS
+              on:
+                  branch: master
 
 notifications:
     webhooks:
         urls:
         - https://webhooks.gitter.im/e/4bfa4fbff35ebee0a9d2
-
-deploy:
-    # <publish-docs>
-    - provider: pages
-      skip-cleanup: true
-      github-token: $GH_TOKEN
-      local-dir: "docs/_build/html/"
-      verbose: true
-      on:
-        branch: develop
-        condition: $TOXENV = docs-build
-        python: 3.6
-    # </publish-docs>
-
-    # <publish-package>
-    - provider: pypi
-      distributions: "sdist bdist_wheel"
-      user: alcarney
-      password:
-        secure: "F27QSW59xfuwTIrJMUFNB5Mi1ELQArRvawldBt8YNZH9HxPWdThEUSnXZMs3vzHYV1NwiQV1h/3XalsCbB59fJogcN9NeNdGvM2Ff0phMURlCUytn3pJvuoMDCY4Dnwyy3GZ8XX/zhmZvIYBn1awiL7/JDe6j5iVyeyeKIRbX1DRHEjbKj4XhkHb2NFsbzs8F8fkBARGcldli611LAfuD1+6UQANyzEmyfg4wAbIctRgfQ1F4swp4jCAb5TjkUDEt2/9S2ai49kI7BY5nZ68D50dFNecuVvcXYRazEvGvxvt0OuZAqeUzr7aUTOlmGLp1vTP/QyXRYQDbnnSyvIr3fii104atM30QtBf/C1MlSgH68IOzMg4ULmnBSSFny4ICMIhzosuCVZWtxnghep0LENsk8f0USGsnLja+kOcgB8kGm/PQW4m3IRJpyR9GvzBeRMKoyF4B9o2IEq1nrl/K+EyoA+jtqxzd/gIxLEVrmSWSj37StX8WC1npoGIEDcVQLppf81++TEXR4tznPS3T52gGMrxY5cPYgAg0KItArEeoe0Mfx20kkVU+XkcWsgCP9ccoXu0erYYgvquoBYzyNrAz0JGxCQYC3iCVmUbt87yJRGWUfYPoWiVBJ3haHvi+M4HmpUDOpC/6J8OIAevnEMe22fJGcQTbZtX7JwM0H4="
-      on:
-        condition: $TOXENV = py36
-        python: 3.6
-    # </publish-package>
