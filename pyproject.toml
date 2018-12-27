@@ -8,9 +8,9 @@ authors = ["Alex Carney <alcarneyme@gmail.com>"]
 
 license = "MIT"
 
-homepage = "https://alcarney.github.io/stylo/"
+homepage = "https://stylo.readthedocs.io/en/latest/"
 repository = "https://github.com/alcarney/stylo"
-documentation = "https://alcarney.github.io/stylo/"
+documentation = "https://stylo.readthedocs.io/en/latest/"
 
 classifiers = [
     "Development Status :: 3 - Alpha",

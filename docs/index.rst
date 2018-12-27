@@ -6,6 +6,8 @@ About
 
    * - project
      - |license| |gitter|
+   * - docs
+     - |docs|
    * - code
      - |travis| |coveralls| |black|
    * - pypi
@@ -35,6 +37,11 @@ About
    :alt: Join the chat at https://gitter.im/stylo-py/Lobby
    :target: https://gitter.im/stylo-py/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
 
+.. |docs| image:: https://readthedocs.org/projects/stylo/badge/?version=latest
+   :target: https://stylo.readthedocs.io/en/latest/?badge=latest
+   :alt: Documentation Status
+
+
 **Stylo is in early development, while it is useable we cannot make any
 stability guarantees**
 
@@ -45,7 +52,7 @@ much at the core of Stylo you don't have to be a mathematician to use it!
 For example here is a simple image of a boat that can be made in a few lines of
 Python.
 
-.. stylo-image:: 
+.. stylo-image::
    :align: center
    :img-width: 1920
    :img-height: 1080
