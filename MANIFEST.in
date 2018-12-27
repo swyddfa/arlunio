@@ -1,5 +1,0 @@
-include CHANGES.rst
-include README.rst
-include LICENSE
-recursive-include docs *.rst
-recursive-include tests *.py
