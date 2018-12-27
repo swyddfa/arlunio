@@ -49,11 +49,13 @@ jobs:
         - stage: deploy
           name: Publish to PyPi
           python: 3.6
+          skip_cleanup: true
+          script:
+              - poetry build
           deploy:
               provider: script
               script:
-                  - poetry build
-                  - poetry publish --username $PYPI_USER --password $PYPI_PASS
+                - poetry publish --username $PYPI_USER --password $PYPI_PASS
               on:
                   branch: master
 
