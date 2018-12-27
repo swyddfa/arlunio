@@ -1,5 +1,13 @@
-v0.9.0 2018-11-11
------------------
+v0.9.1 - 2018-12-27
+-------------------
+
+There are no changes.
+
+This release is a test to ensure that internal changes to how :code:`stylo` is
+packaged and deployed are working correctly.
+
+v0.9.0 - 2018-11-11
+-------------------
 
 Added
 ^^^^^

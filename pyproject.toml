@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "stylo"
-version = "0.9.0"
+version = "0.9.1"
 description = "Drawing images with a blend of Python and Mathematics"
 readme = "README.md"
 
