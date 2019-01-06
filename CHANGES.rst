@@ -1,3 +1,21 @@
+v0.9.2 - 2019-01-06
+-------------------
+
+Changed
+^^^^^^^
+
+- Most commonly used objects have been imported into the top level namespace.
+  This means that it is now possible to write code like the following.
+
+  .. code-block:: python
+
+     import stylo as st
+
+     black = st.FillColor()
+     circle = st.Circle(fill=True)
+
+     image = st.SimpleImage(circle, black)
+
 v0.9.1 - 2018-12-27
 -------------------
 
