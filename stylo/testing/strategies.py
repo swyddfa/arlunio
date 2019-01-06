@@ -6,11 +6,20 @@ It defines the following strategies:
   sizes etc.
 - :code:`real`: Represents a real number in the range +/-1 million
 """
+import numpy as np
 from math import pi
 
-import numpy as np
-from hypothesis.strategies import integers, floats, tuples
-from hypothesis.extra.numpy import arrays
+from stylo.error import MissingDependencyError
+
+try:
+    from hypothesis.strategies import integers, floats, tuples
+    from hypothesis.extra.numpy import arrays
+
+except ImportError as err:
+    raise MissingDependencyError(
+        "The testing package requires additional dependencies."
+        " Run `pip install stylo[testing]` to install them."
+    ) from err
 
 # Basic types
 real = floats(min_value=-1e6, max_value=1e6)
