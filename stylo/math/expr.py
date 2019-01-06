@@ -19,6 +19,30 @@ class StyExpr(ABC):
     def __radd__(self, other):
         return StyPlus(other, self)
 
+    def __sub__(self, other):
+        return StyMinus(self, other)
+
+    def __rsub__(self, other):
+        return StyMinus(other, self)
+
+    def __mul__(self, other):
+        return StyMultiply(self, other)
+
+    def __rmul__(self, other):
+        return StyMultiply(other, self)
+
+    def __truediv__(self, other):
+        return StyDivide(self, other)
+
+    def __rtruediv__(self, other):
+        return StyDivide(other, self)
+
+    def __pow__(self, other):
+        return StyPower(self, other)
+
+    def __rpow__(self, other):
+        return StyPower(other, self)
+
     @abstractmethod
     def eval(self):
         pass

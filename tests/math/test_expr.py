@@ -1,3 +1,8 @@
+"""This module contains the 'unit tests' for each object in stylo's expression system.
+
+These tests are meant to verify that the individual components function in isolation
+as they are expected to.
+"""
 import pytest
 import numpy as np
 

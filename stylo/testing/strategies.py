@@ -23,11 +23,14 @@ except ImportError as err:
 
 # Basic types
 real = floats(min_value=-1e6, max_value=1e6)
+positive = floats(min_value=1, max_value=1e6)
 angle = floats(min_value=-pi, max_value=pi)
 dimension = integers(min_value=4, max_value=1024)
 small_dimension = integers(min_value=4, max_value=128)
 image_size = tuples(small_dimension, small_dimension)
 
 # Stylo data
+vec3 = arrays(np.float64, (3,), elements=real)
+pos3 = arrays(np.float64, (3,), elements=positive)
 domain_values = arrays(np.float64, image_size, elements=real)
 shape_mask = arrays(np.bool_, image_size)
