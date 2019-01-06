@@ -16,6 +16,18 @@ Changed
 
      image = st.SimpleImage(circle, black)
 
+- The way stylo has been packaged has been changed. It now comes with a couple
+  of "extras". Instead of requiring dependencies for everything, the default
+  installation now only contains the packages that are absolutely required to
+  run stylo.
+
+  The other dependencies have been split into a couple of extras
+
+  + :code:`testing`: The dependencies required to import items from the
+    `stylo.testing` package.
+  + :code:`jupyer`: Dependencies required to use stylo interactively in a
+    jupyter notebook.
+
 v0.9.1 - 2018-12-27
 -------------------
 
