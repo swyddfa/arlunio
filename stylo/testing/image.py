@@ -1,4 +1,5 @@
 import base64
+from stylo.error import MissingDependencyError
 
 try:
     from hypothesis import given

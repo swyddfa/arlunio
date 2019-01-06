@@ -4,6 +4,8 @@ for :code:`ParameterGroup` objects.
 import pytest
 import numpy as np
 
+from stylo.error import MissingDependencyError
+
 try:
     from hypothesis import given
     from stylo.testing.strategies import real
