@@ -1,6 +1,6 @@
 import base64
 import io
-import PIL as P
+import PIL.Image
 
 from abc import ABC, abstractmethod
 from stylo.error import MissingDependencyError
@@ -112,7 +112,9 @@ class Image(ABC):
         """Convert the numpy representation of the image into a PIL.Image object."""
 
         height, width, _ = self.data.shape
-        return P.Image.frombuffer("RGB", (width, height), self.data, "raw", "RGB", 0, 1)
+        return PIL.Image.frombuffer(
+            "RGB", (width, height), self.data, "raw", "RGB", 0, 1
+        )
 
     @property
     def data(self):
