@@ -1,9 +1,17 @@
 import base64
 import io
-import PIL as P
-import matplotlib.pyplot as plt
+import PIL.Image
 
 from abc import ABC, abstractmethod
+from stylo.error import MissingDependencyError
+
+try:
+    import matplotlib.pyplot as plt
+
+    MATPLOTLIB = True
+
+except ImportError:
+    MATPLOTLIB = False
 
 
 class Drawable:
@@ -18,7 +26,13 @@ class Drawable:
 
 class Image(ABC):
     def __call__(
-        self, width, height, filename=None, plot_size=None, encode=None, preview=True
+        self,
+        width,
+        height,
+        filename=None,
+        plot_size=None,
+        encode=None,
+        preview=MATPLOTLIB,
     ):
 
         self.data = self._render(width, height)
@@ -42,6 +56,13 @@ class Image(ABC):
 
         :returns: A matplotlib AxesImage object.
         """
+
+        if not MATPLOTLIB:
+            message = (
+                "Unable to generate image preview. Run `pip install stylo[jupyter]`"
+                " to install the required dependencies."
+            )
+            raise MissingDependencyError(message)
 
         if plot_size is None:
             plot_size = 12
@@ -91,7 +112,9 @@ class Image(ABC):
         """Convert the numpy representation of the image into a PIL.Image object."""
 
         height, width, _ = self.data.shape
-        return P.Image.frombuffer("RGB", (width, height), self.data, "raw", "RGB", 0, 1)
+        return PIL.Image.frombuffer(
+            "RGB", (width, height), self.data, "raw", "RGB", 0, 1
+        )
 
     @property
     def data(self):

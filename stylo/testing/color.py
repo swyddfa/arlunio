@@ -1,7 +1,15 @@
 import numpy as np
-from hypothesis import given
+from stylo.error import MissingDependencyError
 
-from stylo.testing.strategies import shape_mask
+try:
+    from hypothesis import given
+    from stylo.testing import shape_mask
+
+except ImportError as err:
+    raise MissingDependencyError(
+        "The testing package requires additional dependencies."
+        " Run `pip install stylo[testing]` to install them."
+    ) from err
 
 
 class BaseColorMapTest:

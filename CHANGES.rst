@@ -1,3 +1,33 @@
+v0.9.2 - 2019-01-06
+-------------------
+
+Changed
+^^^^^^^
+
+- Most commonly used objects have been imported into the top level namespace.
+  This means that it is now possible to write code like the following.
+
+  .. code-block:: python
+
+     import stylo as st
+
+     black = st.FillColor()
+     circle = st.Circle(fill=True)
+
+     image = st.SimpleImage(circle, black)
+
+- The way stylo has been packaged has been changed. It now comes with a couple
+  of "extras". Instead of requiring dependencies for everything, the default
+  installation now only contains the packages that are absolutely required to
+  run stylo.
+
+  The other dependencies have been split into a couple of extras
+
+  + :code:`testing`: The dependencies required to import items from the
+    `stylo.testing` package.
+  + :code:`jupyer`: Dependencies required to use stylo interactively in a
+    jupyter notebook.
+
 v0.9.1 - 2018-12-27
 -------------------
 

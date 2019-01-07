@@ -4,9 +4,18 @@ for :code:`Domain` objects.
 """
 import pytest
 import numpy as np
-from hypothesis import given
 
-from stylo.testing.strategies import dimension
+from stylo.error import MissingDependencyError
+
+try:
+    from hypothesis import given
+    from stylo.testing import dimension
+
+except ImportError as err:
+    raise MissingDependencyError(
+        "The testing package requires additional dependencies."
+        " Run `pip install stylo[testing]` to install them."
+    ) from err
 
 
 DOMAIN_TEST_DOCSTRING = """

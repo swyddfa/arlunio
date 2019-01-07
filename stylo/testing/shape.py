@@ -1,10 +1,19 @@
 import numpy as np
-from hypothesis import given
 
+from stylo.error import MissingDependencyError
 from stylo.domain import UnitSquare, RealDomain
 from stylo.shape.shape import InvertedShape, ANDedShape, ORedShape, XORedShape
-from stylo.testing.strategies import dimension
 from stylo.utils import get_parameters
+
+try:
+    from hypothesis import given
+    from stylo.testing import dimension
+
+except ImportError as err:
+    raise MissingDependencyError(
+        "The testing package requires additional dependencies."
+        " Run `pip install stylo[testing]` to install them."
+    ) from err
 
 
 class BaseShapeTest:
