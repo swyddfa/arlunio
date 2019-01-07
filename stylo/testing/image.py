@@ -1,7 +1,15 @@
 import base64
-from hypothesis import given
+from stylo.error import MissingDependencyError
 
-from stylo.testing.strategies import dimension
+try:
+    from hypothesis import given
+    from stylo.testing.strategies import dimension
+
+except ImportError as err:
+    raise MissingDependencyError(
+        "The testing package requires additional dependencies."
+        " Run `pip install stylo[testing]` to install them."
+    ) from err
 
 
 class BaseImageTest:

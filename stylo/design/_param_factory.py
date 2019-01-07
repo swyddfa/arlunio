@@ -16,7 +16,16 @@ Currently the following functions are defined
 """
 from abc import ABC, abstractmethod
 import numpy as np
-import matplotlib.pyplot as plt
+
+from stylo.error import MissingDependencyError
+
+try:
+    import matplotlib.pyplot as plt
+
+    MATPLOTLIB = True
+
+except ImportError:
+    MATPLOTLIB = False
 
 
 def pgroup_keys(params):
@@ -220,6 +229,13 @@ def tdpgroup_plot():
     """
 
     def plot(self, start=0, stop=1, N=128, plot_size=8):
+
+        if not MATPLOTLIB:
+            message = (
+                "Unable to plot parameter group. Run `pip install stylo[jupyter]`"
+                " to install the required dependencies."
+            )
+            raise MissingDependencyError(message)
 
         cls = self.__class__
         name = cls.__name__

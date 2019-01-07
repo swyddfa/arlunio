@@ -3,8 +3,18 @@ for :code:`ParameterGroup` objects.
 """
 import pytest
 import numpy as np
-from hypothesis import given
-from stylo.testing.strategies import real
+
+from stylo.error import MissingDependencyError
+
+try:
+    from hypothesis import given
+    from stylo.testing.strategies import real
+
+except ImportError as err:
+    raise MissingDependencyError(
+        "The testing package requires additional dependencies."
+        " Run `pip install stylo[testing]` to install them."
+    ) from err
 
 
 PARAM_TEST_DOCSTRING = """
