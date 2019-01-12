@@ -1,4 +1,13 @@
-v0.9.2 - 2019-01-06
+v0.9.3 - 2019-01-12
+-------------------
+
+Changed
+^^^^^^^
+
+- When adding layers the :code:`LayeredImage` now accepts the color as a
+  string automatically converting it to a :code:`FillColor` behind the scenes.
+
+v0.9.2 - 2019-01-07
 -------------------
 
 Changed
