@@ -1,6 +1,6 @@
 import numpy as np
 
-from stylo.color import RGB8
+from stylo.color import RGB8, FillColor
 from stylo.domain import get_real_domain
 from stylo.image import Image
 from stylo.image.image import Drawable, render_drawable
@@ -21,6 +21,9 @@ class LayeredImage(Image):
         self.layers = []
 
     def add_layer(self, shape, color, domain=None):
+
+        if isinstance(color, (str,)):
+            color = FillColor(color)
 
         # Make sure everyone uses the same colorspace.
         color.colorspace = self.colorspace

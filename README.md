@@ -21,40 +21,30 @@ lines of Python
 
 
 ```python
-  from stylo.image import LayeredImage
-  from stylo.color import FillColor
-  from stylo.shape import Circle, Rectangle, Triangle
-  from stylo.domain.transform import translate
+import stylo as st
 
-  # Let's define some colours
-  black = FillColor("000000")
-  seablue = FillColor("0000ff")
-  white = FillColor("ffffff")
-  yellow = FillColor("ffff00")
-  red = FillColor("dd2300")
+# Let's define the shapes we want to draw
+sun = st.Circle(-7, 3.4, 1.5, fill=True)
+sea = st.Circle(0, -55, 55, fill=True)
+sails = st.Triangle((0.1, 0.6), (2.5, 0.6), (0.1, 3.5)) | st.Triangle((-0.1, 0.6), (-1.5, 0.6), (-0.1, 3.5))
+boat = st.Rectangle(0, 0, 3.5, 1) | st.Triangle((1.75, -0.5), (1.75, 0.5), (2.25, 0.5))
+mast = st.Rectangle(0, 2, 0.125, 3)
 
-  # Now for the shapes we will draw
-  sun = Circle(-7, 3.4, 1.5)
-  sea = Circle(0, -55, 55)
-  sails = Triangle((0.1, 0.6), (2.5, 0.6), (0.1, 3.5)) | Triangle((-0.1, 0.6), (-1.5, 0.6), (-0.1, 3.5))
-  boat = Rectangle(0, 0, 3.5, 1) | Triangle((1.75, -0.5), (1.75, 0.5), (2.25, 0.5))
-  mast = Rectangle(0, 2, 0.125, 3)
+# Move some into position
+boat = boat >> st.translate(0, -2)
+sails = sails >> st.translate(0, -2)
+mast = mast >> st.translate(0, -2)
 
-  # Move some into position
-  boat = boat >> translate(0, -2)
-  sails = sails >> translate(0, -2)
-  mast = mast >> translate(0, -2)
+# Finally let's bring it all together
+image = st.LayeredImage(background="99ddee", scale=8)
 
-  # Finally let's bring it all together
-  image = LayeredImage(background="99ddee", scale=8)
+image.add_layer(sun, "ffff00")
+image.add_layer(sea, "0000ff")
+image.add_layer(boat, "dd2300")
+image.add_layer(mast, "000000")
+image.add_layer(sails, "ffffff")
 
-  image.add_layer(sun, yellow)
-  image.add_layer(sea, seablue)
-  image.add_layer(boat, red)
-  image.add_layer(mast, black)
-  image.add_layer(sails, white)
-
-  image(1920, 1080, filename="docs/_static/examples/a-boat.png");
+image(1920, 1080, filename="a-boat.png")
 ```
 
 ## Installation
