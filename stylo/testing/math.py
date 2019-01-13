@@ -2,6 +2,41 @@ import numpy as np
 from stylo.math.expr import StyConst
 
 
+def ensure_equivalent(f):
+    """A decorator that given a function, will execute it twice to ensure the
+    output is consistent.
+
+    The first run will be with regular Python objects to give us a reference
+    result. The second will be with values wrapped in stylo's expression system
+    with the result checked against the reference to ensure it functions as expected.
+
+    TODO: Come up with a better name for this decorator!
+    """
+
+    def wrapped_func(**kwargs):
+        wrapped_kwargs = {k: StyConst(v) for k, v in kwargs.items()}
+
+        for arg, warg in zip(kwargs.values(), wrapped_kwargs.values()):
+            arg_check = arg == warg.eval()
+
+            if isinstance(arg_check, (np.ndarray,)):
+                arg_check = arg_check.all()
+
+            assert arg_check
+
+        expected = f(**kwargs)
+        actual = f(**wrapped_kwargs)
+
+        check = expected == actual.eval()
+
+        if isinstance(check, (np.ndarray,)):
+            check = check.all()
+
+        assert check
+
+    return wrapped_func
+
+
 class BaseBinaryOpTest:
     """A base class for testing :code:`BinaryOperations`.
 

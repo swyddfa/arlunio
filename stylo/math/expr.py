@@ -128,6 +128,39 @@ def _define_binary_op(name, symbol, impl):
     return BinaryOp
 
 
+def _define_function(name, symbol, impl):
+    """This function defines a mathematical function within the :code:`StyExpr`
+    system. As well as a function that we can export for users to use."""
+
+    class StyFunc(StyExpr):
+        def __init__(self, x):
+            self.x = x
+
+        def __repr__(self):
+            x = repr(self.x)
+
+            return "({} {})".format(symbol, x)
+
+        def eval(self):
+            x = self.x
+
+            if isinstance(x, (StyExpr,)):
+                x = x.eval()
+
+            return impl(x)
+
+    def func(x):
+        if isinstance(x, (StyExpr,)):
+            return StyFunc(x)
+
+        return impl(x)
+
+    StyFunc.__name__ = name
+    func.__name__ = symbol
+
+    return StyFunc, func
+
+
 # Numeric operators
 StyDivide = _define_binary_op("StyDivide", "/", operator.truediv)
 StyFloorDivide = _define_binary_op("StyFloorDivide", "//", operator.floordiv)
@@ -146,3 +179,8 @@ StyGreaterEqual = _define_binary_op("StyGreaterEqual", ">=", operator.ge)
 StyGreaterThan = _define_binary_op("StyGreaterThan", ">", operator.gt)
 StyLessEqual = _define_binary_op("StyLessEqual", "<=", operator.le)
 StyLessThan = _define_binary_op("StyLessThan", "<", operator.lt)
+
+# Mathematical functions
+StyCos, cos = _define_function("StyCos", "cos", np.cos)
+StySqrt, sqrt = _define_function("StySqrt", "sqrt", np.sqrt)
+StySin, sin = _define_function("StySin", "sin", np.sin)

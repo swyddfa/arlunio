@@ -5,53 +5,19 @@ how they usually would and produce the same result. **The user should never have
 know that they are in fact manipulating :code:`StyExpr` objects!**
 """
 import pytest
-import numpy as np
 from hypothesis import given
-from hypothesis.strategies import integers, booleans
-from hypothesis.extra.numpy import arrays
 
-from stylo.testing.strategies import real, vec3, positive, pos3, small_dimension
-from stylo.math.expr import StyConst
-
-
-bools = booleans()
-bool3 = arrays(np.bool_, (3,))
-power = integers(min_value=1, max_value=10)
-
-
-def ensure_equivalent(f):
-    """A decorator that given a function, will execute it twice to ensure the
-    output is consistent.
-
-    The first run will be with regular Python objects to give us a reference
-    result. The second will be with values wrapped in stylo's expression system
-    with the result checked against the reference to ensure it functions as expected.
-
-    TODO: Come up with a better name for this decorator!
-    """
-
-    def wrapped_func(**kwargs):
-        wrapped_kwargs = {k: StyConst(v) for k, v in kwargs.items()}
-
-        for arg, warg in zip(kwargs.values(), wrapped_kwargs.values()):
-            arg_check = arg == warg.eval()
-
-            if isinstance(arg_check, (np.ndarray,)):
-                arg_check = arg_check.all()
-
-            assert arg_check
-
-        expected = f(**kwargs)
-        actual = f(**wrapped_kwargs)
-
-        check = expected == actual.eval()
-
-        if isinstance(check, (np.ndarray,)):
-            check = check.all()
-
-        assert check
-
-    return wrapped_func
+from stylo.testing.math import ensure_equivalent
+from stylo.testing.strategies import (
+    bool3,
+    bools,
+    pos3,
+    positive,
+    power,
+    real,
+    small_dimension,
+    vec3,
+)
 
 
 #######################################################################################
