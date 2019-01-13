@@ -7,23 +7,56 @@ from abc import ABC, abstractmethod
 
 
 class StyExpr(ABC):
-    """This class is responsible for handling all details of converting an
-    expression to/from the various formats.
+    """This class is responsible for handling the conversions to/from
+    the various formats.
 
     Implementing classes are responsible for the details.
     """
 
+    # ------------------ Comparisons --------------------
+    def __ge__(self, other):
+        return StyGreaterEqual(self, other)
+
+    def __gt__(self, other):
+        return StyGreaterThan(self, other)
+
+    def __le__(self, other):
+        return StyLessEqual(self, other)
+
+    def __lt__(self, other):
+        return StyLessThan(self, other)
+
+    # ------------------ Logic --------------------------
+    def __and__(self, other):
+        return StyAnd(self, other)
+
+    def __rand__(self, other):
+        return StyAnd(other, self)
+
+    def __or__(self, other):
+        return StyOr(self, other)
+
+    def __ror__(self, other):
+        return StyOr(other, self)
+
+    # ------------------ Arithmetic ---------------------
     def __add__(self, other):
         return StyPlus(self, other)
 
     def __radd__(self, other):
         return StyPlus(other, self)
 
-    def __sub__(self, other):
-        return StyMinus(self, other)
+    def __floordiv__(self, other):
+        return StyFloorDivide(self, other)
 
-    def __rsub__(self, other):
-        return StyMinus(other, self)
+    def __rfloordiv__(self, other):
+        return StyFloorDivide(other, self)
+
+    def __mod__(self, other):
+        return StyModulo(self, other)
+
+    def __rmod__(self, other):
+        return StyModulo(other, self)
 
     def __mul__(self, other):
         return StyMultiply(self, other)
@@ -31,17 +64,23 @@ class StyExpr(ABC):
     def __rmul__(self, other):
         return StyMultiply(other, self)
 
-    def __truediv__(self, other):
-        return StyDivide(self, other)
-
-    def __rtruediv__(self, other):
-        return StyDivide(other, self)
-
     def __pow__(self, other):
         return StyPower(self, other)
 
     def __rpow__(self, other):
         return StyPower(other, self)
+
+    def __sub__(self, other):
+        return StyMinus(self, other)
+
+    def __rsub__(self, other):
+        return StyMinus(other, self)
+
+    def __truediv__(self, other):
+        return StyDivide(self, other)
+
+    def __rtruediv__(self, other):
+        return StyDivide(other, self)
 
     @abstractmethod
     def eval(self):
@@ -100,8 +139,10 @@ StyPower = _define_binary_op("StyPower", "**", operator.pow)
 
 # Logic operators
 StyAnd = _define_binary_op("StyAnd", "and", operator.and_)
+StyOr = _define_binary_op("StyOr", "or", operator.or_)
+
+# Comparison operators
 StyGreaterEqual = _define_binary_op("StyGreaterEqual", ">=", operator.ge)
 StyGreaterThan = _define_binary_op("StyGreaterThan", ">", operator.gt)
 StyLessEqual = _define_binary_op("StyLessEqual", "<=", operator.le)
 StyLessThan = _define_binary_op("StyLessThan", "<", operator.lt)
-StyOr = _define_binary_op("StyOr", "or", operator.or_)
