@@ -6,7 +6,7 @@ from .domain.transform import (  # noqa: F401
     vertical_shear,
 )
 from .image import LayeredImage, SimpleImage  # noqa: F401
-from .math import anded, lerp  # noqa: F401
+from .math import anded, lerp, sin, cos, sqrt, StyName, StyConst, StyExpr  # noqa: F401
 from .shape import (  # noqa: F401
     Circle,
     Ellipse,
