@@ -1,10 +1,13 @@
 import pytest
 from unittest import TestCase
 
-from stylo.shape import Circle
 from stylo.color import FillColor
 from stylo.image import SimpleImage
 from stylo.testing.image import BaseImageTest
+
+
+class Circle:
+    pass
 
 
 @pytest.mark.image

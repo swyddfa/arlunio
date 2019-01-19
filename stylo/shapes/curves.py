@@ -1,5 +1,8 @@
 import numpy as np
-from stylo.shape.shape import Shape
+
+
+class Shape:
+    pass
 
 
 class ImplicitXY(Shape):

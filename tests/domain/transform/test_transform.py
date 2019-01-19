@@ -8,7 +8,10 @@ from stylo.domain.transform.transform import (
     find_base_domain,
     DomainTransformer,
 )
-from stylo.shape import Circle
+
+
+class Circle:
+    pass
 
 
 @pytest.mark.domain

@@ -16,4 +16,3 @@ from .design import (  # noqa: F401
 )
 from .domain import define_domain_test, BaseRealDomainTest  # noqa: F401
 from .image import BaseImageTest  # noqa: F401
-from .shape import BaseShapeTest  # noqa: F401

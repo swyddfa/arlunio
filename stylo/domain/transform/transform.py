@@ -1,8 +1,11 @@
 from stylo.domain import RealDomain
 from stylo.domain._factory import define_domain_transform
-from stylo.shape import Shape
 
 RealDomainTransform = define_domain_transform(RealDomain)
+
+
+class Shape:
+    pass
 
 
 def find_base_transform(transform):
