@@ -139,3 +139,24 @@ class TestShape:
 
         example = Example(x0=0)
         assert example(1) == 1
+
+    def test_call_args(self):
+        """Ensure that the class instance can accept the args as positional
+        arguments"""
+
+        @shape()
+        def Example(x, y):
+            return x, y
+
+        example = Example()
+        assert example(1, 0) == (1, 0)
+
+    def test_call_kwargs(self):
+        """Ensure that the class instance can accept the args as keyword arguments."""
+
+        @shape()
+        def Example(x, y):
+            return x, y
+
+        example = Example()
+        assert example(y=1, x=0) == (0, 1)

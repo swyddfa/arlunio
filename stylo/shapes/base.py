@@ -49,7 +49,7 @@ def shape():
                 return "{}({})".format(name, arg_string)
 
             def __call__(self, *args, **kwargs):
-                return self.definition(*args, **self._params)
+                return self.definition(*args, **self._params, **kwargs)
 
             @property
             def args(self):
