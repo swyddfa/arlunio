@@ -53,8 +53,8 @@ def shape():
 
             @property
             def args(self):
-                """Return a list of variable names that correspond to the domain arguments
-                to the shape."""
+                """Return a list of variable names that correspond to the domain
+                arguments to the shape."""
 
                 parameters = inspect.signature(self.definition).parameters
 
@@ -66,7 +66,8 @@ def shape():
 
             @property
             def parameters(self):
-                """Return a list of variable names that correspond to the shape's parameters."""
+                """Return a list of variable names that correspond to the shape's
+                parameters."""
 
                 parameters = inspect.signature(self.definition).parameters
 
