@@ -4,10 +4,13 @@ from hypothesis import given
 from math import pi
 from unittest import TestCase
 
-from stylo.domain import UnitSquare
 from stylo.domain.transform.rotation import Rotation
 from stylo.testing.domain import BaseRealDomainTest
 from stylo.testing.strategies import dimension, angle
+
+
+class UnitSquare:
+    pass
 
 
 @pytest.mark.domain

@@ -1,6 +1,6 @@
 import pytest
 
-from stylo.domain import RealDomain, UnitSquare
+from stylo.domain import RealDomain
 from stylo.domain.transform import RealDomainTransform
 from stylo.domain.transform.translation import Translation
 from stylo.domain.transform.transform import (
@@ -11,6 +11,10 @@ from stylo.domain.transform.transform import (
 
 
 class Circle:
+    pass
+
+
+class UnitSquare:
     pass
 
 

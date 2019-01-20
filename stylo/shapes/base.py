@@ -37,10 +37,19 @@ def shape():
         default_params = {} if func.__kwdefaults__ is None else func.__kwdefaults__
         docstring = SHAPE_DOCSTRING
 
+        parameters = inspect.signature(func).parameters
+        domain_args = [
+            k for k, v in parameters.items() if v.kind != inspect.Parameter.KEYWORD_ONLY
+        ]
+
+        args = {arg: StyName(arg) for arg in domain_args + list(default_params.keys())}
+        expr = func(**args)
+
         class Shape:
             def __init__(self, **kwargs):
                 self._params = _set_params(default_params, kwargs)
-                self.definition = func
+                self._expr = expr
+                self._args = domain_args
 
             def __repr__(self):
                 args = ["{}={}".format(k, v) for k, v in self._params.items()]
@@ -49,38 +58,31 @@ def shape():
                 return "{}({})".format(name, arg_string)
 
             def __call__(self, *args, **kwargs):
-                return self.definition(*args, **self._params, **kwargs)
+
+                posargs = {name: value for value, name in zip(args, self.args)}
+
+                arguments = dict(self._params)
+                arguments.update(kwargs)
+                arguments.update(posargs)
+
+                return self._expr.eval(arguments)
 
             @property
             def args(self):
                 """Return a list of variable names that correspond to the domain
                 arguments to the shape."""
-
-                parameters = inspect.signature(self.definition).parameters
-
-                return [
-                    k
-                    for k, v in parameters.items()
-                    if v.kind != inspect.Parameter.KEYWORD_ONLY
-                ]
+                return self._args
 
             @property
             def parameters(self):
                 """Return a list of variable names that correspond to the shape's
                 parameters."""
+                return list(self._params.keys())
 
-                parameters = inspect.signature(self.definition).parameters
-
-                return [
-                    k
-                    for k, v in parameters.items()
-                    if v.kind == inspect.Parameter.KEYWORD_ONLY
-                ]
-
+            @property
             def expr(self):
                 """Return a :code:`StyExpr` representation of the shape."""
-                args = [StyName(arg) for arg in self.args]
-                return self.definition(*args, **self._params)
+                return self._expr
 
         if func.__doc__ is not None:
             docstring += "\n" + func.__doc__

@@ -3,10 +3,13 @@ import pytest
 from hypothesis import given
 from unittest import TestCase
 
-from stylo.domain.square import UnitSquare
 from stylo.domain.transform.translation import Translation
 from stylo.testing.domain import BaseRealDomainTest
 from stylo.testing.strategies import dimension, real
+
+
+class UnitSquare:
+    pass
 
 
 @pytest.mark.domain

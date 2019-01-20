@@ -78,19 +78,6 @@ class TestShape:
 
         assert example._params == {"b": 0, "c": 2}
 
-    def test_shape_stores_function(self):
-        """Ensure that the :code:`shape` decorator stores the given function under
-        the :code:`definition` attribute on the generated class."""
-
-        def example(x, y):
-            return x + y
-
-        Example = shape()(example)
-
-        instance = Example()
-
-        assert instance.definition == example
-
     def test_shape_repr(self):
         """Ensure that the generated :code:`Shape` class has a useful :code:`repr`"""
 
@@ -146,17 +133,17 @@ class TestShape:
 
         @shape()
         def Example(x, y):
-            return x, y
+            return x - y
 
         example = Example()
-        assert example(1, 0) == (1, 0)
+        assert example(1, 0) == 1
 
     def test_call_kwargs(self):
         """Ensure that the class instance can accept the args as keyword arguments."""
 
         @shape()
         def Example(x, y):
-            return x, y
+            return x - y
 
         example = Example()
-        assert example(y=1, x=0) == (0, 1)
+        assert example(y=1, x=0) == -1

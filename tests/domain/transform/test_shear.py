@@ -3,10 +3,13 @@ import numpy.testing as npt
 from hypothesis import given
 from unittest import TestCase
 
-from stylo.domain import UnitSquare
 from stylo.domain.transform.shear import HorizontalShear, VerticalShear
 from stylo.testing.domain import BaseRealDomainTest
 from stylo.testing.strategies import real, dimension
+
+
+class UnitSquare:
+    pass
 
 
 @pytest.mark.domain
