@@ -77,6 +77,9 @@ class StyExpr(ABC):
     def __rmul__(self, other):
         return StyMultiply(other, self)
 
+    def __neg__(self):
+        return StyNeg(self)
+
     def __pow__(self, other):
         return StyPower(self, other)
 
@@ -271,6 +274,8 @@ StyLessEqual = define_binary_op("StyLessEqual", "<=", operator.le)
 StyLessThan = define_binary_op("StyLessThan", "<", operator.lt)
 
 # Mathematical functions
+StyAbs, abs = define_function("StyAbs", "abs", np.abs)
 StyCos, cos = define_function("StyCos", "cos", np.cos)
+StyNeg, neg = define_function("StyCos", "neg", operator.neg)
 StySqrt, sqrt = define_function("StySqrt", "sqrt", np.sqrt)
 StySin, sin = define_function("StySin", "sin", np.sin)
