@@ -11,7 +11,7 @@ class Shape:
     pass
 
 
-@shape()
+@shape
 def Ellipse(x, y, *, x0=0, y0=0, a=2, b=1, r=1):
 
     xc = (x - x0) ** 2
@@ -23,7 +23,7 @@ def Ellipse(x, y, *, x0=0, y0=0, a=2, b=1, r=1):
     return (xc / a) + (yc / b) < r
 
 
-@shape()
+@shape
 def Circle(x, y, *, x0=0, y0=0, r=1):
 
     xc = x - x0
@@ -32,7 +32,7 @@ def Circle(x, y, *, x0=0, y0=0, r=1):
     return (xc * xc) + (yc * yc) < r * r
 
 
-@shape()
+@shape
 def Rectangle(x, y, *, x0=0, y0=0, width=1, height=0.5):
 
     w = width / 2
@@ -46,7 +46,7 @@ def Rectangle(x, y, *, x0=0, y0=0, width=1, height=0.5):
     return anded(left < x, x < right, bottom < y, y < top)
 
 
-@shape()
+@shape
 def Square(x, y, *, x0=0, y0=0, size=1):
 
     s = size / 2
@@ -59,7 +59,7 @@ def Square(x, y, *, x0=0, y0=0, size=1):
     return anded(left < x, x < right, bottom < y, y < top)
 
 
-@shape()
+@shape
 def Line(x):
     pass
 
