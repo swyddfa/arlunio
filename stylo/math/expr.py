@@ -140,7 +140,7 @@ class StyExpr(ABC):
         return cls.fromdict(dictionary)
 
     @abstractmethod
-    def eval(self, ctx=None):
+    def eval(self, ctx=None, total=False):
         pass
 
 
@@ -153,11 +153,15 @@ class StyName(StyExpr):
     def __repr__(self):
         return self.name
 
-    def eval(self, ctx=None):
+    def eval(self, ctx=None, total=False):
 
         if ctx is None or self.name not in ctx:
-            message = "Variable {} is not defined.".format(self.name)
-            raise NameError(message)
+
+            if total:
+                message = "Variable {} is not defined.".format(self.name)
+                raise NameError(message)
+
+            return self
 
         return ctx[self.name]
 
@@ -171,7 +175,7 @@ class StyConst(StyExpr):
     def __repr__(self):
         return repr(self.const)
 
-    def eval(self, ctx=None):
+    def eval(self, ctx=None, total=False):
         return self.const
 
 
@@ -189,15 +193,15 @@ def define_binary_op(name, symbol, impl):
 
             return "({} {} {})".format(symbol, a, b)
 
-        def eval(self, ctx=None):
+        def eval(self, ctx=None, total=False):
             a = self.a
             b = self.b
 
             if isinstance(a, (StyExpr,)):
-                a = a.eval(ctx)
+                a = a.eval(ctx, total)
 
             if isinstance(b, (StyExpr,)):
-                b = b.eval(ctx)
+                b = b.eval(ctx, total)
 
             return impl(a, b)
 
@@ -220,11 +224,11 @@ def define_function(name, symbol, impl):
 
             return "({} {})".format(symbol, x)
 
-        def eval(self, ctx=None):
+        def eval(self, ctx=None, total=False):
             x = self.x
 
             if isinstance(x, (StyExpr,)):
-                x = x.eval(ctx)
+                x = x.eval(ctx, total)
 
             return impl(x)
 
