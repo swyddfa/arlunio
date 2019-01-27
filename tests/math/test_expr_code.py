@@ -355,7 +355,8 @@ def test_power_numpy_left(a):
 @given(a=real)
 @ensure_equivalent
 def test_modulo_left(a):
-    """Ensure that users can use the modulus with :code:`StyExpr` objects on the left."""
+    """Ensure that users can use the modulus with :code:`StyExpr`
+    objects on the left."""
     return a % 2
 
 
@@ -363,7 +364,8 @@ def test_modulo_left(a):
 @given(a=positive)
 @ensure_equivalent
 def test_modulo_right(a):
-    """Ensure that users can use the modulus with :code:`StyExpr` objects on the right."""
+    """Ensure that users can use the modulus with :code:`StyExpr`
+    objects on the right."""
     return 2 % a
 
 
