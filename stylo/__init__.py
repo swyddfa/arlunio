@@ -1,11 +1,6 @@
 from .color import FillColor  # noqa: F401
-from .domain.transform import (  # noqa: F401
-    horizontal_shear,
-    rotate,
-    translate,
-    vertical_shear,
-)
-from .image import LayeredImage, SimpleImage  # noqa: F401
+from .domain import Source, Tweakable  # noqa: F401
+from .image import ImageFactory, StandardImage  # noqa: F401
 from .math import (  # noqa: F401
     anded,
     ored,

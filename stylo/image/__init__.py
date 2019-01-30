@@ -1,3 +1,2 @@
-from .image import Image  # noqa: F401
-from .layered import LayeredImage  # noqa: F401
-from .simple import SimpleImage  # noqa: F401
+from .base import ImageFactory  # noqa: F401
+from .new import StandardImage  # noqa: F401
