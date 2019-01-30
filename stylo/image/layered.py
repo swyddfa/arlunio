@@ -1,9 +1,12 @@
 import numpy as np
 
 from stylo.color import RGB8, FillColor
-from stylo.domain import get_real_domain
 from stylo.image import Image
 from stylo.image.image import Drawable, render_drawable
+
+
+def get_real_domain(a, b, c):
+    pass
 
 
 class LayeredImage(Image):
