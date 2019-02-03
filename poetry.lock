@@ -627,6 +627,19 @@ coverage = ">=4.4"
 pytest = ">=3.6"
 
 [[package]]
+category = "dev"
+description = "Pytest plugin with advanced doctest features."
+name = "pytest-doctestplus"
+optional = false
+python-versions = ">=2.7"
+version = "0.2.0"
+
+[package.dependencies]
+numpy = ">=1.10"
+pytest = ">=2.8.0"
+six = "*"
+
+[[package]]
 category = "main"
 description = "Extensions to the standard Python datetime module"
 name = "python-dateutil"
@@ -883,7 +896,7 @@ jupyter = ["jupyter", "matplotlib"]
 testing = ["pytest", "hypothesis"]
 
 [metadata]
-content-hash = "e246aff5f4a87eeaa82afbfe3fcbdef27cdf5004bec246f1f35dfee396819704"
+content-hash = "99b63d8a9c5396af362b830b09d3fce71aeca9f55b4733319263488079eb232a"
 python-versions = "^3.5"
 
 [metadata.hashes]
@@ -945,6 +958,7 @@ pygments = ["5ffada19f6203563680669ee7f53b64dabbeb100eb51b61996085e99c03b284a", 
 pyparsing = ["66c9268862641abcac4a96ba74506e594c884e3f57690a696d21ad8210ed667a", "f6c5ef0d7480ad048c054c37632c67fca55299990fff127850181659eea33fc3"]
 pytest = ["f689bf2fc18c4585403348dd56f47d87780bf217c53ed9ae7a3e2d7faa45f8e9", "f812ea39a0153566be53d88f8de94839db1e8a05352ed8a49525d7d7f37861e9"]
 pytest-cov = ["0ab664b25c6aa9716cbf203b17ddb301932383046082c081b9848a0edf5add33", "230ef817450ab0699c6cc3c9c8f7a829c34674456f2ed8df1fe1d39780f7c87f"]
+pytest-doctestplus = ["f18fe570201e5e8182cbc50a5db7b9b3185faaee9da1635dc1e36296660e9b5a"]
 python-dateutil = ["063df5763652e21de43de7d9e00ccf239f953a832941e37be541614732cdfc93", "88f9287c0174266bb0d8cedd395cfba9c58e87e5ad86b2ce58859bc11be3cf02"]
 pytz = ["32b0891edff07e28efe91284ed9c31e123d84bea3fd98e1f72be2508f43ef8d9", "d5f05e487007e29e03409f9398d074e158d920d36eb82eaf66fb1136b0c5374c"]
 pywinpty = ["0e01321e53a230233358a6d608a1a8bc86c3882cf82769ba3c62ca387dc9cc51", "333e0bc5fca8ad9e9a1516ebedb2a65da38dc1f399f8b2ea57d6cccec1ff2cc8", "3ca3123aa6340ab31bbf9bd012b92e72f9ec905e4c9ee152cc997403e1778cd3", "44a6dddcf2abf402e22f87e2c9a341f7d0b296afbec3d28184c8de4d7f514ee4", "53d94d574c3d4da2df5b1c3ae728b8d90e4d33502b0388576bbd4ddeb4de0f77", "c3955f162c53dde968f3fc11361658f1d83b683bfe601d4b6f94bb01ea4300bc", "cec9894ecb34de3d7b1ca121dd98433035b9f8949b5095e84b103b349231509c", "dcd45912e2fe2e6f72cee997a4da6ed1ad2056165a277ce5ec7f7ac98dcdf667", "f2bcdd9a2ffd8b223752a971b3d377fb7bfed85f140ec9710f1218d760f2ccb7"]
