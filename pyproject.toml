@@ -46,6 +46,7 @@ hypothesis = "3.*"
 sphinx = "^1.8"
 sphinx-stylo = "^0.1.1"
 topos-theme = "^0.0.12"
+sphobjinv = "^2.0"
 
 [build-system]
 requires = ["poetry>=0.12"]
