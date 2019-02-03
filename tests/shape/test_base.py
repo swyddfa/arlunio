@@ -1,7 +1,7 @@
 import pytest
 
 from stylo.shapes import shape
-from stylo.shapes.base import SHAPE_DOCSTRING
+from stylo.shapes.base import SHAPE_DOCSTRING, _normalise_name
 
 
 @pytest.mark.shape
@@ -13,7 +13,7 @@ class TestShape:
         """Ensure that the class returned from the :code:`shape` decorator inherits
         the name of the decorated function."""
 
-        @shape()
+        @shape
         def Example():
             pass
 
@@ -23,7 +23,7 @@ class TestShape:
         """Ensure that the class returned from the :code:`shape` decorator is given
         the standard docstring."""
 
-        @shape()
+        @shape
         def Example():
             pass
 
@@ -33,7 +33,7 @@ class TestShape:
         """Ensure that the class returned from the :code:`shape` decorator has included
         the function's docstring along with the standard docstring."""
 
-        @shape()
+        @shape
         def Example():
             """With a docstring"""
             pass
@@ -45,43 +45,45 @@ class TestShape:
         :code:`__init__` method on the generated shape throws a :code:`TypeError`
         just like a regular class."""
 
-        @shape()
+        @shape
         def Example(a, *, c=1):
             pass
 
         with pytest.raises(TypeError) as err:
             Example(b=1)
 
-        assert "Unexpected keyword argument 'b'" in str(err.value)
+        assert "unexpected keyword argument 'b'" in str(err.value)
 
     def test_shape_default_parameters(self):
         """Ensure that if no kwargs are given the shape instance uses the default
         values in the decoratorated function."""
 
-        @shape()
+        @shape
         def Example(a, *, b=1, c=-3):
             pass
 
         example = Example()
+        actual = {_normalise_name(k): v for k, v in example._params.items()}
 
-        assert example._params == {"b": 1, "c": -3}
+        assert actual == {"b": 1, "c": -3}
 
     def test_shape_accepts_parameters(self):
         """Ensure that if any valid kwargs are given to the Shape's constructor then
         they are used over the defaults."""
 
-        @shape()
+        @shape
         def Example(a, *, b=1, c=2):
             pass
 
         example = Example(b=0)
+        actual = {_normalise_name(k): v for k, v in example._params.items()}
 
-        assert example._params == {"b": 0, "c": 2}
+        assert actual == {"b": 0, "c": 2}
 
     def test_shape_repr(self):
         """Ensure that the generated :code:`Shape` class has a useful :code:`repr`"""
 
-        @shape()
+        @shape
         def Example(a, *, b=1, c=0):
             pass
 
@@ -93,7 +95,7 @@ class TestShape:
         """Ensure that the :code:`args` property on the generated :code:`Shape` class
         returns the list of domain arguments for the shape."""
 
-        @shape()
+        @shape
         def Example(x, y, *, x0=1, y0=2):
             pass
 
@@ -105,7 +107,7 @@ class TestShape:
         """Ensure that the :code:`parameters` property on the generated :code:`Shape`
         class returns the list of parameters for the shape."""
 
-        @shape()
+        @shape
         def Example(x, y, *, x0=1, y0=2):
             pass
 
@@ -117,7 +119,7 @@ class TestShape:
         """Ensure that when the class instance is called, is passes the parameters to
         the wrapped function."""
 
-        @shape()
+        @shape
         def Example(x, *, x0=1):
             return x - x0
 
@@ -131,7 +133,7 @@ class TestShape:
         """Ensure that the class instance can accept the args as positional
         arguments"""
 
-        @shape()
+        @shape
         def Example(x, y):
             return x - y
 
@@ -141,7 +143,7 @@ class TestShape:
     def test_call_kwargs(self):
         """Ensure that the class instance can accept the args as keyword arguments."""
 
-        @shape()
+        @shape
         def Example(x, y):
             return x - y
 
