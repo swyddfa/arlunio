@@ -1,4 +1,9 @@
+import inspect
 from uuid import uuid4
+
+
+def get_parameters(f):
+    return list(inspect.signature(f).parameters.keys())
 
 
 class MessageBus:
