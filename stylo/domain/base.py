@@ -158,7 +158,8 @@ class Tweakable:
     def defaults(self):
         """Return a dictionary containing the default values for the tweakable
         parameters."""
-        return self._defaults
+        keys = sorted(self._defaults.keys())
+        return {k: self._defaults[k] for k in keys}
 
     @property
     def tweaks(self):
