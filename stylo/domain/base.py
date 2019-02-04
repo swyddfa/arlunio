@@ -124,7 +124,7 @@ class Tweakable:
 
     def __repr__(self):
         args = list(self.args)
-        args += ["{}={}".format(k, v) for k, v in sorted(self._defaults.items())]
+        args += ["{}={}".format(k, v) for k, v in self._defaults.items()]
         return "{}({})".format(self._func.__name__, ", ".join(args))
 
     def __call__(self, *args, **kwargs):
@@ -158,8 +158,7 @@ class Tweakable:
     def defaults(self):
         """Return a dictionary containing the default values for the tweakable
         parameters."""
-        keys = sorted(self._defaults.keys())
-        return {k: self._defaults[k] for k in keys}
+        return self._defaults()
 
     @property
     def tweaks(self):
@@ -168,7 +167,7 @@ class Tweakable:
         These correspond with the keyword only arguments of the function
         and as their name suggests can be tweaked.
         """
-        return sorted(list(self._defaults.keys()))
+        return list(self._defaults.keys())
 
     @property
     def args(self):
@@ -178,7 +177,7 @@ class Tweakable:
         be tweaked.
         """
         params = inspect.signature(self._func).parameters
-        return sorted([k for k in params.keys() if k not in self.tweaks])
+        return [k for k in params.keys() if k not in self.tweaks]
 
 
 def tweakable(f):

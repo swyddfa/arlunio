@@ -19,9 +19,6 @@ script:
 
 jobs:
     include:
-        - python: 3.5
-          env: TASK=py35
-
         - python: 3.6
           env: TASK=py36
 
