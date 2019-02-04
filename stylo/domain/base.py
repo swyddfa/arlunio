@@ -167,7 +167,7 @@ class Tweakable:
         These correspond with the keyword only arguments of the function
         and as their name suggests can be tweaked.
         """
-        return list(self._defaults.keys())
+        return sorted(list(self._defaults.keys()))
 
     @property
     def args(self):
@@ -177,7 +177,7 @@ class Tweakable:
         be tweaked.
         """
         params = inspect.signature(self._func).parameters
-        return [k for k in params.keys() if k not in self.tweaks]
+        return sorted([k for k in params.keys() if k not in self.tweaks])
 
 
 def tweakable(f):
