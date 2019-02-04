@@ -1,1 +1,1 @@
-from .base import Source, Tweakable  # noqa: F401
+from .base import Source, Tweakable, tweakable  # noqa: F401

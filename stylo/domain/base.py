@@ -6,12 +6,14 @@ import matplotlib.pyplot as plt
 class Source:
     """A source object can hold and manage a collection of named sources."""
 
-    def __init__(self, *args):
+    def __init__(self, *args, name=None):
         self._sources = {}
+        self.name = "Source" if name is None else name
         self._args = list(args)
 
     def __repr__(self):
-        return "{}: {}".format(self.name, repr(self._sources))
+        sources = "\n\t".join(repr(s) for s in self._sources.values())
+        return "{}: \n\t{}".format(self.name, sources)
 
     def __getitem__(self, key):
         return self._sources[key]
@@ -102,12 +104,15 @@ class Tweakable:
     """A tweakable is a function that can be tweaked :)"""
 
     def __init__(self, f):
-        self._func = f
-        self._defaults = {} if f.__kwdefaults__ is None else f.__kwdefaults__
+        super().__setattr__("_func", f)
+
+        defaults = {} if f.__kwdefaults__ is None else f.__kwdefaults__
+        super().__setattr__("_defaults", defaults)
 
     def __repr__(self):
-        params = ["{}={}".format(k, v) for k, v in self._defaults.items()]
-        return "{}({})".format(self._func.__name__, ", ".join(params))
+        args = list(self.args)
+        args += ["{}={}".format(k, v) for k, v in self._defaults.items()]
+        return "{}({})".format(self._func.__name__, ", ".join(args))
 
     def __call__(self, *args, **kwargs):
 
@@ -119,11 +124,49 @@ class Tweakable:
 
         return self._func(*args, **params)
 
+    def __getattr__(self, name):
+
+        try:
+
+            return self._defaults[name]
+        except KeyError:
+            message = "{} has no attribute {}"
+            raise AttributeError(message.format(self.__class__.__name__, name))
+
+    def __setattr__(self, name, value):
+
+        if name in self._defaults:
+            self._defaults[name] = value
+            return
+
+        object.__setattr__(self, name, value)
+
+    @property
+    def defaults(self):
+        """Return a dictionary containing the default values for the tweakable
+        parameters."""
+        return self._defaults
+
     @property
     def tweaks(self):
+        """Return the list of tweakable parameter names.
+
+        These correspond with the keyword only arguments of the function
+        and as their name suggests can be tweaked.
+        """
         return list(self._defaults.keys())
 
     @property
     def args(self):
+        """Return the list of argument names.
+
+        These correspond to the positional arguments of the function and cannot
+        be tweaked.
+        """
         params = inspect.signature(self._func).parameters
         return [k for k in params.keys() if k not in self.tweaks]
+
+
+def tweakable(f):
+    """Decorator to convert a normal Python function into a tweakable."""
+    return Tweakable(f)
