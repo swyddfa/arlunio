@@ -19,11 +19,10 @@ sys.path.insert(0, os.path.abspath(".."))
 
 from stylo import __version__
 
-
 # -- Project information -----------------------------------------------------
 
 project = "Stylo"
-copyright = "2018, Alex Carney"
+copyright = "2017-2019, Alex Carney"
 author = "Alex Carney"
 
 # The short X.Y version
@@ -48,8 +47,6 @@ extensions = [
     "sphinx.ext.todo",
     "sphinx.ext.mathjax",
     "sphinx.ext.viewcode",
-    "sphinx.ext.githubpages",
-    "sphinx_stylo",
     "topos_theme",
 ]
 
@@ -74,11 +71,17 @@ language = None
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-# This pattern also affects html_static_path and html_extra_path .
-exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
+# This pattern also affects html_static_path and html_extra_path.
+exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", "_references.rst"]
 
 # The name of the Pygments (syntax highlighting) style to use.
-pygments_style = "sphinx"
+pygments_style = None
+
+# `rst_epilog` pastes a given string to the bottom of every .rst file before it
+# is built. Couple that with rst substitutions and we can define substitutions that
+# are global, easy to read in source and easily maintainable.
+with open(os.path.join(os.path.dirname(__file__), "_references.rst")) as f:
+    rst_epilog = f.read()
 
 
 # -- Options for HTML output -------------------------------------------------
@@ -166,12 +169,33 @@ texinfo_documents = [
 ]
 
 
-# -- Options for autodic extension -------------------------------------------
-autodoc_default_flags = ["members", "undoc-members", "show-inheritence"]
+# -- Options for Epub output -------------------------------------------------
+
+# Bibliographic Dublin Core info.
+epub_title = project
+
+# The unique identifier of the text. This can be a ISBN number
+# or the project homepage.
+#
+# epub_identifier = ''
+
+# A unique identification for the text.
+#
+# epub_uid = ''
+
+# A list of files that should not be packed into the epub file.
+epub_exclude_files = ["search.html"]
+
+
+# -- Extension configuration -------------------------------------------------
+
+# -- Options for autodoc extension
+# More info: http://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html#configuration
+autoclass_content = "both"
+autodoc_default_flags = ["members", "undoc-members"]
+autodoc_member_order = "groupwise"
 
 # -- Options for intersphinx extension ---------------------------------------
-
-# Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3/", None),
     "numpy": ("https://docs.scipy.org/doc/numpy/", None),

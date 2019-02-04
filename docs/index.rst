@@ -1,3 +1,8 @@
+.. Stylo documentation master file, created by
+   sphinx-quickstart on Wed Jan 30 18:29:56 2019.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
 About
 =====
 
@@ -42,89 +47,13 @@ About
    :alt: Documentation Status
 
 
-**Stylo is in early development, while it is useable we cannot make any
-stability guarantees**
-
-Stylo is a Python library that that allows you to create images and animations
-powered by your imagination and a little mathematics.  Even though maths is very
-much at the core of Stylo you don't have to be a mathematician to use it!
-
-For example here is a simple image of a boat that can be made in a few lines of
-Python.
-
-.. stylo-image::
-   :align: center
-   :img-width: 1920
-   :img-height: 1080
-   :include-code:
-   :display-width: 75%
-
-   import stylo as st
-
-   # Let's define the shapes we want to draw
-   sun = st.Circle(-7, 3.4, 1.5, fill=True)
-   sea = st.Circle(0, -55, 55, fill=True)
-   sails = st.Triangle((0.1, 0.6), (2.5, 0.6), (0.1, 3.5)) | st.Triangle((-0.1, 0.6), (-1.5, 0.6), (-0.1, 3.5))
-   boat = st.Rectangle(0, 0, 3.5, 1) | st.Triangle((1.75, -0.5), (1.75, 0.5), (2.25, 0.5))
-   mast = st.Rectangle(0, 2, 0.125, 3)
-
-   # Move some into position
-   boat = boat >> st.translate(0, -2)
-   sails = sails >> st.translate(0, -2)
-   mast = mast >> st.translate(0, -2)
-
-   # Finally let's bring it all together
-   image = st.LayeredImage(background="99ddee", scale=8)
-
-   image.add_layer(sun, "ffff00")
-   image.add_layer(sea, "0000ff")
-   image.add_layer(boat, "dd2300")
-   image.add_layer(mast, "000000")
-   image.add_layer(sails, "ffffff")
-
-Be sure to check out `Stylo Doodles`_ - our community driven example gallery for
-plenty of inspiration!
-
-Installation
-------------
-
-Stylo is available for Python 3.5+ and can be installed using pip:
-
-.. code-block:: sh
-
-   $ pip install stylo
-
-Be sure to check out the :ref:`use` (under construction) for details on how to
-get started. You might also want to read the :ref:`about_docs` page for a quick
-overview that aims to help you get the most out of our documentation.
-
-Contributing
-------------
-
-Contributions are welcome! Head over to the :ref:`contribute` section to get
-started.
-
-.. note::
-
-   If you are looking to contribute **code** to Stylo we do require that you
-   have at least Python 3.6 installed due to some of our development
-   dependencies requiring more recent versions of Python.
-
-
 Index
-^^^^^
+-----
 
 .. toctree::
    :maxdepth: 2
 
-   using/index
-   extending/index
-   contributing/index
-   maths/index
+   extend/index
    api/index
-   glossary
    changes
-   about
 
-
-.. _Stylo Doodles: https://alcarney.github.io/stylo-doodles

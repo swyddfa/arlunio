@@ -133,14 +133,13 @@ def render_drawable(drawable, image_data):
     """Given a drawable, render it onto the given image data."""
 
     domain, shape, color = drawable
-    domain = shape._apply_transform(domain)
 
     height, width, depth = image_data.shape
 
-    parameters = shape.parameters
-    values = domain[parameters](width, height)
+    args = shape.args
+    values = domain[args](width, height)
 
-    coords = {k: v for k, v in zip(parameters, values)}
+    coords = {k: v for k, v in zip(args, values)}
     mask = shape(**coords)
 
     return color(mask, image_data=image_data)

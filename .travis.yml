@@ -1,5 +1,8 @@
 language: python
-cache: pip
+cache:
+  pip: true
+  directories:
+  - "$HOME/.cache/pypoetry"
 
 stages:
     - linting
@@ -8,44 +11,34 @@ stages:
     - name: deploy
       if: branch = master
 
-before_install:
-    - "pip install poetry"
-
 install:
-    - poetry install
+    - pip install poetry tox
 
 script:
-    - poetry run pytest --cov=stylo -q
+    - tox -q -e $TASK
 
 jobs:
     include:
-        - python: 3.5
         - python: 3.6
+          env: TASK=py36
+
           after_success:
               - pip install coveralls
               - coveralls
 
         - python: 3.7
           dist: xenial
+          env: TASK=py37
 
         - stage: linting
           python: 3.6
+          env: TASK=lint
 
-          install:
-              - "pip install black flake8"
-          script:
-              - black --check stylo
-              - black --check tests
-              - flake8 stylo/
-              - flake8 tests/
 
         - stage: documentation
           python: 3.6
+          env: TASK=docs
 
-          script:
-              - poetry run sphinx-build -M linkcheck ./docs ./docs/_build -E -a -j auto
-              - poetry run sphinx-build -M doctest ./docs ./docs/_build -E -a -j auto
-              - poetry run sphinx-build -M html ./docs ./docs/_build -E -a -j auto
 
         - stage: deploy
           name: Publish to PyPi
