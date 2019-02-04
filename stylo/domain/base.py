@@ -1,6 +1,14 @@
 import inspect
 import networkx as nx
-import matplotlib.pyplot as plt
+
+from stylo.error import MissingDependencyError
+
+try:
+    import matplotlib.pyplot as plt
+
+    MATPLOTLIB = True
+except ImportError:
+    MATPLOTLIB = False
 
 
 class Source:
@@ -71,7 +79,8 @@ class Source:
         return graph
 
     def _sort(self, selection=None):
-        """Return an evaluation order that takes into account the dependencies between the variables."""
+        """Return an evaluation order that takes into account the dependencies between
+        the variables."""
         dep_graph = self._build_dep_graph(selection)
         return list(nx.topological_sort(dep_graph))
 
@@ -84,6 +93,10 @@ class Source:
 
     def plot(self, figsize=12, selection=None):
         """Return a matplotlib plot visualising the dependencies between the sources."""
+
+        if not MATPLOTLIB:
+            raise MissingDependencyError("jupyter")
+
         dep_graph = self._build_dep_graph(selection)
 
         fig, ax = plt.subplots(1, figsize=(figsize, figsize))
