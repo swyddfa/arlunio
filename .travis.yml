@@ -8,11 +8,8 @@ stages:
     - name: deploy
       if: branch = master
 
-before_install:
-    - "pip install poetry tox"
-
 install:
-    - poetry install
+    - pip install poetry tox
 
 script:
     - tox -q -e $TASK
