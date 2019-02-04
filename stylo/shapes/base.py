@@ -36,7 +36,7 @@ def _set_parameters(defaults, overrides):
     bad_params = [k for k in overrides.keys() if k not in defaults]
 
     if bad_params != []:
-        message = "__init__() got unexpected keyword argument {}"
+        message = "__init__() got unexpected keyword argument '{}'"
         raise TypeError(message.format(bad_params[0]))
 
     for key, value in defaults.items():
