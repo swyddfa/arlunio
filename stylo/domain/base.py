@@ -158,7 +158,7 @@ class Tweakable:
     def defaults(self):
         """Return a dictionary containing the default values for the tweakable
         parameters."""
-        return self._defaults()
+        return self._defaults
 
     @property
     def tweaks(self):
