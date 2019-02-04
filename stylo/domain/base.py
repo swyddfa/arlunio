@@ -124,7 +124,7 @@ class Tweakable:
 
     def __repr__(self):
         args = list(self.args)
-        args += ["{}={}".format(k, v) for k, v in self._defaults.items()]
+        args += ["{}={}".format(k, v) for k, v in sorted(self._defaults.items())]
         return "{}({})".format(self._func.__name__, ", ".join(args))
 
     def __call__(self, *args, **kwargs):

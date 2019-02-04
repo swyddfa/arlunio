@@ -14,7 +14,7 @@ I am a shape :)
 def _gen_name(base):
     """Generate a name based on the input so that we can combine shapes without
     worrying too much about parameter name collision in expressions."""
-    return base + "_" + "".join(random.choices(NAMECHARS, k=12))
+    return base + "_" + "".join([random.choice(NAMECHARS) for _ in range(12)])
 
 
 def _normalise_name(name):
