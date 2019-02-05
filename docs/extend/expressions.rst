@@ -39,3 +39,10 @@ function::
 
    >>> distance
    (sqrt (+ (* x x) (* y y)))
+
+.. _extend_expressions_eval:
+
+Evaluating Expressions
+----------------------
+
+
