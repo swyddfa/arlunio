@@ -2,17 +2,18 @@ from .color import FillColor  # noqa: F401
 from .domain import Source, Tweakable, tweakable  # noqa: F401
 from .image import ImageFactory, StandardImage  # noqa: F401
 from .math import (  # noqa: F401
-    anded,
-    ored,
-    lerp,
-    abs,
-    sin,
-    neg,
-    cos,
-    sqrt,
-    StyName,
     StyConst,
     StyExpr,
+    StyName,
+    abs,
+    anded,
+    cos,
+    lerp,
+    neg,
+    ored,
+    sin,
+    sqrt,
+    trace,
 )
 from .shapes import (  # noqa: F401
     Circle,
