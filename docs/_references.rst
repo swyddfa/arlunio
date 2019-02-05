@@ -2,7 +2,9 @@
 
 .. |Source| replace:: :class:`Source <stylo.Source>`
 
-.. |tweakable| replace:: :class:`tweakable <stylo.tweakable>`
+.. |trace| replace:: :func:`trace <stylo.trace>`
+
+.. |tweakable| replace:: :func:`tweakable <stylo.tweakable>`
 .. |Tweakable| replace:: :class:`Tweakable <stylo.domain.Tweakable>`
 .. |Tweakable.args| replace:: :attr:`args <stylo.domain.Tweakable.args>`
 .. |Tweakable.defaults| replace:: :attr:`defaults <stylo.domain.Tweakable.defaults>`

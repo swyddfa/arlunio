@@ -1,3 +1,7 @@
 sphinx
-sphinx-stylo
 topos-theme
+networkx
+numpy
+Pillow
+tqdm
+click

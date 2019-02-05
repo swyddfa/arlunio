@@ -1,10 +1,11 @@
 """This module implements the groundwork for how stylo is able
 to represent and evaluate expressions in multiple formats.
 """
+import abc
+import inspect
 import json
 import operator
 import numpy as np
-from abc import ABC, abstractmethod
 
 
 # We will maintain a dictionary of StyExpr objects.
@@ -19,7 +20,7 @@ def lookup_expr(name):
         return None
 
 
-class StyExpr(ABC):
+class StyExpr(abc.ABC):
     """This class is responsible for handling the conversions to/from
     the various formats.
 
@@ -142,7 +143,7 @@ class StyExpr(ABC):
         dictionary = json.loads(jsonstr)
         return cls.fromdict(dictionary)
 
-    @abstractmethod
+    @abc.abstractmethod
     def eval(self, ctx=None, total=False):
         pass
 
@@ -254,7 +255,7 @@ EXPR["StyConst"] = StyConst
 EXPR["StyName"] = StyName
 
 
-# Numeric operators
+# Arithmetic operators
 StyDivide = define_binary_op("StyDivide", "/", operator.truediv)
 StyFloorDivide = define_binary_op("StyFloorDivide", "//", operator.floordiv)
 StyMinus = define_binary_op("StyMinus", "-", operator.sub)
@@ -263,9 +264,11 @@ StyMultiply = define_binary_op("StyMultiply", "*", operator.mul)
 StyPlus = define_binary_op("StyPlus", "+", operator.add)
 StyPower = define_binary_op("StyPower", "**", operator.pow)
 
+
 # Logic operators
 StyAnd = define_binary_op("StyAnd", "and", operator.and_)
 StyOr = define_binary_op("StyOr", "or", operator.or_)
+
 
 # Comparison operators
 StyGreaterEqual = define_binary_op("StyGreaterEqual", ">=", operator.ge)
@@ -273,9 +276,19 @@ StyGreaterThan = define_binary_op("StyGreaterThan", ">", operator.gt)
 StyLessEqual = define_binary_op("StyLessEqual", "<=", operator.le)
 StyLessThan = define_binary_op("StyLessThan", "<", operator.lt)
 
+
 # Mathematical functions
 StyAbs, abs = define_function("StyAbs", "abs", np.abs)
 StyCos, cos = define_function("StyCos", "cos", np.cos)
 StyNeg, neg = define_function("StyCos", "neg", operator.neg)
 StySqrt, sqrt = define_function("StySqrt", "sqrt", np.sqrt)
 StySin, sin = define_function("StySin", "sin", np.sin)
+
+
+def trace(f):
+    """Trace a given a function f in order to construct an expression."""
+
+    params = inspect.signature(f).parameters.keys()
+    names = {p: StyName(p) for p in params}
+
+    return f(**names)
