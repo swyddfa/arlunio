@@ -12,5 +12,6 @@ Index
 .. toctree::
    :maxdepth: 2
 
+   expressions
    sources
    tweakables

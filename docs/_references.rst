@@ -2,6 +2,9 @@
 
 .. |Source| replace:: :class:`Source <stylo.Source>`
 
+.. |StyExpr| replace:: :class:`StyExpr <stylo.math.expr.StyExpr>`
+.. |StyExpr.eval| replace:: :meth:`eval <stylo.math.expr.StyExpr.eval>`
+
 .. |trace| replace:: :func:`trace <stylo.trace>`
 
 .. |tweakable| replace:: :func:`tweakable <stylo.tweakable>`
