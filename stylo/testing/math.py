@@ -1,5 +1,5 @@
 import numpy as np
-from stylo.math.expr import StyConst
+from stylo.math.expr import Const
 
 
 def ensure_equivalent(f):
@@ -14,7 +14,7 @@ def ensure_equivalent(f):
     """
 
     def wrapped_func(**kwargs):
-        wrapped_kwargs = {k: StyConst(v) for k, v in kwargs.items()}
+        wrapped_kwargs = {k: Const(v) for k, v in kwargs.items()}
 
         for arg, warg in zip(kwargs.values(), wrapped_kwargs.values()):
             arg_check = arg == warg.eval()
@@ -72,10 +72,10 @@ class BaseBinaryOpTest:
 
     def test_examples_both_wrapped(self):
         """Ensure that the operation produces the correct output when both of the
-        inputs are a :code:`StyConst` instance."""
+        inputs are a :code:`Const` instance."""
 
         for a, b, res in self.examples:
-            op = self.operation(StyConst(a), StyConst(b))
+            op = self.operation(Const(a), Const(b))
 
             if isinstance(res, (np.ndarray,)):
                 assert (res == op.eval()).all()
@@ -85,10 +85,10 @@ class BaseBinaryOpTest:
 
     def test_examples_left_wrapped(self):
         """Ensure that the operation produces the correct output when only the
-        left input is a :code:`StyConst` instance."""
+        left input is a :code:`Const` instance."""
 
         for a, b, res in self.examples:
-            op = self.operation(StyConst(a), b)
+            op = self.operation(Const(a), b)
 
             if isinstance(res, (np.ndarray,)):
                 assert (res == op.eval()).all()
@@ -98,10 +98,10 @@ class BaseBinaryOpTest:
 
     def test_examples_right_wrapped(self):
         """Ensure that the operation produces the correct output when only the
-        right input is a :code:`StyConst` instance."""
+        right input is a :code:`Const` instance."""
 
         for a, b, res in self.examples:
-            op = self.operation(a, StyConst(b))
+            op = self.operation(a, Const(b))
 
             if isinstance(res, (np.ndarray,)):
                 assert (res == op.eval()).all()
@@ -111,7 +111,7 @@ class BaseBinaryOpTest:
 
     def test_examples_unwrapped(self):
         """Ensure that the operation produces the correct output when none of the
-        inputs are a :code:`StyConst` instance."""
+        inputs are a :code:`Const` instance."""
 
         for a, b, res in self.examples:
             op = self.operation(a, b)

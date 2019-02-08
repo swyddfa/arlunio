@@ -1,10 +1,12 @@
-from .color import FillColor  # noqa: F401
-from .domain import Source, Tweakable, tweakable  # noqa: F401
-from .image import ImageFactory, StandardImage  # noqa: F401
-from .math import (  # noqa: F401
-    StyConst,
-    StyExpr,
-    StyName,
+# flake8: noqa
+from ._version import __version__
+from .color import FillColor
+from .domain import Source, Tweakable, tweakable
+from .image import ImageFactory, StandardImage
+from .math import (
+    Const,
+    Expression,
+    Name,
     abs,
     anded,
     cos,
@@ -15,15 +17,5 @@ from .math import (  # noqa: F401
     sqrt,
     trace,
 )
-from .shapes import (  # noqa: F401
-    Circle,
-    Ellipse,
-    ImplicitXY,
-    Rectangle,
-    shape,
-    Square,
-    Triangle,
-)
-from .time import Timeline  # noqa: F401
-
-from ._version import __version__  # noqa: F401
+from .shapes import Circle, Ellipse, ImplicitXY, Rectangle, Square, Triangle, shape
+from .time import Timeline

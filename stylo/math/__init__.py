@@ -1,13 +1,4 @@
-from .expr import (  # noqa: F401
-    StyConst,
-    StyExpr,
-    StyName,
-    sin,
-    cos,
-    sqrt,
-    abs,
-    neg,
-    trace,
-)
-from .logic import anded, ored  # noqa: F401
-from .interpolation import lerp  # noqa: F401
+# flake8: noqa
+from .expr import Const, Expression, Name, abs, cos, neg, sin, sqrt, trace
+from .interpolation import lerp
+from .logic import anded, ored

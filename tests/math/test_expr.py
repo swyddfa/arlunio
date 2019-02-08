@@ -8,29 +8,29 @@ import numpy as np
 
 from unittest import TestCase
 from stylo.math.expr import (
-    StyAnd,
-    StyDivide,
-    StyFloorDivide,
-    StyGreaterEqual,
-    StyGreaterThan,
-    StyLessEqual,
-    StyLessThan,
-    StyMinus,
-    StyModulo,
-    StyMultiply,
-    StyOr,
-    StyPlus,
-    StyPower,
+    And,
+    Divide,
+    FloorDivide,
+    GreaterEqual,
+    GreaterThan,
+    LessEqual,
+    LessThan,
+    Minus,
+    Modulo,
+    Multiply,
+    Or,
+    Plus,
+    Power,
 )
 from stylo.testing.math import BaseBinaryOpTest
 
 
 @pytest.mark.math
-class TestStyAnd(TestCase, BaseBinaryOpTest):
-    """Tests for the :code:`StyAnd` binary operation."""
+class TestAnd(TestCase, BaseBinaryOpTest):
+    """Tests for the :code:`And` binary operation."""
 
     def setUp(self):
-        self.operation = StyAnd
+        self.operation = And
         self.examples = [
             (False, False, False),
             (False, True, False),
@@ -45,11 +45,11 @@ class TestStyAnd(TestCase, BaseBinaryOpTest):
 
 
 @pytest.mark.math
-class TestStyDivide(TestCase, BaseBinaryOpTest):
-    """Tests for the :code:`StyDivide` binary operation."""
+class TestDivide(TestCase, BaseBinaryOpTest):
+    """Tests for the :code:`Divide` binary operation."""
 
     def setUp(self):
-        self.operation = StyDivide
+        self.operation = Divide
         self.examples = [
             (12, 1, 12),
             (3, 2, 1.5),
@@ -59,11 +59,11 @@ class TestStyDivide(TestCase, BaseBinaryOpTest):
 
 
 @pytest.mark.math
-class TestStyFloorDivide(TestCase, BaseBinaryOpTest):
-    """Tests for the :code:`StyFloorDivide` binary operation."""
+class TestFloorDivide(TestCase, BaseBinaryOpTest):
+    """Tests for the :code:`FloorDivide` binary operation."""
 
     def setUp(self):
-        self.operation = StyFloorDivide
+        self.operation = FloorDivide
         self.examples = [
             (12, 1, 12),
             (3, 2, 1),
@@ -73,11 +73,11 @@ class TestStyFloorDivide(TestCase, BaseBinaryOpTest):
 
 
 @pytest.mark.math
-class TestStyGreaterEqual(TestCase, BaseBinaryOpTest):
-    """Tests for the :code:`StyGreaterEqual` binary operation."""
+class TestGreaterEqual(TestCase, BaseBinaryOpTest):
+    """Tests for the :code:`GreaterEqual` binary operation."""
 
     def setUp(self):
-        self.operation = StyGreaterEqual
+        self.operation = GreaterEqual
         self.examples = [
             (1, 2, False),
             (2, 2, True),
@@ -87,11 +87,11 @@ class TestStyGreaterEqual(TestCase, BaseBinaryOpTest):
 
 
 @pytest.mark.math
-class TestStyGreaterThan(TestCase, BaseBinaryOpTest):
-    """Tests for the :code:`StyGreaterThan` binary operation."""
+class TestGreaterThan(TestCase, BaseBinaryOpTest):
+    """Tests for the :code:`GreaterThan` binary operation."""
 
     def setUp(self):
-        self.operation = StyGreaterThan
+        self.operation = GreaterThan
         self.examples = [
             (1, 2, False),
             (2, 2, False),
@@ -101,11 +101,11 @@ class TestStyGreaterThan(TestCase, BaseBinaryOpTest):
 
 
 @pytest.mark.math
-class TestStyLessEqual(TestCase, BaseBinaryOpTest):
-    """Tests for the :code:`StyLessEqual` binary operator."""
+class TestLessEqual(TestCase, BaseBinaryOpTest):
+    """Tests for the :code:`LessEqual` binary operator."""
 
     def setUp(self):
-        self.operation = StyLessEqual
+        self.operation = LessEqual
         self.examples = [
             (1, 2, True),
             (2, 2, True),
@@ -115,11 +115,11 @@ class TestStyLessEqual(TestCase, BaseBinaryOpTest):
 
 
 @pytest.mark.math
-class TestStyLessThan(TestCase, BaseBinaryOpTest):
-    """Tests for the :code:`StyLessThan` binary operator."""
+class TestLessThan(TestCase, BaseBinaryOpTest):
+    """Tests for the :code:`LessThan` binary operator."""
 
     def setUp(self):
-        self.operation = StyLessThan
+        self.operation = LessThan
         self.examples = [
             (1, 2, True),
             (2, 2, False),
@@ -129,11 +129,11 @@ class TestStyLessThan(TestCase, BaseBinaryOpTest):
 
 
 @pytest.mark.math
-class TestStyMinus(TestCase, BaseBinaryOpTest):
-    """Tests for the :code:`StyMinus` binary operation."""
+class TestMinus(TestCase, BaseBinaryOpTest):
+    """Tests for the :code:`Minus` binary operation."""
 
     def setUp(self):
-        self.operation = StyMinus
+        self.operation = Minus
         self.examples = [
             (1, 0, 1),
             (0, 1, -1),
@@ -143,11 +143,11 @@ class TestStyMinus(TestCase, BaseBinaryOpTest):
 
 
 @pytest.mark.math
-class TestStyModulo(TestCase, BaseBinaryOpTest):
-    """Tests for the :code:`StyModulo` binary operation."""
+class TestModulo(TestCase, BaseBinaryOpTest):
+    """Tests for the :code:`Modulo` binary operation."""
 
     def setUp(self):
-        self.operation = StyModulo
+        self.operation = Modulo
         self.examples = [
             (12, 1, 0),
             (12, 5, 2),
@@ -157,11 +157,11 @@ class TestStyModulo(TestCase, BaseBinaryOpTest):
 
 
 @pytest.mark.math
-class TestStyMultiply(TestCase, BaseBinaryOpTest):
-    """Tests for the :code:`StyMultiply` binary operation."""
+class TestMultiply(TestCase, BaseBinaryOpTest):
+    """Tests for the :code:`Multiply` binary operation."""
 
     def setUp(self):
-        self.operation = StyMultiply
+        self.operation = Multiply
         self.examples = [
             (2, 1, 2),
             (12, 0, 0),
@@ -171,11 +171,11 @@ class TestStyMultiply(TestCase, BaseBinaryOpTest):
 
 
 @pytest.mark.math
-class TestStyOr(TestCase, BaseBinaryOpTest):
-    """Tests for the :code:`StyOr` binary operation."""
+class TestOr(TestCase, BaseBinaryOpTest):
+    """Tests for the :code:`Or` binary operation."""
 
     def setUp(self):
-        self.operation = StyOr
+        self.operation = Or
         self.examples = [
             (False, False, False),
             (False, True, True),
@@ -190,11 +190,11 @@ class TestStyOr(TestCase, BaseBinaryOpTest):
 
 
 @pytest.mark.math
-class TestStyPlus(TestCase, BaseBinaryOpTest):
-    """Tests for the :code:`StyPlus` binary operation."""
+class TestPlus(TestCase, BaseBinaryOpTest):
+    """Tests for the :code:`Plus` binary operation."""
 
     def setUp(self):
-        self.operation = StyPlus
+        self.operation = Plus
         self.examples = [
             (0, 1, 1),
             (2, 3, 5),
@@ -204,11 +204,11 @@ class TestStyPlus(TestCase, BaseBinaryOpTest):
 
 
 @pytest.mark.math
-class TestStyPower(TestCase, BaseBinaryOpTest):
-    """Tests for the :code:`StyPower` binary operation."""
+class TestPower(TestCase, BaseBinaryOpTest):
+    """Tests for the :code:`Power` binary operation."""
 
     def setUp(self):
-        self.operation = StyPower
+        self.operation = Power
         self.examples = [
             (1, 2, 1),
             (2, 3, 8),
