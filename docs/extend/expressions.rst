@@ -49,10 +49,10 @@ There are a number of ways in which a
 
 Perhaps the most common task you will want to perform with an expression will
 be to evaluate it. In the case where all the values are already known this can
-be as simple as calling the |StyExpr.eval| method on the expression::
+be as simple as calling the |Expr.eval| method on the expression::
 
-    >>> one = st.StyConst(1)
-    >>> two = st.StyConst(2)
+    >>> one = st.Const(1)
+    >>> two = st.Const(2)
 
     >>> plus = one + two
     >>> plus

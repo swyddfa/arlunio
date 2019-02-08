@@ -2,7 +2,7 @@ import random
 import string
 import inspect
 
-from stylo.math import StyName
+from stylo.math import Name
 
 
 NAMECHARS = string.ascii_letters + string.digits
@@ -101,7 +101,7 @@ def _shape_expr_property():
 
     def getter(self):
         args = {
-            _normalise_name(name): StyName(name)
+            _normalise_name(name): Name(name)
             for name in self.args + list(self._params.keys())
         }
         return self._func(**args)

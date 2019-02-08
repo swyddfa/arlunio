@@ -5,22 +5,22 @@ import abc
 import inspect
 import json
 import operator
+
 import numpy as np
 
-
-# We will maintain a dictionary of StyExpr objects.
+# We will maintain a dictionary of Expr objects.
 EXPR = {}
 
 
 def lookup_expr(name):
-    """Lookup an implementation for a StyExpr object."""
+    """Lookup an implementation for a Expr object."""
     try:
         return EXPR[name]
     except KeyError:
         return None
 
 
-class StyExpr(abc.ABC):
+class Expression(abc.ABC):
     """This class is responsible for handling the conversions to/from
     the various formats.
 
@@ -29,75 +29,75 @@ class StyExpr(abc.ABC):
 
     # ------------------ Comparisons --------------------
     def __ge__(self, other):
-        return StyGreaterEqual(self, other)
+        return GreaterEqual(self, other)
 
     def __gt__(self, other):
-        return StyGreaterThan(self, other)
+        return GreaterThan(self, other)
 
     def __le__(self, other):
-        return StyLessEqual(self, other)
+        return LessEqual(self, other)
 
     def __lt__(self, other):
-        return StyLessThan(self, other)
+        return LessThan(self, other)
 
     # ------------------ Logic --------------------------
     def __and__(self, other):
-        return StyAnd(self, other)
+        return And(self, other)
 
     def __rand__(self, other):
-        return StyAnd(other, self)
+        return And(other, self)
 
     def __or__(self, other):
-        return StyOr(self, other)
+        return Or(self, other)
 
     def __ror__(self, other):
-        return StyOr(other, self)
+        return Or(other, self)
 
     # ------------------ Arithmetic ---------------------
     def __add__(self, other):
-        return StyPlus(self, other)
+        return Plus(self, other)
 
     def __radd__(self, other):
-        return StyPlus(other, self)
+        return Plus(other, self)
 
     def __floordiv__(self, other):
-        return StyFloorDivide(self, other)
+        return FloorDivide(self, other)
 
     def __rfloordiv__(self, other):
-        return StyFloorDivide(other, self)
+        return FloorDivide(other, self)
 
     def __mod__(self, other):
-        return StyModulo(self, other)
+        return Modulo(self, other)
 
     def __rmod__(self, other):
-        return StyModulo(other, self)
+        return Modulo(other, self)
 
     def __mul__(self, other):
-        return StyMultiply(self, other)
+        return Multiply(self, other)
 
     def __rmul__(self, other):
-        return StyMultiply(other, self)
+        return Multiply(other, self)
 
     def __neg__(self):
-        return StyNeg(self)
+        return Neg(self)
 
     def __pow__(self, other):
-        return StyPower(self, other)
+        return Power(self, other)
 
     def __rpow__(self, other):
-        return StyPower(other, self)
+        return Power(other, self)
 
     def __sub__(self, other):
-        return StyMinus(self, other)
+        return Minus(self, other)
 
     def __rsub__(self, other):
-        return StyMinus(other, self)
+        return Minus(other, self)
 
     def __truediv__(self, other):
-        return StyDivide(self, other)
+        return Divide(self, other)
 
     def __rtruediv__(self, other):
-        return StyDivide(other, self)
+        return Divide(other, self)
 
     def json(self, pretty=False):
         indent = None
@@ -113,7 +113,7 @@ class StyExpr(abc.ABC):
 
         for pname, pvalue in self.__dict__.items():
 
-            if isinstance(pvalue, (StyExpr,)):
+            if isinstance(pvalue, (Expression,)):
                 pvalue = pvalue.todict()
 
             params[pname] = pvalue
@@ -148,8 +148,8 @@ class StyExpr(abc.ABC):
         pass
 
 
-class StyName(StyExpr):
-    """A :code:`StyExpr` implementation that represents a variable."""
+class Name(Expression):
+    """A :code:`Expr` implementation that represents a variable."""
 
     def __init__(self, name):
         self.name = name
@@ -170,8 +170,8 @@ class StyName(StyExpr):
         return ctx[self.name]
 
 
-class StyConst(StyExpr):
-    """A :code:`StyExpr` implementation that represents a constant value."""
+class Const(Expression):
+    """A :code:`Expr` implementation that represents a constant value."""
 
     def __init__(self, const):
         self.const = const
@@ -186,7 +186,7 @@ class StyConst(StyExpr):
 def define_binary_op(name, symbol, impl):
     """This function declares a binary operation."""
 
-    class BinaryOp(StyExpr):
+    class BinaryOp(Expression):
         def __init__(self, a, b):
             self.a = a
             self.b = b
@@ -201,10 +201,10 @@ def define_binary_op(name, symbol, impl):
             a = self.a
             b = self.b
 
-            if isinstance(a, (StyExpr,)):
+            if isinstance(a, (Expression,)):
                 a = a.eval(ctx, total)
 
-            if isinstance(b, (StyExpr,)):
+            if isinstance(b, (Expression,)):
                 b = b.eval(ctx, total)
 
             return impl(a, b)
@@ -216,10 +216,10 @@ def define_binary_op(name, symbol, impl):
 
 
 def define_function(name, symbol, impl):
-    """This function defines a mathematical function within the :code:`StyExpr`
+    """This function defines a mathematical function within the :code:`Expr`
     system. As well as a function that we can export for users to use."""
 
-    class StyFunc(StyExpr):
+    class Func(Expression):
         def __init__(self, x):
             self.x = x
 
@@ -231,64 +231,64 @@ def define_function(name, symbol, impl):
         def eval(self, ctx=None, total=False):
             x = self.x
 
-            if isinstance(x, (StyExpr,)):
+            if isinstance(x, (Expression,)):
                 x = x.eval(ctx, total)
 
             return impl(x)
 
     def func(x):
-        if isinstance(x, (StyExpr,)):
-            return StyFunc(x)
+        if isinstance(x, (Expression,)):
+            return Func(x)
 
         return impl(x)
 
-    StyFunc.__name__ = name
-    EXPR[name] = StyFunc
+    Func.__name__ = name
+    EXPR[name] = Func
 
     func.__name__ = symbol
 
-    return StyFunc, func
+    return Func, func
 
 
-# Register some StyExpr implementations.
-EXPR["StyConst"] = StyConst
-EXPR["StyName"] = StyName
+# Register some Expr implementations.
+EXPR["Const"] = Const
+EXPR["Name"] = Name
 
 
 # Arithmetic operators
-StyDivide = define_binary_op("StyDivide", "/", operator.truediv)
-StyFloorDivide = define_binary_op("StyFloorDivide", "//", operator.floordiv)
-StyMinus = define_binary_op("StyMinus", "-", operator.sub)
-StyModulo = define_binary_op("StyModulo", "%", operator.mod)
-StyMultiply = define_binary_op("StyMultiply", "*", operator.mul)
-StyPlus = define_binary_op("StyPlus", "+", operator.add)
-StyPower = define_binary_op("StyPower", "**", operator.pow)
+Divide = define_binary_op("Divide", "/", operator.truediv)
+FloorDivide = define_binary_op("FloorDivide", "//", operator.floordiv)
+Minus = define_binary_op("Minus", "-", operator.sub)
+Modulo = define_binary_op("Modulo", "%", operator.mod)
+Multiply = define_binary_op("Multiply", "*", operator.mul)
+Plus = define_binary_op("Plus", "+", operator.add)
+Power = define_binary_op("Power", "**", operator.pow)
 
 
 # Logic operators
-StyAnd = define_binary_op("StyAnd", "and", operator.and_)
-StyOr = define_binary_op("StyOr", "or", operator.or_)
+And = define_binary_op("And", "and", operator.and_)
+Or = define_binary_op("Or", "or", operator.or_)
 
 
 # Comparison operators
-StyGreaterEqual = define_binary_op("StyGreaterEqual", ">=", operator.ge)
-StyGreaterThan = define_binary_op("StyGreaterThan", ">", operator.gt)
-StyLessEqual = define_binary_op("StyLessEqual", "<=", operator.le)
-StyLessThan = define_binary_op("StyLessThan", "<", operator.lt)
+GreaterEqual = define_binary_op("GreaterEqual", ">=", operator.ge)
+GreaterThan = define_binary_op("GreaterThan", ">", operator.gt)
+LessEqual = define_binary_op("LessEqual", "<=", operator.le)
+LessThan = define_binary_op("LessThan", "<", operator.lt)
 
 
 # Mathematical functions
-StyAbs, abs = define_function("StyAbs", "abs", np.abs)
-StyCos, cos = define_function("StyCos", "cos", np.cos)
-StyNeg, neg = define_function("StyCos", "neg", operator.neg)
-StySqrt, sqrt = define_function("StySqrt", "sqrt", np.sqrt)
-StySin, sin = define_function("StySin", "sin", np.sin)
+Abs, abs = define_function("Abs", "abs", np.abs)
+Cos, cos = define_function("Cos", "cos", np.cos)
+Neg, neg = define_function("Cos", "neg", operator.neg)
+Sqrt, sqrt = define_function("Sqrt", "sqrt", np.sqrt)
+Sin, sin = define_function("Sin", "sin", np.sin)
 
 
 def trace(f):
     """Trace a given a function f in order to construct an expression."""
 
     params = inspect.signature(f).parameters.keys()
-    names = {p: StyName(p) for p in params}
+    names = {p: Name(p) for p in params}
 
     return f(**names)
