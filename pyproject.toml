@@ -45,7 +45,7 @@ pytest-cov = "^2.6"
 hypothesis = "3.*"
 sphinx = "^1.8"
 sphinx-stylo = "^0.1.1"
-topos-theme = "^0.0.12"
+topos-theme = "^0.0.13"
 sphobjinv = "^2.0"
 pytest-doctestplus = "^0.2.0"
 

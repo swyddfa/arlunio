@@ -3,7 +3,7 @@
 Expressions Reference
 ---------------------
 
-.. autoclass:: stylo.math.expr.Expr
+.. autoclass:: stylo.math.Expression
 
 .. autoclass:: stylo.Const
 
@@ -17,7 +17,7 @@ Expressions Reference
 
 .. autofunction:: stylo.neg
 
-.. autofunction:: stylo.orded
+.. autofunction:: stylo.ored
 
 .. autofunction:: stylo.sin
 
