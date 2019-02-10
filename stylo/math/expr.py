@@ -162,7 +162,7 @@ class Name(Expression):
         if ctx is None or self.name not in ctx:
 
             if total:
-                message = "Variable {} is not defined.".format(self.name)
+                message = "Variable '{}' is not defined.".format(self.name)
                 raise NameError(message)
 
             return self

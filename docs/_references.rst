@@ -2,8 +2,10 @@
 
 .. |Source| replace:: :class:`Source <stylo.Source>`
 
-.. |Expression| replace:: :class:`Expression <stylo.math.expr.Expression>`
-.. |Expression.eval| replace:: :meth:`eval <stylo.math.expr.Expression.eval>`
+.. |Expression| replace:: :class:`Expression <stylo.math.Expression>`
+.. |Expression.eval| replace:: :meth:`eval <stylo.math.Expression.eval>`
+.. |Expression.json| replace:: :meth:`json <stylo.math.Expression.json>`
+.. |Expression.fromjson| replace:: :meth:`fromjson <stylo.math.Expression.fromjson>`
 
 .. |trace| replace:: :func:`trace <stylo.trace>`
 
