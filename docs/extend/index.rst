@@ -13,5 +13,6 @@ Index
    :maxdepth: 2
 
    expressions
+   expression_writing
    sources
    tweakables
