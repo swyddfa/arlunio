@@ -1,0 +1,39 @@
+[tool.poetry]
+name = "stylo"
+version = "0.10.0"
+descriprion = "Drawing with a blend of Python and Mathematics"
+readme = "README.md"
+
+authors = ["Alex Carney <alcarneyme@gmail.com>"]
+
+license = "MIT"
+repository = "https://github.com/alcarney/stylo"
+
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Topic :: Multimedia :: Graphics"
+]
+
+[tool.poetry.dependencies]
+python = "^3.6"
+
+numpy = "*"
+Pillow = "*"
+Click = "*"
+
+matplotlib = {version = "*", optional = true}
+jupyter = {version = "*", optional = true}
+
+[tool.poetry.extras]
+interactive = ["jupyter", "matplotlib"]
+
+[tool.poetry.plugins."stylo.parameters"]
+"x" = "stylo.shape:xs"
+"y" = "stylo.shape:ys"
+"r" = "stylo.shape:rs"
+"t" = "stylo.shape:ts"
+
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
