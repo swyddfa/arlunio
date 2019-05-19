@@ -4,6 +4,8 @@ import io
 import numpy as np
 import PIL.Image
 
+from .color import RGB8
+
 try:
     import matplotlib.pyplot as plt
 
@@ -41,12 +43,17 @@ class Image:
         self.pixels[key] = value
 
     @classmethod
-    def new(cls, width, height, background=None):
+    def new(cls, width, height, background=None, colorspace=None):
 
         if background is None:
-            background = (255, 255, 255)
+            background = "ffffff"
 
-        pixels = np.full((height, width, 3), background)
+        if colorspace is None:
+            colorspace = RGB8
+
+        bg_color = colorspace.parse(background)
+
+        pixels = np.full((height, width, 3), bg_color)
         return cls(pixels)
 
     def show(self):

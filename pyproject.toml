@@ -28,10 +28,10 @@ jupyter = {version = "*", optional = true}
 interactive = ["jupyter", "matplotlib"]
 
 [tool.poetry.plugins."stylo.parameters"]
-"x" = "stylo.shape:xs"
-"y" = "stylo.shape:ys"
-"r" = "stylo.shape:rs"
-"t" = "stylo.shape:ts"
+"x" = "stylo.parameters:xs"
+"y" = "stylo.parameters:ys"
+"r" = "stylo.parameters:rs"
+"t" = "stylo.parameters:ts"
 
 
 [build-system]

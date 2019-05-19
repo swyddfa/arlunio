@@ -1,13 +1,4 @@
-import enum
-import logging
-import pkg_resources
-
 import numpy as np
-
-from .image import Image
-
-
-logger = logging.getLogger(__name__)
 
 
 def xs(width, height, scale):
@@ -47,20 +38,3 @@ def ts(width, height, scale):
     y = ys(width, height, scale)
 
     return np.arctan2(y, x)
-
-
-class Shape:
-    """A shape, produces an image."""
-
-    def __init__(self, domain=None, mask=None, color=None):
-        self.domain = domain
-        self.mask = mask
-        self.color = color
-
-    def __call__(self, width, height):
-
-        domain = self.domain(width, height)
-        mask = self.mask(**domain)
-        pixels = self.color(mask)
-
-        return Image(pixels)
