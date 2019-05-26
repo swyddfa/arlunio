@@ -92,51 +92,6 @@ class Image:
         return base64.b64encode(image_bytes)
 
 
-class Region:
-    """A region, is something we can draw and produce an image from."""
-
-    def __init__(self, u=-0, v=0, r=0, domain=None, mask=None, color=None):
-        self.u = u
-        self.v = v
-        self.r = r
-
-        self.domain = domain
-        self.mask = mask
-        self.color = color
-
-    def __call__(self, width, height):
-
-        domain = self.domain(width, height)
-        mask = self.mask(**domain)
-        pixels = self.color(mask)
-
-        return Image(pixels)
-
-    @property
-    def domain(self):
-        pass
-
-    @domain.setter
-    def domain(self, value):
-        self._domain = value
-
-    @property
-    def mask(self):
-        pass
-
-    @mask.setter
-    def mask(self, value):
-        self._mask = value
-
-    @property
-    def color(self):
-        pass
-
-    @color.setter
-    def color(self, value):
-        self._color = value
-
-
 class Canvas:
     """A good canvas is what every artist needs."""
 

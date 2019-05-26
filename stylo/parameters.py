@@ -1,10 +1,10 @@
 import numpy as np
 
 
-def xs(width, height, scale):
+def xs(width, height, scale=1):
     """Implementation of the `x` parameter."""
     ratio = width / height
-    length = (scale / 2) * ratio
+    length = scale * ratio
 
     x = np.linspace(-length, length, width)
     x = np.array([x for _ in range(height)])
@@ -12,17 +12,16 @@ def xs(width, height, scale):
     return x
 
 
-def ys(width, height, scale):
+def ys(width, height, scale=1):
     """Implementation of the `y` parameter."""
-    length = scale / 2
 
-    y = np.linspace(length, -length, height)
+    y = np.linspace(scale, -scale, height)
     y = np.array([y for _ in range(width)]).transpose()
 
     return y
 
 
-def rs(width, height, scale):
+def rs(width, height, scale=1):
     """Implementation for the `r` parameter"""
 
     x = xs(width, height, scale)
@@ -31,7 +30,7 @@ def rs(width, height, scale):
     return np.sqrt(x * x + y * y)
 
 
-def ts(width, height, scale):
+def ts(width, height, scale=1):
     """Implementation for the `t` parameter."""
 
     x = xs(width, height, scale)

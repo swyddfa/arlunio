@@ -7,8 +7,10 @@ import numpy as np
 
 from .color import RGB8
 from .image import Image
-from .objects import Parameters
+from .loaders import load_parameters
 
+
+Parameter = load_parameters()
 logger = logging.getLogger(__name__)
 
 
@@ -57,7 +59,7 @@ class Shape:
         args = dict(self._properties)
 
         for p in self.parameters:
-            parameter = getattr(Parameters, p)
+            parameter = getattr(Parameter, p)
             args[p] = parameter(width, height, self.scale)
 
         return args
@@ -149,3 +151,25 @@ def define_shape(f):
 def shape(f):
     """A decorator used to define a new shape."""
     return define_shape(f)
+
+
+@shape
+def Circle(x, y, *, x0=0, y0=0, r=0.8):
+    """A circle."""
+
+    xc = x - x0
+    yc = y - y0
+
+    return np.sqrt(xc * xc + yc * yc) < r * r
+
+
+@shape
+def Square(x, y, *, x0=0, y0=0, size=0.8):
+    """A square."""
+
+    xc = x - x0
+    yc = y - y0
+
+    size = size / 2
+
+    return np.logical_and(np.abs(xc) < size, np.abs(y) < size)
