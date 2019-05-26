@@ -1,7 +1,2 @@
-sphinx
-topos-theme
-networkx
 numpy
 Pillow
-tqdm
-click
