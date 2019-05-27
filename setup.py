@@ -49,6 +49,7 @@ setup(
         ],
         "stylo.shapes": [
             "Circle = stylo.shapes:Circle",
+            "Ellipse = stylo.shapes:Ellipse",
             "Square = stylo.shapes:Square",
         ],
     },

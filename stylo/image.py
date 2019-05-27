@@ -29,18 +29,31 @@ class MissingDependencyError(ImportError):
 class Image:
     """An image is a container for raw pixel data."""
 
-    def __init__(self, pixels):
+    def __init__(self, pixels, mask=None):
         self.pixels = pixels
+        self._mask = mask
 
     def __repr__(self):
         y, x, _ = self.pixels.shape
         return f"Image<{x} x {y}>"
 
     def __getitem__(self, key):
-        return Image(pixels[key])
+        return Image(self.pixels[key])
 
     def __setitem__(self, key, value):
         self.pixels[key] = value
+
+    @property
+    def mask(self):
+
+        if self._mask is None:
+            return tuple([slice(None, None, None) for _ in range(3)])
+
+        return self._mask
+
+    @mask.setter
+    def mask(self, value):
+        self._mask = value
 
     @classmethod
     def new(cls, width, height, background=None, colorspace=None):
@@ -53,15 +66,18 @@ class Image:
 
         bg_color = colorspace.parse(background)
 
-        pixels = np.full((height, width, 3), bg_color)
+        pixels = np.full((height, width, 3), bg_color, dtype=np.uint8)
         return cls(pixels)
 
-    def show(self):
+    def show(self, figsize=None):
 
         if not MATPLOTLIB:
             raise MissingDependencyError("matplotlib")
 
-        fig, ax = plt.subplots(1)
+        if figsize is None:
+            figsize = (12, 12)
+
+        fig, ax = plt.subplots(1, figsize=figsize)
         fig.axes[0].get_yaxis().set_visible(False)
         fig.axes[0].get_xaxis().set_visible(False)
 
@@ -90,10 +106,3 @@ class Image:
             image_bytes = byte_stream.getvalue()
 
         return base64.b64encode(image_bytes)
-
-
-class Canvas:
-    """A good canvas is what every artist needs."""
-
-    def __call__(self, width, height):
-        return Image.new(width, height)

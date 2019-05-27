@@ -14,6 +14,37 @@ Parameter = load_parameters()
 logger = logging.getLogger(__name__)
 
 
+class Canvas:
+    """A good canvas is what every artist needs."""
+
+    def __init__(self, layers=None, background=None):
+        self.layers = [] if layers is None else layers
+
+    def __repr__(self):
+        return f"Canvas<{len(self.layers)} layers>"
+
+    def __add__(self, other):
+
+        if isinstance(other, Shape):
+            self.layers.append(other)
+            return self
+
+        if isinstance(other, Canvas):
+            self.layers += other.layers
+            return self
+
+        raise TypeError()
+
+    def __call__(self, width, height):
+        image = Image.new(width, height)
+
+        for shape in self.layers:
+            img = shape(width, height)
+            image.pixels[img.mask] = img.pixels[img.mask]
+
+        return image
+
+
 class Shape:
     """The base class for all shapes."""
 
@@ -49,9 +80,21 @@ class Shape:
 
         mask = self.mask(width, height)
         fg_color = colorspace.parse(self.color)
+
         image[mask] = fg_color
+        image.mask = mask
 
         return image
+
+    def __add__(self, other):
+
+        if isinstance(other, Shape):
+            layers = [self, other]
+            return Canvas(layers=layers)
+
+        if isinstance(other, Canvas):
+            other.layers.insert(0, self)
+            return other
 
     def _prepare_arguments(self, width, height):
         """Prepare all the arguments to pass to the mask function."""
@@ -154,13 +197,33 @@ def shape(f):
 
 
 @shape
-def Circle(x, y, *, x0=0, y0=0, r=0.8):
+def Circle(x, y, *, x0=0, y0=0, r=0.8, pt=None):
     """A circle."""
 
     xc = x - x0
     yc = y - y0
+    circle = np.sqrt(xc * xc + yc * yc)
 
-    return np.sqrt(xc * xc + yc * yc) < r * r
+    if pt is None:
+        return circle < r * r
+
+    R = (r + pt) ** 2
+    r = (r - pt) ** 2
+
+    return np.logical_and(r < circle, circle < R)
+
+
+@shape
+def Ellipse(x, y, *, x0=0, y0=0, a=2, b=1, r=0.8):
+    """An ellipse."""
+
+    xc = (x - x0) ** 2
+    yc = (y - y0) ** 2
+
+    a = a * a
+    b = b * b
+
+    return np.sqrt(xc / a + yc / b) < r * r
 
 
 @shape
