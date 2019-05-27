@@ -1,7 +1,5 @@
-import enum
 import inspect
 import logging
-import pkg_resources
 
 import numpy as np
 
@@ -235,4 +233,4 @@ def Square(x, y, *, x0=0, y0=0, size=0.8):
 
     size = size / 2
 
-    return np.logical_and(np.abs(xc) < size, np.abs(y) < size)
+    return np.logical_and(np.abs(xc) < size, np.abs(yc) < size)
