@@ -1,21 +1,8 @@
-# flake8: noqa
-from ._version import __version__
-from .color import FillColor
-from .domain import Source, Tweakable, tweakable
-from .image import ImageFactory, StandardImage
-from .math import (
-    Const,
-    Expression,
-    Name,
-    abs,
-    anded,
-    cos,
-    lerp,
-    neg,
-    ored,
-    sin,
-    sqrt,
-    trace,
-)
-from .shapes import Circle, Ellipse, ImplicitXY, Rectangle, Square, Triangle, shape
-from .time import Timeline
+from .color import RGB8  # noqa: F401
+from .image import Image  # noqa: F401
+from .shapes import Canvas, shape  # noqa: F401
+from .loaders import load_parameters, load_shapes
+from ._version import __version__  # noqa: F401
+
+Parameter = load_parameters()  # noqa: F401
+Shape = load_shapes()  # noqa: F401
