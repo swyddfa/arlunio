@@ -1,8 +1,6 @@
 language: python
 cache:
   pip: true
-  directories:
-  - "$HOME/.cache/pypoetry"
 
 stages:
     - linting
@@ -12,7 +10,7 @@ stages:
       if: branch = master
 
 install:
-    - pip install poetry tox
+    - pip install tox
 
 script:
     - tox -q -e $TASK
@@ -34,22 +32,21 @@ jobs:
           python: 3.6
           env: TASK=lint
 
-
         - stage: documentation
           python: 3.6
           env: TASK=docs
-
 
         - stage: deploy
           name: Publish to PyPi
           python: 3.6
           script:
-              - poetry build
+              - python setup.py sdist bdist_wheel
           deploy:
               provider: script
               skip_cleanup: true
               script:
-                - poetry publish --username $PYPI_USER --password $PYPI_PASS
+                - pip install twine
+                - twine upload dist/* -u $PYPI_USER -p $PYPI_PASS
               on:
                   branch: master
 
