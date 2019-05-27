@@ -1,4 +1,5 @@
 import base64
+import logging
 import io
 
 import numpy as np
@@ -12,6 +13,9 @@ try:
     MATPLOTLIB = True
 except ImportError:
     MATPLOTLIB = False
+
+
+logger = logging.getLogger(__name__)
 
 
 class MissingDependencyError(ImportError):
@@ -99,10 +103,11 @@ class Image:
             image.save(f)
 
     def encode(self):
+        logger.debug("Encoding image as base64")
         image = self._as_pillow_image()
 
         with io.BytesIO() as byte_stream:
             image.save(byte_stream, "PNG")
             image_bytes = byte_stream.getvalue()
 
-        return base64.b64encode(image_bytes)
+            return base64.b64encode(image_bytes)
