@@ -1,20 +1,11 @@
-.. Stylo documentation master file, created by
-   sphinx-quickstart on Mon May 27 09:48:10 2019.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
-Welcome to Stylo's documentation!
-=================================
+Stylo
+=====
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :hidden:
 
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+   using/index
+   extending/index
+   contributing/index
+   changes

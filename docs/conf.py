@@ -45,6 +45,11 @@ templates_path = ["_templates"]
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
+# -- Internationalisation ----------------------------------------------------
+
+language = "en"
+locale_dirs = ["locale/"]
+gettext_compact = True
 
 # -- Options for HTML output -------------------------------------------------
 

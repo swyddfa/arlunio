@@ -1,0 +1,874 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2017-, Alex Carney
+# This file is distributed under the same license as the Stylo package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Stylo \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-06-02 17:00+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.6.0\n"
+
+#: ../../changes.rst:4
+msgid "Changelog"
+msgstr ""
+
+#: ../../../CHANGES.rst:2
+msgid "v0.9.3 - 2019-01-12"
+msgstr ""
+
+#: ../../../CHANGES.rst:5 ../../../CHANGES.rst:14 ../../../CHANGES.rst:101
+#: ../../../CHANGES.rst:144 ../../../CHANGES.rst:197 ../../../CHANGES.rst:433
+#: ../../../CHANGES.rst:464 ../../../CHANGES.rst:525
+msgid "Changed"
+msgstr ""
+
+#: ../../../CHANGES.rst:7
+msgid ""
+"When adding layers the :code:`LayeredImage` now accepts the color as a "
+"string automatically converting it to a :code:`FillColor` behind the "
+"scenes."
+msgstr ""
+
+#: ../../../CHANGES.rst:11
+msgid "v0.9.2 - 2019-01-07"
+msgstr ""
+
+#: ../../../CHANGES.rst:16
+msgid ""
+"Most commonly used objects have been imported into the top level "
+"namespace. This means that it is now possible to write code like the "
+"following."
+msgstr ""
+
+#: ../../../CHANGES.rst:28
+msgid ""
+"The way stylo has been packaged has been changed. It now comes with a "
+"couple of \"extras\". Instead of requiring dependencies for everything, "
+"the default installation now only contains the packages that are "
+"absolutely required to run stylo."
+msgstr ""
+
+#: ../../../CHANGES.rst:33
+msgid "The other dependencies have been split into a couple of extras"
+msgstr ""
+
+#: ../../../CHANGES.rst:35
+msgid ""
+":code:`testing`: The dependencies required to import items from the "
+"`stylo.testing` package."
+msgstr ""
+
+#: ../../../CHANGES.rst:37
+msgid ""
+":code:`jupyer`: Dependencies required to use stylo interactively in a "
+"jupyter notebook."
+msgstr ""
+
+#: ../../../CHANGES.rst:41
+msgid "v0.9.1 - 2018-12-27"
+msgstr ""
+
+#: ../../../CHANGES.rst:43
+msgid "There are no changes."
+msgstr ""
+
+#: ../../../CHANGES.rst:45
+msgid ""
+"This release is a test to ensure that internal changes to how "
+":code:`stylo` is packaged and deployed are working correctly."
+msgstr ""
+
+#: ../../../CHANGES.rst:49
+msgid "v0.9.0 - 2018-11-11"
+msgstr ""
+
+#: ../../../CHANGES.rst:52 ../../../CHANGES.rst:85 ../../../CHANGES.rst:94
+#: ../../../CHANGES.rst:110 ../../../CHANGES.rst:127 ../../../CHANGES.rst:164
+#: ../../../CHANGES.rst:240 ../../../CHANGES.rst:274 ../../../CHANGES.rst:422
+#: ../../../CHANGES.rst:456 ../../../CHANGES.rst:474 ../../../CHANGES.rst:504
+msgid "Added"
+msgstr ""
+
+#: ../../../CHANGES.rst:54
+msgid ""
+"New :code:`stylo.math` module! Currently it contains a :code:`lerp` "
+"function to do linear implementation between two values :code:`a` and "
+":code:`b`"
+msgstr ""
+
+#: ../../../CHANGES.rst:57
+msgid ""
+"New :code:`stylo.design` module! This is the start of the \"next level\" "
+"in styo's API abstracting away from the lower level objects such as "
+"shapes and colormaps."
+msgstr ""
+
+#: ../../../CHANGES.rst:61
+msgid ""
+"This module adds the notion of a parameter group, this is a collection of"
+" values that can be passed into functions as a single object using the "
+"dictionary unpacking syntax (:code:`**params`)"
+msgstr ""
+
+#: ../../../CHANGES.rst:65
+msgid ""
+"Parameter groups are defined using the :code:`define_parameter_group` "
+"function and taking a name and a comma separated string of parameter "
+"names. There is also :code:`define_time_dependent_parameter_group` that "
+"can be used to define a parameter group that depends on time."
+msgstr ""
+
+#: ../../../CHANGES.rst:70
+msgid ""
+"Currently there are two pre-defined paramters groups, :code:`Position` "
+"and :code:`Trajectory`. They both combine the :code:`x` and :code:`y` "
+"values into a single object, with the second being the time dependent "
+"version of the first."
+msgstr ""
+
+#: ../../../CHANGES.rst:75
+msgid ""
+"Finally there are two built-in implementations of these parameter groups."
+" :code:`StaticPosition` and :code:`ParametricPosition` the first takes "
+"two values and returns them. The second takes two functions in time and "
+"calls them at each supplied time value."
+msgstr ""
+
+#: ../../../CHANGES.rst:82
+msgid "v0.8.0 - 2018-11-07"
+msgstr ""
+
+#: ../../../CHANGES.rst:87
+msgid ""
+"New :code:`Timeline` system! This finally introduces explicit support for"
+" animations to :code:`stylo.`"
+msgstr ""
+
+#: ../../../CHANGES.rst:91
+msgid "v0.7.0 - 2018-10-25"
+msgstr ""
+
+#: ../../../CHANGES.rst:96
+msgid "New :code:`Line` shape!"
+msgstr ""
+
+#: ../../../CHANGES.rst:97
+msgid ""
+"New :code:`ImplicitXY` shape! Draw any curve that is implicitly defined "
+"by a function :math:`f(x, y)`"
+msgstr ""
+
+#: ../../../CHANGES.rst:103
+msgid ""
+"The :code:`Circle` and :code:`Ellipse` shapes now take more arguments. By"
+" default the shapes will now draw an outline rather than a filled in "
+"shape."
+msgstr ""
+
+#: ../../../CHANGES.rst:107
+msgid "v0.6.1 - 2018-10-20"
+msgstr ""
+
+#: ../../../CHANGES.rst:112
+msgid ""
+"New :code:`preview` keyword argument to images, set this to :code:`False`"
+" if you don't want a matplotlib figure returned."
+msgstr ""
+
+#: ../../../CHANGES.rst:114
+msgid ""
+"New :code:`encode` keyword argument to images, setting this to "
+":code:`True` will return a base64 encoded string representation of the "
+"image in PNG format."
+msgstr ""
+
+#: ../../../CHANGES.rst:118 ../../../CHANGES.rst:218 ../../../CHANGES.rst:250
+#: ../../../CHANGES.rst:480 ../../../CHANGES.rst:490 ../../../CHANGES.rst:530
+msgid "Fixed"
+msgstr ""
+
+#: ../../../CHANGES.rst:120
+msgid "Preview images are no longer displayed twice in jupyter notebooks"
+msgstr ""
+
+#: ../../../CHANGES.rst:121
+msgid "Preview images no longer display the x and y axis numbers."
+msgstr ""
+
+#: ../../../CHANGES.rst:124
+msgid "v0.6.0 - 2018-10-07"
+msgstr ""
+
+#: ../../../CHANGES.rst:130 ../../../CHANGES.rst:147 ../../../CHANGES.rst:167
+#: ../../../CHANGES.rst:200 ../../../CHANGES.rst:277
+msgid "Users"
+msgstr ""
+
+#: ../../../CHANGES.rst:132
+msgid "New :code:`Triangle` shape"
+msgstr ""
+
+#: ../../../CHANGES.rst:133
+msgid "Shapes can now be inverted using the :code:`~` operator."
+msgstr ""
+
+#: ../../../CHANGES.rst:136 ../../../CHANGES.rst:177 ../../../CHANGES.rst:209
+#: ../../../CHANGES.rst:221
+msgid "Contributors"
+msgstr ""
+
+#: ../../../CHANGES.rst:138
+msgid ""
+"Added new shape :code:`InvertedShape` which handles the inversion of a "
+"shape behind the scenes."
+msgstr ""
+
+#: ../../../CHANGES.rst:140
+msgid "Tests for all the composite shapes and operators."
+msgstr ""
+
+#: ../../../CHANGES.rst:141
+msgid "More documentation on how to get involved"
+msgstr ""
+
+#: ../../../CHANGES.rst:149
+msgid ""
+"Shapes now have defined :code:`__repr__` methods, including shapes that "
+"have been combined, where a representation of a tree will be produced "
+"showing how the various shapes have been combined together."
+msgstr ""
+
+#: ../../../CHANGES.rst:152
+msgid "Preview images in Jupyter notebooks are now larger by default"
+msgstr ""
+
+#: ../../../CHANGES.rst:154 ../../../CHANGES.rst:229
+msgid ""
+"This release of :code:`stylo` was brought to you thanks to contributions "
+"from the following awesome people!"
+msgstr ""
+
+#: ../../../CHANGES.rst:157 ../../../CHANGES.rst:232
+msgid "`mvinoba <https://github.com/mvinoba>`_"
+msgstr ""
+
+#: ../../../CHANGES.rst:161
+msgid "v0.5.0 - 2018-09-27"
+msgstr ""
+
+#: ../../../CHANGES.rst:169
+msgid ""
+"New Image object :code:`LayeredImage` object that can now draw more than "
+"one object"
+msgstr ""
+
+#: ../../../CHANGES.rst:171
+msgid "Added an introductory tutorial for first time users to the documentation"
+msgstr ""
+
+#: ../../../CHANGES.rst:172
+msgid ""
+"Functions from the :code:`stylo.domain.transform` package can now be "
+"applied to shapes, meaning that most images can now be made without "
+"handling domains directly."
+msgstr ""
+
+#: ../../../CHANGES.rst:179
+msgid ""
+"Added a :code:`Drawable` class, this allows a domain, shape and colormap "
+"to be treated as a single entity."
+msgstr ""
+
+#: ../../../CHANGES.rst:181
+msgid ""
+"Added a :code:`render_drawable` function that takes a drawable and some "
+"existing image data and applies it to the data."
+msgstr ""
+
+#: ../../../CHANGES.rst:183
+msgid ""
+"Added a :code:`get_real_domain` function that given a width, height and "
+"scale returns a :code:`RectangularDomain` with appropriate aspect ratio, "
+":math:`(0, 0)` at the centre of the image and the scale corresponding to "
+"the interval :math:`[ymin, ymax]`"
+msgstr ""
+
+#: ../../../CHANGES.rst:187
+msgid ""
+"We now make use of the :code:`[scripts]` section of  :code:`Pipfile` so "
+"running common commands is now easier to remember"
+msgstr ""
+
+#: ../../../CHANGES.rst:190
+msgid ":code:`pipenv run test`: to run the test suite"
+msgstr ""
+
+#: ../../../CHANGES.rst:191
+msgid ":code:`pipenv run lint`: to lint the codebase"
+msgstr ""
+
+#: ../../../CHANGES.rst:192
+msgid ":code:`pipenv run docs`: to run a full build of the documentation"
+msgstr ""
+
+#: ../../../CHANGES.rst:193
+msgid ""
+":code:`pipenv run docs_fast`: to run a less complete but faster build of "
+"the documentation."
+msgstr ""
+
+#: ../../../CHANGES.rst:202
+msgid ""
+"Altered :code:`SimpleImage` to no longer take a domain, reducing the "
+"cognitive load on first time users. It now instead takes an optional "
+":code:`scale` variable to control the size of the domain underneath. This"
+" also means that the domain now automatically matches the aspect ratio of"
+" the image so no more distortion in non-square images."
+msgstr ""
+
+#: ../../../CHANGES.rst:211
+msgid ""
+"The tests now take advantage of multi-core machines and should now run "
+"much faster"
+msgstr ""
+
+#: ../../../CHANGES.rst:213
+msgid ""
+"Building the docs now takes advantage of multi-core machines and should "
+"now run much faster."
+msgstr ""
+
+#: ../../../CHANGES.rst:223
+msgid ""
+"Fixed crashes in :code:`exampledoc.py` and :code:`apidoc.py` for first "
+"time users"
+msgstr ""
+
+#: ../../../CHANGES.rst:225
+msgid ""
+"Fixed issue with :code:`sed` on a Mac for people running the :code"
+":`devenv-setup.sh` script"
+msgstr ""
+
+#: ../../../CHANGES.rst:233
+msgid "`LordTandy <https://github.com/LordTandy>`_"
+msgstr ""
+
+#: ../../../CHANGES.rst:234
+msgid "`StephanieAngharad <https://github.com/StephanieAngharad>`_"
+msgstr ""
+
+#: ../../../CHANGES.rst:237
+msgid "v0.4.2 - 2018-09-17"
+msgstr ""
+
+#: ../../../CHANGES.rst:242
+msgid ""
+":code:`Image` objects can now take a :code:`size` keyword argument to "
+"adjust the size of the matplotlib preview plots"
+msgstr ""
+
+#: ../../../CHANGES.rst:247
+msgid "v0.4.1 - 2018-09-17"
+msgstr ""
+
+#: ../../../CHANGES.rst:252
+msgid ""
+"Fixed an issue with :code:`setup.py` that meant most of the code wasn't "
+"published to PyPi!"
+msgstr ""
+
+#: ../../../CHANGES.rst:256
+msgid "v0.4.0 - 2018-09-16"
+msgstr ""
+
+#: ../../../CHANGES.rst:258
+msgid ""
+"Out of the ashes of the previous version rises the biggest release to "
+"date! Stylo has been rewritten from the ground up and should now be "
+"easier to use, more modular and easier to extend!"
+msgstr ""
+
+#: ../../../CHANGES.rst:262
+msgid ""
+"None (or very little) of the original code remains and not everything has"
+" been reimplemented yet so some of the features listed below may not be "
+"available in this version. There is a lot more work to be done "
+"particularly in the tests and docs departments however core functionality"
+" is now in place and it's been long enough since the previous release."
+msgstr ""
+
+#: ../../../CHANGES.rst:268
+msgid ""
+"I'm hoping that from now on releases will be smaller and more frequent as"
+" what is now here is refined and tested to create a stable base from "
+"which Stylo can be extended."
+msgstr ""
+
+#: ../../../CHANGES.rst:279
+msgid ""
+"One of the main ideas behind the latest incarnation of stylo is the idea "
+"of interfaces borrowed from Java. Where you have an object such as "
+":code:`Shape` and all shapes have certain behaviors in common represented"
+" by methods on an interface. Then there are a number of implementations "
+"that provide the details specific to each shape."
+msgstr ""
+
+#: ../../../CHANGES.rst:285
+msgid ""
+"In stylo this is modelled by having a number of abstract classes that "
+"define the interfaces that represent different parts of the stylo image "
+"creation process. Then regular classes inherit from these to provide the "
+"details."
+msgstr ""
+
+#: ../../../CHANGES.rst:289
+msgid "With that in mind this release provides the following \"interfaces\"."
+msgstr ""
+
+#: ../../../CHANGES.rst:291
+msgid ""
+"New :code:`RealDomain` and :code:`RealDomainTransform` interfaces, these "
+"model the mapping of a continuous mathematical domain :math:`D \\subset "
+"\\mathbb{R}^2` onto a discrete grid of pixels."
+msgstr ""
+
+#: ../../../CHANGES.rst:295
+msgid ""
+"New :code:`Shape` interface this models the mapping of the grid of values"
+" generated by a domain into a boolean numpy array representing which "
+"pixels are a part of the shape."
+msgstr ""
+
+#: ../../../CHANGES.rst:299
+msgid ""
+"New :code:`ColorSpace` system this currently doesn't do much but should "
+"allow support for the use of different color representations. Current "
+"only 8-bit RGB values are supported."
+msgstr ""
+
+#: ../../../CHANGES.rst:303
+msgid ""
+"New :code:`ColorMap` interface, this represents the mapping of the "
+"boolean numpy array generated by the :code:`Shape` interface into a numpy"
+" array containing the color values that will be eventually interpreted as"
+" an image."
+msgstr ""
+
+#: ../../../CHANGES.rst:307
+msgid ""
+"New :code:`Image` interface. Implementations of this interface will "
+"implement common image creation workflows as well as providing a unified "
+"way to preview and save images to a file."
+msgstr ""
+
+#: ../../../CHANGES.rst:311
+msgid ""
+"With the main interfaces introduced here is a (very) brief introduction "
+"to each of the implementations provided in this release"
+msgstr ""
+
+#: ../../../CHANGES.rst:314
+msgid "**RealDomain**"
+msgstr ""
+
+#: ../../../CHANGES.rst:316
+msgid ""
+":code:`RectangularDomain`: Models a rectangular subset of the "
+":math`xy`-plane :math:`[a, b] \\times [c, d] \\subset \\mathbb{R}^2`"
+msgstr ""
+
+#: ../../../CHANGES.rst:318
+msgid ""
+":code:`SquareDomain`: Similar to above but in the cases where :math:`c = "
+"a` and :math:`d = b`"
+msgstr ""
+
+#: ../../../CHANGES.rst:320
+msgid ""
+":code:`UnitSquare`: Similar to above but the case where :math:`a = 0` and"
+" :math:`b = 1`"
+msgstr ""
+
+#: ../../../CHANGES.rst:323
+msgid "**RealDomainTransform**"
+msgstr ""
+
+#: ../../../CHANGES.rst:325
+msgid ""
+":code:`HorizontalShear`: Given a domain this applies a horizontal shear "
+"to it"
+msgstr ""
+
+#: ../../../CHANGES.rst:326
+msgid ":code:`Rotation`: Given a domain this rotates it by a given angle"
+msgstr ""
+
+#: ../../../CHANGES.rst:327
+msgid ":code:`Translation`: Given a domain this applies a translation to it"
+msgstr ""
+
+#: ../../../CHANGES.rst:328
+msgid ":code:`VerticalShear`: Given a domain this applies a vertical shear to it"
+msgstr ""
+
+#: ../../../CHANGES.rst:330
+msgid "**Shape**"
+msgstr ""
+
+#: ../../../CHANGES.rst:332
+msgid ":code:`Square`"
+msgstr ""
+
+#: ../../../CHANGES.rst:333
+msgid ":code:`Rectangle`"
+msgstr ""
+
+#: ../../../CHANGES.rst:334
+msgid ":code:`Circle`"
+msgstr ""
+
+#: ../../../CHANGES.rst:335
+msgid ":code:`Ellipse`"
+msgstr ""
+
+#: ../../../CHANGES.rst:337
+msgid "**ColorSpace**"
+msgstr ""
+
+#: ../../../CHANGES.rst:339
+msgid ":code:`RGB8`: 8-bit RGB valued colors"
+msgstr ""
+
+#: ../../../CHANGES.rst:341
+msgid "**ColorMap**"
+msgstr ""
+
+#: ../../../CHANGES.rst:343
+msgid ""
+":code:`FillColor`: Given a background and a foreground color. Color all "
+":code:`False` pixels with the background color and color all the "
+":code:`True` pixels the foreground color."
+msgstr ""
+
+#: ../../../CHANGES.rst:347
+msgid "**Image**"
+msgstr ""
+
+#: ../../../CHANGES.rst:349
+msgid ""
+":code:`SimpleImage`: Currently the only image implementation, this "
+"implements one of the simplest workflows that can result in an "
+"interesting image. Take a :code:`Domain`, pass it to a :code:`Shape` and "
+"then apply a :code:`ColorMap` to the result."
+msgstr ""
+
+#: ../../../CHANGES.rst:355
+msgid "Extenders/Contributors"
+msgstr ""
+
+#: ../../../CHANGES.rst:357
+msgid ""
+"From the beginning this new attempt at :code:`stylo` has been designed "
+"with extensibility in mind so included in the library are also a number "
+"of utilities aimed to help you develop your own tools that integrate well"
+" with the rest of stylo."
+msgstr ""
+
+#: ../../../CHANGES.rst:362
+msgid "**Domains** and **DomainTransforms**"
+msgstr ""
+
+#: ../../../CHANGES.rst:364
+msgid ""
+"While :code:`stylo` only currently ships with :code:`RealDomain` and "
+":code:`RealDomainTransform` interfaces it is developed in a way to allow "
+"the addition of new \"families\" of domain. If you want to create your "
+"own stylo provides the following functions:"
+msgstr ""
+
+#: ../../../CHANGES.rst:369
+msgid ""
+":code:`define_domain`: This will write your base domain class (like the "
+":code:`RealDomain`) just give it a name and a list of parameters."
+msgstr ""
+
+#: ../../../CHANGES.rst:371
+msgid ""
+":code:`define_domain_transform`: The will write the "
+":code:`DomainTransform` base class for you."
+msgstr ""
+
+#: ../../../CHANGES.rst:374
+msgid ""
+"In addition to defining new families :code:`stylo` provides a few helper "
+"classes to help you write your own domains and transforms for the "
+"existing :code:`RealDomain` family"
+msgstr ""
+
+#: ../../../CHANGES.rst:378
+msgid ""
+":code:`PolarConversion`: If your domain is only \"interesting\" in "
+"cartesian coordinates this helper class will automatically write the "
+"conversion to polar coordinates for you."
+msgstr ""
+
+#: ../../../CHANGES.rst:381
+msgid ""
+":code:`CartesianConversion`: If your domain is only \"interesting\" in "
+"polar coordinates this helper class will automatically write the "
+"conversion to cartesian coordinates for you."
+msgstr ""
+
+#: ../../../CHANGES.rst:385
+msgid "**stylo.testing**"
+msgstr ""
+
+#: ../../../CHANGES.rst:387
+msgid ""
+":code:`stylo` also comes with a testing package that provides a number of"
+" utilities to help you ensure that any extensions you write will "
+"integrate well with the rest of :code:`stylo`"
+msgstr ""
+
+#: ../../../CHANGES.rst:391
+msgid ""
+":code:`BaseRealDomainTest`: This is a class that you can base your test "
+"case on for any domains in the :code:`RealDomain` family to ensure that "
+"they function as expected."
+msgstr ""
+
+#: ../../../CHANGES.rst:394
+msgid ""
+":code:`define_domain_test`: Similar to the :code:`define_domain` and "
+":code:`define_domain_transform` functions this defines a base test class "
+"to ensure that domains in your new family work as expected."
+msgstr ""
+
+#: ../../../CHANGES.rst:397
+msgid ""
+":code:`BaseShapeTest` Basing your test case on this for any new shapes "
+"will ensure that your shapes will function as expected by the rest of "
+":code:`stylo`"
+msgstr ""
+
+#: ../../../CHANGES.rst:399
+msgid ""
+":code:`define_benchmarked_example`: This is for those of you wishing to "
+"contribute an example to the documentation, using this function with your"
+" example code will ensure that your example is automatically included in "
+"the documentation when it is next built."
+msgstr ""
+
+#: ../../../CHANGES.rst:404
+msgid "**stylo.testing.strategies**"
+msgstr ""
+
+#: ../../../CHANGES.rst:406
+msgid ""
+"This module defines a number of hypothesis strategies for common data "
+"types in :code:`stylo`. Using these (and hypothesis) in your test cases "
+"where possible will ensure that your objects will work with the same kind"
+" of data as :code:`stylo` itself."
+msgstr ""
+
+#: ../../../CHANGES.rst:413 ../../../CHANGES.rst:441 ../../../CHANGES.rst:494
+#: ../../../CHANGES.rst:534
+msgid "Removed"
+msgstr ""
+
+#: ../../../CHANGES.rst:415
+msgid "Everything mentioned below."
+msgstr ""
+
+#: ../../../CHANGES.rst:419
+msgid "v0.3.0 - 2017-12-09"
+msgstr ""
+
+#: ../../../CHANGES.rst:424
+msgid ""
+"New Domain class, it is responsible for generating the grids of numbers "
+"passed to Drawables when they are mapped onto Images. It replaces most of"
+" the old decorators."
+msgstr ""
+
+#: ../../../CHANGES.rst:427
+msgid ""
+"Drawables are now classes! Any drawable is now a class that inherits from"
+" Drawable, it brings back much of the old Puppet functionality with some "
+"improvements."
+msgstr ""
+
+#: ../../../CHANGES.rst:430
+msgid "More tests!"
+msgstr ""
+
+#: ../../../CHANGES.rst:435
+msgid ""
+"ANDing Images (a & b) has been reimplemented so that it hopefully makes "
+"more sense. The alpha value of b is used to scale the color values of a."
+msgstr ""
+
+#: ../../../CHANGES.rst:437
+msgid ""
+"Along with the new Domain system mapping Drawables onto Images has been "
+"reworked to hopefully make coordinate calculations faster"
+msgstr ""
+
+#: ../../../CHANGES.rst:443
+msgid ""
+"stylo/coords.py has been deleted, this means the following functions and "
+"decorators no longer exist + mk_domain - Domains are now a class + "
+"cartesian (now built into the new Domain object) + polar     (now built "
+"into the new Domain object) + extend_periocally (now the .repeat() method"
+" on the new Domain object) + translate (now the .transform() method on "
+"the new Domain object) + reflect (not yet implemented in the new system)"
+msgstr ""
+
+#: ../../../CHANGES.rst:453
+msgid "v0.2.3 - 2017-11-15"
+msgstr ""
+
+#: ../../../CHANGES.rst:458
+msgid ""
+"Image objects can now be added together, this is simply the sum of the "
+"color values at each pixel"
+msgstr ""
+
+#: ../../../CHANGES.rst:460
+msgid ""
+"Image objects can now be subtracted, which is simply the difference of "
+"the colour values at each pixel"
+msgstr ""
+
+#: ../../../CHANGES.rst:466
+msgid ""
+"Renamed hex_to_rgb to hexcolor. It now also can cope with rgb and rgba "
+"arguments, with the ability to promote rgb to rgba colors"
+msgstr ""
+
+#: ../../../CHANGES.rst:471
+msgid "v0.2.2 - 2017-10-30"
+msgstr ""
+
+#: ../../../CHANGES.rst:476
+msgid ""
+"Keyword argument 'only' to the 'polar' decorator which allows you to "
+"ignore the x and y variables if you dont need them"
+msgstr ""
+
+#: ../../../CHANGES.rst:482
+msgid ""
+"Forgot to expose the objects from interpolate.py to the top level stylo "
+"import"
+msgstr ""
+
+#: ../../../CHANGES.rst:484
+msgid "Examples in the documentation and enabled doctests for them"
+msgstr ""
+
+#: ../../../CHANGES.rst:487
+msgid "v0.2.1 - 2017-10-29"
+msgstr ""
+
+#: ../../../CHANGES.rst:491
+msgid "Stylo should now also work on python 3.5"
+msgstr ""
+
+#: ../../../CHANGES.rst:495
+msgid "Deleted stylo/motion.py as its something better suited to a plugin"
+msgstr ""
+
+#: ../../../CHANGES.rst:496
+msgid ""
+"Deleted Pupptet, PuppetMaster and supporting functions as they are broken"
+" and better to be rewritten from scratch"
+msgstr ""
+
+#: ../../../CHANGES.rst:501
+msgid "v0.2.0 - 2017-10-27"
+msgstr ""
+
+#: ../../../CHANGES.rst:506
+msgid "Sampler object which forms the basis of the new Driver implementations"
+msgstr ""
+
+#: ../../../CHANGES.rst:507
+msgid ""
+"Channel object which can manage many Sampler-like objects to form a "
+"single 'track' of animation data"
+msgstr ""
+
+#: ../../../CHANGES.rst:509
+msgid ""
+"A very simple Driver object which allows you to collect multiple Channel "
+"objects into a single place"
+msgstr ""
+
+#: ../../../CHANGES.rst:511
+msgid "linear, quad_ease_in, quad_ease_out interpolation functions"
+msgstr ""
+
+#: ../../../CHANGES.rst:514
+msgid "Docs"
+msgstr ""
+
+#: ../../../CHANGES.rst:519
+msgid "Added the following reference pages"
+msgstr ""
+
+#: ../../../CHANGES.rst:517
+msgid "Image"
+msgstr ""
+
+#: ../../../CHANGES.rst:518
+msgid "Drawable"
+msgstr ""
+
+#: ../../../CHANGES.rst:519
+msgid "Primitive"
+msgstr ""
+
+#: ../../../CHANGES.rst:520
+msgid "Sampler"
+msgstr ""
+
+#: ../../../CHANGES.rst:521
+msgid "A How-To section"
+msgstr ""
+
+#: ../../../CHANGES.rst:522
+msgid "How-To invert the colours of an Image"
+msgstr ""
+
+#: ../../../CHANGES.rst:526
+msgid ""
+"Image.__and__() now uses a new method which produces better results with "
+"colour images"
+msgstr ""
+
+#: ../../../CHANGES.rst:531
+msgid "Numpy shape error in Image.__neg__()"
+msgstr ""
+
+#: ../../../CHANGES.rst:535
+msgid "stylo.prims.thicken was redundant so it has been removed"
+msgstr ""
+
+#: ../../../CHANGES.rst:539
+msgid "v0.1.0 - 2017-08-02"
+msgstr ""
+
+#: ../../../CHANGES.rst:541
+msgid "Initial Release"
+msgstr ""
+
