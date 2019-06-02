@@ -28,7 +28,7 @@ setup(
     author_email="alcarneyme@gmail.com",
     license="MIT",
     packages=find_packages(".", exclude=["tests"]),
-    requires_python=">=3.6",
+    python_requires=">=3.6",
     install_requires=requirements(),
     classifiers=[
         "Development Status :: 3 - Alpha",
