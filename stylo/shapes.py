@@ -221,8 +221,6 @@ def check_fields(item, expected_fields):
 def _shape_fromjson(f):
     """This writes the definition of the fromjson method for shapes."""
 
-    properties = {} if f.__kwdefaults__ is None else f.__kwdefaults__
-
     def fromjson(cls, fromjson):
         shape = json.loads(fromjson)
         check_fields(shape, ["name", "properties"])
