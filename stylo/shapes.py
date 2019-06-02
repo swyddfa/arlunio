@@ -1,4 +1,5 @@
 import inspect
+import json
 import logging
 
 import numpy as np
@@ -67,7 +68,54 @@ class Shape:
 
         return f"{name}({property_string})"
 
-    def __call__(self, width, height, colorspace=None):
+    def __getattr__(self, key):
+
+        try:
+            return self._properties[key]
+        except KeyError as e:
+            raise AttributeError from e
+
+    def __setattr__(self, key, value):
+
+        if key in self.properties:
+            self._properties[key] = value
+            return
+
+        super().__setattr__(key, value)
+
+    def __call__(self, width=None, height=None, *, colorspace=None, **kwargs):
+
+        # If the user provides a width and height they want us to draw the
+        # shape as an image
+        if width is not None and height is not None:
+            return self._draw(width, height, colorspace)
+
+        # Otherwise assume that they are using the shape as a function in
+        # a composite shape.
+        args = dict(self._properties)
+
+        try:
+            for p in self.parameters:
+                args[p] = kwargs[p]
+
+        except KeyError as e:
+            raise TypeError(f"Missing required parameter: {p}") from e
+
+        return self._mask(**args)
+
+    @property
+    def json(self):
+
+        name = self.__class__.__name__
+        color = self.color
+        properties = [dict(name=k, value=v) for k, v in self._properties.items()]
+        parameters = sorted([p for p in self.parameters])
+
+        return json.dumps(
+            dict(name=name, color=color, parameters=parameters, properties=properties)
+        )
+
+    def _draw(self, width, height, colorspace):
 
         if colorspace is None:
             colorspace = RGB8
@@ -109,14 +157,6 @@ class Shape:
         """Return a mask with the given width and height of the shape."""
         args = self._prepare_arguments(width, height)
         return self._mask(**args)
-
-    @property
-    def parameters(self):
-        """Return the parameters the shape is defined with respect to."""
-        params = inspect.signature(self._mask).parameters
-        parameters = [k for k in params.keys() if k not in self._properties]
-
-        return frozenset(parameters)
 
 
 def _shape_init(f):
@@ -170,6 +210,67 @@ def _shape_init(f):
     return init
 
 
+def check_fields(item, expected_fields):
+    """Check a dictionary to ensure that it has the exepected fields."""
+
+    for field in expected_fields:
+        if field not in item:
+            raise TypeError("Missing expected field: '{}'".format(field))
+
+
+def _shape_fromjson(f):
+    """This writes the definition of the fromjson method for shapes."""
+
+    properties = {} if f.__kwdefaults__ is None else f.__kwdefaults__
+
+    def fromjson(cls, fromjson):
+        shape = json.loads(fromjson)
+        check_fields(shape, ["name", "properties"])
+
+        name = shape["name"]
+
+        if name != cls.__name__:
+            message = "Cannot parse shape '{}' as a '{}'"
+            raise TypeError(message.format(name, cls.__name__))
+
+        params = {}
+
+        for prop in shape["properties"]:
+            check_fields(prop, ["name", "value"])
+
+            name = prop["name"]
+            value = prop["value"]
+
+            if name not in cls.properties:
+                raise TypeError("Unexpected property: '{}'".format(name))
+
+            params[name] = value
+
+        return cls(**params)
+
+    return fromjson
+
+
+def _shape_parameters(f):
+    """This exposes the parameters that are defined for a shape."""
+
+    kw_only = inspect.Parameter.KEYWORD_ONLY
+    params = inspect.signature(f).parameters
+
+    params = set([name for name, param in params.items() if param.kind != kw_only])
+    return params
+
+
+def _shape_properties(f):
+    """This exposes the properties that are defined for a shape."""
+
+    kw_only = inspect.Parameter.KEYWORD_ONLY
+    params = inspect.signature(f).parameters
+
+    props = set([name for name, param in params.items() if param.kind == kw_only])
+    return props
+
+
 def define_shape(f):
     """Define a new shape."""
     name = f.__name__
@@ -184,6 +285,9 @@ def define_shape(f):
         "__doc__": docstring,
         "__init__": _shape_init(f),
         "_mask": staticmethod(f),
+        "fromjson": classmethod(_shape_fromjson(f)),
+        "parameters": _shape_parameters(f),
+        "properties": _shape_properties(f),
     }
 
     return type(name, (Shape,), attributes)
