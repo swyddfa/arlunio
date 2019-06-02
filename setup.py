@@ -20,7 +20,11 @@ def requirements():
 setup(
     name="stylo",
     version=__version__,
-    url="https://github.com/alcarney/stylo",
+    project_urls={
+        "Documentation": "https://stylo.readthedocs.io/en/latest",
+        "Source": "https://github.com/swyddfa/stylo",
+        "Tracker": "https://github.com/swyddfa/stylo/issues",
+    },
     description="Drawing and animating with a blend of Python and mathematics.",
     long_description=readme(),
     long_description_content_type="text/markdown",
