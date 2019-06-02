@@ -47,7 +47,10 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 # -- Internationalisation ----------------------------------------------------
 
+# "Primary" language
 language = "en"
+
+# Translated text will be stored in this folder
 locale_dirs = ["locale/"]
 gettext_compact = True
 

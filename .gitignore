@@ -24,3 +24,4 @@ build
 *.pyc
 pip-wheel-metadata
 .dev
+*.mo
