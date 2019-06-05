@@ -12,9 +12,8 @@ def readme():
         return f.read()
 
 
-def requirements():
-    with open("requirements.txt") as f:
-        return f.read().split("\n")
+required = ["attr", "numpy", "Pillow", "Click"]
+extras = {"dev": ["tox"], "examples": ["matplotlib", "jupyterlab"]}
 
 
 setup(
@@ -33,7 +32,8 @@ setup(
     license="MIT",
     packages=find_packages(".", exclude=["tests"]),
     python_requires=">=3.6",
-    install_requires=requirements(),
+    install_requires=required,
+    extras_require=extras,
     classifiers=[
         "Development Status :: 3 - Alpha",
         "License :: OSI Approved :: MIT License",
@@ -45,6 +45,8 @@ setup(
         "Topic :: Multimedia :: Graphics",
     ],
     entry_points={
+        "console_scripts": ["stylo = stylo.__main__:cli"],
+        "stylo.cli.commands": ["tutorial = stylo.cli.tutorial:register"],
         "stylo.parameters": [
             "x = stylo.parameters:xs",
             "y = stylo.parameters:ys",
