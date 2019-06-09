@@ -1,6 +1,7 @@
 import os
 import logging
 import sys
+import tempfile
 
 
 logger = logging.getLogger(__name__)
@@ -14,6 +15,8 @@ def ensure_directory(dirname):
 
     if not os.path.isdir(dirname):
         os.makedirs(dirname)
+
+    return dirname
 
 
 def find_linux_cache():
@@ -69,11 +72,28 @@ class Context:
     where possible.
     """
 
-    def __init__(self, *, cache_dir=None):
+    def __init__(self, *, cache_dir=None, tmp_dir=None):
         self.cache_dir = cache_dir
+        self.tmp_dir = tmp_dir
+
+    def __del__(self):
+        if self._tmp_dir is not None:
+            self._tmp_dir.cleanup()
+
+    @property
+    def tmp_dir(self):
+
+        if self._tmp_dir is not None:
+            return self._tmp_dir.name
+
+    @tmp_dir.setter
+    def tmp_dir(self, value):
+        self._tmp_dir = value
 
     @classmethod
     def create(cls):
         """Create a default context."""
         cache_dir = ensure_directory(find_cache_dir())
-        return cls(cache_dir=cache_dir)
+        tmp_dir = tempfile.TemporaryDirectory()
+
+        return cls(cache_dir=cache_dir, tmp_dir=tmp_dir)
