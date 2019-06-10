@@ -56,7 +56,7 @@ contains () {
 }
 
 old_pid=$$
-ignore=("bash" "python")
+ignore=("bash" "python" "stylo")
 
 while :
 do

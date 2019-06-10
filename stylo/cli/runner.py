@@ -45,8 +45,6 @@ class LinuxRunner:
             "stylo.cli.scripts", "detect_terminal.sh"
         )
 
-        logger.debug(f"--> Running script: {script}")
-
         result = self([script], capture_output=True)
 
         if result.rcode != 0:
@@ -84,7 +82,7 @@ class LinuxRunner:
         name, path = self._detect_terminal()
         runpath = self._write_script("run.sh", cmds)
 
-        launch_script = ["#!/bin/bash", f"{path} -e {runpath} &", "disown -h %%"]
+        launch_script = [f"{path} -e {runpath} &", "disown -h %%"]
         launchpath = self._write_script("launch.sh", launch_script)
 
         self([launchpath])

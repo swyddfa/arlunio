@@ -5,9 +5,13 @@ import click
 
 from .context import Context
 
-
-LOG_LEVELS = [logging.WARNING, logging.INFO, logging.DEBUG]
 logger = logging.getLogger(__name__)
+
+CLI_SETTINGS = {"help_option_names": ["-h", "--help"]}
+LOG_LEVELS = [
+    (logging.INFO, "%(message)s"),
+    (logging.DEBUG, "[%(name)s][%(levelname)s]: %(message)s"),
+]
 
 
 def init_logging(verbose):
@@ -17,17 +21,17 @@ def init_logging(verbose):
     verbose = 0 if verbose < 0 else verbose
 
     try:
-        level = LOG_LEVELS[verbose]
+        level, fmt = LOG_LEVELS[verbose]
         others = False
     except IndexError:
-        level = logging.DEBUG
+        level, fmt = LOG_LEVELS[-1]
         others = True
 
     root = logging.getLogger()
     root.setLevel(level)
 
     console = logging.StreamHandler()
-    console.setFormatter(logging.Formatter("[%(name)s][%(levelname)s]: %(message)s"))
+    console.setFormatter(logging.Formatter(fmt))
 
     if not others:
         console.addFilter(logging.Filter("stylo"))
@@ -35,7 +39,7 @@ def init_logging(verbose):
     root.addHandler(console)
 
 
-@click.group()
+@click.group(context_settings=CLI_SETTINGS)
 @click.option("-v", "--version", count=True)
 @click.pass_context
 def cli(ctx, version):
