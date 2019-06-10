@@ -1,7 +1,6 @@
 import collections
 import logging
 import os
-import platform
 import pkg_resources
 import subprocess
 import stat

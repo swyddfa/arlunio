@@ -65,12 +65,7 @@ def find_cache_dir():
 
 class Context:
     """The :code:`Context` carries information and abstracts away platform
-    specific details.
-
-    When on linux stylo tries to be a good citizen and tries to follow the
-    `XDG Base Directory Spec <https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html>`_
-    where possible.
-    """
+    specific details."""
 
     def __init__(self, *, cache_dir=None, tmp_dir=None):
         self.cache_dir = cache_dir

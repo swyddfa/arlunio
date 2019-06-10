@@ -12,8 +12,8 @@ def readme():
         return f.read()
 
 
-required = ["attr", "numpy", "Pillow", "Click"]
-extras = {"dev": ["tox"], "examples": ["matplotlib", "jupyterlab"]}
+required = ["attr", "numpy", "Pillow", "Click", "matplotlib"]
+extras = {"dev": ["tox"], "examples": ["jupyterlab"]}
 
 
 setup(

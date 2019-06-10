@@ -2,8 +2,6 @@ import logging
 import os
 import pkg_resources
 import shutil
-import subprocess
-import sys
 import time
 
 from .runner import Runner
