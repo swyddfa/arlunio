@@ -1,3 +1,20 @@
+[build-system]
+requires = ["setuptools >= 35.0.2", "wheel >= 0.29.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.check-manifest]
+ignore = [
+  "docs",
+  "docs/*",
+  ".coveragerc",
+  ".flake8",
+  "*.ipynb_checkpoints",
+  "*.ipynb_checkpoints/*",
+  "tests",
+  "tests/*"]
+
+[tool.tox]
+legacy_tox_ini = """
 [tox]
 envlist = lint, docs, py37
 
@@ -24,3 +41,13 @@ deps =
 commands =
     black --check stylo tests
     flake8 stylo/ tests/
+
+[testenv:pkg]
+deps =
+     check-manifest
+     wheel
+commands =
+
+     check-manifest
+     python setup.py sdist bdist_wheel
+"""
