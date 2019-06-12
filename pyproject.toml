@@ -35,12 +35,9 @@ commands =
     sphinx-build -M html docs docs/_build -E -a -j auto
 
 [testenv:lint]
-deps =
-    flake8
-    black
+deps = pre-commit
 commands =
-    black --check stylo tests
-    flake8 stylo/ tests/
+    pre-commit run --all-files
 
 [testenv:pkg]
 deps =
