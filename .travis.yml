@@ -5,7 +5,6 @@ cache:
 stages:
     - linting
     - test
-    - documentation
     - deploy
 
 install:
@@ -18,10 +17,12 @@ jobs:
     include:
         - python: 3.6
           env: TASK=py36
-
           after_success:
               - pip install coveralls
               - coveralls
+
+        - python: 3.6
+          env: TASK=docs
 
         - python: 3.7
           dist: xenial
@@ -30,10 +31,6 @@ jobs:
         - stage: linting
           python: 3.6
           env: TASK=lint
-
-        - stage: documentation
-          python: 3.6
-          env: TASK=docs
 
         - stage: deploy
           name: 'Package & Publish to PyPi'
