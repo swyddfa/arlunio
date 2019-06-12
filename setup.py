@@ -1,5 +1,6 @@
 import os
-from setuptools import setup, find_packages
+
+from setuptools import find_packages, setup
 
 info = {}
 version = os.path.join("stylo", "_version.py")

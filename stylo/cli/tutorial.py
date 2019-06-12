@@ -1,8 +1,9 @@
 import logging
 import os
-import pkg_resources
 import shutil
 import time
+
+import pkg_resources
 
 from .runner import Runner
 
