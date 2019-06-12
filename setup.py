@@ -31,6 +31,7 @@ setup(
     author_email="alcarneyme@gmail.com",
     license="MIT",
     packages=find_packages(".", exclude=["tests"]),
+    package_data={"stylo.cli.scripts": ["*.sh"], "stylo.tutorial": ["**/*.ipynb"]},
     python_requires=">=3.6",
     install_requires=required,
     extras_require=extras,
