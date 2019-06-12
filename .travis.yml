@@ -6,8 +6,7 @@ stages:
     - linting
     - test
     - documentation
-    - name: deploy
-      if: branch = master
+    - deploy
 
 install:
     - pip install tox
@@ -37,10 +36,9 @@ jobs:
           env: TASK=docs
 
         - stage: deploy
-          name: Publish to PyPi
+          name: 'Package & Publish to PyPi'
           python: 3.6
-          script:
-              - python setup.py sdist bdist_wheel
+          env: TASK=pkg
           deploy:
               provider: script
               skip_cleanup: true
