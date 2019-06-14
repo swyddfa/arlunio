@@ -8,7 +8,6 @@ from .color import RGB8
 from .image import Image
 from .loaders import load_parameters
 
-
 Parameter = load_parameters()
 logger = logging.getLogger(__name__)
 

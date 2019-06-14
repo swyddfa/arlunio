@@ -1,7 +1,7 @@
 import json
-import pytest
 
 import numpy as np
+import pytest
 import stylo as st
 
 

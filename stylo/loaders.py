@@ -1,4 +1,5 @@
 import logging
+
 import pkg_resources
 
 logger = logging.getLogger(__name__)

@@ -1,10 +1,12 @@
 import os
-from setuptools import setup, find_packages
 
+from setuptools import find_packages, setup
+
+info = {}
 version = os.path.join("stylo", "_version.py")
 
 with open(version) as f:
-    exec(f.read())
+    exec(f.read(), info)
 
 
 def readme():
@@ -13,12 +15,12 @@ def readme():
 
 
 required = ["attr", "numpy", "Pillow", "Click", "matplotlib"]
-extras = {"dev": ["tox"], "examples": ["jupyterlab"]}
+extras = {"dev": ["tox", "pre-commit", "jupyterlab"], "examples": ["jupyterlab"]}
 
 
 setup(
     name="stylo",
-    version=__version__,
+    version=info["__version__"],
     project_urls={
         "Documentation": "https://stylo.readthedocs.io/en/latest",
         "Source": "https://github.com/swyddfa/stylo",

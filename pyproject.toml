@@ -6,6 +6,9 @@ build-backend = "setuptools.build_meta"
 ignore = [
   "docs",
   "docs/*",
+  ".pre-commit-config.yaml",
+  "scripts",
+  "scripts/*",
   ".coveragerc",
   ".flake8",
   "*.ipynb_checkpoints",
@@ -36,11 +39,10 @@ commands =
 
 [testenv:lint]
 deps =
-    flake8
-    black
+     pre-commit
+     jupyter
 commands =
-    black --check stylo tests
-    flake8 stylo/ tests/
+    pre-commit run --all-files
 
 [testenv:pkg]
 deps =

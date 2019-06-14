@@ -1,6 +1,6 @@
 import base64
-import logging
 import io
+import logging
 
 import numpy as np
 import PIL.Image

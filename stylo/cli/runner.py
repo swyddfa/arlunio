@@ -1,11 +1,12 @@
 import collections
 import logging
 import os
-import pkg_resources
-import subprocess
 import stat
+import subprocess
 import sys
 import textwrap
+
+import pkg_resources
 
 logger = logging.getLogger(__name__)
 Result = collections.namedtuple("Result", "rcode, stdout, stderr")
