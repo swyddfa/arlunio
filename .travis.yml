@@ -11,7 +11,7 @@ install:
     - pip install tox
 
 script:
-    - tox -q -e $TASK
+    - tox -r -e $TASK
 
 jobs:
     include:
