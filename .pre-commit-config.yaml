@@ -13,3 +13,11 @@ repos:
   rev: master
   hooks:
   - id: black
+
+- repo: local
+  hooks:
+  - id: clean-notebooks
+    name: clean-notebooks
+    entry: ./scripts/clean-notebooks.sh
+    language: script
+    files: \.ipynb$
