@@ -35,7 +35,9 @@ commands =
     sphinx-build -M html docs docs/_build -E -a -j auto
 
 [testenv:lint]
-deps = pre-commit
+deps =
+     pre-commit
+     jupyter
 commands =
     pre-commit run --all-files
 
