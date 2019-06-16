@@ -9,11 +9,13 @@ repos:
   rev: master
   hooks:
   - id: isort
+    exclude: 'solutions'
 
 - repo: https://github.com/python/black
   rev: master
   hooks:
   - id: black
+    exclude: 'solutions'
 
 - repo: local
   hooks:

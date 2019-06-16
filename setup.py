@@ -36,6 +36,7 @@ setup(
     package_data={
         "stylo.cli.scripts": ["*.sh"],
         "stylo.tutorial": ["*.ipynb", "**/*.ipynb"],
+        "stylo.tutorial.solutions": ["*.py"],
     },
     python_requires=">=3.6",
     install_requires=required,
