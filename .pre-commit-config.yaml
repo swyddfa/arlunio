@@ -3,16 +3,19 @@ repos:
   rev: master
   hooks:
   - id: flake8
+    exclude: 'solutions'
 
 - repo: https://github.com/pre-commit/mirrors-isort
   rev: master
   hooks:
   - id: isort
+    exclude: 'solutions'
 
 - repo: https://github.com/python/black
   rev: master
   hooks:
   - id: black
+    exclude: 'solutions'
 
 - repo: local
   hooks:

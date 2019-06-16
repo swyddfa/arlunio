@@ -18,6 +18,7 @@ class Tutorial:
     def copy_resources(self, destination):
         """Copy the tutorial resources to the given destination."""
         logger.debug(f"Copying tutorial resources to: {destination}")
+        os.makedirs(destination)
 
         def exclude_item(item, path):
             return any([item.startswith("."), "__" in item])
