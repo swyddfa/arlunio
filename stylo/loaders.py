@@ -13,6 +13,9 @@ class Collection:
         self.name = name
         self.items = items
 
+    def __repr__(self):
+        return f"Collection<{self.name}, {len(self.items)} items>"
+
     def __getitem__(self, name):
         return self.items[name]
 
@@ -22,6 +25,10 @@ class Collection:
             return self.items[name]
         except KeyError:
             raise AttributeError(name)
+
+    def list(self):
+        """List all of the available items in the collection."""
+        return sorted(list(self.items.keys()))
 
 
 def _load_collection(name, entry_point, docstring=None):
@@ -69,4 +76,4 @@ def load_shapes():
     All of the available shapes.
     """
 
-    return _load_collection("Shape", "stylo.shapes", docstring)
+    return _load_collection("Shapes", "stylo.shapes", docstring)
