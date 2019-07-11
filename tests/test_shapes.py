@@ -66,6 +66,21 @@ class TestShape:
 
         assert (expected == c1(4, 4).pixels).all()
 
+    def test_draw_tuple(self, circle):
+        """Ensure that we can draw a shape, specifying the dimensions with a
+        tuple."""
+
+        c1 = circle()
+
+        expected = np.full((4, 4, 3), (255, 255, 255), dtype=np.uint8)
+        expected[1, 1] = (0, 0, 0)
+        expected[1, 2] = (0, 0, 0)
+        expected[2, 1] = (0, 0, 0)
+        expected[2, 2] = (0, 0, 0)
+
+        resolution = (4, 4)
+        assert (expected == c1(resolution).pixels).all()
+
     def test_mask_single(self, circle):
         """Ensure that we can use the shape to test a single point."""
 
