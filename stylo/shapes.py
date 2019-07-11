@@ -89,6 +89,12 @@ class Shape:
         if width is not None and height is not None:
             return self._draw(width, height, colorspace)
 
+        try:
+            w, h = width
+            return self._draw(w, h, colorspace)
+        except TypeError:
+            pass
+
         # Otherwise assume that they are using the shape as a function in
         # a composite shape.
         args = dict(self._properties)
