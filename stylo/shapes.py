@@ -45,63 +45,6 @@ class Canvas:
         return image
 
 
-class SShape:
-    """The base class for all shapes."""
-
-    @property
-    def json(self):
-
-        name = self.__class__.__name__
-        color = self.color
-        properties = [dict(name=k, value=v) for k, v in self._properties.items()]
-        parameters = sorted([p for p in self.parameters])
-
-        return json.dumps(
-            dict(name=name, color=color, parameters=parameters, properties=properties)
-        )
-
-    def __add__(self, other):
-
-        if isinstance(other, Shape):
-            layers = [self, other]
-            return Canvas(layers=layers)
-
-        if isinstance(other, Canvas):
-            other.layers.insert(0, self)
-            return other
-
-
-def _shape_fromjson(f):
-    """This writes the definition of the fromjson method for shapes."""
-
-    def fromjson(cls, fromjson):
-        shape = json.loads(fromjson)
-        # check_fields(shape, ["name", "properties"])
-
-        name = shape["name"]
-
-        if name != cls.__name__:
-            message = "Cannot parse shape '{}' as a '{}'"
-            raise TypeError(message.format(name, cls.__name__))
-
-        params = {}
-
-        for prop in shape["properties"]:
-            # check_fields(prop, ["name", "value"])
-
-            name = prop["name"]
-            value = prop["value"]
-
-            if name not in cls.properties:
-                raise TypeError("Unexpected property: '{}'".format(name))
-
-            params[name] = value
-
-        return cls(**params)
-
-    return fromjson
-
-
 class Property:
     """Parent class for properties."""
 
@@ -116,6 +59,16 @@ class Shape:
     color: str = attr.ib(default="#000000", repr=False)
     origin: typing.Any = attr.ib(default=None, repr=False)
     background: typing.Any = attr.ib(default=None, repr=False)
+
+    def __add__(self, other):
+
+        if isinstance(other, Shape):
+            layers = [self, other]
+            return Canvas(layers=layers)
+
+        if isinstance(other, Canvas):
+            other.layers.insert(0, self)
+            return other
 
     def __call__(self, width=None, height=None, *, colorspace=None, **kwargs):
 
@@ -176,6 +129,71 @@ class Shape:
 
         return {p: getattr(self, p) for p in props}
 
+    @property
+    def json(self):
+        """Return a json representation of the current shape instance."""
+
+        d = dict(
+            name=self.__class__.__name__,
+            scale=self.scale,
+            color=self.color,
+            properties=[{"name": k, "value": v} for k, v in self.properties.items()],
+        )
+        return json.dumps(d)
+
+    @classmethod
+    def from_json(cls, json_str):
+        """Create an instance of a shape from its json representation."""
+        shape = json.loads(json_str)
+        name, properties = get_fields(shape, "name", "properties")
+
+        if name != cls.__name__:
+            raise TypeError(f"Cannot parse shape '{name}' as a '{cls.__name__}'")
+
+        params = {}
+        allowed_properties = property_names(cls)
+
+        for prop in shape["properties"]:
+            name, value = get_fields(prop, "name", "value")
+
+            if name not in allowed_properties:
+                message = (
+                    f"Cannot parse {cls.__name__} definition: "
+                    f"unexpected property {name}"
+                )
+                raise TypeError(message)
+
+            params[name] = value
+
+        return cls(**params)
+
+
+def property_names(cls: Shape) -> typing.List[str]:
+    """Given a shape return a list of all property names."""
+    fields = attr.fields(cls)
+    props = [p.name for p in fields if Property.IS_PROPERTY in p.metadata]
+
+    return props
+
+
+def get_fields(item, *args):
+    """Get the named field(s) from a dictionary.
+
+    If any of the fields do not exist a :code:`TypeError` will be raised.
+    """
+
+    values = []
+
+    for field in args:
+        logger.debug(f"Checking field: {field}")
+
+        if field not in item:
+            raise TypeError("Missing expected field: '{}'".format(field))
+
+        values.append(item[field])
+
+    return values
+
 
 def define_property(param: inspect.Parameter, attributes):
     """Given a function parameter representing a property define an appropriate
@@ -195,9 +213,9 @@ def define_docstring(f):
     """Define the docstring based on the user's function."""
 
     if f.__doc__ is None:
-        return SShape.__doc__
+        return Shape.__doc__
 
-    return f"{SShape.__doc__}\n{f.__doc__}"
+    return f"{Shape.__doc__}\n{f.__doc__}"
 
 
 def get_shape_parameters(f):

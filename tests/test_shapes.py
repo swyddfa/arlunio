@@ -151,15 +151,19 @@ class TestShape:
 
         assert "y" in str(err.value)
 
-    def test_to_json(self, circle):
+    def test_to_json(self):
         """Ensure that we can convert a shape to a Json representation."""
 
-        c1 = circle(x0=1, y0=2, r=3)
+        @st.shape
+        def Circle(x, y, *, x0=0, y0=0, r=0.8):
+            pass
+
+        c1 = Circle(x0=1, y0=2, r=3)
 
         expected = {
             "name": "Circle",
             "color": "#000000",
-            "parameters": ["x", "y"],
+            "scale": 1,
             "properties": [
                 {"name": "x0", "value": 1},
                 {"name": "y0", "value": 2},
@@ -169,8 +173,12 @@ class TestShape:
 
         assert expected == json.loads(c1.json)
 
-    def test_from_json(self, circle):
+    def test_from_json(self):
         """Ensure that we can create a shape from its Json representation."""
+
+        @st.shape
+        def Circle(x, y, *, x0=0, y0=0, r=0.5):
+            pass
 
         d = {
             "name": "Circle",
@@ -182,73 +190,97 @@ class TestShape:
         }
 
         src = json.dumps(d)
-        c1 = circle.fromjson(src)
+        c1 = Circle.from_json(src)
 
         assert c1.x0 == 1
         assert c1.y0 == 2
         assert c1.r == 3
 
-    def test_from_json_missing_name(self, circle):
+    def test_from_json_missing_name(self):
         """Ensure that we check for the `name` field."""
+
+        @st.shape
+        def Circle(x, y):
+            pass
 
         src = '{"properties": []}'
 
         with py.test.raises(TypeError) as err:
-            circle.fromjson(src)
+            Circle.from_json(src)
 
         assert "name" in str(err.value)
 
-    def test_from_json_missing_properties(self, circle):
+    def test_from_json_missing_properties(self):
         """Ensure that we check for the `properties` field."""
+
+        @st.shape
+        def Circle(x, y):
+            pass
 
         src = '{"name": ""}'
 
         with py.test.raises(TypeError) as err:
-            circle.fromjson(src)
+            Circle.from_json(src)
 
         assert "properties" in str(err.value)
 
-    def test_from_json_bad_name(self, circle):
+    def test_from_json_bad_name(self):
         """Ensure that if we try to parse a representation for a different shape we
         throw an error."""
+
+        @st.shape
+        def Circle(x, y):
+            pass
 
         d = {"name": "Square", "properties": []}
         src = json.dumps(d)
 
         with py.test.raises(TypeError) as err:
-            circle.fromjson(src)
+            Circle.from_json(src)
 
         assert "Circle" in str(err.value)
 
-    def test_from_json_property_missing_name(self, circle):
+    def test_from_json_property_missing_name(self):
         """Ensure that if a property doesn't provide a name we throw an error."""
+
+        @st.shape
+        def Circle(x, y):
+            pass
 
         d = {"name": "Circle", "properties": [{"value": 23}]}
         src = json.dumps(d)
 
         with py.test.raises(TypeError) as err:
-            circle.fromjson(src)
+            Circle.from_json(src)
 
         assert "name" in str(err.value)
 
-    def test_from_json_property_missing_value(self, circle):
+    def test_from_json_property_missing_value(self):
         """Ensure that if a property doesn't provide a value we throw an error."""
+
+        @st.shape
+        def Circle(x, y):
+            pass
 
         d = {"name": "Circle", "properties": [{"name": "x0"}]}
         src = json.dumps(d)
 
         with py.test.raises(TypeError) as err:
-            circle.fromjson(src)
+            Circle.from_json(src)
 
         assert "value" in str(err.value)
 
-    def test_from_json_bad_property_name(self, circle):
+    def test_from_json_bad_property_name(self):
         """Ensure that if we encounter an unexpected property we throw an error."""
+
+        @st.shape
+        def Circle(x, y, *, x0=0):
+            pass
 
         d = {"name": "Circle", "properties": [{"name": "p", "value": 34}]}
         src = json.dumps(d)
 
         with py.test.raises(TypeError) as err:
-            circle.fromjson(src)
+            Circle.from_json(src)
 
         assert "p" in str(err.value)
