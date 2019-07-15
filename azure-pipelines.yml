@@ -62,7 +62,7 @@ jobs:
       sed -i 's/"\(.*\)"/"\1dev$(Build.BuildId)"/' stylo/_version.py
       cat stylo/_version.py
     displayName: 'Set Dev Snapshot'
-    condition: ne(variables('Build.SourceBranch'), 'refs/heads/master')
+    condition: ne(variables['Build.SourceBranch'], 'refs/heads/master')
 
   - script: |
       tox -e pkg
