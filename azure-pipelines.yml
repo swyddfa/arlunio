@@ -86,3 +86,21 @@ jobs:
         ne(variables['Build.Reason'], "PullRequest"),
         ne(variables['Build.SourceBranch'], 'refs/heads/master')
       )
+
+  - task: TwineAuthenticate@0
+    inputs:
+      externalFeeds: 'stylo - PyPi'
+    condition: |
+      and(
+        ne(variables['Build.Reason'], "PullRequest"),
+        eq(variables['Build.SourceBranch'], 'refs/heads/master')
+      )
+
+  - script: |
+      twine upload -r pypi --config-file $(PYPIRC_PATH) dist/*
+    displayName: 'Publish'
+    condition: |
+      and(
+        ne(variables['Build.Reason'], "PullRequest"),
+        eq(variables['Build.SourceBranch'], 'refs/heads/master')
+      )
