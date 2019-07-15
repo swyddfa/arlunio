@@ -72,8 +72,17 @@ jobs:
   - task: TwineAuthenticate@0
     inputs:
       externalFeeds: 'stylo - PyPi Test'
+    condition: |
+      and(
+        ne(variables['Build.Reason'], "PullRequest"),
+        ne(variables['Build.SourceBranch'], 'refs/heads/master')
+      )
 
   - script: |
-      cat $(PYPIRC_PATH)
       twine upload -r test-pypi --config-file $(PYPIRC_PATH) dist/*
     displayName: 'Publish Dev Snapshot'
+    condition: |
+      and(
+        ne(variables['Build.Reason'], "PullRequest"),
+        ne(variables['Build.SourceBranch'], 'refs/heads/master')
+      )
