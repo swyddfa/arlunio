@@ -59,6 +59,11 @@ jobs:
     displayName: 'Install Tox'
 
   - script: |
+      sed -i 's/"\(.*\)"/"\1dev$(Build.BuildId)"' stylo/_version.py
+      cat stylo/_version.py
+    displayName: 'Set Dev Snapshot'
+
+  - script: |
       tox -e pkg
       ls dist/
     displayName: 'Build Package'
