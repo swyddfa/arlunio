@@ -73,5 +73,7 @@ jobs:
     inputs:
       externalFeeds: 'stylo - PyPi Test'
 
-  - script: 'twine upload -r https://test.pypi.org/legacy/ --config-file $(PYPIRC_PATH) dist/*'
+  - script: |
+      cat $(PYPIRC_PATH)
+      twine upload -r https://test.pypi.org/legacy/ --config-file $(PYPIRC_PATH) dist/*
     displayName: 'Publish Dev Snapshot'
