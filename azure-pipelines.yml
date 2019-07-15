@@ -42,3 +42,23 @@ jobs:
   - script: |
       tox -e $(tox.env)
     displayName: 'Tox $(tox.env)'
+
+- job: 'Deploy '
+  pool:
+    vmImage: 'ubuntu-latest'
+  dependsOn: 'Test'
+  steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '$(python.version)'
+    displayName: 'Use Python $(python.version)'
+
+  - script: |
+      python -m pip install --upgrade pip twine
+      pip install tox
+    displayName: 'Install Tox'
+
+  - script: |
+      tox -e pkg
+      ls dist/
+    displayName: 'Build Package'
