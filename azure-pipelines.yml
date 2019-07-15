@@ -74,7 +74,7 @@ jobs:
       externalFeeds: 'stylo - PyPi Test'
     condition: |
       and(
-        ne(variables['Build.Reason'], "PullRequest"),
+        ne(variables['Build.Reason'], 'PullRequest'),
         ne(variables['Build.SourceBranch'], 'refs/heads/master')
       )
 
@@ -83,7 +83,7 @@ jobs:
     displayName: 'Publish Dev Snapshot'
     condition: |
       and(
-        ne(variables['Build.Reason'], "PullRequest"),
+        ne(variables['Build.Reason'], 'PullRequest'),
         ne(variables['Build.SourceBranch'], 'refs/heads/master')
       )
 
@@ -92,7 +92,7 @@ jobs:
       externalFeeds: 'stylo - PyPi'
     condition: |
       and(
-        ne(variables['Build.Reason'], "PullRequest"),
+        ne(variables['Build.Reason'], 'PullRequest'),
         eq(variables['Build.SourceBranch'], 'refs/heads/master')
       )
 
@@ -101,6 +101,6 @@ jobs:
     displayName: 'Publish'
     condition: |
       and(
-        ne(variables['Build.Reason'], "PullRequest"),
+        ne(variables['Build.Reason'], 'PullRequest'),
         eq(variables['Build.SourceBranch'], 'refs/heads/master')
       )
