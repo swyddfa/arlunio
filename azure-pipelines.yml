@@ -62,8 +62,16 @@ jobs:
       sed -i 's/"\(.*\)"/"\1dev$(Build.BuildId)"/' stylo/_version.py
       cat stylo/_version.py
     displayName: 'Set Dev Snapshot'
+    condition: ne(variables('Build.SourceBranch'), 'refs/heads/master')
 
   - script: |
       tox -e pkg
       ls dist/
     displayName: 'Build Package'
+
+  - task: TwineAuthenticate@0
+    inputs:
+      externalFeeds: 'stylo - PyPi Test'
+
+  - script: 'twine upload -r https://test.pypi.org/legacy/ --config-file $(PYPIRC_PATH) dist/*'
+    displayName: 'Publish Dev Snapshot'
