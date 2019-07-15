@@ -43,7 +43,7 @@ jobs:
       tox -e $(tox.env)
     displayName: 'Tox $(tox.env)'
 
-- job: 'Deploy '
+- job: 'Deploy'
   pool:
     vmImage: 'ubuntu-latest'
   dependsOn: 'Test'
