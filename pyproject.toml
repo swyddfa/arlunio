@@ -26,7 +26,7 @@ envlist = lint, docs, py37
 deps =
      pytest
      pytest-cov
-     pytest-azure
+     pytest-azurepipelines
 commands =
     pytest -q --cov=stylo --cov-report html {posargs}
 
