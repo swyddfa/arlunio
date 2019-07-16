@@ -1,7 +1,9 @@
 import inspect
 import json
 import logging
+import typing
 
+import attr
 import numpy as np
 
 from .color import RGB8
@@ -43,99 +45,20 @@ class Canvas:
         return image
 
 
+class Property:
+    """Parent class for properties."""
+
+    IS_PROPERTY = "stylo.isproperty"
+
+
+@attr.s(auto_attribs=True)
 class Shape:
-    """The base class for all shapes."""
+    """Docstring template."""
 
-    def __init__(
-        self, *, scale=1, origin=None, properties=None, color=None, background=None
-    ):
-
-        if color is None:
-            color = "#000000"
-
-        self.scale = scale
-        self.origin = origin
-
-        self.color = color
-        self.background = background
-
-        self._properties = properties
-
-    def __repr__(self):
-        name = self.__class__.__name__
-        property_string = ", ".join(f"{k}={v}" for k, v in self._properties.items())
-
-        return f"{name}({property_string})"
-
-    def __getattr__(self, key):
-
-        try:
-            return self._properties[key]
-        except KeyError as e:
-            raise AttributeError from e
-
-    def __setattr__(self, key, value):
-
-        if key in self.properties:
-            self._properties[key] = value
-            return
-
-        super().__setattr__(key, value)
-
-    def __call__(self, width=None, height=None, *, colorspace=None, **kwargs):
-
-        # If the user provides a width and height they want us to draw the
-        # shape as an image
-        if width is not None and height is not None:
-            return self._draw(width, height, colorspace)
-
-        try:
-            w, h = width
-            return self._draw(w, h, colorspace)
-        except TypeError:
-            pass
-
-        # Otherwise assume that they are using the shape as a function in
-        # a composite shape.
-        args = dict(self._properties)
-
-        try:
-            for p in self.parameters:
-                args[p] = kwargs[p]
-
-        except KeyError as e:
-            raise TypeError(f"Missing required parameter: {p}") from e
-
-        return self._mask(**args)
-
-    @property
-    def json(self):
-
-        name = self.__class__.__name__
-        color = self.color
-        properties = [dict(name=k, value=v) for k, v in self._properties.items()]
-        parameters = sorted([p for p in self.parameters])
-
-        return json.dumps(
-            dict(name=name, color=color, parameters=parameters, properties=properties)
-        )
-
-    def _draw(self, width, height, colorspace):
-
-        if colorspace is None:
-            colorspace = RGB8
-
-        image = Image.new(
-            width, height, background=self.background, colorspace=colorspace
-        )
-
-        mask = self.mask(width, height)
-        fg_color = colorspace.parse(self.color)
-
-        image[mask] = fg_color
-        image.mask = mask
-
-        return image
+    scale: float = attr.ib(default=1.0, repr=False)
+    color: str = attr.ib(default="#000000", repr=False)
+    origin: typing.Any = attr.ib(default=None, repr=False)
+    background: typing.Any = attr.ib(default=None, repr=False)
 
     def __add__(self, other):
 
@@ -147,158 +70,186 @@ class Shape:
             other.layers.insert(0, self)
             return other
 
-    def _prepare_arguments(self, width, height):
-        """Prepare all the arguments to pass to the mask function."""
+    def __call__(self, width=None, height=None, *, colorspace=None, **kwargs):
 
-        args = dict(self._properties)
+        # If given a width and a height draw the shape as an image.
+        if width is not None and height is not None:
+            return self._draw(width, height, colorspace)
 
-        for p in self.parameters:
-            parameter = getattr(Parameter, p)
-            args[p] = parameter(width, height, self.scale)
+        try:
+            w, h = width
+            return self._draw(w, h, colorspace)
+        except TypeError:
+            pass
 
-        return args
+        # Otherwise assume that we are being called as part as another shape's
+        # definition
+        args = dict(self.properties)
 
-    def mask(self, width, height):
-        """Return a mask with the given width and height of the shape."""
-        args = self._prepare_arguments(width, height)
-        return self._mask(**args)
+        try:
+            for param in self.parameters:
+                args[param] = kwargs[param]
 
+        except KeyError as e:
+            raise TypeError(f"Missing parameter: {param}") from e
 
-def _shape_init(f):
-    """This defines the :code:`__init__` method for new shapes.
+        return self._definition(**args)
 
-    Any kewyord only argument in a shape's mask function become a property
-    of the resulting shape. This function will write the :code:`__init__`
-    method for this new shape and has the following behavior.
+    def _draw(self, width: int, height: int, colorspace):
 
-    - If a property is given by the user the new shape instance will use
-      that value.
-    - If a property is not given by the user, the instance will use the
-      default value.
-    - Any keyword arguments that are not recognised as a property will be
-      passed down to the base class' :code:`__init__` method.
+        if colorspace is None:
+            colorspace = RGB8
 
-    :param f: The user's mask function that defines the shape.
-    :type f: function.
-    """
-
-    defaults = {} if f.__kwdefaults__ is None else f.__kwdefaults__
-    property_string = " ".join(f"{k}={v}" for k, v in defaults.items())
-
-    logger.debug(f"--> Shape has default properties: {property_string}")
-
-    def init(self, *args, **kwargs):
-
-        # This will hold the keyword arguments we pass down to the super class
-        super_kwargs = {}
-        properties = dict(defaults)
-
-        for key, value in kwargs.items():
-
-            # If the user has set a property, override the default.
-            if key in properties:
-                properties[key] = value
-                continue
-
-            # Otherwise, pass the keyword down to the base class.
-            super_kwargs[key] = value
-
-        # It appears that the implicit form of super() cannot work
-        # with classes constructed using the `type()` function.
-        #
-        # It also isn't obvious if this will be fixed in a future
-        # version of Python: https://bugs.python.org/issue29944
-        super(self.__class__, self).__init__(
-            properties=properties, *args, **super_kwargs
+        image = Image.new(
+            width, height, background=self.background, colorspace=colorspace
         )
 
-    return init
+        mask = self.mask(width, height)
+        fg = colorspace.parse(self.color)
 
+        image[mask] = fg
+        image.mask = mask
 
-def check_fields(item, expected_fields):
-    """Check a dictionary to ensure that it has the exepected fields."""
+        return image
 
-    for field in expected_fields:
-        if field not in item:
-            raise TypeError("Missing expected field: '{}'".format(field))
+    def mask(self, width: int, height: int):
 
+        args = dict(self.properties)
 
-def _shape_fromjson(f):
-    """This writes the definition of the fromjson method for shapes."""
+        for param in self.parameters:
+            parameter = getattr(Parameter, param)
+            args[param] = parameter(width, height, self.scale)
 
-    def fromjson(cls, fromjson):
-        shape = json.loads(fromjson)
-        check_fields(shape, ["name", "properties"])
+        return self._definition(**args)
 
-        name = shape["name"]
+    @property
+    def properties(self):
+        fields = attr.fields(self.__class__)
+        props = [p.name for p in fields if Property.IS_PROPERTY in p.metadata]
+
+        return {p: getattr(self, p) for p in props}
+
+    @property
+    def json(self):
+        """Return a json representation of the current shape instance."""
+
+        d = dict(
+            name=self.__class__.__name__,
+            scale=self.scale,
+            color=self.color,
+            properties=[{"name": k, "value": v} for k, v in self.properties.items()],
+        )
+        return json.dumps(d)
+
+    @classmethod
+    def from_json(cls, json_str):
+        """Create an instance of a shape from its json representation."""
+        shape = json.loads(json_str)
+        name, properties = get_fields(shape, "name", "properties")
 
         if name != cls.__name__:
-            message = "Cannot parse shape '{}' as a '{}'"
-            raise TypeError(message.format(name, cls.__name__))
+            raise TypeError(f"Cannot parse shape '{name}' as a '{cls.__name__}'")
 
         params = {}
+        allowed_properties = property_names(cls)
 
         for prop in shape["properties"]:
-            check_fields(prop, ["name", "value"])
+            name, value = get_fields(prop, "name", "value")
 
-            name = prop["name"]
-            value = prop["value"]
-
-            if name not in cls.properties:
-                raise TypeError("Unexpected property: '{}'".format(name))
+            if name not in allowed_properties:
+                message = (
+                    f"Cannot parse {cls.__name__} definition: "
+                    f"unexpected property {name}"
+                )
+                raise TypeError(message)
 
             params[name] = value
 
         return cls(**params)
 
-    return fromjson
 
+def property_names(cls: Shape) -> typing.List[str]:
+    """Given a shape return a list of all property names."""
+    fields = attr.fields(cls)
+    props = [p.name for p in fields if Property.IS_PROPERTY in p.metadata]
 
-def _shape_parameters(f):
-    """This exposes the parameters that are defined for a shape."""
-
-    kw_only = inspect.Parameter.KEYWORD_ONLY
-    params = inspect.signature(f).parameters
-
-    params = set([name for name, param in params.items() if param.kind != kw_only])
-    return params
-
-
-def _shape_properties(f):
-    """This exposes the properties that are defined for a shape."""
-
-    kw_only = inspect.Parameter.KEYWORD_ONLY
-    params = inspect.signature(f).parameters
-
-    props = set([name for name, param in params.items() if param.kind == kw_only])
     return props
 
 
-def define_shape(f):
+def get_fields(item, *args):
+    """Get the named field(s) from a dictionary.
+
+    If any of the fields do not exist a :code:`TypeError` will be raised.
+    """
+
+    values = []
+
+    for field in args:
+        logger.debug(f"Checking field: {field}")
+
+        if field not in item:
+            raise TypeError("Missing expected field: '{}'".format(field))
+
+        values.append(item[field])
+
+    return values
+
+
+def define_property(param: inspect.Parameter, attributes):
+    """Given a function parameter representing a property define an appropriate
+    attribute definition."""
+    params = {"default": param.default, "kw_only": True}
+    metadata = {Property.IS_PROPERTY: True}
+
+    if param.annotation != inspect._empty:
+        params["type"] = param.annotation
+        params["validator"] = [attr.validators.instance_of(param.annotation)]
+
+    params["metadata"] = metadata
+    attributes[param.name] = attr.ib(**params)
+
+
+def define_docstring(f):
+    """Define the docstring based on the user's function."""
+
+    if f.__doc__ is None:
+        return Shape.__doc__
+
+    return f"{Shape.__doc__}\n{f.__doc__}"
+
+
+def get_shape_parameters(f):
+    """Given the user's function, sort the arguments into parameters and
+    properties."""
+
+    kw_only = inspect.Parameter.KEYWORD_ONLY
+    parameters = inspect.signature(f).parameters
+
+    props = [p for p in parameters.values() if p.kind == kw_only]
+    params = [p for p in parameters.values() if p not in props]
+
+    logger.debug("--> Parameters: {}".format(", ".join(p.name for p in params)))
+    logger.debug("--> Properties: {}".format(", ".join(p.name for p in props)))
+
+    return params, props
+
+
+def shape(f) -> type:
     """Define a new shape."""
+
     name = f.__name__
-    logger.debug(f"Creating new shape: {f.__name__}")
+    logger.debug(f"Defining shape: {name}")
 
-    docstring = Shape.__doc__
+    attributes = {"__doc__": define_docstring(f), "_definition": staticmethod(f)}
 
-    if f.__doc__ is not None:
-        docstring += "\n" + f.__doc__
+    params, props = get_shape_parameters(f)
+    attributes["parameters"] = set([p.name for p in params])
 
-    attributes = {
-        "__doc__": docstring,
-        "__init__": _shape_init(f),
-        "_mask": staticmethod(f),
-        "fromjson": classmethod(_shape_fromjson(f)),
-        "parameters": _shape_parameters(f),
-        "properties": _shape_properties(f),
-    }
+    for prop in props:
+        logger.debug(f"--> {prop.name}")
+        define_property(prop, attributes)
 
-    return type(name, (Shape,), attributes)
-
-
-def shape(f):
-    """A decorator used to define a new shape."""
-    return define_shape(f)
+    return attr.s(type(name, (Shape,), attributes))
 
 
 @shape

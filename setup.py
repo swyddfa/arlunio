@@ -14,7 +14,7 @@ def readme():
         return f.read()
 
 
-required = ["attr", "numpy", "Pillow", "Click", "matplotlib"]
+required = ["attrs", "numpy", "Pillow", "Click", "matplotlib"]
 extras = {"dev": ["tox", "pre-commit", "jupyterlab"], "examples": ["jupyterlab"]}
 
 
