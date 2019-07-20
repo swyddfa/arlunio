@@ -12,6 +12,7 @@ __pycache__/
 env/
 dist/
 docs/_build
+htmlcov
 
 *.png
 !docs/**/*.png
@@ -25,3 +26,4 @@ build
 pip-wheel-metadata
 .dev
 *.mo
+*.xml

@@ -15,8 +15,15 @@ def readme():
 
 
 required = ["attrs", "numpy", "Pillow", "Click", "matplotlib"]
-extras = {"dev": ["tox", "pre-commit", "jupyterlab"], "examples": ["jupyterlab"]}
+extras = {
+    "dev": ["tox", "pre-commit", "jupyterlab"],
+    "doc": ["sphinx"],
+    "examples": ["jupyterlab"],
+}
 
+extras["all"] = list(
+    {item for name, items in extras.items() if name != "dev" for item in items}
+)
 
 setup(
     name="stylo",
@@ -61,9 +68,9 @@ setup(
             "t = stylo.parameters:ts",
         ],
         "stylo.shapes": [
-            "Circle = stylo.shapes:Circle",
-            "Ellipse = stylo.shapes:Ellipse",
-            "Square = stylo.shapes:Square",
+            "Circle = stylo.lib.basic:Circle",
+            "Ellipse = stylo.lib.basic:Ellipse",
+            "Square = stylo.lib.basic:Square",
         ],
     },
 )

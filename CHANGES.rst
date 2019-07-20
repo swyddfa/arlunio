@@ -1,3 +1,19 @@
+v0.10.0 - Unreleased
+--------------------
+
+Stylo has been rewritten from the ground up (again...) which brings numerous
+improvements and enhancements to the previous version!
+
+Added
+^^^^^
+
+- Stylo now has an interactive tutorial! Once you install :code:`stylo` this
+  tutorial can be accessed by running the `$ stylo tutorial` command on the
+  command line.
+- There is now a much more succinct syntax for defining new shapes.
+
+
+
 v0.9.3 - 2019-01-12
 -------------------
 

@@ -20,10 +20,12 @@ ignore = [
 [tool.tox]
 legacy_tox_ini = """
 [tox]
-envlist = lint, docs, py37
+envlist = pkg, lint, docs, py37
+isolated_build = True
 
 [testenv]
 deps =
+     .[all]
      pytest
      pytest-cov
      pytest-azurepipelines
@@ -34,10 +36,16 @@ commands =
 deps =
      sphinx
      sphinx_rtd_theme
-usedevelop = True
 commands =
-    sphinx-build -M linkcheck docs docs/_build -E -a -j auto
-    sphinx-build -M html docs docs/_build -E -a -j auto
+    sphinx-build -M linkcheck docs docs/_build -E -a -j auto {posargs}
+    sphinx-build -M html docs docs/_build -E -a -j auto {posargs}
+
+[testenv:docs-preview]
+deps =
+     {[testenv:docs]deps}
+     sphinx-autobuild
+commands =
+     sphinx-autobuild docs docs/_build/html -E -a {posargs}
 
 [testenv:lint]
 deps =
@@ -51,7 +59,6 @@ deps =
      check-manifest
      wheel
 commands =
-
      check-manifest
      python setup.py sdist bdist_wheel
 """
