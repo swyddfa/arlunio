@@ -20,7 +20,7 @@ ignore = [
 [tool.tox]
 legacy_tox_ini = """
 [tox]
-envlist = pkg, lint, docs, py{36,37}, py{36,37}-doc
+envlist = pkg, lint, docs, py37
 isolated_build = True
 
 [testenv]
@@ -44,7 +44,6 @@ commands =
 deps =
      {[testenv:docs]deps}
      sphinx-autobuild
-usedevelop = True
 commands =
      sphinx-autobuild docs docs/_build/html -E -a {posargs}
 
@@ -60,7 +59,6 @@ deps =
      check-manifest
      wheel
 commands =
-
      check-manifest
      python setup.py sdist bdist_wheel
 """

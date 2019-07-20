@@ -6,7 +6,6 @@ import py.test
 from stylo.loaders import Collection
 
 
-@py.test.mark.core
 class TestCollection:
     """Tests for the :code:`Collection` class."""
 

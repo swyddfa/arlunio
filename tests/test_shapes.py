@@ -5,7 +5,6 @@ import py.test
 import stylo as st
 
 
-@py.test.mark.core
 class TestShape:
     """Tests for the `st.shape` decorator and the base `Shape` class."""
 
