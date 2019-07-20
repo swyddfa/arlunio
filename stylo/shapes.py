@@ -4,7 +4,6 @@ import logging
 import typing
 
 import attr
-import numpy as np
 
 from .color import RGB8
 from .image import Image
@@ -209,15 +208,6 @@ def define_property(param: inspect.Parameter, attributes):
     attributes[param.name] = attr.ib(**params)
 
 
-def define_docstring(f):
-    """Define the docstring based on the user's function."""
-
-    if f.__doc__ is None:
-        return Shape.__doc__
-
-    return f"{Shape.__doc__}\n{f.__doc__}"
-
-
 def get_shape_parameters(f):
     """Given the user's function, sort the arguments into parameters and
     properties."""
@@ -240,7 +230,7 @@ def shape(f) -> type:
     name = f.__name__
     logger.debug(f"Defining shape: {name}")
 
-    attributes = {"__doc__": define_docstring(f), "_definition": staticmethod(f)}
+    attributes = {"__doc__": inspect.getdoc(f), "_definition": staticmethod(f)}
 
     params, props = get_shape_parameters(f)
     attributes["parameters"] = set([p.name for p in params])
@@ -250,45 +240,3 @@ def shape(f) -> type:
         define_property(prop, attributes)
 
     return attr.s(type(name, (Shape,), attributes))
-
-
-@shape
-def Circle(x, y, *, x0=0, y0=0, r=0.8, pt=None):
-    """A circle."""
-
-    xc = x - x0
-    yc = y - y0
-    circle = np.sqrt(xc * xc + yc * yc)
-
-    if pt is None:
-        return circle < r * r
-
-    R = (r + pt) ** 2
-    r = (r - pt) ** 2
-
-    return np.logical_and(r < circle, circle < R)
-
-
-@shape
-def Ellipse(x, y, *, x0=0, y0=0, a=2, b=1, r=0.8):
-    """An ellipse."""
-
-    xc = (x - x0) ** 2
-    yc = (y - y0) ** 2
-
-    a = a * a
-    b = b * b
-
-    return np.sqrt(xc / a + yc / b) < r * r
-
-
-@shape
-def Square(x, y, *, x0=0, y0=0, size=0.8):
-    """A square."""
-
-    xc = x - x0
-    yc = y - y0
-
-    size = size / 2
-
-    return np.logical_and(np.abs(xc) < size, np.abs(yc) < size)

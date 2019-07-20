@@ -8,4 +8,5 @@ Stylo
    using/index
    extending/index
    contributing/index
+   stdlib/index
    changes
