@@ -11,7 +11,6 @@
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
 import stylo
-from stylo.doc import AutoShapeDirective
 
 # -- Project information -----------------------------------------------------
 
@@ -33,6 +32,7 @@ extensions = [
     "sphinx.ext.doctest",
     "sphinx.ext.intersphinx",
     "sphinx.ext.mathjax",
+    "stylo.doc",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -69,9 +69,3 @@ intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
     "numpy": ("https://docs.scipy.org/doc/numpy/", None),
 }
-
-# -- Custom Configuration ----------------------------------------------------
-
-
-def setup(app):
-    app.add_directive("autoshape", AutoShapeDirective)
