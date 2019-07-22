@@ -1,10 +1,16 @@
+import json
 import os
 import typing
 
 import attr
-from docutils.nodes import Node
+import docutils.nodes as nodes
+import docutils.writers as writers
+from docutils.io import StringOutput
 from sphinx.builders import Builder
 from sphinx.util import logging
+from sphinx.util.docutils import SphinxTranslator
+
+from .directives import nbtutorial
 
 logger = logging.getLogger(__name__)
 
@@ -13,16 +19,31 @@ logger = logging.getLogger(__name__)
 class NotebookCell:
     """Represents a notebook cell."""
 
+    CODE: typing.ClassVar[str] = "code"
+    MARKDOWN: typing.ClassVar[str] = "markdown"
+
     cell_type: str
     execution_count: int = None
     metadata: typing.Dict[str, typing.Any] = attr.Factory(dict)
     outputs: typing.List[typing.Any] = attr.Factory(list)
-    source: typing.List[str] = attr.Factory(list)
+    source: str = attr.Factory(str)
 
     @classmethod
     def code(cls):
         """Create a code cell type"""
-        return cls("code")
+        return cls(cls.CODE)
+
+    @classmethod
+    def markdown(cls):
+        """Create a markdown cell"""
+        return cls(cls.MARKDOWN)
+
+    @property
+    def json(self):
+        cell = attr.asdict(self)
+        cell["source"] = [line + "\n" for line in cell["source"].split("\n")]
+
+        return cell
 
 
 @attr.s(auto_attribs=True)
@@ -40,7 +61,79 @@ class Notebook:
 
     @property
     def json(self):
-        return attr.asdict(self)
+        notebook = attr.asdict(self)
+        cells = [c.json for c in self.cells]
+
+        notebook["cells"] = cells
+        return notebook
+
+
+class NotebookWriter(writers.Writer):
+    """A class that walks a doctree converting it into a notebook."""
+
+    def __init__(self, builder):
+        super().__init__()
+        self.builder = builder
+
+    def translate(self):
+
+        visitor = NotebookTranslator(self.document, self.builder)
+        self.document.walkabout(visitor)
+        self.output = visitor.astext()
+
+
+class NotebookTranslator(SphinxTranslator):
+    """Converts rst nodes into their output representation."""
+
+    def __init__(self, document, builder):
+        super().__init__(document, builder)
+        self.cells = []
+
+    @property
+    def current_cell(self):
+
+        if len(self.cells) == 0:
+            return None
+
+        return self.cells[-1]
+
+    def new_cell(self, cell_type: str) -> None:
+        current = self.current_cell
+
+        if current is None or current.cell_type != cell_type:
+            cell = NotebookCell(cell_type=cell_type)
+            self.cells.append(cell)
+
+    def astext(self):
+        notebook = Notebook.fromcells(self.cells)
+        return json.dumps(notebook.json, indent=2)
+
+    def visit_section(self, node: nodes.section) -> None:
+        self.new_cell(NotebookCell.MARKDOWN)
+
+    def visit_Text(self, node: nodes.Text) -> None:
+        self.current_cell.source += node.astext()
+
+    def visit_title(self, node: nodes.title) -> None:
+        self.current_cell.source += "# "
+
+    def depart_title(self, node: nodes.title) -> None:
+        self.current_cell.source += "\n"
+
+    def visit_paragraph(self, node: nodes.paragraph) -> None:
+        self.current_cell.source += "\n"
+
+    def depart_paragraph(self, node: nodes.paragraph) -> None:
+        self.current_cell.source += "\n"
+
+    def visit_literal_block(self, node: nodes.literal_block) -> None:
+        self.new_cell(NotebookCell.CODE)
+
+    def unknown_visit(self, node: nodes.Node):
+        print(node.__class__.__name__)
+
+    def unknown_departure(self, node):
+        pass
 
 
 class NotebookTutorialBuilder(Builder):
@@ -70,11 +163,20 @@ class NotebookTutorialBuilder(Builder):
 
     def prepare_writing(self, docnames: typing.Set[str]) -> None:
         """A place we can add logic to?"""
-        pass
 
-    def write_doc(self, docname: str, doctree: Node) -> None:
+        self.docwriter = NotebookWriter(self)
+
+    def write_doc(self, docname: str, doctree: nodes.Node) -> None:
         logger.info(f"[nbtutorial]: Called on {docname}")
-        logger.info(f"[nbtutorial]: Has doctree {doctree}")
+
+        # Determine if the document represents a tutorial.
+        nodes = list(doctree.traverse(condition=nbtutorial))
+
+        if len(nodes) == 0:
+            return
+
+        destination = StringOutput(encoding="utf-8")
+        self.docwriter.write(doctree, destination)
 
         base, fname = os.path.split(docname)
         basedir = os.path.join(self.outdir, base)
@@ -84,4 +186,4 @@ class NotebookTutorialBuilder(Builder):
             os.makedirs(basedir)
 
         with open(outfile, "w") as f:
-            f.write("A file exists.")
+            f.write(self.docwriter.output)
