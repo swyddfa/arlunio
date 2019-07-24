@@ -10,6 +10,8 @@ repos:
   hooks:
   - id: isort
     exclude: 'solutions'
+    additional_dependencies:
+    - 'toml'
 
 - repo: https://github.com/python/black
   rev: master

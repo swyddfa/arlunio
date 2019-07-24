@@ -4,13 +4,23 @@ import stylo
 from sphinx.application import Sphinx
 
 from .builder import NotebookTutorialBuilder
-from .directives import NBTutorialDirective  # noqa: F401
-from .directives import AutoShapeDirective, nbtutorial
+from .directives import (
+    AutoShapeDirective,
+    NBTutorialDirective,
+    depart_nbtutorial,
+    nbtutorial,
+    visit_nbtutorial,
+)
 
 
 def setup(app: Sphinx) -> typing.Dict[str, typing.Any]:
 
-    app.add_node(nbtutorial)
+    app.add_node(
+        nbtutorial,
+        html=(visit_nbtutorial, depart_nbtutorial),
+        latex=(visit_nbtutorial, depart_nbtutorial),
+        text=(visit_nbtutorial, depart_nbtutorial),
+    )
     app.add_builder(NotebookTutorialBuilder)
 
     app.add_directive("autoshape", AutoShapeDirective)

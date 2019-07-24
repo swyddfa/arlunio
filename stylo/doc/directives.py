@@ -66,6 +66,14 @@ class nbtutorial(nodes.General, nodes.Element):
     pass
 
 
+def visit_nbtutorial(self, node):
+    pass
+
+
+def depart_nbtutorial(self, node):
+    pass
+
+
 def load_shape(object_spec: str) -> st.Shape:
     """Given a classpath e.g. :code:`stylo.shapes.Circle` load it."""
 

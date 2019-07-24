@@ -1,5 +1,6 @@
 import json
 import os
+import re
 import typing
 
 import attr
@@ -88,6 +89,7 @@ class NotebookTranslator(SphinxTranslator):
     def __init__(self, document, builder):
         super().__init__(document, builder)
         self.cells = []
+        self.level = 0
 
     @property
     def current_cell(self):
@@ -104,36 +106,106 @@ class NotebookTranslator(SphinxTranslator):
             cell = NotebookCell(cell_type=cell_type)
             self.cells.append(cell)
 
+    def _log_visit(self, node: nodes.Node, surround: str = None) -> None:
+        prefix = self.level * " " + "-> "
+        name = node.__class__.__name__
+
+        if surround is not None:
+            name = surround + name + surround
+
+        logger.debug(prefix + name)
+
+    def _log_departure(self, node: nodes.Node) -> None:
+        pass
+
     def astext(self):
         notebook = Notebook.fromcells(self.cells)
         return json.dumps(notebook.json, indent=2)
 
     def visit_section(self, node: nodes.section) -> None:
+        self.level += 1
+        self._log_visit(node)
         self.new_cell(NotebookCell.MARKDOWN)
 
+    def depart_section(self, node: nodes.section) -> None:
+        self.level -= 1
+        self._log_departure(node)
+
     def visit_Text(self, node: nodes.Text) -> None:
-        self.current_cell.source += node.astext()
+        self._log_visit(node)
+
+        if self.current_cell.cell_type == NotebookCell.MARKDOWN:
+            self.current_cell.source += node.astext()
+            return
+
+        source = node.astext()
+
+        if ">>>" not in source:
+            self.current_cell.source += source
+            return
+
+        pattern = re.compile("^(>>>|\\.\\.\\.) ?")
+
+        def clean_line(line):
+            return pattern.sub("", line)
+
+        cleaned_source = "\n".join(
+            [clean_line(line) for line in source.split("\n") if pattern.match(line)]
+        )
+
+        self.current_cell.source += cleaned_source
+
+    def depart_Text(self, node: nodes.Text) -> None:
+        self._log_departure(node)
 
     def visit_title(self, node: nodes.title) -> None:
-        self.current_cell.source += "# "
+        self._log_visit(node)
+
+        title = "#" * self.level
+        self.current_cell.source += f"\n{title} "
 
     def depart_title(self, node: nodes.title) -> None:
+        self._log_departure(node)
         self.current_cell.source += "\n"
 
     def visit_paragraph(self, node: nodes.paragraph) -> None:
+        self._log_visit(node)
         self.current_cell.source += "\n"
 
     def depart_paragraph(self, node: nodes.paragraph) -> None:
+        self._log_departure(node)
         self.current_cell.source += "\n"
 
+    def visit_strong(self, node: nodes.strong) -> None:
+        self._log_visit(node)
+        self.current_cell.source += "**"
+
+    def depart_strong(self, node: nodes.strong) -> None:
+        self._log_departure(node)
+        self.current_cell.source += "**"
+
     def visit_literal_block(self, node: nodes.literal_block) -> None:
+        self._log_visit(node)
         self.new_cell(NotebookCell.CODE)
 
+    def depart_literal_block(self, node: nodes.literal_block) -> None:
+        self._log_departure(node)
+
+    def visit_literal(self, node: nodes.literal) -> None:
+        self._log_visit(node)
+        self.current_cell.source += "`"
+
+    def depart_literal(self, node: nodes.literal) -> None:
+        self.current_cell.source += "`"
+
+    def visit_list_item(self, node: nodes.list_item) -> None:
+        self.current_cell.source += "- "
+
     def unknown_visit(self, node: nodes.Node):
-        print(node.__class__.__name__)
+        self._log_visit(node, surround="!")
 
     def unknown_departure(self, node):
-        pass
+        self._log_departure(node)
 
 
 class NotebookTutorialBuilder(Builder):
@@ -145,7 +217,7 @@ class NotebookTutorialBuilder(Builder):
 
     def init(self) -> None:
         """Any initialization goes here."""
-        logger.info(f"[nbtutorial]: Outdir is: {self.outdir}")
+        logger.debug(f"[nbtutorial]: Outdir is: {self.outdir}")
 
     def get_outdated_docs(self) -> typing.Union[str, typing.Iterable[str]]:
         """Not too sure what we should do here yet."""
@@ -157,7 +229,7 @@ class NotebookTutorialBuilder(Builder):
 
         uri = docname + ".ipynb"
 
-        logger.info(f"[nbtutorial]: Target URI: {uri}")
+        logger.debug(f"[nbtutorial]: Target URI: {uri}")
 
         return uri
 
@@ -167,7 +239,7 @@ class NotebookTutorialBuilder(Builder):
         self.docwriter = NotebookWriter(self)
 
     def write_doc(self, docname: str, doctree: nodes.Node) -> None:
-        logger.info(f"[nbtutorial]: Called on {docname}")
+        logger.debug(f"[nbtutorial]: Called on {docname}")
 
         # Determine if the document represents a tutorial.
         nodes = list(doctree.traverse(condition=nbtutorial))
