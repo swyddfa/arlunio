@@ -18,12 +18,14 @@ class TestNotebook:
                     "execution_count": None,
                     "metadata": {},
                     "outputs": [],
-                    "source": [],
-                }
+                    "source": ["\n"],
+                },
+                {"cell_type": "markdown", "metadata": {}, "source": ["\n"]},
             ],
         }
 
-        cell = NotebookCell.code()
-        nb = Notebook.fromcells([cell])
+        code = NotebookCell.code()
+        markdown = NotebookCell.markdown()
+        nb = Notebook.fromcells([code, markdown])
 
         assert expected == nb.json
