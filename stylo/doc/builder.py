@@ -44,7 +44,12 @@ class NotebookCell:
         cell = attr.asdict(self)
         cell["source"] = [line + "\n" for line in cell["source"].split("\n")]
 
-        return cell
+        md_exclude = {"outputs", "execution_count"}
+
+        def exclude(field):
+            return self.cell_type == self.MARKDOWN and field in md_exclude
+
+        return {k: v for k, v in cell.items() if not exclude(k)}
 
 
 @attr.s(auto_attribs=True)
@@ -200,6 +205,25 @@ class NotebookTranslator(SphinxTranslator):
 
     def visit_list_item(self, node: nodes.list_item) -> None:
         self.current_cell.source += "- "
+
+    def visit_target(self, node: nodes.target) -> None:
+        print(node)
+
+    def visit_reference(self, node: nodes.reference) -> None:
+        pass
+
+    def depart_reference(self, node: nodes.reference) -> None:
+        attrs = node.attributes
+
+        if attrs["internal"]:
+            ref = attrs["refuri"].split("#")[0]
+            self.current_cell.source += f"({ref})"
+
+    def visit_inline(self, node: nodes.inline) -> None:
+        self.current_cell.source += "["
+
+    def depart_inline(self, node: nodes.inline) -> None:
+        self.current_cell.source += "]"
 
     def unknown_visit(self, node: nodes.Node):
         self._log_visit(node, surround="!")
