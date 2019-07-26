@@ -1,19 +1,12 @@
 import base64
 import io
 import logging
+import string
 
 import numpy as np
 import PIL.Image
 
 from .color import RGB8
-
-try:
-    import matplotlib.pyplot as plt
-
-    MATPLOTLIB = True
-except ImportError:
-    MATPLOTLIB = False
-
 
 logger = logging.getLogger(__name__)
 
@@ -40,6 +33,24 @@ class Image:
     def __repr__(self):
         y, x, _ = self.pixels.shape
         return f"Image<{x} x {y}>"
+
+    def _repr_html_(self):
+
+        data = self.encode().decode("utf-8")
+        html = """\
+            <style>
+              .stylo-image {
+                  width: 50%;
+                  margin: auto;
+                  image-rendering: crisp-edges;
+                  border: solid 1px #ddd;
+              }
+            </style>
+            <img class="stylo-image" src="data:image/png;base64,$data"></img>
+        """
+        template = string.Template(html)
+
+        return template.safe_substitute({"data": data})
 
     def __getitem__(self, key):
         return Image(self.pixels[key])
@@ -72,21 +83,6 @@ class Image:
 
         pixels = np.full((height, width, 3), bg_color, dtype=np.uint8)
         return cls(pixels)
-
-    def show(self, figsize=None):
-
-        if not MATPLOTLIB:
-            raise MissingDependencyError("matplotlib")
-
-        if figsize is None:
-            figsize = (12, 12)
-
-        fig, ax = plt.subplots(1, figsize=figsize)
-        fig.axes[0].get_yaxis().set_visible(False)
-        fig.axes[0].get_xaxis().set_visible(False)
-
-        ax.imshow(self.pixels)
-        return ax
 
     def _as_pillow_image(self):
         height, width, _ = self.pixels.shape
