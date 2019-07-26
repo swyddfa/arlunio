@@ -44,8 +44,9 @@ jobs:
     displayName: 'Tox $(tox.env)'
 
   - script: |
+      echo $CODECOV_TOKEN
       pip install codecov
-      codecov
+      codecov -t $CODECOV_TOKEN
     displayName: 'Report Coverage'
     condition: |
       or(
