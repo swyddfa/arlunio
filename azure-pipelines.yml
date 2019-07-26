@@ -49,8 +49,8 @@ jobs:
     displayName: 'Report Coverage'
     condition: |
       or(
-        eq($(tox.env), 'py36'),
-        eq($(tox.env), 'py37')
+        eq(tox.env, 'py36'),
+        eq(tox.env, 'py37')
       )
 
 
