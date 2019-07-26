@@ -48,7 +48,7 @@ jobs:
       codecov
     displayName: 'Report Coverage'
     env:
-      TOKEN: $(CODECOV_TOKEN)
+      CODECOV_TOKEN: $(codecov.token)
     condition: |
       or(
         eq(variables['tox.env'], 'py36'),
