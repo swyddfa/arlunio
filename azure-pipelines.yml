@@ -47,7 +47,7 @@ jobs:
       pip install codecov
       codecov --token=$(CODECOV_TOKEN)
     displayName: 'Report Coverage'
-    conditon: |
+    condition: |
       or(
         eq($(tox.env), 'py36'),
         eq($(tox.env), 'py37')
