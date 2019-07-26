@@ -43,10 +43,9 @@ jobs:
       tox -e $(tox.env)
     displayName: 'Tox $(tox.env)'
 
-  - script: |
-      echo $CODECOV_TOKEN
+  - bash: |
       pip install codecov
-      codecov -t $CODECOV_TOKEN
+      codecov -t $TOKEN
     displayName: 'Report Coverage'
     env:
       TOKEN: $(CODECOV_TOKEN)
