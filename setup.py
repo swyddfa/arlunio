@@ -60,6 +60,7 @@ setup(
     ],
     entry_points={
         "console_scripts": ["stylo = stylo.__main__:cli"],
+        "sphinx.builders": ["nbtutorial = stylo.doc"],
         "stylo.cli.commands": ["tutorial = stylo.cli.tutorial:register"],
         "stylo.parameters": [
             "x = stylo.parameters:xs",

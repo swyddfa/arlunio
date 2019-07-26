@@ -62,6 +62,18 @@ PREVIEW_TEMPLATE = """\
 """
 
 
+class nbtutorial(nodes.General, nodes.Element):
+    pass
+
+
+def visit_nbtutorial(self, node):
+    pass
+
+
+def depart_nbtutorial(self, node):
+    pass
+
+
 def load_shape(object_spec: str) -> st.Shape:
     """Given a classpath e.g. :code:`stylo.shapes.Circle` load it."""
 
@@ -184,3 +196,8 @@ class AutoShapeDirective(rst.Directive):
         nested_parse_with_titles(self.state, content, section)
 
         return section.children
+
+
+class NBTutorialDirective(rst.Directive):
+    def run(self):
+        return [nbtutorial("")]
