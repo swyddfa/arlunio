@@ -43,6 +43,17 @@ jobs:
       tox -e $(tox.env)
     displayName: 'Tox $(tox.env)'
 
+  - script: |
+      pip install codecov
+      codecov --token=$(CODECOV_TOKEN)
+    displayName: 'Report Coverage'
+    conditon: |
+      or(
+        eq($(tox.env), 'py36'),
+        eq($(tox.env), 'py37')
+      )
+
+
 - job: 'Deploy'
   pool:
     vmImage: 'ubuntu-latest'
