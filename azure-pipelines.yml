@@ -45,7 +45,7 @@ jobs:
 
   - bash: |
       pip install codecov
-      codecov -t "$TOKEN"
+      codecov
     displayName: 'Report Coverage'
     env:
       TOKEN: $(CODECOV_TOKEN)
