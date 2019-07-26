@@ -45,7 +45,7 @@ jobs:
 
   - script: |
       pip install codecov
-      codecov --token=$CODECOV_TOKEN
+      codecov
     displayName: 'Report Coverage'
     condition: |
       or(
