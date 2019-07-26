@@ -48,6 +48,8 @@ jobs:
       pip install codecov
       codecov -t $CODECOV_TOKEN
     displayName: 'Report Coverage'
+    env:
+      TOKEN: $(CODECOV_TOKEN)
     condition: |
       or(
         eq(variables['tox.env'], 'py36'),
