@@ -25,8 +25,8 @@ Tutorial
 
 Welcome to stylo's tutorial! If this is your first time here please do take the
 time to read through this page to help you get the most out of it. However
-before we go any further it is worth checking that stylo has been properly set
-up
+before we go any further it is worth checking that you have the latest version
+of :code:`stylo`
 
 .. doctest::
 

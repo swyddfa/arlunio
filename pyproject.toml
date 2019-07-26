@@ -42,6 +42,7 @@ deps =
      sphinx_rtd_theme
 commands =
     sphinx-build -M linkcheck docs docs/_build -E -a -j auto {posargs}
+    sphinx-build -M doctest docs docs/_build -E -a -j auto {posargs}
     sphinx-build -M html docs docs/_build -E -a -j auto {posargs}
 
 [testenv:docs-preview]
