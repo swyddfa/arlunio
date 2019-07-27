@@ -2,7 +2,7 @@
 |   | **Stable** | **Snapshot** |
 |:-------------:|----|----|
 | **Docs** | [![Documentation Status](https://readthedocs.org/projects/stylo/badge/?version=stable)](https://stylo.readthedocs.io/en/stable/?badge=stable) | [![Documentation Status](https://readthedocs.org/projects/stylo/badge/?version=latest)](https://stylo.readthedocs.io/en/latest/?badge=latest)|
-| **Code**  [![Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black) | | [![Build Status](https://dev.azure.com/alcarney/Swyddfa/_apis/build/status/swyddfa.stylo?branchName=develop)](https://dev.azure.com/alcarney/Swyddfa/_build/latest?definitionId=1&branchName=develop)[![Coverage Status](https://coveralls.io/repos/github/swyddfa/stylo/badge.svg?branch=develop)](https://coveralls.io/github/swyddfa/stylo?branch=develop)|
+| **Code**  [![Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black) | | [![Build Status](https://dev.azure.com/alcarney/Swyddfa/_apis/build/status/swyddfa.stylo?branchName=develop)](https://dev.azure.com/alcarney/Swyddfa/_build/latest?definitionId=1&branchName=develop)[![codecov](https://codecov.io/gh/swyddfa/stylo/branch/develop/graph/badge.svg)](https://codecov.io/gh/swyddfa/stylo)|
 | **PyPi** | [![PyPi Version](https://img.shields.io/pypi/v/stylo.svg)](https://pypi.org/project/stylo) [![PyPi Supported Versions](https://img.shields.io/pypi/pyversions/stylo.svg)](https://pypi.org/project/stylo)|
 
 **Stylo is in early development, while it is useable we cannot make any
