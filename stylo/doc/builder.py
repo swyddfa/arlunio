@@ -278,11 +278,11 @@ class NotebookTutorialBuilder(Builder):
         base, fname = os.path.split(docname)
         basedir = os.path.join(self.outdir, base)
 
-        Path(basedir, "__init__.py").touch()
-        outfile = os.path.join(basedir, fname + ".ipynb")
-
         if not os.path.exists(basedir):
             os.makedirs(basedir)
+
+        Path(basedir, "__init__.py").touch()
+        outfile = os.path.join(basedir, fname + ".ipynb")
 
         with open(outfile, "w") as f:
             f.write(self.docwriter.output)
