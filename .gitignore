@@ -13,6 +13,7 @@ env/
 dist/
 docs/_build
 htmlcov
+stylo/tutorial/
 
 *.png
 !docs/**/*.png
