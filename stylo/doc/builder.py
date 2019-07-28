@@ -2,6 +2,7 @@ import json
 import os
 import re
 import typing
+from pathlib import Path
 
 import attr
 import docutils.nodes as nodes
@@ -276,6 +277,8 @@ class NotebookTutorialBuilder(Builder):
 
         base, fname = os.path.split(docname)
         basedir = os.path.join(self.outdir, base)
+
+        Path(basedir, "__init__.py").touch()
         outfile = os.path.join(basedir, fname + ".ipynb")
 
         if not os.path.exists(basedir):
