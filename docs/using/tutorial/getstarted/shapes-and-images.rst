@@ -32,3 +32,17 @@ focus on making our first image!
 Every shape instance can be called as a function and will return an image
 contiaing itself, all we need to do is tell it how large we want the image to
 be!
+
+.. doctest::
+
+   >>> circle(4, 4)  # doctest: +SKIP
+
+
+.. only:: html
+
+   .. styloimage::
+
+      from stylo import Shapes as S
+
+      circle = S.Circle()
+      image = circle(4, 4)

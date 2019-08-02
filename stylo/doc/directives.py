@@ -1,6 +1,3 @@
-"""A custom `autoshape` directive used to automatically document shape definitions
-in the spirit of the autodoc extension.
-"""
 import importlib
 import string
 import textwrap
@@ -60,6 +57,15 @@ PREVIEW_TEMPLATE = """\
    </figure>
 
 """
+
+IMAGE_TEMPLATE = string.Template(
+    """\
+<figure style="border: solid 1px #ddd;width: 75%;margin:auto">
+  <img style="image-rendering:crisp-edges;width:100%"
+       src="data:image/png;base64,$data"></img>
+</figure>
+"""
+)
 
 
 class nbtutorial(nodes.General, nodes.Element):
@@ -168,6 +174,49 @@ def parse_content(state, content: StringList) -> List[nodes.Node]:
     return section.children
 
 
+def render_image(src: str) -> List[nodes.Node]:
+    """Given the source code for an image return a doctree that when rendered by
+    Sphinx will insert that image into a HTML page.
+
+    :param src: The source code that produces the image.
+    """
+    doctree = []
+
+    try:
+        code = compile(src, "<string>", "exec")
+    except Exception:
+        message = nodes.Text("Unable to render image: Invalid code")
+        err = nodes.literal_block("", traceback.format_exc())
+        doctree.append(nodes.error("", message, err))
+
+        return doctree
+
+    environment = {}
+
+    try:
+        exec(code, environment)
+    except Exception:
+        message = nodes.Text("Unable to render image: Error in code")
+        err = nodes.literal_block("", traceback.format_exc())
+        doctree.append(nodes.error("", message, err))
+
+        return doctree
+
+    # Look to see if the code produced an image object for us.
+    image = None
+
+    for obj in environment.values():
+        if isinstance(obj, st.Image):
+            image = obj
+
+    if image is not None:
+        context = {"data": image.encode().decode("utf-8")}
+        html = IMAGE_TEMPLATE.safe_substitute(context)
+        doctree.append(nodes.raw("", html, format="html"))
+
+    return doctree
+
+
 class AutoShapeDirective(rst.Directive):
     """Given the a shape definition automatically generate its documentation."""
 
@@ -201,3 +250,14 @@ class AutoShapeDirective(rst.Directive):
 class NBTutorialDirective(rst.Directive):
     def run(self):
         return [nbtutorial("")]
+
+
+class StyloImageDirective(rst.Directive):
+    """Given some code that produces an image, render it in the page."""
+
+    has_content = True
+
+    def run(self):
+
+        src = "\n".join(self.content)
+        return render_image(src)

@@ -71,7 +71,14 @@ class Image:
         self._mask = value
 
     @classmethod
-    def new(cls, width, height, background=None, colorspace=None):
+    def new(cls, width: int, height: int, background: str = None, colorspace=None):
+        """Create a new Image with the given width and height.
+
+        :param width: The width of the image in pixels
+        :param height: The height of the image in pixels
+        :param background: The background color to use.
+        :param colorspace: The colorspace to use.
+        """
 
         if background is None:
             background = "ffffff"
@@ -91,14 +98,19 @@ class Image:
             "RGB", (width, height), self.pixels, "raw", "RGB", 0, 1
         )
 
-    def save(self, filename):
+    def save(self, filename: str) -> None:
+        """Save an image in PNG format.
+
+        :param filename: The filepath to save the image to.
+        """
 
         image = self._as_pillow_image()
 
         with open(filename, "wb") as f:
             image.save(f)
 
-    def encode(self):
+    def encode(self) -> bytes:
+        """Return the image encoded as a base64 string."""
         logger.debug("Encoding image as base64")
         image = self._as_pillow_image()
 

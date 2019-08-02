@@ -16,7 +16,15 @@ def readme():
 
 required = ["attrs", "numpy", "Pillow", "Click"]
 extras = {
-    "dev": ["tox", "pre-commit", "jupyterlab"],
+    "dev": [
+        "tox",
+        "pre-commit",
+        "jupyterlab",
+        "pytest",
+        "pytest-cov",
+        "black",
+        "flake8",
+    ],
     "doc": ["sphinx"],
     "examples": ["jupyterlab"],
 }

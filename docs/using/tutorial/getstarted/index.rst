@@ -11,6 +11,5 @@ through the next few pages you will have a much better idea about stylo, what
 it is and how to use it.
 
 .. toctree::
-   :hidden:
 
    shapes-and-images
