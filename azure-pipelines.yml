@@ -5,6 +5,7 @@
 
 trigger:
 - develop
+- master
 
 jobs:
 - job: 'Test'
