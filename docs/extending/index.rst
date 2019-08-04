@@ -1,15 +1,6 @@
-.. _extend:
+.. _extending:
 
 Extending
 =========
 
-
-.. toctree::
-   :maxdepth: 2
-
-   tutorials/index
-   reference/index
-   examples/index
-
-
-
+This is how we extend it.

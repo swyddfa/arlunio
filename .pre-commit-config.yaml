@@ -1,11 +1,20 @@
-exclude: '^$'
-fail_fast: true
 repos:
-- repo: https://github.com/ambv/black
-  rev: stable
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: master
+  hooks:
+  - id: flake8
+    exclude: 'solutions'
+
+- repo: https://github.com/pre-commit/mirrors-isort
+  rev: master
+  hooks:
+  - id: isort
+    exclude: 'solutions'
+    additional_dependencies:
+    - 'toml'
+
+- repo: https://github.com/python/black
+  rev: master
   hooks:
   - id: black
-    language_version: python3.7
-    args:
-    - stylo/
-    - tests/
+    exclude: 'solutions'

@@ -1,11 +1,11 @@
-.. _use:
+.. _userguide:
 
-User's Guide
-============
+User Guide
+==========
+
+This is how we do it
 
 .. toctree::
    :maxdepth: 2
 
-   tutorials/index
-   reference/index
-
+   tutorial/index

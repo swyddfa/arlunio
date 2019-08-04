@@ -1,54 +1,72 @@
-[tool.poetry]
-name = "stylo"
-version = "0.9.3"
-description = "Drawing images with a blend of Python and Mathematics"
-readme = "README.md"
-
-authors = ["Alex Carney <alcarneyme@gmail.com>"]
-
-license = "MIT"
-
-homepage = "https://stylo.readthedocs.io/en/latest/"
-repository = "https://github.com/alcarney/stylo"
-documentation = "https://stylo.readthedocs.io/en/latest/"
-
-classifiers = [
-    "Development Status :: 3 - Alpha",
-    "Topic :: Multimedia :: Graphics"
-]
-
-include = ["CHANGES.rst"]
-
-[tool.poetry.dependencies]
-python = "^3.5"
-
-numpy = "*"
-Pillow = "*"
-click = "*"
-
-# TODO: Click has a progress bar, use that instead.
-tqdm = "*"
-
-hypothesis = { version = "^3.*", optional = true}
-pytest = {version = "4.0.2", optional = true}
-matplotlib = {version = "^3.*", optional = true}
-jupyter = {version = "^1.0", optional = true}
-
-[tool.poetry.extras]
-testing = ["pytest", "hypothesis"]
-jupyter = ["jupyter", "matplotlib"]
-
-[tool.poetry.dev-dependencies]
-pytest = "4.0.2"
-pytest-cov = "^2.6"
-hypothesis = "3.*"
-sphinx = "^1.8"
-sphinx-stylo = "^0.1.1"
-topos-theme = "^0.0.11"
-
 [build-system]
-requires = ["poetry>=0.12"]
-build-backend = "poetry.masonry.api"
+requires = ["setuptools >= 35.0.2", "wheel >= 0.29.0"]
+build-backend = "setuptools.build_meta"
 
+[tool.check-manifest]
+ignore = [
+  "docs",
+  "docs/*",
+  ".pre-commit-config.yaml",
+  "azure-pipelines.yml",
+  "scripts",
+  "scripts/*",
+  ".coveragerc",
+  ".flake8",
+  "*.ipynb_checkpoints",
+  "*.ipynb_checkpoints/*",
+  "tests",
+  "tests/*"]
 
-# vim: ft=dosini
+[tool.isort]
+multi_line_output = 3
+include_trailing_comma = true
+
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+envlist = pkg, lint, docs, py37
+isolated_build = True
+
+[testenv]
+deps =
+     pytest
+     pytest-cov
+     pytest-azurepipelines
+extras = all
+commands =
+    pytest --doctest-glob="*.rst" --cov=arlunio --cov-report html {posargs}
+
+[testenv:docs]
+deps =
+     sphinx
+     sphinx_rtd_theme
+commands =
+    sphinx-build -M linkcheck docs docs/_build -E -a -j auto {posargs}
+    sphinx-build -M html docs docs/_build -E -a -j auto {posargs}
+
+[testenv:docs-preview]
+deps =
+     {[testenv:docs]deps}
+     sphinx-autobuild
+commands =
+     sphinx-autobuild docs docs/_build/html -E -a {posargs}
+
+[testenv:lint]
+deps =
+     pre-commit
+commands =
+    pre-commit run --all-files
+
+[testenv:pkg]
+deps =
+     sphinx
+     wheel
+whitelist_externals = cp
+usedevelop = True
+commands =
+
+     sphinx-build -M nbtutorial docs/ docs/_build -E -a
+     cp -r docs/_build/nbtutorial/using/tutorial/ arlunio
+
+     python setup.py sdist bdist_wheel
+"""

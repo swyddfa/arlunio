@@ -11,8 +11,9 @@ __pycache__/
 
 env/
 dist/
-docs/api
 docs/_build
+htmlcov
+arlunio/tutorial/
 
 *.png
 !docs/**/*.png
@@ -23,3 +24,7 @@ docs/_build
 build
 .vscode/
 *.pyc
+pip-wheel-metadata
+.dev
+*.mo
+*.xml
