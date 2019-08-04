@@ -10,6 +10,8 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
+import os
+
 import stylo
 
 # -- Project information -----------------------------------------------------
@@ -19,7 +21,8 @@ copyright = "2017-, Alex Carney"
 author = "Alex Carney"
 
 # The full version, including alpha/beta/rc tags
-release = stylo.__version__
+version = stylo.__version__
+release = version
 
 
 # -- General configuration ---------------------------------------------------
@@ -41,7 +44,12 @@ templates_path = ["_templates"]
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
+exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", "_definitions.rst"]
+
+basedir = os.path.dirname(__file__)
+
+with open(os.path.join(basedir, "_definitions.rst")) as f:
+    rst_epilog = f.read()
 
 # -- Internationalisation ----------------------------------------------------
 
@@ -65,6 +73,8 @@ html_theme = "sphinx_rtd_theme"
 # html_static_path = ["_static"]
 
 # -- Extension Configuration -------------------------------------------------
+autodoc_member_order = "groupwise"
+
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
     "numpy": ("https://docs.scipy.org/doc/numpy/", None),

@@ -1,54 +1,69 @@
-import py.test
-import stylo as st
+import textwrap
+
+from docutils import nodes
 from docutils.statemachine import StringList
-from stylo.doc.directives import format_error, load_shape
+from stylo.doc.directives import format_error, render_image
 
 
-class TestLoadShape:
-    """Tests for the :code:`load_shape` function."""
+class TestRenderImage:
+    """Tests for the :code:`render_image` function."""
 
-    def test_bad_module_name(self):
-        """Ensure that a :code:`ModuleNotFoundError` is raised if a bad module
-        name is given."""
+    def test_handles_syntax_error(self):
+        """Ensure that if there is an error when compiling the code we can
+        handle it."""
 
-        with py.test.raises(ModuleNotFoundError) as err:
-            load_shape("badmod.Circle")
+        src = "x 1 + 2"
+        doctree = render_image(src)
 
-        assert "badmod" in str(err.value)
+        assert len(doctree) == 1
+        assert isinstance(doctree[0], nodes.error), "Expected error node."
 
-    def test_bad_module_path(self):
-        """Ensure that a :code:`ModuleNotFoundError` is raised if a bad submodule
-        name is given."""
+        error = doctree[0]
+        assert len(error.children) == 2, "Expected two content nodes."
 
-        with py.test.raises(ModuleNotFoundError) as err:
-            load_shape("stylo.badmod.Circle")
+        text, trace = error.children
 
-        assert "stylo.badmod" in str(err.value)
+        assert isinstance(text, nodes.Text), "Expected text node."
+        assert "Unable to render image" in text.astext()
 
-    def test_bad_object_name(self):
-        """Ensure that an :code:`AttributeError` is raised if an object name is
-        given that does not exist"""
+        assert isinstance(trace, nodes.literal_block)
+        assert "Traceback" in trace.astext()
+        assert "SyntaxError" in trace.astext()
 
-        with py.test.raises(AttributeError) as err:
-            load_shape("stylo.lib.basic.BadShapeName")
+    def test_handles_runtime_error(self):
+        """Ensure that if there is an error when executing the code we can handle it."""
 
-        assert "stylo.lib.basic" in str(err.value)
-        assert "BadShapeName" in str(err.value)
+        src = "x = 1 / 0"
+        doctree = render_image(src)
 
-    def test_bad_object_type(self):
-        """Ensure that a :code:`TypeError` is raised if an object is not a shape."""
+        assert len(doctree) == 1
+        assert isinstance(doctree[0], nodes.error), "Expected error node."
 
-        with py.test.raises(TypeError) as err:
-            load_shape("stylo.doc.directives.AutoShapeDirective")
+        error = doctree[0]
+        assert len(error.children) == 2, "Expected two content nodes."
 
-        assert "is not a shape" in str(err.value)
-        assert "AutoShapeDirective" in str(err.value)
+        text, trace = error.children
 
-    def test_load_shape(self):
-        """Ensure that we can load a shape."""
+        assert isinstance(text, nodes.Text), "Expected text node."
+        assert "Unable to render image" in text.astext()
 
-        circle = load_shape("stylo.lib.basic.Circle")
-        assert issubclass(circle, st.Shape)
+        assert isinstance(trace, nodes.literal_block)
+        assert "Traceback" in trace.astext()
+        assert "ZeroDivisionError" in trace.astext()
+
+    def test_image_provided(self):
+        """Ensure that if the code provides an image we use that."""
+
+        src = """\
+        from stylo import Shapes as S
+
+        circle = S.Circle()
+        disk = circle(4,4)
+        """
+        doctree = render_image(textwrap.dedent(src))
+
+        assert len(doctree) == 1
+        assert isinstance(doctree[0], nodes.raw), "Expected raw node"
 
 
 class TestFormatError:

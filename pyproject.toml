@@ -29,12 +29,12 @@ isolated_build = True
 
 [testenv]
 deps =
-     .[all]
      pytest
      pytest-cov
      pytest-azurepipelines
+extras = all
 commands =
-    pytest -q --cov=stylo --cov-report html {posargs}
+    pytest --doctest-glob="*.rst" --cov=stylo --cov-report html {posargs}
 
 [testenv:docs]
 deps =
@@ -42,7 +42,6 @@ deps =
      sphinx_rtd_theme
 commands =
     sphinx-build -M linkcheck docs docs/_build -E -a -j auto {posargs}
-    sphinx-build -M doctest docs docs/_build -E -a -j auto {posargs}
     sphinx-build -M html docs docs/_build -E -a -j auto {posargs}
 
 [testenv:docs-preview]

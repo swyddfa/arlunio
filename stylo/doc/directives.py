@@ -1,6 +1,3 @@
-"""A custom `autoshape` directive used to automatically document shape definitions
-in the spirit of the autodoc extension.
-"""
 import importlib
 import string
 import textwrap
@@ -61,6 +58,15 @@ PREVIEW_TEMPLATE = """\
 
 """
 
+IMAGE_TEMPLATE = string.Template(
+    """\
+<figure style="border: solid 1px #ddd;width: 75%;margin:auto">
+  <img style="image-rendering:crisp-edges;width:100%"
+       src="data:image/png;base64,$data"></img>
+</figure>
+"""
+)
+
 
 class nbtutorial(nodes.General, nodes.Element):
     pass
@@ -74,8 +80,42 @@ def depart_nbtutorial(self, node):
     pass
 
 
-def load_shape(object_spec: str) -> st.Shape:
-    """Given a classpath e.g. :code:`stylo.shapes.Circle` load it."""
+def load_shape(object_spec: str) -> (st.Shape, str):
+    """Given a classpath e.g. :code:`stylo.lib.basic.Circle` load it.
+
+    There is an issue(?) currently with shapes defined with the :code:`@shape` decorator
+    where the shape's module is reported as the module where the :code:`@shape`
+    decorator is defined (:code:`stylo._shapes`) rather than the module where the shape
+    is defined (:code:`stylo.lib.basic`). So this function also returns the true module
+    name::
+
+       >>> from stylo.doc.directives import load_shape
+
+       >>> load_shape("stylo.lib.basic.Circle")
+       (<class 'stylo._shapes.Circle'>, 'stylo.lib.basic')
+
+    If the module is not found then a :code:`MoudleNotFoundError` will be raised::
+
+       >>> load_shape("stylo.notfound.Circle")
+       Traceback (most recent call last):
+          ...
+       ModuleNotFoundError: No module named 'stylo.notfound'
+
+    If the class within the module cannot be found then an :code:`AttributeError` will
+    be raised::
+
+       >>> load_shape("stylo._shapes.Circle")
+       Traceback (most recent call last):
+          ...
+       AttributeError: module 'stylo._shapes' has no attribute 'Circle'
+
+    Finally if the given class is not a shape then a :code:`TypeError` will be raised::
+
+       >>> load_shape("stylo.doc.directives.AutoShapeDirective")
+       Traceback (most recent call last):
+          ...
+       TypeError: 'stylo.doc.directives.AutoShapeDirective' is not a shape
+    """
 
     *obj_path, obj_name = object_spec.split(".")
     obj_path = ".".join(obj_path)
@@ -86,9 +126,9 @@ def load_shape(object_spec: str) -> st.Shape:
     shape = getattr(module, obj_name)
 
     if not issubclass(shape, st.Shape):
-        raise TypeError(f"{object_spec} is not a shape")
+        raise TypeError(f"'{object_spec}' is not a shape")
 
-    return shape
+    return shape, module.__name__
 
 
 def document_properties(shape: st.Shape) -> str:
@@ -122,7 +162,7 @@ def generate_preview(shape_ins: st.Shape) -> str:
     return template.safe_substitute(context)
 
 
-def document_shape(shape: st.Shape) -> StringList:
+def document_shape(shape: st.Shape, module_name: str) -> StringList:
     """Given a shape definition, automatically write the reference documentation
     for it.
     """
@@ -133,7 +173,7 @@ def document_shape(shape: st.Shape) -> StringList:
 
     context = {
         "shape_name": shape.__name__ + "\n" + "-" * len(shape.__name__),
-        "shape_path": f"{shape.__module__}.{shape.__name__}",
+        "shape_path": f"{module_name}.{shape.__name__}",
         "shape_desc": textwrap.indent(docstring, indent),
         "shape_props": textwrap.indent(document_properties(shape), indent),
         "shape_image": textwrap.indent(generate_preview(default), indent),
@@ -168,6 +208,49 @@ def parse_content(state, content: StringList) -> List[nodes.Node]:
     return section.children
 
 
+def render_image(src: str) -> List[nodes.Node]:
+    """Given the source code for an image return a doctree that when rendered by
+    Sphinx will insert that image into a HTML page.
+
+    :param src: The source code that produces the image.
+    """
+    doctree = []
+
+    try:
+        code = compile(src, "<string>", "exec")
+    except Exception:
+        message = nodes.Text("Unable to render image: Invalid code")
+        err = nodes.literal_block("", traceback.format_exc())
+        doctree.append(nodes.error("", message, err))
+
+        return doctree
+
+    environment = {}
+
+    try:
+        exec(code, environment)
+    except Exception:
+        message = nodes.Text("Unable to render image: Error in code")
+        err = nodes.literal_block("", traceback.format_exc())
+        doctree.append(nodes.error("", message, err))
+
+        return doctree
+
+    # Look to see if the code produced an image object for us.
+    image = None
+
+    for obj in environment.values():
+        if isinstance(obj, st.Image):
+            image = obj
+
+    if image is not None:
+        context = {"data": image.encode().decode("utf-8")}
+        html = IMAGE_TEMPLATE.safe_substitute(context)
+        doctree.append(nodes.raw("", html, format="html"))
+
+    return doctree
+
+
 class AutoShapeDirective(rst.Directive):
     """Given the a shape definition automatically generate its documentation."""
 
@@ -180,7 +263,7 @@ class AutoShapeDirective(rst.Directive):
         shape_name = self.arguments[0]
 
         try:
-            shape = load_shape(shape_name)
+            shape, module_name = load_shape(shape_name)
 
         except Exception:
             err = traceback.format_exc()
@@ -189,7 +272,7 @@ class AutoShapeDirective(rst.Directive):
 
             return parse_content(self.state, content)
 
-        content = document_shape(shape)
+        content = document_shape(shape, module_name)
 
         section = nodes.section()
         section.document = self.state.document
@@ -201,3 +284,14 @@ class AutoShapeDirective(rst.Directive):
 class NBTutorialDirective(rst.Directive):
     def run(self):
         return [nbtutorial("")]
+
+
+class StyloImageDirective(rst.Directive):
+    """Given some code that produces an image, render it in the page."""
+
+    has_content = True
+
+    def run(self):
+
+        src = "\n".join(self.content)
+        return render_image(src)

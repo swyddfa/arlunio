@@ -7,6 +7,7 @@ from .builder import NotebookTutorialBuilder
 from .directives import (
     AutoShapeDirective,
     NBTutorialDirective,
+    StyloImageDirective,
     depart_nbtutorial,
     nbtutorial,
     visit_nbtutorial,
@@ -25,5 +26,6 @@ def setup(app: Sphinx) -> typing.Dict[str, typing.Any]:
 
     app.add_directive("autoshape", AutoShapeDirective)
     app.add_directive("nbtutorial", NBTutorialDirective)
+    app.add_directive("styloimage", StyloImageDirective)
 
     return {"version": stylo.__version__, "parallel_read_safe": True}

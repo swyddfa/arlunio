@@ -176,6 +176,7 @@ class NotebookTranslator(SphinxTranslator):
 
     def visit_paragraph(self, node: nodes.paragraph) -> None:
         self._log_visit(node)
+        self.new_cell(NotebookCell.MARKDOWN)
         self.current_cell.source += "\n"
 
     def depart_paragraph(self, node: nodes.paragraph) -> None:
@@ -208,7 +209,7 @@ class NotebookTranslator(SphinxTranslator):
         self.current_cell.source += "- "
 
     def visit_target(self, node: nodes.target) -> None:
-        print(node)
+        pass
 
     def visit_reference(self, node: nodes.reference) -> None:
         pass
