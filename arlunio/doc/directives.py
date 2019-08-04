@@ -4,8 +4,8 @@ import textwrap
 import traceback
 from typing import List
 
+import arlunio as ar
 import attr
-import stylo as st
 from docutils import nodes
 from docutils.parsers import rst
 from docutils.statemachine import StringList
@@ -80,7 +80,7 @@ def depart_nbtutorial(self, node):
     pass
 
 
-def load_shape(object_spec: str) -> (st.Shape, str):
+def load_shape(object_spec: str) -> (ar.Shape, str):
     """Given a classpath e.g. :code:`stylo.lib.basic.Circle` load it.
 
     There is an issue(?) currently with shapes defined with the :code:`@shape` decorator
@@ -125,13 +125,13 @@ def load_shape(object_spec: str) -> (st.Shape, str):
     module = importlib.import_module(obj_path)
     shape = getattr(module, obj_name)
 
-    if not issubclass(shape, st.Shape):
+    if not issubclass(shape, ar.Shape):
         raise TypeError(f"'{object_spec}' is not a shape")
 
     return shape, module.__name__
 
 
-def document_properties(shape: st.Shape) -> str:
+def document_properties(shape: ar.Shape) -> str:
     """Given a shape's definitio, document all of its properties."""
     template = string.Template(PROPS_TEMPLATE)
     prop_tpl = string.Template(PROP_TEMPLATE)
@@ -148,7 +148,7 @@ def document_properties(shape: st.Shape) -> str:
     return template.safe_substitute({"props": "\n".join(properties)})
 
 
-def generate_preview(shape_ins: st.Shape) -> str:
+def generate_preview(shape_ins: ar.Shape) -> str:
     """Given an instance of the shape, generate a preview of it."""
     template = string.Template(PREVIEW_TEMPLATE)
     image = shape_ins(1920, 1080)
@@ -162,7 +162,7 @@ def generate_preview(shape_ins: st.Shape) -> str:
     return template.safe_substitute(context)
 
 
-def document_shape(shape: st.Shape, module_name: str) -> StringList:
+def document_shape(shape: ar.Shape, module_name: str) -> StringList:
     """Given a shape definition, automatically write the reference documentation
     for it.
     """
@@ -240,7 +240,7 @@ def render_image(src: str) -> List[nodes.Node]:
     image = None
 
     for obj in environment.values():
-        if isinstance(obj, st.Image):
+        if isinstance(obj, ar.Image):
             image = obj
 
     if image is not None:
@@ -286,7 +286,7 @@ class NBTutorialDirective(rst.Directive):
         return [nbtutorial("")]
 
 
-class StyloImageDirective(rst.Directive):
+class ArlunioImageDirective(rst.Directive):
     """Given some code that produces an image, render it in the page."""
 
     has_content = True

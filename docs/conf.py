@@ -12,16 +12,16 @@
 #
 import os
 
-import stylo
+import arlunio
 
 # -- Project information -----------------------------------------------------
 
-project = "Stylo"
-copyright = "2017-, Alex Carney"
-author = "Alex Carney"
+project = "Arlunio"
+copyright = "2017-, Swyddfa Developers"
+author = "Swyddfa Developers"
 
 # The full version, including alpha/beta/rc tags
-version = stylo.__version__
+version = arlunio.__version__
 release = version
 
 
@@ -35,7 +35,7 @@ extensions = [
     "sphinx.ext.doctest",
     "sphinx.ext.intersphinx",
     "sphinx.ext.mathjax",
-    "stylo.doc",
+    "arlunio.doc",
 ]
 
 # Add any paths that contain templates here, relative to this directory.

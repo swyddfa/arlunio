@@ -34,7 +34,7 @@ deps =
      pytest-azurepipelines
 extras = all
 commands =
-    pytest --doctest-glob="*.rst" --cov=stylo --cov-report html {posargs}
+    pytest --doctest-glob="*.rst" --cov=arlunio --cov-report html {posargs}
 
 [testenv:docs]
 deps =
@@ -66,7 +66,7 @@ usedevelop = True
 commands =
 
      sphinx-build -M nbtutorial docs/ docs/_build -E -a
-     cp -r docs/_build/nbtutorial/using/tutorial/ stylo/
+     cp -r docs/_build/nbtutorial/using/tutorial/ arlunio
 
      python setup.py sdist bdist_wheel
 """
