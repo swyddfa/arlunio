@@ -1,4 +1,4 @@
-from stylo.doc.builder import Notebook, NotebookCell
+from arlunio.doc.builder import Notebook, NotebookCell
 
 
 class TestNotebook:

@@ -3,7 +3,7 @@ import os
 from setuptools import find_packages, setup
 
 info = {}
-version = os.path.join("stylo", "_version.py")
+version = os.path.join("arlunio", "_version.py")
 
 with open(version) as f:
     exec(f.read(), info)
@@ -17,13 +17,14 @@ def readme():
 required = ["attrs", "numpy", "Pillow", "Click"]
 extras = {
     "dev": [
-        "tox",
-        "pre-commit",
-        "jupyterlab",
-        "pytest",
-        "pytest-cov",
         "black",
         "flake8",
+        "jupyterlab",
+        "pre-commit",
+        "pytest",
+        "pytest-cov",
+        "sphinx_rtd_theme",
+        "tox",
     ],
     "doc": ["sphinx"],
     "examples": ["jupyterlab"],
@@ -34,12 +35,12 @@ extras["all"] = list(
 )
 
 setup(
-    name="stylo",
+    name="arlunio",
     version=info["__version__"],
     project_urls={
-        "Documentation": "https://stylo.readthedocs.io/en/latest",
-        "Source": "https://github.com/swyddfa/stylo",
-        "Tracker": "https://github.com/swyddfa/stylo/issues",
+        "Documentation": "https://arlunio.readthedocs.io/en/latest",
+        "Source": "https://github.com/swyddfa/arlunio",
+        "Tracker": "https://github.com/swyddfa/arlunio/issues",
     },
     description="Drawing and animating with a blend of Python and mathematics.",
     long_description=readme(),
@@ -49,9 +50,9 @@ setup(
     license="MIT",
     packages=find_packages(".", exclude=["tests"]),
     package_data={
-        "stylo.cli.scripts": ["*.sh"],
-        "stylo.tutorial": ["*.ipynb", "**/*.ipynb"],
-        "stylo.tutorial.solutions": ["*.py"],
+        "arlunio.cli.scripts": ["*.sh"],
+        "arlunio.tutorial": ["*.ipynb", "**/*.ipynb"],
+        "arlunio.tutorial.solutions": ["*.py"],
     },
     python_requires=">=3.6",
     install_requires=required,
@@ -67,19 +68,19 @@ setup(
         "Topic :: Multimedia :: Graphics",
     ],
     entry_points={
-        "console_scripts": ["stylo = stylo.__main__:cli"],
-        "sphinx.builders": ["nbtutorial = stylo.doc"],
-        "stylo.cli.commands": ["tutorial = stylo.cli.tutorial:register"],
-        "stylo.parameters": [
-            "x = stylo.parameters:xs",
-            "y = stylo.parameters:ys",
-            "r = stylo.parameters:rs",
-            "t = stylo.parameters:ts",
+        "console_scripts": ["arlunio = arlunio.__main__:cli"],
+        "sphinx.builders": ["nbtutorial = arlunio.doc"],
+        "arlunio.cli.commands": ["tutorial = arlunio.cli.tutorial:register"],
+        "arlunio.parameters": [
+            "x = arlunio.parameters:xs",
+            "y = arlunio.parameters:ys",
+            "r = arlunio.parameters:rs",
+            "t = arlunio.parameters:ts",
         ],
-        "stylo.shapes": [
-            "Circle = stylo.lib.basic:Circle",
-            "Ellipse = stylo.lib.basic:Ellipse",
-            "Square = stylo.lib.basic:Square",
+        "arlunio.shapes": [
+            "Circle = arlunio.lib.basic:Circle",
+            "Ellipse = arlunio.lib.basic:Ellipse",
+            "Square = arlunio.lib.basic:Square",
         ],
     },
 )

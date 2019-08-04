@@ -1,8 +1,8 @@
 import textwrap
 
+from arlunio.doc.directives import format_error, render_image
 from docutils import nodes
 from docutils.statemachine import StringList
-from stylo.doc.directives import format_error, render_image
 
 
 class TestRenderImage:
@@ -55,9 +55,9 @@ class TestRenderImage:
         """Ensure that if the code provides an image we use that."""
 
         src = """\
-        from stylo import Shapes as S
+        import arlunio as ar
 
-        circle = S.Circle()
+        circle = ar.S.Circle()
         disk = circle(4,4)
         """
         doctree = render_image(textwrap.dedent(src))

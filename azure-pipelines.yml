@@ -72,8 +72,8 @@ jobs:
     displayName: 'Install Tox'
 
   - script: |
-      sed -i 's/"\(.*\)"/"\1dev$(Build.BuildId)"/' stylo/_version.py
-      cat stylo/_version.py
+      sed -i 's/"\(.*\)"/"\1dev$(Build.BuildId)"/' arlunio/_version.py
+      cat arlunio/_version.py
     displayName: 'Set Dev Snapshot'
     condition: ne(variables['Build.SourceBranch'], 'refs/heads/master')
 

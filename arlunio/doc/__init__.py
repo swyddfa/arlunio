@@ -1,13 +1,13 @@
 import typing
 
-import stylo
+import arlunio
 from sphinx.application import Sphinx
 
 from .builder import NotebookTutorialBuilder
 from .directives import (
+    ArlunioImageDirective,
     AutoShapeDirective,
     NBTutorialDirective,
-    StyloImageDirective,
     depart_nbtutorial,
     nbtutorial,
     visit_nbtutorial,
@@ -26,6 +26,6 @@ def setup(app: Sphinx) -> typing.Dict[str, typing.Any]:
 
     app.add_directive("autoshape", AutoShapeDirective)
     app.add_directive("nbtutorial", NBTutorialDirective)
-    app.add_directive("styloimage", StyloImageDirective)
+    app.add_directive("arlunio-image", ArlunioImageDirective)
 
-    return {"version": stylo.__version__, "parallel_read_safe": True}
+    return {"version": arlunio.__version__, "parallel_read_safe": True}

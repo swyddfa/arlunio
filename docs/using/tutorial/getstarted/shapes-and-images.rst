@@ -19,8 +19,8 @@ instance of the :code:`Circle` shape.
 
 .. doctest::
 
-   >>> from stylo import Shapes as S
-   >>> circle = S.Circle()
+   >>> import arlunio as ar
+   >>> circle = ar.S.Circle()
    >>> circle
    Circle(x0=0, y0=0, r=0.8, pt=None)
 
@@ -40,9 +40,9 @@ be!
 
 .. only:: html
 
-   .. styloimage::
+   .. arlunio-image::
 
-      from stylo import Shapes as S
+      import arlunio as ar
 
-      circle = S.Circle()
+      circle = ar.S.Circle()
       image = circle(4, 4)

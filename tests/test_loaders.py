@@ -3,7 +3,7 @@ import unittest.mock as mock
 import pkg_resources
 
 import py.test
-from stylo.loaders import Collection
+from arlunio.loaders import Collection
 
 
 class TestCollection:

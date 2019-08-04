@@ -6,21 +6,21 @@ API Reference
 Colour
 ------
 
-.. autoclass:: stylo.RGB8
+.. autoclass:: arlunio.RGB8
    :members:
 
 Images
 ------
 
-.. autoclass:: stylo.Canvas
+.. autoclass:: arlunio.Canvas
    :members:
 
-.. autoclass:: stylo.Image
+.. autoclass:: arlunio.Image
    :members:
 
-.. autoclass:: stylo.R
+.. autoclass:: arlunio.R
 
-.. autoclass:: stylo.Resolutions
+.. autoclass:: arlunio.Resolutions
    :members:
 
 Shapes
@@ -29,10 +29,10 @@ Shapes
 - |@shape|: Decorator used to define new shapes
 - |Shape|: Base class for all shapes
 
-.. autodecorator:: stylo.shape
+.. autodecorator:: arlunio.shape
 
-.. autoclass:: stylo.Shape
+.. autoclass:: arlunio.Shape
    :members:
 
-.. autoclass:: stylo.Parameters
+.. autoclass:: arlunio.Parameters
    :members:

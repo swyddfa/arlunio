@@ -90,7 +90,7 @@ def load_parameters():
     All of the available parameters.
     """
 
-    return _load_collection("Parameter", "stylo.parameters", docstring)
+    return _load_collection("Parameter", "arlunio.parameters", docstring)
 
 
 def load_shapes():
@@ -100,4 +100,4 @@ def load_shapes():
     All of the available shapes.
     """
 
-    return _load_collection("Shapes", "stylo.shapes", docstring)
+    return _load_collection("Shapes", "arlunio.shapes", docstring)

@@ -13,7 +13,7 @@ env/
 dist/
 docs/_build
 htmlcov
-stylo/tutorial/
+arlunio/tutorial/
 
 *.png
 !docs/**/*.png

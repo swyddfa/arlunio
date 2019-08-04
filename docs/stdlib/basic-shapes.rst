@@ -3,8 +3,8 @@
 Basic Shapes
 ============
 
-.. autoshape:: stylo.lib.basic.Circle
+.. autoshape:: arlunio.lib.basic.Circle
 
-.. autoshape:: stylo.lib.basic.Ellipse
+.. autoshape:: arlunio.lib.basic.Ellipse
 
-.. autoshape:: stylo.lib.basic.Square
+.. autoshape:: arlunio.lib.basic.Square
