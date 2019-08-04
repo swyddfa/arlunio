@@ -52,12 +52,30 @@ class Property:
 
 @attr.s(auto_attribs=True)
 class Shape:
-    """Docstring template."""
+    """This is the base class that all shapes inherit from and defines the interface
+    that applies to all shapes.
+
+    """
 
     scale: float = attr.ib(default=1.0, repr=False)
+    """A property that can be set to control the overall size of the shape. Must be
+    supported by the shape's parameters in order to take effect."""
+
     color: str = attr.ib(default="#000000", repr=False)
+    """A property that controls the color of the shape when drawn, currently is
+    specified as a color hex string. Default :code:`#000000`"""
+
     origin: typing.Any = attr.ib(default=None, repr=False)
+    """A property that can be used to control where the origin is in relation to the
+    image. Must be supported by the shape's parameters in order to take effect
+    *Currently not implemented.*
+    """
+
     background: typing.Any = attr.ib(default=None, repr=False)
+    """A propety that can be used to set the background color of the image when the
+    shape is drawn, currently is specified as a color hex string. Default
+    :code:`#ffffff`
+    """
 
     def __add__(self, other):
 
@@ -129,22 +147,86 @@ class Shape:
         return {p: getattr(self, p) for p in props}
 
     @property
-    def json(self):
-        """Return a json representation of the current shape instance."""
+    def dict(self):
+        """Return a dictionary representation of the current shape instance.
 
-        d = dict(
+        For example the dictionary representation of a circle is::
+
+           >>> import stylo as st
+           >>> from pprint import pprint
+
+           >>> circle = st.S.Circle()
+           >>> pprint(circle.dict)
+           {'color': '#000000',
+            'name': 'Circle',
+            'properties': [{'name': 'x0', 'value': 0},
+                           {'name': 'y0', 'value': 0},
+                           {'name': 'r', 'value': 0.8},
+                           {'name': 'pt', 'value': None}],
+            'scale': 1.0}
+        """
+
+        dictionary = dict(
             name=self.__class__.__name__,
             scale=self.scale,
             color=self.color,
             properties=[{"name": k, "value": v} for k, v in self.properties.items()],
         )
-        return json.dumps(d)
+
+        return dictionary
+
+    @property
+    def json(self):
+        """Return a JSON representation of the current shape instance.
+
+        For example the JSON representation of the circle is::
+
+           >>> import stylo as st
+
+           >>> circle = st.S.Circle()
+           >>> print(circle.json)
+           {
+             "name": "Circle",
+             "scale": 1.0,
+             "color": "#000000",
+             "properties": [
+               {
+                 "name": "x0",
+                 "value": 0
+               },
+               {
+                 "name": "y0",
+                 "value": 0
+               },
+               {
+                 "name": "r",
+                 "value": 0.8
+               },
+               {
+                 "name": "pt",
+                 "value": null
+               }
+             ]
+           }
+
+        """
+        return json.dumps(self.dict, indent=2)
 
     @classmethod
     def from_json(cls, json_str):
-        """Create an instance of a shape from its json representation."""
-        shape = json.loads(json_str)
-        name, properties = get_fields(shape, "name", "properties")
+        """Create an instance of a shape from its json representation.
+
+        For example we can create an instance of the |Circle| shape as follows::
+
+           >>> import stylo as st
+        """
+        dictionary = json.loads(json_str)
+        return cls.from_dict(dictionary)
+
+    @classmethod
+    def from_dict(cls, dictionary):
+        """Create an instance of a shape from its dictionary representaiton."""
+        name, properties = get_fields(dictionary, "name", "properties")
 
         if name != cls.__name__:
             raise TypeError(f"Cannot parse shape '{name}' as a '{cls.__name__}'")
@@ -152,7 +234,7 @@ class Shape:
         params = {}
         allowed_properties = property_names(cls)
 
-        for prop in shape["properties"]:
+        for prop in dictionary["properties"]:
             name, value = get_fields(prop, "name", "value")
 
             if name not in allowed_properties:
@@ -225,7 +307,95 @@ def get_shape_parameters(f):
 
 
 def shape(f) -> type:
-    """Define a new shape."""
+    """Decorator that is used to define new shapes.
+
+    Shapes are functions that are called on every pixel in an image to determine
+    if a given pixel is considered a part of the shape. Shape functions should
+    return a boolean, :code:`True` if the pixel is a part of the shape and
+    :code:`False` otherwise. The simplest possible shape definition would look
+    like the following::
+
+        >>> import stylo as st
+
+        >>> @st.shape
+        ... def Everywhere():
+        ...     return True
+
+    This is a shape that exists "everywhere", if we were to create an image from
+    this shape we would see that every pixel is colored in::
+
+       >>> everywhere = Everywhere()
+       >>> image = everywhere(width=2, height=2)
+       >>> image.pixels
+       array([[[0, 0, 0],
+               [0, 0, 0]],
+       <BLANKLINE>
+              [[0, 0, 0],
+               [0, 0, 0]]], dtype=uint8)
+
+    However, while simple this shape is not particuarly interesting to look
+    at. In order to do something more interesting shape functions typically
+    accept one or more parameters. See the section on parameters for more
+    information on what these are but typically they are a numpy array where
+    each element is some value associated with a pixel in the image.
+
+    As an example we will use the :code:`y` parameter which maps a value onto a
+    pixel based on its vertical position in the image. Let's create a shape that
+    colors in the lower half of the image::
+
+        >>> @st.shape
+        ... def LowerHalf(y):
+        ...     return y < 0
+
+        >>> lower = LowerHalf()
+        >>> image = lower(width=1, height=5)
+        >>> image.pixels
+        array([[[255, 255, 255]],
+        <BLANKLINE>
+               [[255, 255, 255]],
+        <BLANKLINE>
+               [[255, 255, 255]],
+        <BLANKLINE>
+               [[  0,   0,   0]],
+        <BLANKLINE>
+               [[  0,   0,   0]]], dtype=uint8)
+
+    Finally you probably want your shape to be configurable in some way, for
+    this we have properties. Properties are defined by declaring your shape
+    function with keyword only arguments which will then become arugments you
+    can pass to your shape's constructor. Let's tweak our :code:`LowerHalf`
+    shape to take a :code:`height` property that we can use to control how much
+    of the image we color in::
+
+        >>> @st.shape
+        ... def FillHeight(y, *, height=0):
+        ...     return y < height
+
+    .. important::
+
+       Properties *must* be defined as keyword only arguments i.e. arguments
+       that come after the :code:`*` in the function definition
+
+    Now we can control how much of the image we want filled in::
+
+        >>> fill = FillHeight(height=0.5)
+        >>> image = fill(width=1, height=5)
+        >>> image.pixels
+        array([[[255, 255, 255]],
+        <BLANKLINE>
+               [[255, 255, 255]],
+        <BLANKLINE>
+               [[  0,   0,   0]],
+        <BLANKLINE>
+               [[  0,   0,   0]],
+        <BLANKLINE>
+               [[  0,   0,   0]]], dtype=uint8)
+
+    That just about covers the different features supported by the shape
+    decorator. Be sure to check out some of the other documentation for more
+    creative examples on how these features are used.
+
+    """
 
     name = f.__name__
     logger.debug(f"Defining shape: {name}")
