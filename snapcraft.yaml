@@ -1,0 +1,19 @@
+name: arlunio
+version: git
+summary: arlunio
+description: |
+  Arlunio allows you to create images and animations using a blend of Python
+  and Mathematics
+confinement: devmode
+base: core18
+parts:
+  arlunio:
+    plugin: python
+    python-version: python3
+    source: .
+    stage-packages:
+    - numpy
+apps:
+  arlunio:
+    command: bin/arlunio
+
