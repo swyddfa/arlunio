@@ -18,7 +18,7 @@ class Resolutions(enum.Enum):
     Members of this enum are tuples containing the width and height which can be
     accessed by name::
 
-       >>> import stylo as st
+       >>> import arlunio as st
 
        >>> hd = st.Resolutions.HD
        >>> hd.width
@@ -81,14 +81,14 @@ class Image:
         data = self.encode().decode("utf-8")
         html = """\
             <style>
-              .stylo-image {
+              .arlunio-image {
                   width: 50%;
                   margin: auto;
                   image-rendering: crisp-edges;
                   border: solid 1px #ddd;
               }
             </style>
-            <img class="stylo-image" src="data:image/png;base64,$data"></img>
+            <img class="arlunio-image" src="data:image/png;base64,$data"></img>
         """
         template = string.Template(html)
 

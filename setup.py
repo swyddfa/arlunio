@@ -14,7 +14,7 @@ def readme():
         return f.read()
 
 
-required = ["attrs", "numpy", "Pillow", "Click"]
+required = ["attrs", "numpy", "Pillow"]
 extras = {
     "dev": [
         "black",
@@ -68,9 +68,12 @@ setup(
         "Topic :: Multimedia :: Graphics",
     ],
     entry_points={
-        "console_scripts": ["arlunio = arlunio.__main__:cli"],
+        "console_scripts": ["arlunio = arlunio.__main__:main"],
         "sphinx.builders": ["nbtutorial = arlunio.doc"],
-        "arlunio.cli.commands": ["tutorial = arlunio.cli.tutorial:register"],
+        "arlunio.cli.commands": [
+            "repl = arlunio.cli.repl:Repl",
+            "tutorial = arlunio.cli.tutorial:Tutorial",
+        ],
         "arlunio.parameters": [
             "x = arlunio.parameters:xs",
             "y = arlunio.parameters:ys",

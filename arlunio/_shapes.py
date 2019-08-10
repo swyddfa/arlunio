@@ -47,7 +47,7 @@ class Canvas:
 class Property:
     """Parent class for properties."""
 
-    IS_PROPERTY = "stylo.isproperty"
+    IS_PROPERTY = "arlunio.isproperty"
 
 
 @attr.s(auto_attribs=True)
@@ -152,7 +152,7 @@ class Shape:
 
         For example the dictionary representation of a circle is::
 
-           >>> import stylo as st
+           >>> import arlunio as st
            >>> from pprint import pprint
 
            >>> circle = st.S.Circle()
@@ -181,7 +181,7 @@ class Shape:
 
         For example the JSON representation of the circle is::
 
-           >>> import stylo as st
+           >>> import arlunio as st
 
            >>> circle = st.S.Circle()
            >>> print(circle.json)
@@ -218,7 +218,7 @@ class Shape:
 
         For example we can create an instance of the |Circle| shape as follows::
 
-           >>> import stylo as st
+           >>> import arlunio as st
         """
         dictionary = json.loads(json_str)
         return cls.from_dict(dictionary)
@@ -315,7 +315,7 @@ def shape(f) -> type:
     :code:`False` otherwise. The simplest possible shape definition would look
     like the following::
 
-        >>> import stylo as st
+        >>> import arlunio as st
 
         >>> @st.shape
         ... def Everywhere():

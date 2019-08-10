@@ -81,40 +81,40 @@ def depart_nbtutorial(self, node):
 
 
 def load_shape(object_spec: str) -> (ar.Shape, str):
-    """Given a classpath e.g. :code:`stylo.lib.basic.Circle` load it.
+    """Given a classpath e.g. :code:`arlunio.lib.basic.Circle` load it.
 
     There is an issue(?) currently with shapes defined with the :code:`@shape` decorator
     where the shape's module is reported as the module where the :code:`@shape`
-    decorator is defined (:code:`stylo._shapes`) rather than the module where the shape
-    is defined (:code:`stylo.lib.basic`). So this function also returns the true module
-    name::
+    decorator is defined (:code:`arlunio._shapes`) rather than the module where the
+    shape is defined (:code:`arlunio.lib.basic`). So this function also returns the true
+    module name::
 
-       >>> from stylo.doc.directives import load_shape
+       >>> from arlunio.doc.directives import load_shape
 
-       >>> load_shape("stylo.lib.basic.Circle")
-       (<class 'stylo._shapes.Circle'>, 'stylo.lib.basic')
+       >>> load_shape("arlunio.lib.basic.Circle")
+       (<class 'arlunio._shapes.Circle'>, 'arlunio.lib.basic')
 
     If the module is not found then a :code:`MoudleNotFoundError` will be raised::
 
-       >>> load_shape("stylo.notfound.Circle")
+       >>> load_shape("arlunio.notfound.Circle")
        Traceback (most recent call last):
           ...
-       ModuleNotFoundError: No module named 'stylo.notfound'
+       ModuleNotFoundError: No module named 'arlunio.notfound'
 
     If the class within the module cannot be found then an :code:`AttributeError` will
     be raised::
 
-       >>> load_shape("stylo._shapes.Circle")
+       >>> load_shape("arlunio._shapes.Circle")
        Traceback (most recent call last):
           ...
-       AttributeError: module 'stylo._shapes' has no attribute 'Circle'
+       AttributeError: module 'arlunio._shapes' has no attribute 'Circle'
 
     Finally if the given class is not a shape then a :code:`TypeError` will be raised::
 
-       >>> load_shape("stylo.doc.directives.AutoShapeDirective")
+       >>> load_shape("arlunio.doc.directives.AutoShapeDirective")
        Traceback (most recent call last):
           ...
-       TypeError: 'stylo.doc.directives.AutoShapeDirective' is not a shape
+       TypeError: 'arlunio.doc.directives.AutoShapeDirective' is not a shape
     """
 
     *obj_path, obj_name = object_spec.split(".")
