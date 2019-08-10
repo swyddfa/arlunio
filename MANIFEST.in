@@ -2,6 +2,6 @@ include LICENSE
 include CHANGES.rst
 include README.md
 include pyproject.toml
-recursive-include stylo *.sh
-recursive-include stylo *.ipynb
-recursive-include stylo *.py
+recursive-include arlunio *.sh
+recursive-include arlunio *.ipynb
+recursive-include arlunio *.py

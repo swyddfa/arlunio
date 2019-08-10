@@ -5,12 +5,41 @@ import time
 
 import pkg_resources
 
+import arlunio.cli as cli
+
 from .runner import Runner
 
 logger = logging.getLogger(__name__)
 
 
-class Tutorial:
+class Tutorial(cli.Command):
+    """Launch the interactive tutorial.
+
+    This will launch a jupyter-lab instance in a folder containing a collection
+    of jupyter notebook files that contain the tutorial. These files are yours
+    and you are free to edit them as you see fit.
+
+    You can also reset the tutorial at any time by launching the tutorial
+    with the --reset flag. WARNING: This will delete any changes you have
+    made to the tutorial directory, be sure to back up anything you wish to
+    preserve BEFORE running the command with this flag
+
+    :param reset: Reset the tutorial to its default state
+
+    """
+
+    def run(self, reset: bool = False):
+        """Launch the tutorial.
+        """
+
+        if reset:
+            print("I'm a resetted tutorial!")
+            return
+
+        print("I am a tutorial!")
+
+
+class _tutorial:
     def __init__(self, context):
         self.context = context
         self.runner = Runner(context)
@@ -23,8 +52,8 @@ class Tutorial:
         def exclude_item(item, path):
             return any([item.startswith("."), "__" in item])
 
-        for item in pkg_resources.resource_listdir("stylo.tutorial", "."):
-            path = pkg_resources.resource_filename("stylo.tutorial", item)
+        for item in pkg_resources.resource_listdir("arlnuio.tutorial", "."):
+            path = pkg_resources.resource_filename("arlunio.tutorial", item)
 
             if exclude_item(item, path):
                 logger.debug(f"--> {item}, skipping")
@@ -54,9 +83,6 @@ class Tutorial:
             if not os.path.exists(tutorial_dir):
                 logger.debug(f"Tutorial content does not exist")
                 self.copy_resources(tutorial_dir)
-        else:
-            logger.debug("Editing tutorial sources")
-            tutorial_dir = pkg_resources.resource_filename("stylo.tutorial", "")
 
         logger.info("Launching tutorial...")
 
