@@ -17,14 +17,9 @@ jobs:
       cd blog
       npm ci
       npm run build
+      cp -r public $(Build.ArtifactStagingDirectory)
     displayName: Build
 
-  - script: |
-      git checkout -b gh-pages
-      git config --global user.name "Tecyln Bot"
-      git config --global user.email "teclyn.bot@ci.com"
-
-      git add .
-      git commit -m 'Gatsby Build'
-      git remote -v
-    displayName: Deploy
+  - task: PublishBuildArtifacts@1
+    inputs:
+      artifactName: 'arlunio-blog'
