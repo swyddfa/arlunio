@@ -17,7 +17,7 @@ jobs:
       cd blog
       npm ci
       npm run build
-      cp -r public $(Build.ArtifactStagingDirectory)
+      cp -r public/* $(Build.ArtifactStagingDirectory)
     displayName: Build
 
   - task: PublishBuildArtifacts@1
