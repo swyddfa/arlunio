@@ -16,5 +16,15 @@ jobs:
   - script: |
       cd blog
       npm ci
-      npm run deploy
-    displayName: 'Build & Deploy'
+      npm run build
+    displayName: Build
+
+  - script: |
+      git checkout -b gh-pages
+      git config --global user.name "Tecyln Bot"
+      git config --global user.email "teclyn.bot@ci.com"
+
+      git add .
+      git commit -m 'Gatsby Build'
+      git remote -v
+    displayName: Deploy
