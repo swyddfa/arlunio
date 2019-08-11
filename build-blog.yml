@@ -1,0 +1,15 @@
+trigger:
+- develop
+
+jobs:
+- job: 'Deploy Blog'
+  workspace:
+    clean: all
+  pool:
+    vmImage: 'ubuntu-latest'
+  steps:
+  - script: |
+      cd blog
+      npm ci
+      npm run deploy
+    displayName: 'Build & Deploy'
