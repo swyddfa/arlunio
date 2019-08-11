@@ -29,3 +29,5 @@ pip-wheel-metadata
 *.mo
 *.xml
 *.snap
+
+node_modules
