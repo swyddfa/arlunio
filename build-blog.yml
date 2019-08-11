@@ -1,8 +1,13 @@
 trigger:
-- develop
+  branches:
+    include:
+    - develop
+  paths:
+    include:
+    - blog/*
 
 jobs:
-- job: 'Deploy Blog'
+- job: 'Blog'
   workspace:
     clean: all
   pool:
