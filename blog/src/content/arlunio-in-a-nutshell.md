@@ -25,11 +25,14 @@ behind the curtain and find out how `arlunio` goes from code to pixels.
 
 ## The Idea
 
-One of core ideas behind arlunio is set theory, where more complex shapes are
-built up through the combinatuion of simpler ones using the basic [set
+One of core ideas behind arlunio is set theory where more complex shapes are
+built up through a combinatuion of simpler ones using the basic [set
 operations](https://en.wikipedia.org/wiki/Set_(mathematics)#Basic_operations)
-We won't cover the construction of complex shapes in this post, instead we will
-focus on the construction of a single basic shape - the circle.
+However before we can get to complex shapes we need to be able to draw the
+simple ones! So in this post we will focus on what it takes to take a
+description of a circle in the form of a set and convert that into an image.
+
+### Background
 
 You may already be familiar with the concept of a set since many of the popular
 programming languages include a set data structure. However so that we are all
@@ -74,6 +77,21 @@ Traceback (most recent call last):
   ...
 TypeError: 'set' object is not subscriptable
 ```
+
+Finally once we have a set, we can ask it if it contains a particular item.
+
+```python
+>>> 2 in number_set
+True
+
+>>> 7 in number_set
+False
+```
+
+### Representing a Circle
+
+So how can we represent a circle using a set? One approach to would be to
+consider the
 
 ## The Implementation
 
