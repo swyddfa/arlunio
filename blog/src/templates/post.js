@@ -2,6 +2,9 @@ import React from 'react'
 import { graphql } from 'gatsby'
 
 import Layout from "../components/layout"
+import SEO from "../components/seo"
+
+import "katex/dist/katex.min.css"
 
 export default function Template({ data }) {
   const { markdownRemark } = data
@@ -9,6 +12,7 @@ export default function Template({ data }) {
 
   return (
     <Layout>
+      <SEO title={ frontmatter.title }/>
       <div className="blog-post">
         <h1 style={{ textAlign: `center`, marginBottom: `0` }}>{frontmatter.title}</h1>
         <h6 style={{ color: `#aaa`, textAlign: `center` }}>--{frontmatter.date} --</h6>

@@ -12,7 +12,7 @@ export default function BlogIndex({ data: { allMarkdownRemark: { edges }, }, }) 
 
   return (
     <Layout>
-      <SEO title="Development Blog | Arlunio" />
+      <SEO title="Development Blog" />
       <h1>Development Blog</h1>
       <div>{Posts}</div>
     </Layout >

@@ -40,7 +40,7 @@ template {
   display: none;
 }
 a {
-  color: #339954;
+  color: #0058bc;
   border-bottom: solid 2px transparent;
   text-decoration: none;
   background-color: transparent;
@@ -389,8 +389,8 @@ blockquote {
 
   background: #eee;
   border-radius: 5px;
-  border: solid 1px #339954;
-  border-left: solid 5px #339954;
+  border: solid 1px #0058bc;
+  border-left: solid 5px #0058bc;
 }
 form {
   margin-left: 0;
@@ -579,13 +579,13 @@ pre tt:after {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  background: #339954;
-  z-index: -1;
+  background: #0058bc;
   position: sticky;
   top:0;
 }
 
 .site-content {
+  position: relative;
   margin: 0 auto;
   margin-top: -2.5rem;
   border: solid 1px #ddd;
@@ -599,6 +599,12 @@ pre tt:after {
 .gatsby-resp-image-wrapper {
   border: solid 1px #ddd;
   border-radius: 3px;
+}
+
+.gatsby-resp-image-figcaption {
+  font-style: italic;
+  margin-top: 5px;
+  text-align: center;
 }
 
 @media (max-width: 1300px) {
