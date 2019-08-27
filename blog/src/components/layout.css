@@ -1,5 +1,5 @@
 html {
-  font-family: sans-serif;
+  font-family: 'Open Sans', sans;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
 }
@@ -200,7 +200,7 @@ html {
 body {
   color: hsla(0, 0%, 0%, 0.8);
   background: #eee;
-  font-family: georgia, serif;
+  font-family: 'Open Sans', sans;
   font-weight: normal;
   word-wrap: break-word;
   font-kerning: normal;
@@ -230,40 +230,39 @@ h1,h2,h3,h4,h5,h6, .title {
   padding-right: 0;
   padding-top: 0;
   color: inherit;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  font-weight: bold;
+  font-family: 'Caveat', cursive;
+  font-weight: 100;
   text-rendering: optimizeLegibility;
 }
 
 h1 {
   margin-bottom: 1.45rem;
-  font-size: 2.25rem;
+  font-size: 3rem;
   line-height: 1.1;
 }
 h2 {
   margin-bottom: 1.45rem;
-  font-size: 1.62671rem;
+  font-size: 2rem;
   line-height: 1.1;
 }
 h3 {
   margin-bottom: 1.45rem;
-  font-size: 1.38316rem;
+  font-size: 1.8316rem;
   line-height: 1.1;
 }
 h4 {
   margin-bottom: 1.45rem;
-  font-size: 1rem;
+  font-size: 1.5rem;
   line-height: 1.1;
 }
 h5 {
   margin-bottom: 1.45rem;
-  font-size: 0.85028rem;
+  font-size: 1.25rem;
   line-height: 1.1;
 }
 h6 {
   margin-bottom: 1.45rem;
-  font-size: 0.78405rem;
+  font-size: 1.8405rem;
   line-height: 1.1;
 }
 hgroup {
