@@ -2,7 +2,7 @@ module.exports = {
   siteMetadata: {
     title: `Arlunio`,
     description: ``,
-    author: `@alcarneyme`,
+    author: `@arlunio`,
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
@@ -25,12 +25,15 @@ module.exports = {
       resolve: `gatsby-transformer-remark`,
       options: {
         plugins: [
+          `gatsby-remark-autolink-headers`,
           {
             resolve: `gatsby-remark-images`,
             options: {
-              maxWidth: 650
+              maxWidth: 650,
+              showCaptions: true,
             }
           },
+          `gatsby-remark-katex`,
           `gatsby-remark-prismjs`
         ]
       }
