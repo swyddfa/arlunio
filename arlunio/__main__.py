@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 LOG_LEVELS = [
     (logging.INFO, "%(message)s"),
-    (logging.DEBUG, "[%(name)s][%(levelname)s]: %(message)s"),
+    (logging.DEBUG, "[%(levelname)s][%(name)s]: %(message)s"),
 ]
 
 
