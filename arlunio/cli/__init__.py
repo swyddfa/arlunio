@@ -145,7 +145,7 @@ def construct_parser(
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
 
-    option_names = [opt.name for opt in command.options]
+    option_names = [opt.name[2:] for opt in command.options]
 
     for option in command.options:
         parser.add_argument(
