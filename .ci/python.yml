@@ -12,6 +12,14 @@ trigger:
     exclude:
     - blog/*
 
+pr:
+  branches:
+    include:
+    - develop
+    - master
+  paths:
+    exclude:
+    - blog/*
 
 jobs:
 - job: 'Test'
