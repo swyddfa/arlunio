@@ -12,6 +12,14 @@ trigger:
     exclude:
     - blog/*
 
+pr:
+  branches:
+    include:
+    - develop
+    - master
+  paths:
+    exclude:
+    - blog/*
 
 jobs:
 - job: 'Test'
@@ -50,6 +58,15 @@ jobs:
       tox -e $(tox.env)
     displayName: 'Tox $(tox.env)'
 
+  - task: PublishBuildArtifacts@1
+    inputs:
+      artifactName: 'pkgs'
+    condition: |
+      and(
+        eq(variables['tox.env'], 'pkg'),
+        ne(variables['Build.Reason'], 'PullRequest')
+      )
+
   - script: |
       pip install codecov
       codecov -t "${CODECOV_TOKEN}"
@@ -60,67 +77,4 @@ jobs:
       or(
         eq(variables['tox.env'], 'py36'),
         eq(variables['tox.env'], 'py37')
-      )
-
-
-- job: 'Deploy'
-  pool:
-    vmImage: 'ubuntu-latest'
-  dependsOn: 'Test'
-  steps:
-  - task: UsePythonVersion@0
-    inputs:
-      versionSpec: '3.7'
-    displayName: 'Use Python 3.7'
-
-  - script: |
-      python -m pip install --upgrade pip twine
-      pip install tox
-    displayName: 'Install Tox'
-
-  - script: |
-      sed -i 's/"\(.*\)"/"\1dev$(Build.BuildId)"/' arlunio/_version.py
-      cat arlunio/_version.py
-    displayName: 'Set Dev Snapshot'
-    condition: ne(variables['Build.SourceBranch'], 'refs/heads/master')
-
-  - script: |
-      tox -e pkg
-      ls dist/
-    displayName: 'Build Package'
-
-  - task: TwineAuthenticate@0
-    inputs:
-      externalFeeds: 'stylo - PyPi Test'
-    condition: |
-      and(
-        ne(variables['Build.Reason'], 'PullRequest'),
-        ne(variables['Build.SourceBranch'], 'refs/heads/master')
-      )
-
-  - script: |
-      twine upload -r test-pypi --config-file $(PYPIRC_PATH) dist/*
-    displayName: 'Publish Dev Snapshot'
-    condition: |
-      and(
-        ne(variables['Build.Reason'], 'PullRequest'),
-        ne(variables['Build.SourceBranch'], 'refs/heads/master')
-      )
-
-  - task: TwineAuthenticate@0
-    inputs:
-      externalFeeds: 'stylo - PyPi'
-    condition: |
-      and(
-        ne(variables['Build.Reason'], 'PullRequest'),
-        eq(variables['Build.SourceBranch'], 'refs/heads/master')
-      )
-
-  - script: |
-      twine upload -r pypi --config-file $(PYPIRC_PATH) dist/*
-    displayName: 'Publish'
-    condition: |
-      and(
-        ne(variables['Build.Reason'], 'PullRequest'),
-        eq(variables['Build.SourceBranch'], 'refs/heads/master')
       )

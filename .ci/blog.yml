@@ -6,6 +6,14 @@ trigger:
     include:
     - blog/*
 
+pr:
+  branches:
+    include:
+    - develop
+  paths:
+    include:
+    - blog/*
+
 jobs:
 - job: 'Blog'
   workspace:
