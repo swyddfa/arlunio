@@ -59,7 +59,7 @@ jobs:
     displayName: 'Tox $(tox.env)'
 
   - script: |
-      cp dist/* $(Builds.ArtifactStagingDirectory)
+      cp dist/* $(Build.ArtifactStagingDirectory)
     displayName: 'Prepare artifacts'
     condition: |
       and(
