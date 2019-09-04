@@ -55,6 +55,16 @@ jobs:
     displayName: 'Install Tox'
 
   - script: |
+      sed -i 's/"\(.*\)"/"\1dev$(Build.BuildId)"/' arlunio/_version.py
+      cat arlunio/_version.py
+    displayName: 'Set Dev Snapshot'
+    condition: |
+      and(
+        eq(variables['tox.env'], 'pkg'),
+        ne(variables['Build.SourceBranch'], 'refs/heads/master')
+      )
+
+  - script: |
       tox -e $(tox.env)
     displayName: 'Tox $(tox.env)'
 
@@ -66,7 +76,6 @@ jobs:
         eq(variables['tox.env'], 'pkg'),
         ne(variables['Build.Reason'], 'PullRequest')
       )
-
 
   - task: PublishBuildArtifacts@1
     inputs:
