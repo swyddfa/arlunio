@@ -1,0 +1,99 @@
+# Python package
+# Create and test a Python package on multiple Python versions.
+# Add steps that analyze code, save the dist with the build record, publish to a PyPI-compatible index, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/python
+
+trigger:
+  branches:
+    include:
+    - develop
+    - master
+  paths:
+    exclude:
+    - blog/*
+
+pr:
+  branches:
+    include:
+    - develop
+    - master
+  paths:
+    exclude:
+    - blog/*
+
+jobs:
+- job: 'Test'
+  pool:
+    vmImage: 'ubuntu-latest'
+  strategy:
+    matrix:
+      lint:
+        python.version: '3.7'
+        tox.env: 'lint'
+      py36:
+        python.version: '3.6'
+        tox.env: 'py36'
+      py37:
+        python.version: '3.7'
+        tox.env: 'py37'
+      docs:
+        python.version: '3.7'
+        tox.env: 'docs'
+      pkg:
+        python.version: '3.7'
+        tox.env: 'pkg'
+
+  steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '$(python.version)'
+    displayName: 'Use Python $(python.version)'
+
+  - script: |
+      python -m pip install --upgrade pip
+      pip install tox
+    displayName: 'Install Tox'
+
+  - script: |
+      sed -i 's/"\(.*\)"/"\1dev$(Build.BuildId)"/' arlunio/_version.py
+      cat arlunio/_version.py
+    displayName: 'Set Dev Snapshot'
+    condition: |
+      and(
+        eq(variables['tox.env'], 'pkg'),
+        ne(variables['Build.SourceBranch'], 'refs/heads/master')
+      )
+
+  - script: |
+      tox -e $(tox.env)
+    displayName: 'Tox $(tox.env)'
+
+  - script: |
+      cp dist/* $(Build.ArtifactStagingDirectory)
+    displayName: 'Prepare artifacts'
+    condition: |
+      and(
+        eq(variables['tox.env'], 'pkg'),
+        ne(variables['Build.Reason'], 'PullRequest')
+      )
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      artifactName: 'dist'
+    condition: |
+      and(
+        eq(variables['tox.env'], 'pkg'),
+        ne(variables['Build.Reason'], 'PullRequest')
+      )
+
+  - script: |
+      pip install codecov
+      codecov -t "${CODECOV_TOKEN}"
+    env:
+      CODECOV_TOKEN: $(codecov.token)
+    displayName: 'Report Coverage'
+    condition: |
+      or(
+        eq(variables['tox.env'], 'py36'),
+        eq(variables['tox.env'], 'py37')
+      )

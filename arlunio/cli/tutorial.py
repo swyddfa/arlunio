@@ -1,30 +1,41 @@
 import logging
 import os
 import shutil
-import time
+import subprocess
 
 import pkg_resources
 
-from .runner import Runner
+import arlunio._config as cfg
+import arlunio.cli as cli
 
 logger = logging.getLogger(__name__)
 
 
-class Tutorial:
-    def __init__(self, context):
-        self.context = context
-        self.runner = Runner(context)
+class Tutorial(cli.Command):
+    """Launch the interactive tutorial.
 
-    def copy_resources(self, destination):
+    This will launch a jupyter-lab instance in a folder containing a collection
+    of jupyter notebook files that contain the tutorial. These files are yours
+    and you are free to edit them as you see fit.
+
+    You can also reset the tutorial at any time by launching the tutorial
+    with the --reset flag. WARNING: This will delete any changes you have
+    made to the tutorial directory, be sure to back up anything you wish to
+    preserve BEFORE running the command with this flag
+
+    :param reset: reset the tutorial to its default state
+    """
+
+    def _copy_resources(self, destination):
         """Copy the tutorial resources to the given destination."""
-        logger.debug(f"Copying tutorial resources to: {destination}")
+        logger.debug(f"Copying tutorial resources to {destination}")
         os.makedirs(destination)
 
         def exclude_item(item, path):
             return any([item.startswith("."), "__" in item])
 
-        for item in pkg_resources.resource_listdir("stylo.tutorial", "."):
-            path = pkg_resources.resource_filename("stylo.tutorial", item)
+        for item in pkg_resources.resource_listdir("arlunio.tutorial", "."):
+            path = pkg_resources.resource_filename("arlunio.tutorial", item)
 
             if exclude_item(item, path):
                 logger.debug(f"--> {item}, skipping")
@@ -38,45 +49,15 @@ class Tutorial:
             else:
                 shutil.copy(path, dest)
 
-    def launch(self, edit, reset):
-        """Launch a jupyter lab instance in the tutorial directory.
+    def run(self, reset: bool = False):
+        tutorial_dir = os.path.join(cfg.cache_dir(), "tutorial")
 
-        For developers there is a hidden `--edit` flag that can be used to open
-        an instance that will allow us to edit the source of the tutorial.
-        """
-        if not edit:
-            tutorial_dir = os.path.join(self.context.cache_dir, "tutorial")
+        if reset and os.path.exists(tutorial_dir):
+            logger.info("Existing tutorial found found, resetting...")
+            shutil.rmtree(tutorial_dir)
 
-            if reset and os.path.exists(tutorial_dir):
-                logger.debug("Removing existing tutorial content.")
-                shutil.rmtree(tutorial_dir)
+        if not os.path.exists(tutorial_dir):
+            logger.info("Copying tutorial resources...")
+            self._copy_resources(tutorial_dir)
 
-            if not os.path.exists(tutorial_dir):
-                logger.debug(f"Tutorial content does not exist")
-                self.copy_resources(tutorial_dir)
-        else:
-            logger.debug("Editing tutorial sources")
-            tutorial_dir = pkg_resources.resource_filename("stylo.tutorial", "")
-
-        logger.info("Launching tutorial...")
-
-        cmds = [f"cd {tutorial_dir}", "jupyter-lab"]
-        self.runner.launch(cmds)
-
-        time.sleep(1)
-
-
-def register(cli, click):
-    """Here we expose our command line interface."""
-
-    @cli.command()
-    @click.option("-e", "--edit", is_flag=True, hidden=True)
-    @click.option(
-        "-r", "--reset", is_flag=True, help="Reset the tutorial to its default state."
-    )
-    @click.pass_obj
-    def tutorial(context, edit, reset):
-        """Launch the tutorial."""
-
-        tutorial = Tutorial(context)
-        tutorial.launch(edit, reset)
+        subprocess.run(["jupyter-lab"], cwd=tutorial_dir)

@@ -1,23 +1,26 @@
+import argparse
 import logging
+import sys
 
 import pkg_resources
 
-import click
+import arlunio.cli
 
-from .context import Context
+from ._version import __version__
 
 logger = logging.getLogger(__name__)
 
-CLI_SETTINGS = {"help_option_names": ["-h", "--help"]}
 LOG_LEVELS = [
     (logging.INFO, "%(message)s"),
-    (logging.DEBUG, "[%(name)s][%(levelname)s]: %(message)s"),
+    (logging.DEBUG, "[%(levelname)s][%(name)s]: %(message)s"),
 ]
 
 
-def init_logging(verbose):
-    """Configure the logging system based on command line
-    arguments."""
+def init_logging(verbose: int, quiet: bool) -> None:
+    """Configure the logging system based on the given verbosity."""
+
+    if quiet:
+        return
 
     verbose = 0 if verbose < 0 else verbose
 
@@ -35,26 +38,55 @@ def init_logging(verbose):
     console.setFormatter(logging.Formatter(fmt))
 
     if not others:
-        console.addFilter(logging.Filter("stylo"))
+        console.addFilter(logging.Filter("arlunio"))
 
     root.addHandler(console)
 
 
-@click.group(context_settings=CLI_SETTINGS)
-@click.option("-v", "--version", count=True)
-@click.pass_context
-def cli(ctx, version):
-    """Command line interface to stylo."""
-    init_logging(version)
-    context = Context.create()
+def show_version():
+    print(f"arlunio v{__version__}")
 
-    ctx.obj = context
 
+# Top level command line parser for arlunio
+cli = argparse.ArgumentParser(description="Command line interface to arlunio")
+commands = cli.add_subparsers(title="commands")
+
+# "Global" arguments that can apply to any command.
+cli.add_argument(
+    "-q", "--quiet", help="disable all console output", action="store_true"
+)
+cli.add_argument(
+    "-V", "--version", help="show version info and exit", action="store_true"
+)
+cli.add_argument(
+    "-v",
+    "--verbose",
+    action="count",
+    default=0,
+    help="increase the verbosity of the output, can be repeated e.g. -v, -vv, ...",
+)
 
 # Register all the defined commands.
-for cmd in pkg_resources.iter_entry_points("stylo.cli.commands"):
-    register = cmd.load()
-    register(cli, click)
+for cmd in pkg_resources.iter_entry_points("arlunio.cli.commands"):
+    command = cmd.load()
+    arlunio.cli.construct_parser(cmd.name, command, commands)
+
+
+def main():
+    args = cli.parse_args()
+
+    if args.version:
+        show_version()
+        sys.exit(0)
+
+    init_logging(args.verbose, args.quiet)
+
+    if hasattr(args, "run"):
+        args.run(args)
+        return
+
+    cli.print_help()
+
 
 if __name__ == "__main__":
-    cli()
+    main()

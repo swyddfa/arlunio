@@ -28,3 +28,6 @@ pip-wheel-metadata
 .dev
 *.mo
 *.xml
+*.snap
+
+node_modules
