@@ -60,7 +60,7 @@ jobs:
     displayName: 'Set Dev Snapshot'
     condition: |
       and(
-        eq(variables['tox.env'], 'pkg')
+        eq(variables['tox.env'], 'pkg'),
         ne(variables['Build.SourceBranch'], 'refs/heads/master')
       )
 
