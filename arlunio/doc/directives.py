@@ -10,6 +10,7 @@ import attr
 
 from docutils import nodes
 from docutils.parsers import rst
+from docutils.parsers.rst.directives.admonitions import BaseAdmonition
 from docutils.statemachine import StringList
 from sphinx.util import logging, nested_parse_with_titles
 
@@ -80,6 +81,19 @@ def visit_nbtutorial(self, node):
 
 def depart_nbtutorial(self, node):
     pass
+
+
+class nbsolution(nodes.General, nodes.Element):
+    pass
+
+
+def visit_nbsolution(self, node):
+    self.body.append('<details class="admonition note">\n')
+    self.body.append('<summary class="admonition-title">Solution</summary>\n')
+
+
+def depart_nbsolution(self, node):
+    self.body.append("</details>\n")
 
 
 def load_shape(object_spec: str) -> (ar.Shape, str):
@@ -286,6 +300,16 @@ class AutoShapeDirective(rst.Directive):
 class NBTutorialDirective(rst.Directive):
     def run(self):
         return [nbtutorial("")]
+
+
+class NBSolutionDirective(BaseAdmonition):
+
+    has_content = True
+    node_class = nbsolution
+
+    def run(self):
+        (soln,) = super().run()
+        return [soln]
 
 
 class ArlunioImageDirective(rst.Directive):
