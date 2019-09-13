@@ -4,6 +4,7 @@ import re
 import typing
 
 from pathlib import Path
+from typing import Any, ClassVar, Dict, Iterable, List, Set, Union
 
 import attr
 import docutils.nodes as nodes
@@ -12,9 +13,11 @@ import docutils.writers as writers
 from docutils.io import StringOutput
 from sphinx.builders import Builder
 from sphinx.util import logging
-from sphinx.util.docutils import SphinxTranslator
 
-from .directives import nbtutorial
+from .directives import nbsolution, nbtutorial
+
+# from sphinx.util.docutils import SphinxTranslator
+
 
 logger = logging.getLogger(__name__)
 
@@ -23,24 +26,36 @@ logger = logging.getLogger(__name__)
 class NotebookCell:
     """Represents a notebook cell."""
 
-    CODE: typing.ClassVar[str] = "code"
-    MARKDOWN: typing.ClassVar[str] = "markdown"
+    CODE: ClassVar[str] = "code"
+    MARKDOWN: ClassVar[str] = "markdown"
 
     cell_type: str
     execution_count: int = None
-    metadata: typing.Dict[str, typing.Any] = attr.Factory(dict)
-    outputs: typing.List[typing.Any] = attr.Factory(list)
+    metadata: Dict[str, Any] = attr.Factory(dict)
+    outputs: List[Any] = attr.Factory(list)
     source: str = attr.Factory(str)
 
     @classmethod
-    def code(cls):
+    def code(cls, source=None):
         """Create a code cell type"""
-        return cls(cls.CODE)
+
+        cell = cls(cls.CODE)
+
+        if source is not None:
+            cell.source = source
+
+        return cell
 
     @classmethod
-    def markdown(cls):
+    def markdown(cls, source=None):
         """Create a markdown cell"""
-        return cls(cls.MARKDOWN)
+
+        cell = cls(cls.MARKDOWN)
+
+        if source is not None:
+            cell.source = source
+
+        return cell
 
     @property
     def json(self):
@@ -55,17 +70,28 @@ class NotebookCell:
         return {k: v for k, v in cell.items() if not exclude(k)}
 
 
+def notebook_metadata():
+    """Return the default metadata for a notebook."""
+    return {
+        "kernelspec": {
+            "display_name": "Python 3",
+            "language": "python",
+            "name": "python3",
+        }
+    }
+
+
 @attr.s(auto_attribs=True)
 class Notebook:
     """Represents a notebook."""
 
     nbformat: int = 4
     nbformat_minor: int = 2
-    metadata: typing.Dict[str, typing.Any] = attr.Factory(dict)
-    cells: typing.List[NotebookCell] = attr.Factory(list)
+    metadata: Dict[str, Any] = attr.Factory(notebook_metadata)
+    cells: List[NotebookCell] = attr.Factory(list)
 
     @classmethod
-    def fromcells(cls, cells: typing.List[NotebookCell]):
+    def fromcells(cls, cells: List[NotebookCell]):
         return cls(cells=cells)
 
     @property
@@ -86,16 +112,16 @@ class NotebookWriter(writers.Writer):
 
     def translate(self):
 
-        visitor = NotebookTranslator(self.document, self.builder)
+        visitor = NotebookTranslator(self.document)
         self.document.walkabout(visitor)
         self.output = visitor.astext()
 
 
-class NotebookTranslator(SphinxTranslator):
+class NotebookTranslator(nodes.NodeVisitor):
     """Converts rst nodes into their output representation."""
 
-    def __init__(self, document, builder):
-        super().__init__(document, builder)
+    def __init__(self, document):
+        super().__init__(document)
         self.cells = []
         self.level = 0
 
@@ -129,6 +155,10 @@ class NotebookTranslator(SphinxTranslator):
     def astext(self):
         notebook = Notebook.fromcells(self.cells)
         return json.dumps(notebook.json, indent=2)
+
+    def asdict(self):
+        notebook = Notebook.fromcells(self.cells)
+        return notebook.json
 
     def visit_section(self, node: nodes.section) -> None:
         self.level += 1
@@ -236,6 +266,33 @@ class NotebookTranslator(SphinxTranslator):
         self._log_departure(node)
 
 
+def codeblock(source: str) -> nodes.literal_block:
+    """Construct a valid code block."""
+
+    block = nodes.literal_block()
+    block.children = [nodes.Text(source)]
+
+    return block
+
+
+class PythonTutorialBuilder(Builder):
+    """Builder that can convert tutorials into python scripts plus comments."""
+
+    name = "pytutorial"
+    format = "py"
+
+    def init(self) -> None:
+        """Any initialization goes here."""
+
+    def get_outdated_docs(self) -> Union[str, Iterable[str]]:
+        """Not too sure what goes here yet."""
+        return ""
+
+    def get_target_uri(self, docname: str, type: str = None) -> str:
+        """I think this has something to do linking between documents"""
+        return docname + ".py"
+
+
 class NotebookTutorialBuilder(Builder):
     """Builder that can convert static tutorials into an interactive jupyer
     notebook."""
@@ -247,12 +304,12 @@ class NotebookTutorialBuilder(Builder):
         """Any initialization goes here."""
         logger.debug(f"[nbtutorial]: Outdir is: {self.outdir}")
 
-    def get_outdated_docs(self) -> typing.Union[str, typing.Iterable[str]]:
+    def get_outdated_docs(self) -> Union[str, Iterable[str]]:
         """Not too sure what we should do here yet."""
 
         return ""
 
-    def get_target_uri(self, docname: str, typ: str = None) -> str:
+    def get_target_uri(self, docname: str, type: str = None) -> str:
         """Another method to figure out."""
 
         uri = docname + ".ipynb"
@@ -261,19 +318,53 @@ class NotebookTutorialBuilder(Builder):
 
         return uri
 
-    def prepare_writing(self, docnames: typing.Set[str]) -> None:
+    def prepare_writing(self, docnames: Set[str]) -> None:
         """A place we can add logic to?"""
 
         self.docwriter = NotebookWriter(self)
 
+    def _process_solutions(self, docname: str, solutions: List[nbsolution]) -> None:
+        """Given the solutions for a given tutorial save them to the solutions dir.
+
+        This also rewrites the doctree so that the solutions are replace by cells
+        the :code:`%load` magic so that the user can load the results in.
+        """
+        logger.debug(f"[nbtutorial]: Processing solutions for {docname}")
+
+        DIRNAME = "solutions"
+        soln_dir = os.path.join(self.outdir, os.path.dirname(docname), DIRNAME)
+        soln_name = os.path.basename(docname)
+
+        if not os.path.exists(soln_dir):
+            os.makedirs(soln_dir)
+
+        for idx, soln in enumerate(solutions):
+            soln_fname = f"{soln_name}-{idx + 1:02d}.py"
+            soln_path = f"{DIRNAME}/{soln_fname}"
+
+            # Insert a code block into the notebook that will load the solution
+            soln.children = [codeblock(f"%load {soln_path}")]
+
+            # Write the actual solution to the given file on disk.
+            soln_file = os.path.join(soln_dir, soln_fname)
+            logger.debug(f"[nbtutorial]: --> {soln_file}")
+
+            with open(soln_file, "w") as f:
+                breakpoint()
+                f.write("# Solution to be written here.")
+
     def write_doc(self, docname: str, doctree: nodes.Node) -> None:
-        logger.debug(f"[nbtutorial]: Called on {docname}")
+        logger.debug(f"[nbtutorial]: Processing {docname}")
 
         # Determine if the document represents a tutorial.
         nodes = list(doctree.traverse(condition=nbtutorial))
 
         if len(nodes) == 0:
             return
+
+        # Find any solutions that it may constain.
+        solutions = list(doctree.traverse(condition=nbsolution))
+        self._process_solutions(docname, solutions)
 
         destination = StringOutput(encoding="utf-8")
         self.docwriter.write(doctree, destination)
