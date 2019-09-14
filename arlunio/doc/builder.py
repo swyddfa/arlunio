@@ -160,17 +160,84 @@ class NotebookTranslator(nodes.NodeVisitor):
         notebook = Notebook.fromcells(self.cells)
         return notebook.json
 
+    # ----------------------- Visitors ----------------------------------------
+
+    def visit_bullet_list(self, node: nodes.bullet_list) -> None:
+        self.new_cell(NotebookCell.MARKDOWN)
+
+    def depart_bullet_list(self, node: nodes.bullet_list) -> None:
+        pass
+
+    def visit_emphasis(self, node: nodes.emphasis) -> None:
+        self.current_cell.source += "*"
+
+    def depart_emphasis(self, node: nodes.emphasis) -> None:
+        self.current_cell.source += "*"
+
+    def visit_inline(self, node: nodes.inline) -> None:
+        self.current_cell.source += "["
+
+    def depart_inline(self, node: nodes.inline) -> None:
+        self.current_cell.source += "]"
+
+    def visit_list_item(self, node: nodes.list_item) -> None:
+        self.current_cell.source += "- "
+
+    def depart_list_item(self, node: nodes.list_item) -> None:
+        pass
+
+    def visit_literal(self, node: nodes.literal) -> None:
+        self.current_cell.source += "`"
+
+    def depart_literal(self, node: nodes.literal) -> None:
+        self.current_cell.source += "`"
+
+    def visit_literal_block(self, node: nodes.literal_block) -> None:
+        self.new_cell(NotebookCell.CODE)
+
+    def depart_literal_block(self, node: nodes.literal_block) -> None:
+        pass
+
+    def visit_paragraph(self, node: nodes.paragraph) -> None:
+        self.new_cell(NotebookCell.MARKDOWN)
+
+        if isinstance(node.parent, nodes.list_item):
+            return
+
+        self.current_cell.source += "\n"
+
+    def depart_paragraph(self, node: nodes.paragraph) -> None:
+        self.current_cell.source += "\n"
+
+    def visit_reference(self, node: nodes.reference) -> None:
+        self.current_cell.source += "["
+
+    def depart_reference(self, node: nodes.reference) -> None:
+        attrs = node.attributes
+
+        url = attrs["refuri"]
+        self.current_cell.source += f"]({url})"
+
     def visit_section(self, node: nodes.section) -> None:
         self.level += 1
-        self._log_visit(node)
         self.new_cell(NotebookCell.MARKDOWN)
 
     def depart_section(self, node: nodes.section) -> None:
         self.level -= 1
-        self._log_departure(node)
+
+    def visit_strong(self, node: nodes.strong) -> None:
+        self.current_cell.source += "**"
+
+    def depart_strong(self, node: nodes.strong) -> None:
+        self.current_cell.source += "**"
+
+    def visit_target(self, node: nodes.target) -> None:
+        pass
+
+    def depart_target(self, node: nodes.target) -> None:
+        pass
 
     def visit_Text(self, node: nodes.Text) -> None:
-        self._log_visit(node)
 
         if self.current_cell.cell_type == NotebookCell.MARKDOWN:
             self.current_cell.source += node.astext()
@@ -194,76 +261,20 @@ class NotebookTranslator(nodes.NodeVisitor):
         self.current_cell.source += cleaned_source
 
     def depart_Text(self, node: nodes.Text) -> None:
-        self._log_departure(node)
+        pass
 
     def visit_title(self, node: nodes.title) -> None:
-        self._log_visit(node)
-
         title = "#" * self.level
         self.current_cell.source += f"\n{title} "
 
     def depart_title(self, node: nodes.title) -> None:
-        self._log_departure(node)
         self.current_cell.source += "\n"
-
-    def visit_paragraph(self, node: nodes.paragraph) -> None:
-        self._log_visit(node)
-        self.new_cell(NotebookCell.MARKDOWN)
-        self.current_cell.source += "\n"
-
-    def depart_paragraph(self, node: nodes.paragraph) -> None:
-        self._log_departure(node)
-        self.current_cell.source += "\n"
-
-    def visit_strong(self, node: nodes.strong) -> None:
-        self._log_visit(node)
-        self.current_cell.source += "**"
-
-    def depart_strong(self, node: nodes.strong) -> None:
-        self._log_departure(node)
-        self.current_cell.source += "**"
-
-    def visit_literal_block(self, node: nodes.literal_block) -> None:
-        self._log_visit(node)
-        self.new_cell(NotebookCell.CODE)
-
-    def depart_literal_block(self, node: nodes.literal_block) -> None:
-        self._log_departure(node)
-
-    def visit_literal(self, node: nodes.literal) -> None:
-        self._log_visit(node)
-        self.current_cell.source += "`"
-
-    def depart_literal(self, node: nodes.literal) -> None:
-        self.current_cell.source += "`"
-
-    def visit_list_item(self, node: nodes.list_item) -> None:
-        self.current_cell.source += "- "
-
-    def visit_target(self, node: nodes.target) -> None:
-        pass
-
-    def visit_reference(self, node: nodes.reference) -> None:
-        pass
-
-    def depart_reference(self, node: nodes.reference) -> None:
-        attrs = node.attributes
-
-        if attrs["internal"]:
-            ref = attrs["refuri"].split("#")[0]
-            self.current_cell.source += f"({ref})"
-
-    def visit_inline(self, node: nodes.inline) -> None:
-        self.current_cell.source += "["
-
-    def depart_inline(self, node: nodes.inline) -> None:
-        self.current_cell.source += "]"
 
     def unknown_visit(self, node: nodes.Node):
-        self._log_visit(node, surround="!")
+        pass
 
     def unknown_departure(self, node):
-        self._log_departure(node)
+        pass
 
 
 def codeblock(source: str) -> nodes.literal_block:
@@ -286,7 +297,7 @@ class PythonTutorialBuilder(Builder):
 
     def get_outdated_docs(self) -> Union[str, Iterable[str]]:
         """Not too sure what goes here yet."""
-        return ""
+        self.env.found_docs
 
     def get_target_uri(self, docname: str, type: str = None) -> str:
         """I think this has something to do linking between documents"""
@@ -307,7 +318,7 @@ class NotebookTutorialBuilder(Builder):
     def get_outdated_docs(self) -> Union[str, Iterable[str]]:
         """Not too sure what we should do here yet."""
 
-        return ""
+        return self.env.found_docs
 
     def get_target_uri(self, docname: str, type: str = None) -> str:
         """Another method to figure out."""
@@ -350,7 +361,6 @@ class NotebookTutorialBuilder(Builder):
             logger.debug(f"[nbtutorial]: --> {soln_file}")
 
             with open(soln_file, "w") as f:
-                breakpoint()
                 f.write("# Solution to be written here.")
 
     def write_doc(self, docname: str, doctree: nodes.Node) -> None:
