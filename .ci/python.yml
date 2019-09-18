@@ -86,6 +86,16 @@ jobs:
         ne(variables['Build.Reason'], 'PullRequest')
       )
 
+  - task: PublishBuildArtifacts@1
+    inputs:
+      artifactName: 'snap'
+      pathToPublish: 'snapcraft.yaml'
+    condition : |
+      and(
+        eq(variables['tox.env'], 'pkg'),
+        ne(variables['Build.Reason'], 'PullRequest')
+      )
+
   - script: |
       pip install codecov
       codecov -t "${CODECOV_TOKEN}"
