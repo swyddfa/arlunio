@@ -64,7 +64,7 @@ PREVIEW_TEMPLATE = """\
 IMAGE_TEMPLATE = string.Template(
     """\
 <figure style="border: solid 1px #ddd;width: 75%;margin:auto">
-  <img style="image-rendering:crisp-edges;width:100%"
+  <img style="image-rendering:crisp-edges;image-rendering:pixelated;width:100%"
        src="data:image/png;base64,$data"></img>
 </figure>
 """
@@ -89,7 +89,9 @@ class nbsolution(nodes.General, nodes.Element):
 
 def visit_nbsolution(self, node):
     self.body.append('<details class="admonition note">\n')
-    self.body.append('<summary class="admonition-title">Solution</summary>\n')
+    self.body.append(
+        '<summary class="admonition-title">Solution (click to expand)</summary>\n'
+    )
 
 
 def depart_nbsolution(self, node):

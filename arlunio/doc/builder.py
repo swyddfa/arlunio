@@ -1,6 +1,7 @@
 import json
 import os
 import re
+import textwrap
 import typing
 
 from pathlib import Path
@@ -117,8 +118,39 @@ class NotebookWriter(writers.Writer):
         self.output = visitor.astext()
 
 
+class PythonTranslator(nodes.NodeVisitor):
+    """Coverts an rst doctree into a valid python file.
+
+    Currently only used to write tutorial solutions to a python file that can be
+    imported via the `%load` magic in a jupyter notebook.
+    """
+
+    def __init__(self, document):
+        super().__init__(document)
+        self.is_code = False
+        self.source = ""
+
+    def astext(self):
+        return self.source
+
+    # ------------------------- Visitors --------------------------------------
+
+    def visit_Text(self, node: nodes.Text) -> None:
+        source = node.astext()
+        self.source += textwrap.indent(source, "# " * self.is_code)
+
+    def depart_Text(self, node: nodes.Text) -> None:
+        pass
+
+    def unknown_visit(self, node: nodes.Node) -> None:
+        pass
+
+    def unknown_departure(self, node: nodes.Node) -> None:
+        pass
+
+
 class NotebookTranslator(nodes.NodeVisitor):
-    """Converts rst nodes into their output representation."""
+    """Converts an rst doctree into our representation of a jupyter notebook."""
 
     def __init__(self, document):
         super().__init__(document)
@@ -270,10 +302,10 @@ class NotebookTranslator(nodes.NodeVisitor):
     def depart_title(self, node: nodes.title) -> None:
         self.current_cell.source += "\n"
 
-    def unknown_visit(self, node: nodes.Node):
+    def unknown_visit(self, node: nodes.Node) -> None:
         pass
 
-    def unknown_departure(self, node):
+    def unknown_departure(self, node: nodes.Node) -> None:
         pass
 
 
@@ -284,24 +316,6 @@ def codeblock(source: str) -> nodes.literal_block:
     block.children = [nodes.Text(source)]
 
     return block
-
-
-class PythonTutorialBuilder(Builder):
-    """Builder that can convert tutorials into python scripts plus comments."""
-
-    name = "pytutorial"
-    format = "py"
-
-    def init(self) -> None:
-        """Any initialization goes here."""
-
-    def get_outdated_docs(self) -> Union[str, Iterable[str]]:
-        """Not too sure what goes here yet."""
-        self.env.found_docs
-
-    def get_target_uri(self, docname: str, type: str = None) -> str:
-        """I think this has something to do linking between documents"""
-        return docname + ".py"
 
 
 class NotebookTutorialBuilder(Builder):
@@ -353,6 +367,11 @@ class NotebookTutorialBuilder(Builder):
             soln_fname = f"{soln_name}-{idx + 1:02d}.py"
             soln_path = f"{DIRNAME}/{soln_fname}"
 
+            # Convert the solution to a valid python file
+            translator = PythonTranslator(soln)
+            soln.walkabout(translator)
+            python_soln = translator.astext()
+
             # Insert a code block into the notebook that will load the solution
             soln.children = [codeblock(f"%load {soln_path}")]
 
@@ -361,7 +380,7 @@ class NotebookTutorialBuilder(Builder):
             logger.debug(f"[nbtutorial]: --> {soln_file}")
 
             with open(soln_file, "w") as f:
-                f.write("# Solution to be written here.")
+                f.write(python_soln)
 
     def write_doc(self, docname: str, doctree: nodes.Node) -> None:
         logger.debug(f"[nbtutorial]: Processing {docname}")
