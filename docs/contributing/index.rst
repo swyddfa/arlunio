@@ -3,4 +3,9 @@
 Contributing
 ============
 
-This is how we build it.
+
+.. toctree::
+   :caption: Index
+   :maxdepth: 2
+
+   get-started
