@@ -23,6 +23,7 @@ extras = {
         "pre-commit",
         "pytest",
         "pytest-cov",
+        "sphinx-autobuild",
         "sphinx_rtd_theme",
         "tox",
     ],
