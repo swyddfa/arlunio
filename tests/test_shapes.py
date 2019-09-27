@@ -284,3 +284,117 @@ class TestShape:
             Circle.from_json(src)
 
         assert "p" in str(err.value)
+
+
+class TestShapeCollection:
+    """Tests for the :code:`ShapeCollection class.`"""
+
+    def test_shape(self):
+        """Ensure that new shapes can be created from a collection"""
+
+        lib = ar.ShapeCollection(name="lib")
+
+        @lib.shape
+        def Fill(x):
+            return True
+
+        assert issubclass(Fill, ar.Shape)
+
+    def test_getattr(self):
+        """Ensure we can retrieve a shape using x.y syntax"""
+
+        shapes = {"a": 1, "b": 2}
+        lib = ar.ShapeCollection(name="lib", shapes=shapes)
+
+        assert lib.a == 1
+        assert lib.b == 2
+
+    def test_getattr_missing(self):
+        """Ensure we throw an :code:`AttributeError when a shape does not exist"""
+
+        lib = ar.ShapeCollection(name="lib")
+
+        with py.test.raises(AttributeError) as err:
+            lib.not_found
+
+        assert "not_found" in str(err.value)
+
+    def test_getattr_nested(self):
+        """Ensure we can access nested shapes with x.y.z syntax."""
+
+        std = ar.ShapeCollection(name="std")
+
+        @std.shape
+        def Line(x):
+            return True
+
+        lib = ar.ShapeCollection(name="lib")
+        lib._collections["std"] = std
+
+        assert lib.std.Line == Line
+
+    def test_getattr_search(self):
+        """If a shape has an unique name across all nested collections, ensure that
+        we can return it at the top level."""
+
+        std = ar.ShapeCollection(name="std")
+
+        @std.shape
+        def Line(x):
+            return True
+
+        lib = ar.ShapeCollection(name="lib")
+        lib._collections["std"] = std
+
+        assert lib.Line == Line
+
+    def test_getattr_ambiguous_search(self):
+        """If a shape exists as part of multiple collections and the reference is
+        abmbiguous, ensure we raise an error."""
+
+        std = ar.ShapeCollection(name="std")
+
+        @std.shape
+        def Line(x):
+            return True
+
+        original = Line  # noqa: F841
+        ext = ar.ShapeCollection(name="ext")
+
+        @ext.shape
+        def Line(x):
+            return x < 12
+
+        lib = ar.ShapeCollection(name="lib")
+        lib._collections["std"] = std
+        lib._collections["ext"] = ext
+
+        with py.test.raises(AttributeError) as err:
+            lib.Line
+
+        assert "Line" in str(err.value)
+        assert "is ambiguous" in str(err.value)
+
+    def test_getattr_qualified_search(self):
+        """In the case of ambiguous references, ensure that we can still deal with a
+        fully qualified name."""
+
+        std = ar.ShapeCollection(name="std")
+
+        @std.shape
+        def Line(x):
+            return True
+
+        original_line = Line
+        ext = ar.ShapeCollection(name="ext")
+
+        @ext.shape
+        def Line(x):
+            return x < 12
+
+        lib = ar.ShapeCollection(name="lib")
+        lib._collections["std"] = std
+        lib._collections["ext"] = ext
+
+        assert lib.std.Line == original_line
+        assert lib.ext.Line == Line

@@ -1,8 +1,10 @@
 import arlunio as ar
 import numpy as np
 
+basic = ar.ShapeCollection(name="basic")
 
-@ar.shape
+
+@basic.shape
 def Circle(x, y, *, x0=0, y0=0, r=0.8, pt=None):
     """We define a circle using the following inequality.
 
@@ -36,7 +38,7 @@ def Circle(x, y, *, x0=0, y0=0, r=0.8, pt=None):
     return np.logical_and(r < circle, circle < R)
 
 
-@ar.shape
+@basic.shape
 def Ellipse(x, y, *, x0=0, y0=0, a=2, b=1, r=0.8, pt=None):
     """An ellipse can be defined using the following inequality.
 
@@ -81,7 +83,7 @@ def Ellipse(x, y, *, x0=0, y0=0, a=2, b=1, r=0.8, pt=None):
     return np.logical_and(r < ellipse, ellipse < R)
 
 
-@ar.shape
+@basic.shape
 def Square(x, y, *, x0=0, y0=0, size=0.8):
     """A square."""
 

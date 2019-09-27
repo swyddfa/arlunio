@@ -81,10 +81,6 @@ setup(
             "r = arlunio.parameters:rs",
             "t = arlunio.parameters:ts",
         ],
-        "arlunio.shapes": [
-            "Circle = arlunio.lib.basic:Circle",
-            "Ellipse = arlunio.lib.basic:Ellipse",
-            "Square = arlunio.lib.basic:Square",
-        ],
+        "arlunio.shapes": ["basic = arlunio.lib:basic"],
     },
 )

@@ -1,7 +1,7 @@
 import inspect
 import json
 import logging
-import typing
+from typing import Any, Dict, List
 
 import attr
 
@@ -65,13 +65,13 @@ class Shape:
     """A property that controls the color of the shape when drawn, currently is
     specified as a color hex string. Default :code:`#000000`"""
 
-    origin: typing.Any = attr.ib(default=None, repr=False)
+    origin: Any = attr.ib(default=None, repr=False)
     """A property that can be used to control where the origin is in relation to the
     image. Must be supported by the shape's parameters in order to take effect
     *Currently not implemented.*
     """
 
-    background: typing.Any = attr.ib(default=None, repr=False)
+    background: Any = attr.ib(default=None, repr=False)
     """A propety that can be used to set the background color of the image when the
     shape is drawn, currently is specified as a color hex string. Default
     :code:`#ffffff`
@@ -249,7 +249,7 @@ class Shape:
         return cls(**params)
 
 
-def property_names(cls: Shape) -> typing.List[str]:
+def property_names(cls: Shape) -> List[str]:
     """Given a shape return a list of all property names."""
     fields = attr.fields(cls)
     props = [p.name for p in fields if Property.IS_PROPERTY in p.metadata]
@@ -410,3 +410,55 @@ def shape(f) -> type:
         define_property(prop, attributes)
 
     return attr.s(type(name, (Shape,), attributes))
+
+
+@attr.s(auto_attribs=True)
+class ShapeCollection:
+    """A class used to group related shapes together."""
+
+    name: str
+    """The name of the collection."""
+
+    _shapes: Dict[str, Shape] = attr.ib(repr=False, default=attr.Factory(dict))
+    """Field used to store the shapes that form part of this collection."""
+
+    _collections: Dict[str, Any] = attr.ib(repr=False, default=attr.Factory(dict))
+    """Field used to store any sub collections."""
+
+    def __iter__(self):
+
+        for shape in self._shapes.values():
+            yield shape
+
+        for collection in self._collections.values():
+            for shape in collection:
+                yield shape
+
+    def __getattr__(self, name):
+
+        shape = self._shapes.get(name, None)
+
+        if shape is not None:
+            return shape
+
+        if name in self._collections:
+            return self._collections[name]
+
+        candidates = [getattr(col, name) for col in self._collections.values()]
+
+        if len(candidates) == 1:
+            return candidates[0]
+
+        if len(candidates) > 1:
+            raise AttributeError(f"The reference to shape {name} is ambiguous")
+
+        raise AttributeError(f"There is no shape called: {name}")
+
+    def shape(self, f):
+        """Create a new shape within the collection."""
+
+        shape_cls = shape(f)
+        name = shape_cls.__name__
+
+        self._shapes[name] = shape_cls
+        return shape_cls

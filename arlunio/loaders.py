@@ -96,8 +96,9 @@ def load_parameters():
 def load_shapes():
     """Load all of the available shapes."""
 
-    docstring = """\
-    All of the available shapes.
-    """
+    collections = {}
 
-    return _load_collection("Shapes", "arlunio.shapes", docstring)
+    for collection in pkg_resources.iter_entry_points("arlunio.shapes"):
+        collections[collection.name] = collection.load()
+
+    return collections
