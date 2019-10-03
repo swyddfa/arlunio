@@ -1,5 +1,5 @@
-Stylo
-=====
+Arlunio
+=======
 
 .. toctree::
    :maxdepth: 2
@@ -9,4 +9,5 @@ Stylo
    extending/index
    contributing/index
    stdlib/index
+   glossary
    changes

@@ -8,3 +8,5 @@ Basic Shapes
 .. autoshape:: arlunio.lib.basic.Ellipse
 
 .. autoshape:: arlunio.lib.basic.Square
+
+.. autoshape:: arlunio.lib.basic.SuperEllipse
