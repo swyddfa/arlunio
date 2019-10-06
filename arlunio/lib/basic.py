@@ -33,9 +33,11 @@ def Circle(x, y, *, x0=0, y0=0, r=0.8, pt=None):
     if pt is None:
         return circle < r * r
 
-    r, R = (r - pt) ** 2, (r + pt) ** 2
+    p = r * pt
+    inner = (r - p) ** 2
+    outer = (r + p) ** 2
 
-    return np.logical_and(r < circle, circle < R)
+    return ar.all(inner < circle, circle < outer)
 
 
 @basic.shape
@@ -79,9 +81,11 @@ def Ellipse(x, y, *, x0=0, y0=0, a=2, b=1, r=0.8, pt=None):
     if pt is None:
         return ellipse < r * r
 
-    r, R = (r - pt / 2) ** 2, (r + pt / 2) ** 2
+    p = r * pt
+    inner = (r - p) ** 2
+    outer = (r + p) ** 2
 
-    return np.logical_and(r < ellipse, ellipse < R)
+    return ar.all(inner < ellipse, ellipse < outer)
 
 
 @basic.shape
@@ -142,21 +146,47 @@ def SuperEllipse(x, y, *, x0=0, y0=0, a=1, b=1, n=3, r=0.8, m=None, pt=None):
     if m is None:
         m = n
 
-    lhs = np.abs(xc / a) ** n + np.abs(yc / b) ** m
+    ellipse = np.abs(xc / a) ** n + np.abs(yc / b) ** m
 
-    if pt is not None:
-        return np.logical_and(r - pt / 2 < lhs, lhs < r + pt / 2)
+    if pt is None:
+        return ellipse < r
 
-    return lhs < r
+    p = r * pt
+    inner = r - p
+    outer = r + p
+
+    return ar.all(inner < ellipse, ellipse < outer)
 
 
 @basic.shape
-def Square(x, y, *, x0=0, y0=0, size=0.8):
+def Square(x, y, *, x0=0, y0=0, size=0.8, pt=None):
     """A square."""
 
-    xc = x - x0
-    yc = y - y0
+    xs = np.abs(x - x0)
+    ys = np.abs(y - y0)
 
-    size = size / 2
+    if pt is None:
+        return ar.all(xs < size, ys < size)
 
-    return np.logical_and(np.abs(xc) < size, np.abs(yc) < size)
+    inner = ar.all(xs < size - pt, ys < size - pt)
+    outer = ar.all(xs < size + pt, ys < size + pt)
+
+    return ar.all(outer, ar.invert(inner))
+
+
+@basic.shape
+def Rectangle(x, y, *, x0=0, y0=0, size=0.6, ratio=1.618, pt=None):
+    """A Rectangle."""
+
+    xs = np.abs(x - x0)
+    ys = np.abs(y - y0)
+    width = size * ratio
+    height = size
+
+    if pt is None:
+        return ar.all(xs < width, ys < height)
+
+    inner = ar.all(xs < width - pt, ys < height - pt)
+    outer = ar.all(xs < width + pt, ys < height + pt)
+
+    return ar.all(outer, ar.invert(inner))

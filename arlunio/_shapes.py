@@ -54,7 +54,6 @@ class Property:
 class Shape:
     """This is the base class that all shapes inherit from and defines the interface
     that applies to all shapes.
-
     """
 
     scale: float = attr.ib(default=1.0, repr=False)
@@ -77,6 +76,9 @@ class Shape:
     :code:`#ffffff`
     """
 
+    def __attrs_post_init__(self):
+        self._logger = logger.getChild(self.__class__.__name__)
+
     def __add__(self, other):
 
         if isinstance(other, Shape):
@@ -88,6 +90,9 @@ class Shape:
             return other
 
     def __call__(self, width=None, height=None, *, colorspace=None, **kwargs):
+        self._logger.debug("Choosing draw method....")
+        self._logger.debug(f"--> width: {width}, height: {height}")
+        self._logger.debug(f"--> kwargs: {', '.join(kwargs.keys())}")
 
         # If given a width and a height draw the shape as an image.
         if width is not None and height is not None:
@@ -113,6 +118,7 @@ class Shape:
         return self._definition(**args)
 
     def _draw(self, width: int, height: int, colorspace):
+        self._logger.debug(f"Width and Height")
 
         if colorspace is None:
             colorspace = RGB8
@@ -130,13 +136,19 @@ class Shape:
         return image
 
     def mask(self, width: int, height: int):
+        self._logger.debug(f"Mask: {width}x{height}")
 
         args = dict(self.properties)
+        self._logger.debug(f"Properties: {args}")
 
         for param in self.parameters:
             parameter = getattr(Parameter, param)
-            args[param] = parameter(width, height, self.scale)
+            p = parameter(width, height, self.scale)
 
+            self._logger.debug(f"{param}: {p.shape}")
+            args[param] = p
+
+        self._logger.debug(f"Arguments: {', '.join(args.keys())}")
         return self._definition(**args)
 
     @property

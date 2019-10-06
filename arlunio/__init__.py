@@ -1,3 +1,4 @@
+from ._expressions import all, any, invert  # noqa: F401
 from ._shapes import Canvas, Shape, ShapeCollection, shape  # noqa: F401
 from ._version import __version__  # noqa: F401
 from .color import RGB8  # noqa: F401
