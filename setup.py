@@ -25,6 +25,7 @@ extras = {
         "pytest-cov",
         "sphinx-autobuild",
         "sphinx_rtd_theme",
+        "sphobjinv",
         "tox",
     ],
     "doc": ["sphinx"],
@@ -81,6 +82,9 @@ setup(
             "r = arlunio.parameters:rs",
             "t = arlunio.parameters:ts",
         ],
-        "arlunio.shapes": ["basic = arlunio.lib:basic"],
+        "arlunio.shapes": [
+            "basic = arlunio.lib:basic",
+            "pattern = arlunio.lib:pattern",
+        ],
     },
 )

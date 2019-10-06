@@ -34,7 +34,7 @@ deps =
      pytest-azurepipelines
 extras = all
 commands =
-    pytest --doctest-modules --doctest-glob="*.rst" --cov=arlunio --cov-report html {posargs}
+    pytest --doctest-modules --doctest-glob="*.rst" --cov=arlunio --cov-report html --cov-report term {posargs}
 
 [testenv:docs]
 deps =
