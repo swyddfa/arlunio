@@ -164,10 +164,10 @@ class Shape:
 
         For example the dictionary representation of a circle is::
 
-           >>> import arlunio as st
+           >>> import arlunio as ar
            >>> from pprint import pprint
 
-           >>> circle = st.S.Circle()
+           >>> circle = ar.S.Circle()
            >>> pprint(circle.dict)
            {'color': '#000000',
             'name': 'Circle',
@@ -193,9 +193,9 @@ class Shape:
 
         For example the JSON representation of the circle is::
 
-           >>> import arlunio as st
+           >>> import arlunio as ar
 
-           >>> circle = st.S.Circle()
+           >>> circle = ar.S.Circle()
            >>> print(circle.json)
            {
              "name": "Circle",
@@ -230,7 +230,7 @@ class Shape:
 
         For example we can create an instance of the |Circle| shape as follows::
 
-           >>> import arlunio as st
+           >>> import arlunio as ar
         """
         dictionary = json.loads(json_str)
         return cls.from_dict(dictionary)
@@ -327,9 +327,9 @@ def shape(f) -> type:
     :code:`False` otherwise. The simplest possible shape definition would look
     like the following::
 
-        >>> import arlunio as st
+        >>> import arlunio as ar
 
-        >>> @st.shape
+        >>> @ar.shape
         ... def Everywhere():
         ...     return True
 
@@ -355,7 +355,7 @@ def shape(f) -> type:
     pixel based on its vertical position in the image. Let's create a shape that
     colors in the lower half of the image::
 
-        >>> @st.shape
+        >>> @ar.shape
         ... def LowerHalf(y):
         ...     return y < 0
 
@@ -379,7 +379,7 @@ def shape(f) -> type:
     shape to take a :code:`height` property that we can use to control how much
     of the image we color in::
 
-        >>> @st.shape
+        >>> @ar.shape
         ... def FillHeight(y, *, height=0):
         ...     return y < height
 
