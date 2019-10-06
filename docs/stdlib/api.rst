@@ -9,6 +9,15 @@ Colour
 .. autoclass:: arlunio.RGB8
    :members:
 
+Expressions
+-----------
+
+.. autofunction:: arlunio.any
+
+.. autofunction:: arlunio.all
+
+.. autofunction:: arlunio.invert
+
 Images
 ------
 

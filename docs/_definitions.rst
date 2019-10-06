@@ -13,3 +13,15 @@
 .. Docs References
 
 .. |LHS| replace:: :term:`LHS`
+
+
+.. External Code References
+
+.. |numpy.logical_or| replace:: :data:`np.logical_or <numpy:numpy.logical_or>`
+.. |numpy.logical_and| replace:: :data:`np.logical_and <numpy:numpy.logical_and>`
+
+.. External Doc References
+
+.. |numpy.Broadcasting| replace:: :doc:`Broadcasting <numpy:user/basics.broadcasting>`
+.. |numpy.Array Broadcasting| replace:: :doc:`Array Broadcasting <numpy:user/theory.broadcasting>`
+
