@@ -3,6 +3,7 @@ import unittest.mock as mock
 import pkg_resources
 
 import py.test
+
 from arlunio.loaders import Collection
 
 
