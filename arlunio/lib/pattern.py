@@ -4,7 +4,7 @@ import arlunio as ar
 import numpy as np
 
 logger = logging.getLogger(__name__)
-pattern = ar.ShapeCollection(name="pattern")
+pattern = ar.ShapeCollection()
 
 
 @pattern.shape

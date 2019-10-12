@@ -91,14 +91,3 @@ def load_parameters():
     """
 
     return _load_collection("Parameter", "arlunio.parameters", docstring)
-
-
-def load_shapes():
-    """Load all of the available shapes."""
-
-    collections = {}
-
-    for collection in pkg_resources.iter_entry_points("arlunio.shapes"):
-        collections[collection.name] = collection.load()
-
-    return collections

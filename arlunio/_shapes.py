@@ -1,7 +1,11 @@
 import inspect
 import json
 import logging
+import re
+
 from typing import Any, Dict, List
+
+import pkg_resources
 
 import attr
 
@@ -424,53 +428,168 @@ def shape(f) -> type:
     return attr.s(type(name, (Shape,), attributes))
 
 
+class Key:
+    """This class is used to represent x.y.z keys in a collection.
+
+    It's only a thin wrapper around a tuple that should make the implementation of
+    collections easier to reason about. A key can be created from a number of strings
+
+    >>> from arlunio._shapes import Key
+    >>> Key('a', 'b', 'c')
+    k'a.b.c'
+
+    Alternatively from a single string with each part delimited with a dot.
+
+    >>> Key.fromstring('a.b.c')
+    k'a.b.c'
+
+    Keys have a length which is equal to the number of components that makes up the
+    key.
+
+    >>> k = Key('a', 'b', 'c')
+    >>> len(k)
+    3
+
+    They can be checked to see if they are equal against other keys, or their string
+    representation
+
+    >>> k == Key.fromstring('a.b.c')
+    True
+
+    >>> k == "a.b.c"
+    True
+
+    Keys can be indexed
+
+    >>> k[0]
+    'a'
+
+    But not mutated
+
+    >>> k[1] = 'd'
+    Traceback (most recent call last):
+        ...
+    TypeError: 'Key' object does not support item assignment
+    """
+
+    __slots__ = "_key"
+
+    def __init__(self, *args):
+        self._key = args
+
+    def __repr__(self):
+        return f"k'{str(self)}'"
+
+    def __str__(self):
+        return ".".join(self._key)
+
+    def __hash__(self):
+        return hash(self._key)
+
+    def __eq__(self, other):
+
+        if isinstance(other, Key):
+            return self._key == other._key
+
+        if isinstance(other, str):
+            return str(self) == other
+
+        return False
+
+    def __len__(self):
+        return len(self._key)
+
+    def __getitem__(self, index):
+        return self._key[index]
+
+    def __add__(self, other):
+        return Key.fromstring(str(self) + "." + str(other))
+
+    @classmethod
+    def fromstring(cls, string):
+        return cls(*string.split("."))
+
+
 @attr.s(auto_attribs=True)
-class ShapeCollection:
-    """A class used to group related shapes together."""
+class Collection:
+    """A group of related items, indexed by keys."""
 
-    name: str
-    """The name of the collection."""
+    _items: Dict[Key, Any] = attr.Factory(dict)
 
-    _shapes: Dict[str, Shape] = attr.ib(repr=False, default=attr.Factory(dict))
-    """Field used to store the shapes that form part of this collection."""
+    def __str__(self):
+        sep = "\n|  "
+        name = self.__class__.__name__
+        header = f"{name}: {len(self)} items{sep}"
+        items = sep.join(str(k) for k in self._items.keys())
 
-    _collections: Dict[str, Any] = attr.ib(repr=False, default=attr.Factory(dict))
-    """Field used to store any sub collections."""
+        return header + items
 
-    def __iter__(self):
+    def __len__(self):
+        return len(self._items)
 
-        for shape in self._shapes.values():
-            yield shape
+    def __getitem__(self, key):
 
-        for collection in self._collections.values():
-            for shape in collection:
-                yield shape
+        if isinstance(key, int):
+            return list(self._items.values())[key]
+
+        raise KeyError(key)
 
     def __getattr__(self, name):
+        candidates = self.find(name)
+        cls = self.__class__
 
-        shape = self._shapes.get(name, None)
+        if len(candidates) == 0:
+            items = {k: v for k, v in self._items.items() if k[0] == name}
 
-        if shape is not None:
-            return shape
+            if len(items) == 0:
+                raise AttributeError(f"No item with name: {name}")
 
-        if name in self._collections:
-            return self._collections[name]
-
-        candidates = [getattr(col, name) for col in self._collections.values()]
+            return cls(items=items)
 
         if len(candidates) == 1:
             return candidates[0]
 
-        if len(candidates) > 1:
-            raise AttributeError(f"The reference to shape {name} is ambiguous")
+        raise AttributeError(f"Ambiguous reference: {name}")
 
-        raise AttributeError(f"There is no shape called: {name}")
+    def find(self, name: str):
+        """Return a collection of all the items that have the given name."""
+
+        items = {k: v for k, v in self._items.items() if k[-1] == name}
+        return Collection(items=items)
+
+    def merge(self, prefix: str, collection) -> None:
+        """Given a collection and a prefix, merge its items into the collection."""
+
+        prefix = Key.fromstring(prefix)
+
+        for k, item in collection._items.items():
+            self._items[prefix + k] = item
+
+
+class ShapeCollection(Collection):
+    """A class used to group related shapes together."""
 
     def shape(self, f):
         """Create a new shape within the collection."""
 
         shape_cls = shape(f)
-        name = shape_cls.__name__
+        key = Key.fromstring(shape_cls.__name__)
 
-        self._shapes[name] = shape_cls
+        self._items[key] = shape_cls
         return shape_cls
+
+
+def load_shapes():
+    """Load all available shapes."""
+    logger.debug("Loading shapes")
+
+    pattern = re.compile(r"\Aarlunio[.]")
+    library = Collection()
+
+    for collection in pkg_resources.iter_entry_points("arlunio.shapes"):
+        prefix = re.sub(pattern, "", f"{collection.module_name}.{collection.name}")
+        logger.debug("Found collection: %s", prefix)
+
+        library.merge(prefix, collection.load())
+
+    return library

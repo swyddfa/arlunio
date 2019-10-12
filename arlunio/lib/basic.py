@@ -1,7 +1,7 @@
 import arlunio as ar
 import numpy as np
 
-basic = ar.ShapeCollection(name="basic")
+basic = ar.ShapeCollection()
 
 
 @basic.shape

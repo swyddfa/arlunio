@@ -4,6 +4,8 @@ import arlunio as ar
 import numpy as np
 import py.test
 
+from arlunio._shapes import Collection, Key
+
 
 class TestShape:
     """Tests for the `st.shape` decorator and the base `Shape` class."""
@@ -286,115 +288,48 @@ class TestShape:
         assert "p" in str(err.value)
 
 
-class TestShapeCollection:
-    """Tests for the :code:`ShapeCollection class.`"""
+@py.test.mark.parametrize(
+    "items,key,expected",
+    [({"Circle": 1}, "Circle", 1), ({"Circle": 1, "lib.Square": 2}, "Square", 2)],
+)
+def test_collection_getattr(items, key, expected):
+    """Ensure that we can access items"""
 
-    def test_shape(self):
-        """Ensure that new shapes can be created from a collection"""
+    collection = Collection(items={Key.fromstring(k): v for k, v in items.items()})
+    assert getattr(collection, key) == expected
 
-        lib = ar.ShapeCollection(name="lib")
 
-        @lib.shape
-        def Fill(x):
-            return True
+def test_collection_getattr_qualified():
+    """Ensure that the user can qualify an ambiguous reference."""
 
-        assert issubclass(Fill, ar.Shape)
+    shapes = {"Square": 1, "lib.Circle": 2, "ext.Circle": 3}
+    collection = Collection(items={Key.fromstring(k): v for k, v in shapes.items()})
 
-    def test_getattr(self):
-        """Ensure we can retrieve a shape using x.y syntax"""
+    assert collection.lib.Circle == 2
+    assert collection.ext.Circle == 3
 
-        shapes = {"a": 1, "b": 2}
-        lib = ar.ShapeCollection(name="lib", shapes=shapes)
 
-        assert lib.a == 1
-        assert lib.b == 2
+def test_collection_getattr_ambiguous():
+    """Ensure that if a reference is ambiguous we throw an error."""
 
-    def test_getattr_missing(self):
-        """Ensure we throw an :code:`AttributeError when a shape does not exist"""
+    shapes = {"std.Circle": 1, "ext.Circle": 3}
+    collection = Collection(items={Key.fromstring(k): v for k, v in shapes.items()})
 
-        lib = ar.ShapeCollection(name="lib")
+    with py.test.raises(AttributeError) as err:
+        collection.Circle
 
-        with py.test.raises(AttributeError) as err:
-            lib.not_found
+    assert "Ambiguous" in str(err.value)
+    assert "Circle" in str(err.value)
 
-        assert "not_found" in str(err.value)
 
-    def test_getattr_nested(self):
-        """Ensure we can access nested shapes with x.y.z syntax."""
+def test_collection_getattr_not_found():
+    """Ensure that if there is no match for a reference we throw an error."""
 
-        std = ar.ShapeCollection(name="std")
+    shapes = {"Circle": 1}
+    collection = Collection(items={Key.fromstring(k): v for k, v in shapes.items()})
 
-        @std.shape
-        def Line(x):
-            return True
+    with py.test.raises(AttributeError) as err:
+        collection.Square
 
-        lib = ar.ShapeCollection(name="lib")
-        lib._collections["std"] = std
-
-        assert lib.std.Line == Line
-
-    def test_getattr_search(self):
-        """If a shape has an unique name across all nested collections, ensure that
-        we can return it at the top level."""
-
-        std = ar.ShapeCollection(name="std")
-
-        @std.shape
-        def Line(x):
-            return True
-
-        lib = ar.ShapeCollection(name="lib")
-        lib._collections["std"] = std
-
-        assert lib.Line == Line
-
-    def test_getattr_ambiguous_search(self):
-        """If a shape exists as part of multiple collections and the reference is
-        abmbiguous, ensure we raise an error."""
-
-        std = ar.ShapeCollection(name="std")
-
-        @std.shape
-        def Line(x):
-            return True
-
-        original = Line  # noqa: F841
-        ext = ar.ShapeCollection(name="ext")
-
-        @ext.shape
-        def Line(x):
-            return x < 12
-
-        lib = ar.ShapeCollection(name="lib")
-        lib._collections["std"] = std
-        lib._collections["ext"] = ext
-
-        with py.test.raises(AttributeError) as err:
-            lib.Line
-
-        assert "Line" in str(err.value)
-        assert "is ambiguous" in str(err.value)
-
-    def test_getattr_qualified_search(self):
-        """In the case of ambiguous references, ensure that we can still deal with a
-        fully qualified name."""
-
-        std = ar.ShapeCollection(name="std")
-
-        @std.shape
-        def Line(x):
-            return True
-
-        original_line = Line
-        ext = ar.ShapeCollection(name="ext")
-
-        @ext.shape
-        def Line(x):
-            return x < 12
-
-        lib = ar.ShapeCollection(name="lib")
-        lib._collections["std"] = std
-        lib._collections["ext"] = ext
-
-        assert lib.std.Line == original_line
-        assert lib.ext.Line == Line
+    assert "No item" in str(err.value)
+    assert "Square" in str(err.value)
