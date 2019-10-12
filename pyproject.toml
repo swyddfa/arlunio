@@ -18,8 +18,10 @@ ignore = [
   "tests/*"]
 
 [tool.isort]
-multi_line_output = 3
 include_trailing_comma = true
+line_length = 88
+lines_between_types = 1
+multi_line_output = 3
 
 [tool.tox]
 legacy_tox_ini = """
@@ -34,7 +36,7 @@ deps =
      pytest-azurepipelines
 extras = all
 commands =
-    pytest --doctest-glob="*.rst" --cov=arlunio --cov-report html {posargs}
+    pytest --doctest-modules --doctest-glob="*.rst" --cov=arlunio --cov-report html --cov-report term {posargs}
 
 [testenv:docs]
 deps =

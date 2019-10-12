@@ -1,6 +1,7 @@
 import typing
 
 import arlunio
+
 from sphinx.application import Sphinx
 
 from .builder import NotebookTutorialBuilder
