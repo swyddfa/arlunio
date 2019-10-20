@@ -21,7 +21,7 @@ class Canvas:
     """A good canvas is what every artist needs."""
 
     def __init__(self, layers=None, background=None):
-        self.layers = [] if layers is None else layers
+        self.layers = layers
 
     def __repr__(self):
         return f"Canvas<{len(self.layers)} layers>"
@@ -29,12 +29,12 @@ class Canvas:
     def __add__(self, other):
 
         if isinstance(other, Shape):
-            self.layers.append(other)
-            return self
+            layers = list(self.layers) + [other]
+            return Canvas(layers=layers)
 
         if isinstance(other, Canvas):
-            self.layers += other.layers
-            return self
+            layers = list(self.layers) + list(other.layers)
+            return Canvas(layers=layers)
 
         raise TypeError()
 
@@ -90,8 +90,8 @@ class Shape:
             return Canvas(layers=layers)
 
         if isinstance(other, Canvas):
-            other.layers.insert(0, self)
-            return other
+            layers = [self] + list(other.layers)
+            return Canvas(layers=layers)
 
     def __call__(self, width=None, height=None, *, colorspace=None, **kwargs):
         self._logger.debug("Choosing draw method....")
