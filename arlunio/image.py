@@ -85,6 +85,7 @@ class Image:
                   width: 50%;
                   margin: auto;
                   image-rendering: crisp-edges;
+                  image-rendering: pixelated;
                   border: solid 1px #ddd;
               }
             </style>
