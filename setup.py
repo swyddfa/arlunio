@@ -75,6 +75,7 @@ setup(
         "arlunio.cli.commands": [
             "repl = arlunio.cli.repl:Repl",
             "tutorial = arlunio.cli.tutorial:Tutorial",
+            "ui = arlunio.tk:UI",
         ],
         "arlunio.parameters": [
             "x = arlunio.parameters:xs",
