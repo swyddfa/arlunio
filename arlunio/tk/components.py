@@ -30,7 +30,7 @@ class ArlunioCanvas(tk.Canvas):
         super().__init__(parent, highlightthickness=0, **kwargs)
         self.bind("<Configure>", self.on_resize)
 
-        self._items = []
+        self._item = None
         self.height = self.winfo_reqheight()
         self.width = self.winfo_reqwidth()
 
@@ -43,14 +43,12 @@ class ArlunioCanvas(tk.Canvas):
 
         cx, cy = self.width / 2, self.height / 2
 
-        for item in self._items:
-            img = item.source(self.width, self.height)._as_pillow_image()
-            item.tk = ImageTk.PhotoImage(img)
-            self.coords(item.canvas, cx, cy)
-            self.itemconfig(item.canvas, image=item.tk)
+        img = self._item.source(self.width, self.height)._as_pillow_image()
+        self._item.tk = ImageTk.PhotoImage(img)
+        self.coords(self._item.canvas, cx, cy)
+        self.itemconfig(self._item.canvas, image=self._item.tk)
 
-    def add_item(self, item):
-
+    def set_item(self, item):
         canvas_item = CanvasItem(source=item)
 
         img = item(self.width, self.height)._as_pillow_image()
@@ -58,7 +56,7 @@ class ArlunioCanvas(tk.Canvas):
 
         cx, cy = self.width / 2, self.height / 2
         canvas_item.canvas = self.create_image(cx, cy, image=canvas_item.tk)
-        self._items.append(canvas_item)
+        self._item = canvas_item
 
 
 class ImageViewer(tk.Frame):
@@ -71,5 +69,5 @@ class ImageViewer(tk.Frame):
         self.canvas = ArlunioCanvas(self, width=640, height=480)
         self.canvas.pack(fill=tk.BOTH, expand=tk.TRUE)
 
-    def add_item(self, item):
-        self.canvas.add_item(item)
+    def set_item(self, item):
+        self.canvas.set_item(item)

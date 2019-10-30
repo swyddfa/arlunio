@@ -75,13 +75,13 @@ setup(
         "arlunio.cli.commands": [
             "repl = arlunio.cli.repl:Repl",
             "tutorial = arlunio.cli.tutorial:Tutorial",
-            "ui = arlunio.tk:UI",
+            "shapes = arlunio.tk:Shapes",
         ],
         "arlunio.parameters": [
-            "x = arlunio.parameters:xs",
-            "y = arlunio.parameters:ys",
-            "r = arlunio.parameters:rs",
-            "t = arlunio.parameters:ts",
+            "x = arlunio.lib.parameters:xs",
+            "y = arlunio.lib.parameters:ys",
+            "r = arlunio.lib.parameters:rs",
+            "t = arlunio.lib.parameters:ts",
         ],
         "arlunio.shapes": [
             "basic = arlunio.lib:basic",

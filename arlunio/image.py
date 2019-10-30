@@ -99,7 +99,6 @@ class Image:
         return Image(self.pixels[key])
 
     def __setitem__(self, key, value):
-        logger.debug(f"key: {key}")
         self.pixels[key] = value
 
     @property
