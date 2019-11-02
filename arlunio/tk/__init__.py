@@ -13,7 +13,7 @@ except ImportError:
     import unittest.mock as mock
 
     tk = mock.MagicMock()
-    ttk = mock.MaicMock()
+    ttk = mock.MagicMock()
 
     TK = False
 
