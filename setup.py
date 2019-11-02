@@ -70,7 +70,7 @@ setup(
         "Topic :: Multimedia :: Graphics",
     ],
     entry_points={
-        "console_scripts": ["arlunio = arlunio.__main__:main"],
+        "console_scripts": ["arlunio = arlunio.cli.__main__:main"],
         "sphinx.builders": ["nbtutorial = arlunio.doc"],
         "arlunio.cli.commands": [
             "repl = arlunio.cli.repl:Repl",

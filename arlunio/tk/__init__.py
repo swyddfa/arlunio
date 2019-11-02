@@ -3,7 +3,6 @@ import tkinter as tk
 import tkinter.ttk as ttk
 
 import arlunio as ar
-import arlunio.cli as cli
 
 from .components import ImageViewer
 
@@ -35,7 +34,7 @@ class ShapeDesigner(tk.Frame):
         self.viewer.set_item(shape)
 
 
-class Shapes(cli.Command):
+class Shapes:
     """Launches a simple shape previewer."""
 
     def run(self):
