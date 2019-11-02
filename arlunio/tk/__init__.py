@@ -1,10 +1,22 @@
 import logging
-import tkinter as tk
-import tkinter.ttk as ttk
 
 import arlunio as ar
 
 from .components import ImageViewer
+
+try:
+    import tkinter as tk
+    import tkinter.ttk as ttk
+
+    TK = True
+except ImportError:
+    import unittest.mock as mock
+
+    tk = mock.MagicMock()
+    ttk = mock.MaicMock()
+
+    TK = False
+
 
 logger = logging.getLogger(__name__)
 
@@ -38,6 +50,15 @@ class Shapes:
     """Launches a simple shape previewer."""
 
     def run(self):
+
+        if not TK:
+            logger.info(
+                "It appears that tkinter is not available on your system but "
+                "is required for this command. Please ensure it is available "
+                "and try again "
+            )
+            return 1
+
         root = tk.Tk()
         app = ShapeDesigner(root)
         app.mainloop()

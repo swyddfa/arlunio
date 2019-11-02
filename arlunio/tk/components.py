@@ -1,11 +1,17 @@
 import logging
-import tkinter as tk
 
 from typing import Any
 
 import attr
 
-from PIL import ImageTk
+try:
+    import tkinter as tk
+    from PIL import ImageTk
+except ImportError:
+    import unittest.mock as mock
+
+    tk = mock.MagicMock()
+
 
 logger = logging.getLogger(__name__)
 
