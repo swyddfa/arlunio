@@ -32,7 +32,7 @@ of :code:`arlunio`
 
    >>> import arlunio as ar
    >>> ar.__version__
-   '0.0.2'
+   '0.0.3'
 
 About this Tutorial
 -------------------

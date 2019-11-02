@@ -70,17 +70,18 @@ setup(
         "Topic :: Multimedia :: Graphics",
     ],
     entry_points={
-        "console_scripts": ["arlunio = arlunio.__main__:main"],
+        "console_scripts": ["arlunio = arlunio.cli.__main__:main"],
         "sphinx.builders": ["nbtutorial = arlunio.doc"],
         "arlunio.cli.commands": [
             "repl = arlunio.cli.repl:Repl",
             "tutorial = arlunio.cli.tutorial:Tutorial",
+            "shapes = arlunio.tk:Shapes",
         ],
         "arlunio.parameters": [
-            "x = arlunio.parameters:xs",
-            "y = arlunio.parameters:ys",
-            "r = arlunio.parameters:rs",
-            "t = arlunio.parameters:ts",
+            "x = arlunio.lib.parameters:xs",
+            "y = arlunio.lib.parameters:ys",
+            "r = arlunio.lib.parameters:rs",
+            "t = arlunio.lib.parameters:ts",
         ],
         "arlunio.shapes": [
             "basic = arlunio.lib:basic",
