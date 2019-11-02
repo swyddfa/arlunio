@@ -15,8 +15,8 @@ def mkparam(name, type_, default=None):
     return inspect.Parameter(name, pos, default=value, annotation=type_)
 
 
-BOOL_STORE_TRUE = {"type": bool, "action": "store_true"}
-BOOL_STORE_FALSE = {"type": bool, "action": "store_false"}
+BOOL_STORE_TRUE = {"action": "store_true"}
+BOOL_STORE_FALSE = {"action": "store_false"}
 INT_NO_DEFAULT = {"type": int, "default": None}
 INT_WITH_DEFAULT = lambda v: {"type": int, "default": v}  # noqa: E731
 FLOAT_NO_DEFAULT = {"type": float, "default": None}

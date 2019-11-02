@@ -1,6 +1,9 @@
 import argparse
 import collections
 import logging
+import sys
+import textwrap
+import traceback
 
 import pkg_resources
 
@@ -34,15 +37,55 @@ def _setup_logging(verbose: int, quiet: bool) -> None:
         others = True
 
     root = logging.getLogger()
+    root.setLevel(conf.level)
 
     console = logging.StreamHandler()
     console.setFormatter(logging.Formatter(conf.fmt))
-    console.setLevel(conf.level)
 
     if not others:
         console.addFilter(logging.Filter("arlunio"))
 
     root.addHandler(console)
+
+
+def build_dummy_command_parser(
+    name: str, parent: argparse._SubParsersAction, err
+) -> None:
+    """Build a dummy command to report an error encountered while loading the real
+    one."""
+
+    e_type, e_val, tb = err
+
+    message = "WARNING Command unavailable: " + str(err)
+    parser = parent.add_parser(name, help=message)
+    parser.add_argument("collector", nargs=argparse.REMAINDER)
+
+    header = f"\nCommand Unavailable: {name}\n\n"
+
+    body = """\
+    This is either because your environment does not have the dependencies
+    available required by this command or there is an issue with the command
+    itself.\n
+    """
+    body = textwrap.dedent(body)
+
+    body += f"\t{e_type.__name__}: {e_val}\n"
+
+    if issubclass(e_type, ImportError):
+        extra = """\
+
+        Since this is an import error it's probably an issue with your environment
+        please make sure you have all the required libraries installed.
+        """
+        body += textwrap.dedent(extra)
+
+    message = header + body
+
+    def run(args: argparse.Namespace):
+        logger.info(message)
+        logger.debug("\n%s", "\n".join(traceback.format_exception(e_type, e_val, tb)))
+
+    parser.set_defaults(run=run)
 
 
 def _register_commands(parent: argparse._SubParsersAction, entry_point: str):
@@ -52,8 +95,12 @@ def _register_commands(parent: argparse._SubParsersAction, entry_point: str):
     in its place so that we can gracefully handle it and inform the user.
     """
     for cmd in pkg_resources.iter_entry_points(entry_point):
-        command = cmd.load()
-        build_command_parser(cmd.name, command, parent)
+        try:
+            command = cmd.load()
+            build_command_parser(cmd.name, command, parent)
+        except Exception:
+            info = sys.exc_info()
+            build_dummy_command_parser(cmd.name, parent, info)
 
 
 # Top level command line parser
@@ -81,9 +128,8 @@ def main():
         logger.info("arlunio v%s", __version__)
         return 0
 
-    _setup_logging(args.verbose, args.quiet)
-
     if hasattr(args, "run"):
+        _setup_logging(args.verbose, args.quiet)
         return args.run(args)
 
     _cli.print_help()
