@@ -12,11 +12,11 @@ on:
 
 jobs:
   test:
-    name: Test ${{ matrix.py_version }} on ${{ matrix.os }}
+    name: Test ${{ matrix.python-version }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        python-verison: [3.6, 3.7, 3.8]
+        python-version: [3.6, 3.7, 3.8]
         os: [ubuntu-latest, windows-latest, macOS-latest]
 
     steps:
