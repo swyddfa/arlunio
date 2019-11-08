@@ -1,0 +1,27 @@
+name: Lint Python
+on:
+  pull_request:
+    branches:
+    - develop
+    - master 
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+ 
+    - name: Setup Python 3.7
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7
+        
+    - name: Setup Environment
+      run: |
+        python --version
+        python -m pip install --upgrade pip
+        python -m pip install --upgrade tox
+        
+    - name: Tox
+      shell: bash
+      run: |
+        tox -e lint
