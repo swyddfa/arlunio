@@ -27,6 +27,13 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
         
-    - name: Check python version
+    - name: Setup Environment
       run: |
         python --version
+        python -m pip install --upgrade pip
+        python -m pip install --upgrade tox
+        
+    - name: Tox
+      shell: bash
+      run: |
+        tox -e py`echo ${{ matrix.python-version }} | tr -d .`
