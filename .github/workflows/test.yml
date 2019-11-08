@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: 
+    - develop
+    - master
+  pull_request:
+    branches:
+    - develop
+    - master 
+
+jobs:
+  test:
+    name: Test ${{ matrix.py_version }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        py_verison: ['py36', 'py37']
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Run a one-line script
+      run: echo Hello, world!
+    - name: Run a multi-line script
+      run: |
+        echo Add other actions to build,
+        echo test, and deploy your project.
