@@ -16,17 +16,16 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        python-verison: ['3.6', '3.7', '3.8']
+        python-verison: [3.6, 3.7, 3.8]
         os: [ubuntu-latest, windows-latest, macOS-latest]
 
     steps:
     - uses: actions/checkout@v1
         
-    - name: Setup python
+    - name: Setup Python ${{ matrix.python-version }}
       uses: actions/setup-python@v1
       with:
         python-version: ${{ matrix.python-version }}
-        architecture: x64
         
     - name: Check python version
       run: |
