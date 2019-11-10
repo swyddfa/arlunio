@@ -33,12 +33,14 @@ jobs:
       uses: einaregilsson/build-number@v1 
       with:
         token: ${{secrets.github_token}} 
+      if: matrix.python-version == '3.7'
         
     - name: Set Version Number 
       shell: bash
       run : |
-        sed -i 's/"\(.*\)"/"\1dev$BUILD_NUMBER"/' arlunio/_version.py
+        sed -i 's/"\(.*\)"/"\1dev'"${BUILD_NUMBER}"'"/' arlunio/_version.py
         cat arlunio/_version.py
+      if: matrix.python-version == '3.7' 
         
     - name: 'Tox: Run Tests'
       shell: bash
