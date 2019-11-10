@@ -38,6 +38,28 @@ jobs:
       run: |
         tox -e docs
         
+    - name: 'Tox: Build Pkg'
+      run: |
+        tox -e pkg
+        
+    - name: 'Publish Whl'
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name: 'whl'
+        path: 'dist/*.whl'
+        
+    - name: 'Publish Src'
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name: 'src'
+        path: 'dist/*.tar.gz'
+      
+    - name: 'Publish Docs'
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name: 'docs'
+        path: 'docs/_build/html'
+              
     - name: Codecov Report
       run: |
         python -m pip install --upgrade codecov
