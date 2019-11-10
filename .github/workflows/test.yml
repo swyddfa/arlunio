@@ -30,6 +30,7 @@ jobs:
         python -m pip install --upgrade tox
         
     - name: 'Tox: Run Tests'
+      shell: bash
       run: |
         tox -e py`echo ${{ matrix.python-version }} | tr -d .`
         
