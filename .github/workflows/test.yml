@@ -41,7 +41,7 @@ jobs:
     - name: 'Tox: Build Pkg'
       run: |
         tox -e pkg
-      if: matrix.version == '3.7'
+      if: matrix.python-version == '3.7'
         
     - name: 'Publish Whl'
       uses: actions/upload-artifact@v1.0.0
