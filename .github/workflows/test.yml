@@ -44,18 +44,11 @@ jobs:
         ls dist
       if: matrix.python-version == '3.7'
         
-    - name: 'Publish Whl'
+    - name: 'Publish Pkg'
       uses: actions/upload-artifact@v1.0.0
       with:
-        name: 'whl'
-        path: 'dist/*.whl'
-      if: matrix.python-version == '3.7'
-        
-    - name: 'Publish Src'
-      uses: actions/upload-artifact@v1.0.0
-      with:
-        name: 'src'
-        path: 'dist/*.tar.gz'
+        name: 'pkg'
+        path: dist
       if: matrix.python-version == '3.7'
       
     - name: 'Publish Docs'
