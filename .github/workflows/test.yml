@@ -1,10 +1,6 @@
 name: Test Python
 
 on:
-  push:
-    branches: 
-    - develop
-    - master
   pull_request:
     branches:
     - develop
@@ -33,10 +29,13 @@ jobs:
         python -m pip install --upgrade pip
         python -m pip install --upgrade tox
         
-    - name: Tox
-      shell: bash
+    - name: 'Tox: Run Tests'
       run: |
         tox -e py`echo ${{ matrix.python-version }} | tr -d .`
+        
+    - name: 'Tox: Build Docs'
+      run: |
+        tox -e docs
         
     - name: Codecov Report
       run: |
