@@ -29,6 +29,17 @@ jobs:
         python -m pip install --upgrade pip
         python -m pip install --upgrade tox
         
+    - name: Get Version Number 
+      uses: einaregilsson/build-number@v1 
+      with:
+        token: ${{secrets.github_token}} 
+        
+    - name: Set Version Number 
+      shell: bash
+      run : |
+        sed -i 's/"\(.*\)"/"\1dev$BUILD_NUMBER"/' arlunio/_version.py
+        cat arlunio/_version.py
+        
     - name: 'Tox: Run Tests'
       shell: bash
       run: |
