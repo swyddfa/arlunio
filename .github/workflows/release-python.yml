@@ -38,7 +38,7 @@ jobs:
       run: |
         tox -e pkg 
         
-    #- name: Publish package 
-    #  run: |
-    #    python -m pip install twine
-    #    twine upload dist/* -u alcarney -p ${{ secrets.PYPI_PASS }}
+    - name: Publish package 
+      run: |
+        python -m pip install twine
+        twine upload dist/* -u alcarney -p ${{ secrets.PYPI_PASS }}
