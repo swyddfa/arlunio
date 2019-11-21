@@ -34,7 +34,7 @@ jobs:
         python -m pip install --upgrade tox
 
     # </test-job-setup>
-    # </test-job-version>
+    # <test-job-version>
     - name: Get Version Number
       run: |
         build=$(echo $GITHUB_REF | sed -E 's/.*\/([0-9]+)\/.*/\1/')
@@ -53,6 +53,7 @@ jobs:
         cat arlunio/_version.py
       if: matrix.python-version == '3.7'
     # </test-job-version>
+    # <test-job-tox>
     - name: 'Tox: Run Tests'
       shell: bash
       run: |
@@ -67,7 +68,8 @@ jobs:
         tox -e pkg
         ls dist
       if: matrix.python-version == '3.7'
-
+    # </test-job-tox>
+    # <test-job-publish>
     - name: 'Publish Pkg'
       uses: actions/upload-artifact@v1.0.0
       with:
@@ -88,3 +90,4 @@ jobs:
         codecov --name "GH: ${{ matrix.os }} Python ${{ matrix.python-version }}"
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+    # </test-job-publish>
