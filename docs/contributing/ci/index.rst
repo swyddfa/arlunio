@@ -8,6 +8,7 @@ that are defined and how they work.
 .. toctree::
    :maxdepth: 1
 
-   pr-builds
+   python-linting
+   python-pr-builds
 
 .. _Github Actions: https://github.com/features/actions

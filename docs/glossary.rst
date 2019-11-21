@@ -11,6 +11,10 @@ Glossary
       :math:`a^2 + b^2 = c^2`, the left hand side refers to the expression
       :math:`a^2 + b^2`
 
+   pre-commit
+      `pre-commit <https://pre-commit.com/>`_ is a tool used to automatically configure
+      and run a number of checks/utilities each time you make a git commit.
+
    sdist
       Shorthand for a python source distribution
 
