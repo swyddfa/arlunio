@@ -1,12 +1,14 @@
-name: Test Python
+name: Python PR Build
 
+# <trigger>
 on:
   pull_request:
     branches:
     - develop
-    - master 
-
+    - master
+# </trigger>
 jobs:
+  # <test-job>
   test:
     name: Test ${{ matrix.python-version }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
@@ -14,66 +16,75 @@ jobs:
       matrix:
         python-version: [3.6, 3.7]
         os: [ubuntu-latest]  # TODO: Enable windows-latest, macOS-latest
+  # </test-job>
 
     steps:
+    # <test-job-setup>
     - uses: actions/checkout@v1
-        
+
     - name: Setup Python ${{ matrix.python-version }}
       uses: actions/setup-python@v1
       with:
         python-version: ${{ matrix.python-version }}
-        
+
     - name: Setup Environment
       run: |
         python --version
         python -m pip install --upgrade pip
         python -m pip install --upgrade tox
-        
-    - name: Get Version Number 
-      uses: einaregilsson/build-number@v1 
-      with:
-        token: ${{secrets.github_token}} 
+
+    # </test-job-setup>
+    # </test-job-version>
+    - name: Get Version Number
+      run: |
+        build=$(echo $GITHUB_REF | sed -E 's/.*\/([0-9]+)\/.*/\1/')
+
+        echo "ref: $GITHUB_REF"
+        echo "Build number is $build"
+
+        echo "::set-env name=BUILD_NUMBER::$build"
+        echo "::set-output name=BUILD_NUMBER::$build"
       if: matrix.python-version == '3.7'
-        
-    - name: Set Version Number 
+
+    - name: Set Version Number
       shell: bash
       run : |
         sed -i 's/"\(.*\)"/"\1dev'"${BUILD_NUMBER}"'"/' arlunio/_version.py
         cat arlunio/_version.py
-      if: matrix.python-version == '3.7' 
-        
+      if: matrix.python-version == '3.7'
+    # </test-job-version>
     - name: 'Tox: Run Tests'
       shell: bash
       run: |
         tox -e py`echo ${{ matrix.python-version }} | tr -d .`
-        
+
     - name: 'Tox: Build Docs'
       run: |
         tox -e docs
-        
+
     - name: 'Tox: Build Pkg'
       run: |
         tox -e pkg
         ls dist
       if: matrix.python-version == '3.7'
-        
+
     - name: 'Publish Pkg'
       uses: actions/upload-artifact@v1.0.0
       with:
         name: 'pkg'
         path: dist
       if: matrix.python-version == '3.7'
-      
+
     - name: 'Publish Docs'
       uses: actions/upload-artifact@v1.0.0
       with:
         name: 'docs'
         path: 'docs/_build/html'
       if: matrix.python-version == '3.7'
-              
+
     - name: Codecov Report
       run: |
         python -m pip install --upgrade codecov
         codecov --name "GH: ${{ matrix.os }} Python ${{ matrix.python-version }}"
       env:
-        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}        
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

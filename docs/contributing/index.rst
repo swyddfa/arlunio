@@ -9,3 +9,4 @@ Contributing
    :maxdepth: 2
 
    get-started
+   ci/index
