@@ -33,10 +33,9 @@ isolated_build = True
 deps =
      pytest
      pytest-cov
-     pytest-azurepipelines
 extras = all
 commands =
-    pytest --doctest-modules --doctest-glob="*.rst" --cov=arlunio --cov-report html --cov-report term {posargs}
+    pytest --doctest-modules --doctest-glob="*.rst" --cov=arlunio --cov-report term {posargs}
 
 [testenv:docs]
 deps =
@@ -45,13 +44,6 @@ deps =
 commands =
     sphinx-build -M linkcheck docs docs/_build -E -a -j auto {posargs}
     sphinx-build -M html docs docs/_build -E -a -j auto {posargs}
-
-[testenv:docs-preview]
-deps =
-     {[testenv:docs]deps}
-     sphinx-autobuild
-commands =
-     sphinx-autobuild docs docs/_build/html -E -a {posargs}
 
 [testenv:lint]
 deps =
