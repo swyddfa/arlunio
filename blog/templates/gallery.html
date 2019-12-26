@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="gallery">
+    {% for image in images %}
+    <p class="gallery-image">Image</p>
+    {% endfor %}
+</div>
+{% endblock %}
+
+<!--
+<div class="gallery-image">
+        <a href="{{ baseurl }}/image/{{ image.filename }}.html">
+            <img src="{{ image.urls.thumb }}" />
+        </a>
+    </div>
+-->

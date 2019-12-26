@@ -1,0 +1,4 @@
+[site]
+baseurl = "https://www.arlun.io/"
+output = "public"
+templates = "templates"
