@@ -8,7 +8,7 @@ Triggers
 --------
 
 This action is triggered by any PR that is opened against the
-:code:`develop` or :code:`master` branches.
+:code:`develop` or :code:`master` branches, unless the changes only affect the blog.
 
 .. literalinclude:: ../../../.github/workflows/python-lint.yml
    :language: yaml

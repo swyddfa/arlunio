@@ -16,8 +16,7 @@ Triggers
 --------
 
 Currently this action is triggered by any PR that is opened against the
-:code:`develop` or :code:`master` branches. At some point this should probably be
-made smarter to only run if there have been changes that affect the python codebase.
+:code:`develop` or :code:`master` branches, unless the changes only affect the blog.
 
 .. literalinclude:: ../../../.github/workflows/python-pr.yml
    :language: yaml
