@@ -1,3 +1,5 @@
+.. _contrib_ci_python_pr:
+
 Python PR Builds
 ================
 

@@ -10,5 +10,6 @@ that are defined and how they work.
 
    python-linting
    python-pr-builds
+   python-release
 
 .. _Github Actions: https://github.com/features/actions

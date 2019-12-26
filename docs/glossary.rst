@@ -15,6 +15,9 @@ Glossary
       `pre-commit <https://pre-commit.com/>`_ is a tool used to automatically configure
       and run a number of checks/utilities each time you make a git commit.
 
+   PyPi
+      `PyPi <https://pypi.org>`_ is the main repository for Python packages
+
    sdist
       Shorthand for a python source distribution
 
@@ -23,6 +26,7 @@ Glossary
       of multiple python envrionments and running commands within them. Very often used
       for testing.
 
+   whl
    wheel
       A `wheel <https://pythonwheels.com/>`_ is the preferred packaging format for
       Python code
