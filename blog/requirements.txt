@@ -2,3 +2,4 @@ attrs
 jupyter
 jinja2
 tomlkit
+tqdm
