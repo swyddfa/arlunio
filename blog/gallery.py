@@ -9,6 +9,7 @@ import importlib.util as imutil
 import logging
 import os
 import pathlib
+import random
 import sys
 import traceback
 import typing as t
@@ -21,6 +22,7 @@ import jinja2 as j2
 import tomlkit as toml
 
 from arlunio.imp import NotebookLoader
+from tqdm import tqdm
 
 # from importlib import import_module
 logger = logging.getLogger(__name__)
@@ -198,7 +200,11 @@ class GalleryContext:
     def prepare_notebooks(self, notebooks, config):
         """Given the notebooks that represent an image, prepare them."""
 
-        for nb in notebooks:
+        # Shuffle the notebooks so that the gallery is drawn in a random order
+        # on each build.
+        random.shuffle(notebooks)
+
+        for nb in tqdm(notebooks, desc="Rendering images"):
             image = ImageContext.fromnb(nb, self, config)
             self.images.append(image)
 
@@ -246,14 +252,12 @@ def write_file(filepath, content):
 
 def load_notebooks(notebooks):
     """Discover and load each of the notebooks that represent images."""
-    logger.info("Loading notebooks")
-
     nbdir = pathlib.Path(notebooks)
     loader = NotebookLoader(str(nbdir))
 
     modules = []
 
-    for nbpath in nbdir.glob("*.ipynb"):
+    for nbpath in tqdm(nbdir.glob("*.ipynb"), desc="Loading notebooks"):
         nbname = nbpath.stem.replace(" ", "_")
 
         spec = imutil.spec_from_file_location(nbname, str(nbpath), loader=loader)
