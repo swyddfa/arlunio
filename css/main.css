@@ -71,10 +71,51 @@ footer {
     height: 100%;
 }
 
-.gallery-image img {
+.gallery-image .thumbnail {
     object-fit: cover;
     width: 100%;
     height: 100%;
+    transition: filter 0.3s ease-in-out;
+}
+
+.gallery-image .detail {
+    position: relative;
+    bottom: calc(100% + 4px);
+    width: 100%;
+    height: 100%;
+    opacity: 0%;
+    transition: all 0.3s ease-in-out;
+    color: white;
+    background: black;
+    background: linear-gradient(180deg, rgba(255,255,255,0) 25%,rgba(0,0,0,.5) 75%);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    font-weight: bold;
+    overflow: hidden;
+}
+
+.gallery-image .detail * {
+    margin: 0;
+}
+
+.gallery-image .detail > * {
+    align-self: end;
+    transform: translate(0, 50px);
+    transition: all 0.3s ease-in-out;
+}
+
+.gallery-image:hover .detail > * {
+    transform: translate(0, 0);
+}
+
+.gallery-image:hover .detail {
+    opacity: 100%;
+}
+
+.avatar {
+    border-radius: 50%;
+    width: 25%;
 }
 
 /* -- Mobile -- */
