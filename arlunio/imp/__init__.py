@@ -28,7 +28,12 @@ def find_notebook(fullname, path=None):
     """Converts a.b.c into a valid filepath and checks to see if it exists."""
 
     name = fullname.rsplit(".", 1)[-1]
-    path = [""] if not path else path
+
+    if path is None:
+        path = [""]
+
+    if isinstance(path, str):
+        path = [path]
 
     logger.debug("path: %s", path)
 
