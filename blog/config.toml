@@ -2,3 +2,6 @@
 baseurl = "https://www.arlun.io/"
 output = "public"
 templates = "templates"
+
+[gallery]
+images = "src/gallery"
