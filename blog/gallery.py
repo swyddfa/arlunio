@@ -139,7 +139,11 @@ class ImageContext:
         dimensions = meta.dimensions
 
         # TODO: Make this smarter
-        images = [v for v in nb.__dict__.values() if isinstance(v, arlunio.Canvas)]
+        images = [
+            v
+            for v in nb.__dict__.values()
+            if isinstance(v, (arlunio.Canvas, arlunio.Shape))
+        ]
         image = images[0]
 
         # Render the thumbnail for the main gallery page
