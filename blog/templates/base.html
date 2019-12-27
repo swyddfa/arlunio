@@ -17,18 +17,21 @@
 <body>
     <header class="two-col">
         <h1 class="site-title">
-            <a href="{{ baseurl }}">Arlunio</a>
+            <a href="{{ baseurl }}gallery/">Arlunio</a>
         </h1>
         <nav class="menu">
             <ul>
                 <li><a href="https://arlunio.readthedocs.io/en/latest/">Docs</a></li>
+                <li><a href="{{ baseurl }}gallery/">Gallery</a></li>
             </ul>
+        </nav>
+        <div style="width: 150px;">
             <a href="https://github.com/swyddfa/arlunio">
                 <img style="position: absolute; top: 0; right: 0; border: 0;"
                     src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"
                     alt="Fork me on GitHub">
             </a>
-            </div>
+        </div>
     </header>
     {% block content %}
     {% endblock %}

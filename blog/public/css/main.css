@@ -18,21 +18,34 @@ body {
 
 header {
     display: flex;
+    justify-content: flex-start;
+    align-items: baseline;
+
     color: white;
     font-family: 'Caveat', cursive;
-    padding: 0 1em ;
     background: var(--background);
-    justify-content: space-between;
-    align-items: flex-end;
+
+    padding: 0 1em ;
 }
 
 header a {
     color: white;
 }
 
+.site-title {
+    flex-grow: 1;
+}
+
 nav li {
     font-size: 16pt;
     list-style: none;
+    margin: 0 10px;
+}
+
+nav ul {
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
 }
 
 footer {
@@ -42,7 +55,7 @@ footer {
 }
 
 .menu {
-    margin-right: 75px;
+
 }
 
 .gallery {
@@ -56,7 +69,8 @@ footer {
 .gallery-image {
     width: 100%;
     height: 100%;
-    background: #444;
-    color: white;
-    margin: 0;
+}
+
+.gallery-image img {
+    object-fit: cover;
 }

@@ -3,15 +3,15 @@
 {% block content %}
 <div class="gallery">
     {% for image in images %}
-    <p class="gallery-image">Image</p>
+    <div class="gallery-image">
+        <a href="{{ image.slug }}.html">
+            <img src="{{ image.thumburl }}" />
+        </a>
+    </div>
     {% endfor %}
 </div>
 {% endblock %}
 
 <!--
-<div class="gallery-image">
-        <a href="{{ baseurl }}/image/{{ image.filename }}.html">
-            <img src="{{ image.urls.thumb }}" />
-        </a>
-    </div>
+
 -->

@@ -15,6 +15,7 @@ import typing as t
 
 from datetime import datetime
 
+import arlunio
 import attr
 import jinja2 as j2
 import tomlkit as toml
@@ -105,12 +106,80 @@ class Config:
 
 
 @attr.s(auto_attribs=True)
-class Context:
-    """Represents values to pass to a context"""
+class ImageContext:
+    """Represents the values needed to render the individual image template."""
+
+    author: t.Any
+    """Information about the image's author"""
 
     baseurl: str
+    """The base url the site is being hosted on"""
+
     date: str
-    images: t.List[str] = []
+    """A string representing the time the site was built"""
+
+    slug: str
+    """The machine friendly name of the image."""
+
+    title: str
+    """The human friendly name of the image."""
+
+    thumburl: str = ""
+    """The url to the image's thumbnail"""
+
+    url: str = ""
+    """The url to the full size image"""
+
+    @classmethod
+    def fromnb(cls, nb, gallery, config):
+        """Create a context from the notebook representing the image."""
+        filename = pathlib.Path(nb.__file__).stem
+        slug = filename.lower().replace(" ", "-")
+        meta = nb.__notebook__.metadata.arlunio
+        dimensions = meta.dimensions
+
+        # TODO: Make this smarter
+        images = [v for v in nb.__dict__.values() if isinstance(v, arlunio.Canvas)]
+        image = images[0]
+
+        # Render the thumbnail for the main gallery page
+        thumb = image(250, 250)
+        thumbfile = pathlib.Path(config.output, "gallery", "thumb", slug + ".png")
+        thumb.save(thumbfile, mkdirs=True)
+        thumburl = "thumb/{}.png".format(slug)
+
+        # Render the fullsize image
+        full = image(*dimensions)
+        fullfile = pathlib.Path(config.output, "gallery", "image", slug + ".png")
+        full.save(fullfile, mkdirs=True)
+        url = "image/{}.png".format(slug)
+
+        return cls(
+            author=meta.author,
+            baseurl=gallery.baseurl,
+            date=gallery.date,
+            slug=slug,
+            thumburl=thumburl,
+            url=url,
+            title=filename,
+        )
+
+    def as_dict(self):
+        return attr.asdict(self)
+
+
+@attr.s(auto_attribs=True)
+class GalleryContext:
+    """Represents the values needed to render the main gallery template."""
+
+    baseurl: str
+    """The base url the site is being hosted on"""
+
+    date: str
+    """A string representing the time the site was built"""
+
+    images: t.List[str] = attr.Factory(list)
+    """Represents the images that are included in the gallery"""
 
     @classmethod
     def new(cls, config, local):
@@ -121,6 +190,13 @@ class Context:
 
         date = datetime.now().strftime("%d %B %Y -- %H:%M:%S")
         return cls(baseurl=baseurl, date=date)
+
+    def prepare_notebooks(self, notebooks, config):
+        """Given the notebooks that represent an image, prepare them."""
+
+        for nb in notebooks:
+            image = ImageContext.fromnb(nb, self, config)
+            self.images.append(image)
 
     def as_dict(self):
         return attr.asdict(self)
@@ -134,15 +210,34 @@ class Site:
 
     def build(self, destination):
         env = j2.Environment(loader=j2.FileSystemLoader(self.config.templates))
-        template = env.get_template("gallery.html")
+        gallery_template = env.get_template("gallery.html")
+        image_template = env.get_template("image.html")
 
-        index = os.path.join(self.config.output, "index.html")
-        context = Context.new(self.config, self.local)
+        index = os.path.join(self.config.output, "gallery", "index.html")
+        notebooks = load_notebooks(self.config.notebooks)
 
-        load_notebooks(self.config.notebooks)
+        context = GalleryContext.new(self.config, self.local)
+        context.prepare_notebooks(notebooks, self.config)
 
-        with open(index, "w") as f:
-            f.write(template.render(context.as_dict()))
+        # Render the main index page
+        write_file(index, gallery_template.render(context.as_dict()))
+
+        # For each image, render its detail page.
+        for image in context.images:
+            filename = os.path.join(self.config.output, "gallery", image.slug + ".html")
+            write_file(filename, image_template.render(image.as_dict()))
+
+
+def write_file(filepath, content):
+    path = pathlib.Path(filepath)
+    logger.debug("Writing file: %s", path)
+
+    if not path.parent.exists():
+        logger.debug("Creating dir: %s", path.parent)
+        path.parent.mkdir(parents=True)
+
+    with open(str(path), "w") as f:
+        f.write(content)
 
 
 def load_notebooks(notebooks):
@@ -152,16 +247,21 @@ def load_notebooks(notebooks):
     nbdir = pathlib.Path(notebooks)
     loader = NotebookLoader(str(nbdir))
 
+    modules = []
+
     for nbpath in nbdir.glob("*.ipynb"):
         nbname = nbpath.stem.replace(" ", "_")
+
         spec = imutil.spec_from_file_location(nbname, str(nbpath), loader=loader)
         module = imutil.module_from_spec(spec)
 
         logger.debug("--> spec  : %s", spec)
-        logger.debug("--> module: %s", module.__file__)
+        logger.debug("--> module: %s", module)
 
         spec.loader.exec_module(module)
-        logger.info(module.image)
+        modules.append(module)
+
+    return modules
 
 
 cli = argparse.ArgumentParser(description="Gallery builder for the arlunio blog.")
