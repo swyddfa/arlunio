@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="gallery">
+    {% for image in images %}
+    <div class="gallery-image">
+        <a href="{{ image.slug }}.html">
+            <img src="{{ image.thumburl }}" />
+        </a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
+
+<!--
+
+-->
