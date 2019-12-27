@@ -7,7 +7,7 @@ on:
     - develop
     - master
     paths-ignore:
-    - 'blog/*'
+    - 'blog/**'
 # </trigger>
 jobs:
   # <test-job>

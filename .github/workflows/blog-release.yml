@@ -4,12 +4,12 @@ on:
     branches:
     - develop
     paths:
-    - 'blog/*'
+    - 'blog/**'
   pull_request:
     branches:
     - develop
     paths:
-    - 'blog/*'
+    - 'blog/**'
 jobs:
   Build:
     runs-on: ubuntu-latest
