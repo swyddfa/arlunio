@@ -5,15 +5,25 @@
     {% for image in images %}
     <div class="gallery-image">
         <a href="{{ image.slug }}.html">
-            <img class="thumbnail" src="{{ image.thumburl }}" />
-        </a>
-        <div class="detail">
-            <div>
-                <h3>{{ image.title }}</h3>
-                <h5>by {{image.author.name}}</h5>
+            <style>
+                .thumbnail-{{ image.slug }} {
+                    background-blend-mode: multiply;
+                    background-image: url("{{ image.thumburl }}"), linear-gradient(180deg, rgba(255,255,255,0) 25%,rgba(0,0,0,0) 75%);
+                    background-size: cover;
+                }
+
+                .thumbnail-{{ image.slug }}:hover {
+                    background-image: url("{{ image.thumburl }}"), linear-gradient(180deg, rgba(255,255,255,0) 25%,rgba(0,0,0,.5) 75%);
+                }
+            </style>
+            <div class="thumbnail thumbnail-{{ image.slug }}">
+                <div>
+                    <h3>{{ image.title }}</h3>
+                    <h5>by {{image.author.name}}</h5>
+                </div>
+                <img class="avatar" src="https://github.com/{{ image.author.github }}.png" />
             </div>
-            <img class="avatar" src="https://github.com/{{ image.author.github }}.png" />
-        </div>
+        </a>
     </div>
     {% endfor %}
 </div>
