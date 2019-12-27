@@ -1,12 +1,17 @@
-name: Blog Release
+name: Blog Build
 on:
   push:
     branches:
     - develop
     paths:
     - 'blog/*'
+  pull_request:
+    branches:
+    - develop
+    paths:
+    - 'blog/*'
 jobs:
-  Release:
+  Build:
     runs-on: ubuntu-latest
     steps:
 
@@ -37,3 +42,4 @@ jobs:
         BASE_BRANCH: develop
         BRANCH: gh-pages
         FOLDER: blog/public
+      if: github.event_name != 'pull_request'
