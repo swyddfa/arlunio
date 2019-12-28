@@ -94,7 +94,7 @@ footer {
 }
 
 .gallery-image .thumbnail > * {
-    align-self: end;
+    align-self: flex-end;
     transform: translate(0, 70px);
     transition: all 0.3s ease-in-out;
 }
