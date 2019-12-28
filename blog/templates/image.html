@@ -7,26 +7,31 @@
 <meta name="twitter:image:alt" content="{{title}}">
 {% endblock %}
 
+{% block title %}
+<title>{{ title }} | Arlunio Gallery</title>
+{% endblock %}
+
 {% block content %}
-<style>
-    .image {
-        background-image: url("{{ url }}");
-        background-repeat: no-repeat;
-        background-size: contain;
-    }
-</style>
 <div class="image">
+    <div class="image-display">
+        <img src="{{ url }}" />
+    </div>
     <div class="image-detail">
-        <div>
-            <h3>{{ title }}</h3>
-            <h5>by {{ author.name }}</h5>
+        <div class="image-author">
+            <img class="avatar" src="https://github.com/{{ author.github }}.png" />
+            <div>
+                <h3>{{ title }}</h3>
+                <h5>{{ author.name }}</h5>
+            </div>
         </div>
 
-        {% for cell in cells %}
+        <div class="image-definition">
+            {% for cell in cells %}
             <div class="{{ cell.type }}">
                 {{ cell.contents | safe }}
             </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
     </div>
 </div>
 {% endblock %}
