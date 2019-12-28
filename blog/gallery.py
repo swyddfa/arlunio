@@ -22,6 +22,9 @@ import jinja2 as j2
 import tomlkit as toml
 
 from arlunio.imp import NotebookLoader
+from pygments import highlight
+from pygments.formatters import HtmlFormatter
+from pygments.lexers import PythonLexer
 from tqdm import tqdm
 
 # from importlib import import_module
@@ -108,6 +111,30 @@ class Config:
 
 
 @attr.s(auto_attribs=True)
+class NbCell:
+
+    contents: str
+    """The contents of the cell"""
+
+    type: str
+    """The type of the cell"""
+
+    @classmethod
+    def fromcell(cls, cell):
+        """Converts the jupyter representation of a cell into one we can show in a
+        webpage."""
+        type = cell.cell_type
+
+        if type == "code":
+            contents = highlight(cell.source, PythonLexer(), HtmlFormatter())
+
+        if type == "markdown":
+            contents = cell.source
+
+        return cls(type=type, contents=contents)
+
+
+@attr.s(auto_attribs=True)
 class ImageContext:
     """Represents the values needed to render the individual image template."""
 
@@ -126,6 +153,9 @@ class ImageContext:
     title: str
     """The human friendly name of the image."""
 
+    cells: t.List[NbCell] = attr.Factory(list)
+    """The list of cells representing the notebook that defines the image."""
+
     thumburl: str = ""
     """The url to the image's thumbnail"""
 
@@ -137,8 +167,11 @@ class ImageContext:
         """Create a context from the notebook representing the image."""
         filename = pathlib.Path(nb.__file__).stem
         slug = filename.lower().replace(" ", "-")
+
         meta = nb.__notebook__.metadata.arlunio
         dimensions = meta.dimensions
+
+        cells = [NbCell.fromcell(cell) for cell in nb.__notebook__.cells]
 
         # TODO: Make this smarter
         images = [
@@ -163,6 +196,7 @@ class ImageContext:
         return cls(
             author=meta.author,
             baseurl=gallery.baseurl,
+            cells=cells,
             date=gallery.date,
             slug=slug,
             thumburl=thumburl,
@@ -257,7 +291,7 @@ def load_notebooks(notebooks):
 
     modules = []
 
-    for nbpath in tqdm(nbdir.glob("*.ipynb"), desc="Loading notebooks"):
+    for nbpath in tqdm(list(nbdir.glob("*.ipynb")), desc="Loading notebooks"):
         nbname = nbpath.stem.replace(" ", "_")
 
         spec = imutil.spec_from_file_location(nbname, str(nbpath), loader=loader)
