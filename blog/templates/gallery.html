@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+{% block title %}
+<title>Arlunio Gallery</title>
+{% endblock %}
+
 {% block content %}
 <div class="gallery">
     {% for image in images %}
@@ -19,7 +23,7 @@
             <div class="thumbnail thumbnail-{{ image.slug }}">
                 <div>
                     <h3>{{ image.title }}</h3>
-                    <h5>by {{image.author.name}}</h5>
+                    <h5>{{image.author.name}}</h5>
                 </div>
                 <img class="avatar" src="https://github.com/{{ image.author.github }}.png" />
             </div>
