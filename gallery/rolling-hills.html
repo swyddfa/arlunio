@@ -13,7 +13,9 @@
 <meta name="twitter:image:alt" content="Rolling Hills">
 
 
-    <title>Arlunio</title>
+    
+<title>Rolling Hills | Arlunio Gallery</title>
+
 
     <link rel="stylesheet" href="https://www.arlun.io/css/main.css" />
     <link href="https://fonts.googleapis.com/css?family=Caveat|Open+Sans:300&display=swap" rel="stylesheet" />
@@ -41,28 +43,28 @@
 
     <main>
         
-<style>
-    .image {
-        background-image: url("image/rolling-hills.png");
-        background-repeat: no-repeat;
-        background-size: contain;
-    }
-</style>
 <div class="image">
+    <div class="image-display">
+        <img src="image/rolling-hills.png" />
+    </div>
     <div class="image-detail">
-        <div>
-            <h3>Rolling Hills</h3>
-            <h5>by Alex Carney</h5>
+        <div class="image-author">
+            <img class="avatar" src="https://github.com/alcarney.png" />
+            <div>
+                <h3>Rolling Hills</h3>
+                <h5>Alex Carney</h5>
+            </div>
         </div>
 
-        
+        <div class="image-definition">
+            
             <div class="code">
                 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arlunio</span> <span class="k">as</span> <span class="nn">ar</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 </pre></div>
 
             </div>
-        
+            
             <div class="code">
                 <div class="highlight"><pre><span></span><span class="nd">@ar</span><span class="o">.</span><span class="n">shape</span>
 <span class="k">def</span> <span class="nf">Fill</span><span class="p">():</span>
@@ -70,7 +72,7 @@
 </pre></div>
 
             </div>
-        
+            
             <div class="code">
                 <div class="highlight"><pre><span></span><span class="nd">@ar</span><span class="o">.</span><span class="n">shape</span>
 <span class="k">def</span> <span class="nf">Cloud</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">x0</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">y0</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
@@ -92,7 +94,7 @@
 </pre></div>
 
             </div>
-        
+            
             <div class="code">
                 <div class="highlight"><pre><span></span><span class="n">image</span> <span class="o">=</span> <span class="n">Fill</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;aaeeff&quot;</span><span class="p">)</span>
 <span class="n">image</span> <span class="o">+=</span> <span class="n">ar</span><span class="o">.</span><span class="n">S</span><span class="o">.</span><span class="n">Circle</span><span class="p">(</span><span class="n">x0</span><span class="o">=-</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">y0</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;ffff00&quot;</span><span class="p">)</span>
@@ -106,13 +108,14 @@
 </pre></div>
 
             </div>
-        
+            
+        </div>
     </div>
 </div>
 
     </main>
     <footer>
-        <p>Last Built: 28 December 2019 -- 14:00:16</p>
+        <p>Last Built: 28 December 2019 -- 19:01:32</p>
     </footer>
 </body>
 
