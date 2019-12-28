@@ -3,14 +3,28 @@
 {% block extrahead %}
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{{title}} by {{ author.name }} | Arlunio Gallery ">
-<meta name="twitter:image" content="">
+<meta name="twitter:image" content="{{ baseurl }}gallery/{{ url }}">
 <meta name="twitter:image:alt" content="{{title}}">
 {% endblock %}
 
 {% block content %}
-<div class="image-detail">
-    <div class="full-image">
-        <img src="{{ url }}" />
+<style>
+    .image {
+        background-image: url("{{ url }}");
+        background-repeat: no-repeat;
+        background-size: contain;
+    }
+</style>
+<div class="image">
+    <div class="image-detail">
+        <h3>{{ title }}</h3>
+        <h5>by {{ author.name }}</h5>
+
+        {% for cell in cells %}
+            <div class="{{ cell.type }}">
+                {{ cell.contents | safe }}
+            </div>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}
