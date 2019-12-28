@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scaleable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Simple Clock by Alex Carney | Arlunio Gallery ">
+<meta name="twitter:image" content="https://www.arlun.io/gallery/image/simple-clock.png">
+<meta name="twitter:image:alt" content="Simple Clock">
+
+
+    
+<title>Simple Clock | Arlunio Gallery</title>
+
+
+    <link rel="stylesheet" href="https://www.arlun.io/css/main.css" />
+    <link href="https://fonts.googleapis.com/css?family=Caveat|Open+Sans:300&display=swap" rel="stylesheet" />
+</head>
+
+<body>
+    <header class="two-col">
+        <h1 class="site-title">
+            <a href="https://www.arlun.io/gallery/">Arlunio</a>
+        </h1>
+        <nav class="menu">
+            <ul>
+                <li><a href="https://arlunio.readthedocs.io/en/latest/">Docs</a></li>
+                <li><a href="https://www.arlun.io/gallery/">Gallery</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        
+<div class="image">
+    <div class="image-display">
+        <img src="image/simple-clock.png" />
+    </div>
+
+    <div class="image-author">
+        <img class="avatar" src="https://github.com/alcarney.png" />
+        <div>
+            <h1>Simple Clock</h1>
+            <h3>Alex Carney</h3>
+        </div>
+    </div>
+
+    <div class="image-definition">
+        
+        <div class="code">
+            <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="kn">import</span> <span class="nn">arlunio</span> <span class="k">as</span> <span class="nn">ar</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</pre></div>
+
+        </div>
+        
+        <div class="code">
+            <div class="highlight"><pre><span></span><span class="n">scale</span> <span class="o">=</span> <span class="mf">1.1</span>
+</pre></div>
+
+        </div>
+        
+        <div class="code">
+            <div class="highlight"><pre><span></span><span class="nd">@ar</span><span class="o">.</span><span class="n">shape</span>
+<span class="k">def</span> <span class="nf">ClockHand</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mf">0.025</span><span class="p">,</span> <span class="n">t0</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="n">t</span> <span class="o">-=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span> <span class="n">t0</span>
+    
+    <span class="n">x</span> <span class="o">=</span> <span class="n">r</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">r</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+      
+    <span class="k">return</span> <span class="n">ar</span><span class="o">.</span><span class="n">all</span><span class="p">(</span>
+        <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">length</span><span class="p">,</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">size</span>
+    <span class="p">)</span>
+
+<span class="nd">@ar</span><span class="o">.</span><span class="n">shape</span>
+<span class="k">def</span> <span class="nf">Numeral</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">t0</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="n">t</span> <span class="o">-=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span> <span class="n">t0</span>
+    
+    <span class="n">x</span> <span class="o">=</span> <span class="n">r</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">r</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">ar</span><span class="o">.</span><span class="n">all</span><span class="p">(</span>
+        <span class="n">x</span> <span class="o">&gt;</span> <span class="mf">0.8</span><span class="p">,</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mf">0.95</span><span class="p">,</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mf">0.1</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.07</span>
+    <span class="p">)</span>
+</pre></div>
+
+        </div>
+        
+        <div class="code">
+            <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">make_clock</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">hour_hand</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">minute_hand</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">second_hand</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">hour</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">hour</span> <span class="k">if</span> <span class="n">dt</span><span class="o">.</span><span class="n">hour</span> <span class="o">&lt;=</span> <span class="mi">12</span> <span class="k">else</span> <span class="n">dt</span><span class="o">.</span><span class="n">hour</span> <span class="o">-</span> <span class="mi">12</span>
+    <span class="n">minutes</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">minute</span>
+    <span class="n">seconds</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">second</span>
+    
+    <span class="n">second_hand</span><span class="o">.</span><span class="n">t0</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="p">(</span><span class="n">seconds</span> <span class="o">/</span> <span class="mi">60</span><span class="p">)</span> 
+    <span class="n">minute_hand</span><span class="o">.</span><span class="n">t0</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="p">(</span><span class="n">minutes</span> <span class="o">/</span> <span class="mi">60</span><span class="p">)</span>
+    <span class="n">hour_hand</span><span class="o">.</span><span class="n">t0</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="p">((</span><span class="n">hour</span> <span class="o">/</span> <span class="mi">12</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">minutes</span> <span class="o">/</span> <span class="mi">600</span><span class="p">))</span>
+    
+    <span class="n">center</span> <span class="o">=</span> <span class="n">ar</span><span class="o">.</span><span class="n">S</span><span class="o">.</span><span class="n">Circle</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+    
+    <span class="n">clock</span> <span class="o">=</span> <span class="n">hour_hand</span> <span class="o">+</span> <span class="n">minute_hand</span> <span class="o">+</span> <span class="n">second_hand</span> <span class="o">+</span> <span class="n">center</span>
+    <span class="k">return</span> <span class="n">clock</span>
+</pre></div>
+
+        </div>
+        
+        <div class="code">
+            <div class="highlight"><pre><span></span><span class="n">hour_hand</span> <span class="o">=</span> <span class="n">ClockHand</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">)</span>
+<span class="n">minute_hand</span> <span class="o">=</span> <span class="n">ClockHand</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">)</span>
+<span class="n">second_hand</span> <span class="o">=</span> <span class="n">ClockHand</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">length</span><span class="o">=.</span><span class="mi">95</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;ff0000&quot;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">)</span>
+
+<span class="n">clock</span> <span class="o">=</span> <span class="n">ar</span><span class="o">.</span><span class="n">S</span><span class="o">.</span><span class="n">Circle</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">pt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">12</span><span class="p">):</span>
+    <span class="n">t0</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">6</span><span class="p">)</span>
+    <span class="n">clock</span> <span class="o">+=</span> <span class="n">Numeral</span><span class="p">(</span><span class="n">t0</span><span class="o">=</span><span class="n">t0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">)</span>
+
+<span class="n">clock</span> <span class="o">+=</span> <span class="n">make_clock</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(),</span> <span class="n">hour_hand</span><span class="p">,</span> <span class="n">minute_hand</span><span class="p">,</span> <span class="n">second_hand</span><span class="p">)</span>
+</pre></div>
+
+        </div>
+        
+    </div>
+</div>
+
+    </main>
+    <footer>
+        <p>Last Built: 28 December 2019 -- 23:14:55</p>
+    </footer>
+</body>
+
+</html>
