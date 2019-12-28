@@ -28,6 +28,35 @@ body {
     grid-template-rows: 75px calc(100vh - 125px) 50px;
 }
 
+p {
+    font-weight: 600;
+}
+
+h1,h2,h3,h4,h5 {
+    font-family: 'Caveat', cursive;
+    margin: 0
+}
+
+h1 {
+    font-size: 32pt;
+}
+
+h2 {
+    font-size: 28pt;
+}
+
+h3 {
+    font-size: 26pt;
+}
+
+h4 {
+    font-size: 20pt;
+}
+
+h5 {
+    font-size: 16pt;
+}
+
 header {
     display: flex;
     justify-content: flex-start;
@@ -47,10 +76,16 @@ header a {
 
 .site-title {
     flex-grow: 1;
+    margin: .25em 0;
+}
+
+.site-title a {
+    text-decoration: none;
 }
 
 nav li {
-    font-size: 16pt;
+    font-size: 20pt;
+    font-weight: 600;
     list-style: none;
     margin: 0 10px;
 }
@@ -126,16 +161,16 @@ footer {
 
 .image {
     height: 100%;
-    display: flex;
+    display: grid;
+    grid-template-columns: auto 40vw;
+    grid-template-rows: 130px calc(100% - 150px);
+
+    color: var(--foreground);
     background: var(--background);
 }
 
 .image-display {
-    display: flex;
-    justify-content: center;
-    width: 50%;
-    height: 90%;
-    margin: auto;
+    grid-row-end: span 2;
 }
 
 .image-display img {
@@ -144,31 +179,22 @@ footer {
     object-fit: contain;
 }
 
-.image-detail {
-    color: var(--foreground);
-    background: var(--background);
-    border-left: solid 1px var(--foreground);
-    padding: 2em;
-    width: 40vw;
-}
-
 .image-author {
     display: flex;
     align-items: center;
+    padding: 1em;
+    border-left: solid 1px var(--foreground);
 }
 
 .image-author .avatar {
-    width: 50px;
-    height: 50px;
+    width: 75px;
+    height: 75px;
     margin-right: 1em;
 }
 
-.image-author h3,
-.image-author h5 {
-    margin: 0;
-}
-
 .image-definition {
+    padding: 10px 1em;
+    border-left: solid 1px var(--foreground);
     height: 100%;
     overflow-y: auto;
 }
@@ -184,12 +210,15 @@ footer {
 
 @media (max-width: 1200px) {
     .image {
-        flex-direction: column;;
+        flex-direction: column;
+        overflow-y: auto;
     }
 
     .image-detail {
-        width: 100%;
+        width: unset;
         height: unset;
+        border-top: solid 1px var(--foreground);
+        border-left: unset;
     }
 }
 
@@ -212,6 +241,13 @@ footer {
 }
 
 /* -- Syntax Highlighting -- */
+pre {
+    font-size: 10pt;
+    font-weight: 600;
+    overflow-x: auto;
+    max-width: 100%;
+}
+
 .highlight {
     padding: 0 0.5em;
     font-family: 'Courier New', Courier, monospace;
