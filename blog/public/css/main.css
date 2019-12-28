@@ -193,7 +193,7 @@ footer {
     }
 }
 
-/* -- Dark Mode! -- * /
+/* -- Dark Mode! -- */
 @media (prefers-color-scheme: dark) {
     :root {
         --background: #222;
