@@ -22,6 +22,7 @@ import jinja2 as j2
 import tomlkit as toml
 
 from arlunio.imp import NotebookLoader
+from markdown import markdown
 from pygments import highlight
 from pygments.formatters import HtmlFormatter
 from pygments.lexers import PythonLexer
@@ -129,7 +130,7 @@ class NbCell:
             contents = highlight(cell.source, PythonLexer(), HtmlFormatter())
 
         if type == "markdown":
-            contents = cell.source
+            contents = markdown(cell.source, extensions=["extra"])
 
         return cls(type=type, contents=contents)
 
@@ -174,11 +175,11 @@ class ImageContext:
         cells = [NbCell.fromcell(cell) for cell in nb.__notebook__.cells]
 
         # TODO: Make this smarter
-        images = [
-            v
-            for v in nb.__dict__.values()
-            if isinstance(v, (arlunio.Canvas, arlunio.Shape))
-        ]
+        images = [v for v in nb.__dict__.values() if isinstance(v, arlunio.Canvas)]
+
+        if len(images) == 0:
+            images = [v for v in nb.__dict__.values() if isinstance(v, arlunio.Shape)]
+
         image = images[0]
 
         # Render the thumbnail for the main gallery page

@@ -1,6 +1,7 @@
 attrs
 jupyter
 jinja2
+markdown
 pygments
 tomlkit
 tqdm

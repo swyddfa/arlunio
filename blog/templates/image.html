@@ -16,22 +16,21 @@
     <div class="image-display">
         <img src="{{ url }}" />
     </div>
-    <div class="image-detail">
-        <div class="image-author">
-            <img class="avatar" src="https://github.com/{{ author.github }}.png" />
-            <div>
-                <h3>{{ title }}</h3>
-                <h5>{{ author.name }}</h5>
-            </div>
-        </div>
 
-        <div class="image-definition">
-            {% for cell in cells %}
-            <div class="{{ cell.type }}">
-                {{ cell.contents | safe }}
-            </div>
-            {% endfor %}
+    <div class="image-author">
+        <img class="avatar" src="https://github.com/{{ author.github }}.png" />
+        <div>
+            <h1>{{ title }}</h1>
+            <h3>{{ author.name }}</h3>
         </div>
+    </div>
+
+    <div class="image-definition">
+        {% for cell in cells %}
+        <div class="{{ cell.type }}">
+            {{ cell.contents | safe }}
+        </div>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}
