@@ -1,6 +1,7 @@
 :root {
-    --background: #0058bc;
-    --border: #444;
+    --background: white;
+    --foreground: #444;
+    --primary: #0058bc;
 }
 
 html, body {
@@ -23,7 +24,7 @@ header {
 
     color: white;
     font-family: 'Caveat', cursive;
-    background: var(--background);
+    background: var(--primary);
 
     padding: 0 1em ;
 }
@@ -49,12 +50,14 @@ nav ul {
 }
 
 footer {
-    color: #444;
-    border-top: solid 1px var(--border);
+    color: var(--foreground);
+    background: var(--background);
+    border-top: solid 1px var(--foreground);
     text-align: center;
 }
 
 .gallery {
+    background: var(--background);
     display: grid;
     grid-gap: 2px;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -111,5 +114,14 @@ footer {
       grid-template-columns: 50vw 50vw;
       grid-template-rows: 50vw;
       grid-auto-rows: 50vw;
+    }
+}
+
+/* -- Dark Mode! -- */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background: #222;
+        --foreground: #aaa;
+        --primary: #0058bc;
     }
 }
