@@ -22,9 +22,10 @@ html, body {
 
 body {
     display: grid;
-    min-height: 100vh;
+    height: 100vh;
+    overflow: hidden;
 
-    grid-template-rows: 75px auto 50px;
+    grid-template-rows: 75px calc(100vh - 125px) 50px;
 }
 
 header {
@@ -68,11 +69,15 @@ footer {
 
 .gallery {
     background: var(--background);
+    height: 100%;
+
     display: grid;
     grid-gap: 2px;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     grid-template-rows: repeat(auto-fill, minmax(250px, 1fr));
     grid-auto-rows: 250px;
+
+    overflow-y: auto;
 }
 
 .gallery-image {
@@ -130,10 +135,10 @@ footer {
     color: var(--foreground-a);
     background: var(--background-a);
     padding: 2em;
-    margin: 2em 1em;
-    border-radius: 5px;
+    height: 100%;
     width: 40vw;
 
+    overflow: auto;
     transition: all 0.3s ease-in-out;
 }
 
