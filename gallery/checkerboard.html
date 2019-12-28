@@ -9,7 +9,7 @@
     
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Checkerboard by Alex Carney | Arlunio Gallery ">
-<meta name="twitter:image" content="">
+<meta name="twitter:image" content="https://www.arlun.io/gallery/image/checkerboard.png">
 <meta name="twitter:image:alt" content="Checkerboard">
 
 
@@ -39,14 +39,40 @@
         </div>
     </header>
     
-<div class="image-detail">
-    <div class="full-image">
-        <img src="image/checkerboard.png" />
+<style>
+    .image {
+        background-image: url("image/checkerboard.png");
+        background-repeat: no-repeat;
+        background-size: contain;
+    }
+</style>
+<div class="image">
+    <div class="image-detail">
+        <h3>Checkerboard</h3>
+        <h5>by Alex Carney</h5>
+
+        
+            <div class="code">
+                <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arlunio</span> <span class="k">as</span> <span class="nn">ar</span>
+</pre></div>
+
+            </div>
+        
+            <div class="code">
+                <div class="highlight"><pre><span></span><span class="nd">@ar</span><span class="o">.</span><span class="n">shape</span>
+<span class="k">def</span> <span class="nf">Checker</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span> <span class="o">&gt;</span> <span class="mi">0</span>
+
+<span class="n">checkerboard</span> <span class="o">=</span> <span class="n">ar</span><span class="o">.</span><span class="n">S</span><span class="o">.</span><span class="n">Grid</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">Checker</span><span class="p">())</span>
+</pre></div>
+
+            </div>
+        
     </div>
 </div>
 
     <footer>
-        <p>Last Built: 28 December 2019 -- 00:09:57</p>
+        <p>Last Built: 28 December 2019 -- 13:28:51</p>
     </footer>
 </body>
 
