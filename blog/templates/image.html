@@ -17,8 +17,10 @@
 </style>
 <div class="image">
     <div class="image-detail">
-        <h3>{{ title }}</h3>
-        <h5>by {{ author.name }}</h5>
+        <div>
+            <h3>{{ title }}</h3>
+            <h5>by {{ author.name }}</h5>
+        </div>
 
         {% for cell in cells %}
             <div class="{{ cell.type }}">
