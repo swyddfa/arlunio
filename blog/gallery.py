@@ -10,6 +10,7 @@ import logging
 import os
 import pathlib
 import random
+import subprocess
 import sys
 import traceback
 import typing as t
@@ -37,6 +38,30 @@ _LOG_LEVELS = [
     _LogConfig(level=logging.DEBUG, fmt="[%(levelname)s]: %(message)s"),
     _LogConfig(level=logging.DEBUG, fmt="[%(levelname)s][%(name)s]: %(message)s"),
 ]
+
+
+def get_date_added(filepath: str) -> datetime:
+    """Given a filepath, get the date the file was added."""
+
+    cmd = ["git", "log", "--diff-filter=A", "--pretty=format:%aI", "--", filepath]
+    logger.debug("Running command: %s", " ".join(cmd))
+
+    result = subprocess.run(cmd, capture_output=True)
+    isotime = result.stdout.decode("utf8")
+
+    return datetime.fromisoformat(isotime)
+
+
+def get_num_revisions(filepath: str) -> int:
+    """Given a filepath, get the number of revisions made to it"""
+
+    cmd = ["git", "log", "--pretty=format:%aI", "--", filepath]
+    logger.debug("Running command: %s", " ".join(cmd))
+
+    result = subprocess.run(cmd, capture_output=True)
+    history = result.stdout.decode("utf8")
+
+    return history.count("\n")
 
 
 def setup_logging(verbose: int, quiet: bool) -> None:
@@ -117,6 +142,9 @@ class NbCell:
     contents: str
     """The contents of the cell"""
 
+    raw: str
+    """The raw content of the cell"""
+
     type: str
     """The type of the cell"""
 
@@ -132,7 +160,7 @@ class NbCell:
         if type == "markdown":
             contents = markdown(cell.source, extensions=["extra"])
 
-        return cls(type=type, contents=contents)
+        return cls(type=type, contents=contents, raw=cell.source)
 
 
 @attr.s(auto_attribs=True)
@@ -145,14 +173,29 @@ class ImageContext:
     baseurl: str
     """The base url the site is being hosted on"""
 
+    created: str
+    """The date the image was created"""
+
     date: str
     """A string representing the time the site was built"""
+
+    dimensions: t.List[int]
+    """The width x height of the image"""
+
+    revision: int
+    """Number of revisions made to the image."""
+
+    sloc: int
+    """Rough line of code count"""
 
     slug: str
     """The machine friendly name of the image."""
 
     title: str
     """The human friendly name of the image."""
+
+    version: str
+    """The version of arlunio used to make the image."""
 
     cells: t.List[NbCell] = attr.Factory(list)
     """The list of cells representing the notebook that defines the image."""
@@ -171,8 +214,12 @@ class ImageContext:
 
         meta = nb.__notebook__.metadata.arlunio
         dimensions = meta.dimensions
+        created = get_date_added(nb.__file__)
+        get_num_revisions("gallery.py")
 
         cells = [NbCell.fromcell(cell) for cell in nb.__notebook__.cells]
+        code = "\n".join([cell.raw for cell in cells if cell.type == "code"])
+        sloc = code.count("\n")
 
         # TODO: Make this smarter
         images = [v for v in nb.__dict__.values() if isinstance(v, arlunio.Canvas)]
@@ -198,11 +245,16 @@ class ImageContext:
             author=meta.author,
             baseurl=gallery.baseurl,
             cells=cells,
+            created=created.strftime("%d %b %Y"),
             date=gallery.date,
+            dimensions=dimensions,
+            revision=1,
+            sloc=sloc,
             slug=slug,
             thumburl=thumburl,
-            url=url,
             title=filename,
+            url=url,
+            version=meta.version,
         )
 
     def as_dict(self):
