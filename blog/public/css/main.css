@@ -61,6 +61,11 @@ h5 {
     font-size: 16pt;
 }
 
+i.far,
+i.fas {
+    font-size: 20pt;
+}
+
 header {
     display: flex;
     justify-content: flex-start;
@@ -203,6 +208,11 @@ footer {
     border-left: solid 1px var(--foreground);
     height: 100%;
     overflow-y: auto;
+}
+
+.image-meta {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
 }
 
 /* -- Mobile -- */
