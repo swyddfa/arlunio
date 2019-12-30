@@ -6,12 +6,11 @@ import subprocess
 import pkg_resources
 
 import arlunio._config as cfg
-import arlunio.cli as cli
 
 logger = logging.getLogger(__name__)
 
 
-class Tutorial(cli.Command):
+class Tutorial:
     """Launch the interactive tutorial.
 
     This will launch a jupyter-lab instance in a folder containing a collection

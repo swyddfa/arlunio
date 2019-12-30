@@ -4,6 +4,8 @@ import arlunio as ar
 import numpy as np
 import py.test
 
+from arlunio._shapes import Collection, Key
+
 
 class TestShape:
     """Tests for the `st.shape` decorator and the base `Shape` class."""
@@ -284,3 +286,50 @@ class TestShape:
             Circle.from_json(src)
 
         assert "p" in str(err.value)
+
+
+@py.test.mark.parametrize(
+    "items,key,expected",
+    [({"Circle": 1}, "Circle", 1), ({"Circle": 1, "lib.Square": 2}, "Square", 2)],
+)
+def test_collection_getattr(items, key, expected):
+    """Ensure that we can access items"""
+
+    collection = Collection(items={Key.fromstring(k): v for k, v in items.items()})
+    assert getattr(collection, key) == expected
+
+
+def test_collection_getattr_qualified():
+    """Ensure that the user can qualify an ambiguous reference."""
+
+    shapes = {"Square": 1, "lib.Circle": 2, "ext.Circle": 3}
+    collection = Collection(items={Key.fromstring(k): v for k, v in shapes.items()})
+
+    assert collection.lib.Circle == 2
+    assert collection.ext.Circle == 3
+
+
+def test_collection_getattr_ambiguous():
+    """Ensure that if a reference is ambiguous we throw an error."""
+
+    shapes = {"std.Circle": 1, "ext.Circle": 3}
+    collection = Collection(items={Key.fromstring(k): v for k, v in shapes.items()})
+
+    with py.test.raises(AttributeError) as err:
+        collection.Circle
+
+    assert "Ambiguous" in str(err.value)
+    assert "Circle" in str(err.value)
+
+
+def test_collection_getattr_not_found():
+    """Ensure that if there is no match for a reference we throw an error."""
+
+    shapes = {"Circle": 1}
+    collection = Collection(items={Key.fromstring(k): v for k, v in shapes.items()})
+
+    with py.test.raises(AttributeError) as err:
+        collection.Square
+
+    assert "No item" in str(err.value)
+    assert "Square" in str(err.value)

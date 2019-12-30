@@ -1,0 +1,45 @@
+name: Blog Build
+on:
+  push:
+    branches:
+    - develop
+    paths:
+    - 'blog/**'
+  pull_request:
+    branches:
+    - develop
+    paths:
+    - 'blog/**'
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+
+    - uses: actions/checkout@v1
+
+    - name: Setup Python
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7
+
+    - name: Setup Environment
+      run: |
+        python --version
+
+        python -m pip install --upgrade pip
+        python -m pip install --pre arlunio
+        python -m pip install -r blog/requirements.txt
+
+    - name: Build Gallery
+      run: |
+        cd blog
+        python gallery.py
+
+    - name: Deploy
+      uses: JamesIves/github-pages-deploy-action@releases/v3
+      with:
+        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        BASE_BRANCH: develop
+        BRANCH: gh-pages
+        FOLDER: blog/public
+      if: github.event_name != 'pull_request'

@@ -28,12 +28,6 @@ time to read through this page to help you get the most out of it. However
 before we go any further it is worth checking that you have the latest version
 of :code:`arlunio`
 
-.. doctest::
-
-   >>> import arlunio as ar
-   >>> ar.__version__
-   '0.0.2'
-
 About this Tutorial
 -------------------
 

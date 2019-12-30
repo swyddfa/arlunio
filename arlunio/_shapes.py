@@ -1,7 +1,11 @@
 import inspect
 import json
 import logging
-import typing
+import re
+
+from typing import Any, Dict, List
+
+import pkg_resources
 
 import attr
 
@@ -17,7 +21,7 @@ class Canvas:
     """A good canvas is what every artist needs."""
 
     def __init__(self, layers=None, background=None):
-        self.layers = [] if layers is None else layers
+        self.layers = layers
 
     def __repr__(self):
         return f"Canvas<{len(self.layers)} layers>"
@@ -25,12 +29,12 @@ class Canvas:
     def __add__(self, other):
 
         if isinstance(other, Shape):
-            self.layers.append(other)
-            return self
+            layers = list(self.layers) + [other]
+            return Canvas(layers=layers)
 
         if isinstance(other, Canvas):
-            self.layers += other.layers
-            return self
+            layers = list(self.layers) + list(other.layers)
+            return Canvas(layers=layers)
 
         raise TypeError()
 
@@ -54,7 +58,6 @@ class Property:
 class Shape:
     """This is the base class that all shapes inherit from and defines the interface
     that applies to all shapes.
-
     """
 
     scale: float = attr.ib(default=1.0, repr=False)
@@ -65,17 +68,20 @@ class Shape:
     """A property that controls the color of the shape when drawn, currently is
     specified as a color hex string. Default :code:`#000000`"""
 
-    origin: typing.Any = attr.ib(default=None, repr=False)
+    origin: Any = attr.ib(default=None, repr=False)
     """A property that can be used to control where the origin is in relation to the
     image. Must be supported by the shape's parameters in order to take effect
     *Currently not implemented.*
     """
 
-    background: typing.Any = attr.ib(default=None, repr=False)
+    background: Any = attr.ib(default=None, repr=False)
     """A propety that can be used to set the background color of the image when the
     shape is drawn, currently is specified as a color hex string. Default
     :code:`#ffffff`
     """
+
+    def __attrs_post_init__(self):
+        self._logger = logger.getChild(self.__class__.__name__)
 
     def __add__(self, other):
 
@@ -84,10 +90,13 @@ class Shape:
             return Canvas(layers=layers)
 
         if isinstance(other, Canvas):
-            other.layers.insert(0, self)
-            return other
+            layers = [self] + list(other.layers)
+            return Canvas(layers=layers)
 
     def __call__(self, width=None, height=None, *, colorspace=None, **kwargs):
+        self._logger.debug("Choosing draw method....")
+        self._logger.debug(f"--> width: {width}, height: {height}")
+        self._logger.debug(f"--> kwargs: {', '.join(kwargs.keys())}")
 
         # If given a width and a height draw the shape as an image.
         if width is not None and height is not None:
@@ -113,6 +122,7 @@ class Shape:
         return self._definition(**args)
 
     def _draw(self, width: int, height: int, colorspace):
+        self._logger.debug(f"Width and Height")
 
         if colorspace is None:
             colorspace = RGB8
@@ -130,13 +140,19 @@ class Shape:
         return image
 
     def mask(self, width: int, height: int):
+        self._logger.debug(f"Mask: {width}x{height}")
 
         args = dict(self.properties)
+        self._logger.debug(f"Properties: {args}")
 
         for param in self.parameters:
             parameter = getattr(Parameter, param)
-            args[param] = parameter(width, height, self.scale)
+            p = parameter(width, height, self.scale)
 
+            self._logger.debug(f"{param}: {p.shape}")
+            args[param] = p
+
+        self._logger.debug(f"Arguments: {', '.join(args.keys())}")
         return self._definition(**args)
 
     @property
@@ -152,10 +168,10 @@ class Shape:
 
         For example the dictionary representation of a circle is::
 
-           >>> import arlunio as st
+           >>> import arlunio as ar
            >>> from pprint import pprint
 
-           >>> circle = st.S.Circle()
+           >>> circle = ar.S.Circle()
            >>> pprint(circle.dict)
            {'color': '#000000',
             'name': 'Circle',
@@ -181,9 +197,9 @@ class Shape:
 
         For example the JSON representation of the circle is::
 
-           >>> import arlunio as st
+           >>> import arlunio as ar
 
-           >>> circle = st.S.Circle()
+           >>> circle = ar.S.Circle()
            >>> print(circle.json)
            {
              "name": "Circle",
@@ -218,7 +234,7 @@ class Shape:
 
         For example we can create an instance of the |Circle| shape as follows::
 
-           >>> import arlunio as st
+           >>> import arlunio as ar
         """
         dictionary = json.loads(json_str)
         return cls.from_dict(dictionary)
@@ -249,7 +265,7 @@ class Shape:
         return cls(**params)
 
 
-def property_names(cls: Shape) -> typing.List[str]:
+def property_names(cls: Shape) -> List[str]:
     """Given a shape return a list of all property names."""
     fields = attr.fields(cls)
     props = [p.name for p in fields if Property.IS_PROPERTY in p.metadata]
@@ -315,9 +331,9 @@ def shape(f) -> type:
     :code:`False` otherwise. The simplest possible shape definition would look
     like the following::
 
-        >>> import arlunio as st
+        >>> import arlunio as ar
 
-        >>> @st.shape
+        >>> @ar.shape
         ... def Everywhere():
         ...     return True
 
@@ -343,7 +359,7 @@ def shape(f) -> type:
     pixel based on its vertical position in the image. Let's create a shape that
     colors in the lower half of the image::
 
-        >>> @st.shape
+        >>> @ar.shape
         ... def LowerHalf(y):
         ...     return y < 0
 
@@ -367,7 +383,7 @@ def shape(f) -> type:
     shape to take a :code:`height` property that we can use to control how much
     of the image we color in::
 
-        >>> @st.shape
+        >>> @ar.shape
         ... def FillHeight(y, *, height=0):
         ...     return y < height
 
@@ -410,3 +426,170 @@ def shape(f) -> type:
         define_property(prop, attributes)
 
     return attr.s(type(name, (Shape,), attributes))
+
+
+class Key:
+    """This class is used to represent x.y.z keys in a collection.
+
+    It's only a thin wrapper around a tuple that should make the implementation of
+    collections easier to reason about. A key can be created from a number of strings
+
+    >>> from arlunio._shapes import Key
+    >>> Key('a', 'b', 'c')
+    k'a.b.c'
+
+    Alternatively from a single string with each part delimited with a dot.
+
+    >>> Key.fromstring('a.b.c')
+    k'a.b.c'
+
+    Keys have a length which is equal to the number of components that makes up the
+    key.
+
+    >>> k = Key('a', 'b', 'c')
+    >>> len(k)
+    3
+
+    They can be checked to see if they are equal against other keys, or their string
+    representation
+
+    >>> k == Key.fromstring('a.b.c')
+    True
+
+    >>> k == "a.b.c"
+    True
+
+    Keys can be indexed
+
+    >>> k[0]
+    'a'
+
+    But not mutated
+
+    >>> k[1] = 'd'
+    Traceback (most recent call last):
+        ...
+    TypeError: 'Key' object does not support item assignment
+    """
+
+    __slots__ = "_key"
+
+    def __init__(self, *args):
+        self._key = args
+
+    def __repr__(self):
+        return f"k'{str(self)}'"
+
+    def __str__(self):
+        return ".".join(self._key)
+
+    def __hash__(self):
+        return hash(self._key)
+
+    def __eq__(self, other):
+
+        if isinstance(other, Key):
+            return self._key == other._key
+
+        if isinstance(other, str):
+            return str(self) == other
+
+        return False
+
+    def __len__(self):
+        return len(self._key)
+
+    def __getitem__(self, index):
+        return self._key[index]
+
+    def __add__(self, other):
+        return Key.fromstring(str(self) + "." + str(other))
+
+    @classmethod
+    def fromstring(cls, string):
+        return cls(*string.split("."))
+
+
+@attr.s(auto_attribs=True)
+class Collection:
+    """A group of related items, indexed by keys."""
+
+    _items: Dict[Key, Any] = attr.Factory(dict)
+
+    def __str__(self):
+        sep = "\n|  "
+        name = self.__class__.__name__
+        header = f"{name}: {len(self)} items{sep}"
+        items = sep.join(str(k) for k in self._items.keys())
+
+        return header + items
+
+    def __len__(self):
+        return len(self._items)
+
+    def __getitem__(self, key):
+
+        if isinstance(key, int):
+            return list(self._items.values())[key]
+
+        raise KeyError(key)
+
+    def __getattr__(self, name):
+        candidates = self.find(name)
+        cls = self.__class__
+
+        if len(candidates) == 0:
+            items = {k: v for k, v in self._items.items() if k[0] == name}
+
+            if len(items) == 0:
+                raise AttributeError(f"No item with name: {name}")
+
+            return cls(items=items)
+
+        if len(candidates) == 1:
+            return candidates[0]
+
+        raise AttributeError(f"Ambiguous reference: {name}")
+
+    def find(self, name: str):
+        """Return a collection of all the items that have the given name."""
+
+        items = {k: v for k, v in self._items.items() if k[-1] == name}
+        return Collection(items=items)
+
+    def merge(self, prefix: str, collection) -> None:
+        """Given a collection and a prefix, merge its items into the collection."""
+
+        prefix = Key.fromstring(prefix)
+
+        for k, item in collection._items.items():
+            self._items[prefix + k] = item
+
+
+class ShapeCollection(Collection):
+    """A class used to group related shapes together."""
+
+    def shape(self, f):
+        """Create a new shape within the collection."""
+
+        shape_cls = shape(f)
+        key = Key.fromstring(shape_cls.__name__)
+
+        self._items[key] = shape_cls
+        return shape_cls
+
+
+def load_shapes():
+    """Load all available shapes."""
+    logger.debug("Loading shapes")
+
+    pattern = re.compile(r"\Aarlunio[.]")
+    library = Collection()
+
+    for collection in pkg_resources.iter_entry_points("arlunio.shapes"):
+        prefix = re.sub(pattern, "", f"{collection.module_name}.{collection.name}")
+        logger.debug("Found collection: %s", prefix)
+
+        library.merge(prefix, collection.load())
+
+    return library

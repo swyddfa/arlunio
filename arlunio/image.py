@@ -2,6 +2,7 @@ import base64
 import enum
 import io
 import logging
+import pathlib
 import string
 
 import numpy as np
@@ -85,6 +86,7 @@ class Image:
                   width: 50%;
                   margin: auto;
                   image-rendering: crisp-edges;
+                  image-rendering: pixelated;
                   border: solid 1px #ddd;
               }
             </style>
@@ -152,11 +154,16 @@ class Image:
             "RGB", (width, height), self.pixels, "raw", "RGB", 0, 1
         )
 
-    def save(self, filename: str) -> None:
+    def save(self, filename: str, mkdirs: bool = False) -> None:
         """Save an image in PNG format.
 
         :param filename: The filepath to save the image to.
+        :param mkdirs: If true, make any parent directories
         """
+        path = pathlib.Path(filename)
+
+        if not path.parent.exists() and mkdirs:
+            path.parent.mkdir(parents=True)
 
         image = self._as_pillow_image()
 

@@ -91,13 +91,3 @@ def load_parameters():
     """
 
     return _load_collection("Parameter", "arlunio.parameters", docstring)
-
-
-def load_shapes():
-    """Load all of the available shapes."""
-
-    docstring = """\
-    All of the available shapes.
-    """
-
-    return _load_collection("Shapes", "arlunio.shapes", docstring)
