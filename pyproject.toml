@@ -35,7 +35,7 @@ deps =
      pytest-cov
 extras = all
 commands =
-    pytest --doctest-modules --doctest-glob="*.rst" --ignore=blog/* --cov=arlunio --cov-report term {posargs}
+    pytest --doctest-modules --doctest-glob="*.rst" --cov=arlunio --cov-report term {posargs}
 
 [testenv:docs]
 deps =
