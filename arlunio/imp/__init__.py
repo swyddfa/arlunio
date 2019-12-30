@@ -11,11 +11,12 @@ originally found in the documentation.
 
 https://jupyter-notebook.readthedocs.io/en/stable/examples/Notebook/Importing%20Notebooks.html
 """
+import importlib.util as imutil
 import logging
 import os
+import pathlib
 
 from importlib.abc import Loader, MetaPathFinder
-from importlib.util import spec_from_loader
 
 import nbformat
 
@@ -24,7 +25,7 @@ from IPython.core.interactiveshell import InteractiveShell
 logger = logging.getLogger(__name__)
 
 
-def find_notebook(fullname, path=None):
+def _find_notebook(fullname, path=None):
     """Converts a.b.c into a valid filepath and checks to see if it exists."""
 
     name = fullname.rsplit(".", 1)[-1]
@@ -64,7 +65,7 @@ class NotebookLoader(Loader):
         self.shell.enable_gui = lambda x: False
 
     def exec_module(self, module):
-        module.__file__ = find_notebook(module.__name__, self.path)
+        module.__file__ = _find_notebook(module.__name__, self.path)
 
         with open(module.__file__, "r", encoding="utf-8") as f:
             # Read notebook using v4 of the spec
@@ -78,6 +79,24 @@ class NotebookLoader(Loader):
                 src = cell.source
                 code = self.shell.input_transformer_manager.transform_cell(src)
                 exec(code, module.__dict__)
+
+    @classmethod
+    def fromfile(cls, filepath: str):
+        """Import a Jupyter Notebook directly from a filepath."""
+        nbpath = pathlib.Path(filepath)
+
+        if not nbpath.exists():
+            raise FileNotFoundError(nbpath)
+
+        nbname = nbpath.stem.replace(" ", "_")
+
+        loader = cls(str(nbpath.parent))
+        spec = imutil.spec_from_file_location(nbname, str(nbpath), loader=loader)
+
+        module = imutil.module_from_spec(spec)
+        spec.loader.exec_module(module)
+
+        return module
 
 
 class NotebookFinder(MetaPathFinder):
@@ -96,7 +115,7 @@ class NotebookFinder(MetaPathFinder):
 
     def find_spec(self, fullname, path, target=None):
 
-        nb_path = find_notebook(fullname, path)
+        nb_path = _find_notebook(fullname, path)
         if not nb_path:
             return
 
@@ -107,4 +126,4 @@ class NotebookFinder(MetaPathFinder):
             self.loaders[key] = NotebookLoader(path)
 
         loader = self.loaders[key]
-        return spec_from_loader(fullname, loader)
+        return imutil.spec_from_loader(fullname, loader)
