@@ -7,7 +7,3 @@ from .loaders import load_parameters
 
 Parameters = load_parameters()  # noqa: F401
 Shapes = load_shapes()  # noqa: F401
-
-# Define some aliases
-S = Shapes  # noqa: F401
-R = Resolutions  # noqa: F401

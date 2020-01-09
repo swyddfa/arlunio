@@ -19,9 +19,9 @@ class Resolutions(enum.Enum):
     Members of this enum are tuples containing the width and height which can be
     accessed by name::
 
-       >>> import arlunio as st
+       >>> import arlunio as ar
 
-       >>> hd = st.Resolutions.HD
+       >>> hd = ar.Resolutions.HD
        >>> hd.width
        1280
 
@@ -36,12 +36,6 @@ class Resolutions(enum.Enum):
 
        >>> height
        720
-
-    Members are also available via the :code:`R` shortcut::
-
-       >>> st.R.HD
-       <Resolutions.HD: (1280, 720)>
-
     """
 
     HD = (1280, 720)

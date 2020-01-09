@@ -1,6 +1,6 @@
 import logging
 
-import arlunio as ar
+from arlunio import Shapes as S
 
 from .components import ImageViewer
 
@@ -30,8 +30,8 @@ class ShapeDesigner(tk.Frame):
 
         self.viewer = ImageViewer(self)
         self.viewer.pack(fill=tk.BOTH, expand=tk.TRUE, side=tk.LEFT)
-        self.viewer.set_item(ar.S.Circle())
-        self.shapes = {s.__name__: s for s in ar.S._items.values()}
+        self.viewer.set_item(S.Circle())
+        self.shapes = {s.__name__: s for s in S._items.values()}
 
         self.shape_picker = ttk.Combobox(self, values=list(self.shapes.keys()))
         self.shape_picker.pack(side=tk.TOP)
