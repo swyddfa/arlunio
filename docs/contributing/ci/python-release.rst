@@ -10,7 +10,8 @@ Triggers
 
 This action is triggered whenever a commit is made to the :code:`develop` or
 :code:`master` branches - either directly when a PR is merged. Unless the changes only
-affct the blog in which case the workflow will not be triggered.
+affect the blog or non tutorial documentation pages in which case the workflow will not
+be triggered.
 
 .. literalinclude:: ../../../.github/workflows/python-release.yml
    :language: yaml

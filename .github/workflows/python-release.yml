@@ -8,6 +8,8 @@ on:
     - master
     paths-ignore:
     - 'blog/**'
+    - 'docs/**'
+    - '!docs/using/tutorial/**'
 # </trigger>
 
 jobs:
