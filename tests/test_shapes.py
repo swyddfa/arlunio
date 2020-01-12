@@ -166,11 +166,7 @@ class TestShape:
             "name": "Circle",
             "color": "#000000",
             "scale": 1,
-            "properties": [
-                {"name": "x0", "value": 1},
-                {"name": "y0", "value": 2},
-                {"name": "r", "value": 3},
-            ],
+            "properties": {"x0": 1, "y0": 2, "r": 3},
         }
 
         assert expected == json.loads(c1.json)
@@ -182,14 +178,7 @@ class TestShape:
         def Circle(x, y, *, x0=0, y0=0, r=0.5):
             pass
 
-        d = {
-            "name": "Circle",
-            "properties": [
-                {"name": "x0", "value": 1},
-                {"name": "y0", "value": 2},
-                {"name": "r", "value": 3},
-            ],
-        }
+        d = {"name": "Circle", "properties": {"x0": 1, "y0": 2, "r": 3}}
 
         src = json.dumps(d)
         c1 = Circle.from_json(src)

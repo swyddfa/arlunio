@@ -55,9 +55,9 @@ class TestRenderImage:
         """Ensure that if the code provides an image we use that."""
 
         src = """\
-        import arlunio as ar
+        from arlunio import Shapes as S
 
-        circle = ar.S.Circle()
+        circle = S.Circle()
         disk = circle(4,4)
         """
         doctree = render_image(textwrap.dedent(src))
