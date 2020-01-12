@@ -27,8 +27,6 @@ Images
 .. autoclass:: arlunio.Image
    :members:
 
-.. autoclass:: arlunio.R
-
 .. autoclass:: arlunio.Resolutions
    :members:
 

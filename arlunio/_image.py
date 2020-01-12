@@ -8,7 +8,7 @@ import string
 import numpy as np
 import PIL.Image
 
-from .color import RGB8
+from ._color import RGB8
 
 logger = logging.getLogger(__name__)
 
@@ -19,9 +19,9 @@ class Resolutions(enum.Enum):
     Members of this enum are tuples containing the width and height which can be
     accessed by name::
 
-       >>> import arlunio as ar
+       >>> from arlunio import Resolutions as R
 
-       >>> hd = ar.Resolutions.HD
+       >>> hd = R.HD
        >>> hd.width
        1280
 
@@ -165,8 +165,13 @@ class Image:
             image.save(f)
 
     def encode(self) -> bytes:
-        """Return the image encoded as a base64 string."""
-        logger.debug("Encoding image as base64")
+        """Return the image encoded as a base64 string.
+
+        >>> import arlunio as ar
+        >>> image = ar.Image.new(4, 4)
+        >>> image.encode()
+        b'iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAIAAAAmkwkpAAAAFElEQVR4nGP8//8/AwwwMSAB3BwAlm4DBfIlvvkAAAAASUVORK5CYII='
+        """
         image = self._as_pillow_image()
 
         with io.BytesIO() as byte_stream:

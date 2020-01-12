@@ -9,9 +9,9 @@ import pkg_resources
 
 import attr
 
-from .color import RGB8
-from .image import Image
-from .loaders import load_parameters
+from ._color import RGB8
+from ._image import Image
+from ._loaders import load_parameters
 
 Parameter = load_parameters()
 logger = logging.getLogger(__name__)
@@ -175,19 +175,11 @@ class Shape:
            >>> pprint(circle.dict)
            {'color': '#000000',
             'name': 'Circle',
-            'properties': [{'name': 'x0', 'value': 0},
-                           {'name': 'y0', 'value': 0},
-                           {'name': 'r', 'value': 0.8},
-                           {'name': 'pt', 'value': None}],
+            'properties': {'pt': None, 'r': 0.8, 'x0': 0, 'y0': 0},
             'scale': 1.0}
         """
 
-        dictionary = dict(
-            name=self.__class__.__name__,
-            scale=self.scale,
-            color=self.color,
-            properties=[{"name": k, "value": v} for k, v in self.properties.items()],
-        )
+        dictionary = dict(scale=self.scale, color=self.color, **self.properties)
 
         return dictionary
 
@@ -205,24 +197,12 @@ class Shape:
              "name": "Circle",
              "scale": 1.0,
              "color": "#000000",
-             "properties": [
-               {
-                 "name": "x0",
-                 "value": 0
-               },
-               {
-                 "name": "y0",
-                 "value": 0
-               },
-               {
-                 "name": "r",
-                 "value": 0.8
-               },
-               {
-                 "name": "pt",
-                 "value": null
-               }
-             ]
+             "properties": {
+               "x0": 0,
+               "y0": 0,
+               "r": 0.8,
+               "pt": null
+             }
            }
 
         """
@@ -234,7 +214,11 @@ class Shape:
 
         For example we can create an instance of the |Circle| shape as follows::
 
-           >>> import arlunio as ar
+           >>> from arlunio import Shapes as S
+
+           >>> json = '{"name": "Circle", "properties": {"x0": 1, "y0": 1, "r": 0.5}}'
+           >>> S.Circle.from_json(json)
+           Circle(x0=1, y0=1, r=0.5)
         """
         dictionary = json.loads(json_str)
         return cls.from_dict(dictionary)
