@@ -1,0 +1,31 @@
+{
+    "files.exclude": {
+        "**/.ipynb_checkpoints": true,
+        "**/__pycache__": true,
+        ".pytest_cache": true,
+        ".tox": true,
+        "*.egg-info": true,
+        "build": true,
+        "dist": true,
+        "pip-wheel-metadata": true,
+        ".dev": true,
+        "htmlcov": true,
+        ".coverage": true,
+        "coverage.xml": true,
+        "test-output.xml": true
+    },
+    "python.pythonPath": "${workspaceFolder}/.dev/bin/python",
+    "python.linting.pylintEnabled": false,
+    "python.linting.flake8Enabled": true,
+    "python.linting.enabled": true,
+    "python.autoComplete.addBrackets": true,
+    "python.testing.pytestEnabled": true,
+    "python.formatting.provider": "black",
+    "restructuredtext.confPath": "${workspaceFolder}/docs",
+    "[css]": {
+        "editor.tabSize": 2
+    },
+    "[html]": {
+        "editor.tabSize": 2
+    }
+}

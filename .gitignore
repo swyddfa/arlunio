@@ -22,7 +22,6 @@ arlunio/tutorial/
 .eggs/
 *.egg-info/
 build
-.vscode/
 *.pyc
 pip-wheel-metadata
 .dev
