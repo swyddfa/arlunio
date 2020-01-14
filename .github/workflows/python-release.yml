@@ -6,8 +6,13 @@ on:
     branches:
     - develop
     - master
-    paths-ignore:
-    - 'blog/**'
+    paths:
+    - 'arlunio/**'
+    - 'docs/using/tutorial/**'
+    - 'tests/**'
+    - 'setup.py'
+    - 'pyproject.toml'
+    - 'MANIFEST.in'
 # </trigger>
 
 jobs:

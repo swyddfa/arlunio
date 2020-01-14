@@ -1,0 +1,67 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build Blog",
+            "type": "shell",
+            "command": "${config:python.pythonPath} gallery.py --local",
+            "problemMatcher": [],
+            "group": "build",
+            "options": {
+                "cwd": "${workspaceRoot}/blog"
+            }
+        },
+        {
+            "label": "Build Blog (debug)",
+            "type": "shell",
+            "command": "${config:python.pythonPath} gallery.py -vv --local",
+            "problemMatcher": [],
+            "group": "build",
+            "options": {
+                "cwd": "${workspaceRoot}/blog"
+            }
+        },
+        {
+            "label": "Build Docs",
+            "type": "shell",
+            "command": "source ${workspaceRoot}/.dev/bin/activate && sphinx-autobuild -b html docs/ docs/_build/",
+            "problemMatcher": [],
+            "group": "build",
+            "options": {
+                "cwd": "${workspaceRoot}"
+            }
+        },
+        {
+            "label": "Preview Blog",
+            "type": "shell",
+            "command": "${config:python.pythonPath} -m http.server",
+            "problemMatcher": [],
+            "group": "build",
+            "options": {
+                "cwd": "${workspaceRoot}/blog/public"
+            }
+        },
+        {
+            "label": "Run Tests",
+            "type": "shell",
+            "command": "${config:python.pythonPath} -m tox -e py38",
+            "problemMatcher": [],
+            "group": "test",
+            "options": {
+                "cwd": "${workspaceRoot}"
+            }
+        },
+        {
+            "label": "Test File",
+            "type": "shell",
+            "command": "${config:python.pythonPath} -m tox -e py38 -- ${file}",
+            "problemMatcher": [],
+            "group": "test",
+            "options": {
+                "cwd": "${workspaceRoot}"
+            }
+        }
+    ]
+}
