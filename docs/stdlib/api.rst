@@ -27,8 +27,6 @@ Images
 .. autoclass:: arlunio.Image
    :members:
 
-.. autoclass:: arlunio.R
-
 .. autoclass:: arlunio.Resolutions
    :members:
 
@@ -41,7 +39,4 @@ Shapes
 .. autodecorator:: arlunio.shape
 
 .. autoclass:: arlunio.Shape
-   :members:
-
-.. autoclass:: arlunio.Parameters
    :members:

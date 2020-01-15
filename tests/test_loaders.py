@@ -4,7 +4,7 @@ import pkg_resources
 
 import py.test
 
-from arlunio.loaders import Collection
+from arlunio._loaders import Collection
 
 
 class TestCollection:

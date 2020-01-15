@@ -8,7 +8,7 @@ import string
 import numpy as np
 import PIL.Image
 
-from .color import RGB8
+from ._color import RGB8
 
 logger = logging.getLogger(__name__)
 
@@ -19,9 +19,9 @@ class Resolutions(enum.Enum):
     Members of this enum are tuples containing the width and height which can be
     accessed by name::
 
-       >>> import arlunio as st
+       >>> from arlunio import Resolutions as R
 
-       >>> hd = st.Resolutions.HD
+       >>> hd = R.HD
        >>> hd.width
        1280
 
@@ -36,12 +36,6 @@ class Resolutions(enum.Enum):
 
        >>> height
        720
-
-    Members are also available via the :code:`R` shortcut::
-
-       >>> st.R.HD
-       <Resolutions.HD: (1280, 720)>
-
     """
 
     HD = (1280, 720)
