@@ -56,16 +56,17 @@
             <i class="far fa-image"></i><span>1920 x 1080</span>
             <i class="far fa-calendar-alt"></i><span>28 Dec 2019</span>
             <i class="fas fa-history"></i><span>1 revisions</span>
-            <i class="far fa-file-code"></i><span>51sloc</span>
+            <i class="far fa-file-code"></i><span>53sloc</span>
             <i class="fas fa-terminal"></i><span>v0.0.3b8</span>
         </div>
 
         
         <div class="code">
-            <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
-
-<span class="kn">import</span> <span class="nn">arlunio</span> <span class="k">as</span> <span class="nn">ar</span>
+            <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arlunio</span> <span class="k">as</span> <span class="nn">ar</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">arlunio</span> <span class="kn">import</span> <span class="n">Shapes</span> <span class="k">as</span> <span class="n">S</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 </pre></div>
 
         </div>
@@ -114,7 +115,7 @@
     <span class="n">minute_hand</span><span class="o">.</span><span class="n">t0</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="p">(</span><span class="n">minutes</span> <span class="o">/</span> <span class="mi">60</span><span class="p">)</span>
     <span class="n">hour_hand</span><span class="o">.</span><span class="n">t0</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="p">((</span><span class="n">hour</span> <span class="o">/</span> <span class="mi">12</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">minutes</span> <span class="o">/</span> <span class="mi">600</span><span class="p">))</span>
     
-    <span class="n">center</span> <span class="o">=</span> <span class="n">ar</span><span class="o">.</span><span class="n">S</span><span class="o">.</span><span class="n">Circle</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+    <span class="n">center</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span class="n">Circle</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
     
     <span class="n">clock</span> <span class="o">=</span> <span class="n">hour_hand</span> <span class="o">+</span> <span class="n">minute_hand</span> <span class="o">+</span> <span class="n">second_hand</span> <span class="o">+</span> <span class="n">center</span>
     <span class="k">return</span> <span class="n">clock</span>
@@ -127,7 +128,7 @@
 <span class="n">minute_hand</span> <span class="o">=</span> <span class="n">ClockHand</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">)</span>
 <span class="n">second_hand</span> <span class="o">=</span> <span class="n">ClockHand</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">length</span><span class="o">=.</span><span class="mi">95</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;ff0000&quot;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">)</span>
 
-<span class="n">clock</span> <span class="o">=</span> <span class="n">ar</span><span class="o">.</span><span class="n">S</span><span class="o">.</span><span class="n">Circle</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">pt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">)</span>
+<span class="n">clock</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span class="n">Circle</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">pt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">12</span><span class="p">):</span>
     <span class="n">t0</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">6</span><span class="p">)</span>
@@ -143,7 +144,7 @@
 
     </main>
     <footer>
-        <p>Last Built: 14 January 2020 -- 20:01:24</p>
+        <p>Last Built: 15 January 2020 -- 18:43:02</p>
         <p>Color Scheme: <a href="https://github.com/arcticicestudio/nord">Nord</a></p>
     </footer>
 </body>
