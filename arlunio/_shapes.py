@@ -9,9 +9,9 @@ import pkg_resources
 
 import attr
 
-from .color import RGB8
-from .image import Image
-from .loaders import load_parameters
+from ._color import RGB8
+from ._image import Image
+from ._loaders import load_parameters
 
 Parameter = load_parameters()
 logger = logging.getLogger(__name__)

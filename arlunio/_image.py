@@ -8,7 +8,7 @@ import string
 import numpy as np
 import PIL.Image
 
-from .color import RGB8
+from ._color import RGB8
 
 logger = logging.getLogger(__name__)
 

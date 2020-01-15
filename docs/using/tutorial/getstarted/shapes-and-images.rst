@@ -19,8 +19,8 @@ instance of the :code:`Circle` shape.
 
 .. doctest::
 
-   >>> import arlunio as ar
-   >>> circle = ar.S.Circle()
+   >>> from arlunio import Shapes as S
+   >>> circle = S.Circle()
    >>> circle
    Circle(x0=0, y0=0, r=0.8, pt=None)
 
@@ -42,7 +42,7 @@ be!
 
    .. arlunio-image::
 
-      import arlunio as ar
+      from arlunio import Shapes as S
 
-      circle = ar.S.Circle()
+      circle = S.Circle()
       image = circle(4, 4)
