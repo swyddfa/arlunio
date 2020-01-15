@@ -168,10 +168,10 @@ class Shape:
 
         For example the dictionary representation of a circle is::
 
-           >>> import arlunio as ar
+           >>> from arlunio import Shapes as S
            >>> from pprint import pprint
 
-           >>> circle = ar.S.Circle()
+           >>> circle = S.Circle()
            >>> pprint(circle.dict)
            {'color': '#000000',
             'name': 'Circle',
@@ -197,9 +197,9 @@ class Shape:
 
         For example the JSON representation of the circle is::
 
-           >>> import arlunio as ar
+           >>> from arlunio import Shapes as S
 
-           >>> circle = ar.S.Circle()
+           >>> circle = S.Circle()
            >>> print(circle.json)
            {
              "name": "Circle",
