@@ -6,8 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    {% block extrahead %}{% endblock %}
-
     {% block title %}<title>Arlunio</title>{% endblock %}
 
     <link rel="stylesheet" href="/css/main.css" />
@@ -15,6 +13,8 @@
     <script src="https://kit.fontawesome.com/f1d1c3586c.js" crossorigin="anonymous"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML'
         async></script>
+
+    {% block extrahead %}{% endblock %}
 </head>
 
 <body>
@@ -32,8 +32,8 @@
 
     {% block content %}{% endblock %}
     <footer>
-        <p>Last Updated: {{ date }}</p>
         <p>Color Scheme: <a href="https://github.com/arcticicestudio/nord">Nord</a></p>
+        <p>Last Updated: {{ date }}</p>
     </footer>
 </body>
 
