@@ -61,7 +61,7 @@ def get_num_revisions(filepath: str) -> int:
     result = subprocess.run(cmd, capture_output=True)
     history = result.stdout.decode("utf8")
 
-    return history.count("\n")
+    return len(history.split("\n"))
 
 
 def setup_logging(verbose: int, quiet: bool) -> None:
@@ -215,7 +215,7 @@ class ImageContext:
         meta = nb.__notebook__.metadata.arlunio
         dimensions = meta.dimensions
         created = get_date_added(nb.__file__)
-        get_num_revisions("gallery.py")
+        num_revisions = get_num_revisions(nb.__file__)
 
         cells = [NbCell.fromcell(cell) for cell in nb.__notebook__.cells]
         code = "\n".join([cell.raw for cell in cells if cell.type == "code"])
@@ -248,7 +248,7 @@ class ImageContext:
             created=created.strftime("%d %b %Y"),
             date=gallery.date,
             dimensions=dimensions,
-            revision=1,
+            revision=num_revisions,
             sloc=sloc,
             slug=slug,
             thumburl=thumburl,
@@ -279,9 +279,9 @@ class GalleryContext:
         baseurl = config.baseurl
 
         if local:
-            baseurl = "http://localhost:8000/"
+            baseurl = "http://localhost:8001/"
 
-        date = datetime.now().strftime("%d %B %Y -- %H:%M:%S")
+        date = datetime.now().strftime("%d/%m/%y %H:%M:%S")
         return cls(baseurl=baseurl, date=date)
 
     def prepare_notebooks(self, notebooks, config):

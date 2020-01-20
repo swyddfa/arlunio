@@ -9,6 +9,14 @@
             "command": "${config:python.pythonPath} gallery.py --local",
             "problemMatcher": [],
             "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": true
+            },
             "options": {
                 "cwd": "${workspaceRoot}/blog"
             }
@@ -18,6 +26,14 @@
             "type": "shell",
             "command": "${config:python.pythonPath} gallery.py -vv --local",
             "problemMatcher": [],
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": true
+            },
             "group": "build",
             "options": {
                 "cwd": "${workspaceRoot}/blog"
@@ -34,9 +50,29 @@
             }
         },
         {
+            "label": "Edit Gallery",
+            "type": "shell",
+            "command": "source ${workspaceRoot}/.dev/bin/activate && jupyter-lab --no-browser",
+            "problemMatcher": [],
+            "group": "build",
+            "options": {
+                "cwd": "${workspaceRoot}/blog/src/gallery"
+            }
+        },
+        {
+            "label": "Edit Gallery (browser)",
+            "type": "shell",
+            "command": "source ${workspaceRoot}/.dev/bin/activate && jupyter-lab",
+            "problemMatcher": [],
+            "group": "build",
+            "options": {
+                "cwd": "${workspaceRoot}/blog/src/gallery"
+            }
+        },
+        {
             "label": "Preview Blog",
             "type": "shell",
-            "command": "${config:python.pythonPath} -m http.server",
+            "command": "${config:python.pythonPath} -m http.server 8001",
             "problemMatcher": [],
             "group": "build",
             "options": {

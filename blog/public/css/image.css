@@ -1,0 +1,122 @@
+@import 'highlighting.css';
+
+
+input[type="checkbox"] {
+  display: none;
+}
+
+.image {
+  height: 100%;
+  display: flex;
+
+  color: var(--foreground);
+  background: var(--background);
+}
+
+.image-display img {
+  display: block;
+  margin: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.image-display img {
+  position: sticky;
+  top: 0;
+}
+
+.image-definition {
+  padding: 10px 1em;
+  max-width: 40%;
+  overflow-x: hidden;
+  flex-grow: 1;
+}
+
+.image-definition {
+  padding: 10px 1em;
+  max-width: 40%;
+  overflow: hidden;
+}
+
+.image-meta {
+  background: var(--background);
+  border-bottom: solid 1px var(--foreground);
+
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.image-author {
+  display: flex;
+  align-items: center;
+  grid-column: span 4;
+  padding: 1em;
+}
+
+.image-author .avatar {
+  width: 75px;
+  height: 75px;
+  margin-right: 1em;
+}
+
+.image-meta label {
+  background: var(--primary);
+  font-weight: bold;
+  padding: 1rem;
+  margin: 0.5rem;
+  border-radius: 5px;
+  text-align: center;
+  grid-row-start: 100; /* Force element to use last row */
+  grid-column: span 2;
+}
+
+.markdown {
+  transition: all 1.0s;
+  transform: translateX(0);
+  max-height: 100%;
+}
+
+#hide-notes:checked ~ .markdown {
+  transform: translateX(150%);
+  max-height: 0;
+}
+
+#hide-notes:checked ~ .image-meta > label[for="hide-notes"] {
+  box-shadow: inset 1px 1px 2px 2px var(--foreground-faint);
+}
+
+#hide-notes ~ .image-meta > label[for="hide-notes"]::before {
+  content: 'Hide ';
+}
+
+#hide-notes:checked ~ .image-meta > label[for="hide-notes"]::before {
+  content: 'Show ';
+}
+
+@media (max-width: 800px) {
+  .image {
+      flex-direction: column;
+  }
+
+  .image-display {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 50%;
+  }
+
+  .image-definition {
+      max-width: unset;
+      width: 100%;
+  }
+
+  .image-meta {
+    position: unset;
+  }
+}
