@@ -7,55 +7,35 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     
-
-    
 <title>Arlunio Gallery</title>
 
 
-    <link rel="stylesheet" href="https://www.arlun.io/css/main.css" />
+    <link rel="stylesheet" href="/css/main.css" />
     <link href="https://fonts.googleapis.com/css?family=Caveat|Open+Sans:300&display=swap" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/f1d1c3586c.js" crossorigin="anonymous"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML'
+        async></script>
+
+    
+<link rel="stylesheet" href="/css/gallery.css">
+
 </head>
 
 <body>
     <header class="two-col">
         <h1 class="site-title">
-            <a href="https://www.arlun.io/gallery/">Arlunio</a>
+            <a href="/gallery/">Arlunio</a>
         </h1>
         <nav class="menu">
             <ul>
                 <li><a href="https://arlunio.readthedocs.io/en/latest/">Docs</a></li>
-                <li><a href="https://www.arlun.io/gallery/">Gallery</a></li>
+                <li><a href="/gallery/">Gallery</a></li>
             </ul>
         </nav>
     </header>
 
-    <main>
-        
-<div class="gallery">
     
-    <div class="gallery-image">
-        <a href="checkerboard.html">
-            <style>
-                .thumbnail-checkerboard {
-                    background-blend-mode: multiply;
-                    background-image: url("thumb/checkerboard.png"), linear-gradient(180deg, rgba(255,255,255,0) 25%,rgba(0,0,0,0) 75%);
-                    background-size: cover;
-                }
-
-                .thumbnail-checkerboard:hover {
-                    background-image: url("thumb/checkerboard.png"), linear-gradient(180deg, rgba(255,255,255,0) 25%,rgba(0,0,0,.5) 75%);
-                }
-            </style>
-            <div class="thumbnail thumbnail-checkerboard">
-                <div>
-                    <h3>Checkerboard</h3>
-                    <h5>Alex Carney</h5>
-                </div>
-                <img class="avatar" src="https://github.com/alcarney.png" />
-            </div>
-        </a>
-    </div>
+<div class="gallery">
     
     <div class="gallery-image">
         <a href="rolling-hills.html">
@@ -73,6 +53,29 @@
             <div class="thumbnail thumbnail-rolling-hills">
                 <div>
                     <h3>Rolling Hills</h3>
+                    <h5>Alex Carney</h5>
+                </div>
+                <img class="avatar" src="https://github.com/alcarney.png" />
+            </div>
+        </a>
+    </div>
+    
+    <div class="gallery-image">
+        <a href="checkerboard.html">
+            <style>
+                .thumbnail-checkerboard {
+                    background-blend-mode: multiply;
+                    background-image: url("thumb/checkerboard.png"), linear-gradient(180deg, rgba(255,255,255,0) 25%,rgba(0,0,0,0) 75%);
+                    background-size: cover;
+                }
+
+                .thumbnail-checkerboard:hover {
+                    background-image: url("thumb/checkerboard.png"), linear-gradient(180deg, rgba(255,255,255,0) 25%,rgba(0,0,0,.5) 75%);
+                }
+            </style>
+            <div class="thumbnail thumbnail-checkerboard">
+                <div>
+                    <h3>Checkerboard</h3>
                     <h5>Alex Carney</h5>
                 </div>
                 <img class="avatar" src="https://github.com/alcarney.png" />
@@ -105,10 +108,9 @@
     
 </div>
 
-    </main>
     <footer>
-        <p>Last Built: 14 January 2020 -- 20:01:24</p>
         <p>Color Scheme: <a href="https://github.com/arcticicestudio/nord">Nord</a></p>
+        <p>Last Updated: 20/01/20 22:07:52</p>
     </footer>
 </body>
 

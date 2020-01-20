@@ -7,59 +7,77 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     
+<title>Simple Clock | Arlunio Gallery</title>
+
+
+    <link rel="stylesheet" href="/css/main.css" />
+    <link href="https://fonts.googleapis.com/css?family=Caveat|Open+Sans:300&display=swap" rel="stylesheet" />
+    <script src="https://kit.fontawesome.com/f1d1c3586c.js" crossorigin="anonymous"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML'
+        async></script>
+
+    
+<link rel="stylesheet" href="/css/image.css">
+
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Simple Clock by Alex Carney | Arlunio Gallery ">
 <meta name="twitter:image" content="https://www.arlun.io/gallery/image/simple-clock.png">
 <meta name="twitter:image:alt" content="Simple Clock">
 
-
-    
-<title>Simple Clock | Arlunio Gallery</title>
-
-
-    <link rel="stylesheet" href="https://www.arlun.io/css/main.css" />
-    <link href="https://fonts.googleapis.com/css?family=Caveat|Open+Sans:300&display=swap" rel="stylesheet" />
-    <script src="https://kit.fontawesome.com/f1d1c3586c.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
     <header class="two-col">
         <h1 class="site-title">
-            <a href="https://www.arlun.io/gallery/">Arlunio</a>
+            <a href="/gallery/">Arlunio</a>
         </h1>
         <nav class="menu">
             <ul>
                 <li><a href="https://arlunio.readthedocs.io/en/latest/">Docs</a></li>
-                <li><a href="https://www.arlun.io/gallery/">Gallery</a></li>
+                <li><a href="/gallery/">Gallery</a></li>
             </ul>
         </nav>
     </header>
 
-    <main>
-        
-<div class="image">
-    <div class="image-display">
-        <img src="image/simple-clock.png" />
-    </div>
+    
+<style>
 
-    <div class="image-author">
-        <img class="avatar" src="https://github.com/alcarney.png" />
-        <div>
-            <h1>Simple Clock</h1>
-            <h3>Alex Carney</h3>
-        </div>
+</style>
+<div class="image">
+    <input type="checkbox" id="img-fullscreen" />
+    <div class="image-display">
+        <label for="img-fullscreen">
+            <img src="image/simple-clock.png" />
+        </label>
     </div>
 
     <div class="image-definition">
-
+        <input type="checkbox" id="hide-notes" />
         <div class="image-meta">
+            <div class="image-author">
+                <img class="avatar" src="https://github.com/alcarney.png" />
+                <div>
+                    <h1>Simple Clock</h1>
+                    <h3>Alex Carney</h3>
+                </div>
+            </div>
             <i class="far fa-image"></i><span>1920 x 1080</span>
             <i class="far fa-calendar-alt"></i><span>28 Dec 2019</span>
-            <i class="fas fa-history"></i><span>1 revisions</span>
-            <i class="far fa-file-code"></i><span>53sloc</span>
+            <i class="fas fa-history"></i><span>3 revisions</span>
+            <i class="far fa-file-code"></i><span>51 sloc</span>
             <i class="fas fa-terminal"></i><span>v0.0.3b8</span>
+            <label for="hide-notes">Notes</label>
         </div>
-
+        
+        <div class="markdown">
+            <p>I thought it would be interesting to experiment with creating an image that changed each time it was drawn.
+Now this isn't the most exciting realisation of that idea, but it does also touch on an idea I want to look at
+developing further as part of <code>arlunio</code> itself. Applying the concept of interfaces to arlunio images I think
+could be very powerful - imagine having some generic "human" that knew how to walk and all you had to
+do was tell it how to draw one...</p>
+<p>Anyway back to this image, as you've probably noticed by now it's a clock - not a very interesting clock
+but it tells the time, in fact it's frozen at the time that it was when the image was rendered.</p>
+        </div>
         
         <div class="code">
             <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arlunio</span> <span class="k">as</span> <span class="nn">ar</span>
@@ -71,10 +89,48 @@
 
         </div>
         
+        <div class="markdown">
+            <p>As the clock is made up from a collection of distinct shapes you need to ensure that each
+component is defined with a consistent scale otherwise it won't look right. I found
+it useful to say that the radius of the clockface is <code>1</code> and then define everything else relative
+to that. However since the default scale of the grid an image is defined on is also <code>1</code> the
+clock would look a bit cramped as it would run right up againt the edge.</p>
+<p>Rather than work to a more awkard scale I'm defining a <code>scale</code> paramaeter that I'm going to pass
+to each shape. This changes the size of the underlying cartesian grid that is mapped onto the
+image when drawn. By enlarging this grid each shape will appear smaller and fit better into the
+final image</p>
+        </div>
+        
         <div class="code">
             <div class="highlight"><pre><span></span><span class="n">scale</span> <span class="o">=</span> <span class="mf">1.1</span>
 </pre></div>
 
+        </div>
+        
+        <div class="markdown">
+            <p>As you've probably noticed the hands of the clock are just rectangles, but instead of
+using the built in <code>Rectangle</code> shape in the standard library I've decided to define
+a custom <code>ClockHand</code> shape. This is because the standard <code>Rectangle</code> shape is hard to
+control in this scenario (perhaps this should be improved 🤔...) You will also see that 
+I'm using <a href="https://en.wikipedia.org/wiki/Polar_coordinate_system">polar coordinates</a>
+instead of the conventional \(x\) and \(y\)</p>
+<p>By defining the <code>ClockHand</code> shape with polar coordinates adding the ability to set the
+rotation becomes easy since all we have to do is take an offset <code>t0</code> and subtract it from
+the angle parameter <code>t</code>. Something to note is that when <code>arlunio</code> maps polar coordinates onto
+an image it follows the mathematical convention of having the line <code>t = 0</code> be at
+3 o'clock, so in order to make positioning the hands easier later on I also shift this
+coordinate by \(\frac{\pi}{2}\) (90 degrees) so when <code>t0 = 0</code> the hand will be pointing at
+12 o'clock</p>
+<p>Unfortunately while nice for expressing rotations, polar coordinates are certainly not the
+best at expressing a rectangle. Thankfully the conversion from polar to standard \(x\) and
+\(y\) coordinates is quite straightforward</p>
+<p>\begin{align}
+    x &amp;= r\cos{(t)} \\
+    y &amp;= r\sin{(t)} 
+\end{align}</p>
+<p>Once we have our \(x\) and \(y\) coordinates it's easy enough to define a rectangle as
+(ar.)all the \(x\) values between <code>0</code> and the <code>length</code> <strong>and</strong> all the \(y\) values
+between <code>-size</code> and <code>size</code>.</p>
         </div>
         
         <div class="code">
@@ -89,8 +145,21 @@
         <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">length</span><span class="p">,</span>
         <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">size</span>
     <span class="p">)</span>
+</pre></div>
 
-<span class="nd">@ar</span><span class="o">.</span><span class="n">shape</span>
+        </div>
+        
+        <div class="markdown">
+            <p>Next we look at the shape I've called <code>Numeral</code>, since it's used to indicate the hours on the
+clockface having the ability to rotate it easily is important so it is also defined with respect
+to polar coordinates. In fact it's definition is almost identical to the <code>ClockHand</code> shape
+with one small difference. To try and make the clock a little more interesting to look at the sides
+of a numeral are defined to be those underneath a small slope, instead of having flat sides
+like a rectangle.</p>
+        </div>
+        
+        <div class="code">
+            <div class="highlight"><pre><span></span><span class="nd">@ar</span><span class="o">.</span><span class="n">shape</span>
 <span class="k">def</span> <span class="nf">Numeral</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">t0</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="n">t</span> <span class="o">-=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span> <span class="n">t0</span>
     
@@ -103,6 +172,26 @@
     <span class="p">)</span>
 </pre></div>
 
+        </div>
+        
+        <div class="markdown">
+            <p>With all the shapes that we need defined it's time to focus on how we're going to position
+the hands in order to tell the time. This is where we get into that "interfaces" idea I was talking
+about earlier, as you can see there's nothing formal yet instead we're just taking advantage of 
+Python's duck typing. This function only requires that the shapes you give it all have a 
+<code>t0</code> property that controls its angle - which is all you need to implement a clock poser(?),
+positioner(?), director(?)... 🤔 we'll have to think of a name later!</p>
+<p>Calculating the angle itself is quite straightforward - assuming you're familiar with
+<a href="https://en.wikipedia.org/wiki/Radian">radians</a> that is. The <code>make_clock</code> function is 
+written with the assumption that <code>t0 = 0</code> is going to correpsond with the hand pointing at 12 o'clock,
+which we ensured earlier when shifting the <code>t</code> parameter in the <code>ClockHand</code> shape by \(\frac{\pi}{2}\)
+radians (90 degrees).</p>
+<p>From there it's case of unpacking our Python <a href="https://docs.python.org/3/library/datetime.html#datetime.datetime">datetime</a>
+object and calculating the percentage each respective hand has travelled around the clockface 
+by dividing it by the maximum value each hand can represent (60 minutes in an hour, 12 hours 
+on a clock etc). Once we have the percentage we can multiply it by \(2\pi\)) (360 degrees)
+to get the angle. Finally we add each of the shapes representing the hands together so that
+we return a single object representing the clock.</p>
         </div>
         
         <div class="code">
@@ -121,6 +210,27 @@
     <span class="k">return</span> <span class="n">clock</span>
 </pre></div>
 
+        </div>
+        
+        <div class="markdown">
+            <p>A few other points of interest to make about the above implementation</p>
+<ul>
+<li><code>datetime</code> objects use 24hr time so it feels neater to convert it to 12hr time even if it's
+  not strictly necessary</li>
+<li>When calculating the angle for the hour hand we also add a small contribution from the minute
+  hand so that we replicate the effect of the hour hand moving between numbers throughout the
+  hour. - However it probably requires further thought in order to produce a more accurate result...</li>
+</ul>
+<p>Last but not least we come to the final assembly, I've gone on long enough as it is so here
+is a few highlights</p>
+<ul>
+<li>We create three instances of the <code>ClockHand</code>, hours, minutes and seconds</li>
+<li>Using a for loop we "spin" an instance of the <code>Numeral</code> shape around the clockface one for each 
+  hour.</li>
+<li>Since our <code>make_clock</code> function was written to take any <code>datetime</code> instance, having the clock
+  frozen at the time it was drawn is a simple as passing the result of <code>datetime.now()</code> to the
+  function.</li>
+</ul>
         </div>
         
         <div class="code">
@@ -142,10 +252,9 @@
     </div>
 </div>
 
-    </main>
     <footer>
-        <p>Last Built: 15 January 2020 -- 18:43:02</p>
         <p>Color Scheme: <a href="https://github.com/arcticicestudio/nord">Nord</a></p>
+        <p>Last Updated: 20/01/20 22:07:52</p>
     </footer>
 </body>
 
