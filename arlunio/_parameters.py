@@ -9,7 +9,8 @@ from ._core import Collection, Key
 
 @attr.s(auto_attribs=True)
 class Parameter:
-    META_ID: ClassVar[str] = "arlunio.parameter.attribute"
+    META_ID: ClassVar[str] = "arlunio.parameter"
+    ATTR_ID: ClassVar[str] = "arlunio.parameter.attribute"
 
     def __call__(self, width: int, height: int):
         args = dict(self.parameters)
@@ -24,7 +25,31 @@ class Parameter:
                 args[name] = height
                 continue
 
-        return self._definition(**args)
+        return self._definition(**args, **self.attributes)
+
+    @property
+    def attributes(self):
+        fields = attr.fields(self.__class__)
+        return {
+            a.name: getattr(self, a.name)
+            for a in fields
+            if Parameter.ATTR_ID in a.metadata
+        }
+
+
+def _define_attribute(param: inspect.Parameter) -> attr.Attribute:
+    """Given the parameter that represents some arlunio attribute, create the
+    corresponding attrs definition.
+    """
+
+    args = {"default": param.default, "kw_only": True}
+    args["metadata"] = {Parameter.ATTR_ID: True}
+
+    if param.annotation != inspect.Parameter.empty:
+        args["type"] = param.annotation
+        args["validator"] = [attr.validators.instance_of(param.annotation)]
+
+    return attr.ib(**args)
 
 
 # The default parameter collection
@@ -52,6 +77,9 @@ def parameter(f=None, *, collection=None):
             "_definition": staticmethod(pdef),
             "parameters": {p.name: p.annotation for p in params},
         }
+
+        for a in attrs:
+            attributes[a.name] = _define_attribute(a)
 
         p = attr.s(type(name, (Parameter,), attributes))
         collection._items[Key.fromstring(name)] = p

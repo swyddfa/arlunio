@@ -1,4 +1,5 @@
 from ._color import RGB8  # noqa: F401
+from ._core import Collection  # noqa: F401
 from ._expressions import all, any, invert  # noqa: F401
 from ._image import Image, Resolutions  # noqa: F401
 from ._loaders import load_parameters
