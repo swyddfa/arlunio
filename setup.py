@@ -30,6 +30,7 @@ extras = {
     ],
     "doc": ["sphinx"],
     "examples": ["jupyterlab"],
+    "testing": ["hypothesis"],
 }
 
 extras["all"] = list(

@@ -103,3 +103,64 @@ def test_parameter_attributes(collection):
 
     q = Param(offset=2)
     assert q(1, 1) == 0
+
+
+def test_derived_parameter(collection):
+    """Ensure that we can derive a parameter that's based on other parameters."""
+
+    @ar.parameter(collection=collection)
+    def Adder(width, height):
+        return height + width
+
+    @ar.parameter(collection=collection)
+    def Subber(a: Adder):
+        return a - 2
+
+    s = Subber()
+    assert s(1, 1) == 0
+    assert s(1, 2) == 1
+
+
+def test_derived_parameter_checks_input_annotations(collection):
+    """Ensure that any inputs that are not a base parameter or annotated are complained
+    about."""
+
+    with py.test.raises(TypeError) as err:
+
+        @ar.parameter(collection=collection)
+        def Parameter(width, height, x):
+            return width * height - x
+
+    assert "Unknown parameter 'x'" in str(err.value)
+
+
+def test_derived_parameter_checks_input_annotation_type(collection):
+    """Ensure that any inputs that are annotated with a class that's not a Parameter are
+    compained about."""
+
+    with py.test.raises(TypeError) as err:
+
+        @ar.parameter(collection=collection)
+        def Parameter(width, height, x: int):
+            return width * height - x
+
+    assert "Invalid input 'x', type 'int' is not a Parameter" in str(err.value)
+
+
+def test_derived_parameter_exposes_properties(collection):
+    """Ensure that any properties on base parameters are exposed on the derived
+    property."""
+
+    @ar.parameter(collection=collection)
+    def Base(width, height, *, offset=0):
+        return offset
+
+    @ar.parameter(collection=collection)
+    def Derived(b: Base, *, start=1):
+        return start - b
+
+    d = Derived()
+    d(1, 1) == 1
+
+    d = Derived(start=5, offset=-1)
+    d(1, 1) == 6
