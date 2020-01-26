@@ -90,6 +90,16 @@
             }
         },
         {
+            "label": "Scratch Notebooks",
+            "type": "shell",
+            "command": "source ${workspaceRoot}/.dev/bin/activate && jupyter-lab",
+            "problemMatcher": [],
+            "group": "build",
+            "options": {
+                "cwd": "${workspaceRoot}/.scratch"
+            }
+        },
+        {
             "label": "Test File",
             "type": "shell",
             "command": "${config:python.pythonPath} -m tox -e py38 -- ${file}",
