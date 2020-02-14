@@ -41,9 +41,10 @@ def ts(width, height, scale=1):
 
 
 @ar.parameter
-def X(width, height, *, scale=1, stretch=False):
+def X(width, height, *, x0=0, scale=1, stretch=False):
     """Cartesian :math:`x` coordinates.
 
+    :param x0: Shift the :math:`x` coordinates by :code:`x0`
     :param scale: Controls the size of the extreme values in the grid.
     :param stretch: If :code:`True` and the image is wider than it is tall then the grid
                     will be stretched so that :code:`x = scale` falls on the image
@@ -57,13 +58,14 @@ def X(width, height, *, scale=1, stretch=False):
     x = np.linspace(-scale, scale, width)
     x = np.array([x for _ in range(height)])
 
-    return x
+    return x - x0
 
 
 @ar.parameter
-def Y(width, height, *, scale=1, stretch=False):
+def Y(width, height, *, y0=0, scale=1, stretch=False):
     """Cartesian :math:`y` coordinates.
 
+    :param y0: Shift the :math:`y` coordinates by :code:`y0`
     :param scale: Controls the size of the extreme values in the grid
     :param stretch: If :code:`True` and the image is taller than it is wide then the
                     grid will be stretched so that :code:`y = scale` falls on the image
@@ -77,7 +79,7 @@ def Y(width, height, *, scale=1, stretch=False):
     y = np.linspace(scale, -scale, height)
     y = np.array([y for _ in range(width)]).transpose()
 
-    return y
+    return y - y0
 
 
 @ar.parameter

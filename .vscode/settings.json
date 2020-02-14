@@ -12,7 +12,8 @@
         "htmlcov": true,
         ".coverage": true,
         "coverage.xml": true,
-        "test-output.xml": true
+        "test-output.xml": true,
+        ".hypothesis": true
     },
     "python.autoComplete.addBrackets": true,
     "python.formatting.provider": "black",
