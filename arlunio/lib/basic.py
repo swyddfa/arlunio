@@ -1,11 +1,11 @@
 import arlunio as ar
 import numpy as np
 
-basic = ar.ShapeCollection()
+from .parameters import X, Y
 
 
-@basic.shape
-def Circle(x, y, *, x0=0, y0=0, r=0.8, pt=None):
+@ar.definition
+def Circle(x: X, y: Y, *, r=0.8, pt=None):
     """We define a circle using the following equality.
 
     .. math::
@@ -25,10 +25,7 @@ def Circle(x, y, *, x0=0, y0=0, r=0.8, pt=None):
     the value of this argument will be used to control the thickness of the line
     used to draw the circle.
     """
-
-    xc = x - x0
-    yc = y - y0
-    circle = np.sqrt(xc * xc + yc * yc)
+    circle = np.sqrt(x ** 2 + y ** 2)
 
     if pt is None:
         return circle < r * r
@@ -40,8 +37,8 @@ def Circle(x, y, *, x0=0, y0=0, r=0.8, pt=None):
     return ar.all(inner < circle, circle < outer)
 
 
-@basic.shape
-def Ellipse(x, y, *, x0=0, y0=0, a=2, b=1, r=0.8, pt=None):
+@ar.definition
+def Ellipse(x: X, y: Y, *, a=2, b=1, r=0.8, pt=None):
     """An ellipse can be defined using the following equality.
 
     .. math::
@@ -70,8 +67,8 @@ def Ellipse(x, y, *, x0=0, y0=0, a=2, b=1, r=0.8, pt=None):
     the ellipse.
     """
 
-    xc = (x - x0) ** 2
-    yc = (y - y0) ** 2
+    xc = x ** 2
+    yc = y ** 2
 
     A = a ** 2
     B = b ** 2
@@ -88,8 +85,8 @@ def Ellipse(x, y, *, x0=0, y0=0, a=2, b=1, r=0.8, pt=None):
     return ar.all(inner < ellipse, ellipse < outer)
 
 
-@basic.shape
-def SuperEllipse(x, y, *, x0=0, y0=0, a=1, b=1, n=3, r=0.8, m=None, pt=None):
+@ar.definition
+def SuperEllipse(x: X, y: Y, *, a=1, b=1, n=3, r=0.8, m=None, pt=None):
     """We define a superellipse by the following equality.
 
     .. math::
@@ -140,13 +137,10 @@ def SuperEllipse(x, y, *, x0=0, y0=0, a=1, b=1, n=3, r=0.8, m=None, pt=None):
 
     """
 
-    xc = x - x0
-    yc = y - y0
-
     if m is None:
         m = n
 
-    ellipse = np.abs(xc / a) ** n + np.abs(yc / b) ** m
+    ellipse = np.abs(x / a) ** n + np.abs(y / b) ** m
 
     if pt is None:
         return ellipse < r
@@ -158,12 +152,12 @@ def SuperEllipse(x, y, *, x0=0, y0=0, a=1, b=1, n=3, r=0.8, m=None, pt=None):
     return ar.all(inner < ellipse, ellipse < outer)
 
 
-@basic.shape
-def Square(x, y, *, x0=0, y0=0, size=0.8, pt=None):
+@ar.definition
+def Square(x: X, y: Y, *, x0=0, y0=0, size=0.8, pt=None):
     """A square."""
 
-    xs = np.abs(x - x0)
-    ys = np.abs(y - y0)
+    xs = np.abs(x)
+    ys = np.abs(y)
 
     if pt is None:
         return ar.all(xs < size, ys < size)
@@ -174,12 +168,12 @@ def Square(x, y, *, x0=0, y0=0, size=0.8, pt=None):
     return ar.all(outer, ar.invert(inner))
 
 
-@basic.shape
-def Rectangle(x, y, *, x0=0, y0=0, size=0.6, ratio=1.618, pt=None):
+@ar.definition
+def Rectangle(x: X, y: Y, *, x0=0, y0=0, size=0.6, ratio=1.618, pt=None):
     """A Rectangle."""
 
-    xs = np.abs(x - x0)
-    ys = np.abs(y - y0)
+    xs = np.abs(x)
+    ys = np.abs(y)
     width = size * ratio
     height = size
 

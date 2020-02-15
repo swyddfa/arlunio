@@ -11,7 +11,7 @@ class Key:
     It's only a thin wrapper around a tuple that should make the implementation of
     collections easier to reason about. A key can be created from a number of strings
 
-    >>> from arlunio._shapes import Key
+    >>> from arlunio._core import Key
     >>> Key('a', 'b', 'c')
     k'a.b.c'
 
@@ -208,7 +208,7 @@ def _define_attribute(param: inspect.Parameter) -> attr.Attribute:
 
     if param.annotation != inspect.Parameter.empty:
         args["type"] = param.annotation
-        args["validator"][attr.validators.instance_of(param.annotation)]
+        args["validator"] = [attr.validators.instance_of(param.annotation)]
 
     return attr.ib(**args)
 

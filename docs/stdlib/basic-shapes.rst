@@ -3,12 +3,14 @@
 Basic Shapes
 ============
 
-.. autoshape:: arlunio.lib.basic.Circle
+Built in definitions of basic shapes.
 
-.. autoshape:: arlunio.lib.basic.Ellipse
+.. autodefn:: arlunio.lib.basic.Circle
 
-.. autoshape:: arlunio.lib.basic.Rectangle
+.. autodefn:: arlunio.lib.basic.Ellipse
 
-.. autoshape:: arlunio.lib.basic.Square
+.. autodefn:: arlunio.lib.basic.Rectangle
 
-.. autoshape:: arlunio.lib.basic.SuperEllipse
+.. autodefn:: arlunio.lib.basic.Square
+
+.. autodefn:: arlunio.lib.basic.SuperEllipse

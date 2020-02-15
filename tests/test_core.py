@@ -1,5 +1,17 @@
+import inspect
+
 import arlunio as ar
 import py.test
+
+
+def test_definition_name():
+    """Ensure that the returned definition keeps the name of the decorated function."""
+
+    @ar.definition
+    def Circle():
+        return 1
+
+    assert Circle.__name__ == "Circle"
 
 
 def test_use_definition_as_tag():
@@ -71,6 +83,18 @@ def test_definition_attributes():
     assert q(1, 1) == 0
 
 
+def test_definition_attribute_validation():
+    """Ensure that if an attribute is given a type hint we can perform some basic
+    validation on it."""
+
+    @ar.definition()
+    def Param(width, height, *, a: int = 0):
+        pass
+
+    with py.test.raises(TypeError):
+        Param(a="string")
+
+
 def test_derived_definition():
     """Ensure that we can derive a definition that's based on other definitions."""
 
@@ -130,3 +154,56 @@ def test_derived_definition_exposes_properties():
 
     d = Derived(start=5, offset=-1)
     d(1, 1) == 6
+
+
+def test_derived_definition_exposes_base_definitions():
+    """Ensure that any base definitions are available to be inspected."""
+
+    @ar.definition()
+    def Base(width, height):
+        return 2
+
+    assert Base.definitions == {
+        "width": inspect.Parameter.empty,
+        "height": inspect.Parameter.empty,
+    }
+
+    @ar.definition()
+    def Derived(width, base: Base):
+        return 4
+
+    assert Derived.definitions == {"width": inspect.Parameter.empty, "base": Base}
+
+
+def test_derived_definition_attributes_property():
+    """Ensure that the attributes property exposes all available attributes on the
+    definition."""
+
+    @ar.definition
+    def Base(width, height, *, a=1, b=2):
+        return 3
+
+    assert Base().attributes == {"a": 1, "b": 2}
+
+    @ar.definition()
+    def Derived(base: Base, *, b=3, d=4):
+        return 5
+
+    assert Derived().attributes == {"a": 1, "b": 3, "d": 4}
+
+
+def test_derived_definition_attribs_property():
+    """Ensure that the attribs property only exposes the attributes that are directly
+    defined on the definition."""
+
+    @ar.definition
+    def Base(width, height, *, a=1, b=2):
+        return 3
+
+    assert Base().attribs == {"a": 1, "b": 2}
+
+    @ar.definition
+    def Derived(base: Base, *, b=3, d=4):
+        return 5
+
+    assert Derived().attribs == {"b": 3, "d": 4}

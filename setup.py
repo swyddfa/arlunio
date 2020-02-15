@@ -79,15 +79,5 @@ setup(
             "tutorial = arlunio.cli.tutorial:Tutorial",
             "shapes = arlunio.tk:Shapes",
         ],
-        "arlunio.parameters": [
-            "x = arlunio.lib.parameters:xs",
-            "y = arlunio.lib.parameters:ys",
-            "r = arlunio.lib.parameters:rs",
-            "t = arlunio.lib.parameters:ts",
-        ],
-        "arlunio.shapes": [
-            "basic = arlunio.lib:basic",
-            "pattern = arlunio.lib:pattern",
-        ],
     },
 )
