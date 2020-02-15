@@ -40,7 +40,7 @@ def ts(width, height, scale=1):
     return np.arctan2(y, x)
 
 
-@ar.parameter
+@ar.definition
 def X(width, height, *, x0=0, scale=1, stretch=False):
     """Cartesian :math:`x` coordinates.
 
@@ -61,7 +61,7 @@ def X(width, height, *, x0=0, scale=1, stretch=False):
     return x - x0
 
 
-@ar.parameter
+@ar.definition
 def Y(width, height, *, y0=0, scale=1, stretch=False):
     """Cartesian :math:`y` coordinates.
 
@@ -82,13 +82,13 @@ def Y(width, height, *, y0=0, scale=1, stretch=False):
     return y - y0
 
 
-@ar.parameter
+@ar.definition
 def R(x: X, y: Y):
     """Polar :math:`r` coordinates."""
     return np.sqrt(x * x + y * y)
 
 
-@ar.parameter
+@ar.definition
 def T(x: X, y: Y, *, t0=0):
     """Polar, :math:`t` coordinates."""
     t = np.arctan2(y, x)
