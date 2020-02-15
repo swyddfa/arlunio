@@ -1,8 +1,8 @@
 .. Code References
 
 .. -- Shapes
-.. |@shape| replace:: :py:func:`@shape <arlunio.shape>`
-.. |Shape| replace:: :py:class:`Shape <arlunio.Shape>`
+.. |@definition| replace:: :py:func:`@definition <arlunio.definition>`
+.. |Definition| replace:: :py:class:`Definition <arlunio.Definition>`
 
 .. |Circle| replace:: :py:class:`Circle <arlunio.lib.basic.Circle>`
 .. |Ellipse| replace:: :py:class:`Ellipse <arlunio.lib.basic.Ellipse>`
@@ -24,4 +24,3 @@
 
 .. |numpy.Broadcasting| replace:: :doc:`Broadcasting <numpy:user/basics.broadcasting>`
 .. |numpy.Array Broadcasting| replace:: :doc:`Array Broadcasting <numpy:user/theory.broadcasting>`
-

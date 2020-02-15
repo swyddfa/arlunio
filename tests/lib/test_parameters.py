@@ -1,5 +1,6 @@
 import arlunio.testing as T
 import numpy as np
+import numpy.testing as npt
 import py.test
 
 from arlunio.lib.parameters import X, Y
@@ -47,6 +48,20 @@ def test_X_fits_to_image_size_when_told(width, height, scale):
     assert np.max(xs) == scale
 
 
+@given(width=T.dimension, height=T.dimension, offset=T.real_num)
+def test_X_shifts_origin_accordingly(width, height, offset):
+    """Ensure that the output has shifted the output according to the :code:`x0`
+    property."""
+
+    x1 = X()
+    x2 = X(x0=offset)
+
+    x1s = x1(width, height)
+    x2s = x2(width, height)
+
+    npt.assert_almost_equal(x1s - x2s, offset)
+
+
 @given(width=T.dimension, height=T.dimension)
 def test_Y_matches_dimension(width, height):
     """Ensure that the output shape matches the width and height of the image."""
@@ -88,3 +103,17 @@ def test_Y_fits_to_image_size_when_told(width, height, scale):
     ys = y(width, height)
 
     assert np.max(ys) == scale
+
+
+@given(width=T.dimension, height=T.dimension, offset=T.real_num)
+def test_Y_shifts_origin_accordingly(width, height, offset):
+    """Ensure that the output has shifted the output according to the :code:`y0`
+    property."""
+
+    y1 = Y()
+    y2 = Y(y0=offset)
+
+    y1s = y1(width, height)
+    y2s = y2(width, height)
+
+    npt.assert_almost_equal(y1s - y2s, offset)

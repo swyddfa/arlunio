@@ -9,6 +9,19 @@ Colour
 .. autoclass:: arlunio.RGB8
    :members:
 
+
+Definitions
+-----------
+
+- |@definition|: Decorator used to create new definitions
+- |Definition|: Base class for all definitions
+
+.. autodecorator:: arlunio.definition
+
+.. autoclass:: arlunio.Definition
+   :members:
+
+
 Expressions
 -----------
 
@@ -21,22 +34,10 @@ Expressions
 Images
 ------
 
-.. autoclass:: arlunio.Canvas
-   :members:
-
 .. autoclass:: arlunio.Image
    :members:
 
 .. autoclass:: arlunio.Resolutions
    :members:
 
-Shapes
-------
-
-- |@shape|: Decorator used to define new shapes
-- |Shape|: Base class for all shapes
-
-.. autodecorator:: arlunio.shape
-
-.. autoclass:: arlunio.Shape
-   :members:
+.. autofunction:: arlunio.fill

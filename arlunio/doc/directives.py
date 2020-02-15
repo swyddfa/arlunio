@@ -24,25 +24,25 @@ ${message}
 ${traceback}
 """
 
-SHAPE_TEMPLATE = """\
-${shape_name}
+DEFINITION_TEMPLATE = """\
+${definition_name}
 
-.. py:class:: ${shape_path}
+.. py:class:: ${definition_path}
 
-${shape_image}
+${definition_image}
 
-${shape_desc}
+${definition_desc}
 
-${shape_props}
+${definition_props}
 """
 
-PROPS_TEMPLATE = """\
-:Properties:
+ATTRIBUTES_TEMPLATE = """\
+:Attributes:
 
-${props}
+${attrs}
 """
 
-PROP_TEMPLATE = """\
+ATTRIBUTE_TEMPLATE = """\
 - **${name}** ${type} - Default: :code:`${default}`
 """
 
@@ -82,7 +82,7 @@ def depart_nbtutorial(self, node):
     pass
 
 
-def load_shape(object_spec: str) -> (ar.Shape, str):
+def load_definition(object_spec: str) -> (ar.Definition, str):
     """Given a classpath e.g. :code:`arlunio.lib.basic.Circle` load it.
 
     There is an issue(?) currently with shapes defined with the :code:`@shape` decorator
@@ -91,14 +91,14 @@ def load_shape(object_spec: str) -> (ar.Shape, str):
     shape is defined (:code:`arlunio.lib.basic`). So this function also returns the true
     module name::
 
-       >>> from arlunio.doc.directives import load_shape
+       >>> from arlunio.doc.directives import load_definition
 
-       >>> load_shape("arlunio.lib.basic.Circle")
-       (<class 'arlunio._shapes.Circle'>, 'arlunio.lib.basic')
+       >>> load_definition("arlunio.lib.basic.Circle")
+       (<class 'arlunio._core.Circle'>, 'arlunio.lib.basic')
 
     If the module is not found then a :code:`MoudleNotFoundError` will be raised::
 
-       >>> load_shape("arlunio.notfound.Circle")
+       >>> load_definition("arlunio.notfound.Circle")
        Traceback (most recent call last):
           ...
        ModuleNotFoundError: No module named 'arlunio.notfound'
@@ -106,79 +106,80 @@ def load_shape(object_spec: str) -> (ar.Shape, str):
     If the class within the module cannot be found then an :code:`AttributeError` will
     be raised::
 
-       >>> load_shape("arlunio._shapes.Circle")
+       >>> load_definition("arlunio._core.Circle")
        Traceback (most recent call last):
           ...
-       AttributeError: module 'arlunio._shapes' has no attribute 'Circle'
+       AttributeError: module 'arlunio._core' has no attribute 'Circle'
 
     Finally if the given class is not a shape then a :code:`TypeError` will be raised::
 
-       >>> load_shape("arlunio.doc.directives.AutoShapeDirective")
+       >>> load_definition("arlunio.doc.directives.AutoDefinitionDirective")
        Traceback (most recent call last):
           ...
-       TypeError: 'arlunio.doc.directives.AutoShapeDirective' is not a shape
+       TypeError: 'arlunio.doc.directives.AutoDefinitionDirective' is not a definition
     """
 
     *obj_path, obj_name = object_spec.split(".")
     obj_path = ".".join(obj_path)
 
-    logger.debug(f"[autoshape]: Looking for shape: {obj_name} in {obj_path}")
+    logger.debug(f"[autodefn]: Looking for definition: {obj_name} in {obj_path}")
 
     module = importlib.import_module(obj_path)
-    shape = getattr(module, obj_name)
+    defn = getattr(module, obj_name)
 
-    if not issubclass(shape, ar.Shape):
-        raise TypeError(f"'{object_spec}' is not a shape")
+    if not issubclass(defn, ar.Definition):
+        raise TypeError(f"'{object_spec}' is not a definition")
 
-    return shape, module.__name__
-
-
-def document_properties(shape: ar.Shape) -> str:
-    """Given a shape's definitio, document all of its properties."""
-    template = string.Template(PROPS_TEMPLATE)
-    prop_tpl = string.Template(PROP_TEMPLATE)
-
-    properties = []
-
-    for prop in sorted(attr.fields(shape), key=lambda p: p.name):
-
-        ptype = "" if prop.type is None else f"({str(prop.type)})"
-        context = {"name": prop.name, "default": prop.default, "type": ptype}
-
-        properties.append(prop_tpl.safe_substitute(context))
-
-    return template.safe_substitute({"props": "\n".join(properties)})
+    return defn, module.__name__
 
 
-def generate_preview(shape_ins: ar.Shape) -> str:
+def document_attributes(defn: ar.Definition) -> str:
+    """Given a definition, document all of its properties."""
+    template = string.Template(ATTRIBUTES_TEMPLATE)
+    attr_tpl = string.Template(ATTRIBUTE_TEMPLATE)
+
+    attributes = []
+
+    for attrib in sorted(attr.fields(defn), key=lambda p: p.name):
+
+        type_ = "" if attrib.type is None else f"({str(attrib.type)})"
+        context = {"name": attrib.name, "default": attrib.default, "type": type_}
+
+        attributes.append(attr_tpl.safe_substitute(context))
+
+    return template.safe_substitute({"attrs": "\n".join(attributes)})
+
+
+def generate_preview(defn: ar.Definition) -> str:
     """Given an instance of the shape, generate a preview of it."""
-    template = string.Template(PREVIEW_TEMPLATE)
-    image = shape_ins(1920, 1080)
-    name = shape_ins.__class__.__name__
 
-    context = {
-        "img_data": image.encode().decode("utf-8"),
-        "alt_tag": f"Example instance of the {name} shape",
-    }
+    # TODO: Figure out how to generalise this for definitions...
+    # template = string.Template(PREVIEW_TEMPLATE)
+    # image = shape_ins(1920, 1080)
+    # name = shape_ins.__class__.__name__
 
-    return template.safe_substitute(context)
+    # context = {
+    #    "img_data": image.encode().decode("utf-8"),
+    #    "alt_tag": f"Example instance of the {name} shape",
+    # }
+
+    return ""  # template.safe_substitute(context)
 
 
-def document_shape(shape: ar.Shape, module_name: str) -> StringList:
-    """Given a shape definition, automatically write the reference documentation
-    for it.
+def document_definition(defn: ar.Definition, module_name: str) -> StringList:
+    """Given a definition, automatically write the reference documentation for it.
     """
-    default = shape()
+    default = defn()
     indent = " " * 3
-    template = string.Template(SHAPE_TEMPLATE)
-    docstring = "" if shape.__doc__ is None else shape.__doc__
+    template = string.Template(DEFINITION_TEMPLATE)
+    docstring = "" if defn.__doc__ is None else defn.__doc__
 
     context = {
-        "shape_name": shape.__name__ + "\n" + "-" * len(shape.__name__),
-        "shape_path": f"{module_name}.{shape.__name__}",
-        "shape_desc": textwrap.indent(docstring, indent),
-        "shape_props": textwrap.indent(document_properties(shape), indent),
-        "shape_image": textwrap.indent(generate_preview(default), indent),
+        "definition_name": defn.__name__ + "\n" + "-" * len(defn.__name__),
+        "definition_path": f"{module_name}.{defn.__name__}",
+        "definition_desc": textwrap.indent(docstring, indent),
+        "definition_props": textwrap.indent(document_attributes(defn), indent),
+        "definition_image": textwrap.indent(generate_preview(default), indent),
     }
 
     documentation = template.safe_substitute(context)
@@ -253,8 +254,8 @@ def render_image(src: str) -> List[nodes.Node]:
     return doctree
 
 
-class AutoShapeDirective(rst.Directive):
-    """Given the a shape definition automatically generate its documentation."""
+class AutoDefinitionDirective(rst.Directive):
+    """Given the a definition automatically generate its documentation."""
 
     required_arguments = 1
     optional_arguments = 0
@@ -262,19 +263,19 @@ class AutoShapeDirective(rst.Directive):
 
     def run(self) -> List[nodes.Node]:
 
-        shape_name = self.arguments[0]
+        defn_name = self.arguments[0]
 
         try:
-            shape, module_name = load_shape(shape_name)
+            defn, module_name = load_definition(defn_name)
 
         except Exception:
             err = traceback.format_exc()
-            message = f"**AutoShape:** Unable to load shape: :code:`{shape_name}`"
+            message = f"**AutoDefinition:** Unable to load shape: :code:`{defn_name}`"
             content = format_error(message, err)
 
             return parse_content(self.state, content)
 
-        content = document_shape(shape, module_name)
+        content = document_definition(defn, module_name)
 
         section = nodes.section()
         section.document = self.state.document
