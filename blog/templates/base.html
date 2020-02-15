@@ -6,33 +6,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    {% block extrahead %}{% endblock %}
-
     {% block title %}<title>Arlunio</title>{% endblock %}
 
-    <link rel="stylesheet" href="{{ baseurl }}css/main.css" />
+    <link rel="stylesheet" href="/css/main.css" />
     <link href="https://fonts.googleapis.com/css?family=Caveat|Open+Sans:300&display=swap" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/f1d1c3586c.js" crossorigin="anonymous"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML'
+        async></script>
+
+    {% block extrahead %}{% endblock %}
 </head>
 
 <body>
     <header class="two-col">
         <h1 class="site-title">
-            <a href="{{ baseurl }}gallery/">Arlunio</a>
+            <a href="/gallery/">Arlunio</a>
         </h1>
         <nav class="menu">
             <ul>
                 <li><a href="https://arlunio.readthedocs.io/en/latest/">Docs</a></li>
-                <li><a href="{{ baseurl }}gallery/">Gallery</a></li>
+                <li><a href="/gallery/">Gallery</a></li>
             </ul>
         </nav>
     </header>
 
-    <main>
-        {% block content %}{% endblock %}
-    </main>
+    {% block content %}{% endblock %}
     <footer>
-        <p>Last Built: {{ date }}</p>
+        <p>Color Scheme: <a href="https://github.com/arcticicestudio/nord">Nord</a></p>
+        <p>Last Updated: {{ date }}</p>
     </footer>
 </body>
 

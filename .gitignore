@@ -2,8 +2,8 @@
 .cache
 .coverage
 .hypothesis
-.idea
 .ipynb_checkpoints/
+.scratch
 .pytest_cache
 .tox
 
@@ -22,7 +22,6 @@ arlunio/tutorial/
 .eggs/
 *.egg-info/
 build
-.vscode/
 *.pyc
 pip-wheel-metadata
 .dev

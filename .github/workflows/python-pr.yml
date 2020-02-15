@@ -6,8 +6,13 @@ on:
     branches:
     - develop
     - master
-    paths-ignore:
-    - 'blog/**'
+    paths:
+    - 'arlunio/**'
+    - 'docs/using/tutorial/**'
+    - 'tests/**'
+    - 'setup.py'
+    - 'pyproject.toml'
+    - 'MANIFEST.in'
 # </trigger>
 jobs:
   # <test-job>
@@ -16,7 +21,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        python-version: [3.6, 3.7]
+        python-version: [3.6, 3.7, 3.8]
         os: [ubuntu-latest]  # TODO: Enable windows-latest, macOS-latest
   # </test-job>
 

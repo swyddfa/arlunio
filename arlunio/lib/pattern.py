@@ -4,21 +4,16 @@ import arlunio as ar
 import numpy as np
 
 logger = logging.getLogger(__name__)
-pattern = ar.ShapeCollection()
 
 
-@pattern.shape
-def Grid(x, *, nx=4, ny=4, shape=None):
+@ar.definition
+def Grid(width, height, *, nx=4, ny=4, shape=None):
     """Repeatedly draw the given shape in a grid.
 
     :param nx: The number of times to repeat the shape in the x-direction
     :param ny: The number of times to repeat the shape in the y-direction
     :param shape: The shape instance to draw.
     """
-
-    # Use a parameter to get the dimensions of the image we are drawing.
-    # Remember! Parameters return an array of (height, width)
-    height, width = x.shape
     bg = np.full((height, width), False)
 
     logger.debug(f"Grid size: {ny} x {nx}")
@@ -44,11 +39,9 @@ def Grid(x, *, nx=4, ny=4, shape=None):
     return bg
 
 
-@pattern.shape
-def Map(x, *, layout=None, legend=None):
+@ar.definition
+def Map(width, height, *, layout=None, legend=None):
     """For more complex layouts."""
-
-    height, width = x.shape
 
     nx, ny = len(layout), len(layout[0])
     size = (height // ny, width // nx)  # TODO: Handle divisions with rounding errors
@@ -59,8 +52,8 @@ def Map(x, *, layout=None, legend=None):
     return np.block([[items[key] for key in row] for row in layout])
 
 
-@pattern.shape
-def Pixelize(x, *, pixels=None, shape=None, nx=None, ny=None):
+@ar.definition
+def Pixelize(width, height, *, pixels=None, shape=None, nx=None, ny=None):
     """Draw a pixelated version of a shape."""
 
     if shape is None and pixels is None:
@@ -74,9 +67,6 @@ def Pixelize(x, *, pixels=None, shape=None, nx=None, ny=None):
         pixels = shape.mask(nx, ny)
 
     nx, ny = len(pixels), len(pixels[0])
-
-    # Get the desired size of the final image.
-    height, width = x.shape
     size = (height // ny, width // nx)  # TODO: Handle divisions with rounding errors
 
     fill = np.full(size, True)

@@ -30,6 +30,7 @@ extras = {
     ],
     "doc": ["sphinx"],
     "examples": ["jupyterlab"],
+    "testing": ["hypothesis"],
 }
 
 extras["all"] = list(
@@ -66,6 +67,7 @@ setup(
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: Implementation :: CPython",
         "Topic :: Multimedia :: Graphics",
     ],
@@ -76,16 +78,6 @@ setup(
             "repl = arlunio.cli.repl:Repl",
             "tutorial = arlunio.cli.tutorial:Tutorial",
             "shapes = arlunio.tk:Shapes",
-        ],
-        "arlunio.parameters": [
-            "x = arlunio.lib.parameters:xs",
-            "y = arlunio.lib.parameters:ys",
-            "r = arlunio.lib.parameters:rs",
-            "t = arlunio.lib.parameters:ts",
-        ],
-        "arlunio.shapes": [
-            "basic = arlunio.lib:basic",
-            "pattern = arlunio.lib:pattern",
         ],
     },
 )

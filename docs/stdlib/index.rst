@@ -13,3 +13,5 @@ everyone will need along with some useful utilities for various tasks.
 
    api
    basic-shapes
+   parameters
+   patterns

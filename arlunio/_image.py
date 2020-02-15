@@ -8,7 +8,7 @@ import string
 import numpy as np
 import PIL.Image
 
-from .color import RGB8
+from ._color import RGB8
 
 logger = logging.getLogger(__name__)
 
@@ -19,9 +19,9 @@ class Resolutions(enum.Enum):
     Members of this enum are tuples containing the width and height which can be
     accessed by name::
 
-       >>> import arlunio as st
+       >>> from arlunio import Resolutions as R
 
-       >>> hd = st.Resolutions.HD
+       >>> hd = R.HD
        >>> hd.width
        1280
 
@@ -36,12 +36,6 @@ class Resolutions(enum.Enum):
 
        >>> height
        720
-
-    Members are also available via the :code:`R` shortcut::
-
-       >>> st.R.HD
-       <Resolutions.HD: (1280, 720)>
-
     """
 
     HD = (1280, 720)
@@ -69,9 +63,8 @@ class Resolutions(enum.Enum):
 class Image:
     """An image is a container for raw pixel data."""
 
-    def __init__(self, pixels, mask=None):
+    def __init__(self, pixels):
         self.pixels = pixels
-        self._mask = mask
 
     def __repr__(self):
         y, x, _ = self.pixels.shape
@@ -101,18 +94,6 @@ class Image:
 
     def __setitem__(self, key, value):
         self.pixels[key] = value
-
-    @property
-    def mask(self):
-
-        if self._mask is None:
-            return tuple([slice(None, None, None) for _ in range(3)])
-
-        return self._mask
-
-    @mask.setter
-    def mask(self, value):
-        self._mask = value
 
     @classmethod
     def new(cls, width: int, height: int, background: str = None, colorspace=None):
@@ -180,3 +161,20 @@ class Image:
             image_bytes = byte_stream.getvalue()
 
             return base64.b64encode(image_bytes)
+
+
+def fill(mask, color=None, background=None) -> Image:
+    """Given a mask, fill it in with a color."""
+
+    if isinstance(color, str):
+        color = RGB8.parse(color)
+
+    if color is None:
+        color = RGB8.parse("#000")
+
+    height, width = mask.shape
+
+    image = Image.new(width, height, background=background)
+    image[mask] = color
+
+    return image

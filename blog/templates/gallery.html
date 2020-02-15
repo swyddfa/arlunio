@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+{% block extrahead %}
+<link rel="stylesheet" href="/css/gallery.css">
+{% endblock %}
+
 {% block title %}
 <title>Arlunio Gallery</title>
 {% endblock %}
@@ -32,7 +36,3 @@
     {% endfor %}
 </div>
 {% endblock %}
-
-<!--
-
--->
