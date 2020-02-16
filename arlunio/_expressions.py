@@ -1,6 +1,6 @@
 import functools
 
-from typing import Union
+from typing import Callable, Union
 
 import numpy as np
 
@@ -33,7 +33,6 @@ def any(*args: Union[bool, np.ndarray]) -> Union[bool, np.ndarray]:
     >>> import arlunio as ar
     >>> ar.any(True, False, False)
     True
-
     >>> ar.any(False, False, False, False)
     False
 
@@ -41,11 +40,9 @@ def any(*args: Union[bool, np.ndarray]) -> Union[bool, np.ndarray]:
     element-wise
 
     >>> import numpy as np
-
     >>> x1 = np.array([True, False, True])
     >>> x2 = np.array([False, False, True])
     >>> x3 = np.array([False, True, False])
-
     >>> ar.any(x1, x2, x3)
     array([ True,  True,  True])
 
@@ -87,7 +84,6 @@ def all(*args: Union[bool, np.ndarray]) -> Union[bool, np.ndarray]:
     >>> import arlunio as ar
     >>> ar.all(True, True, True)
     True
-
     >>> ar.all(True, False, True, True)
     False
 
@@ -95,11 +91,9 @@ def all(*args: Union[bool, np.ndarray]) -> Union[bool, np.ndarray]:
     element-wise
 
     >>> import numpy as np
-
     >>> x1 = np.array([True, False, True])
     >>> x2 = np.array([False, False, True])
     >>> x3 = np.array([False, True, True])
-
     >>> ar.all(x1, x2, x3)
     array([False, False,  True])
 
@@ -113,5 +107,68 @@ def all(*args: Union[bool, np.ndarray]) -> Union[bool, np.ndarray]:
     return functools.reduce(np.logical_and, args)
 
 
+def clamp(values, min_value=0, max_value=1):
+    """Force an array of values to stay within a range of values.
+
+    :param values: The array of values to clamp
+    :param min_value: The minimum value the result should contain (Default :code:`0`)
+    :param max_value: The maximum value the resul should contain (Default :code:`1`)
+
+    :Examples:
+
+    By default values will be limited to between :code:`0` and :code:`1`
+
+    >>> import arlunio as ar
+    >>> import numpy as np
+    >>> vs = np.linspace(-1, 2, 6)
+    >>> ar.clamp(vs)
+    array([0. , 0. , 0.2, 0.8, 1. , 1. ])
+
+    But this can be changed with extra arguments to the :code:`clamp` function
+
+    >>> ar.clamp(vs, min_value=-1, max_value=0.5)
+    array([-1. , -0.4,  0.2,  0.5,  0.5,  0.5])
+    """
+    vs = np.array(values)
+    vs[vs > max_value] = max_value
+    vs[vs < min_value] = min_value
+
+    return vs
+
+
 def invert(x):
     return np.logical_not(x)
+
+
+def lerp(start: float = 0, stop: float = 1) -> Callable[[float], float]:
+    """Return a function that will linerarly interpolate between a and b.
+
+    :param start: The value the interpolation should start from. (Default :code:`0`)
+    :param stop: The value the interpolation should stop at. (Default :code:`1`)
+
+    :Examples:
+
+    By default this function will interpolate between :code:`0` and :code:`1`
+
+    >>> import arlunio as ar
+    >>> f = ar.lerp()
+    >>> f(0)
+    0
+    >>> f(1)
+    1
+
+    However by passing arguments to the :code:`lerp` function we can change the bounds
+    of the interpolation.
+
+    >>> import numpy as np
+    >>> ts = np.linspace(0, 1, 4)
+    >>> f = lerp(start=3, stop=-1)
+    >>> f(ts)
+    array([ 3.        ,  1.66666667,  0.33333333, -1.        ])
+
+    """
+
+    def f(t: float) -> float:
+        return (1 - t) * start + t * stop
+
+    return f

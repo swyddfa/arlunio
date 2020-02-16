@@ -12,6 +12,6 @@ everyone will need along with some useful utilities for various tasks.
    :maxdepth: 1
 
    api
-   basic-shapes
    parameters
    patterns
+   shapes

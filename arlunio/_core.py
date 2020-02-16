@@ -160,9 +160,14 @@ class Definition:
 
     ATTR_ID: ClassVar[str] = "arlunio.attribute"
 
-    def __call__(self, width: int, height: int):
+    def __call__(self, width: int = None, height: int = None, **kwargs):
         args = dict(self.definitions)
         attributes = self.attributes
+
+        try:
+            width, height = width
+        except TypeError:
+            pass
 
         for name in args:
 
@@ -172,6 +177,10 @@ class Definition:
 
             if name == "height" and args[name] == inspect.Parameter.empty:
                 args[name] = height
+                continue
+
+            if name in kwargs:
+                args[name] = kwargs[name]
                 continue
 
             # Else it must be a definition so let's evaluate it

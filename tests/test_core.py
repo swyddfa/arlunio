@@ -207,3 +207,37 @@ def test_derived_definition_attribs_property():
         return 5
 
     assert Derived().attribs == {"b": 3, "d": 4}
+
+
+def test_derived_definition_eval_width_height():
+    """Ensure that a definition can be evaluated with width and height as positional
+    arguments."""
+
+    @ar.definition()
+    def Base(width, height):
+        return width + height
+
+    assert Base()(4, 4) == 8
+
+    @ar.definition()
+    def Derived(height, base: Base):
+        return height - base
+
+    assert Derived()(2, 4) == -2
+
+
+def test_derived_definition_eval_kwargs():
+    """Ensure that a definition can be evaluted with inputs provided as keyword
+    arguments"""
+
+    @ar.definition()
+    def Base(width, height):
+        return width + height
+
+    assert Base()(width=4, height=4) == 8
+
+    @ar.definition()
+    def Derived(height, base: Base):
+        return height - base
+
+    assert Derived()(height=4, base=4) == 0

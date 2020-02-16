@@ -9,6 +9,7 @@ import numpy as np
 import PIL.Image
 
 from ._color import RGB8
+from ._expressions import lerp
 
 logger = logging.getLogger(__name__)
 
@@ -153,7 +154,6 @@ class Image:
 
     def encode(self) -> bytes:
         """Return the image encoded as a base64 string."""
-        logger.debug("Encoding image as base64")
         image = self._as_pillow_image()
 
         with io.BytesIO() as byte_stream:
@@ -178,3 +178,17 @@ def fill(mask, color=None, background=None) -> Image:
     image[mask] = color
 
     return image
+
+
+def colorramp(values, start=None, stop=None) -> Image:
+    """Given a range of values, produce an image mapping those values onto colors."""
+
+    (r, g, b) = RGB8.parse("000") if start is None else RGB8.parse(start)
+    (R, G, B) = RGB8.parse("fff") if stop is None else RGB8.parse(stop)
+
+    reds = np.floor(lerp(r, R)(values))
+    greens = np.floor(lerp(g, G)(values))
+    blues = np.floor(lerp(b, B)(values))
+
+    pixels = np.array(np.dstack([reds, greens, blues]), dtype=np.uint8)
+    return Image(pixels)

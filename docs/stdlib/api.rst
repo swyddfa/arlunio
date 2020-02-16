@@ -29,7 +29,11 @@ Expressions
 
 .. autofunction:: arlunio.all
 
+.. autofunction:: arlunio.clamp
+
 .. autofunction:: arlunio.invert
+
+.. autofunction:: arlunio.lerp
 
 Images
 ------
@@ -39,5 +43,7 @@ Images
 
 .. autoclass:: arlunio.Resolutions
    :members:
+
+.. autofunction:: arlunio.colorramp
 
 .. autofunction:: arlunio.fill
