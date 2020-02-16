@@ -55,7 +55,7 @@ def test_render_image_image_provided():
 
     src = """\
     import arlunio as ar
-    from arlunio.lib.basic import Circle
+    from arlunio.lib.shapes import Circle
 
     circle = Circle()
     disk = ar.fill(circle(4,4))

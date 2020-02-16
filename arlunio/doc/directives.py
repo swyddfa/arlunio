@@ -93,8 +93,8 @@ def load_definition(object_spec: str) -> (ar.Definition, str):
 
        >>> from arlunio.doc.directives import load_definition
 
-       >>> load_definition("arlunio.lib.basic.Circle")
-       (<class 'arlunio._core.Circle'>, 'arlunio.lib.basic')
+       >>> load_definition("arlunio.lib.shapes.Circle")
+       (<class 'arlunio._core.Circle'>, 'arlunio.lib.shapes')
 
     If the module is not found then a :code:`MoudleNotFoundError` will be raised::
 
