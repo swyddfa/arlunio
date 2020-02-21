@@ -5,19 +5,19 @@ from .parameters import X, Y
 
 
 @ar.definition
-def Circle(x: X, y: Y, *, r=0.8, pt=None):
+def Circle(x: X, y: Y, *, xc=0, yc=0, r=0.8, pt=None):
     """We define a circle using the following equality.
 
     .. math::
 
-       \\sqrt{(x - x_0)^2 + (y - y_0)^2} = r
+       (x - x_c)^2 + (y - y_c)^2 = r^2
 
     where:
 
     - :math:`(x_0, y_0)`: Defines the centre
     - :math:`r`: Controls the radius
 
-    In python these variables can be set using the :code:`x0`, :code:`y0`
+    In python these variables can be set using the :code:`xc`, :code:`yc`
     and :code:`r` keyword arguments to the shape's constructor.
 
     By default when drawn the shape will draw a filled in circle, however the
@@ -25,10 +25,12 @@ def Circle(x: X, y: Y, *, r=0.8, pt=None):
     the value of this argument will be used to control the thickness of the line
     used to draw the circle.
     """
-    circle = np.sqrt(x ** 2 + y ** 2)
+    x = (x - xc) ** 2
+    y = (y - yc) ** 2
+    circle = np.sqrt(x + y)
 
     if pt is None:
-        return circle < r * r
+        return circle < r ** 2
 
     p = r * pt
     inner = (r - p) ** 2
@@ -38,22 +40,22 @@ def Circle(x: X, y: Y, *, r=0.8, pt=None):
 
 
 @ar.definition
-def Ellipse(x: X, y: Y, *, a=2, b=1, r=0.8, pt=None):
+def Ellipse(x: X, y: Y, *, xc=0, yc=0, a=2, b=1, r=0.8, pt=None):
     """An ellipse can be defined using the following equality.
 
     .. math::
 
-       \\left(\\frac{x - x_0}{a}\\right)^2 +
-       \\left(\\frac{y - y_0}{b}\\right)^2 = r^2
+       \\left(\\frac{x - x_c}{a}\\right)^2 +
+       \\left(\\frac{y - y_c}{b}\\right)^2 = r^2
 
     where:
 
-    - :math:`(x_0, y_0)`: Defines the centre
+    - :math:`(x_c, y_c)`: Defines the centre
     - :math:`r`: Controls the overall size
     - :math:`a`: Controls the width
     - :math:`b`: Controls the height
 
-    In python these variables can be set using the :code:`x0`, :code:`y0`,
+    In python these variables can be set using the :code:`xc`, :code:`yc`,
     :code:`r`, :code:`a` and :code:`b` keyword arguments to the shape's
     constructor.
 
@@ -67,13 +69,13 @@ def Ellipse(x: X, y: Y, *, a=2, b=1, r=0.8, pt=None):
     the ellipse.
     """
 
-    xc = x ** 2
-    yc = y ** 2
+    x = (x - xc) ** 2
+    y = (y - yc) ** 2
 
-    A = a ** 2
-    B = b ** 2
+    a = a ** 2
+    b = b ** 2
 
-    ellipse = np.sqrt(xc / A + yc / B)
+    ellipse = np.sqrt(x / a + y / b)
 
     if pt is None:
         return ellipse < r * r
@@ -86,23 +88,23 @@ def Ellipse(x: X, y: Y, *, a=2, b=1, r=0.8, pt=None):
 
 
 @ar.definition
-def SuperEllipse(x: X, y: Y, *, a=1, b=1, n=3, r=0.8, m=None, pt=None):
+def SuperEllipse(x: X, y: Y, *, xc=0, yc=0, a=1, b=1, n=3, r=0.8, m=None, pt=None):
     """We define a superellipse by the following equality.
 
     .. math::
 
-       \\left|\\frac{(x - x_0)}{a}\\right|^n + \\left|\\frac{(y - y_0)}{b}\\right|^m = r
+       \\left|\\frac{(x - x_c)}{a}\\right|^n + \\left|\\frac{(y - y_c)}{b}\\right|^m = r
 
     where:
 
-    - :math:`(x_0, y_0)`: Defines the center
+    - :math:`(x_c, y_c)`: Defines the center
     - :math:`r`: Controls the overall size
     - :math:`a`: Controls the width
     - :math:`b`: Controls the height
     - :math:`n`: Controls the profile of the curve far from :math:`x = 0`
     - :math:`m`: Controls the profile of the curve close to :math:`x = 0`
 
-    Being a generalisation of an |Ellipse| the :code:`x0`, :code:`y0`, :code:`a`,
+    Being a generalisation of an |Ellipse| the :code:`xc`, :code:`yc`, :code:`a`,
     :code:`b`, :code:`r` and :code:`pt` values behave as they would on a regular
     ellipse.
 
@@ -137,6 +139,9 @@ def SuperEllipse(x: X, y: Y, *, a=1, b=1, n=3, r=0.8, m=None, pt=None):
 
     """
 
+    x = x - xc
+    y = y - yc
+
     if m is None:
         m = n
 
@@ -153,7 +158,7 @@ def SuperEllipse(x: X, y: Y, *, a=1, b=1, n=3, r=0.8, m=None, pt=None):
 
 
 @ar.definition
-def Square(x: X, y: Y, *, x0=0, y0=0, size=0.8, pt=None):
+def Square(x: X, y: Y, *, xc=0, yc=0, size=0.8, pt=None):
     """A square."""
 
     xs = np.abs(x)
@@ -169,7 +174,7 @@ def Square(x: X, y: Y, *, x0=0, y0=0, size=0.8, pt=None):
 
 
 @ar.definition
-def Rectangle(x: X, y: Y, *, x0=0, y0=0, size=0.6, ratio=1.618, pt=None):
+def Rectangle(x: X, y: Y, *, xc=0, yc=0, size=0.6, ratio=1.618, pt=None):
     """A Rectangle."""
 
     xs = np.abs(x)

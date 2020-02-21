@@ -21,7 +21,7 @@ def Grid(width, height, *, nx=4, ny=4, shape=None):
 
     # Draw the shape at a size determined by the size of the grid
     s_height, s_width = height // ny, width // nx
-    mask = shape.mask(s_width, s_height)
+    mask = shape(s_width, s_height)
 
     logger.debug(f"Shape size: {s_height} x {s_width}")
 
@@ -48,7 +48,7 @@ def Map(width, height, *, layout=None, legend=None):
 
     # Build a new dict with the values being the shapes drawn at the appropriate res
     # to ensure we only draw them once.
-    items = {k: v.mask(*size) for k, v in legend.items()}
+    items = {k: v(*size) for k, v in legend.items()}
     return np.block([[items[key] for key in row] for row in layout])
 
 
@@ -64,7 +64,7 @@ def Pixelize(width, height, *, pixels=None, shape=None, nx=None, ny=None):
         if nx is None or ny is None:
             raise ValueError("You must also provide the `nx` and `ny` size parameters")
 
-        pixels = shape.mask(nx, ny)
+        pixels = shape(nx, ny)
 
     nx, ny = len(pixels), len(pixels[0])
     size = (height // ny, width // nx)  # TODO: Handle divisions with rounding errors
