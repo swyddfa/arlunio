@@ -5,7 +5,7 @@ import subprocess
 
 import pkg_resources
 
-import arlunio._config as cfg
+import appdirs
 
 logger = logging.getLogger(__name__)
 
@@ -49,7 +49,9 @@ class Tutorial:
                 shutil.copy(path, dest)
 
     def run(self, reset: bool = False):
-        tutorial_dir = os.path.join(cfg.cache_dir(), "tutorial")
+        tutorial_dir = os.path.join(
+            appdirs.user_data_dir(appname="arlunio", appauthor="swyddfa"), "tutorial"
+        )
 
         if reset and os.path.exists(tutorial_dir):
             logger.info("Existing tutorial found found, resetting...")
