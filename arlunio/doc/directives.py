@@ -11,6 +11,7 @@ import attr
 from docutils import nodes
 from docutils.parsers import rst
 from docutils.statemachine import StringList
+from PIL.Image import Image
 from sphinx.util import logging, nested_parse_with_titles
 
 logger = logging.getLogger(__name__)
@@ -243,11 +244,11 @@ def render_image(src: str) -> List[nodes.Node]:
     image = None
 
     for obj in environment.values():
-        if isinstance(obj, ar.Image):
+        if isinstance(obj, Image):
             image = obj
 
     if image is not None:
-        context = {"data": image.encode().decode("utf-8")}
+        context = {"data": ar.encode(image).decode("utf-8")}
         html = IMAGE_TEMPLATE.safe_substitute(context)
         doctree.append(nodes.raw("", html, format="html"))
 
