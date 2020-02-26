@@ -56,7 +56,7 @@ def build_dummy_command_parser(
 
     e_type, e_val, tb = err
 
-    message = "WARNING Command unavailable: " + str(err)
+    message = "Command unavailable: " + str(e_val)
     parser = parent.add_parser(name, help=message)
     parser.add_argument("collector", nargs=argparse.REMAINDER)
 
@@ -94,7 +94,10 @@ def _register_commands(parent: argparse._SubParsersAction, entry_point: str):
     In the case where a command cannot be loaded, this function will put a dummy command
     in its place so that we can gracefully handle it and inform the user.
     """
-    for cmd in pkg_resources.iter_entry_points(entry_point):
+    commands = sorted(
+        list(pkg_resources.iter_entry_points(entry_point)), key=lambda c: c.name
+    )
+    for cmd in commands:
         try:
             command = cmd.load()
             build_command_parser(cmd.name, command, parent)
