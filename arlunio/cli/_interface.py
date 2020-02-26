@@ -107,10 +107,13 @@ class CliCommand:
         if not hasattr(cmd, "run") or not callable(cmd.run):
             raise TypeError("Missing expected method: 'run'")
 
+        docstring = inspect.getdoc(cmd)
+        summary = "..." if docstring is None else docstring.split("\n")[0]
+
         params = {
             "name": name,
             "options": CliOption.frommethod(cmd.run),
-            "summary": inspect.getdoc(cmd).split("\n")[0],
+            "summary": summary,
         }
 
         return cls(**params)
