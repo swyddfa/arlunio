@@ -107,8 +107,6 @@ class CliCommand:
         if not hasattr(cmd, "run") or not callable(cmd.run):
             raise TypeError("Missing expected method: 'run'")
 
-        print()
-
         params = {
             "name": name,
             "options": CliOption.frommethod(cmd.run),
