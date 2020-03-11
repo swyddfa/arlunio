@@ -20,6 +20,8 @@
 .. |numpy.logical_or| replace:: :data:`np.logical_or <numpy:numpy.logical_or>`
 .. |numpy.logical_and| replace:: :data:`np.logical_and <numpy:numpy.logical_and>`
 
+.. |PIL.ImageColor| replace:: :py:mod:`PIL.ImageColor <pillow:PIL.ImageColor>`
+
 .. External Doc References
 
 .. |numpy.Broadcasting| replace:: :doc:`Broadcasting <numpy:user/basics.broadcasting>`

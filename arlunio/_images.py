@@ -4,6 +4,8 @@ import io
 import logging
 import pathlib
 
+from typing import Optional
+
 import numpy as np
 import PIL.Image as Image
 import PIL.ImageColor as Color
@@ -99,18 +101,51 @@ def colorramp(values, start=None, stop=None):
     return Image.fromarray(pixels)
 
 
-def fill(mask, color=None, background=None):
-    """Given a mask, fill it in with a color."""
+def fill(
+    mask,
+    color: Optional[str] = None,
+    background: Optional[str] = None,
+    image: Optional[Image.Image] = None,
+) -> Image.Image:
+    """Given a mask, fill it in with a color.
+
+    Parameters
+    ----------
+    mask:
+        The mask used to select the pixels to fill in
+    color:
+        A string representation of the color to use, this can be in any format that is
+        supported by Pillow's |PIL.ImageColor| module. If omitted this will default to
+        black.
+    background:
+        In the case where an existing image is not provided this parameter can be used
+        to set the background color of the generated image. This can be any string that
+        is accepted by the |PIL.ImageColor| module. If omitted this will default to
+        white.
+    image:
+        The image to color in, if omitted a new image will be generated.
+
+    Returns
+    -------
+    PIL.Image.Image
+        An image with the region selected by the mask colored with the given color
+
+    """
 
     color = "#000" if color is None else color
-    background = "#fff" if background is None else background
-
-    mask_img = Image.fromarray(mask)
     fill_color = Color.getrgb(color)
 
-    height, width = mask.shape
+    mask_img = Image.fromarray(mask)
 
-    image = Image.new("RGB", (width, height), color=background)
+    if image is None:
+        background = "#fff" if background is None else background
+
+        height, width = mask.shape
+        image = Image.new("RGB", (width, height), color=background)
+
+    else:
+        image = image.copy()
+
     image.paste(fill_color, mask=mask_img)
 
     return image

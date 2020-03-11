@@ -8,6 +8,7 @@ Arlunio
    using/index
    extending/index
    contributing/index
+   api
    stdlib/index
    glossary
    changes

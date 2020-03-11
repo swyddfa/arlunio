@@ -3,6 +3,7 @@
         "**/.ipynb_checkpoints": true,
         "**/__pycache__": true,
         ".pytest_cache": true,
+        ".mypy_cache": true,
         ".tox": true,
         "*.egg-info": true,
         "build": true,

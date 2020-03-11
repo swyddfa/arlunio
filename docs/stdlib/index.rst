@@ -11,7 +11,6 @@ everyone will need along with some useful utilities for various tasks.
 .. toctree::
    :maxdepth: 1
 
-   api
    parameters
    patterns
    shapes

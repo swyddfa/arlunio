@@ -1,14 +1,7 @@
-.. _stdlib_api:
+.. _api:
 
 API Reference
 =============
-
-Colour
-------
-
-.. autoclass:: arlunio.RGB8
-   :members:
-
 
 Definitions
 -----------
@@ -37,9 +30,6 @@ Expressions
 
 Images
 ------
-
-.. autoclass:: arlunio.Image
-   :members:
 
 .. autoclass:: arlunio.Resolutions
    :members:
