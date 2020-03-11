@@ -91,7 +91,9 @@ jobs:
         path: 'docs/_build/html'
       if: matrix.python-version == '3.7'
 
-    - uses: codecov/codecov-action@v1
+    - name: 'Report Code Coverage'
+      uses: codecov/codecov-action@v1
       with:
         name: "${{ matrix.os }}-${{ matrix.python-version }}"
+        flags: unittests
     # </test-job-publish>
