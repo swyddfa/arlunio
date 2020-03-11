@@ -35,6 +35,7 @@ extensions = [
     "sphinx.ext.doctest",
     "sphinx.ext.intersphinx",
     "sphinx.ext.mathjax",
+    "sphinx.ext.napoleon",
     "arlunio.doc",
 ]
 
@@ -76,6 +77,9 @@ html_theme = "sphinx_rtd_theme"
 autodoc_member_order = "groupwise"
 
 intersphinx_mapping = {
+    "pillow": ("https://pillow.readthedocs.io/en/stable/", None),
     "python": ("https://docs.python.org/3", None),
     "numpy": ("https://docs.scipy.org/doc/numpy/", None),
 }
+
+napoleon_use_rtype = False

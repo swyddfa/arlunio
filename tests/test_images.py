@@ -53,3 +53,21 @@ def test_fill():
     )
 
     assert (np.asarray(img) == pix).all()
+
+
+def test_fill_image():
+    """Ensure that the fill method can use an existing image instead."""
+
+    mask = np.array([[False, True], [True, False]])
+    image = ar.fill(mask)
+
+    mask = np.array([[True, True], [False, False]])
+    new_image = ar.fill(mask, color="#0f0", image=image)
+
+    assert image != new_image, "Function should return a new image"
+
+    pix = np.array(
+        [[[0, 255, 0], [0, 255, 0]], [[0, 0, 0], [255, 255, 255]]], dtype=np.uint8
+    )
+
+    assert (np.asarray(new_image) == pix).all()
