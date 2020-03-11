@@ -4,7 +4,7 @@
 | **Docs** | [![Documentation Status](https://readthedocs.org/projects/arlunio/badge/?version=stable)](https://arlunio.readthedocs.io/en/stable/?badge=stable) | [![Documentation Status](https://readthedocs.org/projects/arlunio/badge/?version=latest)](https://arlunio.readthedocs.io/en/latest/?badge=latest)|
 | **Code**  [![Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black) | [![Build Status](https://github.com/swyddfa/arlunio/workflows/Python%20Release/badge.svg?branch=master)](https://github.com/swyddfa/arlunio/workflows/Python%20Release/badge.svg?branch=master) | [![Build Status](https://github.com/swyddfa/arlunio/workflows/Python%20Release/badge.svg?branch=develop)](https://github.com/swyddfa/arlunio/workflows/Python%20Release/badge.svg?branch=develop)[![codecov](https://codecov.io/gh/swyddfa/arlunio/branch/develop/graph/badge.svg)](https://codecov.io/gh/swyddfa/arlunio)|
 | **PyPi** | [![PyPi Version](https://img.shields.io/pypi/v/arlunio.svg)](https://pypi.org/project/arlunio) [![PyPi Supported Versions](https://img.shields.io/pypi/pyversions/arlunio.svg)](https://pypi.org/project/arlunio)|
-| **Snap** | | [![arlunio](https://snapcraft.io/arlunio/badge.svg)](https://snapcraft.io/arlunio) |
+
 
 **Arlunio is in early development, while it is useable we cannot make any
 stability guarantees.**
@@ -15,7 +15,7 @@ much at the core you do not have to be a mathematician to use it!
 
 
 ```python
-import arlunio as st
+import arlunio as ar
 
 # Example coming soon!
 ```
