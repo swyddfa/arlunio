@@ -239,13 +239,13 @@ class ImageContext:
         # Render the thumbnail for the main gallery page
         thumb = image(250, 250)
         thumbfile = pathlib.Path(config.output, "gallery", "thumb", slug + ".png")
-        thumb.save(thumbfile, mkdirs=True)
+        arlunio.save(thumb, thumbfile, mkdirs=True)
         thumburl = "thumb/{}.png".format(slug)
 
         # Render the fullsize image
         full = image(*dimensions)
         fullfile = pathlib.Path(config.output, "gallery", "image", slug + ".png")
-        full.save(fullfile, mkdirs=True)
+        arlunio.save(full, fullfile, mkdirs=True)
         url = "image/{}.png".format(slug)
 
         return cls(
