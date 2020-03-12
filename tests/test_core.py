@@ -1,5 +1,7 @@
 import inspect
 
+from typing import Any
+
 import arlunio as ar
 import py.test
 
@@ -93,6 +95,30 @@ def test_definition_attribute_validation():
 
     with py.test.raises(TypeError):
         Param(a="string")
+
+
+def test_definition_produces_any():
+    """Ensure that a definition without a return annotation reports its return type as
+    :code:`Any`"""
+
+    @ar.definition()
+    def Param():
+        pass
+
+    assert Param.produces() == Any
+    assert Param().produces() == Any
+
+
+def test_definition_produces():
+    """Ensure that a definition reports what type it returns as declared by its return
+    annotation"""
+
+    @ar.definition()
+    def Param() -> int:
+        return 1
+
+    assert Param.produces() == int
+    assert Param().produces() == int
 
 
 def test_derived_definition():

@@ -6,7 +6,7 @@
         {
             "label": "Build Blog",
             "type": "shell",
-            "command": "${config:python.pythonPath} gallery.py --local",
+            "command": "${config:python.pythonPath} gallery.py ${input:blogArgs}",
             "problemMatcher": [],
             "group": "build",
             "presentation": {
@@ -17,24 +17,6 @@
                 "showReuseMessage": false,
                 "clear": true
             },
-            "options": {
-                "cwd": "${workspaceRoot}/blog"
-            }
-        },
-        {
-            "label": "Build Blog (debug)",
-            "type": "shell",
-            "command": "${config:python.pythonPath} gallery.py -vv --local",
-            "problemMatcher": [],
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": false,
-                "panel": "shared",
-                "showReuseMessage": false,
-                "clear": true
-            },
-            "group": "build",
             "options": {
                 "cwd": "${workspaceRoot}/blog"
             }
@@ -165,6 +147,30 @@
                 }
             ],
             "default": "-e py38"
+        },
+        {
+            "id": "blogArgs",
+            "description": "Blog Arguments",
+            "type": "pickString",
+            "options": [
+                {
+                    "label": "Local",
+                    "value": "--local"
+                },
+                {
+                    "label": "Local, skipping errors",
+                    "value": "--local --skip-failures"
+                },
+                {
+                    "label": "Local, debug",
+                    "value": "-vv --local"
+                },
+                {
+                    "label": "Local, debug, skipping errors",
+                    "value": "-vv --local --skip-failures"
+                }
+            ],
+            "default": "--local"
         }
     ]
 }
