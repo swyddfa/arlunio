@@ -7,12 +7,15 @@ import pathlib
 from typing import Optional
 
 import numpy as np
-import PIL.Image as Image
-import PIL.ImageColor as Color
+import PIL.Image as PImage
+import PIL.ImageColor as PColor
 
 from ._expressions import lerp
 
 logger = logging.getLogger(__name__)
+
+# Create a type alias that we're free to change in the future
+Image = PImage.Image
 
 
 class Resolutions(enum.Enum):
@@ -87,26 +90,26 @@ def encode(image) -> bytes:
         return base64.b64encode(image_bytes)
 
 
-def colorramp(values, start=None, stop=None):
+def colorramp(values, start: Optional[str] = None, stop: Optional[str] = None) -> Image:
     """Given a range of values, produce an image mapping those values onto colors."""
 
-    (r, g, b) = Color.getrgb("#000") if start is None else Color.getrgb(start)
-    (R, G, B) = Color.getrgb("#fff") if stop is None else Color.getrgb(stop)
+    (r, g, b) = PColor.getrgb("#000") if start is None else PColor.getrgb(start)
+    (R, G, B) = PColor.getrgb("#fff") if stop is None else PColor.getrgb(stop)
 
     reds = np.floor(lerp(r, R)(values))
     greens = np.floor(lerp(g, G)(values))
     blues = np.floor(lerp(b, B)(values))
 
     pixels = np.array(np.dstack([reds, greens, blues]), dtype=np.uint8)
-    return Image.fromarray(pixels)
+    return PImage.fromarray(pixels)
 
 
 def fill(
     mask,
     color: Optional[str] = None,
     background: Optional[str] = None,
-    image: Optional[Image.Image] = None,
-) -> Image.Image:
+    image: Optional[Image] = None,
+) -> Image:
     """Given a mask, fill it in with a color.
 
     Parameters
@@ -127,21 +130,21 @@ def fill(
 
     Returns
     -------
-    PIL.Image.Image
+    Image
         An image with the region selected by the mask colored with the given color
 
     """
 
     color = "#000" if color is None else color
-    fill_color = Color.getrgb(color)
+    fill_color = PColor.getrgb(color)
 
-    mask_img = Image.fromarray(mask)
+    mask_img = PImage.fromarray(mask)
 
     if image is None:
         background = "#fff" if background is None else background
 
         height, width = mask.shape
-        image = Image.new("RGB", (width, height), color=background)
+        image = PImage.new("RGB", (width, height), color=background)
 
     else:
         image = image.copy()

@@ -207,6 +207,16 @@ class Definition:
             if not a.metadata[Definition.ATTR_ID]["inherited"]
         }
 
+    @classmethod
+    def produces(cls):
+        """Return the type of the object that this definition produces."""
+        rtype = inspect.signature(cls._definition).return_annotation
+
+        if rtype == inspect._empty:
+            return Any
+
+        return rtype
+
 
 def _define_attribute(param: inspect.Parameter) -> attr.Attribute:
     """Given a parameter that represents some definition's attribute, write the
