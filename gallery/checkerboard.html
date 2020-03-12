@@ -63,25 +63,35 @@
             </div>
             <i class="far fa-image"></i><span>1080 x 1080</span>
             <i class="far fa-calendar-alt"></i><span>27 Dec 2019</span>
-            <i class="fas fa-history"></i><span>2 revisions</span>
-            <i class="far fa-file-code"></i><span>6 sloc</span>
+            <i class="fas fa-history"></i><span>3 revisions</span>
+            <i class="far fa-file-code"></i><span>11 sloc</span>
             <i class="fas fa-terminal"></i><span>v0.0.3b11</span>
             <label for="hide-notes">Notes</label>
         </div>
         
         <div class="code">
             <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arlunio</span> <span class="k">as</span> <span class="nn">ar</span>
-<span class="kn">from</span> <span class="nn">arlunio</span> <span class="kn">import</span> <span class="n">Shapes</span> <span class="k">as</span> <span class="n">S</span>
+
+<span class="kn">from</span> <span class="nn">arlunio.lib</span> <span class="kn">import</span> <span class="n">Grid</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span>
 </pre></div>
 
         </div>
         
         <div class="code">
-            <div class="highlight"><pre><span></span><span class="nd">@ar</span><span class="o">.</span><span class="n">shape</span>
-<span class="k">def</span> <span class="nf">Checker</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+            <div class="highlight"><pre><span></span><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
+<span class="k">def</span> <span class="nf">CheckerPattern</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Y</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span> <span class="o">&gt;</span> <span class="mi">0</span>
+</pre></div>
 
-<span class="n">checkerboard</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span class="n">Grid</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">Checker</span><span class="p">())</span>
+        </div>
+        
+        <div class="code">
+            <div class="highlight"><pre><span></span><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
+<span class="k">def</span> <span class="nf">Checkerboard</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ar</span><span class="o">.</span><span class="n">Image</span><span class="p">:</span>
+    <span class="n">board</span> <span class="o">=</span> <span class="n">Grid</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">CheckerPattern</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">ar</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">board</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">))</span>
+
+<span class="n">checkerboard</span> <span class="o">=</span> <span class="n">Checkerboard</span><span class="p">()</span>
 </pre></div>
 
         </div>
@@ -91,7 +101,7 @@
 
     <footer>
         <p>Color Scheme: <a href="https://github.com/arcticicestudio/nord">Nord</a></p>
-        <p>Last Updated: 20/01/20 22:07:52</p>
+        <p>Last Updated: 12/03/20 23:33:39</p>
     </footer>
 </body>
 
