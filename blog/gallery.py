@@ -221,13 +221,20 @@ class ImageContext:
         code = "\n".join([cell.raw for cell in cells if cell.type == "code"])
         sloc = code.count("\n")
 
-        # TODO: Make this smarter
-        images = [v for v in nb.__dict__.values() if isinstance(v, arlunio.Canvas)]
+        def is_image(obj):
+            """Used to select candidate images from the notebook."""
 
-        if len(images) == 0:
-            images = [v for v in nb.__dict__.values() if isinstance(v, arlunio.Shape)]
+            if not isinstance(obj, arlunio.Definition):
+                return False
 
-        image = images[0]
+            return obj.produces() == arlunio.Image
+
+        defns = [v for v in nb.__dict__.values() if is_image(v)]
+
+        if len(defns) == 0:
+            raise ValueError("Unable to find image")
+
+        image = defns[0]
 
         # Render the thumbnail for the main gallery page
         thumb = image(250, 250)
@@ -284,7 +291,7 @@ class GalleryContext:
         date = datetime.now().strftime("%d/%m/%y %H:%M:%S")
         return cls(baseurl=baseurl, date=date)
 
-    def prepare_notebooks(self, notebooks, config):
+    def prepare_notebooks(self, notebooks, config, skip_failures=False):
         """Given the notebooks that represent an image, prepare them."""
 
         # Shuffle the notebooks so that the gallery is drawn in a random order
@@ -292,7 +299,18 @@ class GalleryContext:
         random.shuffle(notebooks)
 
         for nb in tqdm(notebooks, desc="Rendering images"):
-            image = ImageContext.fromnb(nb, self, config)
+
+            try:
+                image = ImageContext.fromnb(nb, self, config)
+            except Exception as err:
+                if skip_failures:
+                    logger.warning(
+                        "Skipping broken notebook: %s -- %s", nb.__file__, err
+                    )
+                    continue
+
+                raise RuntimeError(f"Broken notebook {nb.__file__}") from err
+
             self.images.append(image)
 
     def as_dict(self):
@@ -305,16 +323,16 @@ class Site:
     config: str
     local: bool
 
-    def build(self, destination):
+    def build(self, destination, skip_failures=False):
         env = j2.Environment(loader=j2.FileSystemLoader(self.config.templates))
         gallery_template = env.get_template("gallery.html")
         image_template = env.get_template("image.html")
 
         index = os.path.join(self.config.output, "gallery", "index.html")
-        notebooks = load_notebooks(self.config.notebooks)
+        notebooks = load_notebooks(self.config.notebooks, skip_failures)
 
         context = GalleryContext.new(self.config, self.local)
-        context.prepare_notebooks(notebooks, self.config)
+        context.prepare_notebooks(notebooks, self.config, skip_failures)
 
         # Render the main index page
         write_file(index, gallery_template.render(context.as_dict()))
@@ -337,7 +355,7 @@ def write_file(filepath, content):
         f.write(content)
 
 
-def load_notebooks(notebooks):
+def load_notebooks(notebooks, skip_failures=False):
     """Discover and load each of the notebooks that represent images."""
     nbdir = pathlib.Path(notebooks)
     loader = NotebookLoader(str(nbdir))
@@ -353,7 +371,16 @@ def load_notebooks(notebooks):
         logger.debug("--> spec  : %s", spec)
         logger.debug("--> module: %s", module)
 
-        spec.loader.exec_module(module)
+        try:
+            spec.loader.exec_module(module)
+        except Exception as err:
+
+            if skip_failures:
+                logger.warning("Skipping broken notebook: %s -- %s", nbpath, err)
+                continue
+
+            raise RuntimeError(f"Broken notebook: {nbpath}") from err
+
         modules.append(module)
 
     return modules
@@ -365,6 +392,12 @@ cli.add_argument(
     "-l",
     "--local",
     help="switch to indicate when building locally",
+    action="store_true",
+)
+cli.add_argument(
+    "-s",
+    "--skip-failures",
+    help="skip any notebooks that cause an exception",
     action="store_true",
 )
 cli.add_argument(
@@ -389,4 +422,4 @@ if __name__ == "__main__":
     config = Config.fromfile(args.config)
 
     site = Site(config, args.local)
-    site.build(args.output)
+    site.build(args.output, args.skip_failures)
