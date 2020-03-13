@@ -75,6 +75,7 @@ html_theme = "sphinx_rtd_theme"
 
 # -- Extension Configuration -------------------------------------------------
 autodoc_member_order = "groupwise"
+# autodoc_typehints = "description" TODO: Try this when Sphinx 3.0 ships...
 
 intersphinx_mapping = {
     "pillow": ("https://pillow.readthedocs.io/en/stable/", None),
@@ -83,3 +84,4 @@ intersphinx_mapping = {
 }
 
 napoleon_use_rtype = False
+napoleon_use_admonition_for_examples = False

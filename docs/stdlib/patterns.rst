@@ -5,8 +5,8 @@ Patterns
 
 Built in definitions useful for generating patterns.
 
-.. autodefn:: arlunio.lib.pattern.Grid
+.. autoclass:: arlunio.lib.pattern.Grid
 
-.. autodefn:: arlunio.lib.pattern.Map
+.. autoclass:: arlunio.lib.pattern.Map
 
-.. autodefn:: arlunio.lib.pattern.Pixelize
+.. autoclass:: arlunio.lib.pattern.Pixelize

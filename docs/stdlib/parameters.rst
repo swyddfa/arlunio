@@ -5,10 +5,10 @@ Parameters
 
 Built in definitions designed to be used as inputs to other definitions.
 
-.. autodefn:: arlunio.lib.parameters.X
+.. autoclass:: arlunio.lib.parameters.X
 
-.. autodefn:: arlunio.lib.parameters.Y
+.. autoclass:: arlunio.lib.parameters.Y
 
-.. autodefn:: arlunio.lib.parameters.R
+.. autoclass:: arlunio.lib.parameters.R
 
-.. autodefn:: arlunio.lib.parameters.T
+.. autoclass:: arlunio.lib.parameters.T

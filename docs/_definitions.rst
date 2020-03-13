@@ -4,11 +4,11 @@
 .. |@definition| replace:: :py:func:`@definition <arlunio.definition>`
 .. |Definition| replace:: :py:class:`Definition <arlunio.Definition>`
 
-.. |Circle| replace:: :py:class:`Circle <arlunio.lib.basic.Circle>`
-.. |Ellipse| replace:: :py:class:`Ellipse <arlunio.lib.basic.Ellipse>`
-.. |Rectangle| replace:: :py:class:`Rectangle <arlunio.lib.basic.Rectangle>`
-.. |Square| replace:: :py:class:`Square <arlunio.lib.basic.Square>`
-.. |SuperEllipse| replace:: :py:class:`SuperEllipse <arlunio.lib.basic.SuperEllipse>`
+.. |Circle| replace:: :py:class:`Circle <arlunio.lib.shapes.Circle>`
+.. |Ellipse| replace:: :py:class:`Ellipse <arlunio.lib.shaoes.Ellipse>`
+.. |Rectangle| replace:: :py:class:`Rectangle <arlunio.lib.shapes.Rectangle>`
+.. |Square| replace:: :py:class:`Square <arlunio.lib.shapes.Square>`
+.. |SuperEllipse| replace:: :py:class:`SuperEllipse <arlunio.lib.shapes.SuperEllipse>`
 
 .. Docs References
 
