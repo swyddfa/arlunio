@@ -16,6 +16,17 @@ def test_definition_name():
     assert Circle.__name__ == "Circle"
 
 
+def test_definition_module():
+    """Ensure that the returned definition reports its module as the one it was defined
+    in"""
+
+    @ar.definition()
+    def Circle():
+        pass
+
+    assert Circle.__module__ == "tests.test_core"
+
+
 def test_use_definition_as_tag():
     """Ensure that the definition decorator can be used as a simple tag."""
 
