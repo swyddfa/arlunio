@@ -1,3 +1,4 @@
+"""Built in definitions of basic shapes."""
 import arlunio as ar
 import numpy as np
 
@@ -6,7 +7,16 @@ from .parameters import X, Y
 
 @ar.definition
 def Circle(x: X, y: Y, *, xc=0, yc=0, r=0.8, pt=None):
-    """We define a circle using the following equality.
+    """
+    .. arlunio-image::
+
+        import arlunio as ar
+        from arlunio.lib import Circle
+
+        circle = Circle()
+        image = ar.fill(circle(1920, 1080))
+
+    We define a circle using the following equality.
 
     .. math::
 
@@ -14,16 +24,82 @@ def Circle(x: X, y: Y, *, xc=0, yc=0, r=0.8, pt=None):
 
     where:
 
-    - :math:`(x_0, y_0)`: Defines the centre
+    - :math:`(x_c, y_c)`: Defines the centre
     - :math:`r`: Controls the radius
 
-    In python these variables can be set using the :code:`xc`, :code:`yc`
-    and :code:`r` keyword arguments to the shape's constructor.
+    Parameters
+    ----------
+    xc:
+        Corresponds with the :math:`x_c` variable in the equation above
+    yc:
+        Corresponds with the :math:`y_c` variable in the equation above
+    r:
+        Corresponds with the :math:`r` variable in the equation above
+    pt:
+        If :code:`None`, then all points within the radius of the circle will be
+        considered to be part of it. If this is set to some positive number then all
+        points between radii :code:`(1 - pt) * r` and :code:`(1 + pt) * r` will be
+        considered part of the circle.
 
-    By default when drawn the shape will draw a filled in circle, however the
-    :code:`pt` keyword argument can be used to override this. If not :code:`None`
-    the value of this argument will be used to control the thickness of the line
-    used to draw the circle.
+    Examples
+    --------
+    Combining a few circles it's easy enough to draw a target
+
+    .. arlunio-image::
+       :include-code: before
+
+       import arlunio as ar
+       from arlunio.lib import Circle
+
+       @ar.definition
+       def Target(width, height):
+           image = None
+           parts = [
+               (Circle(pt=0.02), "#000"),
+               (Circle(r=0.75, pt=0.12), "#f00"),
+               (Circle(r=0.6, pt=0.05), "#f00"),
+               (Circle(r=0.4), "#f00"),
+           ]
+
+           for part, color in parts:
+               image = ar.fill(part(width, height), color=color, image=image)
+
+           return image
+
+       target = Target()
+       image = target(1920, 1080)
+
+    Making use of the :code:`xc` and :code:`yc` parameters we can produce an
+    approximation of the olympics logo
+
+    .. arlunio-image::
+       :include-code: before
+
+       import arlunio as ar
+       from arlunio.lib import Circle
+
+       @ar.definition
+       def OlympicRings(width, height, *, spacing=0.5, pt=0.025):
+
+           dy = spacing / 4
+           dx = spacing / 2
+           args = {"scale": 0.5, "r": spacing, "pt": pt}
+
+           image = None
+           rings = [
+               (Circle(yc=dy, xc=-(2.2 * dx), **args), "#0ff"),
+               (Circle(yc=dy, **args), "#000"),
+               (Circle(yc=dy, xc=(2.2 * dx), **args), "#f00"),
+               (Circle(yc=-dy, xc=-(1.1 * dx), **args), "#ff0"),
+               (Circle(yc=-dy, xc=(1.1 * dx), **args), "#0f0")
+           ]
+
+           for ring, color in rings:
+               image = ar.fill(ring(width, height), color=color, image=image)
+           return image
+
+       rings = OlympicRings()
+       image = rings(1920, 1080)
     """
     x = (x - xc) ** 2
     y = (y - yc) ** 2
@@ -32,16 +108,24 @@ def Circle(x: X, y: Y, *, xc=0, yc=0, r=0.8, pt=None):
     if pt is None:
         return circle < r ** 2
 
-    p = r * pt
-    inner = (r - p) ** 2
-    outer = (r + p) ** 2
+    inner = (1 - pt) * r ** 2
+    outer = (1 + pt) * r ** 2
 
     return ar.all(inner < circle, circle < outer)
 
 
 @ar.definition
 def Ellipse(x: X, y: Y, *, xc=0, yc=0, a=2, b=1, r=0.8, pt=None):
-    """An ellipse can be defined using the following equality.
+    """
+    .. arlunio-image::
+
+       import arlunio as ar
+       from arlunio.lib import Ellipse
+
+       ellipse = Ellipse()
+       image = ar.fill(ellipse(1920, 1080))
+
+    An ellipse can be defined using the following equality.
 
     .. math::
 
@@ -55,18 +139,88 @@ def Ellipse(x: X, y: Y, *, xc=0, yc=0, a=2, b=1, r=0.8, pt=None):
     - :math:`a`: Controls the width
     - :math:`b`: Controls the height
 
-    In python these variables can be set using the :code:`xc`, :code:`yc`,
-    :code:`r`, :code:`a` and :code:`b` keyword arguments to the shape's
-    constructor.
+    Parameters
+    ----------
+    xc:
+        Corresponds with the :math:`x_c` variable in the equation above
+    yc:
+        Corresponds with the :math:`y_c` variable in the equation above
+    r:
+        Corresponds with the :math:`r` variable in the equation above
+    a:
+        Corresponds with the :math:`a` variable in the equation above
+    b:
+        Corresponds with the :math:`b` variable in the equation above
+    pt:
+        If :code:`None` then all points within the radius of the ellipse will be
+        considered to be part of it. If this is set to some positive number then all
+        points between radii :code:`(1 - pt) * r` and :code:`(1 + pt) * r` will be
+        considered part of the ellipse.
 
-    Increasing the value of :code:`a` will have the effect of stretching out the
-    ellpise width-wise. Similarly increasing the value of :code:`b` will do the
-    same but for the height. Whenever :code:`a == b` the result will be a circle.
+    Examples
+    --------
 
-    By default when drawn the shape will draw the ellipse filled in, this behavior
-    can be changed using the :code:`pt` keyword argument. If not :code:`None` the
-    value of this argument will be used as the thickness of the line used to draw
-    the ellipse.
+    :code:`a` and :code:`b` together determine the overall shape of the ellipse.
+    Increasing the value of :code:`a` will stretch the ellipse width wise, increasing
+    :code:`b` has a similar effect for the height. It's worth noting that it's the
+    ratio of these 2 values rather than their absolute values that has a greater effect
+    on the shape of the ellipse. If :code:`a = b` then the equation simplifies to that
+    of a circle
+
+    .. arlunio-image::
+       :include-code: before
+
+       import arlunio as ar
+       from arlunio.lib import Ellipse
+
+       @ar.definition
+       def EllipseDemo(width, height):
+           image = None
+           ellipses = [
+               Ellipse(xc=-0.5, yc=-0.5, a=0.5, b=0.5, r=0.4),
+               Ellipse(yc=-0.5, a=1, b=0.5, r=0.4),
+               Ellipse(xc=0.5, yc=-0.5, a=2, b=0.5, r=0.4),
+               Ellipse(a=1, b=1, r=0.4),
+               Ellipse(xc=0.5, yc=0.5, a=2, b=2, r=0.4),
+               Ellipse(xc=-0.5, a=0.5, b=1, r=0.4),
+               Ellipse(xc=-0.5, yc=0.5, a=0.5, b=2, r=0.4)
+           ]
+
+           for ellipse in ellipses:
+               image = ar.fill(ellipse(1920, 1080), image=image)
+           return image
+
+       demo = EllipseDemo()
+       image = demo(1920, 1080)
+
+    Playing around with the values and the coordinate inputs it's possible to draw
+    something that looks like a diagram of an atom
+
+    .. arlunio-image::
+       :include-code: before
+
+       import arlunio as ar
+       from arlunio.lib import Ellipse, X, Y
+
+       @ar.definition
+       def Atom(x: X, y: Y):
+           image = None
+
+           ellipses = [
+               (Ellipse(a=1.5, b=0.5, pt=0.005), x, y),
+               (Ellipse(a=1.5, b=0.5, r=1, pt=0.005), x + y, y - x),
+               (Ellipse(a=0.5, b=1.5, pt=0.005), x, y),
+               (Ellipse(a=1.5, b=0.5, r=1, pt=0.005), x - y, x + y),
+               (Ellipse(a=1, b=1, r=0.15), x, y)
+           ]
+
+           for ellipse, ex, ey in ellipses:
+               image = ar.fill(ellipse(x=ex, y=ey), image=image)
+
+           return image
+
+       atom = Atom()
+       image = atom(1920, 1080)
     """
 
     x = (x - xc) ** 2
@@ -80,9 +234,8 @@ def Ellipse(x: X, y: Y, *, xc=0, yc=0, a=2, b=1, r=0.8, pt=None):
     if pt is None:
         return ellipse < r * r
 
-    p = r * pt
-    inner = (r - p) ** 2
-    outer = (r + p) ** 2
+    inner = (1 - pt) * r ** 2
+    outer = (1 + pt) * r ** 2
 
     return ar.all(inner < ellipse, ellipse < outer)
 

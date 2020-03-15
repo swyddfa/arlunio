@@ -3,7 +3,8 @@
 Parameters
 ============
 
-Built in definitions designed to be used as inputs to other definitions.
+Parameters are definitions that are designed to be primarily used as inputs to
+other definitions.
 
 .. autoclass:: arlunio.lib.parameters.X
 

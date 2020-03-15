@@ -18,6 +18,13 @@ Glossary
    PyPi
       `PyPi <https://pypi.org>`_ is the main repository for Python packages
 
+   radian
+   radians
+      A unit for measuring angles based on the circle where :math:`2\pi = 360^\circ`. It
+      generally makes equations involving trigonometric functions like :math:`\sin` and
+      :math:`\cos` "nicer" to work with.
+      `More info... <https://en.wikipedia.org/wiki/Radian>`_
+
    sdist
       Shorthand for a python source distribution
 

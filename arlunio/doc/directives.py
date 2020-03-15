@@ -39,8 +39,8 @@ PREVIEW_TEMPLATE = """\
 
 IMAGE_TEMPLATE = string.Template(
     """\
-<figure style="border: solid 1px #ddd;width: 75%;margin:auto">
-  <img style="image-rendering:crisp-edges;width:100%"
+<figure style="border: solid 1px #ddd;margin:auto">
+  <img style="image-rendering:$rendering;width:100%"
        src="data:image/png;base64,$data"></img>
 </figure>
 """
@@ -83,11 +83,17 @@ def parse_content(state, content: StringList) -> List[nodes.Node]:
     return section.children
 
 
-def render_image(src: str) -> List[nodes.Node]:
+def render_image(src: str, smooth: bool = True) -> List[nodes.Node]:
     """Given the source code for an image return a doctree that when rendered by
     Sphinx will insert that image into a HTML page.
 
-    :param src: The source code that produces the image.
+    Parameters
+    ----------
+    src:
+        The source code that produces the image.
+    smooth:
+        If :code:`True` (default) allow the browser to scale the image using an
+        algorithm that smooths out the edges of the image.
     """
     doctree = []
 
@@ -119,7 +125,10 @@ def render_image(src: str) -> List[nodes.Node]:
             image = obj
 
     if image is not None:
-        context = {"data": ar.encode(image).decode("utf-8")}
+        context = {
+            "data": ar.encode(image).decode("utf-8"),
+            "rendering": "auto" if smooth else "crisp-edges",
+        }
         html = IMAGE_TEMPLATE.safe_substitute(context)
         doctree.append(nodes.raw("", html, format="html"))
 
@@ -136,7 +145,25 @@ class ArlunioImageDirective(rst.Directive):
 
     has_content = True
 
+    option_spec = {
+        "include-code": rst.directives.unchanged,
+        "disable-smoothing": rst.directives.flag,
+    }
+
     def run(self):
 
         src = "\n".join(self.content)
-        return render_image(src)
+        smooth = not ("disable-smoothing" in self.options.keys())
+        nodelist = render_image(src, smooth)
+
+        if "include-code" in self.options.keys():
+
+            code_block = nodes.literal_block("", src)
+            code_block["language"] = "python"
+
+            if self.options["include-code"] == "before":
+                nodelist.insert(0, code_block)
+            else:
+                nodelist.append(code_block)
+
+        return nodelist

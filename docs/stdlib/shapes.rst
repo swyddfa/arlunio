@@ -3,14 +3,9 @@
 Shapes
 ======
 
-Built in definitions of basic shapes.
+.. currentmodule:: arlunio.lib.shapes
 
-.. autoclass:: arlunio.lib.shapes.Circle
+.. autosummary::
+   :toctree:
 
-.. autoclass:: arlunio.lib.shapes.Ellipse
-
-.. autoclass:: arlunio.lib.shapes.Rectangle
-
-.. autoclass:: arlunio.lib.shapes.Square
-
-.. autoclass:: arlunio.lib.shapes.SuperEllipse
+.. automodule:: arlunio.lib.shapes

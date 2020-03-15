@@ -6,11 +6,56 @@ import numpy as np
 def X(width, height, *, x0=0, scale=1, stretch=False):
     """Cartesian :math:`x` coordinates.
 
-    :param x0: Shift the :math:`x` coordinates by :code:`x0`
-    :param scale: Controls the size of the extreme values in the grid.
-    :param stretch: If :code:`True` and the image is wider than it is tall then the grid
-                    will be stretched so that :code:`x = scale` falls on the image
-                    border.
+    Parameters
+    ----------
+    x0:
+        Shift all the coordinate values by :code:`x0`
+    scale:
+        Controls the magnitude of the extreme values.
+    stretch:
+        If :code:`True` and the image is wider than it is tall then the grid will be
+        stretched so that :code:`x = scale` falls on the image border. Otherwise the
+        image's aspect ratio will be taken into account and :code:`x = scale` will fall
+        somewhere within the boundaries of the image.
+
+    Examples
+    --------
+
+    By default values will be generated between :math:`\\pm 1`::
+
+       >>> from arlunio.lib import X
+       >>> x = X()
+       >>> x(4,4)
+       array([[-1.        , -0.33333333,  0.33333333,  1.        ],
+              [-1.        , -0.33333333,  0.33333333,  1.        ],
+              [-1.        , -0.33333333,  0.33333333,  1.        ],
+              [-1.        , -0.33333333,  0.33333333,  1.        ]])
+
+    If however the image is wider than it is tall this range will be extended so that
+    the resulting image is not stretched::
+
+       >>> x(4, 2)
+       array([[-2.        , -0.66666667,  0.66666667,  2.        ],
+              [-2.        , -0.66666667,  0.66666667,  2.        ]])
+
+    This behaviour can be disabled with the :code:`stretch` parameter::
+
+       >>> x.stretch = True
+       >>> x(4,2)
+       array([[-1.        , -0.33333333,  0.33333333,  1.        ],
+              [-1.        , -0.33333333,  0.33333333,  1.        ]])
+
+    Additionally the :code:`scale` parameter can be used to adjust the magnitude of the
+    extreme values generated, while the :code:`x0` parameter can be used to shift all
+    the values by a given amount::
+
+       >>> x = X(x0=-2, scale=2)
+       >>> x(4,4)
+       array([[0.        , 1.33333333, 2.66666667, 4.        ],
+              [0.        , 1.33333333, 2.66666667, 4.        ],
+              [0.        , 1.33333333, 2.66666667, 4.        ],
+              [0.        , 1.33333333, 2.66666667, 4.        ]])
+
     """
     ratio = width / height
 
@@ -27,11 +72,60 @@ def X(width, height, *, x0=0, scale=1, stretch=False):
 def Y(width, height, *, y0=0, scale=1, stretch=False):
     """Cartesian :math:`y` coordinates.
 
-    :param y0: Shift the :math:`y` coordinates by :code:`y0`
-    :param scale: Controls the size of the extreme values in the grid
-    :param stretch: If :code:`True` and the image is taller than it is wide then the
-                    grid will be stretched so that :code:`y = scale` falls on the image
-                    border
+    Parameters
+    ----------
+    y0:
+        Shift all the coordinate values by :code:`y0`
+    scale:
+        Controls the size of the extreme values
+    stretch:
+        If :code:`True` and the image is taller than it is wide then the grid will be
+        stretched so that :code:`y = scale` falls on the border. Otherwise the image's
+        aspect ratio will be taken into account and :code:`y = scale` will fall
+        somewhere within the boundaries of the image.
+
+    Examples
+    --------
+
+    By default values will be generated between :math:`\\pm 1`::
+
+       >>> from arlunio.lib import Y
+       >>> y = Y()
+       >>> y(4,4)
+       array([[ 1.        ,  1.        ,  1.        ,  1.        ],
+              [ 0.33333333,  0.33333333,  0.33333333,  0.33333333],
+              [-0.33333333, -0.33333333, -0.33333333, -0.33333333],
+              [-1.        , -1.        , -1.        , -1.        ]])
+
+    If however the image is taller than it is wide this range will be extended so that
+    the resulting image is not stretched::
+
+       >>> y(2, 4)
+       array([[ 2.        ,  2.        ],
+              [ 0.66666667,  0.66666667],
+              [-0.66666667, -0.66666667],
+              [-2.        , -2.        ]])
+
+    This behaviour can be disabled with the :code:`stretch` parameter::
+
+       >>> y.stretch = True
+       >>> y(2,4)
+       array([[ 1.        ,  1.        ],
+              [ 0.33333333,  0.33333333],
+              [-0.33333333, -0.33333333],
+              [-1.        , -1.        ]])
+
+    Additionally the :code:`scale` parameter can be used to adjust the magnitude of the
+    extreme values generated, while the :code:`y0` parameter can be used to shift all
+    the values by a given amount::
+
+       >>> y = Y(y0=-2, scale=2)
+       >>> y(4,4)
+       array([[4.        , 4.        , 4.        , 4.        ],
+              [2.66666667, 2.66666667, 2.66666667, 2.66666667],
+              [1.33333333, 1.33333333, 1.33333333, 1.33333333],
+              [0.        , 0.        , 0.        , 0.        ]])
+
     """
     ratio = height / width
 
@@ -46,12 +140,101 @@ def Y(width, height, *, y0=0, scale=1, stretch=False):
 
 @ar.definition
 def R(x: X, y: Y):
-    """Polar :math:`r` coordinates."""
+    """Polar :math:`r` coordinates.
+
+    This definition corresponds with the distance a given point is from the origin and
+    can be calculated from the point's equivalent Cartesian coordinate representation
+
+    .. math::
+
+       r = \\sqrt{x^2 + y^2}
+
+    Examples
+    --------
+    ::
+
+       >>> from arlunio.lib import R
+       >>> r = R()
+       >>> r(5,5)
+       array([[1.41421356, 1.11803399, 1.        , 1.11803399, 1.41421356],
+              [1.11803399, 0.70710678, 0.5       , 0.70710678, 1.11803399],
+              [1.        , 0.5       , 0.        , 0.5       , 1.        ],
+              [1.11803399, 0.70710678, 0.5       , 0.70710678, 1.11803399],
+              [1.41421356, 1.11803399, 1.        , 1.11803399, 1.41421356]])
+
+    While this definition does not currently have any parameters of its own, since it's
+    derived from the |X| and |Y| definitions it automatically inherits the parameters
+    from these base definitions::
+
+       >>> r = R(x0=-2, y0=-2, scale=2)
+       >>> r(5,5)
+       array([[4.        , 4.12310563, 4.47213595, 5.        , 5.65685425],
+              [3.        , 3.16227766, 3.60555128, 4.24264069, 5.        ],
+              [2.        , 2.23606798, 2.82842712, 3.60555128, 4.47213595],
+              [1.        , 1.41421356, 2.23606798, 3.16227766, 4.12310563],
+              [0.        , 1.        , 2.        , 3.        , 4.        ]])
+
+    Notice how in the case where the base definitions share a parameter (:code:`scale`
+    in this case) they both share the value that is set when creating an instance of the
+    :code:`R` definition.
+
+    """
     return np.sqrt(x * x + y * y)
 
 
 @ar.definition
 def T(x: X, y: Y, *, t0=0):
-    """Polar, :math:`t` coordinates."""
+    """Polar, :math:`t` coordinates.
+
+    This definition corresponds with the angle a given point is around from the positive
+    :math:`x`-axis. This can be calculated from the point's equivalent Cartesian
+    coordinate representation. All angles are given in :term:`radians`
+
+    .. math::
+
+       t = atan2\\left(\\frac{y}{x}\\right)
+
+    Parameters
+    ----------
+    t0:
+        Shift all the coordinate values by :code:`t0`
+
+    Examples
+    --------
+
+    By default all point on the :math:`x`-axis will have a value of :code:`t = 0`::
+
+       >>> from arlunio.lib import T
+       >>> t = T()
+       >>> t(5,5)
+       array([[ 2.35619449,  2.03444394,  1.57079633,  1.10714872,  0.78539816],
+              [ 2.67794504,  2.35619449,  1.57079633,  0.78539816,  0.46364761],
+              [ 3.14159265,  3.14159265,  0.        ,  0.        ,  0.        ],
+              [-2.67794504, -2.35619449, -1.57079633, -0.78539816, -0.46364761],
+              [-2.35619449, -2.03444394, -1.57079633, -1.10714872, -0.78539816]])
+
+    This can be changed however with the :code:`t0` parameter::
+
+       >>> from math import pi
+       >>> t.t0 = pi
+       >>> t(5,5)
+       array([[-0.78539816, -1.10714872, -1.57079633, -2.03444394, -2.35619449],
+              [-0.46364761, -0.78539816, -1.57079633, -2.35619449, -2.67794504],
+              [ 0.        ,  0.        , -3.14159265, -3.14159265, -3.14159265],
+              [-5.8195377 , -5.49778714, -4.71238898, -3.92699082, -3.60524026],
+              [-5.49778714, -5.17603659, -4.71238898, -4.24874137, -3.92699082]])
+
+    Also, being a definition derived from |X| and |Y| the parameters for these
+    definitions are also available to control the output::
+
+       >>> t = T(x0=-2, y0=-2, scale=2)
+       >>> t(5,5)
+       array([[1.57079633, 1.32581766, 1.10714872, 0.92729522, 0.78539816],
+              [1.57079633, 1.24904577, 0.98279372, 0.78539816, 0.64350111],
+              [1.57079633, 1.10714872, 0.78539816, 0.5880026 , 0.46364761],
+              [1.57079633, 0.78539816, 0.46364761, 0.32175055, 0.24497866],
+              [0.        , 0.        , 0.        , 0.        , 0.        ]])
+
+    """
     t = np.arctan2(y, x)
     return t - t0

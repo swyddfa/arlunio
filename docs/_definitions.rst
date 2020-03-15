@@ -9,6 +9,8 @@
 .. |Rectangle| replace:: :py:class:`Rectangle <arlunio.lib.shapes.Rectangle>`
 .. |Square| replace:: :py:class:`Square <arlunio.lib.shapes.Square>`
 .. |SuperEllipse| replace:: :py:class:`SuperEllipse <arlunio.lib.shapes.SuperEllipse>`
+.. |X| replace:: :py:class:`X <arlunio.lib.parameters.X>`
+.. |Y| replace:: :py:class:`Y <arlunio.lib.parameters.Y>`
 
 .. Docs References
 
