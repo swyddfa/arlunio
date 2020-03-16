@@ -1,4 +1,3 @@
-"""Built in definitions of basic shapes."""
 import arlunio as ar
 import numpy as np
 
@@ -22,19 +21,17 @@ def Circle(x: X, y: Y, *, xc=0, yc=0, r=0.8, pt=None):
 
        (x - x_c)^2 + (y - y_c)^2 = r^2
 
-    where:
-
-    - :math:`(x_c, y_c)`: Defines the centre
-    - :math:`r`: Controls the radius
-
-    Parameters
+    Attributes
     ----------
     xc:
-        Corresponds with the :math:`x_c` variable in the equation above
+        Corresponds with the :math:`x_c` variable in the equation above and defines the
+        :math:`x`-coordinate of the circle's center.
     yc:
-        Corresponds with the :math:`y_c` variable in the equation above
+        Corresponds with the :math:`y_c` variable in the equation above and defines the
+        :math:`y`-coordinate of the circle's center.
     r:
-        Corresponds with the :math:`r` variable in the equation above
+        Corresponds with the :math:`r` variable in the equation above and defines the
+        radius of the circle.
     pt:
         If :code:`None`, then all points within the radius of the circle will be
         considered to be part of it. If this is set to some positive number then all
@@ -69,7 +66,7 @@ def Circle(x: X, y: Y, *, xc=0, yc=0, r=0.8, pt=None):
        target = Target()
        image = target(1920, 1080)
 
-    Making use of the :code:`xc` and :code:`yc` parameters we can produce an
+    Making use of the :code:`xc` and :code:`yc` attributes we can produce an
     approximation of the olympics logo
 
     .. arlunio-image::
@@ -132,25 +129,23 @@ def Ellipse(x: X, y: Y, *, xc=0, yc=0, a=2, b=1, r=0.8, pt=None):
        \\left(\\frac{x - x_c}{a}\\right)^2 +
        \\left(\\frac{y - y_c}{b}\\right)^2 = r^2
 
-    where:
-
-    - :math:`(x_c, y_c)`: Defines the centre
-    - :math:`r`: Controls the overall size
-    - :math:`a`: Controls the width
-    - :math:`b`: Controls the height
-
-    Parameters
+    Attributes
     ----------
     xc:
-        Corresponds with the :math:`x_c` variable in the equation above
+        Corresponds with the :math:`x_c` variable in the equation above and defines the
+        :math:`x`-coordinate of the ellipse's center.
     yc:
-        Corresponds with the :math:`y_c` variable in the equation above
+        Corresponds with the :math:`y_c` variable in the equation above and defines the
+        :math:`y`-coordinate of the ellipse's center.
     r:
-        Corresponds with the :math:`r` variable in the equation above
+        Corresponds with the :math:`r` variable in the equation above and controls the
+        overall size of the ellipse.
     a:
-        Corresponds with the :math:`a` variable in the equation above
+        Corresponds with the :math:`a` variable in the equation above and controls the
+        width of the ellipse.
     b:
-        Corresponds with the :math:`b` variable in the equation above
+        Corresponds with the :math:`b` variable in the equation above and controls the
+        height of the ellipse.
     pt:
         If :code:`None` then all points within the radius of the ellipse will be
         considered to be part of it. If this is set to some positive number then all
@@ -242,51 +237,110 @@ def Ellipse(x: X, y: Y, *, xc=0, yc=0, a=2, b=1, r=0.8, pt=None):
 
 @ar.definition
 def SuperEllipse(x: X, y: Y, *, xc=0, yc=0, a=1, b=1, n=3, r=0.8, m=None, pt=None):
-    """We define a superellipse by the following equality.
+    """
+    .. arlunio-image::
+
+       import arlunio as ar
+       from arlunio.lib import SuperEllipse
+
+       ellipse = SuperEllipse()
+       image = ar.fill(ellipse(1920,1080))
+
+    We define a `SuperEllipse`_ by the following equality.
 
     .. math::
 
        \\left|\\frac{(x - x_c)}{a}\\right|^n + \\left|\\frac{(y - y_c)}{b}\\right|^m = r
 
-    where:
+    Attributes
+    ----------
+    x_c:
+        Corresponds with the :math:`x_c` variable in the equation above and defines the
+        :math:`x`-coordinate of the center of the super ellipse.
+    y_c:
+        Corresponds with the :math:`y_c` variable in the equation above and defines the
+        :math:`y` -coordinate of the center of the super ellipse.
+    r:
+        Corresponds with the :math:`r` variable in the equation above and controls the
+        size of the super ellipse.
+    a:
+        Corresponds with the :math:`a` variable in the equation above and controls the
+        width of the super ellipse.
+    b:
+        Corresponds with the :math:`b` variable in the equation above and controls the
+        height of the super ellipse.
+    n:
+        Corresponds with the :math:`n` variable in the equation above and controls the
+        profile of the curve far from :math:`x = 0`
+    m:
+        Corresponds with the :math:`m` variable in the equation above and controls the
+        profile of the curve close to :math:`x = 0`. If :code:`m = None` (default) then
+        it will be set to the value of :code:`n`.
+    pt:
+        If :code:`None` then all points within the radius of the super ellipse will be
+        considered to be part of it. If this is set to some positive number then all
+        points between radii :code:`(1 - pt) * r` and :code:`(1 + pt) * r` will be
+        considered part of the super ellipse.
 
-    - :math:`(x_c, y_c)`: Defines the center
-    - :math:`r`: Controls the overall size
-    - :math:`a`: Controls the width
-    - :math:`b`: Controls the height
-    - :math:`n`: Controls the profile of the curve far from :math:`x = 0`
-    - :math:`m`: Controls the profile of the curve close to :math:`x = 0`
+    Examples
+    --------
 
-    Being a generalisation of an |Ellipse| the :code:`xc`, :code:`yc`, :code:`a`,
-    :code:`b`, :code:`r` and :code:`pt` values behave as they would on a regular
-    ellipse.
+    Being a generalisation of the regular |Ellipse| definition most of the attributes
+    will have a similar effect on the outcome so be sure to check it out for additional
+    examples. For the :code:`SuperEllipse` definition the most interesting attributes
+    are :code:`n` and :code:`m` greatly affect the shape of the super ellipse.
 
-    The main difference between a `SuperEllipse`_ and a regular ellipse is the ability
-    to choose the power each term on the |LHS| is raised to. This gives greater control
-    over the profile of the curve that defines the shape. The power can be set
-    independantly for each term through the properties :code:`n` and :code:`m`. If
-    :code:`m` is :code:`None` then the shape will assume you want :math:`m = n` and set
-    the value of :code:`m` accordingly.
+    .. arlunio-image::
+       :include-code: before
 
-    Considering the case where :math:`n = 2 = m`, then we recover the definition of an
-    ellipse. Increasing this value, you will start seeing something that resembles a
-    rectangle with rounded corners, theoretically becoming a rectangle at infinity.
-    However due to limits of the implementation, the size of the shape is hard to
-    control as you go much beyond :code:`10` or :code:`20`. If you want an actual
-    rectangle, then perhaps the |Rectangle| shape is what you are after.
+       import arlunio as ar
+       from arlunio.lib import SuperEllipse
 
-    In the range of :math:`1 \\leq n = m < 2` the "sides" of the ellipse progressively
-    straighten, becoming a diamond shape at :math:`n = 1 = m`
+       @ar.definition
+       def SuperEllipseDemo(width, height):
+           image = None
+           ellipses = [
+               (SuperEllipse(n=0.5, pt=0.01),'#f00'),
+               (SuperEllipse(n=1, pt=0.01),'#0f0'),
+               (SuperEllipse(n=1.5, pt=0.01), '#00f'),
+               (SuperEllipse(n=2, pt=0.01), '#ff0'),
+               (SuperEllipse(n=3, pt=0.01), '#0ff')
+           ]
 
-    Finally when the values of both :math:`n,m` are less than one, the sides of the
-    diamond start curving inwards towards the origin, theoretically producing something
-    that looks like a :code:`+` symbol close to (but not equal to!) :code:`0`. Again
-    however, due to limitations of the implementation, the shape becomes harder to
-    control as you get much smaller than :code:`0.2`
+           for ellipse, color in ellipses:
+               image = ar.fill(ellipse(1920, 1080), color=color, image=image)
 
-    The cases where :math:`n \\neq m` the results are harder to describe! The result
-    will be some combination of the results described above, but you are probably better
-    off experimenting and seeing what comes out of it!
+           return image
+
+       demo = SuperEllipseDemo()
+       image = demo(1920, 1080)
+
+    By default if you don't specify a value for :code:`m` it will inherit the value
+    assigned to :code:`n`. However if you set :code:`m` to a different value then you
+    can get even more interesting results!
+
+    .. arlunio-image::
+       :include-code: before
+
+       import arlunio as ar
+       from arlunio.lib import SuperEllipse
+
+       @ar.definition
+       def Sauron(width, height):
+           image = None
+           ellipses = [
+               (SuperEllipse(a=2, n=3, m=0.2, r=0.98),'#f00'),
+               (SuperEllipse(n=2),'#f50'),
+               (SuperEllipse(n=0.1, m=2), '#000'),
+           ]
+
+           for ellipse, color in ellipses:
+               image = ar.fill(ellipse(1920, 1080), color=color, image=image)
+
+           return image
+
+       eye = Sauron()
+       image = eye(1920, 1080)
 
     .. _SuperEllipse: https://en.wikipedia.org/wiki/Superellipse
 
@@ -303,16 +357,67 @@ def SuperEllipse(x: X, y: Y, *, xc=0, yc=0, a=1, b=1, n=3, r=0.8, m=None, pt=Non
     if pt is None:
         return ellipse < r
 
-    p = r * pt
-    inner = r - p
-    outer = r + p
+    inner = (1 - pt) * r
+    outer = (1 + pt) * r
 
     return ar.all(inner < ellipse, ellipse < outer)
 
 
 @ar.definition
 def Square(x: X, y: Y, *, xc=0, yc=0, size=0.8, pt=None):
-    """A square."""
+    """
+    .. arlunio-image::
+
+       import arlunio as ar
+       from arlunio.lib import Square
+
+       square = Square()
+       image = ar.fill(square(1920, 1080))
+
+    A square.
+
+    Attributes
+    ----------
+    xc:
+        Defines the :math:`x`-coordinate of the square's center
+    yc:
+        Defines the :math:`y`-coordinate of the square's center
+    size:
+        Defines the size of the square, sides will have a length of :code:`2 * size`
+    pt:
+        If :code:`None` then all points within the square's border will be considered to
+        be part of it. If set to some positive number then all points within
+        :code:`(1 - pt) * size` to :code:`(1 + pt) * size` of the border will be
+        considered to be part of the square.
+
+    Example
+    -------
+
+    .. arlunio-image::
+       :include-code: before
+
+       import arlunio as ar
+       from arlunio.lib import Square, X, Y
+
+       @ar.definition
+       def SquareDemo(x: X, y: Y):
+           image = None
+           squares = [
+               (Square(pt=0.01), x, y),
+               (Square(pt=0.01), x + y, x - y),
+               (Square(size=0.39, pt=0.01), x, y),
+               (Square(size=0.39, pt=0.01), x + y, x - y),
+               (Square(size=0.2), x, y),
+           ]
+
+           for square, sx, sy in squares:
+               image = ar.fill(square(x=sx, y=sy), image=image)
+
+           return image
+
+       square = SquareDemo()
+       image = square(1920, 1080)
+    """
 
     xs = np.abs(x)
     ys = np.abs(y)
@@ -320,8 +425,11 @@ def Square(x: X, y: Y, *, xc=0, yc=0, size=0.8, pt=None):
     if pt is None:
         return ar.all(xs < size, ys < size)
 
-    inner = ar.all(xs < size - pt, ys < size - pt)
-    outer = ar.all(xs < size + pt, ys < size + pt)
+    s = (1 - pt) * size
+    S = (1 + pt) * size
+
+    inner = ar.all(xs < s, ys < s)
+    outer = ar.all(xs < S, ys < S)
 
     return ar.all(outer, ar.invert(inner))
 

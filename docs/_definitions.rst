@@ -5,7 +5,7 @@
 .. |Definition| replace:: :py:class:`Definition <arlunio.Definition>`
 
 .. |Circle| replace:: :py:class:`Circle <arlunio.lib.shapes.Circle>`
-.. |Ellipse| replace:: :py:class:`Ellipse <arlunio.lib.shaoes.Ellipse>`
+.. |Ellipse| replace:: :py:class:`Ellipse <arlunio.lib.shapes.Ellipse>`
 .. |Rectangle| replace:: :py:class:`Rectangle <arlunio.lib.shapes.Rectangle>`
 .. |Square| replace:: :py:class:`Square <arlunio.lib.shapes.Square>`
 .. |SuperEllipse| replace:: :py:class:`SuperEllipse <arlunio.lib.shapes.SuperEllipse>`
@@ -13,9 +13,6 @@
 .. |Y| replace:: :py:class:`Y <arlunio.lib.parameters.Y>`
 
 .. Docs References
-
-.. |LHS| replace:: :term:`LHS`
-
 
 .. External Code References
 

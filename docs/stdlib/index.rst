@@ -10,6 +10,7 @@ basics everyone will need along with some useful utilities for various tasks.
 
 .. toctree::
    :maxdepth: 2
+   :caption: Index
 
    parameters
    patterns

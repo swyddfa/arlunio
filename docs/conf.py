@@ -32,7 +32,6 @@ release = version
 # ones.
 extensions = [
     "sphinx.ext.autodoc",
-    "sphinx.ext.autosummary",
     "sphinx.ext.doctest",
     "sphinx.ext.intersphinx",
     "sphinx.ext.mathjax",
@@ -87,4 +86,3 @@ intersphinx_mapping = {
 }
 
 napoleon_use_rtype = False
-napoleon_use_admonition_for_examples = False

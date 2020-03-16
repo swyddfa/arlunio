@@ -3,9 +3,44 @@
 Shapes
 ======
 
+Built in shape definitions
+
 .. currentmodule:: arlunio.lib.shapes
 
-.. autosummary::
-   :toctree:
+.. _stdlib_shapes_circle:
 
-.. automodule:: arlunio.lib.shapes
+Circle
+------
+
+.. autoclass:: Circle
+
+
+.. _stdlib_shapes_ellipse:
+
+Ellipse
+-------
+
+.. autoclass:: Ellipse
+
+
+.. _stdlib_shapes_square:
+
+Square
+------
+
+.. autoclass:: Square
+
+
+.. _stdlib_shapes_superellipse:
+
+Super Ellipse
+-------------
+
+.. autoclass:: SuperEllipse
+
+.. _stdlib_shapes_rectangle:
+
+Rectangle
+---------
+
+.. autoclass:: Rectangle

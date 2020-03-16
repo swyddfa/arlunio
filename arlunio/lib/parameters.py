@@ -6,7 +6,7 @@ import numpy as np
 def X(width, height, *, x0=0, scale=1, stretch=False):
     """Cartesian :math:`x` coordinates.
 
-    Parameters
+    Attributes
     ----------
     x0:
         Shift all the coordinate values by :code:`x0`
@@ -38,15 +38,15 @@ def X(width, height, *, x0=0, scale=1, stretch=False):
        array([[-2.        , -0.66666667,  0.66666667,  2.        ],
               [-2.        , -0.66666667,  0.66666667,  2.        ]])
 
-    This behaviour can be disabled with the :code:`stretch` parameter::
+    This behaviour can be disabled with the :code:`stretch` attribute::
 
        >>> x.stretch = True
        >>> x(4,2)
        array([[-1.        , -0.33333333,  0.33333333,  1.        ],
               [-1.        , -0.33333333,  0.33333333,  1.        ]])
 
-    Additionally the :code:`scale` parameter can be used to adjust the magnitude of the
-    extreme values generated, while the :code:`x0` parameter can be used to shift all
+    Additionally the :code:`scale` attribute can be used to adjust the magnitude of the
+    extreme values generated, while the :code:`x0` attribute can be used to shift all
     the values by a given amount::
 
        >>> x = X(x0=-2, scale=2)
@@ -72,7 +72,7 @@ def X(width, height, *, x0=0, scale=1, stretch=False):
 def Y(width, height, *, y0=0, scale=1, stretch=False):
     """Cartesian :math:`y` coordinates.
 
-    Parameters
+    Attributes
     ----------
     y0:
         Shift all the coordinate values by :code:`y0`
@@ -106,7 +106,7 @@ def Y(width, height, *, y0=0, scale=1, stretch=False):
               [-0.66666667, -0.66666667],
               [-2.        , -2.        ]])
 
-    This behaviour can be disabled with the :code:`stretch` parameter::
+    This behaviour can be disabled with the :code:`stretch` attribute::
 
        >>> y.stretch = True
        >>> y(2,4)
@@ -115,8 +115,8 @@ def Y(width, height, *, y0=0, scale=1, stretch=False):
               [-0.33333333, -0.33333333],
               [-1.        , -1.        ]])
 
-    Additionally the :code:`scale` parameter can be used to adjust the magnitude of the
-    extreme values generated, while the :code:`y0` parameter can be used to shift all
+    Additionally the :code:`scale` attribute can be used to adjust the magnitude of the
+    extreme values generated, while the :code:`y0` attribute can be used to shift all
     the values by a given amount::
 
        >>> y = Y(y0=-2, scale=2)
@@ -162,8 +162,8 @@ def R(x: X, y: Y):
               [1.11803399, 0.70710678, 0.5       , 0.70710678, 1.11803399],
               [1.41421356, 1.11803399, 1.        , 1.11803399, 1.41421356]])
 
-    While this definition does not currently have any parameters of its own, since it's
-    derived from the |X| and |Y| definitions it automatically inherits the parameters
+    While this definition does not currently have any attributes of its own, since it's
+    derived from the |X| and |Y| definitions it automatically inherits the attributes
     from these base definitions::
 
        >>> r = R(x0=-2, y0=-2, scale=2)
@@ -174,7 +174,7 @@ def R(x: X, y: Y):
               [1.        , 1.41421356, 2.23606798, 3.16227766, 4.12310563],
               [0.        , 1.        , 2.        , 3.        , 4.        ]])
 
-    Notice how in the case where the base definitions share a parameter (:code:`scale`
+    Notice how in the case where the base definitions share a attribute (:code:`scale`
     in this case) they both share the value that is set when creating an instance of the
     :code:`R` definition.
 
@@ -194,7 +194,7 @@ def T(x: X, y: Y, *, t0=0):
 
        t = atan2\\left(\\frac{y}{x}\\right)
 
-    Parameters
+    Attributes
     ----------
     t0:
         Shift all the coordinate values by :code:`t0`
@@ -213,7 +213,7 @@ def T(x: X, y: Y, *, t0=0):
               [-2.67794504, -2.35619449, -1.57079633, -0.78539816, -0.46364761],
               [-2.35619449, -2.03444394, -1.57079633, -1.10714872, -0.78539816]])
 
-    This can be changed however with the :code:`t0` parameter::
+    This can be changed however with the :code:`t0` attribute::
 
        >>> from math import pi
        >>> t.t0 = pi
@@ -224,7 +224,7 @@ def T(x: X, y: Y, *, t0=0):
               [-5.8195377 , -5.49778714, -4.71238898, -3.92699082, -3.60524026],
               [-5.49778714, -5.17603659, -4.71238898, -4.24874137, -3.92699082]])
 
-    Also, being a definition derived from |X| and |Y| the parameters for these
+    Also, being a definition derived from |X| and |Y| the attributes for these
     definitions are also available to control the output::
 
        >>> t = T(x0=-2, y0=-2, scale=2)
