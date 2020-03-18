@@ -46,3 +46,4 @@ jobs:
         BRANCH: gh-pages
         FOLDER: _build/html
         TARGET_FOLDER: docs/
+      if: github.event_name != 'pull_request'
