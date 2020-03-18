@@ -129,12 +129,18 @@ def test_single_cmd_run_attribute():
 
 
 class AddCommand:
+    """A single line summary.
+
+    Further information on usage follows
+    """
+
     def run(self, x: int, y: int = 1):
         pass
 
 
 ADD_COMMAND = CliCommand(
     name="test",
+    summary="A single line summary.",
     options=[
         CliOption(name="--x", args=INT_NO_DEFAULT),
         CliOption(name="--y", args=INT_WITH_DEFAULT(1)),

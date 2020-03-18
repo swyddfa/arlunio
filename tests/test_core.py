@@ -1,5 +1,7 @@
 import inspect
 
+from typing import Any
+
 import arlunio as ar
 import py.test
 
@@ -12,6 +14,17 @@ def test_definition_name():
         return 1
 
     assert Circle.__name__ == "Circle"
+
+
+def test_definition_module():
+    """Ensure that the returned definition reports its module as the one it was defined
+    in"""
+
+    @ar.definition()
+    def Circle():
+        pass
+
+    assert Circle.__module__ == "tests.test_core"
 
 
 def test_use_definition_as_tag():
@@ -93,6 +106,30 @@ def test_definition_attribute_validation():
 
     with py.test.raises(TypeError):
         Param(a="string")
+
+
+def test_definition_produces_any():
+    """Ensure that a definition without a return annotation reports its return type as
+    :code:`Any`"""
+
+    @ar.definition()
+    def Param():
+        pass
+
+    assert Param.produces() == Any
+    assert Param().produces() == Any
+
+
+def test_definition_produces():
+    """Ensure that a definition reports what type it returns as declared by its return
+    annotation"""
+
+    @ar.definition()
+    def Param() -> int:
+        return 1
+
+    assert Param.produces() == int
+    assert Param().produces() == int
 
 
 def test_derived_definition():
@@ -207,3 +244,37 @@ def test_derived_definition_attribs_property():
         return 5
 
     assert Derived().attribs == {"b": 3, "d": 4}
+
+
+def test_derived_definition_eval_width_height():
+    """Ensure that a definition can be evaluated with width and height as positional
+    arguments."""
+
+    @ar.definition()
+    def Base(width, height):
+        return width + height
+
+    assert Base()(4, 4) == 8
+
+    @ar.definition()
+    def Derived(height, base: Base):
+        return height - base
+
+    assert Derived()(2, 4) == -2
+
+
+def test_derived_definition_eval_kwargs():
+    """Ensure that a definition can be evaluted with inputs provided as keyword
+    arguments"""
+
+    @ar.definition()
+    def Base(width, height):
+        return width + height
+
+    assert Base()(width=4, height=4) == 8
+
+    @ar.definition()
+    def Derived(height, base: Base):
+        return height - base
+
+    assert Derived()(height=4, base=4) == 0

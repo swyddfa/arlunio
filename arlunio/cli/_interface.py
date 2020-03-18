@@ -107,7 +107,14 @@ class CliCommand:
         if not hasattr(cmd, "run") or not callable(cmd.run):
             raise TypeError("Missing expected method: 'run'")
 
-        params = {"name": name, "options": CliOption.frommethod(cmd.run)}
+        docstring = inspect.getdoc(cmd)
+        summary = "..." if docstring is None else docstring.split("\n")[0]
+
+        params = {
+            "name": name,
+            "options": CliOption.frommethod(cmd.run),
+            "summary": summary,
+        }
 
         return cls(**params)
 
@@ -123,7 +130,7 @@ def build_command_parser(
     """
     cmd = CliCommand.fromcmd(name, command)
     parser = parent.add_parser(
-        cmd.name, formatter_class=argparse.RawDescriptionHelpFormatter
+        cmd.name, help=cmd.summary, formatter_class=argparse.RawDescriptionHelpFormatter
     )
 
     names = []

@@ -1,14 +1,7 @@
-.. _stdlib_api:
+.. _api:
 
 API Reference
 =============
-
-Colour
-------
-
-.. autoclass:: arlunio.RGB8
-   :members:
-
 
 Definitions
 -----------
@@ -29,15 +22,20 @@ Expressions
 
 .. autofunction:: arlunio.all
 
+.. autofunction:: arlunio.clamp
+
 .. autofunction:: arlunio.invert
+
+.. autofunction:: arlunio.lerp
+
+.. autofunction:: arlunio.normalise
 
 Images
 ------
 
-.. autoclass:: arlunio.Image
-   :members:
-
 .. autoclass:: arlunio.Resolutions
    :members:
+
+.. autofunction:: arlunio.colorramp
 
 .. autofunction:: arlunio.fill

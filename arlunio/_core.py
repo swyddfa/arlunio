@@ -160,9 +160,14 @@ class Definition:
 
     ATTR_ID: ClassVar[str] = "arlunio.attribute"
 
-    def __call__(self, width: int, height: int):
+    def __call__(self, width: int = None, height: int = None, **kwargs):
         args = dict(self.definitions)
         attributes = self.attributes
+
+        try:
+            width, height = width
+        except TypeError:
+            pass
 
         for name in args:
 
@@ -172,6 +177,10 @@ class Definition:
 
             if name == "height" and args[name] == inspect.Parameter.empty:
                 args[name] = height
+                continue
+
+            if name in kwargs:
+                args[name] = kwargs[name]
                 continue
 
             # Else it must be a definition so let's evaluate it
@@ -197,6 +206,16 @@ class Definition:
             for a in attr.fields(self.__class__)
             if not a.metadata[Definition.ATTR_ID]["inherited"]
         }
+
+    @classmethod
+    def produces(cls):
+        """Return the type of the object that this definition produces."""
+        rtype = inspect.signature(cls._definition).return_annotation
+
+        if rtype == inspect._empty:
+            return Any
+
+        return rtype
 
 
 def _define_attribute(param: inspect.Parameter) -> attr.Attribute:
@@ -299,6 +318,7 @@ def definition(f=None):
 
         attributes = {
             "__doc__": inspect.getdoc(defn),
+            "__module__": defn.__module__,
             "_definition": staticmethod(defn),
         }
 

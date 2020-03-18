@@ -3,6 +3,7 @@
         "**/.ipynb_checkpoints": true,
         "**/__pycache__": true,
         ".pytest_cache": true,
+        ".mypy_cache": true,
         ".tox": true,
         "*.egg-info": true,
         "build": true,
@@ -30,5 +31,11 @@
     },
     "[html]": {
         "editor.tabSize": 2
+    },
+    "[restructuredtext]": {
+        "editor.tabSize": 3,
+        "editor.rulers": [
+            79
+        ]
     }
 }
