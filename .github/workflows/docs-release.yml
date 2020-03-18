@@ -44,6 +44,6 @@ jobs:
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         BASE_BRANCH: develop
         BRANCH: gh-pages
-        FOLDER: _build/html
+        FOLDER: docs/_build/html
         TARGET_FOLDER: docs/
       if: github.event_name != 'pull_request'
