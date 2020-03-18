@@ -35,7 +35,7 @@
     "[restructuredtext]": {
         "editor.tabSize": 3,
         "editor.rulers": [
-            80
+            79
         ]
     }
 }
