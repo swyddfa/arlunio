@@ -117,7 +117,6 @@ def render_image(src: str, smooth: bool = True) -> List[nodes.Node]:
 
         return doctree
 
-    # Look to see if the code produced an image object for us.
     image = None
 
     for obj in environment.values():
