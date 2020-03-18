@@ -6,12 +6,14 @@ on:
     paths:
     - 'arlunio/**'
     - 'docs/**'
+    - '.github/workflows/docs-release.yml'
   pull_request:
     branches:
     - develop
     paths:
     - 'arlunio/**'
     - 'docs/**'
+    - '.github/workflows/docs-release.yml'
 jobs:
   Build:
     runs-on: ubuntu-latest
