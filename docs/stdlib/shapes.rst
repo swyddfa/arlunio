@@ -23,6 +23,20 @@ Ellipse
 .. autoclass:: Ellipse
 
 
+.. _stdlib_shapes_empty:
+
+Empty
+-----
+
+.. autoclass:: Empty
+
+.. _stdlib_shapes_full:
+
+Full
+----
+
+.. autoclass:: Full
+
 .. _stdlib_shapes_square:
 
 Square

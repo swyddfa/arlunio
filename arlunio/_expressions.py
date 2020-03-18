@@ -195,3 +195,18 @@ def lerp(start: float = 0, stop: float = 1) -> Callable[[float], float]:
         return (1 - t) * start + t * stop
 
     return f
+
+
+def normalise(x):
+    """Normalise an array into the range :math:`[0, 1]`
+
+    Parameters
+    ----------
+    x:
+       The array to normalise.
+    """
+    minx = np.min(x)
+    vs = np.array(x)
+
+    vs = vs - minx
+    return vs / np.max(vs)

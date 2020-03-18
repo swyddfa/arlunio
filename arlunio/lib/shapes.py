@@ -364,6 +364,44 @@ def SuperEllipse(x: X, y: Y, *, xc=0, yc=0, a=1, b=1, n=3, r=0.8, m=None, pt=Non
 
 
 @ar.definition
+def Empty(width, height):
+    """An empty shape definition.
+
+    Example
+    -------
+
+    .. arlunio-image::
+       :include-code: before
+
+       import arlunio as ar
+       from arlunio.lib import Empty
+
+       e = Empty()
+       image = ar.fill(e(1920, 1080))
+    """
+    return np.full((height, width), False)
+
+
+@ar.definition
+def Full(width, height):
+    """An full shape definition.
+
+    Example
+    -------
+
+    .. arlunio-image::
+       :include-code: before
+
+       import arlunio as ar
+       from arlunio.lib import Full
+
+       f = Full()
+       image = ar.fill(f(1920, 1080))
+    """
+    return np.full((height, width), True)
+
+
+@ar.definition
 def Square(x: X, y: Y, *, xc=0, yc=0, size=0.8, pt=None):
     """
     .. arlunio-image::
@@ -419,8 +457,8 @@ def Square(x: X, y: Y, *, xc=0, yc=0, size=0.8, pt=None):
        image = square(1920, 1080)
     """
 
-    xs = np.abs(x)
-    ys = np.abs(y)
+    xs = np.abs(x - xc)
+    ys = np.abs(y - yc)
 
     if pt is None:
         return ar.all(xs < size, ys < size)
@@ -436,17 +474,73 @@ def Square(x: X, y: Y, *, xc=0, yc=0, size=0.8, pt=None):
 
 @ar.definition
 def Rectangle(x: X, y: Y, *, xc=0, yc=0, size=0.6, ratio=1.618, pt=None):
-    """A Rectangle."""
+    """
+    .. arlunio-image::
 
-    xs = np.abs(x)
-    ys = np.abs(y)
-    width = size * ratio
-    height = size
+       import arlunio as ar
+       from arlunio.lib import Rectangle
+
+       rectangle = Rectangle()
+       image = ar.fill(rectangle(1920, 1080))
+
+    A Rectangle.
+
+    Parameters
+    ----------
+    xc:
+        Defines the :math:`x`-coordinate of the center of the rectangle
+    yc:
+        Defines the :math:`y`-coordinate of the center of the rectangle
+    size:
+        Defines the area of the rectangle
+    ratio:
+        Defines the ratio of the width to the height of the rectangle
+    pt:
+        If :code:`None` then all points within the rectangle's border will be considered
+        to be part of it. If set to some positive number then all points within
+        :code:`(1 - pt) * size` to :code:`(1 + pt) * size` of the border will be
+        considered to be part of the rectangle.
+
+    Examples
+    --------
+
+    .. arlunio-image::
+       :include-code: before
+
+       import arlunio as ar
+       from arlunio.lib import Rectangle
+
+       @ar.definition
+       def RectangleDemo(width, height):
+           image = None
+           rects = [
+               Rectangle(xc=-1, size=0.4, ratio=0.5),
+               Rectangle(xc=0.25, yc=0.5, size=0.2, ratio=1),
+               Rectangle(xc=0.5, yc=-0.5, size=0.4, ratio=2)
+           ]
+
+           for r in rects:
+               image = ar.fill(r(width, height), image=image)
+
+           return image
+
+       demo = RectangleDemo()
+       image = demo(1920, 1080)
+    """
+
+    xs = np.abs(x - xc)
+    ys = np.abs(y - yc)
+
+    height = np.sqrt(size / ratio)
+    width = height * ratio
 
     if pt is None:
         return ar.all(xs < width, ys < height)
 
-    inner = ar.all(xs < width - pt, ys < height - pt)
-    outer = ar.all(xs < width + pt, ys < height + pt)
+    w, W = (1 - pt) * width, (1 + pt) * width
+    h, H = (1 - pt) * height, (1 + pt) * height
+
+    inner = ar.all(xs < w, ys < h)
+    outer = ar.all(xs < W, ys < H)
 
     return ar.all(outer, ar.invert(inner))

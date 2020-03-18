@@ -4,7 +4,16 @@ import numpy as np
 
 @ar.definition
 def X(width, height, *, x0=0, scale=1, stretch=False):
-    """Cartesian :math:`x` coordinates.
+    """
+    .. arlunio-image::
+
+       import arlunio as ar
+       from arlunio.lib import X
+
+       x = X()
+       image = ar.colorramp(x(1920, 1080))
+
+    Cartesian :math:`x` coordinates.
 
     Attributes
     ----------
@@ -70,7 +79,16 @@ def X(width, height, *, x0=0, scale=1, stretch=False):
 
 @ar.definition
 def Y(width, height, *, y0=0, scale=1, stretch=False):
-    """Cartesian :math:`y` coordinates.
+    """
+    .. arlunio-image::
+
+       import arlunio as ar
+       from arlunio.lib import Y
+
+       y = Y()
+       image = ar.colorramp(y(1920, 1080))
+
+    Cartesian :math:`y` coordinates.
 
     Attributes
     ----------
@@ -140,7 +158,16 @@ def Y(width, height, *, y0=0, scale=1, stretch=False):
 
 @ar.definition
 def R(x: X, y: Y):
-    """Polar :math:`r` coordinates.
+    """
+    .. arlunio-image::
+
+       import arlunio as ar
+       from arlunio.lib import R
+
+       r = R()
+       image = ar.colorramp(r(1920,1080))
+
+    Polar :math:`r` coordinates.
 
     This definition corresponds with the distance a given point is from the origin and
     can be calculated from the point's equivalent Cartesian coordinate representation
@@ -184,7 +211,16 @@ def R(x: X, y: Y):
 
 @ar.definition
 def T(x: X, y: Y, *, t0=0):
-    """Polar, :math:`t` coordinates.
+    """
+    .. arlunio-image::
+
+       import arlunio as ar
+       from arlunio.lib import T
+
+       t = T()
+       image = ar.colorramp(t(1920, 1080))
+
+    Polar, :math:`t` coordinates.
 
     This definition corresponds with the angle a given point is around from the positive
     :math:`x`-axis. This can be calculated from the point's equivalent Cartesian
