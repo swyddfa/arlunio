@@ -1,0 +1,521 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>API Reference &mdash; Arlunio 0.0.6 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Standard Library" href="stdlib/index.html" />
+    <link rel="prev" title="Shapes and Images" href="using/tutorial/getstarted/shapes-and-images.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Arlunio
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.6
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="using/index.html">User Guide</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#definitions">Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#expressions">Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#images">Images</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="stdlib/index.html">Standard Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing/index.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html">Changelog</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Arlunio</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>API Reference</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/api.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="api-reference">
+<span id="api"></span><h1>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="definitions">
+<h2>Definitions<a class="headerlink" href="#definitions" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="#arlunio.definition" title="arlunio.definition"><code class="xref py py-func docutils literal notranslate"><span class="pre">&#64;definition</span></code></a>: Decorator used to create new definitions</p></li>
+<li><p><a class="reference internal" href="#arlunio.Definition" title="arlunio.Definition"><code class="xref py py-class docutils literal notranslate"><span class="pre">Definition</span></code></a>: Base class for all definitions</p></li>
+</ul>
+<dl class="function">
+<dt id="arlunio.definition">
+<code class="sig-prename descclassname">&#64;</code><code class="sig-prename descclassname">arlunio.</code><code class="sig-name descname">definition</code><a class="reference internal" href="_modules/arlunio/_core.html#definition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.definition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new Definition.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="arlunio.Definition">
+<em class="property">class </em><code class="sig-prename descclassname">arlunio.</code><code class="sig-name descname">Definition</code><a class="reference internal" href="_modules/arlunio/_core.html#Definition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.Definition" title="Permalink to this definition">¶</a></dt>
+<dd><p>A definition is the representation of something that can be mapped onto an
+image.</p>
+<dl class="method">
+<dt id="arlunio.Definition.produces">
+<em class="property">classmethod </em><code class="sig-name descname">produces</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arlunio/_core.html#Definition.produces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.Definition.produces" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the type of the object that this definition produces.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="arlunio.Definition.attribs">
+<em class="property">property </em><code class="sig-name descname">attribs</code><a class="headerlink" href="#arlunio.Definition.attribs" title="Permalink to this definition">¶</a></dt>
+<dd><p>All non-inherited attributes on this definition</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="arlunio.Definition.attributes">
+<em class="property">property </em><code class="sig-name descname">attributes</code><a class="headerlink" href="#arlunio.Definition.attributes" title="Permalink to this definition">¶</a></dt>
+<dd><p>All attributes on this definition</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="expressions">
+<h2>Expressions<a class="headerlink" href="#expressions" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="arlunio.any">
+<code class="sig-prename descclassname">arlunio.</code><code class="sig-name descname">any</code><span class="sig-paren">(</span><em class="sig-param">*args: Union[bool, numpy.ndarray]</em><span class="sig-paren">)</span> &#x2192; Union[bool, numpy.ndarray]<a class="reference internal" href="_modules/arlunio/_expressions.html#any"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.any" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a number of conditions, return <code class="code docutils literal notranslate"><span class="pre">True</span></code> if any of the conditions
+are true.</p>
+<p>This function is implemented as a thin wrapper around numpy’s
+<code class="code docutils literal notranslate"><span class="pre">np.logical_or</span></code> function so that it can take an arbitrary number of inputs.
+This also means that this function will accept arrays of differing sizes - assuming
+that they can be broadcasted to a common shape.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>args</strong> – A number of boolean conditions, a condition can either be a single boolean value
+or a numpy array of boolean values.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">arlunio</span> <span class="k">as</span> <span class="nn">ar</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ar</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ar</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+<p>If the arguments are boolean numpy arrays, then the any condition is applied
+element-wise</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ar</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">x3</span><span class="p">)</span>
+<span class="go">array([ True,  True,  True])</span>
+</pre></div>
+</div>
+<p>This function can even handle a mixture of arrays and single values - assuming
+their shapes can be broadcasted to a common shape.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ar</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">],</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]]))</span>
+<span class="go">array([[ True,  True],</span>
+<span class="go">       [ True, False]])</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference external" href="https://docs.scipy.org/doc/numpy/user/basics.broadcasting.html" title="(in NumPy v1.17)"><span class="xref std std-doc">Broadcasting</span></a></dt><dd><p>Numpy documentation on broadcasting.</p>
+</dd>
+<dt><a class="reference external" href="https://docs.scipy.org/doc/numpy/user/theory.broadcasting.html" title="(in NumPy v1.17)"><span class="xref std std-doc">Array Broadcasting</span></a></dt><dd><p>Further background on broadcasting.</p>
+</dd>
+<dt><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.logical_or.html#numpy.logical_or" title="(in NumPy v1.17)"><code class="xref py py-data docutils literal notranslate"><span class="pre">np.logical_or</span></code></a></dt><dd><p>Reference documentation on the <code class="code docutils literal notranslate"><span class="pre">np.logical_or</span></code> function</p>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="arlunio.all">
+<code class="sig-prename descclassname">arlunio.</code><code class="sig-name descname">all</code><span class="sig-paren">(</span><em class="sig-param">*args: Union[bool, numpy.ndarray]</em><span class="sig-paren">)</span> &#x2192; Union[bool, numpy.ndarray]<a class="reference internal" href="_modules/arlunio/_expressions.html#all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.all" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a number of conditions, return <code class="code docutils literal notranslate"><span class="pre">True</span></code> only if <strong>all</strong>
+of the given conditions are true.</p>
+<p>This function is implemented as a thin wrapper around numpy’s
+<code class="code docutils literal notranslate"><span class="pre">np.logical_and</span></code> function so that it can take an arbitrary number of inputs.
+This also means that this function will accept arrays of differing sizes - assuming
+that they can be broadcasted to a common shape.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>args</strong> – A number of boolean conditions, a conditon can either be a single boolean value,
+or a numpy array of boolean values.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">arlunio</span> <span class="k">as</span> <span class="nn">ar</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ar</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ar</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+<p>If the arguments are boolean numpy arrays, then the any condition is applied
+element-wise</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ar</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">x3</span><span class="p">)</span>
+<span class="go">array([False, False,  True])</span>
+</pre></div>
+</div>
+<p>This function can even handle a mixture of arrays and single values - assuming
+their shapes can be broadcasted to a common shape.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ar</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">],</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]]))</span>
+<span class="go">array([[False, False],</span>
+<span class="go">       [ True, False]])</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference external" href="https://docs.scipy.org/doc/numpy/user/basics.broadcasting.html" title="(in NumPy v1.17)"><span class="xref std std-doc">Broadcasting</span></a></dt><dd><p>Numpy documentation on broadcasting.</p>
+</dd>
+<dt><a class="reference external" href="https://docs.scipy.org/doc/numpy/user/theory.broadcasting.html" title="(in NumPy v1.17)"><span class="xref std std-doc">Array Broadcasting</span></a></dt><dd><p>Further background on broadcasting.</p>
+</dd>
+<dt><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.logical_and.html#numpy.logical_and" title="(in NumPy v1.17)"><code class="xref py py-data docutils literal notranslate"><span class="pre">np.logical_and</span></code></a></dt><dd><p>Reference documentation on the <code class="code docutils literal notranslate"><span class="pre">logical_and</span></code> function.</p>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="arlunio.clamp">
+<code class="sig-prename descclassname">arlunio.</code><code class="sig-name descname">clamp</code><span class="sig-paren">(</span><em class="sig-param">values</em>, <em class="sig-param">min_value=0</em>, <em class="sig-param">max_value=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arlunio/_expressions.html#clamp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.clamp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Force an array of values to stay within a range of values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>values</strong> – The array of values to clamp</p></li>
+<li><p><strong>min_value</strong> – The minimum value the result should contain</p></li>
+<li><p><strong>max_value</strong> – The maximum value the resul should contain</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>By default values will be limited to between <code class="code docutils literal notranslate"><span class="pre">0</span></code> and <code class="code docutils literal notranslate"><span class="pre">1</span></code></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">arlunio</span> <span class="k">as</span> <span class="nn">ar</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ar</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="n">vs</span><span class="p">)</span>
+<span class="go">array([0. , 0. , 0.2, 0.8, 1. , 1. ])</span>
+</pre></div>
+</div>
+<p>But this can be changed with extra arguments to the <code class="code docutils literal notranslate"><span class="pre">clamp</span></code> function</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ar</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="n">vs</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="go">array([-1. , -0.4,  0.2,  0.5,  0.5,  0.5])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="arlunio.invert">
+<code class="sig-prename descclassname">arlunio.</code><code class="sig-name descname">invert</code><span class="sig-paren">(</span><em class="sig-param">x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arlunio/_expressions.html#invert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.invert" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="arlunio.lerp">
+<code class="sig-prename descclassname">arlunio.</code><code class="sig-name descname">lerp</code><span class="sig-paren">(</span><em class="sig-param">start: float = 0</em>, <em class="sig-param">stop: float = 1</em><span class="sig-paren">)</span> &#x2192; Callable[[float], float]<a class="reference internal" href="_modules/arlunio/_expressions.html#lerp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.lerp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a function that will linerarly interpolate between a and b.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start</strong> – The value the interpolation should start from.</p></li>
+<li><p><strong>stop</strong> – The value the interpolation should stop at.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>By default this function will interpolate between <code class="code docutils literal notranslate"><span class="pre">0</span></code> and <code class="code docutils literal notranslate"><span class="pre">1</span></code></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">arlunio</span> <span class="k">as</span> <span class="nn">ar</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">ar</span><span class="o">.</span><span class="n">lerp</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+<p>However by passing arguments to the <code class="code docutils literal notranslate"><span class="pre">lerp</span></code> function we can change the bounds
+of the interpolation.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">lerp</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stop</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="n">ts</span><span class="p">)</span>
+<span class="go">array([ 3.        ,  1.66666667,  0.33333333, -1.        ])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="arlunio.normalise">
+<code class="sig-prename descclassname">arlunio.</code><code class="sig-name descname">normalise</code><span class="sig-paren">(</span><em class="sig-param">x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arlunio/_expressions.html#normalise"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.normalise" title="Permalink to this definition">¶</a></dt>
+<dd><p>Normalise an array into the range <span class="math notranslate nohighlight">\([0, 1]\)</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>x</strong> – The array to normalise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="images">
+<h2>Images<a class="headerlink" href="#images" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="arlunio.Resolutions">
+<em class="property">class </em><code class="sig-prename descclassname">arlunio.</code><code class="sig-name descname">Resolutions</code><a class="reference internal" href="_modules/arlunio/_images.html#Resolutions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.Resolutions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enum that defines some common image resolutions</p>
+<p>Members of this enum are tuples containing the width and height which can be
+accessed by name:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">arlunio</span> <span class="kn">import</span> <span class="n">Resolutions</span> <span class="k">as</span> <span class="n">R</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hd</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">HD</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hd</span><span class="o">.</span><span class="n">width</span>
+<span class="go">1280</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hd</span><span class="o">.</span><span class="n">height</span>
+<span class="go">720</span>
+</pre></div>
+</div>
+<p>Resolutions can also unpacked:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="n">hd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">width</span>
+<span class="go">1280</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">height</span>
+<span class="go">720</span>
+</pre></div>
+</div>
+<dl class="attribute">
+<dt id="arlunio.Resolutions.FHD">
+<code class="sig-name descname">FHD</code><em class="property"> = (1920, 1080)</em><a class="headerlink" href="#arlunio.Resolutions.FHD" title="Permalink to this definition">¶</a></dt>
+<dd><p>1920 x 1080</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="arlunio.Resolutions.HD">
+<code class="sig-name descname">HD</code><em class="property"> = (1280, 720)</em><a class="headerlink" href="#arlunio.Resolutions.HD" title="Permalink to this definition">¶</a></dt>
+<dd><p>1280 x 720</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="arlunio.Resolutions.QHD">
+<code class="sig-name descname">QHD</code><em class="property"> = (2560, 1440)</em><a class="headerlink" href="#arlunio.Resolutions.QHD" title="Permalink to this definition">¶</a></dt>
+<dd><p>2560 x 1440</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="arlunio.colorramp">
+<code class="sig-prename descclassname">arlunio.</code><code class="sig-name descname">colorramp</code><span class="sig-paren">(</span><em class="sig-param">values</em>, <em class="sig-param">start: Optional[str] = None</em>, <em class="sig-param">stop: Optional[str] = None</em><span class="sig-paren">)</span> &#x2192; PIL.Image.Image<a class="reference internal" href="_modules/arlunio/_images.html#colorramp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.colorramp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a range of values, produce an image mapping those values onto colors.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="arlunio.fill">
+<code class="sig-prename descclassname">arlunio.</code><code class="sig-name descname">fill</code><span class="sig-paren">(</span><em class="sig-param">mask</em>, <em class="sig-param">color: Optional[str] = None</em>, <em class="sig-param">background: Optional[str] = None</em>, <em class="sig-param">image: Optional[PIL.Image.Image] = None</em><span class="sig-paren">)</span> &#x2192; PIL.Image.Image<a class="reference internal" href="_modules/arlunio/_images.html#fill"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.fill" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a mask, fill it in with a color.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mask</strong> – The mask used to select the pixels to fill in</p></li>
+<li><p><strong>color</strong> – A string representation of the color to use, this can be in any format that is
+supported by Pillow’s <a class="reference external" href="https://pillow.readthedocs.io/en/stable/reference/ImageColor.html#module-PIL.ImageColor" title="(in Pillow (PIL Fork) v7.0.0)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">PIL.ImageColor</span></code></a> module. If omitted this will default to
+black.</p></li>
+<li><p><strong>background</strong> – In the case where an existing image is not provided this parameter can be used
+to set the background color of the generated image. This can be any string that
+is accepted by the <a class="reference external" href="https://pillow.readthedocs.io/en/stable/reference/ImageColor.html#module-PIL.ImageColor" title="(in Pillow (PIL Fork) v7.0.0)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">PIL.ImageColor</span></code></a> module. If omitted this will default to
+white.</p></li>
+<li><p><strong>image</strong> – The image to color in, if omitted a new image will be generated.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><em>Image</em> – An image with the region selected by the mask colored with the given color</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="stdlib/index.html" class="btn btn-neutral float-right" title="Standard Library" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="using/tutorial/getstarted/shapes-and-images.html" class="btn btn-neutral float-left" title="Shapes and Images" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-, Swyddfa Developers
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,393 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Python PR Builds &mdash; Arlunio 0.0.6 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Python Release" href="python-release.html" />
+    <link rel="prev" title="Python Linting" href="python-linting.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Arlunio
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.6
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../using/index.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../stdlib/index.html">Standard Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../background/index.html">Background</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Contributing</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../get-started.html">Getting Started</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">CI &amp; Automation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="python-linting.html">Python Linting</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Python PR Builds</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#triggers">Triggers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jobs">Jobs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#steps">Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="python-release.html">Python Release</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changes.html">Changelog</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Arlunio</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Contributing</a> &raquo;</li>
+        
+          <li><a href="index.html">CI &amp; Automation</a> &raquo;</li>
+        
+      <li>Python PR Builds</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/contributing/ci/python-pr-builds.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="python-pr-builds">
+<span id="contrib-ci-python-pr"></span><h1>Python PR Builds<a class="headerlink" href="#python-pr-builds" title="Permalink to this headline">¶</a></h1>
+<p>This action defines how PRs that affect the Python code should be evaluated.
+At a high level it performs the following checks:</p>
+<ul class="simple">
+<li><p>Builds and tests the code against each supported platform / version of Python</p></li>
+<li><p>Produces a <a class="reference internal" href="../../glossary.html#term-wheel"><span class="xref std std-term">wheel</span></a> and an <a class="reference internal" href="../../glossary.html#term-sdist"><span class="xref std std-term">sdist</span></a> and makes them available as a
+build artifact.</p></li>
+<li><p>Builds the documentation and makes it available as a build artifact.</p></li>
+<li><p>Reports code coverage.</p></li>
+</ul>
+<div class="section" id="triggers">
+<h2>Triggers<a class="headerlink" href="#triggers" title="Permalink to this headline">¶</a></h2>
+<p>Currently this action is triggered by any PR that is opened against the
+<code class="code docutils literal notranslate"><span class="pre">develop</span></code> or <code class="code docutils literal notranslate"><span class="pre">master</span></code> branches, unless the changes only affect
+the blog.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">on</span><span class="p">:</span>
+  <span class="nt">pull_request</span><span class="p">:</span>
+    <span class="nt">branches</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">develop</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">master</span>
+    <span class="nt">paths</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="s">&#39;arlunio/**&#39;</span>
+    <span class="p p-Indicator">-</span> <span class="s">&#39;docs/using/tutorial/**&#39;</span>
+    <span class="p p-Indicator">-</span> <span class="s">&#39;tests/**&#39;</span>
+    <span class="p p-Indicator">-</span> <span class="s">&#39;setup.py&#39;</span>
+    <span class="p p-Indicator">-</span> <span class="s">&#39;pyproject.toml&#39;</span>
+    <span class="p p-Indicator">-</span> <span class="s">&#39;MANIFEST.in&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="jobs">
+<h2>Jobs<a class="headerlink" href="#jobs" title="Permalink to this headline">¶</a></h2>
+<p>To ensure that a PR doesn’t introduce any breaking changes we need to run the
+test suite against each supported platform and python version. To do this we
+make use of the <code class="code docutils literal notranslate"><span class="pre">matrix</span></code> strategy which spawns a job for each combination
+of <code class="code docutils literal notranslate"><span class="pre">os</span></code> and <code class="code docutils literal notranslate"><span class="pre">python-version</span></code></p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span>  <span class="nt">test</span><span class="p">:</span>
+    <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Test ${{ matrix.python-version }} on ${{ matrix.os }}</span>
+    <span class="nt">runs-on</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">${{ matrix.os }}</span>
+    <span class="nt">strategy</span><span class="p">:</span>
+      <span class="nt">matrix</span><span class="p">:</span>
+        <span class="nt">python-version</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">3.6</span><span class="p p-Indicator">,</span> <span class="nv">3.7</span><span class="p p-Indicator">,</span> <span class="nv">3.8</span><span class="p p-Indicator">]</span>
+        <span class="nt">os</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">ubuntu-latest</span><span class="p p-Indicator">]</span>  <span class="c1"># TODO: Enable windows-latest, macOS-latest</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="steps">
+<h2>Steps<a class="headerlink" href="#steps" title="Permalink to this headline">¶</a></h2>
+<p>With the preliminaries out of the way, time to focus on the actual work this
+action performs.</p>
+<div class="section" id="setup">
+<h3>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span>    <span class="p p-Indicator">-</span> <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">actions/checkout@v1</span>
+
+    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Setup Python ${{ matrix.python-version }}</span>
+      <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">actions/setup-python@v1</span>
+      <span class="nt">with</span><span class="p">:</span>
+        <span class="nt">python-version</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">${{ matrix.python-version }}</span>
+
+    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Setup Environment</span>
+      <span class="nt">run</span><span class="p">:</span> <span class="p p-Indicator">|</span>
+        <span class="no">python --version</span>
+        <span class="no">python -m pip install --upgrade pip</span>
+        <span class="no">python -m pip install --upgrade tox</span>
+</pre></div>
+</div>
+<p>The first few steps handle checking out the code, setting up Python and
+ensuring the tools we need to run the tests are available.</p>
+</div>
+<div class="section" id="dev-version-number">
+<h3>Dev Version Number<a class="headerlink" href="#dev-version-number" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Since we only publish one distribution these steps only run on the latest
+version of python.</p>
+</div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span>    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Get Version Number</span>
+      <span class="nt">run</span><span class="p">:</span> <span class="p p-Indicator">|</span>
+        <span class="no">build=$(echo $GITHUB_REF | sed -E &#39;s/.*\/([0-9]+)\/.*/\1/&#39;)</span>
+
+        <span class="no">echo &quot;ref: $GITHUB_REF&quot;</span>
+        <span class="no">echo &quot;Build number is $build&quot;</span>
+
+        <span class="no">echo &quot;::set-env name=BUILD_NUMBER::$build&quot;</span>
+        <span class="no">echo &quot;::set-output name=BUILD_NUMBER::$build&quot;</span>
+      <span class="nt">if</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">matrix.python-version == &#39;3.7&#39;</span>
+
+    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Set Version Number</span>
+      <span class="nt">shell</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">bash</span>
+      <span class="nt">run </span><span class="p">:</span> <span class="p p-Indicator">|</span>
+        <span class="no">sed -i &#39;s/&quot;\(.*\)&quot;/&quot;\1dev&#39;&quot;${BUILD_NUMBER}&quot;&#39;&quot;/&#39; arlunio/_version.py</span>
+        <span class="no">cat arlunio/_version.py</span>
+      <span class="nt">if</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">matrix.python-version == &#39;3.7&#39;</span>
+</pre></div>
+</div>
+<p>So that we have the option of trying out the changes introduced by a PR locally
+before accepting it we package up the python code into a <a class="reference internal" href="../../glossary.html#term-wheel"><span class="xref std std-term">wheel</span></a> and make
+it available as a build artifact. To ensure that these development builds are
+not confused with a beta or real release we adjust the version number to
+include a <code class="code docutils literal notranslate"><span class="pre">dev&lt;BUILD_NUMBER&gt;</span></code> suffix.</p>
+<p>However unlike beta builds we cannot make use of the
+<a class="reference external" href="https://github.com/einaregilsson/build-number">einaregilsson/build-number</a> action for PR builds to generate a build number
+for us. This is due to it requiring access to the GitHub API token which is
+unavailable for any build originating from a fork of the main repository.</p>
+<p>Instead we choose the PR number as the build number which we can obtain using a
+carefully crafted <code class="code docutils literal notranslate"><span class="pre">sed</span></code> command and the <code class="code docutils literal notranslate"><span class="pre">GITHUB_REF</span></code> environment
+variable. Then we make an environment variable <code class="code docutils literal notranslate"><span class="pre">BUILD_NUMBER</span></code> available
+which can be referenced by later steps in the job.</p>
+<p>Finally using another carefully crafted <code class="code docutils literal notranslate"><span class="pre">sed</span></code> command in the next step we
+rewrite the version number in the <code class="code docutils literal notranslate"><span class="pre">arlunio/_version.py</span></code> file so that it
+contains the <code class="code docutils literal notranslate"><span class="pre">dev&lt;BUILD_NUMBER&gt;</span></code> suffix.</p>
+</div>
+<div class="section" id="tox">
+<h3>Tox<a class="headerlink" href="#tox" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span>    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&#39;Tox:</span><span class="nv"> </span><span class="s">Run</span><span class="nv"> </span><span class="s">Tests&#39;</span>
+      <span class="nt">shell</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">bash</span>
+      <span class="nt">run</span><span class="p">:</span> <span class="p p-Indicator">|</span>
+        <span class="no">tox -e py`echo ${{ matrix.python-version }} | tr -d .`</span>
+
+    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&#39;Tox:</span><span class="nv"> </span><span class="s">Build</span><span class="nv"> </span><span class="s">Docs&#39;</span>
+      <span class="nt">run</span><span class="p">:</span> <span class="p p-Indicator">|</span>
+        <span class="no">tox -e docs</span>
+
+    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&#39;Tox:</span><span class="nv"> </span><span class="s">Build</span><span class="nv"> </span><span class="s">Pkg&#39;</span>
+      <span class="nt">run</span><span class="p">:</span> <span class="p p-Indicator">|</span>
+        <span class="no">tox -e pkg</span>
+        <span class="no">ls dist</span>
+      <span class="nt">if</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">matrix.python-version == &#39;3.7&#39;</span>
+</pre></div>
+</div>
+<p>Time for the main event, we use <a class="reference internal" href="../../glossary.html#term-tox"><span class="xref std std-term">tox</span></a> to run all our tests including the
+doctests defined in the documentation and the codebase as well as a code
+coverage report. Additionally for the latest version of Python we package the
+code and build the docs in preparation for them to be uploaded as build
+artifacts.</p>
+</div>
+<div class="section" id="publish-results">
+<h3>Publish Results<a class="headerlink" href="#publish-results" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span>    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&#39;Publish</span><span class="nv"> </span><span class="s">Pkg&#39;</span>
+      <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">actions/upload-artifact@v1.0.0</span>
+      <span class="nt">with</span><span class="p">:</span>
+        <span class="nt">name</span><span class="p">:</span> <span class="s">&#39;pkg&#39;</span>
+        <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">dist</span>
+      <span class="nt">if</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">matrix.python-version == &#39;3.7&#39;</span>
+
+    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&#39;Publish</span><span class="nv"> </span><span class="s">Docs&#39;</span>
+      <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">actions/upload-artifact@v1.0.0</span>
+      <span class="nt">with</span><span class="p">:</span>
+        <span class="nt">name</span><span class="p">:</span> <span class="s">&#39;docs&#39;</span>
+        <span class="nt">path</span><span class="p">:</span> <span class="s">&#39;docs/_build/html&#39;</span>
+      <span class="nt">if</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">matrix.python-version == &#39;3.7&#39;</span>
+
+    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&#39;Report</span><span class="nv"> </span><span class="s">Code</span><span class="nv"> </span><span class="s">Coverage&#39;</span>
+      <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">codecov/codecov-action@v1</span>
+      <span class="nt">with</span><span class="p">:</span>
+        <span class="nt">name</span><span class="p">:</span> <span class="s">&quot;${{</span><span class="nv"> </span><span class="s">matrix.os</span><span class="nv"> </span><span class="s">}}-${{</span><span class="nv"> </span><span class="s">matrix.python-version</span><span class="nv"> </span><span class="s">}}&quot;</span>
+        <span class="nt">flags</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">unittests</span>
+</pre></div>
+</div>
+<p>Finally we publish all the artifacts generated during the course of the build
+along with uploading our code coverage report to <a class="reference external" href="https://codecov.io">codecov</a></p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="python-release.html" class="btn btn-neutral float-right" title="Python Release" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="python-linting.html" class="btn btn-neutral float-left" title="Python Linting" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-, Swyddfa Developers
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
