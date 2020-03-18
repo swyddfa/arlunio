@@ -24,7 +24,7 @@
         {
             "label": "Build Docs",
             "type": "shell",
-            "command": "source ${workspaceRoot}/.dev/bin/activate && sphinx-autobuild -b html docs/ docs/_build/",
+            "command": "source ${workspaceRoot}/.dev/bin/activate && sphinx-autobuild -E -a -b html docs/ docs/_build/",
             "problemMatcher": [],
             "group": "build",
             "options": {

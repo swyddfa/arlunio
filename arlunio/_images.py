@@ -10,7 +10,7 @@ import numpy as np
 import PIL.Image as PImage
 import PIL.ImageColor as PColor
 
-from ._expressions import lerp
+from ._expressions import lerp, normalise
 
 logger = logging.getLogger(__name__)
 
@@ -93,12 +93,13 @@ def encode(image) -> bytes:
 def colorramp(values, start: Optional[str] = None, stop: Optional[str] = None) -> Image:
     """Given a range of values, produce an image mapping those values onto colors."""
 
+    vs = normalise(values)
     (r, g, b) = PColor.getrgb("#000") if start is None else PColor.getrgb(start)
     (R, G, B) = PColor.getrgb("#fff") if stop is None else PColor.getrgb(stop)
 
-    reds = np.floor(lerp(r, R)(values))
-    greens = np.floor(lerp(g, G)(values))
-    blues = np.floor(lerp(b, B)(values))
+    reds = np.floor(lerp(r, R)(vs))
+    greens = np.floor(lerp(g, G)(vs))
+    blues = np.floor(lerp(b, B)(vs))
 
     pixels = np.array(np.dstack([reds, greens, blues]), dtype=np.uint8)
     return PImage.fromarray(pixels)

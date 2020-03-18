@@ -6,9 +6,9 @@ Arlunio
    :hidden:
 
    using/index
-   extending/index
-   contributing/index
    api
    stdlib/index
+   background/index
+   contributing/index
    glossary
    changes

@@ -318,6 +318,7 @@ def definition(f=None):
 
         attributes = {
             "__doc__": inspect.getdoc(defn),
+            "__module__": defn.__module__,
             "_definition": staticmethod(defn),
         }
 

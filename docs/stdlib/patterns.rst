@@ -3,10 +3,25 @@
 Patterns
 ========
 
-Built in definitions useful for generating patterns.
+Higher-order definitions useful for generating patterns.
 
-.. autodefn:: arlunio.lib.pattern.Grid
+.. _stdlib_patterns_grid:
 
-.. autodefn:: arlunio.lib.pattern.Map
+Grid
+----
 
-.. autodefn:: arlunio.lib.pattern.Pixelize
+.. autoclass:: arlunio.lib.pattern.Grid
+
+.. _stdlib_patterns_map:
+
+Map
+---
+
+.. autoclass:: arlunio.lib.pattern.Map
+
+.. _stdlib_patterns_pixelize:
+
+Pixelize
+--------
+
+.. autoclass:: arlunio.lib.pattern.Pixelize

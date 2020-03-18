@@ -28,6 +28,8 @@ Expressions
 
 .. autofunction:: arlunio.lerp
 
+.. autofunction:: arlunio.normalise
+
 Images
 ------
 
