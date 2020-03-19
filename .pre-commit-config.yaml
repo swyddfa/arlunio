@@ -18,3 +18,11 @@ repos:
   hooks:
   - id: black
     exclude: 'solutions'
+
+- repo: local
+  hooks:
+  - id: clean-notebooks
+    name: clean-notebooks
+    entry: ./scripts/clean-notebooks.sh
+    language: script
+    files: \.ipynb$
