@@ -23,6 +23,39 @@ line_length = 88
 lines_between_types = 1
 multi_line_output = 3
 
+[tool.towncrier]
+package = "arlunio"
+filename = "CHANGES.rst"
+directory = "changes/"
+title_format = "{version} - {project_date}"
+issue_format = "`#{issue} <https://github.com/swyddfa/arlunio/issues/{issue}>`_"
+
+
+[[tool.towncrier.type]]
+     directory = "feature"
+     name = "Features"
+     showcontent = true
+
+[[tool.towncrier.type]]
+     directory = "fix"
+     name = "Fixes"
+     showcontent = true
+
+[[tool.towncrier.type]]
+     directory = "doc"
+     name = "Docs"
+     showcontent = true
+
+[[tool.towncrier.type]]
+     directory = "removal"
+     name = "Removed"
+     showcontent = true
+
+[[tool.towncrier.type]]
+     directory = "misc"
+     name = "Misc"
+     showcontent = true
+
 [tool.tox]
 legacy_tox_ini = """
 [tox]
