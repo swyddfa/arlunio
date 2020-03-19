@@ -25,10 +25,9 @@ do
     md5New=$(md5sum "$out" | cut -f 1 -d \  )
 
     if [ "$md5New" == "$md5Orig" ]; then
-        echo "$f - Unchanged"
         rm "$out"
     else
-        echo "$f - Cleaned"
+        echo "Cleaned: $f"
         mv "$out" "$f"
     fi
 
