@@ -136,6 +136,27 @@ jobs:
         asset_content_type: application/octet-stream
     # </release-job-upload>
 
+    # <release-job-notes>
+    - name: Upload Release Notes
+      shell: bash
+      run: |
+        python -m pip install towncrier docutils
+
+        ./scripts/write-release-notes.sh > release-notes.html
+        notes=$(cat release-notes.html)
+        echo $notes
+
+        curl -s -X PATCH https://api.github.com/repos/${{ github.repository }}/releases/${{ steps.release.outputs.id }} \
+        -H "Authorization: token $GITHUB_TOKEN" \
+        -d @- << EOF
+        {
+          "body": "$notes"
+        }
+        EOF
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    # </release-job-notes>
+
     # <release-job-pypi>
     - name: Publish to PyPi
       run: |

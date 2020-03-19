@@ -11,4 +11,4 @@ Arlunio
    background/index
    contributing/index
    glossary
-   changes
+   changelog/index
