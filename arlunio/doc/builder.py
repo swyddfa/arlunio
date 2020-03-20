@@ -8,6 +8,7 @@ from pathlib import Path
 import attr
 import docutils.nodes as nodes
 import docutils.writers as writers
+import nbformat.v4 as nbf
 
 from docutils.io import StringOutput
 from sphinx.builders import Builder
@@ -91,13 +92,16 @@ class NotebookWriter(writers.Writer):
         self.output = visitor.astext()
 
 
-class NotebookTranslator(SphinxTranslator):
+class NotebookTranslator(nodes.NodeVisitor):
     """Converts rst nodes into their output representation."""
 
-    def __init__(self, document, builder):
-        super().__init__(document, builder)
+    def __init__(self, document):
+        super().__init__(document)
         self.cells = []
         self.level = 0
+
+    def asnotebook(self):
+        return nbf.new_notebook(cells=self.cells)
 
     @property
     def current_cell(self):
@@ -110,9 +114,12 @@ class NotebookTranslator(SphinxTranslator):
     def new_cell(self, cell_type: str) -> None:
         current = self.current_cell
 
-        if current is None or current.cell_type != cell_type:
-            cell = NotebookCell(cell_type=cell_type)
-            self.cells.append(cell)
+        if current is not None and current.cell_type == cell_type:
+            return
+
+        types = {"markdown": nbf.new_markdown_cell, "code": nbf.new_code_cell}
+        new_cell = types[cell_type]
+        self.cells.append(new_cell())
 
     def _log_visit(self, node: nodes.Node, surround: str = None) -> None:
         prefix = self.level * " " + "-> "
@@ -127,13 +134,13 @@ class NotebookTranslator(SphinxTranslator):
         pass
 
     def astext(self):
-        notebook = Notebook.fromcells(self.cells)
-        return json.dumps(notebook.json, indent=2)
+        notebook = nbf.new_notebook(cells=self.cells)
+        return nbf.writes(notebook)
 
     def visit_section(self, node: nodes.section) -> None:
         self.level += 1
         self._log_visit(node)
-        self.new_cell(NotebookCell.MARKDOWN)
+        self.new_cell("markdown")
 
     def depart_section(self, node: nodes.section) -> None:
         self.level -= 1
@@ -142,7 +149,7 @@ class NotebookTranslator(SphinxTranslator):
     def visit_Text(self, node: nodes.Text) -> None:
         self._log_visit(node)
 
-        if self.current_cell.cell_type == NotebookCell.MARKDOWN:
+        if self.current_cell.cell_type == "markdown":
             self.current_cell.source += node.astext()
             return
 
@@ -195,7 +202,7 @@ class NotebookTranslator(SphinxTranslator):
 
     def visit_literal_block(self, node: nodes.literal_block) -> None:
         self._log_visit(node)
-        self.new_cell(NotebookCell.CODE)
+        self.new_cell("code")
 
     def depart_literal_block(self, node: nodes.literal_block) -> None:
         self._log_departure(node)
@@ -214,14 +221,13 @@ class NotebookTranslator(SphinxTranslator):
         pass
 
     def visit_reference(self, node: nodes.reference) -> None:
-        pass
+        self.current_cell.source += "["
 
     def depart_reference(self, node: nodes.reference) -> None:
         attrs = node.attributes
 
-        if attrs["internal"]:
-            ref = attrs["refuri"].split("#")[0]
-            self.current_cell.source += f"({ref})"
+        url = attrs["refuri"]
+        self.current_cell.source += f"]({url})"
 
     def visit_inline(self, node: nodes.inline) -> None:
         self.current_cell.source += "["
