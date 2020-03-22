@@ -32,6 +32,16 @@
             }
         },
         {
+            "label": "Build Tutorial",
+            "type": "shell",
+            "command": "source ${workspaceRoot}/.dev/bin/activate && sphinx-build -M nbtutorial docs/ docs/_build/ -E -a",
+            "problemMatcher": [],
+            "group": "build",
+            "options": {
+                "cwd": "${workspaceRoot}"
+            }
+        },
+        {
             "label": "Edit Gallery",
             "type": "shell",
             "command": "source ${workspaceRoot}/.dev/bin/activate && jupyter-lab --no-browser",
@@ -102,6 +112,16 @@
             "group": "build",
             "options": {
                 "cwd": "${workspaceRoot}/.scratch"
+            }
+        },
+        {
+            "label": "Open Tutorial",
+            "type": "shell",
+            "command": "source ${workspaceRoot}/.dev/bin/activate && jupyter-lab",
+            "problemMatcher": [],
+            "group": "build",
+            "options": {
+                "cwd": "${workspaceRoot}/docs/_build/nbtutorial/users"
             }
         },
         {
