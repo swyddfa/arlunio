@@ -94,7 +94,7 @@ usedevelop = True
 commands =
 
      sphinx-build -M nbtutorial docs/ docs/_build -E -a
-     cp -r docs/_build/nbtutorial/using/tutorial/ arlunio
+     cp -r docs/_build/nbtutorial/users/ arlunio/tutorial
 
      python setup.py sdist bdist_wheel
 """
