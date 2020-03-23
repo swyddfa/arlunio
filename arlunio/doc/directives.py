@@ -8,6 +8,7 @@ import arlunio as ar
 
 from docutils import nodes
 from docutils.parsers import rst
+from docutils.parsers.rst.directives.admonitions import BaseAdmonition
 from docutils.statemachine import StringList
 from PIL.Image import Image
 from sphinx.util import logging, nested_parse_with_titles
@@ -137,6 +138,31 @@ def render_image(src: str, smooth: bool = True) -> List[nodes.Node]:
 class NBTutorialDirective(rst.Directive):
     def run(self):
         return [nbtutorial("")]
+
+
+class nbsolution(nodes.General, nodes.Element):
+    pass
+
+
+def visit_nbsolution(self, node):
+    self.body.append('<details class="admonition note">\n')
+    self.body.append(
+        '<summary class="admonition-title">Solution (click to expand)</summary>\n'
+    )
+
+
+def depart_nbsolution(self, node):
+    self.body.append("</details>\n")
+
+
+class NBSolutionDirective(BaseAdmonition):
+
+    has_content = True
+    node_class = nbsolution
+
+    def run(self):
+        (soln,) = super().run()
+        return [soln]
 
 
 class ArlunioImageDirective(rst.Directive):

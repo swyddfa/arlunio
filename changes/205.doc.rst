@@ -1,0 +1,2 @@
+- Flatten structure of the User Guide section
+- Add placeholder first tutorial

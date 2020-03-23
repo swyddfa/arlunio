@@ -18,7 +18,9 @@ v0.0.4 - 2020-02-15
 
 Added
 ^^^^^
+
 - The concept of a :code:`Definition`.
+
   + This incorporates the existing concept of a :code:`Shape` and expands on it
     to cover input parameters and more
   + Definitions can be derived from other definitions by passing in existing

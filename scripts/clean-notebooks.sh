@@ -14,12 +14,12 @@ do
     md5Orig=$(md5sum "$f" | cut -f 1 -d \  )
 
     outDir=$(dirname "$f")
-    out="${outDir}/tmp.ipynb"
+    out="$(mktemp).ipynb"
 
     jupyter nbconvert --log-level=ERROR \
             --ClearOutputPreprocessor.enabled=True \
             --to notebook \
-            --output="tmp" \
+            --output="$out" \
             "$f"
 
     md5New=$(md5sum "$out" | cut -f 1 -d \  )
