@@ -5,7 +5,7 @@ Arlunio
    :maxdepth: 2
    :hidden:
 
-   using/index
+   users/index
    api
    stdlib/index
    background/index

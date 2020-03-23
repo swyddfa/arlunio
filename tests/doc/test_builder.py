@@ -46,31 +46,6 @@ def _get_mock_settings() -> mock.Mock:
     return settings
 
 
-LINK_REFERENCE_RST = """
-Check out the `docs`_
-
-.. _docs: https://docs.python.org/3.7/
-"""
-
-LINK_REFERENCE_CELLS = [
-    nbf.new_markdown_cell("\nCheck out the [docs](https://docs.python.org/3.7/)\n")
-]
-
-NOTE_RST = """
-.. note::
-
-   This is an *important* note
-"""
-
-NOTE_MD = """\
-> **Note**
-
-> This is an *important* note
-"""
-
-NOTE_CELLS = [nbf.new_markdown_cell(NOTE_MD)]
-
-
 @py.test.mark.parametrize(
     "name",
     [
