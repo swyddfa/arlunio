@@ -28,7 +28,7 @@ extras = {
         "sphobjinv",
         "tox",
     ],
-    "doc": ["sphinx"],
+    "doc": ["sphinx", "nbformat"],
     "examples": ["jupyterlab"],
     "testing": ["hypothesis"],
 }
