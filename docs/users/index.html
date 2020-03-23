@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Standard Library &mdash; Arlunio 0.0.6 documentation</title>
+  <title>User Guide &mdash; Arlunio 0.0.6 documentation</title>
   
 
   
@@ -36,8 +36,8 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Parameters" href="parameters.html" />
-    <link rel="prev" title="API Reference" href="../api.html" /> 
+    <link rel="next" title="Getting Started" href="getting-started/index.html" />
+    <link rel="prev" title="Arlunio" href="../index.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -86,14 +86,12 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../users/index.html">User Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Standard Library</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="parameters.html">Parameters</a></li>
-<li class="toctree-l2"><a class="reference internal" href="patterns.html">Patterns</a></li>
-<li class="toctree-l2"><a class="reference internal" href="shapes.html">Shapes</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">User Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/index.html">Getting Started</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stdlib/index.html">Standard Library</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../background/index.html">Background</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../contributing/index.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
@@ -143,13 +141,13 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>Standard Library</li>
+      <li>User Guide</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/stdlib/index.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/users/index.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -162,39 +160,33 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="standard-library">
-<span id="stdlib"></span><h1>Standard Library<a class="headerlink" href="#standard-library" title="Permalink to this headline">¶</a></h1>
-<p>Having a system for defining shapes and creating images is only half of the
-battle. It’s hard to see the utility if you have nothing to work with so
-<code class="code docutils literal notranslate"><span class="pre">arlunio</span></code> also comes with a standard library of Shapes providing the
-basics everyone will need along with some useful utilities for various tasks.</p>
+  <div class="section" id="user-guide">
+<span id="users"></span><h1>User Guide<a class="headerlink" href="#user-guide" title="Permalink to this headline">¶</a></h1>
+<p>Welcome to the user guide! It is made up from a number of sections each focused
+on a particular aspect of <code class="code docutils literal notranslate"><span class="pre">arlunio</span></code>. Each section tries to be self
+contained so feel free to visit them in whichever order you fancy. However if
+this is your first time using <code class="code docutils literal notranslate"><span class="pre">arlunio</span></code> then it is recommended to start
+with the <a class="reference internal" href="getting-started/index.html#users-getting-started"><span class="std std-ref">Getting Started</span></a> section.</p>
+<p>Where possible we have tried to include examples and short excercises that aim
+to demonstrate particular concepts and to encourage experimentation - while
+solutions to these excercises are available keep in mind that there is often
+more than one way to achieve the same outcome!</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>There is also an interactive version of the user guide available if you
+have <code class="code docutils literal notranslate"><span class="pre">arlunio</span></code> setup on your machine. It can be launched by running
+the command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ arlunio tutorial
+</pre></div>
+</div>
+<p>This will open a <a class="reference external" href="https://jupyterlab.readthedocs.io/en/stable/">Jupyter Lab</a> instance pointed at this section of the
+documentation.</p>
+</div>
+<p>The user guide is made up of the following sections</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="getting-started/index.html#users-getting-started"><span class="std std-ref">Getting Started</span></a>: If you are new to arlunio start here.</p></li>
+</ul>
 <div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">Index</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="parameters.html">Parameters</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="parameters.html#r">R</a></li>
-<li class="toctree-l2"><a class="reference internal" href="parameters.html#t">T</a></li>
-<li class="toctree-l2"><a class="reference internal" href="parameters.html#x">X</a></li>
-<li class="toctree-l2"><a class="reference internal" href="parameters.html#y">Y</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="patterns.html">Patterns</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="patterns.html#grid">Grid</a></li>
-<li class="toctree-l2"><a class="reference internal" href="patterns.html#map">Map</a></li>
-<li class="toctree-l2"><a class="reference internal" href="patterns.html#pixelize">Pixelize</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="shapes.html">Shapes</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="shapes.html#circle">Circle</a></li>
-<li class="toctree-l2"><a class="reference internal" href="shapes.html#ellipse">Ellipse</a></li>
-<li class="toctree-l2"><a class="reference internal" href="shapes.html#empty">Empty</a></li>
-<li class="toctree-l2"><a class="reference internal" href="shapes.html#full">Full</a></li>
-<li class="toctree-l2"><a class="reference internal" href="shapes.html#square">Square</a></li>
-<li class="toctree-l2"><a class="reference internal" href="shapes.html#super-ellipse">Super Ellipse</a></li>
-<li class="toctree-l2"><a class="reference internal" href="shapes.html#rectangle">Rectangle</a></li>
-</ul>
-</li>
-</ul>
 </div>
 </div>
 
@@ -206,10 +198,10 @@ basics everyone will need along with some useful utilities for various tasks.</p
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="parameters.html" class="btn btn-neutral float-right" title="Parameters" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="getting-started/index.html" class="btn btn-neutral float-right" title="Getting Started" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../api.html" class="btn btn-neutral float-left" title="API Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../index.html" class="btn btn-neutral float-left" title="Arlunio" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
