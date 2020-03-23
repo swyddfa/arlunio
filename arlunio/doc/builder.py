@@ -27,7 +27,7 @@ class NotebookWriter(writers.Writer):
 
     def translate(self):
 
-        visitor = NotebookTranslator(self.document, self.builder)
+        visitor = NotebookTranslator(self.document)
         self.document.walkabout(visitor)
         self.output = visitor.astext()
 
@@ -69,6 +69,7 @@ class NotebookTranslator(nodes.NodeVisitor):
         super().__init__(document)
         self.cells = []
         self.level = 0
+        self.prefix = None
 
     def asnotebook(self):
         return nbf.new_notebook(cells=self.cells)
@@ -91,6 +92,16 @@ class NotebookTranslator(nodes.NodeVisitor):
         new_cell = types[cell_type]
         self.cells.append(new_cell())
 
+    def append(self, text):
+
+        if self.prefix is not None:
+            text = text.replace("\n", "\n" + self.prefix)
+
+            self.current_cell.source += text
+            return
+
+        self.current_cell.source += text
+
     def astext(self):
         notebook = nbf.new_notebook(cells=self.cells)
         return nbf.writes(notebook)
@@ -101,6 +112,24 @@ class NotebookTranslator(nodes.NodeVisitor):
         self.new_cell("markdown")
 
     def depart_bullet_list(self, node: nodes.bullet_list) -> None:
+        pass
+
+    def visit_compound(self, node: nodes.compound) -> None:
+        pass
+
+    def depart_compound(self, node: nodes.compound) -> None:
+        pass
+
+    def visit_compact_paragraph(self, node) -> None:
+        pass
+
+    def depart_compact_paragraph(self, node) -> None:
+        pass
+
+    def visit_comment(self, node: nodes.comment) -> None:
+        self.new_cell("markdown")
+
+    def depart_comment(self, node: nodes.comment) -> None:
         pass
 
     def visit_document(self, node: nodes.document) -> None:
@@ -122,7 +151,7 @@ class NotebookTranslator(nodes.NodeVisitor):
         self.current_cell.source += "]"
 
     def visit_list_item(self, node: nodes.list_item) -> None:
-        self.current_cell.source += "- "
+        self.append("- ")
 
     def depart_list_item(self, node: nodes.list_item) -> None:
         pass
@@ -139,25 +168,39 @@ class NotebookTranslator(nodes.NodeVisitor):
     def depart_literal_block(self, node: nodes.literal_block) -> None:
         pass
 
+    def visit_nbtutorial(self, node: nbtutorial) -> None:
+        pass
+
+    def depart_nbtutorial(self, node: nbtutorial) -> None:
+        pass
+
+    def visit_note(self, node: nodes.note) -> None:
+        self.new_cell("markdown")
+        self.append("> **Note**\n")
+        self.prefix = "> "
+
+    def depart_note(self, node: nodes.note) -> None:
+        self.prefix = None
+
     def visit_paragraph(self, node: nodes.paragraph) -> None:
         self.new_cell("markdown")
 
         if isinstance(node.parent, nodes.list_item):
             return
 
-        self.current_cell.source += "\n"
+        self.append("\n")
 
     def depart_paragraph(self, node: nodes.paragraph) -> None:
-        self.current_cell.source += "\n"
+        self.append("\n")
 
     def visit_reference(self, node: nodes.reference) -> None:
-        self.current_cell.source += "["
+        self.append("[")
 
     def depart_reference(self, node: nodes.reference) -> None:
         attrs = node.attributes
 
         url = attrs["refuri"]
-        self.current_cell.source += f"]({url})"
+        self.append(f"]({url})")
 
     def visit_section(self, node: nodes.section) -> None:
         self.level += 1
@@ -180,14 +223,17 @@ class NotebookTranslator(nodes.NodeVisitor):
 
     def visit_Text(self, node: nodes.Text) -> None:
 
+        if isinstance(node.parent, nodes.comment):
+            return
+
         if self.current_cell.cell_type == "markdown":
-            self.current_cell.source += node.astext()
+            self.append(node.astext())
             return
 
         source = node.astext()
 
         if ">>>" not in source:
-            self.current_cell.source += source
+            self.append(source)
             return
 
         pattern = re.compile("^(>>>|\\.\\.\\.) ?")
@@ -199,17 +245,17 @@ class NotebookTranslator(nodes.NodeVisitor):
             [clean_line(line) for line in source.split("\n") if pattern.match(line)]
         )
 
-        self.current_cell.source += cleaned_source
+        self.append(cleaned_source)
 
     def depart_Text(self, node: nodes.Text) -> None:
         pass
 
     def visit_title(self, node: nodes.title) -> None:
         title = "#" * self.level
-        self.current_cell.source += f"\n{title} "
+        self.append(f"{title} ")
 
     def depart_title(self, node: nodes.title) -> None:
-        self.current_cell.source += "\n"
+        self.append("\n")
 
 
 def codeblock(source: str) -> nodes.literal_block:
