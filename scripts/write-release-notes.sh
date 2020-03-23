@@ -10,7 +10,7 @@
 # - Strip all class="x" declarations
 # - Strip all id="x" declarations
 # - Escape all '"' characters so we hopefully produce valid JSON
-towncrier --draft | rst2html.py --template=changelog/github-template.html \
+towncrier --draft | rst2html.py --template=changes/github-template.html \
                   | tr -d '\n' \
                   | sed 's/ class="[^"]*"//g' \
                   | sed 's/ id="[^"]*"//g' \
