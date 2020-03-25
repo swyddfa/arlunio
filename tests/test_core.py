@@ -278,3 +278,44 @@ def test_derived_definition_eval_kwargs():
         return height - base
 
     assert Derived()(height=4, base=4) == 0
+
+
+@py.test.mark.parametrize(
+    "op,fn",
+    [
+        (ar.Definition.OP_ADD, lambda a, b: a + b),
+        (ar.Definition.OP_AND, lambda a, b: a & b),
+        (ar.Definition.OP_DIV, lambda a, b: a / b),
+        (ar.Definition.OP_FLOORDIV, lambda a, b: a // b),
+        (ar.Definition.OP_LSHIFT, lambda a, b: a << b),
+        (ar.Definition.OP_MATMUL, lambda a, b: a @ b),
+        (ar.Definition.OP_MOD, lambda a, b: a % b),
+        (ar.Definition.OP_MUL, lambda a, b: a * b),
+        (ar.Definition.OP_OR, lambda a, b: a | b),
+        (ar.Definition.OP_POW, lambda a, b: a ** b),
+        (ar.Definition.OP_RSHIFT, lambda a, b: a >> b),
+        (ar.Definition.OP_SUB, lambda a, b: a - b),
+        (ar.Definition.OP_XOR, lambda a, b: a ^ b),
+    ],
+)
+def test_definition_binary_operation_not_supported_other_objects(op, fn):
+    """Ensure that we throw a sensible error if a user tries to perform an operation
+    with an object that is not supported."""
+
+    @ar.definition()
+    def Defn():
+        pass
+
+    defn = Defn()
+    op_name = op.capitalize().replace("_", " ")
+    message = "{} is not supported between {} and {}"
+
+    with py.test.raises(TypeError) as err:
+        fn(defn, 1)
+
+    assert message.format(op_name, "Defn[Any]", "int") == str(err.value)
+
+    with py.test.raises(TypeError) as err:
+        fn(1, defn)
+
+    assert message.format(op_name, "int", "Defn[Any]") == str(err.value)

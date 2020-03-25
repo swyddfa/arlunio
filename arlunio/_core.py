@@ -5,6 +5,11 @@ from typing import Any, ClassVar, Dict, List
 import attr
 
 
+class Mask:
+    """Currently just a type alias for boolean numpy arrays but gives us the flexibility
+    to add smarts later."""
+
+
 def _prepare_definition(defn, attributes):
     """Given a definiton and a bag of attributes, create an instance of it by passing
     in the applicable attributes into the constructor."""
@@ -15,12 +20,50 @@ def _prepare_definition(defn, attributes):
     return defn(**args)
 
 
+def _format_type(obj: Any) -> str:
+    """Given an object, return an appropriate representation for its type."""
+
+    if isinstance(obj, Definition):
+        type_ = obj.produces()
+
+        try:
+            t = type_.__name__
+        except AttributeError:
+            t = str(type_).split(".")[-1]
+
+        return f"{obj.__class__.__name__}[{t}]"
+
+    type_ = type(obj)
+
+    try:
+        return type_.__name__
+    except AttributeError:
+        return str(type_).split(".")[-1]
+
+
+_DEFN_OPERATIONS = {}
+
+
 @attr.s(auto_attribs=True)
 class Definition:
     """A definition is the representation of something that can be mapped onto an
     image."""
 
     ATTR_ID: ClassVar[str] = "arlunio.attribute"
+
+    OP_ADD: ClassVar[str] = "addition"
+    OP_AND: ClassVar[str] = "and"
+    OP_DIV: ClassVar[str] = "division"
+    OP_FLOORDIV: ClassVar[str] = "floor_division"
+    OP_LSHIFT: ClassVar[str] = "left_shift"
+    OP_MATMUL: ClassVar[str] = "matrix_multiplication"
+    OP_MOD: ClassVar[str] = "modulus"
+    OP_MUL: ClassVar[str] = "multiplication"
+    OP_OR: ClassVar[str] = "or"
+    OP_POW: ClassVar[str] = "power"
+    OP_RSHIFT: ClassVar[str] = "right_shift"
+    OP_SUB: ClassVar[str] = "subtraction"
+    OP_XOR: ClassVar[str] = "exclusive_or"
 
     def __call__(self, width: int = None, height: int = None, **kwargs):
         args = dict(self.definitions)
@@ -50,6 +93,105 @@ class Definition:
             args[name] = defn(width, height)
 
         return self._definition(**args, **self.attribs)
+
+    def _special_method(self, operation, a, b):
+        """Implements the special methods in a standardized way."""
+
+        op_name = operation.capitalize().replace("_", " ")
+        a_is_defn = isinstance(a, Definition)
+        b_is_defn = isinstance(b, Definition)
+
+        t1 = type(a) if not a_is_defn else a.produces()
+        t2 = type(b) if not b_is_defn else b.produces()
+
+        impl = _DEFN_OPERATIONS.get((operation, t1, t2), None)
+
+        if impl is None:
+            a = _format_type(a)
+            b = _format_type(b)
+
+            raise TypeError(f"{op_name} is not supported between {a} and {b}")
+
+        defn = impl(a=a, b=b)
+        return defn
+
+    def __add__(self, other):
+        return self._special_method(self.OP_ADD, self, other)
+
+    def __radd__(self, other):
+        return self._special_method(self.OP_ADD, other, self)
+
+    def __and__(self, other):
+        return self._special_method(self.OP_AND, self, other)
+
+    def __rand__(self, other):
+        return self._special_method(self.OP_AND, other, self)
+
+    def __floordiv__(self, other):
+        return self._special_method(self.OP_FLOORDIV, self, other)
+
+    def __rfloordiv__(self, other):
+        return self._special_method(self.OP_FLOORDIV, other, self)
+
+    def __lshift__(self, other):
+        return self._special_method(self.OP_LSHIFT, self, other)
+
+    def __rlshift__(self, other):
+        return self._special_method(self.OP_LSHIFT, other, self)
+
+    def __matmul__(self, other):
+        return self._special_method(self.OP_MATMUL, self, other)
+
+    def __rmatmul__(self, other):
+        return self._special_method(self.OP_MATMUL, other, self)
+
+    def __mod__(self, other):
+        return self._special_method(self.OP_MOD, self, other)
+
+    def __rmod__(self, other):
+        return self._special_method(self.OP_MOD, other, self)
+
+    def __mul__(self, other):
+        return self._special_method(self.OP_MUL, self, other)
+
+    def __rmul__(self, other):
+        return self._special_method(self.OP_MUL, other, self)
+
+    def __or__(self, other):
+        return self._special_method(self.OP_OR, self, other)
+
+    def __ror__(self, other):
+        return self._special_method(self.OP_OR, other, self)
+
+    def __pow__(self, other):
+        return self._special_method(self.OP_POW, self, other)
+
+    def __rpow__(self, other):
+        return self._special_method(self.OP_POW, other, self)
+
+    def __rshift__(self, other):
+        return self._special_method(self.OP_RSHIFT, self, other)
+
+    def __rrshift__(self, other):
+        return self._special_method(self.OP_RSHIFT, other, self)
+
+    def __sub__(self, other):
+        return self._special_method(self.OP_SUB, self, other)
+
+    def __rsub__(self, other):
+        return self._special_method(self.OP_SUB, other, self)
+
+    def __truediv__(self, other):
+        return self._special_method(self.OP_DIV, self, other)
+
+    def __rtruediv__(self, other):
+        return self._special_method(self.OP_DIV, other, self)
+
+    def __xor__(self, other):
+        return self._special_method(self.OP_XOR, self, other)
+
+    def __rxor__(self, other):
+        return self._special_method(self.OP_XOR, other, self)
 
     @property
     def attributes(self):
