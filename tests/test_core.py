@@ -96,18 +96,6 @@ def test_definition_attributes():
     assert q(1, 1) == 0
 
 
-def test_definition_attribute_validation():
-    """Ensure that if an attribute is given a type hint we can perform some basic
-    validation on it."""
-
-    @ar.definition()
-    def Param(width, height, *, a: int = 0):
-        pass
-
-    with py.test.raises(TypeError):
-        Param(a="string")
-
-
 def test_definition_produces_any():
     """Ensure that a definition without a return annotation reports its return type as
     :code:`Any`"""
@@ -171,7 +159,7 @@ def test_derived_definition_checks_input_annotation_type():
         def Parameter(width, height, x: int):
             return width * height - x
 
-    assert "Invalid input 'x', type 'int' is not a Definition" in str(err.value)
+    assert "Invalid input 'x', type 'int' is not a Defn" in str(err.value)
 
 
 def test_derived_definition_exposes_properties():
@@ -212,38 +200,88 @@ def test_derived_definition_exposes_base_definitions():
     assert Derived.definitions == {"width": inspect.Parameter.empty, "base": Base}
 
 
-def test_derived_definition_attributes_property():
-    """Ensure that the attributes property exposes all available attributes on the
-    definition."""
+def test_derived_definition_attributes_inherited():
+    """Ensure that the attributes method with the inherited flag exposes all available
+    attributes on the definition."""
 
     @ar.definition
     def Base(width, height, *, a=1, b=2):
         return 3
 
-    assert Base().attributes == {"a": 1, "b": 2}
+    assert Base().attributes(inherited=True) == {"a": 1, "b": 2}
 
     @ar.definition()
     def Derived(base: Base, *, b=3, d=4):
         return 5
 
-    assert Derived().attributes == {"a": 1, "b": 3, "d": 4}
+    assert Derived().attributes(inherited=True) == {"a": 1, "b": 3, "d": 4}
 
 
-def test_derived_definition_attribs_property():
-    """Ensure that the attribs property only exposes the attributes that are directly
-    defined on the definition."""
+def test_derived_definition_attributes():
+    """Ensure that the attributes method only exposes the attributes that are directly
+    defined on the definition by default."""
 
     @ar.definition
     def Base(width, height, *, a=1, b=2):
         return 3
 
-    assert Base().attribs == {"a": 1, "b": 2}
+    assert Base().attributes() == {"a": 1, "b": 2}
 
     @ar.definition
     def Derived(base: Base, *, b=3, d=4):
         return 5
 
-    assert Derived().attribs == {"b": 3, "d": 4}
+    assert Derived().attributes() == {"b": 3, "d": 4}
+
+
+def test_derived_definiton_attribs_inherited():
+    """Ensure that the attribs method with the inherited flag exposes all available
+    attribute definitions."""
+
+    @ar.definition
+    def Base(width, height, *, a=1, b=2):
+        return 3
+
+    attrs = Base.attribs(inherited=True)
+    assert {"a", "b"} == set(attrs.keys())
+
+    for name, attr in attrs.items():
+        assert name == attr.name
+
+    @ar.definition()
+    def Derived(base: Base, *, b=3, d=4):
+        return 5
+
+    attrs = Derived.attribs(inherited=True)
+    assert {"a", "b", "d"} == set(attrs.keys())
+
+    for name, attr in attrs.items():
+        assert name == attr.name
+
+
+def test_derived_definiton_attribs():
+    """Ensure that the attribs method with the inherited flag exposes all available
+    attribute definitions."""
+
+    @ar.definition
+    def Base(width, height, *, a=1, b=2):
+        return 3
+
+    attrs = Base.attribs()
+    assert {"a", "b"} == set(attrs.keys())
+
+    for name, attr in attrs.items():
+        assert name == attr.name
+
+    @ar.definition()
+    def Derived(base: Base, *, b=3, d=4):
+        return 5
+
+    attrs = Derived.attribs()
+    assert {"b", "d"} == set(attrs.keys())
+
+    for name, attr in attrs.items():
+        assert name == attr.name
 
 
 def test_derived_definition_eval_width_height():
@@ -283,19 +321,19 @@ def test_derived_definition_eval_kwargs():
 @py.test.mark.parametrize(
     "op,fn",
     [
-        (ar.Definition.OP_ADD, lambda a, b: a + b),
-        (ar.Definition.OP_AND, lambda a, b: a & b),
-        (ar.Definition.OP_DIV, lambda a, b: a / b),
-        (ar.Definition.OP_FLOORDIV, lambda a, b: a // b),
-        (ar.Definition.OP_LSHIFT, lambda a, b: a << b),
-        (ar.Definition.OP_MATMUL, lambda a, b: a @ b),
-        (ar.Definition.OP_MOD, lambda a, b: a % b),
-        (ar.Definition.OP_MUL, lambda a, b: a * b),
-        (ar.Definition.OP_OR, lambda a, b: a | b),
-        (ar.Definition.OP_POW, lambda a, b: a ** b),
-        (ar.Definition.OP_RSHIFT, lambda a, b: a >> b),
-        (ar.Definition.OP_SUB, lambda a, b: a - b),
-        (ar.Definition.OP_XOR, lambda a, b: a ^ b),
+        (ar.Defn.OP_ADD, lambda a, b: a + b),
+        (ar.Defn.OP_AND, lambda a, b: a & b),
+        (ar.Defn.OP_DIV, lambda a, b: a / b),
+        (ar.Defn.OP_FLOORDIV, lambda a, b: a // b),
+        (ar.Defn.OP_LSHIFT, lambda a, b: a << b),
+        (ar.Defn.OP_MATMUL, lambda a, b: a @ b),
+        (ar.Defn.OP_MOD, lambda a, b: a % b),
+        (ar.Defn.OP_MUL, lambda a, b: a * b),
+        (ar.Defn.OP_OR, lambda a, b: a | b),
+        (ar.Defn.OP_POW, lambda a, b: a ** b),
+        (ar.Defn.OP_RSHIFT, lambda a, b: a >> b),
+        (ar.Defn.OP_SUB, lambda a, b: a - b),
+        (ar.Defn.OP_XOR, lambda a, b: a ^ b),
     ],
 )
 def test_definition_binary_operation_not_supported_other_objects(op, fn):
@@ -319,3 +357,58 @@ def test_definition_binary_operation_not_supported_other_objects(op, fn):
         fn(1, defn)
 
     assert message.format(op_name, "int", "Defn[Any]") == str(err.value)
+
+
+def test_definition_operator_missing_attributes():
+    """Ensure that an operator defines an :code:`a` and :code:`b` attribute"""
+
+    with py.test.raises(TypeError) as err:
+
+        @ar.definition(operation="op")
+        def Op(width, height):
+            pass
+
+    assert "must define 2 attributes" in str(err.value)
+    assert "'a'" in str(err.value)
+    assert "'b'" in str(err.value)
+
+
+def test_definition_operator_missing_annotation():
+    """Ensure that an operator defines a type annotation for each input"""
+
+    with py.test.raises(TypeError) as err:
+
+        @ar.definition(operation="op")
+        def OpA(width, height, *, a=1, b: int = 2):
+            pass
+
+    assert "missing a valid type annotation" in str(err.value)
+    assert "'a'" in str(err.value)
+
+    with py.test.raises(TypeError) as err:
+
+        @ar.definition(operation="op")
+        def OpB(width, height, *, a: int = 1, b=2):
+            pass
+
+    assert "missing a valid type annotation" in str(err.value)
+    assert "'b'" in str(err.value)
+
+
+def test_definition_operator_existing_definition():
+    """Ensure that if an existing operator has already been defined an error is
+    thrown."""
+
+    operator_pool = {}
+
+    @ar.definition(operation="op", operator_pool=operator_pool)
+    def Op(width, height, *, a: int = 0, b: int = 0):
+        pass
+
+    with py.test.raises(TypeError) as err:
+
+        @ar.definition(operation="op", operator_pool=operator_pool)
+        def OpDuplicate(width, height, *, a: int = 0, b: int = 0):
+            pass
+
+    assert "has already been defined" in str(err.value)

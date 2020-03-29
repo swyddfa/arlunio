@@ -1,3 +1,4 @@
+from .operators import MaskAdd, MaskMul, MaskSub  # noqa: F401
 from .parameters import R, T, X, Y  # noqa: F401
 from .pattern import Grid, Map, Pixelize  # noqa: F401
 from .shapes import (  # noqa: F401

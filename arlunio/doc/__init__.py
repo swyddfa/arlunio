@@ -16,7 +16,7 @@ from .directives import (
 )
 
 
-def _document_inheritance(defn: arlunio.Definition) -> Optional[str]:
+def _document_inheritance(defn: arlunio.Defn) -> Optional[str]:
     """Given a definition, link back to any definitions it derives from."""
 
     if not hasattr(defn, "definitions"):
@@ -42,7 +42,7 @@ def _process_docstring(
     app: Sphinx, what: str, name: str, obj: Any, options: Any, lines: List[str]
 ) -> None:
 
-    if inspect.isclass(obj) and issubclass(obj, arlunio.Definition):
+    if inspect.isclass(obj) and issubclass(obj, arlunio.Defn):
         inherits = _document_inheritance(obj)
 
         if inherits is not None:

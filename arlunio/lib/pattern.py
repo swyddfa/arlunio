@@ -7,7 +7,7 @@ logger = logging.getLogger(__name__)
 
 
 @ar.definition
-def Grid(width, height, *, n=4, m=None, defn=None):
+def Grid(width, height, *, n=4, m=None, defn=None) -> ar.Mask:
     """
     .. arlunio-image::
 
@@ -99,7 +99,7 @@ def Grid(width, height, *, n=4, m=None, defn=None):
 
 
 @ar.definition
-def Map(width, height, *, layout=None, legend=None):
+def Map(width, height, *, layout=None, legend=None) -> ar.Mask:
     """For more complex layouts.
 
     .. note::
@@ -177,7 +177,7 @@ def Map(width, height, *, layout=None, legend=None):
 
 
 @ar.definition
-def Pixelize(width, height, *, pixels=None, defn=None, n=None, m=None):
+def Pixelize(width, height, *, pixels=None, defn=None, n=None, m=None) -> ar.Mask:
     """
     .. arlunio-image::
 
