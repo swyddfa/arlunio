@@ -156,169 +156,94 @@
   <h1>Source code for arlunio._core</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">inspect</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">ClassVar</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">ClassVar</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="kn">import</span> <span class="nn">attr</span>
 
 
-<span class="k">class</span> <span class="nc">Key</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;This class is used to represent x.y.z keys in a collection.</span>
-
-<span class="sd">    It&#39;s only a thin wrapper around a tuple that should make the implementation of</span>
-<span class="sd">    collections easier to reason about. A key can be created from a number of strings</span>
-
-<span class="sd">    &gt;&gt;&gt; from arlunio._core import Key</span>
-<span class="sd">    &gt;&gt;&gt; Key(&#39;a&#39;, &#39;b&#39;, &#39;c&#39;)</span>
-<span class="sd">    k&#39;a.b.c&#39;</span>
-
-<span class="sd">    Alternatively from a single string with each part delimited with a dot.</span>
-
-<span class="sd">    &gt;&gt;&gt; Key.fromstring(&#39;a.b.c&#39;)</span>
-<span class="sd">    k&#39;a.b.c&#39;</span>
-
-<span class="sd">    Keys have a length which is equal to the number of components that makes up the</span>
-<span class="sd">    key.</span>
-
-<span class="sd">    &gt;&gt;&gt; k = Key(&#39;a&#39;, &#39;b&#39;, &#39;c&#39;)</span>
-<span class="sd">    &gt;&gt;&gt; len(k)</span>
-<span class="sd">    3</span>
-
-<span class="sd">    They can be checked to see if they are equal against other keys, or their string</span>
-<span class="sd">    representation</span>
-
-<span class="sd">    &gt;&gt;&gt; k == Key.fromstring(&#39;a.b.c&#39;)</span>
-<span class="sd">    True</span>
-
-<span class="sd">    &gt;&gt;&gt; k == &quot;a.b.c&quot;</span>
-<span class="sd">    True</span>
-
-<span class="sd">    Keys can be indexed</span>
-
-<span class="sd">    &gt;&gt;&gt; k[0]</span>
-<span class="sd">    &#39;a&#39;</span>
-
-<span class="sd">    But not mutated</span>
-
-<span class="sd">    &gt;&gt;&gt; k[1] = &#39;d&#39;</span>
-<span class="sd">    Traceback (most recent call last):</span>
-<span class="sd">        ...</span>
-<span class="sd">    TypeError: &#39;Key&#39; object does not support item assignment</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="vm">__slots__</span> <span class="o">=</span> <span class="s2">&quot;_key&quot;</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_key</span> <span class="o">=</span> <span class="n">args</span>
-
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;k&#39;</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
-
-    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_key</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">hash</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_key</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Key</span><span class="p">):</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_key</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">_key</span>
-
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="n">other</span>
-
-        <span class="k">return</span> <span class="kc">False</span>
-
-    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_key</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_key</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
-
-    <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">Key</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">other</span><span class="p">))</span>
-
-    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">fromstring</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">string</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">*</span><span class="n">string</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">))</span>
-
-
-<span class="nd">@attr</span><span class="o">.</span><span class="n">s</span><span class="p">(</span><span class="n">auto_attribs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="k">class</span> <span class="nc">Collection</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;A group of related items, indexed by keys.&quot;&quot;&quot;</span>
-
-    <span class="n">_items</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Key</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">attr</span><span class="o">.</span><span class="n">Factory</span><span class="p">(</span><span class="nb">dict</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">|  &quot;</span>
-        <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
-        <span class="n">header</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="si">}</span><span class="s2"> items</span><span class="si">{</span><span class="n">sep</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="n">items</span> <span class="o">=</span> <span class="n">sep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
-
-        <span class="k">return</span> <span class="n">header</span> <span class="o">+</span> <span class="n">items</span>
-
-    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
-            <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="n">key</span><span class="p">]</span>
-
-        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-        <span class="n">candidates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-        <span class="bp">cls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span>
-
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">candidates</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">items</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">name</span><span class="p">}</span>
-
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No item with name: </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-
-            <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">items</span><span class="o">=</span><span class="n">items</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">candidates</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">candidates</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-
-        <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Ambiguous reference: </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">find</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return a collection of all the items that have the given name.&quot;&quot;&quot;</span>
-
-        <span class="n">items</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">name</span><span class="p">}</span>
-        <span class="k">return</span> <span class="n">Collection</span><span class="p">(</span><span class="n">items</span><span class="o">=</span><span class="n">items</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">merge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">collection</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Given a collection and a prefix, merge its items into the collection.&quot;&quot;&quot;</span>
-
-        <span class="n">prefix</span> <span class="o">=</span> <span class="n">Key</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span>
-
-        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">collection</span><span class="o">.</span><span class="n">_items</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">[</span><span class="n">prefix</span> <span class="o">+</span> <span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span>
+<span class="k">class</span> <span class="nc">Mask</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Currently just a type alias for boolean numpy arrays but gives us the flexibility</span>
+<span class="sd">    to add smarts later.&quot;&quot;&quot;</span>
 
 
 <span class="k">def</span> <span class="nf">_prepare_definition</span><span class="p">(</span><span class="n">defn</span><span class="p">,</span> <span class="n">attributes</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Given a definiton and a bag of attributes, create an instance of it by passing</span>
 <span class="sd">    in the applicable attributes into the constructor.&quot;&quot;&quot;</span>
 
-    <span class="n">names</span> <span class="o">=</span> <span class="p">{</span><span class="n">a</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">attr</span><span class="o">.</span><span class="n">fields</span><span class="p">(</span><span class="n">defn</span><span class="p">)</span> <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="n">Definition</span><span class="o">.</span><span class="n">ATTR_ID</span><span class="p">]}</span>
+    <span class="n">names</span> <span class="o">=</span> <span class="p">{</span><span class="n">a</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">attr</span><span class="o">.</span><span class="n">fields</span><span class="p">(</span><span class="n">defn</span><span class="p">)</span> <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="n">Defn</span><span class="o">.</span><span class="n">ATTR_ID</span><span class="p">]}</span>
     <span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">attributes</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">}</span>
 
     <span class="k">return</span> <span class="n">defn</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="Definition"><a class="viewcode-back" href="../../api.html#arlunio.Definition">[docs]</a><span class="nd">@attr</span><span class="o">.</span><span class="n">s</span><span class="p">(</span><span class="n">auto_attribs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="k">class</span> <span class="nc">Definition</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">_format_type</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">type_</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Given an object, return an appropriate representation for its type.&quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">type_</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;You can only specify &#39;obj&#39; or &#39;type_&#39;&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">Defn</span><span class="p">):</span>
+        <span class="n">type_</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">produces</span><span class="p">()</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="n">type_</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">type_</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">obj</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">[</span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2">]&quot;</span>
+
+    <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">type_</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">type_</span><span class="o">.</span><span class="vm">__name__</span>
+    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">type_</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+
+<span class="nd">@attr</span><span class="o">.</span><span class="n">s</span><span class="p">(</span><span class="n">auto_attribs</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="nb">repr</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">DefnSignature</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;A class that represents the &#39;function signature&#39; of a definition.&quot;&quot;&quot;</span>
+
+    <span class="n">produces</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="sd">&quot;&quot;&quot;The type of object the definition produces.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">_format_type</span><span class="p">(</span><span class="n">type_</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">produces</span><span class="p">)</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Defn[</span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2">]&quot;</span>
+
+
+<span class="k">class</span> <span class="nc">_BaseDefn</span><span class="p">(</span><span class="nb">type</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A metaclass for prodviding a few goodies on the definition class itself.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">DefnSignature</span><span class="p">(</span><span class="n">produces</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="Defn"><a class="viewcode-back" href="../../api.html#arlunio.Defn">[docs]</a><span class="nd">@attr</span><span class="o">.</span><span class="n">s</span><span class="p">(</span><span class="n">auto_attribs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">Defn</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">_BaseDefn</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A definition is the representation of something that can be mapped onto an</span>
 <span class="sd">    image.&quot;&quot;&quot;</span>
 
     <span class="n">ATTR_ID</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;arlunio.attribute&quot;</span>
 
+    <span class="n">OP_ADD</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;addition&quot;</span>
+    <span class="n">OP_AND</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;and&quot;</span>
+    <span class="n">OP_DIV</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;division&quot;</span>
+    <span class="n">OP_FLOORDIV</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;floor_division&quot;</span>
+    <span class="n">OP_LSHIFT</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;left_shift&quot;</span>
+    <span class="n">OP_MATMUL</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;matrix_multiplication&quot;</span>
+    <span class="n">OP_MOD</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;modulus&quot;</span>
+    <span class="n">OP_MUL</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;multiplication&quot;</span>
+    <span class="n">OP_OR</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;or&quot;</span>
+    <span class="n">OP_POW</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;power&quot;</span>
+    <span class="n">OP_RSHIFT</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;right_shift&quot;</span>
+    <span class="n">OP_SUB</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;subtraction&quot;</span>
+    <span class="n">OP_XOR</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;exclusive_or&quot;</span>
+
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">definitions</span><span class="p">)</span>
-        <span class="n">attributes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">attributes</span>
+        <span class="n">attributes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">attributes</span><span class="p">(</span><span class="n">inherited</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="n">width</span>
@@ -343,27 +268,149 @@
             <span class="n">defn</span> <span class="o">=</span> <span class="n">_prepare_definition</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="n">name</span><span class="p">],</span> <span class="n">attributes</span><span class="p">)</span>
             <span class="n">args</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">defn</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_definition</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">attribs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_definition</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">attributes</span><span class="p">())</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">attributes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;All attributes on this definition&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">_special_method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">operation</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Implements the special methods in a standardized way.&quot;&quot;&quot;</span>
+
+        <span class="n">op_name</span> <span class="o">=</span> <span class="n">operation</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
+        <span class="n">a_is_defn</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">Defn</span><span class="p">)</span>
+        <span class="n">b_is_defn</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">Defn</span><span class="p">)</span>
+
+        <span class="n">t1</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">a_is_defn</span> <span class="k">else</span> <span class="n">a</span><span class="o">.</span><span class="n">produces</span><span class="p">()</span>
+        <span class="n">t2</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">b_is_defn</span> <span class="k">else</span> <span class="n">b</span><span class="o">.</span><span class="n">produces</span><span class="p">()</span>
+
+        <span class="n">impl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_operators</span><span class="o">.</span><span class="n">get</span><span class="p">((</span><span class="n">operation</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">),</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">impl</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="n">_format_type</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+            <span class="n">b</span> <span class="o">=</span> <span class="n">_format_type</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">op_name</span><span class="si">}</span><span class="s2"> is not supported between </span><span class="si">{</span><span class="n">a</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">b</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">defn</span> <span class="o">=</span> <span class="n">impl</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">defn</span>
+
+    <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_special_method</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">OP_ADD</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__radd__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_special_method</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">OP_ADD</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__and__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_special_method</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">OP_AND</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__rand__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_special_method</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">OP_AND</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__floordiv__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_special_method</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">OP_FLOORDIV</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__rfloordiv__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_special_method</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">OP_FLOORDIV</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__lshift__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_special_method</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">OP_LSHIFT</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__rlshift__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_special_method</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">OP_LSHIFT</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__matmul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_special_method</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">OP_MATMUL</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__rmatmul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_special_method</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">OP_MATMUL</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__mod__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_special_method</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">OP_MOD</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__rmod__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_special_method</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">OP_MOD</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_special_method</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">OP_MUL</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__rmul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_special_method</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">OP_MUL</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__or__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_special_method</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">OP_OR</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__ror__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_special_method</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">OP_OR</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__pow__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_special_method</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">OP_POW</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__rpow__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_special_method</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">OP_POW</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__rshift__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_special_method</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">OP_RSHIFT</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__rrshift__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_special_method</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">OP_RSHIFT</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__sub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_special_method</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">OP_SUB</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__rsub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_special_method</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">OP_SUB</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__truediv__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_special_method</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">OP_DIV</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__rtruediv__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_special_method</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">OP_DIV</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__xor__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_special_method</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">OP_XOR</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__rxor__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_special_method</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">OP_XOR</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Defn.attributes"><a class="viewcode-back" href="../../api.html#arlunio.Defn.attributes">[docs]</a>    <span class="k">def</span> <span class="nf">attributes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inherited</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return all attributes and their values on this definition instance.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        inherited:</span>
+<span class="sd">            If :code:`True` return all inherited attributes also.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">inherited</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="n">a</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">attr</span><span class="o">.</span><span class="n">fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">Defn</span><span class="o">.</span><span class="n">ATTR_ID</span> <span class="ow">in</span> <span class="n">a</span><span class="o">.</span><span class="n">metadata</span>
+            <span class="p">}</span>
+
         <span class="k">return</span> <span class="p">{</span>
             <span class="n">a</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">attr</span><span class="o">.</span><span class="n">fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">Definition</span><span class="o">.</span><span class="n">ATTR_ID</span> <span class="ow">in</span> <span class="n">a</span><span class="o">.</span><span class="n">metadata</span>
-        <span class="p">}</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">a</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="n">Defn</span><span class="o">.</span><span class="n">ATTR_ID</span><span class="p">][</span><span class="s2">&quot;inherited&quot;</span><span class="p">]</span>
+        <span class="p">}</span></div>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">attribs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;All non-inherited attributes on this definition&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Defn.attribs"><a class="viewcode-back" href="../../api.html#arlunio.Defn.attribs">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">attribs</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">inherited</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return all attributes defined on this definition.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        inherited:</span>
+<span class="sd">            If :code:`True` return all inherited attributes also.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">inherited</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="n">a</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">a</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">attr</span><span class="o">.</span><span class="n">fields</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="k">if</span> <span class="n">Defn</span><span class="o">.</span><span class="n">ATTR_ID</span> <span class="ow">in</span> <span class="n">a</span><span class="o">.</span><span class="n">metadata</span><span class="p">}</span>
+
         <span class="k">return</span> <span class="p">{</span>
-            <span class="n">a</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">attr</span><span class="o">.</span><span class="n">fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">a</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="n">Definition</span><span class="o">.</span><span class="n">ATTR_ID</span><span class="p">][</span><span class="s2">&quot;inherited&quot;</span><span class="p">]</span>
-        <span class="p">}</span>
+            <span class="n">a</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">a</span>
+            <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">attr</span><span class="o">.</span><span class="n">fields</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">a</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="n">Defn</span><span class="o">.</span><span class="n">ATTR_ID</span><span class="p">][</span><span class="s2">&quot;inherited&quot;</span><span class="p">]</span>
+        <span class="p">}</span></div>
 
-<div class="viewcode-block" id="Definition.produces"><a class="viewcode-back" href="../../api.html#arlunio.Definition.produces">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Defn.produces"><a class="viewcode-back" href="../../api.html#arlunio.Defn.produces">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">produces</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return the type of the object that this definition produces.&quot;&quot;&quot;</span>
         <span class="n">rtype</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">_definition</span><span class="p">)</span><span class="o">.</span><span class="n">return_annotation</span>
@@ -379,21 +426,23 @@
 <span class="sd">    corresponding attrs instance.&quot;&quot;&quot;</span>
 
     <span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="n">param</span><span class="o">.</span><span class="n">default</span><span class="p">,</span> <span class="s2">&quot;kw_only&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
-    <span class="n">args</span><span class="p">[</span><span class="s2">&quot;metadata&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">Definition</span><span class="o">.</span><span class="n">ATTR_ID</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;inherited&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}}</span>
+    <span class="n">args</span><span class="p">[</span><span class="s2">&quot;metadata&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">Defn</span><span class="o">.</span><span class="n">ATTR_ID</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;inherited&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}}</span>
 
     <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">annotation</span> <span class="o">!=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">Parameter</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
         <span class="n">args</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">param</span><span class="o">.</span><span class="n">annotation</span>
-        <span class="n">args</span><span class="p">[</span><span class="s2">&quot;validator&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">attr</span><span class="o">.</span><span class="n">validators</span><span class="o">.</span><span class="n">instance_of</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">annotation</span><span class="p">)]</span>
+
+        <span class="c1"># TODO: Something, something validation...</span>
+        <span class="c1"># args[&quot;validator&quot;] = ...</span>
 
     <span class="k">return</span> <span class="n">attr</span><span class="o">.</span><span class="n">ib</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_inherit_attributes</span><span class="p">(</span><span class="n">defn</span><span class="p">:</span> <span class="n">Definition</span><span class="p">,</span> <span class="n">attributes</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_inherit_attributes</span><span class="p">(</span><span class="n">defn</span><span class="p">:</span> <span class="n">Defn</span><span class="p">,</span> <span class="n">attributes</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Given a definition and the attributes for the current definition under</span>
 <span class="sd">    construction copy over its attributes.&quot;&quot;&quot;</span>
 
     <span class="c1"># Only look at the fields that represent attributes.</span>
-    <span class="k">for</span> <span class="n">attrib</span> <span class="ow">in</span> <span class="p">(</span><span class="n">a</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">attr</span><span class="o">.</span><span class="n">fields</span><span class="p">(</span><span class="n">defn</span><span class="p">)</span> <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="n">Definition</span><span class="o">.</span><span class="n">ATTR_ID</span><span class="p">]):</span>
+    <span class="k">for</span> <span class="n">attrib</span> <span class="ow">in</span> <span class="p">(</span><span class="n">a</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">attr</span><span class="o">.</span><span class="n">fields</span><span class="p">(</span><span class="n">defn</span><span class="p">)</span> <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="n">Defn</span><span class="o">.</span><span class="n">ATTR_ID</span><span class="p">]):</span>
 
         <span class="c1"># For now we will skip any attributes that have already been defined.</span>
         <span class="c1"># This means that any definitions that share the same attribute name will</span>
@@ -405,7 +454,7 @@
             <span class="k">continue</span>
 
         <span class="n">metadata</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="o">**</span><span class="n">attrib</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>
-        <span class="n">metadata</span><span class="p">[</span><span class="n">Definition</span><span class="o">.</span><span class="n">ATTR_ID</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;inherited&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+        <span class="n">metadata</span><span class="p">[</span><span class="n">Defn</span><span class="o">.</span><span class="n">ATTR_ID</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;inherited&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
 
         <span class="c1"># It seems that the best way to copy an attrs attribute from one class to</span>
         <span class="c1"># another is to construct a fresh instance, copying over all the fields from</span>
@@ -426,7 +475,7 @@
     <span class="sd">&quot;&quot;&quot;Ensure that the input parameters for the defintion are well defined.</span>
 
 <span class="sd">    First this function will ensure any of the parameters that are not a known &quot;base&quot;</span>
-<span class="sd">    (e.g. :code:`width` or :code:`height`) are instead a known :code:`Definition`.</span>
+<span class="sd">    (e.g. :code:`width` or :code:`height`) are instead a known :code:`Defn`.</span>
 <span class="sd">    For any definitions that are referenced, their attributes are then exposed to the</span>
 <span class="sd">    definition under construction.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -445,10 +494,10 @@
 
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown input &#39;</span><span class="si">{</span><span class="n">param</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">annotation</span><span class="p">,</span> <span class="n">Definition</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">annotation</span><span class="p">,</span> <span class="n">Defn</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;Invalid input &#39;</span><span class="si">{</span><span class="n">param</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;, type &#39;</span><span class="si">{</span><span class="n">param</span><span class="o">.</span><span class="n">annotation</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
-                <span class="s2">&quot; is not a Definition&quot;</span>
+                <span class="s2">&quot; is not a Defn&quot;</span>
             <span class="p">)</span>
 
         <span class="n">defns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">annotation</span><span class="p">)</span>
@@ -460,22 +509,71 @@
     <span class="k">return</span> <span class="n">params</span>
 
 
-<div class="viewcode-block" id="definition"><a class="viewcode-back" href="../../api.html#arlunio.definition">[docs]</a><span class="k">def</span> <span class="nf">definition</span><span class="p">(</span><span class="n">f</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Create a new Definition.&quot;&quot;&quot;</span>
+<span class="n">_OPERATOR_POOL</span> <span class="o">=</span> <span class="p">{}</span>
 
-    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="n">defn</span><span class="p">):</span>
 
-        <span class="n">name</span> <span class="o">=</span> <span class="n">defn</span><span class="o">.</span><span class="vm">__name__</span>
+<span class="k">def</span> <span class="nf">_define_operator</span><span class="p">(</span><span class="n">defn</span><span class="p">:</span> <span class="n">Defn</span><span class="p">,</span> <span class="n">operation</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">operator_pool</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Given a definition, check to see if it matches the criteria to be an operator.&quot;&quot;&quot;</span>
+
+    <span class="n">attrs</span> <span class="o">=</span> <span class="n">defn</span><span class="o">.</span><span class="n">attribs</span><span class="p">(</span><span class="n">inherited</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="s2">&quot;a&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">attrs</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="ow">or</span> <span class="s2">&quot;b&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">attrs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;Operators must define 2 attributes &#39;a&#39; and &#39;b&#39;&quot;</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+    <span class="n">a</span> <span class="o">=</span> <span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">type</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;b&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">type</span>
+
+    <span class="k">if</span> <span class="n">a</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Operator input &#39;a&#39; is missing a valid type annotation&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Operator input &#39;b&#39; is missing a valid type annotation&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">DefnSignature</span><span class="p">):</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">produces</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">DefnSignature</span><span class="p">):</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">produces</span>
+
+    <span class="n">key</span> <span class="o">=</span> <span class="p">(</span><span class="n">operation</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">operator_pool</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;A </span><span class="si">{</span><span class="n">operation</span><span class="si">}</span><span class="s2"> operator between </span><span class="si">{</span><span class="n">a</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">b</span><span class="si">}</span><span class="s2"> has already been defined&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">operator_pool</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">defn</span>
+
+
+<div class="viewcode-block" id="definition"><a class="viewcode-back" href="../../api.html#arlunio.definition">[docs]</a><span class="k">def</span> <span class="nf">definition</span><span class="p">(</span><span class="n">f</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">operation</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">operator_pool</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create a new Defn.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    f:</span>
+<span class="sd">        The function that is the definition</span>
+<span class="sd">    operator:</span>
+<span class="sd">        Flag used to indicate if this definition is an operator.</span>
+<span class="sd">    operator_pool:</span>
+<span class="sd">        Can be used to override the default operator pool</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="n">fn</span><span class="p">):</span>
+
+        <span class="n">name</span> <span class="o">=</span> <span class="n">fn</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="n">operators</span> <span class="o">=</span> <span class="n">operator_pool</span> <span class="k">if</span> <span class="n">operator_pool</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">_OPERATOR_POOL</span>
 
         <span class="n">KW_ONLY</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">Parameter</span><span class="o">.</span><span class="n">KEYWORD_ONLY</span>
-        <span class="n">signature</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="n">defn</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span>
+        <span class="n">signature</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span>
 
         <span class="n">attrs</span> <span class="o">=</span> <span class="p">[</span><span class="n">attr</span> <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">signature</span><span class="o">.</span><span class="n">values</span><span class="p">()</span> <span class="k">if</span> <span class="n">attr</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="n">KW_ONLY</span><span class="p">]</span>
 
         <span class="n">attributes</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;__doc__&quot;</span><span class="p">:</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getdoc</span><span class="p">(</span><span class="n">defn</span><span class="p">),</span>
-            <span class="s2">&quot;__module__&quot;</span><span class="p">:</span> <span class="n">defn</span><span class="o">.</span><span class="vm">__module__</span><span class="p">,</span>
-            <span class="s2">&quot;_definition&quot;</span><span class="p">:</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">defn</span><span class="p">),</span>
+            <span class="s2">&quot;__doc__&quot;</span><span class="p">:</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getdoc</span><span class="p">(</span><span class="n">fn</span><span class="p">),</span>
+            <span class="s2">&quot;__module__&quot;</span><span class="p">:</span> <span class="n">fn</span><span class="o">.</span><span class="vm">__module__</span><span class="p">,</span>
+            <span class="s2">&quot;_definition&quot;</span><span class="p">:</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">fn</span><span class="p">),</span>
+            <span class="s2">&quot;_operators&quot;</span><span class="p">:</span> <span class="n">operators</span><span class="p">,</span>
         <span class="p">}</span>
 
         <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">attrs</span><span class="p">:</span>
@@ -484,7 +582,12 @@
         <span class="n">params</span> <span class="o">=</span> <span class="n">_process_parameters</span><span class="p">(</span><span class="n">signature</span><span class="p">,</span> <span class="n">attributes</span><span class="p">)</span>
         <span class="n">attributes</span><span class="p">[</span><span class="s2">&quot;definitions&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">annotation</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">params</span><span class="p">}</span>
 
-        <span class="k">return</span> <span class="n">attr</span><span class="o">.</span><span class="n">s</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="n">Definition</span><span class="p">,),</span> <span class="n">attributes</span><span class="p">))</span>
+        <span class="n">defn</span> <span class="o">=</span> <span class="n">attr</span><span class="o">.</span><span class="n">s</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="n">Defn</span><span class="p">,),</span> <span class="n">attributes</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">operation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_define_operator</span><span class="p">(</span><span class="n">defn</span><span class="p">,</span> <span class="n">operation</span><span class="p">,</span> <span class="n">operators</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">defn</span>
 
     <span class="c1"># Allow the decorator to be used with or without a function call</span>
     <span class="k">if</span> <span class="n">f</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>

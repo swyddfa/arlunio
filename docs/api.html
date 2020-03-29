@@ -168,35 +168,54 @@
 <h2>Definitions<a class="headerlink" href="#definitions" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p><a class="reference internal" href="#arlunio.definition" title="arlunio.definition"><code class="xref py py-func docutils literal notranslate"><span class="pre">&#64;definition</span></code></a>: Decorator used to create new definitions</p></li>
-<li><p><a class="reference internal" href="#arlunio.Definition" title="arlunio.Definition"><code class="xref py py-class docutils literal notranslate"><span class="pre">Definition</span></code></a>: Base class for all definitions</p></li>
+<li><p><a class="reference internal" href="#arlunio.Defn" title="arlunio.Defn"><code class="xref py py-class docutils literal notranslate"><span class="pre">Defn</span></code></a>: Base class for all definitions</p></li>
 </ul>
 <dl class="function">
 <dt id="arlunio.definition">
-<code class="sig-prename descclassname">&#64;</code><code class="sig-prename descclassname">arlunio.</code><code class="sig-name descname">definition</code><a class="reference internal" href="_modules/arlunio/_core.html#definition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.definition" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create a new Definition.</p>
+<code class="sig-prename descclassname">&#64;</code><code class="sig-prename descclassname">arlunio.</code><code class="sig-name descname">definition</code><span class="sig-paren">(</span><em class="sig-param">f=None</em>, <em class="sig-param">operation: str = None</em>, <em class="sig-param">operator_pool=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arlunio/_core.html#definition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.definition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new Defn.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>f</strong> – The function that is the definition</p></li>
+<li><p><strong>operator</strong> – Flag used to indicate if this definition is an operator.</p></li>
+<li><p><strong>operator_pool</strong> – Can be used to override the default operator pool</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="class">
-<dt id="arlunio.Definition">
-<em class="property">class </em><code class="sig-prename descclassname">arlunio.</code><code class="sig-name descname">Definition</code><a class="reference internal" href="_modules/arlunio/_core.html#Definition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.Definition" title="Permalink to this definition">¶</a></dt>
+<dt id="arlunio.Defn">
+<em class="property">class </em><code class="sig-prename descclassname">arlunio.</code><code class="sig-name descname">Defn</code><a class="reference internal" href="_modules/arlunio/_core.html#Defn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.Defn" title="Permalink to this definition">¶</a></dt>
 <dd><p>A definition is the representation of something that can be mapped onto an
 image.</p>
 <dl class="method">
-<dt id="arlunio.Definition.produces">
-<em class="property">classmethod </em><code class="sig-name descname">produces</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arlunio/_core.html#Definition.produces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.Definition.produces" title="Permalink to this definition">¶</a></dt>
+<dt id="arlunio.Defn.attribs">
+<em class="property">classmethod </em><code class="sig-name descname">attribs</code><span class="sig-paren">(</span><em class="sig-param">inherited=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arlunio/_core.html#Defn.attribs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.Defn.attribs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return all attributes defined on this definition.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>inherited</strong> – If <code class="code docutils literal notranslate"><span class="pre">True</span></code> return all inherited attributes also.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="arlunio.Defn.attributes">
+<code class="sig-name descname">attributes</code><span class="sig-paren">(</span><em class="sig-param">inherited=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arlunio/_core.html#Defn.attributes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.Defn.attributes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return all attributes and their values on this definition instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>inherited</strong> – If <code class="code docutils literal notranslate"><span class="pre">True</span></code> return all inherited attributes also.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="arlunio.Defn.produces">
+<em class="property">classmethod </em><code class="sig-name descname">produces</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arlunio/_core.html#Defn.produces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.Defn.produces" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the type of the object that this definition produces.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="arlunio.Definition.attribs">
-<em class="property">property </em><code class="sig-name descname">attribs</code><a class="headerlink" href="#arlunio.Definition.attribs" title="Permalink to this definition">¶</a></dt>
-<dd><p>All non-inherited attributes on this definition</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="arlunio.Definition.attributes">
-<em class="property">property </em><code class="sig-name descname">attributes</code><a class="headerlink" href="#arlunio.Definition.attributes" title="Permalink to this definition">¶</a></dt>
-<dd><p>All attributes on this definition</p>
 </dd></dl>
 
 </dd></dl>

@@ -7,11 +7,11 @@ Definitions
 -----------
 
 - |@definition|: Decorator used to create new definitions
-- |Definition|: Base class for all definitions
+- |Defn|: Base class for all definitions
 
 .. autodecorator:: arlunio.definition
 
-.. autoclass:: arlunio.Definition
+.. autoclass:: arlunio.Defn
    :members:
 
 
