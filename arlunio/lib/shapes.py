@@ -5,7 +5,7 @@ from .parameters import X, Y
 
 
 @ar.definition
-def Circle(x: X, y: Y, *, xc=0, yc=0, r=0.8, pt=None):
+def Circle(x: X, y: Y, *, xc=0, yc=0, r=0.8, pt=None) -> ar.Mask:
     """
     .. arlunio-image::
 
@@ -112,7 +112,7 @@ def Circle(x: X, y: Y, *, xc=0, yc=0, r=0.8, pt=None):
 
 
 @ar.definition
-def Ellipse(x: X, y: Y, *, xc=0, yc=0, a=2, b=1, r=0.8, pt=None):
+def Ellipse(x: X, y: Y, *, xc=0, yc=0, a=2, b=1, r=0.8, pt=None) -> ar.Mask:
     """
     .. arlunio-image::
 
@@ -236,7 +236,9 @@ def Ellipse(x: X, y: Y, *, xc=0, yc=0, a=2, b=1, r=0.8, pt=None):
 
 
 @ar.definition
-def SuperEllipse(x: X, y: Y, *, xc=0, yc=0, a=1, b=1, n=3, r=0.8, m=None, pt=None):
+def SuperEllipse(
+    x: X, y: Y, *, xc=0, yc=0, a=1, b=1, n=3, r=0.8, m=None, pt=None
+) -> ar.Mask:
     """
     .. arlunio-image::
 
@@ -364,7 +366,7 @@ def SuperEllipse(x: X, y: Y, *, xc=0, yc=0, a=1, b=1, n=3, r=0.8, m=None, pt=Non
 
 
 @ar.definition
-def Empty(width, height):
+def Empty(width, height) -> ar.Mask:
     """An empty shape definition.
 
     Example
@@ -383,7 +385,7 @@ def Empty(width, height):
 
 
 @ar.definition
-def Full(width, height):
+def Full(width, height) -> ar.Mask:
     """An full shape definition.
 
     Example
@@ -402,7 +404,7 @@ def Full(width, height):
 
 
 @ar.definition
-def Square(x: X, y: Y, *, xc=0, yc=0, size=0.8, pt=None):
+def Square(x: X, y: Y, *, xc=0, yc=0, size=0.8, pt=None) -> ar.Mask:
     """
     .. arlunio-image::
 
@@ -473,7 +475,7 @@ def Square(x: X, y: Y, *, xc=0, yc=0, size=0.8, pt=None):
 
 
 @ar.definition
-def Rectangle(x: X, y: Y, *, xc=0, yc=0, size=0.6, ratio=1.618, pt=None):
+def Rectangle(x: X, y: Y, *, xc=0, yc=0, size=0.6, ratio=1.618, pt=None) -> ar.Mask:
     """
     .. arlunio-image::
 
