@@ -178,28 +178,32 @@
             
   <div class="section" id="python-linting">
 <h1>Python Linting<a class="headerlink" href="#python-linting" title="Permalink to this headline">¶</a></h1>
-<p>This action runs all our static analysis tools against the codebase as defined in our
-<code class="code docutils literal notranslate"><span class="pre">.pre-commit-config.yaml</span></code> file.</p>
+<p>This action runs all our static analysis tools against the codebase as defined
+in our <code class="code docutils literal notranslate"><span class="pre">.pre-commit-config.yaml</span></code> file.</p>
 <div class="section" id="triggers">
 <h2>Triggers<a class="headerlink" href="#triggers" title="Permalink to this headline">¶</a></h2>
-<p>This action is triggered by any PR that is opened against the
-<code class="code docutils literal notranslate"><span class="pre">develop</span></code> or <code class="code docutils literal notranslate"><span class="pre">master</span></code> branches, unless the changes only affect the blog.</p>
+<p>This action is triggered by any PR that is opened against the <code class="code docutils literal notranslate"><span class="pre">develop</span></code> or
+<code class="code docutils literal notranslate"><span class="pre">master</span></code> branches but only if they touch one of the paths listed.</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">on</span><span class="p">:</span>
   <span class="nt">pull_request</span><span class="p">:</span>
     <span class="nt">branches</span><span class="p">:</span>
     <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">develop</span>
     <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">master</span>
-    <span class="nt">paths-ignore</span><span class="p">:</span>
+    <span class="nt">paths</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="s">&#39;arlunio/**&#39;</span>
     <span class="p p-Indicator">-</span> <span class="s">&#39;blog/**&#39;</span>
+    <span class="p p-Indicator">-</span> <span class="s">&#39;tests/**&#39;</span>
+    <span class="p p-Indicator">-</span> <span class="s">&#39;setup.py&#39;</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="jobs">
 <h2>Jobs<a class="headerlink" href="#jobs" title="Permalink to this headline">¶</a></h2>
-<p>Since static analysis tools only look at the source code without importing or running
-anything, it doesn’t matter too much which platform / python version they are run on as
-long as the tool itself supports it. For the sake of simplcity these checks are run on
-the latest version of python and on a linux agent.</p>
+<p>Since static analysis tools only look at the source code without importing or
+running anything, it doesn’t matter too much which platform / python version
+they are run on as long as the tool itself supports it. For the sake of
+simplcity these checks are run on the latest version of python and on a linux
+agent.</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span>  <span class="nt">Lint</span><span class="p">:</span>
     <span class="nt">runs-on</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
 </pre></div>
@@ -227,8 +231,8 @@ the latest version of python and on a linux agent.</p>
 </pre></div>
 </div>
 <p>This action is fairly straight forword, we checkout the code, setup the python
-envrionment and then run our <code class="code docutils literal notranslate"><span class="pre">lint</span></code> <a class="reference internal" href="../../glossary.html#term-tox"><span class="xref std std-term">tox</span></a> envrionment which handles the
-details of running the static analysis tools via <a class="reference internal" href="../../glossary.html#term-pre-commit"><span class="xref std std-term">pre-commit</span></a></p>
+envrionment and then run our <code class="code docutils literal notranslate"><span class="pre">lint</span></code> <a class="reference internal" href="../../glossary.html#term-tox"><span class="xref std std-term">tox</span></a> envrionment which handles
+the details of running the static analysis tools via <a class="reference internal" href="../../glossary.html#term-pre-commit"><span class="xref std std-term">pre-commit</span></a></p>
 </div>
 </div>
 
