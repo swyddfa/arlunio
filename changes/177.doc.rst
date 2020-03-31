@@ -1,0 +1,2 @@
+Added some documentation around the CI build for the blog. Also updated the blog
+build to run every day.

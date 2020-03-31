@@ -1,20 +1,32 @@
 name: Blog Build
 on:
+  # <trigger-push>
   push:
     branches:
     - develop
     paths:
     - 'blog/**'
+  # </trigger-push>
+  # <trigger-pr>
   pull_request:
     branches:
     - develop
     paths:
     - 'blog/**'
+  # </trigger-pr>
+  # <trigger-cron>
+  schedule:
+    - cron: '0 6 * * *'
+  # </trigger-cron>
+
 jobs:
+  # <build-job>
   Build:
     runs-on: ubuntu-latest
+  # </build-job>
     steps:
 
+    # <build-job-setup>
     - uses: actions/checkout@v1
 
     - name: Setup Python
@@ -29,12 +41,18 @@ jobs:
         python -m pip install --upgrade pip
         python -m pip install --pre arlunio
         python -m pip install -r blog/requirements.txt
+    # </build-job-setup>
 
+    # <build-job-blog>
     - name: Build Gallery
       run: |
         cd blog
         python gallery.py
 
+    # </build-job-blog>
+
+    # <build-job-deploy>
+    - name: Build Gallery
     - name: Deploy
       uses: JamesIves/github-pages-deploy-action@releases/v3
       with:
@@ -43,3 +61,4 @@ jobs:
         BRANCH: gh-pages
         FOLDER: blog/public
       if: github.event_name != 'pull_request'
+    # </build-job-deploy>
