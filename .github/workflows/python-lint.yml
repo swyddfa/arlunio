@@ -6,8 +6,11 @@ on:
     branches:
     - develop
     - master
-    paths-ignore:
+    paths:
+    - 'arlunio/**'
     - 'blog/**'
+    - 'tests/**'
+    - 'setup.py'
 # </trigger>
 
 jobs:
