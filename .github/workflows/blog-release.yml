@@ -52,7 +52,6 @@ jobs:
     # </build-job-blog>
 
     # <build-job-deploy>
-    - name: Build Gallery
     - name: Deploy
       uses: JamesIves/github-pages-deploy-action@releases/v3
       with:
