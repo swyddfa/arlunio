@@ -1,5 +1,5 @@
 # Arlunio 
-![MIT License](https://img.shields.io/github/license/alcarney/arlunio.svg) [![Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black) [![Gitter](https://badges.gitter.im/arlunio-py/Lobby.svg)](https://gitter.im/arlunio-py/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+![MIT License](https://img.shields.io/github/license/alcarney/arlunio.svg) [![Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black) 
 |   | **Stable** | **Snapshot** |
 |:-------------:|----|----|
 | **Docs** | | [![Documentation Status](https://github.com/swyddfa/arlunio/workflows/Docs%20Build/badge.svg?branch=develop)](https://www.arlun.io/docs/)|
