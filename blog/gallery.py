@@ -224,7 +224,7 @@ class ImageContext:
         def is_image(obj):
             """Used to select candidate images from the notebook."""
 
-            if not isinstance(obj, arlunio.Definition):
+            if not isinstance(obj, arlunio.Defn):
                 return False
 
             return obj.produces() == arlunio.Image
