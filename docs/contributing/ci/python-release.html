@@ -183,21 +183,22 @@ beta builds based on the <code class="code docutils literal notranslate"><span c
 based on the <code class="code docutils literal notranslate"><span class="pre">master</span></code> branch.</p>
 <div class="section" id="triggers">
 <h2>Triggers<a class="headerlink" href="#triggers" title="Permalink to this headline">¶</a></h2>
-<p>This action is triggered whenever a commit is made to the <code class="code docutils literal notranslate"><span class="pre">develop</span></code> or
-<code class="code docutils literal notranslate"><span class="pre">master</span></code> branches - either directly when a PR is merged. Unless the
-changes only affect the blog in which case the workflow will not be triggered.</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">on</span><span class="p">:</span>
-  <span class="nt">push</span><span class="p">:</span>
-    <span class="nt">branches</span><span class="p">:</span>
-    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">develop</span>
-    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">master</span>
-    <span class="nt">paths</span><span class="p">:</span>
-    <span class="p p-Indicator">-</span> <span class="s">&#39;arlunio/**&#39;</span>
-    <span class="p p-Indicator">-</span> <span class="s">&#39;docs/using/tutorial/**&#39;</span>
-    <span class="p p-Indicator">-</span> <span class="s">&#39;tests/**&#39;</span>
-    <span class="p p-Indicator">-</span> <span class="s">&#39;setup.py&#39;</span>
-    <span class="p p-Indicator">-</span> <span class="s">&#39;pyproject.toml&#39;</span>
-    <span class="p p-Indicator">-</span> <span class="s">&#39;MANIFEST.in&#39;</span>
+<p>If we push something to the <code class="code docutils literal notranslate"><span class="pre">master</span></code> branch that warrants a new release
+then this action is triggered</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">push</span><span class="p">:</span>
+  <span class="nt">branches</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">master</span>
+  <span class="nt">paths</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="s">&#39;arlunio/**&#39;</span>
+  <span class="p p-Indicator">-</span> <span class="s">&#39;docs/users/**&#39;</span>
+  <span class="p p-Indicator">-</span> <span class="s">&#39;setup.py&#39;</span>
+  <span class="p p-Indicator">-</span> <span class="s">&#39;MANIFEST.in&#39;</span>
+</pre></div>
+</div>
+<p>We also have a cron trigger that runs every day at <code class="code docutils literal notranslate"><span class="pre">02:00</span></code> on the
+<code class="code docutils literal notranslate"><span class="pre">develop</span></code> branch</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">schedule</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">cron</span><span class="p">:</span> <span class="s">&#39;0</span><span class="nv"> </span><span class="s">2</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*&#39;</span>
 </pre></div>
 </div>
 </div>
@@ -216,22 +217,75 @@ single platform, python version combination.</p>
 </div>
 <div class="section" id="steps">
 <h2>Steps<a class="headerlink" href="#steps" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="should-release">
+<h3>Should Release?<a class="headerlink" href="#should-release" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span>  <span class="p p-Indicator">-</span> <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">actions/checkout@v1</span>
+
+  <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&#39;Should</span><span class="nv"> </span><span class="s">Release?&#39;</span>
+    <span class="nt">id</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">dorel</span>
+    <span class="nt">run</span><span class="p">:</span> <span class="p p-Indicator">|</span>
+        <span class="no">if [[ &quot;$REF&quot; = &#39;refs/heads/develop&#39; ]]; then</span>
+          <span class="no">./scripts/should-release.sh</span>
+        <span class="no">else</span>
+          <span class="no">echo &quot;::set-output name=should_release::true&quot;</span>
+        <span class="no">fi</span>
+    <span class="nt">env</span><span class="p">:</span>
+        <span class="nt">REF</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">${{github.ref}}</span>
+</pre></div>
+</div>
+<p>The first thing we do is check whether we should be doing a release in the first
+place. Here we make use of the <a class="reference external" href="https://help.github.com/en/actions/reference/workflow-commands-for-github-actions#setting-an-output-parameter">set-output</a> workflow command to set the value
+of a boolean output <code class="code docutils literal notranslate"><span class="pre">should_release</span></code>. The rest of the steps in this
+workflow check it to see if they should be running, effectively cancelling the
+build while still having it show as a success on Github.</p>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>Is there a better way to cleanly exit a build early?</p>
+</div>
+<p>In the case of a push to <code class="code docutils literal notranslate"><span class="pre">master</span></code> we of course want to trigger a release
+so this is hardwired to set <code class="code docutils literal notranslate"><span class="pre">should_release</span></code> to <code class="code docutils literal notranslate"><span class="pre">true</span></code>. Otherwise
+we run a bash script that checks to see if any files of interest have changed
+since the last release.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1"># Script to check if we should trigger a beta release or not.</span>
+
+<span class="c1"># Find the tag name of the latest release.</span>
+<span class="nv">tag</span><span class="o">=</span><span class="k">$(</span>curl -s <span class="s2">&quot;https://api.github.com/repos/swyddfa/arlunio/releases&quot;</span> <span class="p">|</span> jq -r <span class="s1">&#39;.[0].tag_name&#39;</span><span class="k">)</span>
+<span class="nb">echo</span> <span class="s2">&quot;Latest Release: </span><span class="si">${</span><span class="nv">tag</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="c1"># Determine which files have changed since the last release.</span>
+<span class="nv">files</span><span class="o">=</span><span class="k">$(</span>git diff --name-only <span class="si">${</span><span class="nv">tag</span><span class="si">}</span>..HEAD<span class="k">)</span>
+<span class="nb">echo</span> -e <span class="s2">&quot;Files Changed:\n\n</span><span class="nv">$files</span><span class="s2">&quot;</span>
+
+<span class="c1"># Do any of them warrant a new release?</span>
+<span class="nv">changes</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="nv">$files</span> <span class="p">|</span> grep -E <span class="s1">&#39;arlunio|setup\.py|docs/users&#39;</span><span class="k">)</span>
+<span class="nb">echo</span>
+
+<span class="k">if</span> <span class="o">[</span> -z <span class="s2">&quot;</span><span class="nv">$changes</span><span class="s2">&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+    <span class="nb">echo</span> <span class="s2">&quot;There is nothing to do.&quot;</span>
+    <span class="nb">echo</span> <span class="s2">&quot;::set-output name=should_release::false&quot;</span>
+<span class="k">else</span>
+    <span class="nb">echo</span> <span class="s2">&quot;Changes detected, cutting release!&quot;</span>
+    <span class="nb">echo</span> <span class="s2">&quot;::set-output name=should_release::true&quot;</span>
+<span class="k">fi</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="setup">
 <h3>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h3>
-<p>As with the other actions, the first few steps are all about checking out the
-code and setting up the environment.</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">actions/checkout@v1</span>
-
-<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Setup Python 3.7</span>
+<p>We then proceed as normal, setting up Python and the build environment.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Setup Python 3.7</span>
   <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">actions/setup-python@v1</span>
   <span class="nt">with</span><span class="p">:</span>
     <span class="nt">python-version</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">3.7</span>
+  <span class="nt">if</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">steps.dorel.outputs.should_release</span>
 
 <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Setup Environment</span>
   <span class="nt">run</span><span class="p">:</span> <span class="p p-Indicator">|</span>
     <span class="no">python --version</span>
     <span class="no">python -m pip install --upgrade pip</span>
     <span class="no">python -m pip install --upgrade tox</span>
+  <span class="nt">if</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">steps.dorel.outputs.should_release</span>
 </pre></div>
 </div>
 </div>
@@ -248,14 +302,14 @@ action to generate that for us.</p>
   <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">einaregilsson/build-number@v1</span>
   <span class="nt">with</span><span class="p">:</span>
     <span class="nt">token</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">${{secrets.github_token}}</span>
-  <span class="nt">if</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">github.ref == &#39;refs/heads/develop&#39;</span>
+  <span class="nt">if</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">github.ref == &#39;refs/heads/develop&#39; &amp;&amp; steps.dorel.outputs.should_release</span>
 
 <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Set Version Number</span>
   <span class="nt">shell</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">bash</span>
   <span class="nt">run </span><span class="p">:</span> <span class="p p-Indicator">|</span>
     <span class="no">sed -i &#39;s/&quot;\(.*\)&quot;/&quot;\1b&#39;&quot;${BUILD_NUMBER}&quot;&#39;&quot;/&#39; arlunio/_version.py</span>
     <span class="no">cat arlunio/_version.py</span>
-  <span class="nt">if</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">github.ref == &#39;refs/heads/develop&#39;</span>
+  <span class="nt">if</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">github.ref == &#39;refs/heads/develop&#39; &amp;&amp; steps.dorel.outputs.should_release</span>
 </pre></div>
 </div>
 </div>
@@ -276,6 +330,7 @@ to an action.</p>
 
      <span class="no">echo &quot;::set-env name=RELEASE_DATE::$release_date&quot;</span>
      <span class="no">echo &quot;::set-output name=RELEASE_DATE::$release_date&quot;</span>
+  <span class="nt">if</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">steps.dorel.outputs.should_release</span>
 </pre></div>
 </div>
 <p>Exposing the results as an environment variable means that the values are
@@ -291,6 +346,7 @@ details of which are handled by the <code class="code docutils literal notransla
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Build Package</span>
   <span class="nt">run</span><span class="p">:</span> <span class="p p-Indicator">|</span>
     <span class="no">tox -e pkg</span>
+  <span class="nt">if</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">steps.dorel.outputs.should_release</span>
 </pre></div>
 </div>
 </div>
@@ -308,6 +364,7 @@ publish.</p>
 
     <span class="no">src=$(find dist/ -name &#39;*.tar.gz&#39; -exec basename {} \;)</span>
     <span class="no">echo &quot;::set-output name=SRC::$src&quot;</span>
+  <span class="nt">if</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">steps.dorel.outputs.should_release</span>
 </pre></div>
 </div>
 <p>Notice how we’re giving this step an explicit <code class="code docutils literal notranslate"><span class="pre">id</span></code>, we’ll use this later
@@ -334,6 +391,7 @@ API directly.</p>
     <span class="no">EOF</span>
   <span class="nt">env</span><span class="p">:</span>
     <span class="nt">GITHUB_TOKEN</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">${{ secrets.GITHUB_TOKEN }}</span>
+  <span class="nt">if</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">steps.dorel.outputs.should_release</span>
 </pre></div>
 </div>
 <p>To ensure we get the repository name right we can reference the
@@ -355,6 +413,7 @@ or <code class="code docutils literal notranslate"><span class="pre">master</spa
     <span class="nt">release_name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">V${{ steps.info.outputs.VERSION}} - ${{ steps.info.outputs.RELEASE_DATE }}</span>
     <span class="nt">draft</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
     <span class="nt">prerelease</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">${{ github.ref == &#39;refs/heads/develop&#39; }}</span>
+  <span class="nt">if</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">steps.dorel.outputs.should_release</span>
 </pre></div>
 </div>
 <p>We also extract the version number and release date from our earlier
@@ -376,6 +435,7 @@ distributions</p>
     <span class="nt">asset_path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">dist/${{ steps.pkg.outputs.WHL }}</span>
     <span class="nt">asset_name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">${{ steps.pkg.outputs.WHL }}</span>
     <span class="nt">asset_content_type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">application/octet-stream</span>
+  <span class="nt">if</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">steps.dorel.outputs.should_release</span>
 
 <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Upload Release Asset</span>
   <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">actions/upload-release-asset@v1.0.1</span>
@@ -386,6 +446,7 @@ distributions</p>
     <span class="nt">asset_path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">dist/${{ steps.pkg.outputs.SRC }}</span>
     <span class="nt">asset_name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">${{ steps.pkg.outputs.SRC }}</span>
     <span class="nt">asset_content_type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">application/octet-stream</span>
+  <span class="nt">if</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">steps.dorel.outputs.should_release</span>
 </pre></div>
 </div>
 </div>
@@ -399,6 +460,7 @@ credentials stored in GitHub secrets.</p>
   <span class="nt">run</span><span class="p">:</span> <span class="p p-Indicator">|</span>
     <span class="no">python -m pip install twine</span>
     <span class="no">twine upload dist/* -u alcarney -p ${{ secrets.PYPI_PASS }}</span>
+  <span class="nt">if</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">steps.dorel.outputs.should_release</span>
 </pre></div>
 </div>
 </div>
