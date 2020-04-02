@@ -8,14 +8,23 @@ based on the :code:`master` branch.
 Triggers
 --------
 
-This action is triggered whenever a commit is made to the :code:`develop` or
-:code:`master` branches - either directly when a PR is merged. Unless the
-changes only affect the blog in which case the workflow will not be triggered.
+If we push something to the :code:`master` branch that warrants a new release
+then this action is triggered
 
 .. literalinclude:: ../../../.github/workflows/python-release.yml
    :language: yaml
-   :start-after: # <trigger>
-   :end-before: # </trigger>
+   :dedent: 2
+   :start-after: # <trigger-push>
+   :end-before: # </trigger-push>
+
+We also have a cron trigger that runs every day at :code:`02:00` on the
+:code:`develop` branch
+
+.. literalinclude:: ../../../.github/workflows/python-release.yml
+   :language: yaml
+   :dedent: 2
+   :start-after: # <trigger-cron>
+   :end-before: # </trigger-cron>
 
 Jobs
 ----
@@ -36,11 +45,37 @@ single platform, python version combination.
 Steps
 -----
 
+Should Release?
+^^^^^^^^^^^^^^^
+
+.. literalinclude:: ../../../.github/workflows/python-release.yml
+   :language: yaml
+   :dedent: 2
+   :start-after: # <release-job-check>
+   :end-before: # </release-job-check>
+
+The first thing we do is check whether we should be doing a release in the first
+place. Here we make use of the `set-output`_ workflow command to set the value
+of a boolean output :code:`should_release`. The rest of the steps in this
+workflow check it to see if they should be running, effectively cancelling the
+build while still having it show as a success on Github.
+
+.. admonition:: Question
+
+   Is there a better way to cleanly exit a build early?
+
+In the case of a push to :code:`master` we of course want to trigger a release
+so this is hardwired to set :code:`should_release` to :code:`true`. Otherwise
+we run a bash script that checks to see if any files of interest have changed
+since the last release.
+
+.. literalinclude:: ../../../scripts/should-release.sh
+   :language: bash
+
 Setup
 ^^^^^
 
-As with the other actions, the first few steps are all about checking out the
-code and setting up the environment.
+We then proceed as normal, setting up Python and the build environment.
 
 .. literalinclude:: ../../../.github/workflows/python-release.yml
    :language: yaml
