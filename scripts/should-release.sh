@@ -15,7 +15,6 @@ echo
 
 if [ -z "$changes" ]; then
     echo "There is nothing to do."
-    echo "::set-output name=should_release::false"
 else
     echo "Changes detected, cutting release!"
     echo "::set-output name=should_release::true"
