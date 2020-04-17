@@ -366,7 +366,7 @@ def SuperEllipse(
 
 
 @ar.definition
-def Empty(width, height) -> ar.Mask:
+def Empty(width: int, height: int) -> ar.Mask:
     """An empty shape definition.
 
     Example
@@ -385,7 +385,7 @@ def Empty(width, height) -> ar.Mask:
 
 
 @ar.definition
-def Full(width, height) -> ar.Mask:
+def Full(width: int, height: int) -> ar.Mask:
     """An full shape definition.
 
     Example

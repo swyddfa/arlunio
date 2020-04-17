@@ -3,7 +3,7 @@ import numpy as np
 
 
 @ar.definition
-def X(width, height, *, x0=0, scale=1, stretch=False):
+def X(width: int, height: int, *, x0=0, scale=1, stretch=False):
     """
     .. arlunio-image::
 
@@ -78,7 +78,7 @@ def X(width, height, *, x0=0, scale=1, stretch=False):
 
 
 @ar.definition
-def Y(width, height, *, y0=0, scale=1, stretch=False):
+def Y(width: int, height: int, *, y0=0, scale=1, stretch=False):
     """
     .. arlunio-image::
 
