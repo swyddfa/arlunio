@@ -122,7 +122,7 @@ class Defn(metaclass=_BaseDefn):
 
             attrs = {name: attributes[name] for name in defn.attribs(inherited=True)}
             instance = defn(**attrs)
-            logger.debug("%s: Created instance, %s")
+            logger.debug("%s: Created instance, %s", name, instance)
 
             # And then evaluate it!
             args[name] = instance(**kwargs)
@@ -383,21 +383,39 @@ def _inherit_inputs(defn: Defn, inputs):
 
     for name, inpt in defn.inputs().items():
 
-        if name in inputs and inputs[name].inherited:
-            inputs[name].sources.append(defn)
+        dname = defn.__name__
+
+        if name not in inputs:
+            inputs[name] = DefnInput(
+                name=name, dtype=inpt.dtype, inherited=True, sources=[defn]
+            )
+
+            logger.debug("%s: inherited input, new", name)
+            continue
+
+        existing = inputs[name]
+
+        # Check for a conflict between the types
+        if existing.dtype != inpt.dtype:
+            message = (
+                f"Input '{name}' ({inpt.dtype}) inherited from '{dname}' conflicts"
+                f" with existing input '{name}' ({existing.dtype})"
+            )
+
+            if existing.sources is not None:
+                extras = ",".join(["'" + d.__name__ + "'" for d in existing.sources])
+                message += f" inherited from {extras}"
+
+            raise TypeError(message)
+
+        # If the input is an inherited one, add this definition to the list of sources
+        if existing.inherited:
+            existing.sources.append(defn)
             logger.debug("%s: inherited input, updated", name)
+
             continue
 
-        if name in inputs:
-            logger.debug("%s: already defined, skipping", name)
-            continue
-
-        # Otherwise we now need to mark this input as being inherited
-        inputs[name] = DefnInput(
-            name=name, dtype=inpt.dtype, inherited=True, sources=[defn]
-        )
-
-        logger.debug("%s: inherited input, new", name)
+        logger.debug("%s: already defined", name)
 
 
 def _process_parameters(

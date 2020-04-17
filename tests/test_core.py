@@ -278,6 +278,24 @@ class TestDefinitionInputs:
         assert "'width'" in str(err.value)
         assert "'Base'" in str(err.value)
 
+    def test_report_conflicting_bases(self):
+        """Ensure that if a definition includes bases that have conflicting inputs
+        an appropriate error is raised."""
+
+        @ar.definition
+        def Other(width: str):
+            pass
+
+        with py.test.raises(TypeError) as err:
+
+            @ar.definition
+            def Derived(b: Base, o: Other):
+                pass
+
+        assert "conflicts with" in str(err.value)
+        assert "'width'" in str(err.value)
+        assert "'Base'" in str(err.value)
+
 
 def test_derived_definition_attributes_inherited():
     """Ensure that the attributes method with the inherited flag exposes all available
