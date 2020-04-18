@@ -12,7 +12,7 @@ code::
    from arlunio.lib import Circle
 
    circle = Circle()
-   ar.fill(circle(1920, 1080), color="red")
+   ar.fill(circle(width=1920, height=1080), color="red")
 
 .. only:: html
 
@@ -22,4 +22,4 @@ code::
       from arlunio.lib import Circle
 
       circle = Circle()
-      image = ar.fill(circle(1920, 1080), color="red")
+      image = ar.fill(circle(width=1920, height=1080), color="red")

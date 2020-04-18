@@ -275,6 +275,10 @@ class Defn(metaclass=_BaseDefn):
     @classmethod
     def bases(cls):
         """Return all the definitions this defintion is derived from."""
+
+        if not hasattr(cls, "_bases"):
+            return {}
+
         return dict(cls._bases)
 
     @classmethod
@@ -286,6 +290,9 @@ class Defn(metaclass=_BaseDefn):
         inherited:
             If :code:`True` (default) also return any inherited inputs.
         """
+        if not hasattr(cls, "_inputs"):
+            return {}
+
         if inherited:
             return {k: v for k, v in cls._inputs.items()}
 
