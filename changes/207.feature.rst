@@ -1,5 +1,0 @@
-Introduce the concept of operators. Operators are definitions that can provide
-implementations of the arithmetic operators in Python like :code:`+` and
-:code:`-`. Depending on the type a definition produces different operators can
-be defined that allow them to be combined in some way. The standard library has
-been updated to incorporate a few operators for working with masks.

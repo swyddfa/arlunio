@@ -1,2 +1,0 @@
-Tidied up and updated existing changelog, started using towncrier for changelog
-entries going forward.

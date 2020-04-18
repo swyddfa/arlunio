@@ -1,2 +1,0 @@
-Fix handling of multiple notebooks in  :code:`clean-notebook.sh` and add VSCode
-tasks to aid with tutorial development

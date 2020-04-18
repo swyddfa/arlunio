@@ -1,3 +1,39 @@
+v0.0.6 - 2020-04-18
+===================
+
+Features
+--------
+
+- Introduce the concept of operators. Operators are definitions that can provide
+  implementations of the arithmetic operators in Python like :code:`+` and
+  :code:`-`. Depending on the type a definition produces different operators can
+  be defined that allow them to be combined in some way. The standard library has
+  been updated to incorporate a few operators for working with masks. (`#207 <https://github.com/swyddfa/arlunio/issues/207>`_)
+- Generalise definitions to accept any "regular" value as an input, not just
+  :code:`width` and :code:`height`. In a similar way to attributes, when deriving
+  from other definitions any inputs will be automatically inherited. (`#216 <https://github.com/swyddfa/arlunio/issues/216>`_)
+
+
+Docs
+----
+
+- Added some documentation around the CI build for the blog. Also updated the blog
+  build to run every day. (`#177 <https://github.com/swyddfa/arlunio/issues/177>`_)
+- Tidied up and updated existing changelog, started using towncrier for changelog
+  entries going forward. (`#204 <https://github.com/swyddfa/arlunio/issues/204>`_)
+- Flatten structure of the User Guide section and add placeholder first tutorial (`#205 <https://github.com/swyddfa/arlunio/issues/205>`_)
+
+
+Misc
+----
+
+- Fix handling of multiple notebooks in  :code:`clean-notebook.sh` and add VSCode
+  tasks to aid with tutorial development (`#205 <https://github.com/swyddfa/arlunio/issues/205>`_)
+- Switch the linting workflow to explicitly list the paths that should trigger a
+  build. (`#210 <https://github.com/swyddfa/arlunio/issues/210>`_)
+- Fix packaging so that our tests are no longer installed (`#216 <https://github.com/swyddfa/arlunio/issues/216>`_)
+
+
 v0.0.5 - 2020-03-18
 -------------------
 Added

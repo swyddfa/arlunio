@@ -1,3 +1,0 @@
-Generalise definitions to accept any "regular" value as an input, not just
-:code:`width` and :code:`height`. In a similar way to attributes, when deriving
-from other definitions any inputs will be automatically inherited.

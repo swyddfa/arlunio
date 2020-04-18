@@ -1,2 +1,0 @@
-Switch the linting workflow to explicitly list the paths that should trigger a
-build.
