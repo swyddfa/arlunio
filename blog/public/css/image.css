@@ -73,7 +73,7 @@ input[type="checkbox"] {
   border-radius: 5px;
   text-align: center;
   grid-row-start: 100; /* Force element to use last row */
-  grid-column: span 2;
+  grid-column: span 4;
 }
 
 .markdown {

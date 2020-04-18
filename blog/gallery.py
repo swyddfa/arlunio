@@ -13,13 +13,14 @@ import random
 import subprocess
 import sys
 import traceback
-import typing as t
 
 from datetime import datetime
+from typing import Any, Dict, List
 
 import arlunio
 import attr
 import jinja2 as j2
+import PIL
 import tomlkit as toml
 
 from arlunio.imp import NotebookLoader
@@ -167,7 +168,7 @@ class NbCell:
 class ImageContext:
     """Represents the values needed to render the individual image template."""
 
-    author: t.Any
+    author: Any
     """Information about the image's author"""
 
     baseurl: str
@@ -179,7 +180,7 @@ class ImageContext:
     date: str
     """A string representing the time the site was built"""
 
-    dimensions: t.List[int]
+    inputs: Dict[str, Any]
     """The width x height of the image"""
 
     revision: int
@@ -197,7 +198,7 @@ class ImageContext:
     version: str
     """The version of arlunio used to make the image."""
 
-    cells: t.List[NbCell] = attr.Factory(list)
+    cells: List[NbCell] = attr.Factory(list)
     """The list of cells representing the notebook that defines the image."""
 
     thumburl: str = ""
@@ -213,7 +214,7 @@ class ImageContext:
         slug = filename.lower().replace(" ", "-")
 
         meta = nb.__notebook__.metadata.arlunio
-        dimensions = meta.dimensions
+        inputs = meta.inputs
         created = get_date_added(nb.__file__)
         num_revisions = get_num_revisions(nb.__file__)
 
@@ -236,17 +237,18 @@ class ImageContext:
 
         image = defns[0]
 
-        # Render the thumbnail for the main gallery page
-        thumb = image(250, 250)
-        thumbfile = pathlib.Path(config.output, "gallery", "thumb", slug + ".png")
-        arlunio.save(thumb, thumbfile, mkdirs=True)
-        thumburl = "thumb/{}.png".format(slug)
-
         # Render the fullsize image
-        full = image(*dimensions)
+        full = image(**inputs)
         fullfile = pathlib.Path(config.output, "gallery", "image", slug + ".png")
         arlunio.save(full, fullfile, mkdirs=True)
         url = "image/{}.png".format(slug)
+
+        # Create a scaled down version to use as a thumbnail on the main page
+        thumb = full.copy()
+        thumb.thumbnail((250, 250), PIL.Image.BICUBIC)
+        thumbfile = pathlib.Path(config.output, "gallery", "thumb", slug + ".png")
+        arlunio.save(thumb, thumbfile, mkdirs=True)
+        thumburl = "thumb/{}.png".format(slug)
 
         return cls(
             author=meta.author,
@@ -254,7 +256,7 @@ class ImageContext:
             cells=cells,
             created=created.strftime("%d %b %Y"),
             date=gallery.date,
-            dimensions=dimensions,
+            inputs=inputs,
             revision=num_revisions,
             sloc=sloc,
             slug=slug,
@@ -278,7 +280,7 @@ class GalleryContext:
     date: str
     """A string representing the time the site was built"""
 
-    images: t.List[str] = attr.Factory(list)
+    images: List[str] = attr.Factory(list)
     """Represents the images that are included in the gallery"""
 
     @classmethod
