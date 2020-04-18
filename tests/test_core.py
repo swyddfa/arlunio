@@ -1,9 +1,9 @@
-import inspect
-
 from typing import Any
 
 import arlunio as ar
 import py.test
+
+from arlunio import DefnInput
 
 
 def test_definition_name():
@@ -11,7 +11,7 @@ def test_definition_name():
 
     @ar.definition
     def Circle():
-        return 1
+        pass
 
     assert Circle.__name__ == "Circle"
 
@@ -27,73 +27,69 @@ def test_definition_module():
     assert Circle.__module__ == "tests.test_core"
 
 
-def test_use_definition_as_tag():
-    """Ensure that the definition decorator can be used as a simple tag."""
-
-    @ar.definition
-    def z123_(width, height):
-        return width
-
-    p = z123_()
-    assert p(4, 2) == 4
-
-
-def test_use_definition_as_function():
-    """Ensure that the definition decorator can be used as a function."""
-
-    @ar.definition()
-    def Param(width, height):
-        return height
-
-    p = Param()
-    assert p(4, 2) == 2
-
-
 def test_definition_constant():
-    """Ensure that we can define as constant definition."""
+    """Ensure that we can define a constant definition."""
 
     @ar.definition()
     def Constant():
         return 1
 
     const = Constant()
-    assert const(10, 10) == 1
+    assert const() == 1
 
 
-def test_definition_width_only():
-    """Ensure that we can define a definition with respect to width only."""
+def test_definition_param_missing_annotation():
+    """Ensure that we require parameters to carry a type annotation"""
 
-    @ar.definition()
-    def Width(width):
-        return width + 1
+    with py.test.raises(TypeError) as err:
 
-    w = Width()
-    assert w(100, 2) == 101
+        @ar.definition()
+        def Width(width):
+            return width + 1
+
+    assert "Missing type annotation" in str(err.value)
+    assert "width" in str(err.value)
 
 
-def test_definition_height_only():
-    """Ensure that we can define a definition with respect to height only."""
+def test_definition_errors_with_pos_args():
+    """Ensure that if a definition is called with positional args a helpful
+    error message is thrown."""
 
-    @ar.definition()
-    def Height(height):
+    @ar.definition
+    def Height(height: int):
+        return height
+
+    h = Height()
+
+    with py.test.raises(TypeError) as err:
+        h(12)
+
+    assert "must be passed as keyword arguments" in str(err.value)
+
+
+def test_definition_simple_param():
+    """Ensure that we can define a parameter that takes a simple parameter."""
+
+    @ar.definition
+    def Height(height: int):
         return height - 1
 
     h = Height()
-    assert h(2, 100) == 99
+    assert h(height=100) == 99
 
 
 def test_definition_attributes():
     """Ensure that we can define a definition that takes a number of attributes."""
 
     @ar.definition()
-    def Param(width, height, *, offset=0):
-        return (width + height) - offset
+    def Param(*, offset=0):
+        return 2 - offset
 
     p = Param()
-    assert p(1, 1) == 2
+    assert p() == 2
 
     q = Param(offset=2)
-    assert q(1, 1) == 0
+    assert q() == 0
 
 
 def test_definition_produces_any():
@@ -124,7 +120,7 @@ def test_derived_definition():
     """Ensure that we can derive a definition that's based on other definitions."""
 
     @ar.definition()
-    def Adder(width, height):
+    def Adder(width: int, height: int):
         return height + width
 
     @ar.definition()
@@ -132,34 +128,8 @@ def test_derived_definition():
         return a - 2
 
     s = Subber()
-    assert s(1, 1) == 0
-    assert s(1, 2) == 1
-
-
-def test_derived_definition_checks_input_annotations():
-    """Ensure that any inputs that are not a base definition or annotated are complained
-    about."""
-
-    with py.test.raises(TypeError) as err:
-
-        @ar.definition()
-        def Parameter(width, height, x):
-            return width * height - x
-
-    assert "Unknown input 'x'" in str(err.value)
-
-
-def test_derived_definition_checks_input_annotation_type():
-    """Ensure that any inputs that are annotated with a class that's not a Parameter are
-    compained about."""
-
-    with py.test.raises(TypeError) as err:
-
-        @ar.definition()
-        def Parameter(width, height, x: int):
-            return width * height - x
-
-    assert "Invalid input 'x', type 'int' is not a Defn" in str(err.value)
+    assert s(width=1, height=1) == 0
+    assert s(width=1, height=2) == 1
 
 
 def test_derived_definition_exposes_properties():
@@ -167,7 +137,7 @@ def test_derived_definition_exposes_properties():
     property."""
 
     @ar.definition()
-    def Base(width, height, *, offset=0):
+    def Base(width: int, height: int, *, offset=0):
         return offset
 
     @ar.definition()
@@ -175,29 +145,156 @@ def test_derived_definition_exposes_properties():
         return start - b
 
     d = Derived()
-    d(1, 1) == 1
+    d(width=1, height=1) == 1
 
     d = Derived(start=5, offset=-1)
-    d(1, 1) == 6
+    d(width=1, height=1) == 6
 
 
-def test_derived_definition_exposes_base_definitions():
-    """Ensure that any base definitions are available to be inspected."""
+@ar.definition
+def Const():
+    return 1
 
-    @ar.definition()
-    def Base(width, height):
-        return 2
 
-    assert Base.definitions == {
-        "width": inspect.Parameter.empty,
-        "height": inspect.Parameter.empty,
-    }
+@ar.definition
+def Base(width: int, height: int):
+    return 2
 
-    @ar.definition()
-    def Derived(width, base: Base):
-        return 4
 
-    assert Derived.definitions == {"width": inspect.Parameter.empty, "base": Base}
+@ar.definition
+def Cuboid(width: int, color: str, base: Base):
+    return 3
+
+
+@ar.definition()
+def Tunnel(base: Base, length: int):
+    return 4
+
+
+class TestDefinitionBases:
+    """Tests relating to definition bases."""
+
+    @py.test.mark.parametrize("defn,expected", [(Base, {}), (Tunnel, {"base": Base})])
+    def test_bases_classmethod(self, defn, expected):
+        """Ensure that any bases a definition is derived from is exposed."""
+
+        assert defn.bases() == expected
+        assert defn().bases() == expected
+
+
+class TestDefinitionInputs:
+    """Tests relating to definition inputs."""
+
+    def test_inputs_classmethod_constant_defn(self):
+        """Defns that don't define any inputs should return an empty dict."""
+
+        assert Const.inputs() == {}
+        assert Const().inputs() == {}
+
+    def test_inputs_classmethod_simple_defn(self):
+        """Ensure that all explicitly defined definitions are reported."""
+
+        expected = {
+            "width": DefnInput(name="width", dtype=int, inherited=False),
+            "height": DefnInput(name="height", dtype=int, inherited=False),
+        }
+
+        assert Base.inputs() == expected
+        assert Base().inputs() == expected
+
+    def test_inputs_classmethod_simple_derived(self):
+        """Any inputs from base definitions should also be exposed by default, but
+        marked as being inherited."""
+
+        expected = {
+            "length": DefnInput(name="length", dtype=int, inherited=False),
+            "width": DefnInput(name="width", dtype=int, inherited=True, sources=[Base]),
+            "height": DefnInput(
+                name="height", dtype=int, inherited=True, sources=[Base]
+            ),
+        }
+
+        assert Tunnel.inputs() == expected
+        assert Tunnel().inputs() == expected
+
+    def test_inputs_classmethod_simple_derived_inhertited_false(self):
+        """Ensure that we can ask only for the inputs that have been directly declared
+        on the definition."""
+
+        expected = {"length": DefnInput(name="length", dtype=int, inherited=False)}
+
+        assert Tunnel.inputs(inherited=False) == expected
+        assert Tunnel().inputs(inherited=False) == expected
+
+    def test_inputs_classmethod_shadowed_inputs(self):
+        """Ensure that any inputs that are both explicitly declared and carried on a
+        base definition are marked as not being inherited."""
+
+        expected = {
+            "width": DefnInput(name="width", dtype=int, inherited=False),
+            "color": DefnInput(name="color", dtype=str, inherited=False),
+            "height": DefnInput(
+                name="height", dtype=int, inherited=True, sources=[Base]
+            ),
+        }
+
+        assert Cuboid.inputs() == expected
+        assert Cuboid().inputs() == expected
+
+    def test_inputs_classmethod_shadowed_inputs_many_sources(self):
+        """Ensure that any inputs inherited from multiple sources are captured as
+        such."""
+
+        @ar.definition
+        def ADefn(b: Base, c: Cuboid):
+            pass
+
+        expected = {
+            "width": DefnInput(
+                name="width", dtype=int, inherited=True, sources=[Base, Cuboid]
+            ),
+            "height": DefnInput(
+                name="height", dtype=int, inherited=True, sources=[Base, Cuboid]
+            ),
+            "color": DefnInput(
+                name="color", dtype=str, inherited=True, sources=[Cuboid]
+            ),
+        }
+
+        assert ADefn.inputs() == expected
+        assert ADefn().inputs() == expected
+
+    def test_report_conflicting_inputs(self):
+        """Ensure that if a definition declares an input that conflicts with an
+        inherited one an appropriate error is raised."""
+
+        with py.test.raises(TypeError) as err:
+
+            @ar.definition
+            def BadDefinition(width: str, base: Base):
+                pass
+
+        assert "conflicts with" in str(err.value)
+        assert "'width'" in str(err.value)
+        assert "'Base'" in str(err.value)
+
+    def test_report_conflicting_bases(self):
+        """Ensure that if a definition includes bases that have conflicting inputs
+        an appropriate error is raised."""
+
+        @ar.definition
+        def Other(width: str):
+            pass
+
+        with py.test.raises(TypeError) as err:
+
+            @ar.definition
+            def Derived(b: Base, o: Other):
+                pass
+
+        assert "conflicts with" in str(err.value)
+        assert "'width'" in str(err.value)
+        assert "'Base'" in str(err.value)
 
 
 def test_derived_definition_attributes_inherited():
@@ -205,7 +302,7 @@ def test_derived_definition_attributes_inherited():
     attributes on the definition."""
 
     @ar.definition
-    def Base(width, height, *, a=1, b=2):
+    def Base(width: int, height: int, *, a=1, b=2):
         return 3
 
     assert Base().attributes(inherited=True) == {"a": 1, "b": 2}
@@ -222,7 +319,7 @@ def test_derived_definition_attributes():
     defined on the definition by default."""
 
     @ar.definition
-    def Base(width, height, *, a=1, b=2):
+    def Base(width: int, height: int, *, a=1, b=2):
         return 3
 
     assert Base().attributes() == {"a": 1, "b": 2}
@@ -239,7 +336,7 @@ def test_derived_definiton_attribs_inherited():
     attribute definitions."""
 
     @ar.definition
-    def Base(width, height, *, a=1, b=2):
+    def Base(width: int, height: int, *, a=1, b=2):
         return 3
 
     attrs = Base.attribs(inherited=True)
@@ -264,7 +361,7 @@ def test_derived_definiton_attribs():
     attribute definitions."""
 
     @ar.definition
-    def Base(width, height, *, a=1, b=2):
+    def Base(width: int, height: int, *, a=1, b=2):
         return 3
 
     attrs = Base.attribs()
@@ -284,35 +381,18 @@ def test_derived_definiton_attribs():
         assert name == attr.name
 
 
-def test_derived_definition_eval_width_height():
-    """Ensure that a definition can be evaluated with width and height as positional
-    arguments."""
-
-    @ar.definition()
-    def Base(width, height):
-        return width + height
-
-    assert Base()(4, 4) == 8
-
-    @ar.definition()
-    def Derived(height, base: Base):
-        return height - base
-
-    assert Derived()(2, 4) == -2
-
-
 def test_derived_definition_eval_kwargs():
     """Ensure that a definition can be evaluted with inputs provided as keyword
     arguments"""
 
     @ar.definition()
-    def Base(width, height):
+    def Base(width: int, height: int):
         return width + height
 
     assert Base()(width=4, height=4) == 8
 
     @ar.definition()
-    def Derived(height, base: Base):
+    def Derived(height: int, base: Base):
         return height - base
 
     assert Derived()(height=4, base=4) == 0
@@ -365,7 +445,7 @@ def test_definition_operator_missing_attributes():
     with py.test.raises(TypeError) as err:
 
         @ar.definition(operation="op")
-        def Op(width, height):
+        def Op(width: int, height: int):
             pass
 
     assert "must define 2 attributes" in str(err.value)
@@ -379,7 +459,7 @@ def test_definition_operator_missing_annotation():
     with py.test.raises(TypeError) as err:
 
         @ar.definition(operation="op")
-        def OpA(width, height, *, a=1, b: int = 2):
+        def OpA(width: int, height: int, *, a=1, b: int = 2):
             pass
 
     assert "missing a valid type annotation" in str(err.value)
@@ -388,7 +468,7 @@ def test_definition_operator_missing_annotation():
     with py.test.raises(TypeError) as err:
 
         @ar.definition(operation="op")
-        def OpB(width, height, *, a: int = 1, b=2):
+        def OpB(width: int, height: int, *, a: int = 1, b=2):
             pass
 
     assert "missing a valid type annotation" in str(err.value)
@@ -402,13 +482,13 @@ def test_definition_operator_existing_definition():
     operator_pool = {}
 
     @ar.definition(operation="op", operator_pool=operator_pool)
-    def Op(width, height, *, a: int = 0, b: int = 0):
+    def Op(width: int, height: int, *, a: int = 0, b: int = 0):
         pass
 
     with py.test.raises(TypeError) as err:
 
         @ar.definition(operation="op", operator_pool=operator_pool)
-        def OpDuplicate(width, height, *, a: int = 0, b: int = 0):
+        def OpDuplicate(width: int, height: int, *, a: int = 0, b: int = 0):
             pass
 
     assert "has already been defined" in str(err.value)

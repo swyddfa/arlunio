@@ -2,6 +2,9 @@ include LICENSE
 include CHANGES.rst
 include README.md
 include pyproject.toml
+
 recursive-include arlunio *.sh
 recursive-include arlunio *.ipynb
 recursive-include arlunio *.py
+
+recursive-exclude tests *.py

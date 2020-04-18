@@ -1,23 +1,16 @@
 import inspect
+import logging
 
 from typing import Any, ClassVar, Dict, List, Optional
 
 import attr
 
+logger = logging.getLogger(__name__)
+
 
 class Mask:
     """Currently just a type alias for boolean numpy arrays but gives us the flexibility
     to add smarts later."""
-
-
-def _prepare_definition(defn, attributes):
-    """Given a definiton and a bag of attributes, create an instance of it by passing
-    in the applicable attributes into the constructor."""
-
-    names = {a.name for a in attr.fields(defn) if a.metadata[Defn.ATTR_ID]}
-    args = {name: attributes[name] for name in names}
-
-    return defn(**args)
 
 
 def _format_type(obj: Optional[Any] = None, type_: Optional[Any] = None) -> str:
@@ -66,8 +59,9 @@ class _BaseDefn(type):
 
 @attr.s(auto_attribs=True)
 class Defn(metaclass=_BaseDefn):
-    """A definition is the representation of something that can be mapped onto an
-    image."""
+    """Defn, short for 'Definition' is the object that powers the rest of
+    :code:`arlunio`.
+    """
 
     ATTR_ID: ClassVar[str] = "arlunio.attribute"
 
@@ -85,34 +79,58 @@ class Defn(metaclass=_BaseDefn):
     OP_SUB: ClassVar[str] = "subtraction"
     OP_XOR: ClassVar[str] = "exclusive_or"
 
-    def __call__(self, width: int = None, height: int = None, **kwargs):
-        args = dict(self.definitions)
+    def __call__(self, *pos, **kwargs):
+        logger.debug("Evaluating definition: '%s'", self.__class__.__name__)
+        logger.debug("--> Positional Args: %s", pos)
+        logger.debug("--> Keyword arguments: %s", kwargs)
+
+        # Requiring inputs to be given as kw args makes the api less sensitive to
+        # changes in the implementation
+        if len(pos) != 0:
+            raise TypeError("Definition inputs must be passed as keyword arguments")
+
+        required = self.inputs(inherited=False)
+        missing = ["'" + n + "'" for n in required.keys() if n not in kwargs]
+
+        logger.debug("Preparing arguments")
+        logger.debug("--> Directly required inputs: %s", list(required.keys()))
+
+        if len(missing) != 0:
+            name = self.__class__.__name__
+            inpts = ", ".join(missing)
+            message = f"Unable to evaluate definition '{name}', missing inputs: {inpts}"
+
+            raise TypeError(message)
+
+        # Start building a dict for the args to pass to the _impl function. Starting
+        # with the actual values of the required inputs
+        args = {inpt: kwargs[inpt] for inpt in required}
+
+        # Now to evaluate any definitions this definition is derived from.
         attributes = self.attributes(inherited=True)
+        bases = dict(self._bases)
 
-        try:
-            width, height = width
-        except TypeError:
-            pass
+        logger.debug("--> Attributes: %s", attributes)
+        logger.debug("--> Bases: %s", bases)
 
-        for name in args:
-
-            if name == "width" and args[name] == inspect.Parameter.empty:
-                args[name] = width
-                continue
-
-            if name == "height" and args[name] == inspect.Parameter.empty:
-                args[name] = height
-                continue
+        for name, defn in bases.items():
 
             if name in kwargs:
+                logger.debug("%s: Using user provided override, %s", name, kwargs[name])
                 args[name] = kwargs[name]
                 continue
 
-            # Else it must be a definition so let's evaluate it
-            defn = _prepare_definition(args[name], attributes)
-            args[name] = defn(width, height)
+            attrs = {name: attributes[name] for name in defn.attribs(inherited=True)}
+            instance = defn(**attrs)
+            logger.debug("%s: Created instance, %s", name, instance)
 
-        return self._definition(**args, **self.attributes())
+            # And then evaluate it!
+            args[name] = instance(**kwargs)
+
+        message = "Executing implementation for '%s' with args: %s"
+        logger.debug(message, self.__class__.__name__, args)
+
+        return self._impl(**args, **self.attributes())
 
     def _special_method(self, operation, a, b):
         """Implements the special methods in a standardized way."""
@@ -255,14 +273,58 @@ class Defn(metaclass=_BaseDefn):
         }
 
     @classmethod
+    def bases(cls):
+        """Return all the definitions this defintion is derived from."""
+
+        if not hasattr(cls, "_bases"):
+            return {}
+
+        return dict(cls._bases)
+
+    @classmethod
+    def inputs(cls, inherited=True):
+        """Return all the inputs required to evaluate this definition.
+
+        Parameters
+        ----------
+        inherited:
+            If :code:`True` (default) also return any inherited inputs.
+        """
+        if not hasattr(cls, "_inputs"):
+            return {}
+
+        if inherited:
+            return {k: v for k, v in cls._inputs.items()}
+
+        return {k: v for k, v in cls._inputs.items() if not v.inherited}
+
+    @classmethod
     def produces(cls):
         """Return the type of the object that this definition produces."""
-        rtype = inspect.signature(cls._definition).return_annotation
+        rtype = inspect.signature(cls._impl).return_annotation
 
         if rtype == inspect._empty:
             return Any
 
         return rtype
+
+
+@attr.s(auto_attribs=True)
+class DefnInput:
+    """A class that represents an input to a definition"""
+
+    name: str
+    """The name of the input."""
+
+    dtype: Any
+    """The type of the input"""
+
+    inherited: bool
+    """Flag to indicate if the input has been inherited from another definition."""
+
+    sources: Optional[List[Defn]] = None
+    """List of definitions to indicate which definitions an input has been inherited
+    from."""
 
 
 def _define_attribute(param: inspect.Parameter) -> attr.Attribute:
@@ -313,44 +375,96 @@ def _inherit_attributes(defn: Defn, attributes):
         )
 
 
+def _inherit_inputs(defn: Defn, inputs):
+    """Given a definition and the inputs for the current definition under construction
+    copy over its inputs.
+
+    Parameters
+    ----------
+    defn:
+        The definition to inherit inputs from
+    inputs:
+        The dictionary carrying the inputs for the definition under construction.
+    """
+    logger.debug("Inherting inputs from definition: %s", defn.__name__)
+
+    for name, inpt in defn.inputs().items():
+
+        dname = defn.__name__
+
+        if name not in inputs:
+            inputs[name] = DefnInput(
+                name=name, dtype=inpt.dtype, inherited=True, sources=[defn]
+            )
+
+            logger.debug("%s: inherited input, new", name)
+            continue
+
+        existing = inputs[name]
+
+        # Check for a conflict between the types
+        if existing.dtype != inpt.dtype:
+            message = (
+                f"Input '{name}' ({inpt.dtype}) inherited from '{dname}' conflicts"
+                f" with existing input '{name}' ({existing.dtype})"
+            )
+
+            if existing.sources is not None:
+                extras = ",".join(["'" + d.__name__ + "'" for d in existing.sources])
+                message += f" inherited from {extras}"
+
+            raise TypeError(message)
+
+        # If the input is an inherited one, add this definition to the list of sources
+        if existing.inherited:
+            existing.sources.append(defn)
+            logger.debug("%s: inherited input, updated", name)
+
+            continue
+
+        logger.debug("%s: already defined", name)
+
+
 def _process_parameters(
     signature: inspect.Signature, attributes: Dict[str, Any]
 ) -> List[inspect.Parameter]:
     """Ensure that the input parameters for the defintion are well defined.
 
-    First this function will ensure any of the parameters that are not a known "base"
-    (e.g. :code:`width` or :code:`height`) are instead a known :code:`Defn`.
-    For any definitions that are referenced, their attributes are then exposed to the
-    definition under construction.
+    All parameters must carry a type annotation, if the annotation is not a
+    Defn the parameter will be registered as an input that must be given when
+    evaluating a definiton.
+
+    Otherwise if the annotation is another definition then both the inputs and
+    attributes of that definition will be inherited.
     """
 
     # Input parameters are any arguments that are not attributes
     params = [p for p in signature.values() if p.name not in attributes]
 
-    # We will hold a list of definitions we are based on.
-    defns = []
+    # We will hold a dict of definitions we are based on.
+    defns = {}
+
+    # As well as a dict of inputs required to evaluate the definiton.
+    inputs = {}
 
     for param in params:
 
         if param.annotation == inspect.Parameter.empty:
-            if param.name in {"width", "height"}:
-                continue
+            raise TypeError(f"Missing type annotation for parameter '{param.name}'")
 
-            raise TypeError(f"Unknown input '{param.name}'")
+        if issubclass(param.annotation, Defn):
+            defns[param.name] = param.annotation
+            continue
 
-        if not issubclass(param.annotation, Defn):
-            raise TypeError(
-                f"Invalid input '{param.name}', type '{param.annotation.__name__}'"
-                " is not a Defn"
-            )
+        inpt = DefnInput(name=param.name, dtype=param.annotation, inherited=False)
+        inputs[inpt.name] = inpt
 
-        defns.append(param.annotation)
-
-    # Now for each definition, inherit its attributes.
-    for defn in defns:
+    # Now for each definition, inherit its attributes and inputs.
+    for defn in defns.values():
         _inherit_attributes(defn, attributes)
+        _inherit_inputs(defn, inputs)
 
-    return params
+    return defns, inputs
 
 
 _OPERATOR_POOL = {}
@@ -390,8 +504,8 @@ def _define_operator(defn: Defn, operation: str, operator_pool):
     operator_pool[key] = defn
 
 
-def definition(f=None, operation: str = None, operator_pool=None):
-    """Create a new Defn.
+def definition(f=None, *, operation: str = None, operator_pool=None):
+    """Create a new Definition.
 
     Parameters
     ----------
@@ -416,15 +530,16 @@ def definition(f=None, operation: str = None, operator_pool=None):
         attributes = {
             "__doc__": inspect.getdoc(fn),
             "__module__": fn.__module__,
-            "_definition": staticmethod(fn),
+            "_impl": staticmethod(fn),
             "_operators": operators,
         }
 
         for a in attrs:
             attributes[a.name] = _define_attribute(a)
 
-        params = _process_parameters(signature, attributes)
-        attributes["definitions"] = {p.name: p.annotation for p in params}
+        bases, inputs = _process_parameters(signature, attributes)
+        attributes["_bases"] = bases
+        attributes["_inputs"] = inputs
 
         defn = attr.s(type(name, (Defn,), attributes))
 

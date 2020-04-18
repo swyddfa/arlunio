@@ -4,7 +4,7 @@ from arlunio import Defn, Mask
 
 
 @ar.definition(operation=Defn.OP_ADD)
-def MaskAdd(width, height, *, a: Defn[Mask] = None, b: Defn[Mask] = None):
+def MaskAdd(width: int, height: int, *, a: Defn[Mask] = None, b: Defn[Mask] = None):
     """Add any two mask producing definitions together.
 
     The resulting defintion will return a mask that is :code:`True` if a given point
@@ -31,7 +31,7 @@ def MaskAdd(width, height, *, a: Defn[Mask] = None, b: Defn[Mask] = None):
        c2 = Circle(xc=0.25, yc=0.25, r=0.7)
 
        c = c1 + c2
-       image = ar.fill(c(1920,1080))
+       image = ar.fill(c(width=1920, height=1080))
 
     Or can be used directly
 
@@ -45,14 +45,14 @@ def MaskAdd(width, height, *, a: Defn[Mask] = None, b: Defn[Mask] = None):
        b = Circle(xc=0.25, yc=0.25, r=0.7)
 
        c = MaskAdd(a=a, b=b)
-       image = ar.fill(c(1920, 1080))
+       image = ar.fill(c(width=1920, height=1080))
     """
 
-    return ar.any(a(width, height), b(width, height))
+    return ar.any(a(width=width, height=height), b(width=width, height=height))
 
 
 @ar.definition(operation=Defn.OP_SUB)
-def MaskSub(width, height, *, a: Defn[Mask] = None, b: Defn[Mask] = None):
+def MaskSub(width: int, height: int, *, a: Defn[Mask] = None, b: Defn[Mask] = None):
     """Subtract one mask away from another mask.
 
     The resulting definition will return a mask that is :code:`True` only if a given
@@ -84,7 +84,7 @@ def MaskSub(width, height, *, a: Defn[Mask] = None, b: Defn[Mask] = None):
        c2 = Circle(xc=0.25, yc=0.25, r=0.7)
 
        c = c1 - c2
-       image = ar.fill(c(1920,1080))
+       image = ar.fill(c(width=1920, height=1080))
 
     Or can be used directly
 
@@ -92,19 +92,21 @@ def MaskSub(width, height, *, a: Defn[Mask] = None, b: Defn[Mask] = None):
        :include-code: before
 
        import arlunio as ar
-       from arlunio.lib import Circle, MaskMul, Square
+       from arlunio.lib import Circle, MaskSub, Square
 
        a = Square(xc=-0.25, yc=-0.25, size=0.55)
        b = Circle(xc=0.25, yc=0.25, r=0.7)
 
-       c = MaskMul(a=b, b=a)
-       image = ar.fill(c(1920, 1080))
+       c = MaskSub(a=b, b=a)
+       image = ar.fill(c(width=1920, height=1080))
     """
-    return ar.all(a(width, height), ar.invert(b(width, height)))
+    return ar.all(
+        a(width=width, height=height), ar.invert(b(width=width, height=height))
+    )
 
 
 @ar.definition(operation=Defn.OP_MUL)
-def MaskMul(width, height, *, a: Defn[Mask] = None, b: Defn[Mask] = None):
+def MaskMul(width: int, height: int, *, a: Defn[Mask] = None, b: Defn[Mask] = None):
     """Muliply any two mask producing definitions together.
 
     The resulting definition will return a mask that is :code:`True` only if a given
@@ -131,7 +133,7 @@ def MaskMul(width, height, *, a: Defn[Mask] = None, b: Defn[Mask] = None):
        c2 = Circle(xc=0.25, yc=0.25, r=0.7)
 
        c = c1 * c2
-       image = ar.fill(c(1920,1080))
+       image = ar.fill(c(width=1920, height=1080))
 
     Or can be used directly
 
@@ -145,6 +147,6 @@ def MaskMul(width, height, *, a: Defn[Mask] = None, b: Defn[Mask] = None):
        b = Circle(xc=0.25, yc=0.25, r=0.7)
 
        c = MaskMul(a=a, b=b)
-       image = ar.fill(c(1920, 1080))
+       image = ar.fill(c(width=1920, height=1080))
     """
-    return ar.all(a(width, height), b(width, height))
+    return ar.all(a(width=width, height=height), b(width=width, height=height))

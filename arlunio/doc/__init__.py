@@ -1,4 +1,5 @@
 import inspect
+import textwrap
 
 from typing import Any, Dict, List, Optional
 
@@ -15,27 +16,50 @@ from .directives import (
     visit_nbtutorial,
 )
 
+# fmt: off
+TEMPLATE = [
+    ".. list-table::",
+    "   :widths: 5 20",
+    "   :header-rows: 0",
+    "",
+]
+# fmt: on
 
-def _document_inheritance(defn: arlunio.Defn) -> Optional[str]:
+
+def _document_inheritance(defn: arlunio.Defn) -> Optional[List[str]]:
     """Given a definition, link back to any definitions it derives from."""
 
-    if not hasattr(defn, "definitions"):
-        return None
+    lines = []
+    inputs = []
+    defns = []
 
-    defs = []
+    for name, value in defn.inputs().items():
+        dtype = value.dtype
 
-    for name, value in defn.definitions.items():
+        if hasattr(value.dtype, "__name__"):
+            dtype = dtype.__name__
 
-        if value == inspect._empty:
-            defs.append(name)
-            continue
+        inputs.append(f":code:`{name}: {dtype}`")
+
+    if len(inputs) > 0:
+        lines.append(textwrap.indent("* - **Inputs:**", " " * 3))
+        lines.append(textwrap.indent(", ".join(inputs), " " * 5 + "- "))
+
+    for name, value in defn.bases().items():
 
         name = value.__name__
         mod = value.__module__
 
-        defs.append(f":class:`{name} <{mod}.{name}>`")
+        defns.append(f":class:`{name} <{mod}.{name}>`")
 
-    return f"*Derives from:* {', '.join(defs)}"
+    if len(defns) > 0:
+        lines.append(textwrap.indent("* - **Bases:**", " " * 3))
+        lines.append(textwrap.indent(", ".join(defns), " " * 5 + "- "))
+
+    if len(lines) == 0:
+        return None
+
+    return list(TEMPLATE) + lines + ["", ""]
 
 
 def _process_docstring(
@@ -46,8 +70,9 @@ def _process_docstring(
         inherits = _document_inheritance(obj)
 
         if inherits is not None:
-            lines.insert(0, "")
-            lines.insert(0, inherits)
+
+            for l in reversed(inherits):
+                lines.insert(0, l)
 
 
 def setup(app: Sphinx) -> Dict[str, Any]:

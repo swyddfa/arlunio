@@ -3,7 +3,7 @@ import numpy as np
 
 
 @ar.definition
-def X(width, height, *, x0=0, scale=1, stretch=False):
+def X(width: int, height: int, *, x0=0, scale=1, stretch=False):
     """
     .. arlunio-image::
 
@@ -11,7 +11,7 @@ def X(width, height, *, x0=0, scale=1, stretch=False):
        from arlunio.lib import X
 
        x = X()
-       image = ar.colorramp(x(1920, 1080))
+       image = ar.colorramp(x(width=1920, height=1080))
 
     Cartesian :math:`x` coordinates.
 
@@ -34,7 +34,7 @@ def X(width, height, *, x0=0, scale=1, stretch=False):
 
        >>> from arlunio.lib import X
        >>> x = X()
-       >>> x(4,4)
+       >>> x(width=4, height=4)
        array([[-1.        , -0.33333333,  0.33333333,  1.        ],
               [-1.        , -0.33333333,  0.33333333,  1.        ],
               [-1.        , -0.33333333,  0.33333333,  1.        ],
@@ -43,14 +43,14 @@ def X(width, height, *, x0=0, scale=1, stretch=False):
     If however the image is wider than it is tall this range will be extended so that
     the resulting image is not stretched::
 
-       >>> x(4, 2)
+       >>> x(width=4, height=2)
        array([[-2.        , -0.66666667,  0.66666667,  2.        ],
               [-2.        , -0.66666667,  0.66666667,  2.        ]])
 
     This behaviour can be disabled with the :code:`stretch` attribute::
 
        >>> x.stretch = True
-       >>> x(4,2)
+       >>> x(width=4, height=2)
        array([[-1.        , -0.33333333,  0.33333333,  1.        ],
               [-1.        , -0.33333333,  0.33333333,  1.        ]])
 
@@ -59,7 +59,7 @@ def X(width, height, *, x0=0, scale=1, stretch=False):
     the values by a given amount::
 
        >>> x = X(x0=-2, scale=2)
-       >>> x(4,4)
+       >>> x(width=4, height=4)
        array([[0.        , 1.33333333, 2.66666667, 4.        ],
               [0.        , 1.33333333, 2.66666667, 4.        ],
               [0.        , 1.33333333, 2.66666667, 4.        ],
@@ -78,7 +78,7 @@ def X(width, height, *, x0=0, scale=1, stretch=False):
 
 
 @ar.definition
-def Y(width, height, *, y0=0, scale=1, stretch=False):
+def Y(width: int, height: int, *, y0=0, scale=1, stretch=False):
     """
     .. arlunio-image::
 
@@ -86,7 +86,7 @@ def Y(width, height, *, y0=0, scale=1, stretch=False):
        from arlunio.lib import Y
 
        y = Y()
-       image = ar.colorramp(y(1920, 1080))
+       image = ar.colorramp(y(width=1920, height=1080))
 
     Cartesian :math:`y` coordinates.
 
@@ -109,7 +109,7 @@ def Y(width, height, *, y0=0, scale=1, stretch=False):
 
        >>> from arlunio.lib import Y
        >>> y = Y()
-       >>> y(4,4)
+       >>> y(width=4, height=4)
        array([[ 1.        ,  1.        ,  1.        ,  1.        ],
               [ 0.33333333,  0.33333333,  0.33333333,  0.33333333],
               [-0.33333333, -0.33333333, -0.33333333, -0.33333333],
@@ -118,7 +118,7 @@ def Y(width, height, *, y0=0, scale=1, stretch=False):
     If however the image is taller than it is wide this range will be extended so that
     the resulting image is not stretched::
 
-       >>> y(2, 4)
+       >>> y(width=2, height=4)
        array([[ 2.        ,  2.        ],
               [ 0.66666667,  0.66666667],
               [-0.66666667, -0.66666667],
@@ -127,7 +127,7 @@ def Y(width, height, *, y0=0, scale=1, stretch=False):
     This behaviour can be disabled with the :code:`stretch` attribute::
 
        >>> y.stretch = True
-       >>> y(2,4)
+       >>> y(width=2, height=4)
        array([[ 1.        ,  1.        ],
               [ 0.33333333,  0.33333333],
               [-0.33333333, -0.33333333],
@@ -138,7 +138,7 @@ def Y(width, height, *, y0=0, scale=1, stretch=False):
     the values by a given amount::
 
        >>> y = Y(y0=-2, scale=2)
-       >>> y(4,4)
+       >>> y(width=4, height=4)
        array([[4.        , 4.        , 4.        , 4.        ],
               [2.66666667, 2.66666667, 2.66666667, 2.66666667],
               [1.33333333, 1.33333333, 1.33333333, 1.33333333],
@@ -165,7 +165,7 @@ def R(x: X, y: Y):
        from arlunio.lib import R
 
        r = R()
-       image = ar.colorramp(r(1920,1080))
+       image = ar.colorramp(r(width=1920, height=1080))
 
     Polar :math:`r` coordinates.
 
@@ -182,7 +182,7 @@ def R(x: X, y: Y):
 
        >>> from arlunio.lib import R
        >>> r = R()
-       >>> r(5,5)
+       >>> r(width=5, height=5)
        array([[1.41421356, 1.11803399, 1.        , 1.11803399, 1.41421356],
               [1.11803399, 0.70710678, 0.5       , 0.70710678, 1.11803399],
               [1.        , 0.5       , 0.        , 0.5       , 1.        ],
@@ -194,7 +194,7 @@ def R(x: X, y: Y):
     from these base definitions::
 
        >>> r = R(x0=-2, y0=-2, scale=2)
-       >>> r(5,5)
+       >>> r(width=5, height=5)
        array([[4.        , 4.12310563, 4.47213595, 5.        , 5.65685425],
               [3.        , 3.16227766, 3.60555128, 4.24264069, 5.        ],
               [2.        , 2.23606798, 2.82842712, 3.60555128, 4.47213595],
@@ -218,7 +218,7 @@ def T(x: X, y: Y, *, t0=0):
        from arlunio.lib import T
 
        t = T()
-       image = ar.colorramp(t(1920, 1080))
+       image = ar.colorramp(t(width=1920, height=1080))
 
     Polar, :math:`t` coordinates.
 
@@ -242,7 +242,7 @@ def T(x: X, y: Y, *, t0=0):
 
        >>> from arlunio.lib import T
        >>> t = T()
-       >>> t(5,5)
+       >>> t(width=5, height=5)
        array([[ 2.35619449,  2.03444394,  1.57079633,  1.10714872,  0.78539816],
               [ 2.67794504,  2.35619449,  1.57079633,  0.78539816,  0.46364761],
               [ 3.14159265,  3.14159265,  0.        ,  0.        ,  0.        ],
@@ -253,7 +253,7 @@ def T(x: X, y: Y, *, t0=0):
 
        >>> from math import pi
        >>> t.t0 = pi
-       >>> t(5,5)
+       >>> t(width=5, height=5)
        array([[-0.78539816, -1.10714872, -1.57079633, -2.03444394, -2.35619449],
               [-0.46364761, -0.78539816, -1.57079633, -2.35619449, -2.67794504],
               [ 0.        ,  0.        , -3.14159265, -3.14159265, -3.14159265],
@@ -264,7 +264,7 @@ def T(x: X, y: Y, *, t0=0):
     definitions are also available to control the output::
 
        >>> t = T(x0=-2, y0=-2, scale=2)
-       >>> t(5,5)
+       >>> t(width=5, height=5)
        array([[1.57079633, 1.32581766, 1.10714872, 0.92729522, 0.78539816],
               [1.57079633, 1.24904577, 0.98279372, 0.78539816, 0.64350111],
               [1.57079633, 1.10714872, 0.78539816, 0.5880026 , 0.46364761],
