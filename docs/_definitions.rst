@@ -2,7 +2,7 @@
 
 .. -- Shapes
 .. |@definition| replace:: :py:func:`@definition <arlunio.definition>`
-.. |Definition| replace:: :py:class:`Definition <arlunio.Definition>`
+.. |Defn| replace:: :py:class:`Defn <arlunio.Defn>`
 
 .. |Circle| replace:: :py:class:`Circle <arlunio.lib.shapes.Circle>`
 .. |Ellipse| replace:: :py:class:`Ellipse <arlunio.lib.shapes.Ellipse>`

@@ -14,7 +14,7 @@ def readme():
         return f.read()
 
 
-required = ["attrs", "appdirs", "numpy", "Pillow"]
+required = ["attrs", "appdirs", "numpy", "Pillow>=6.1.0"]
 extras = {
     "dev": [
         "black",
@@ -28,7 +28,7 @@ extras = {
         "sphobjinv",
         "tox",
     ],
-    "doc": ["sphinx"],
+    "doc": ["sphinx", "nbformat"],
     "examples": ["jupyterlab"],
     "testing": ["hypothesis"],
 }
@@ -51,7 +51,7 @@ setup(
     author="Alex Carney",
     author_email="alcarneyme@gmail.com",
     license="MIT",
-    packages=find_packages(".", exclude=["tests"]),
+    packages=find_packages(".", exclude=["tests*"]),
     package_data={
         "arlunio.cli.scripts": ["*.sh"],
         "arlunio.tutorial": ["*.ipynb", "**/*.ipynb"],

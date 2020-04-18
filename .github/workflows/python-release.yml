@@ -1,19 +1,20 @@
 name: Python Release
 
-# <trigger>
 on:
+  # <trigger-push>
   push:
     branches:
-    - develop
     - master
     paths:
     - 'arlunio/**'
-    - 'docs/using/tutorial/**'
-    - 'tests/**'
+    - 'docs/users/**'
     - 'setup.py'
-    - 'pyproject.toml'
     - 'MANIFEST.in'
-# </trigger>
+  # </trigger-push>
+  # <trigger-cron>
+  schedule:
+    - cron: '0 2 * * *'
+  # </trigger-cron>
 
 jobs:
   # <release-job>
@@ -21,19 +22,35 @@ jobs:
     runs-on: ubuntu-latest
   # </release-job>
     steps:
-    # <release-job-setup>
+
+    # <release-job-check>
     - uses: actions/checkout@v1
 
+    - name: 'Should Release?'
+      id: dorel
+      run: |
+          if [[ "$REF" = 'refs/heads/develop' ]]; then
+            ./scripts/should-release.sh
+          else
+            echo "::set-output name=should_release::true"
+          fi
+      env:
+          REF: ${{github.ref}}
+    # </release-job-check>
+
+    # <release-job-setup>
     - name: Setup Python 3.7
       uses: actions/setup-python@v1
       with:
         python-version: 3.7
+      if: steps.dorel.outputs.should_release
 
     - name: Setup Environment
       run: |
         python --version
         python -m pip install --upgrade pip
         python -m pip install --upgrade tox
+      if: steps.dorel.outputs.should_release
     # </release-job-setup>
 
     # <release-job-version>
@@ -41,14 +58,14 @@ jobs:
       uses: einaregilsson/build-number@v1
       with:
         token: ${{secrets.github_token}}
-      if: github.ref == 'refs/heads/develop'
+      if: github.ref == 'refs/heads/develop' && steps.dorel.outputs.should_release
 
     - name: Set Version Number
       shell: bash
       run : |
         sed -i 's/"\(.*\)"/"\1b'"${BUILD_NUMBER}"'"/' arlunio/_version.py
         cat arlunio/_version.py
-      if: github.ref == 'refs/heads/develop'
+      if: github.ref == 'refs/heads/develop' && steps.dorel.outputs.should_release
 
     # </release-job-version>
 
@@ -64,12 +81,14 @@ jobs:
 
          echo "::set-env name=RELEASE_DATE::$release_date"
          echo "::set-output name=RELEASE_DATE::$release_date"
+      if: steps.dorel.outputs.should_release
     # </release-job-info>
 
     # <release-job-pkg>
     - name: Build Package
       run: |
         tox -e pkg
+      if: steps.dorel.outputs.should_release
     # </release-job-pkg>
 
     # <release-job-assets>
@@ -81,6 +100,7 @@ jobs:
 
         src=$(find dist/ -name '*.tar.gz' -exec basename {} \;)
         echo "::set-output name=SRC::$src"
+      if: steps.dorel.outputs.should_release
     # </release-job-assets>
 
     # <release-job-tag>
@@ -99,6 +119,7 @@ jobs:
         EOF
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      if: steps.dorel.outputs.should_release
     # </release-job-tag>
 
     # <release-job-create>
@@ -112,6 +133,7 @@ jobs:
         release_name: V${{ steps.info.outputs.VERSION}} - ${{ steps.info.outputs.RELEASE_DATE }}
         draft: false
         prerelease: ${{ github.ref == 'refs/heads/develop' }}
+      if: steps.dorel.outputs.should_release
     # </release-job-create>
 
     # <release-job-upload>
@@ -124,6 +146,7 @@ jobs:
         asset_path: dist/${{ steps.pkg.outputs.WHL }}
         asset_name: ${{ steps.pkg.outputs.WHL }}
         asset_content_type: application/octet-stream
+      if: steps.dorel.outputs.should_release
 
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1.0.1
@@ -134,11 +157,35 @@ jobs:
         asset_path: dist/${{ steps.pkg.outputs.SRC }}
         asset_name: ${{ steps.pkg.outputs.SRC }}
         asset_content_type: application/octet-stream
+      if: steps.dorel.outputs.should_release
     # </release-job-upload>
+
+    # <release-job-notes>
+    - name: Upload Release Notes
+      shell: bash
+      run: |
+        python -m pip install towncrier docutils
+
+        ./scripts/write-release-notes.sh $VERSION > release-notes.html
+        notes=$(cat release-notes.html)
+        echo $notes
+
+        curl -s -X PATCH https://api.github.com/repos/${{ github.repository }}/releases/${{ steps.release.outputs.id }} \
+        -H "Authorization: token $GITHUB_TOKEN" \
+        -d @- << EOF
+        {
+          "body": "$notes"
+        }
+        EOF
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      if: steps.dorel.outputs.should_release
+    # </release-job-notes>
 
     # <release-job-pypi>
     - name: Publish to PyPi
       run: |
         python -m pip install twine
         twine upload dist/* -u alcarney -p ${{ secrets.PYPI_PASS }}
+      if: steps.dorel.outputs.should_release
     # </release-job-pypi>

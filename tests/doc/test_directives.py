@@ -58,7 +58,7 @@ def test_render_image_image_provided():
     from arlunio.lib.shapes import Circle
 
     circle = Circle()
-    disk = ar.fill(circle(4,4))
+    disk = ar.fill(circle(width=4, height=4))
     """
     doctree = render_image(textwrap.dedent(src))
 

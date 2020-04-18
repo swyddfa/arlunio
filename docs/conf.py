@@ -79,6 +79,8 @@ autodoc_member_order = "groupwise"
 autodoc_default_options = {"members": True}
 # autodoc_typehints = "description" TODO: Try this when Sphinx 3.0 ships...
 
+linkcheck_ignore = ["https://crontab.guru/#"]
+
 intersphinx_mapping = {
     "pillow": ("https://pillow.readthedocs.io/en/stable/", None),
     "python": ("https://docs.python.org/3", None),
