@@ -47,6 +47,11 @@
         <div class="image-meta">
             <label for="hide-notes">Notes</label>
         </div>
+
+        <div style="margin-top: 10px">
+            {% include "binder_badge.html" %}
+        </div>
+
         {% for cell in cells %}
         <div class="{{ cell.type }}">
             {{ cell.contents | safe }}
