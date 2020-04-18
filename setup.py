@@ -51,7 +51,7 @@ setup(
     author="Alex Carney",
     author_email="alcarneyme@gmail.com",
     license="MIT",
-    packages=find_packages(".", exclude=["tests"]),
+    packages=find_packages(".", exclude=["tests*"]),
     package_data={
         "arlunio.cli.scripts": ["*.sh"],
         "arlunio.tutorial": ["*.ipynb", "**/*.ipynb"],

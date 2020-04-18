@@ -70,7 +70,6 @@ def _process_docstring(
         inherits = _document_inheritance(obj)
 
         if inherits is not None:
-            print("\n".join(inherits))
 
             for l in reversed(inherits):
                 lines.insert(0, l)
