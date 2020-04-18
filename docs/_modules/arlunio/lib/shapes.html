@@ -169,7 +169,7 @@
 <span class="sd">        from arlunio.lib import Circle</span>
 
 <span class="sd">        circle = Circle()</span>
-<span class="sd">        image = ar.fill(circle(1920, 1080))</span>
+<span class="sd">        image = ar.fill(circle(width=1920, height=1080))</span>
 
 <span class="sd">    We define a circle using the following equality.</span>
 
@@ -205,7 +205,7 @@
 <span class="sd">       from arlunio.lib import Circle</span>
 
 <span class="sd">       @ar.definition</span>
-<span class="sd">       def Target(width, height):</span>
+<span class="sd">       def Target(width: int, height: int):</span>
 <span class="sd">           image = None</span>
 <span class="sd">           parts = [</span>
 <span class="sd">               (Circle(pt=0.02), &quot;#000&quot;),</span>
@@ -215,12 +215,14 @@
 <span class="sd">           ]</span>
 
 <span class="sd">           for part, color in parts:</span>
-<span class="sd">               image = ar.fill(part(width, height), color=color, image=image)</span>
+<span class="sd">               image = ar.fill(</span>
+<span class="sd">                   part(width=width, height=height), color=color, image=image</span>
+<span class="sd">               )</span>
 
 <span class="sd">           return image</span>
 
 <span class="sd">       target = Target()</span>
-<span class="sd">       image = target(1920, 1080)</span>
+<span class="sd">       image = target(width=1920, height=1080)</span>
 
 <span class="sd">    Making use of the :code:`xc` and :code:`yc` attributes we can produce an</span>
 <span class="sd">    approximation of the olympics logo</span>
@@ -232,7 +234,7 @@
 <span class="sd">       from arlunio.lib import Circle</span>
 
 <span class="sd">       @ar.definition</span>
-<span class="sd">       def OlympicRings(width, height, *, spacing=0.5, pt=0.025):</span>
+<span class="sd">       def OlympicRings(width: int, height: int, *, spacing=0.5, pt=0.025):</span>
 
 <span class="sd">           dy = spacing / 4</span>
 <span class="sd">           dx = spacing / 2</span>
@@ -248,11 +250,14 @@
 <span class="sd">           ]</span>
 
 <span class="sd">           for ring, color in rings:</span>
-<span class="sd">               image = ar.fill(ring(width, height), color=color, image=image)</span>
+<span class="sd">               image = ar.fill(</span>
+<span class="sd">                   ring(width=width, height=height), color=color, image=image</span>
+<span class="sd">               )</span>
+
 <span class="sd">           return image</span>
 
 <span class="sd">       rings = OlympicRings()</span>
-<span class="sd">       image = rings(1920, 1080)</span>
+<span class="sd">       image = rings(width=1920, height=1080)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">xc</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
     <span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">yc</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
@@ -276,7 +281,7 @@
 <span class="sd">       from arlunio.lib import Ellipse</span>
 
 <span class="sd">       ellipse = Ellipse()</span>
-<span class="sd">       image = ar.fill(ellipse(1920, 1080))</span>
+<span class="sd">       image = ar.fill(ellipse(width=1920, height=1080))</span>
 
 <span class="sd">    An ellipse can be defined using the following equality.</span>
 
@@ -325,7 +330,7 @@
 <span class="sd">       from arlunio.lib import Ellipse</span>
 
 <span class="sd">       @ar.definition</span>
-<span class="sd">       def EllipseDemo(width, height):</span>
+<span class="sd">       def EllipseDemo(width: int, height: int):</span>
 <span class="sd">           image = None</span>
 <span class="sd">           ellipses = [</span>
 <span class="sd">               Ellipse(xc=-0.5, yc=-0.5, a=0.5, b=0.5, r=0.4),</span>
@@ -338,11 +343,11 @@
 <span class="sd">           ]</span>
 
 <span class="sd">           for ellipse in ellipses:</span>
-<span class="sd">               image = ar.fill(ellipse(1920, 1080), image=image)</span>
+<span class="sd">               image = ar.fill(ellipse(width=1920, height=1080), image=image)</span>
 <span class="sd">           return image</span>
 
 <span class="sd">       demo = EllipseDemo()</span>
-<span class="sd">       image = demo(1920, 1080)</span>
+<span class="sd">       image = demo(width=1920, height=1080)</span>
 
 <span class="sd">    Playing around with the values and the coordinate inputs it&#39;s possible to draw</span>
 <span class="sd">    something that looks like a diagram of an atom</span>
@@ -371,7 +376,7 @@
 <span class="sd">           return image</span>
 
 <span class="sd">       atom = Atom()</span>
-<span class="sd">       image = atom(1920, 1080)</span>
+<span class="sd">       image = atom(width=1920, height=1080)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">xc</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
@@ -402,7 +407,7 @@
 <span class="sd">       from arlunio.lib import SuperEllipse</span>
 
 <span class="sd">       ellipse = SuperEllipse()</span>
-<span class="sd">       image = ar.fill(ellipse(1920,1080))</span>
+<span class="sd">       image = ar.fill(ellipse(width=1920, height=1080))</span>
 
 <span class="sd">    We define a `SuperEllipse`_ by the following equality.</span>
 
@@ -412,10 +417,10 @@
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
-<span class="sd">    x_c:</span>
+<span class="sd">    xc:</span>
 <span class="sd">        Corresponds with the :math:`x_c` variable in the equation above and defines the</span>
 <span class="sd">        :math:`x`-coordinate of the center of the super ellipse.</span>
-<span class="sd">    y_c:</span>
+<span class="sd">    yc:</span>
 <span class="sd">        Corresponds with the :math:`y_c` variable in the equation above and defines the</span>
 <span class="sd">        :math:`y` -coordinate of the center of the super ellipse.</span>
 <span class="sd">    r:</span>
@@ -455,7 +460,7 @@
 <span class="sd">       from arlunio.lib import SuperEllipse</span>
 
 <span class="sd">       @ar.definition</span>
-<span class="sd">       def SuperEllipseDemo(width, height):</span>
+<span class="sd">       def SuperEllipseDemo(width: int, height: int):</span>
 <span class="sd">           image = None</span>
 <span class="sd">           ellipses = [</span>
 <span class="sd">               (SuperEllipse(n=0.5, pt=0.01),&#39;#f00&#39;),</span>
@@ -466,12 +471,14 @@
 <span class="sd">           ]</span>
 
 <span class="sd">           for ellipse, color in ellipses:</span>
-<span class="sd">               image = ar.fill(ellipse(1920, 1080), color=color, image=image)</span>
+<span class="sd">               image = ar.fill(</span>
+<span class="sd">                   ellipse(width=1920, height=1080), color=color, image=image</span>
+<span class="sd">               )</span>
 
 <span class="sd">           return image</span>
 
 <span class="sd">       demo = SuperEllipseDemo()</span>
-<span class="sd">       image = demo(1920, 1080)</span>
+<span class="sd">       image = demo(width=1920, height=1080)</span>
 
 <span class="sd">    By default if you don&#39;t specify a value for :code:`m` it will inherit the value</span>
 <span class="sd">    assigned to :code:`n`. However if you set :code:`m` to a different value then you</span>
@@ -484,7 +491,7 @@
 <span class="sd">       from arlunio.lib import SuperEllipse</span>
 
 <span class="sd">       @ar.definition</span>
-<span class="sd">       def Sauron(width, height):</span>
+<span class="sd">       def Sauron(width: int, height: int):</span>
 <span class="sd">           image = None</span>
 <span class="sd">           ellipses = [</span>
 <span class="sd">               (SuperEllipse(a=2, n=3, m=0.2, r=0.98),&#39;#f00&#39;),</span>
@@ -493,12 +500,14 @@
 <span class="sd">           ]</span>
 
 <span class="sd">           for ellipse, color in ellipses:</span>
-<span class="sd">               image = ar.fill(ellipse(1920, 1080), color=color, image=image)</span>
+<span class="sd">               image = ar.fill(</span>
+<span class="sd">                   ellipse(width=1920, height=1080), color=color, image=image</span>
+<span class="sd">               )</span>
 
 <span class="sd">           return image</span>
 
 <span class="sd">       eye = Sauron()</span>
-<span class="sd">       image = eye(1920, 1080)</span>
+<span class="sd">       image = eye(width=1920, height=1080)</span>
 
 <span class="sd">    .. _SuperEllipse: https://en.wikipedia.org/wiki/Superellipse</span>
 
@@ -522,7 +531,7 @@
 
 
 <div class="viewcode-block" id="Empty"><a class="viewcode-back" href="../../../stdlib/shapes.html#arlunio.lib.shapes.Empty">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
-<span class="k">def</span> <span class="nf">Empty</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ar</span><span class="o">.</span><span class="n">Mask</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">Empty</span><span class="p">(</span><span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ar</span><span class="o">.</span><span class="n">Mask</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;An empty shape definition.</span>
 
 <span class="sd">    Example</span>
@@ -535,13 +544,13 @@
 <span class="sd">       from arlunio.lib import Empty</span>
 
 <span class="sd">       e = Empty()</span>
-<span class="sd">       image = ar.fill(e(1920, 1080))</span>
+<span class="sd">       image = ar.fill(e(width=1920, height=1080))</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">),</span> <span class="kc">False</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Full"><a class="viewcode-back" href="../../../stdlib/shapes.html#arlunio.lib.shapes.Full">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
-<span class="k">def</span> <span class="nf">Full</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ar</span><span class="o">.</span><span class="n">Mask</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">Full</span><span class="p">(</span><span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ar</span><span class="o">.</span><span class="n">Mask</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;An full shape definition.</span>
 
 <span class="sd">    Example</span>
@@ -554,7 +563,7 @@
 <span class="sd">       from arlunio.lib import Full</span>
 
 <span class="sd">       f = Full()</span>
-<span class="sd">       image = ar.fill(f(1920, 1080))</span>
+<span class="sd">       image = ar.fill(f(width=1920, height=1080))</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">),</span> <span class="kc">True</span><span class="p">)</span></div>
 
@@ -568,7 +577,7 @@
 <span class="sd">       from arlunio.lib import Square</span>
 
 <span class="sd">       square = Square()</span>
-<span class="sd">       image = ar.fill(square(1920, 1080))</span>
+<span class="sd">       image = ar.fill(square(width=1920, height=1080))</span>
 
 <span class="sd">    A square.</span>
 
@@ -612,7 +621,7 @@
 <span class="sd">           return image</span>
 
 <span class="sd">       square = SquareDemo()</span>
-<span class="sd">       image = square(1920, 1080)</span>
+<span class="sd">       image = square(width=1920, height=1080)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">xc</span><span class="p">)</span>
@@ -639,7 +648,7 @@
 <span class="sd">       from arlunio.lib import Rectangle</span>
 
 <span class="sd">       rectangle = Rectangle()</span>
-<span class="sd">       image = ar.fill(rectangle(1920, 1080))</span>
+<span class="sd">       image = ar.fill(rectangle(width=1920, height=1080))</span>
 
 <span class="sd">    A Rectangle.</span>
 
@@ -669,7 +678,7 @@
 <span class="sd">       from arlunio.lib import Rectangle</span>
 
 <span class="sd">       @ar.definition</span>
-<span class="sd">       def RectangleDemo(width, height):</span>
+<span class="sd">       def RectangleDemo(width: int, height: int):</span>
 <span class="sd">           image = None</span>
 <span class="sd">           rects = [</span>
 <span class="sd">               Rectangle(xc=-1, size=0.4, ratio=0.5),</span>
@@ -678,12 +687,12 @@
 <span class="sd">           ]</span>
 
 <span class="sd">           for r in rects:</span>
-<span class="sd">               image = ar.fill(r(width, height), image=image)</span>
+<span class="sd">               image = ar.fill(r(width=width, height=height), image=image)</span>
 
 <span class="sd">           return image</span>
 
 <span class="sd">       demo = RectangleDemo()</span>
-<span class="sd">       image = demo(1920, 1080)</span>
+<span class="sd">       image = demo(width=1920, height=1080)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">xc</span><span class="p">)</span>

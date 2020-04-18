@@ -170,10 +170,10 @@
 <li><p><a class="reference internal" href="#arlunio.definition" title="arlunio.definition"><code class="xref py py-func docutils literal notranslate"><span class="pre">&#64;definition</span></code></a>: Decorator used to create new definitions</p></li>
 <li><p><a class="reference internal" href="#arlunio.Defn" title="arlunio.Defn"><code class="xref py py-class docutils literal notranslate"><span class="pre">Defn</span></code></a>: Base class for all definitions</p></li>
 </ul>
-<dl class="function">
+<dl class="py function">
 <dt id="arlunio.definition">
-<code class="sig-prename descclassname">&#64;</code><code class="sig-prename descclassname">arlunio.</code><code class="sig-name descname">definition</code><span class="sig-paren">(</span><em class="sig-param">f=None</em>, <em class="sig-param">operation: str = None</em>, <em class="sig-param">operator_pool=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arlunio/_core.html#definition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.definition" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create a new Defn.</p>
+<code class="sig-prename descclassname">&#64;</code><code class="sig-prename descclassname">arlunio.</code><code class="sig-name descname">definition</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">f</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">operation</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">operator_pool</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arlunio/_core.html#definition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.definition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new Definition.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -185,14 +185,14 @@
 </dl>
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="arlunio.Defn">
 <em class="property">class </em><code class="sig-prename descclassname">arlunio.</code><code class="sig-name descname">Defn</code><a class="reference internal" href="_modules/arlunio/_core.html#Defn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.Defn" title="Permalink to this definition">¶</a></dt>
-<dd><p>A definition is the representation of something that can be mapped onto an
-image.</p>
-<dl class="method">
+<dd><p>Defn, short for ‘Definition’ is the object that powers the rest of
+<code class="code docutils literal notranslate"><span class="pre">arlunio</span></code>.</p>
+<dl class="py method">
 <dt id="arlunio.Defn.attribs">
-<em class="property">classmethod </em><code class="sig-name descname">attribs</code><span class="sig-paren">(</span><em class="sig-param">inherited=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arlunio/_core.html#Defn.attribs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.Defn.attribs" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="sig-name descname">attribs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">inherited</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arlunio/_core.html#Defn.attribs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.Defn.attribs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return all attributes defined on this definition.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -201,9 +201,9 @@ image.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="arlunio.Defn.attributes">
-<code class="sig-name descname">attributes</code><span class="sig-paren">(</span><em class="sig-param">inherited=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arlunio/_core.html#Defn.attributes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.Defn.attributes" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">attributes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">inherited</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arlunio/_core.html#Defn.attributes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.Defn.attributes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return all attributes and their values on this definition instance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -212,7 +212,24 @@ image.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
+<dt id="arlunio.Defn.bases">
+<em class="property">classmethod </em><code class="sig-name descname">bases</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arlunio/_core.html#Defn.bases"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.Defn.bases" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return all the definitions this defintion is derived from.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="arlunio.Defn.inputs">
+<em class="property">classmethod </em><code class="sig-name descname">inputs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">inherited</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arlunio/_core.html#Defn.inputs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.Defn.inputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return all the inputs required to evaluate this definition.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>inherited</strong> – If <code class="code docutils literal notranslate"><span class="pre">True</span></code> (default) also return any inherited inputs.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt id="arlunio.Defn.produces">
 <em class="property">classmethod </em><code class="sig-name descname">produces</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arlunio/_core.html#Defn.produces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.Defn.produces" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the type of the object that this definition produces.</p>
@@ -223,9 +240,9 @@ image.</p>
 </div>
 <div class="section" id="expressions">
 <h2>Expressions<a class="headerlink" href="#expressions" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
+<dl class="py function">
 <dt id="arlunio.any">
-<code class="sig-prename descclassname">arlunio.</code><code class="sig-name descname">any</code><span class="sig-paren">(</span><em class="sig-param">*args: Union[bool, numpy.ndarray]</em><span class="sig-paren">)</span> &#x2192; Union[bool, numpy.ndarray]<a class="reference internal" href="_modules/arlunio/_expressions.html#any"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.any" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">arlunio.</code><code class="sig-name descname">any</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Union<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a><span class="p">, </span><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.17)">numpy.ndarray</a><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a><span class="p">, </span><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.17)">numpy.ndarray</a><span class="p">]</span><a class="reference internal" href="_modules/arlunio/_expressions.html#any"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.any" title="Permalink to this definition">¶</a></dt>
 <dd><p>Given a number of conditions, return <code class="code docutils literal notranslate"><span class="pre">True</span></code> if any of the conditions
 are true.</p>
 <p>This function is implemented as a thin wrapper around numpy’s
@@ -276,9 +293,9 @@ their shapes can be broadcasted to a common shape.</p>
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arlunio.all">
-<code class="sig-prename descclassname">arlunio.</code><code class="sig-name descname">all</code><span class="sig-paren">(</span><em class="sig-param">*args: Union[bool, numpy.ndarray]</em><span class="sig-paren">)</span> &#x2192; Union[bool, numpy.ndarray]<a class="reference internal" href="_modules/arlunio/_expressions.html#all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.all" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">arlunio.</code><code class="sig-name descname">all</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Union<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a><span class="p">, </span><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.17)">numpy.ndarray</a><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a><span class="p">, </span><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.17)">numpy.ndarray</a><span class="p">]</span><a class="reference internal" href="_modules/arlunio/_expressions.html#all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.all" title="Permalink to this definition">¶</a></dt>
 <dd><p>Given a number of conditions, return <code class="code docutils literal notranslate"><span class="pre">True</span></code> only if <strong>all</strong>
 of the given conditions are true.</p>
 <p>This function is implemented as a thin wrapper around numpy’s
@@ -329,9 +346,9 @@ their shapes can be broadcasted to a common shape.</p>
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arlunio.clamp">
-<code class="sig-prename descclassname">arlunio.</code><code class="sig-name descname">clamp</code><span class="sig-paren">(</span><em class="sig-param">values</em>, <em class="sig-param">min_value=0</em>, <em class="sig-param">max_value=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arlunio/_expressions.html#clamp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.clamp" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">arlunio.</code><code class="sig-name descname">clamp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">values</span></em>, <em class="sig-param"><span class="n">min_value</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">max_value</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arlunio/_expressions.html#clamp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.clamp" title="Permalink to this definition">¶</a></dt>
 <dd><p>Force an array of values to stay within a range of values.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -358,14 +375,14 @@ their shapes can be broadcasted to a common shape.</p>
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arlunio.invert">
-<code class="sig-prename descclassname">arlunio.</code><code class="sig-name descname">invert</code><span class="sig-paren">(</span><em class="sig-param">x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arlunio/_expressions.html#invert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.invert" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">arlunio.</code><code class="sig-name descname">invert</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arlunio/_expressions.html#invert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.invert" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arlunio.lerp">
-<code class="sig-prename descclassname">arlunio.</code><code class="sig-name descname">lerp</code><span class="sig-paren">(</span><em class="sig-param">start: float = 0</em>, <em class="sig-param">stop: float = 1</em><span class="sig-paren">)</span> &#x2192; Callable[[float], float]<a class="reference internal" href="_modules/arlunio/_expressions.html#lerp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.lerp" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">arlunio.</code><code class="sig-name descname">lerp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">start</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a></span> <span class="o">=</span> <span class="default_value">0</span></em>, <em class="sig-param"><span class="n">stop</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a></span> <span class="o">=</span> <span class="default_value">1</span></em><span class="sig-paren">)</span> &#x2192; Callable<span class="p">[</span><span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a><span class="p">]</span><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a><span class="p">]</span><a class="reference internal" href="_modules/arlunio/_expressions.html#lerp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.lerp" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a function that will linerarly interpolate between a and b.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -396,9 +413,9 @@ of the interpolation.</p>
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arlunio.normalise">
-<code class="sig-prename descclassname">arlunio.</code><code class="sig-name descname">normalise</code><span class="sig-paren">(</span><em class="sig-param">x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arlunio/_expressions.html#normalise"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.normalise" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">arlunio.</code><code class="sig-name descname">normalise</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arlunio/_expressions.html#normalise"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.normalise" title="Permalink to this definition">¶</a></dt>
 <dd><p>Normalise an array into the range <span class="math notranslate nohighlight">\([0, 1]\)</span></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -410,7 +427,7 @@ of the interpolation.</p>
 </div>
 <div class="section" id="images">
 <h2>Images<a class="headerlink" href="#images" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
+<dl class="py class">
 <dt id="arlunio.Resolutions">
 <em class="property">class </em><code class="sig-prename descclassname">arlunio.</code><code class="sig-name descname">Resolutions</code><a class="reference internal" href="_modules/arlunio/_images.html#Resolutions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.Resolutions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Enum that defines some common image resolutions</p>
@@ -435,19 +452,19 @@ accessed by name:</p>
 <span class="go">720</span>
 </pre></div>
 </div>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arlunio.Resolutions.FHD">
 <code class="sig-name descname">FHD</code><em class="property"> = (1920, 1080)</em><a class="headerlink" href="#arlunio.Resolutions.FHD" title="Permalink to this definition">¶</a></dt>
 <dd><p>1920 x 1080</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arlunio.Resolutions.HD">
 <code class="sig-name descname">HD</code><em class="property"> = (1280, 720)</em><a class="headerlink" href="#arlunio.Resolutions.HD" title="Permalink to this definition">¶</a></dt>
 <dd><p>1280 x 720</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arlunio.Resolutions.QHD">
 <code class="sig-name descname">QHD</code><em class="property"> = (2560, 1440)</em><a class="headerlink" href="#arlunio.Resolutions.QHD" title="Permalink to this definition">¶</a></dt>
 <dd><p>2560 x 1440</p>
@@ -455,15 +472,15 @@ accessed by name:</p>
 
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arlunio.colorramp">
-<code class="sig-prename descclassname">arlunio.</code><code class="sig-name descname">colorramp</code><span class="sig-paren">(</span><em class="sig-param">values</em>, <em class="sig-param">start: Optional[str] = None</em>, <em class="sig-param">stop: Optional[str] = None</em><span class="sig-paren">)</span> &#x2192; PIL.Image.Image<a class="reference internal" href="_modules/arlunio/_images.html#colorramp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.colorramp" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">arlunio.</code><code class="sig-name descname">colorramp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">values</span></em>, <em class="sig-param"><span class="n">start</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">stop</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image" title="(in Pillow (PIL Fork) v7.1.1)">PIL.Image.Image</a><a class="reference internal" href="_modules/arlunio/_images.html#colorramp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.colorramp" title="Permalink to this definition">¶</a></dt>
 <dd><p>Given a range of values, produce an image mapping those values onto colors.</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arlunio.fill">
-<code class="sig-prename descclassname">arlunio.</code><code class="sig-name descname">fill</code><span class="sig-paren">(</span><em class="sig-param">mask</em>, <em class="sig-param">color: Optional[str] = None</em>, <em class="sig-param">background: Optional[str] = None</em>, <em class="sig-param">image: Optional[PIL.Image.Image] = None</em><span class="sig-paren">)</span> &#x2192; PIL.Image.Image<a class="reference internal" href="_modules/arlunio/_images.html#fill"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.fill" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">arlunio.</code><code class="sig-name descname">fill</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mask</span></em>, <em class="sig-param"><span class="n">color</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">background</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">image</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image" title="(in Pillow (PIL Fork) v7.1.1)">PIL.Image.Image</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image" title="(in Pillow (PIL Fork) v7.1.1)">PIL.Image.Image</a><a class="reference internal" href="_modules/arlunio/_images.html#fill"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.fill" title="Permalink to this definition">¶</a></dt>
 <dd><p>Given a mask, fill it in with a color.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

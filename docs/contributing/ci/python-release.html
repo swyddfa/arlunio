@@ -263,7 +263,6 @@ since the last release.</p>
 
 <span class="k">if</span> <span class="o">[</span> -z <span class="s2">&quot;</span><span class="nv">$changes</span><span class="s2">&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
     <span class="nb">echo</span> <span class="s2">&quot;There is nothing to do.&quot;</span>
-    <span class="nb">echo</span> <span class="s2">&quot;::set-output name=should_release::false&quot;</span>
 <span class="k">else</span>
     <span class="nb">echo</span> <span class="s2">&quot;Changes detected, cutting release!&quot;</span>
     <span class="nb">echo</span> <span class="s2">&quot;::set-output name=should_release::true&quot;</span>
@@ -341,7 +340,7 @@ when referencing the exposed values.</p>
 </div>
 <div class="section" id="build-wheel-package">
 <h3>Build Wheel Package<a class="headerlink" href="#build-wheel-package" title="Permalink to this headline">¶</a></h3>
-<p>Time to build the <a class="reference internal" href="../../glossary.html#term-wheel"><span class="xref std std-term">wheel</span></a> package that we upload to <a class="reference internal" href="../../glossary.html#term-pypi"><span class="xref std std-term">PyPi</span></a>, the
+<p>Time to build the <a class="reference internal" href="../../glossary.html#term-wheel"><span class="xref std std-term">wheel</span></a> package that we upload to <a class="reference internal" href="../../glossary.html#term-PyPi"><span class="xref std std-term">PyPi</span></a>, the
 details of which are handled by the <code class="code docutils literal notranslate"><span class="pre">pkg</span></code> <a class="reference internal" href="../../glossary.html#term-tox"><span class="xref std std-term">tox</span></a> environment.</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Build Package</span>
   <span class="nt">run</span><span class="p">:</span> <span class="p p-Indicator">|</span>
@@ -453,7 +452,7 @@ distributions</p>
 <div class="section" id="publish-package-to-pypi">
 <h3>Publish Package to PyPi<a class="headerlink" href="#publish-package-to-pypi" title="Permalink to this headline">¶</a></h3>
 <p>Finally time to make <code class="code docutils literal notranslate"><span class="pre">arlunio</span></code> pip installable by uploading it to
-<a class="reference internal" href="../../glossary.html#term-pypi"><span class="xref std std-term">PyPi</span></a> the details of which are handled by the <a class="reference external" href="https://pypi.org/project/twine">twine</a> project. The only
+<a class="reference internal" href="../../glossary.html#term-PyPi"><span class="xref std std-term">PyPi</span></a> the details of which are handled by the <a class="reference external" href="https://pypi.org/project/twine">twine</a> project. The only
 thing we have to do is provide the <code class="code docutils literal notranslate"><span class="pre">twine</span></code> command with the required
 credentials stored in GitHub secrets.</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Publish to PyPi</span>

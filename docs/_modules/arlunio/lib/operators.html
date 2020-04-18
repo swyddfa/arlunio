@@ -160,7 +160,7 @@
 
 
 <div class="viewcode-block" id="MaskAdd"><a class="viewcode-back" href="../../../stdlib/operators.html#arlunio.lib.operators.MaskAdd">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span><span class="p">(</span><span class="n">operation</span><span class="o">=</span><span class="n">Defn</span><span class="o">.</span><span class="n">OP_ADD</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">MaskAdd</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="n">Defn</span><span class="p">[</span><span class="n">Mask</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">Defn</span><span class="p">[</span><span class="n">Mask</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">MaskAdd</span><span class="p">(</span><span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="n">Defn</span><span class="p">[</span><span class="n">Mask</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">Defn</span><span class="p">[</span><span class="n">Mask</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Add any two mask producing definitions together.</span>
 
 <span class="sd">    The resulting defintion will return a mask that is :code:`True` if a given point</span>
@@ -187,7 +187,7 @@
 <span class="sd">       c2 = Circle(xc=0.25, yc=0.25, r=0.7)</span>
 
 <span class="sd">       c = c1 + c2</span>
-<span class="sd">       image = ar.fill(c(1920,1080))</span>
+<span class="sd">       image = ar.fill(c(width=1920, height=1080))</span>
 
 <span class="sd">    Or can be used directly</span>
 
@@ -201,14 +201,14 @@
 <span class="sd">       b = Circle(xc=0.25, yc=0.25, r=0.7)</span>
 
 <span class="sd">       c = MaskAdd(a=a, b=b)</span>
-<span class="sd">       image = ar.fill(c(1920, 1080))</span>
+<span class="sd">       image = ar.fill(c(width=1920, height=1080))</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">return</span> <span class="n">ar</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">),</span> <span class="n">b</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">))</span></div>
+    <span class="k">return</span> <span class="n">ar</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">),</span> <span class="n">b</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="MaskSub"><a class="viewcode-back" href="../../../stdlib/operators.html#arlunio.lib.operators.MaskSub">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span><span class="p">(</span><span class="n">operation</span><span class="o">=</span><span class="n">Defn</span><span class="o">.</span><span class="n">OP_SUB</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">MaskSub</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="n">Defn</span><span class="p">[</span><span class="n">Mask</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">Defn</span><span class="p">[</span><span class="n">Mask</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">MaskSub</span><span class="p">(</span><span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="n">Defn</span><span class="p">[</span><span class="n">Mask</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">Defn</span><span class="p">[</span><span class="n">Mask</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Subtract one mask away from another mask.</span>
 
 <span class="sd">    The resulting definition will return a mask that is :code:`True` only if a given</span>
@@ -240,7 +240,7 @@
 <span class="sd">       c2 = Circle(xc=0.25, yc=0.25, r=0.7)</span>
 
 <span class="sd">       c = c1 - c2</span>
-<span class="sd">       image = ar.fill(c(1920,1080))</span>
+<span class="sd">       image = ar.fill(c(width=1920, height=1080))</span>
 
 <span class="sd">    Or can be used directly</span>
 
@@ -248,19 +248,21 @@
 <span class="sd">       :include-code: before</span>
 
 <span class="sd">       import arlunio as ar</span>
-<span class="sd">       from arlunio.lib import Circle, MaskMul, Square</span>
+<span class="sd">       from arlunio.lib import Circle, MaskSub, Square</span>
 
 <span class="sd">       a = Square(xc=-0.25, yc=-0.25, size=0.55)</span>
 <span class="sd">       b = Circle(xc=0.25, yc=0.25, r=0.7)</span>
 
-<span class="sd">       c = MaskMul(a=b, b=a)</span>
-<span class="sd">       image = ar.fill(c(1920, 1080))</span>
+<span class="sd">       c = MaskSub(a=b, b=a)</span>
+<span class="sd">       image = ar.fill(c(width=1920, height=1080))</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">ar</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">),</span> <span class="n">ar</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">b</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">)))</span></div>
+    <span class="k">return</span> <span class="n">ar</span><span class="o">.</span><span class="n">all</span><span class="p">(</span>
+        <span class="n">a</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">),</span> <span class="n">ar</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">b</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">))</span>
+    <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="MaskMul"><a class="viewcode-back" href="../../../stdlib/operators.html#arlunio.lib.operators.MaskMul">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span><span class="p">(</span><span class="n">operation</span><span class="o">=</span><span class="n">Defn</span><span class="o">.</span><span class="n">OP_MUL</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">MaskMul</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="n">Defn</span><span class="p">[</span><span class="n">Mask</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">Defn</span><span class="p">[</span><span class="n">Mask</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">MaskMul</span><span class="p">(</span><span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="n">Defn</span><span class="p">[</span><span class="n">Mask</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">Defn</span><span class="p">[</span><span class="n">Mask</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Muliply any two mask producing definitions together.</span>
 
 <span class="sd">    The resulting definition will return a mask that is :code:`True` only if a given</span>
@@ -287,7 +289,7 @@
 <span class="sd">       c2 = Circle(xc=0.25, yc=0.25, r=0.7)</span>
 
 <span class="sd">       c = c1 * c2</span>
-<span class="sd">       image = ar.fill(c(1920,1080))</span>
+<span class="sd">       image = ar.fill(c(width=1920, height=1080))</span>
 
 <span class="sd">    Or can be used directly</span>
 
@@ -301,9 +303,9 @@
 <span class="sd">       b = Circle(xc=0.25, yc=0.25, r=0.7)</span>
 
 <span class="sd">       c = MaskMul(a=a, b=b)</span>
-<span class="sd">       image = ar.fill(c(1920, 1080))</span>
+<span class="sd">       image = ar.fill(c(width=1920, height=1080))</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">ar</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">),</span> <span class="n">b</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">))</span></div>
+    <span class="k">return</span> <span class="n">ar</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">),</span> <span class="n">b</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">))</span></div>
 </pre></div>
 
            </div>
