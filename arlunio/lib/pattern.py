@@ -15,7 +15,7 @@ def Grid(width: int, height: int, *, n=4, m=None, defn=None) -> ar.Mask:
        from arlunio.lib import Circle, Grid
 
        pattern = Grid(defn=Circle())
-       image = ar.fill(pattern(1920, 1080))
+       image = ar.fill(pattern(width=1920, height=1080))
 
     Repeatedly draw the given defintition in a grid.
 
@@ -57,7 +57,9 @@ def Grid(width: int, height: int, *, n=4, m=None, defn=None) -> ar.Mask:
            return c(x=np.abs(x), y=np.abs(y))
 
        pattern = Grid(defn=Template(scale=1.))
-       image = ar.fill(pattern(1080,1080), background="#000", color="#ff0")
+       image = ar.fill(
+           pattern(width=1080, height=1080), background="#000", color="#ff0"
+       )
 
     A checkerboard like pattern
 
@@ -74,7 +76,7 @@ def Grid(width: int, height: int, *, n=4, m=None, defn=None) -> ar.Mask:
            return np.abs(x) - np.abs(y) < 0
 
        grid = Grid(defn=Template(), n=22, m=13)
-       image = ar.fill(grid(1920, 1080))
+       image = ar.fill(grid(width=1920, height=1080))
     """
     if m is None:
         m = n
@@ -83,7 +85,7 @@ def Grid(width: int, height: int, *, n=4, m=None, defn=None) -> ar.Mask:
 
     # Draw the shape at a size determined by the size of the grid
     s_height, s_width = height // m, width // n
-    mask = defn(s_width, s_height)
+    mask = defn(width=s_width, height=s_height)
 
     # Let numpy handle the repeating of the shape across the image.
     pattern = np.tile(mask, (m, n))
@@ -126,7 +128,7 @@ def Map(width: int, height: int, *, layout=None, legend=None) -> ar.Mask:
        from arlunio.lib import Empty, Map, Rectangle
 
        @ar.definition
-       def Wall(width, height, *, sides=None):
+       def Wall(width: int, height: int, *, sides=None):
            r = 50
            d = 1
            walls = {
@@ -139,7 +141,7 @@ def Map(width: int, height: int, *, layout=None, legend=None) -> ar.Mask:
            mask = False
            for side in sides.split('-'):
                wall = Rectangle(size=0.2, **walls[side])
-               mask = ar.any(mask, wall(width, height))
+               mask = ar.any(mask, wall(width=width, height=height))
 
            return mask
 
@@ -164,15 +166,16 @@ def Map(width: int, height: int, *, layout=None, legend=None) -> ar.Mask:
        ])
 
        map_ = Map(legend=legend, layout=layout)
-       image = ar.fill(map_(1080, 1080), color="blue")
+       image = ar.fill(map_(width=1080, height=1080), color="blue")
     """
 
+    # TODO: Handle divisions with rounding errors
     nx, ny = len(layout), len(layout[0])
-    size = (height // ny, width // nx)  # TODO: Handle divisions with rounding errors
+    size = {"height": height // ny, "width": width // nx}
 
     # Build a new dict with the values being the shapes drawn at the appropriate res
     # to ensure we only draw them once.
-    items = {k: v(*size) for k, v in legend.items()}
+    items = {k: v(**size) for k, v in legend.items()}
     return np.block([[items[key] for key in row] for row in layout])
 
 
@@ -187,7 +190,7 @@ def Pixelize(
        from arlunio.lib import Circle, Pixelize
 
        pix = Pixelize(defn=Circle(), n=32, m=32)
-       image = ar.fill(pix(1920, 1080))
+       image = ar.fill(pix(width=1920, height=1080))
 
     Draw a pixelated version of a definition.
 
@@ -237,7 +240,7 @@ def Pixelize(
            [False,  True,  True, False]
        ])
        defn = Pixelize(pixels=pixels)
-       image = ar.fill(defn(1080, 1080))
+       image = ar.fill(defn(width=1080, height=1080))
 
     Alternatively we can generate the pixels from an instance of another definition
 
@@ -269,7 +272,7 @@ def Pixelize(
            )
 
        ghost = Pixelize(defn=Ghost(y0=-0.3), n=32, m=32)
-       image = ar.fill(ghost(1080,1080), color="#f00")
+       image = ar.fill(ghost(width=1080, height=1080), color="#f00")
     """
 
     if defn is None and pixels is None:
@@ -280,7 +283,7 @@ def Pixelize(
         if n is None or m is None:
             raise ValueError("You must also provide the `n` and `m` attributes")
 
-        pixels = defn(n, m)
+        pixels = defn(width=n, height=m)
 
     n, m = len(pixels), len(pixels[0])
     size = (height // m, width // n)  # TODO: Handle divisions with rounding errors
