@@ -47,7 +47,7 @@
     <input type="checkbox" id="img-fullscreen" />
     <div class="image-display">
         <label for="img-fullscreen">
-            <img src="image/simple-clock.png" />
+            <img src="image/simple-clock.png" alt="Simple Clock"/>
         </label>
     </div>
 
@@ -61,11 +61,13 @@
                     <h3>Alex Carney</h3>
                 </div>
             </div>
-            <i class="far fa-image"></i><span>1920 x 1080</span>
             <i class="far fa-calendar-alt"></i><span>28 Dec 2019</span>
-            <i class="fas fa-history"></i><span>5 revisions</span>
+            <i class="fas fa-history"></i><span>6 revisions</span>
             <i class="far fa-file-code"></i><span>62 sloc</span>
-            <i class="fas fa-terminal"></i><span>v0.0.3b8</span>
+            <i class="fas fa-terminal"></i><span>v0.0.6</span><i class="far fa-image"></i>
+                <span>height: 1080</span><i class="far fa-image"></i>
+                <span>width: 1920</span></div>
+        <div class="image-meta">
             <label for="hide-notes">Notes</label>
         </div>
         
@@ -204,12 +206,12 @@ we return a single object representing the clock.</p>
     <span class="n">minute_hand</span><span class="o">.</span><span class="n">t0</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="p">(</span><span class="n">minutes</span> <span class="o">/</span> <span class="mi">60</span><span class="p">)</span>
     <span class="n">hour_hand</span><span class="o">.</span><span class="n">t0</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="p">((</span><span class="n">hour</span> <span class="o">/</span> <span class="mi">12</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">minutes</span> <span class="o">/</span> <span class="mi">600</span><span class="p">))</span>
 
-    <span class="n">image</span> <span class="o">=</span> <span class="n">ar</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">second_hand</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#f00&quot;</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="n">image</span><span class="p">)</span>
-    <span class="n">image</span> <span class="o">=</span> <span class="n">ar</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">minute_hand</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">),</span> <span class="n">image</span><span class="o">=</span><span class="n">image</span><span class="p">)</span>
-    <span class="n">image</span> <span class="o">=</span> <span class="n">ar</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">hour_hand</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">),</span> <span class="n">image</span><span class="o">=</span><span class="n">image</span><span class="p">)</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">ar</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">second_hand</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#f00&quot;</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="n">image</span><span class="p">)</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">ar</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">minute_hand</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">),</span> <span class="n">image</span><span class="o">=</span><span class="n">image</span><span class="p">)</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">ar</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">hour_hand</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">),</span> <span class="n">image</span><span class="o">=</span><span class="n">image</span><span class="p">)</span>
 
     <span class="n">center</span> <span class="o">=</span> <span class="n">Circle</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
-    <span class="n">image</span> <span class="o">=</span> <span class="n">ar</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">center</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">),</span> <span class="n">image</span><span class="o">=</span><span class="n">image</span><span class="p">)</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">ar</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">center</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">),</span> <span class="n">image</span><span class="o">=</span><span class="n">image</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">image</span>
 </pre></div>
@@ -239,15 +241,15 @@ is a few highlights</p>
         
         <div class="code">
             <div class="highlight"><pre><span></span><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
-<span class="k">def</span> <span class="nf">Clock</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ar</span><span class="o">.</span><span class="n">Image</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">Clock</span><span class="p">(</span><span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ar</span><span class="o">.</span><span class="n">Image</span><span class="p">:</span>
 
     <span class="n">clock</span> <span class="o">=</span> <span class="n">Circle</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">pt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">)</span>
-    <span class="n">image</span> <span class="o">=</span> <span class="n">ar</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">clock</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">))</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">ar</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">clock</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">))</span>
 
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">12</span><span class="p">):</span>
         <span class="n">t0</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">6</span><span class="p">)</span>
         <span class="n">numeral</span> <span class="o">=</span> <span class="n">Numeral</span><span class="p">(</span><span class="n">t0</span><span class="o">=</span><span class="n">t0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">)</span>
-        <span class="n">image</span> <span class="o">=</span> <span class="n">ar</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">numeral</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">),</span> <span class="n">image</span><span class="o">=</span><span class="n">image</span><span class="p">)</span>
+        <span class="n">image</span> <span class="o">=</span> <span class="n">ar</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">numeral</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">),</span> <span class="n">image</span><span class="o">=</span><span class="n">image</span><span class="p">)</span>
 
     <span class="n">hour_hand</span> <span class="o">=</span> <span class="n">ClockHand</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">)</span>
     <span class="n">minute_hand</span> <span class="o">=</span> <span class="n">ClockHand</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">)</span>
@@ -265,7 +267,7 @@ is a few highlights</p>
 
     <footer>
         <p>Color Scheme: <a href="https://github.com/arcticicestudio/nord">Nord</a></p>
-        <p>Last Updated: 18/04/20 06:04:15</p>
+        <p>Last Updated: 18/04/20 18:09:31</p>
     </footer>
 </body>
 

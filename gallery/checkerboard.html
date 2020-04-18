@@ -47,7 +47,7 @@
     <input type="checkbox" id="img-fullscreen" />
     <div class="image-display">
         <label for="img-fullscreen">
-            <img src="image/checkerboard.png" />
+            <img src="image/checkerboard.png" alt="Checkerboard"/>
         </label>
     </div>
 
@@ -61,11 +61,13 @@
                     <h3>Alex Carney</h3>
                 </div>
             </div>
-            <i class="far fa-image"></i><span>1080 x 1080</span>
             <i class="far fa-calendar-alt"></i><span>27 Dec 2019</span>
-            <i class="fas fa-history"></i><span>4 revisions</span>
+            <i class="fas fa-history"></i><span>5 revisions</span>
             <i class="far fa-file-code"></i><span>11 sloc</span>
-            <i class="fas fa-terminal"></i><span>v0.0.3b11</span>
+            <i class="fas fa-terminal"></i><span>v0.0.6</span><i class="far fa-image"></i>
+                <span>height: 1080</span><i class="far fa-image"></i>
+                <span>width: 1080</span></div>
+        <div class="image-meta">
             <label for="hide-notes">Notes</label>
         </div>
         
@@ -87,9 +89,9 @@
         
         <div class="code">
             <div class="highlight"><pre><span></span><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
-<span class="k">def</span> <span class="nf">Checkerboard</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ar</span><span class="o">.</span><span class="n">Image</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">Checkerboard</span><span class="p">(</span><span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ar</span><span class="o">.</span><span class="n">Image</span><span class="p">:</span>
     <span class="n">board</span> <span class="o">=</span> <span class="n">Grid</span><span class="p">(</span><span class="n">defn</span><span class="o">=</span><span class="n">CheckerPattern</span><span class="p">())</span>
-    <span class="k">return</span> <span class="n">ar</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">board</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">ar</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">board</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">))</span>
 
 <span class="n">checkerboard</span> <span class="o">=</span> <span class="n">Checkerboard</span><span class="p">()</span>
 </pre></div>
@@ -101,7 +103,7 @@
 
     <footer>
         <p>Color Scheme: <a href="https://github.com/arcticicestudio/nord">Nord</a></p>
-        <p>Last Updated: 18/04/20 06:04:15</p>
+        <p>Last Updated: 18/04/20 18:09:31</p>
     </footer>
 </body>
 
