@@ -4,7 +4,9 @@ from arlunio import Defn, Mask
 
 
 @ar.definition(operation=Defn.OP_ADD)
-def MaskAdd(width: int, height: int, *, a: Defn[Mask] = None, b: Defn[Mask] = None):
+def MaskAdd(
+    width: int, height: int, *, a: Defn[Mask] = None, b: Defn[Mask] = None
+) -> Mask:
     """Add any two mask producing definitions together.
 
     The resulting defintion will return a mask that is :code:`True` if a given point
@@ -52,7 +54,9 @@ def MaskAdd(width: int, height: int, *, a: Defn[Mask] = None, b: Defn[Mask] = No
 
 
 @ar.definition(operation=Defn.OP_SUB)
-def MaskSub(width: int, height: int, *, a: Defn[Mask] = None, b: Defn[Mask] = None):
+def MaskSub(
+    width: int, height: int, *, a: Defn[Mask] = None, b: Defn[Mask] = None
+) -> Mask:
     """Subtract one mask away from another mask.
 
     The resulting definition will return a mask that is :code:`True` only if a given
@@ -106,7 +110,9 @@ def MaskSub(width: int, height: int, *, a: Defn[Mask] = None, b: Defn[Mask] = No
 
 
 @ar.definition(operation=Defn.OP_MUL)
-def MaskMul(width: int, height: int, *, a: Defn[Mask] = None, b: Defn[Mask] = None):
+def MaskMul(
+    width: int, height: int, *, a: Defn[Mask] = None, b: Defn[Mask] = None
+) -> Mask:
     """Muliply any two mask producing definitions together.
 
     The resulting definition will return a mask that is :code:`True` only if a given
