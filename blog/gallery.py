@@ -164,6 +164,34 @@ class NbCell:
         return cls(type=type, contents=contents, raw=cell.source)
 
 
+def find_image(candidates: Dict[str, arlunio.Image]) -> arlunio.Image:
+    """Try and find the image we should be pushing into the gallery.
+
+    The process for discovering images is as follows:
+
+    - If there is only a single image in the namespace then we'll use that.
+
+    - If there is more than one image in the namespace, but there is one called
+      'image' then we'll use that.
+    """
+    image = None
+
+    if len(candidates) == 0:
+        raise ValueError("Notebook did not produce a usable image.")
+
+    if len(candidates) == 1:
+        image = list(candidates.values())[0]
+
+    if image is None and "image" in candidates:
+        image = candidates["image"]
+
+    if image is None:
+        names = ", ".join("'" + k + "'" for k in candidates.keys())
+        raise ValueError(f"Can't determine image object to use from namespace: {names}")
+
+    return image
+
+
 @attr.s(auto_attribs=True)
 class ImageContext:
     """Represents the values needed to render the individual image template."""
@@ -179,9 +207,6 @@ class ImageContext:
 
     date: str
     """A string representing the time the site was built"""
-
-    inputs: Dict[str, Any]
-    """The width x height of the image"""
 
     revision: int
     """Number of revisions made to the image."""
@@ -214,7 +239,6 @@ class ImageContext:
         slug = filename.lower().replace(" ", "-")
 
         meta = nb.__notebook__.metadata.arlunio
-        inputs = meta.inputs
         created = get_date_added(nb.__file__)
         num_revisions = get_num_revisions(nb.__file__)
 
@@ -222,29 +246,19 @@ class ImageContext:
         code = "\n".join([cell.raw for cell in cells if cell.type == "code"])
         sloc = code.count("\n")
 
-        def is_image(obj):
-            """Used to select candidate images from the notebook."""
+        candidates = {
+            k: v for k, v in nb.__dict__.items() if isinstance(v, arlunio.Image)
+        }
 
-            if not isinstance(obj, arlunio.Defn):
-                return False
-
-            return obj.produces() == arlunio.Image
-
-        defns = [v for v in nb.__dict__.values() if is_image(v)]
-
-        if len(defns) == 0:
-            raise ValueError("Unable to find image")
-
-        image = defns[0]
+        image = find_image(candidates)
 
         # Render the fullsize image
-        full = image(**inputs)
         fullfile = pathlib.Path(config.output, "gallery", "image", slug + ".png")
-        arlunio.save(full, fullfile, mkdirs=True)
+        arlunio.save(image, fullfile, mkdirs=True)
         url = "image/{}.png".format(slug)
 
         # Create a scaled down version to use as a thumbnail on the main page
-        thumb = full.copy()
+        thumb = image.copy()
         thumb.thumbnail((250, 250), PIL.Image.BICUBIC)
         thumbfile = pathlib.Path(config.output, "gallery", "thumb", slug + ".png")
         arlunio.save(thumb, thumbfile, mkdirs=True)
@@ -256,7 +270,6 @@ class ImageContext:
             cells=cells,
             created=created.strftime("%d %b %Y"),
             date=gallery.date,
-            inputs=inputs,
             revision=num_revisions,
             sloc=sloc,
             slug=slug,
