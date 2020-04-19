@@ -62,11 +62,10 @@
                 </div>
             </div>
             <i class="far fa-calendar-alt"></i><span>27 Dec 2019</span>
-            <i class="fas fa-history"></i><span>5 revisions</span>
+            <i class="fas fa-history"></i><span>6 revisions</span>
             <i class="far fa-file-code"></i><span>11 sloc</span>
-            <i class="fas fa-terminal"></i><span>v0.0.6</span><i class="far fa-image"></i>
-                <span>height: 1080</span><i class="far fa-image"></i>
-                <span>width: 1080</span></div>
+            <i class="fas fa-terminal"></i><span>v0.0.6</span>
+        </div>
         <div class="image-meta">
             <label for="hide-notes">Notes</label>
         </div>
@@ -80,7 +79,6 @@
         
         <div class="code">
             <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arlunio</span> <span class="k">as</span> <span class="nn">ar</span>
-
 <span class="kn">from</span> <span class="nn">arlunio.lib</span> <span class="kn">import</span> <span class="n">Grid</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span>
 </pre></div>
 
@@ -99,8 +97,14 @@
 <span class="k">def</span> <span class="nf">Checkerboard</span><span class="p">(</span><span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ar</span><span class="o">.</span><span class="n">Image</span><span class="p">:</span>
     <span class="n">board</span> <span class="o">=</span> <span class="n">Grid</span><span class="p">(</span><span class="n">defn</span><span class="o">=</span><span class="n">CheckerPattern</span><span class="p">())</span>
     <span class="k">return</span> <span class="n">ar</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">board</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">))</span>
+</pre></div>
 
-<span class="n">checkerboard</span> <span class="o">=</span> <span class="n">Checkerboard</span><span class="p">()</span>
+        </div>
+        
+        <div class="code">
+            <div class="highlight"><pre><span></span><span class="n">checkerboard</span> <span class="o">=</span> <span class="n">Checkerboard</span><span class="p">()</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">checkerboard</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1080</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">)</span> 
+<span class="n">image</span>
 </pre></div>
 
         </div>
@@ -110,7 +114,7 @@
 
     <footer>
         <p>Color Scheme: <a href="https://github.com/arcticicestudio/nord">Nord</a></p>
-        <p>Last Updated: 18/04/20 22:36:40</p>
+        <p>Last Updated: 19/04/20 19:53:44</p>
     </footer>
 </body>
 
