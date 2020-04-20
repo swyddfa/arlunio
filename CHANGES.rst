@@ -1,8 +1,8 @@
 v0.0.6 - 2020-04-18
-===================
+-------------------
 
 Features
---------
+^^^^^^^^
 
 - Introduce the concept of operators. Operators are definitions that can provide
   implementations of the arithmetic operators in Python like :code:`+` and
@@ -15,7 +15,7 @@ Features
 
 
 Docs
-----
+^^^^
 
 - Added some documentation around the CI build for the blog. Also updated the blog
   build to run every day. (`#177 <https://github.com/swyddfa/arlunio/issues/177>`_)
@@ -25,7 +25,7 @@ Docs
 
 
 Misc
-----
+^^^^
 
 - Fix handling of multiple notebooks in  :code:`clean-notebook.sh` and add VSCode
   tasks to aid with tutorial development (`#205 <https://github.com/swyddfa/arlunio/issues/205>`_)
