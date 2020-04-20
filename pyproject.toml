@@ -24,7 +24,6 @@ lines_between_types = 1
 multi_line_output = 3
 
 [tool.towncrier]
-package = "arlunio"
 filename = "CHANGES.rst"
 directory = "changes/"
 title_format = "{version} - {project_date}"
