@@ -60,9 +60,12 @@ Build Docs
 ^^^^^^^^^^
 
 Since the documentation is built using Sphinx it follows standard practice for
-the most part. However before running the Sphinx build we use towncrier to
-update the changelog with details of anything that will be coming up in the next
-release.
+the most part. However before running the Sphinx build we:
+
+- Use towncrier to update the changelog with details of anything that will be
+  coming up in the next release.
+- Fetch the latest release from Github so we can set the appropriate version
+  number in Sphinx
 
 .. literalinclude:: ../../../.github/workflows/docs-release.yml
    :language: yaml

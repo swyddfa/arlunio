@@ -48,6 +48,9 @@ jobs:
         version=$(cat arlunio/_version.py | sed 's/.*"\(.*\)"/\1/')
         towncrier --date 'Unreleased' --version "v${version}" --yes
 
+        latest=$(curl -s "https://api.github.com/repos/swyddfa/arlunio/releases" | jq -r '.[0].tag_name')
+        export VERSION="$latest"
+
         cd docs
         make html
     # </build-job-docs>

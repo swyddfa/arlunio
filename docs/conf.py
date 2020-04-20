@@ -12,8 +12,6 @@
 #
 import os
 
-import arlunio
-
 # -- Project information -----------------------------------------------------
 
 project = "Arlunio"
@@ -21,7 +19,19 @@ copyright = "2017-, Swyddfa Developers"
 author = "Swyddfa Developers"
 
 # The full version, including alpha/beta/rc tags
-version = arlunio.__version__
+verion = None
+
+if "VERSION" in os.environ:
+    version = os.environ["VERSION"]
+
+if version is None:
+    try:
+        import arlunio
+
+        version = arlunio.__version__
+    except Exception:
+        version = "latest"
+
 release = version
 
 
