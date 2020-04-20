@@ -45,7 +45,7 @@ jobs:
     - name: Build Docs
       run: |
 
-        version=$(cat arlunio/_verison.py | sed 's/.*"\(.*\)"/\1/')
+        version=$(cat arlunio/_version.py | sed 's/.*"\(.*\)"/\1/')
         towncrier --date 'Unreleased' --version "v${version}" --yes
 
         cd docs
