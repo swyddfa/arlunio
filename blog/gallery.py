@@ -170,7 +170,6 @@ def find_image(candidates: Dict[str, arlunio.Image]) -> arlunio.Image:
     The process for discovering images is as follows:
 
     - If there is only a single image in the namespace then we'll use that.
-
     - If there is more than one image in the namespace, but there is one called
       'image' then we'll use that.
     """
