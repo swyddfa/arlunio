@@ -19,7 +19,7 @@ copyright = "2017-, Swyddfa Developers"
 author = "Swyddfa Developers"
 
 # The full version, including alpha/beta/rc tags
-verion = None
+version = None
 
 if "VERSION" in os.environ:
     version = os.environ["VERSION"]
