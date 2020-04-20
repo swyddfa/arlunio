@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Blog Release &mdash; Arlunio V0.0.7b32 documentation</title>
+  <title>Documentation Release &mdash; Arlunio V0.0.7b32 documentation</title>
   
 
   
@@ -36,8 +36,8 @@
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Documentation Release" href="docs-release.html" />
-    <link rel="prev" title="CI &amp; Automation" href="index.html" /> 
+    <link rel="next" title="Python Linting" href="python-linting.html" />
+    <link rel="prev" title="Blog Release" href="blog-release.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -93,13 +93,13 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Contributing</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../get-started.html">Getting Started</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="index.html">CI &amp; Automation</a><ul class="current">
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Blog Release</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="blog-release.html">Blog Release</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Documentation Release</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#triggers">Triggers</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#jobs">Jobs</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#steps">Steps</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="docs-release.html">Documentation Release</a></li>
 <li class="toctree-l3"><a class="reference internal" href="python-linting.html">Python Linting</a></li>
 <li class="toctree-l3"><a class="reference internal" href="python-pr-builds.html">Python PR Builds</a></li>
 <li class="toctree-l3"><a class="reference internal" href="python-release.html">Python Release</a></li>
@@ -158,13 +158,13 @@
         
           <li><a href="index.html">CI &amp; Automation</a> &raquo;</li>
         
-      <li>Blog Release</li>
+      <li>Documentation Release</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../../_sources/contributing/ci/blog-release.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/contributing/ci/docs-release.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -177,43 +177,40 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="blog-release">
-<h1>Blog Release<a class="headerlink" href="#blog-release" title="Permalink to this headline">¶</a></h1>
-<p>This action is responsible for building and deploying the blog component of the
-arlunio website. Currently this is only composed of the gallery.</p>
+  <div class="section" id="documentation-release">
+<h1>Documentation Release<a class="headerlink" href="#documentation-release" title="Permalink to this headline">¶</a></h1>
+<p>This action is responsible for building and deploying the documentation which
+currently sits alongside the gallery in our Github Pages instance.</p>
 <div class="section" id="triggers">
 <h2>Triggers<a class="headerlink" href="#triggers" title="Permalink to this headline">¶</a></h2>
 <p>This action is triggered whenever a commit has been made to the <code class="code docutils literal notranslate"><span class="pre">develop</span></code>
-branch within the <code class="code docutils literal notranslate"><span class="pre">blog/</span></code> directory so that new additions are published
-immediately.</p>
+branch within the <code class="code docutils literal notranslate"><span class="pre">docs/</span></code> or <code class="code docutils literal notranslate"><span class="pre">arlunio/</span></code> directories. This means the
+documentation is updated to always align with the bleeding edge version of the
+codebase. Since we don’t currently have a stable released version this is
+sufficient for now, though may need to be revised at some point in the future.</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">push</span><span class="p">:</span>
   <span class="nt">branches</span><span class="p">:</span>
   <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">develop</span>
   <span class="nt">paths</span><span class="p">:</span>
-  <span class="p p-Indicator">-</span> <span class="s">&#39;blog/**&#39;</span>
+  <span class="p p-Indicator">-</span> <span class="s">&#39;arlunio/**&#39;</span>
+  <span class="p p-Indicator">-</span> <span class="s">&#39;docs/**&#39;</span>
+  <span class="p p-Indicator">-</span> <span class="s">&#39;.github/workflows/docs-release.yml&#39;</span>
 </pre></div>
 </div>
-<p>It is also configured to run everyday at <code class="code docutils literal notranslate"><span class="pre">06:00</span></code> so that we can ensure the
-gallery still builds and to keep it fresh. The fairly cryptic syntax can be
-visualised by visting the <a class="reference external" href="https://crontab.guru/#0_6_*_*_*">crontab.guru</a> site.</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">schedule</span><span class="p">:</span>
-  <span class="p p-Indicator">-</span> <span class="nt">cron</span><span class="p">:</span> <span class="s">&#39;0</span><span class="nv"> </span><span class="s">6</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*&#39;</span>
-</pre></div>
-</div>
-<p>Finally we also trigger this action on every PR that makes changes to the
-<code class="code docutils literal notranslate"><span class="pre">blog/</span></code> directory to ensure any additions won’t break the build.</p>
+<p>It’s also configured to run on any pull request that affects the paths relevant
+to ensure that changes do not break the build.</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">pull_request</span><span class="p">:</span>
   <span class="nt">branches</span><span class="p">:</span>
   <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">develop</span>
   <span class="nt">paths</span><span class="p">:</span>
-  <span class="p p-Indicator">-</span> <span class="s">&#39;blog/**&#39;</span>
+  <span class="p p-Indicator">-</span> <span class="s">&#39;arlunio/**&#39;</span>
+  <span class="p p-Indicator">-</span> <span class="s">&#39;docs/**&#39;</span>
+  <span class="p p-Indicator">-</span> <span class="s">&#39;.github/workflows/docs-release.yml&#39;</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="jobs">
 <h2>Jobs<a class="headerlink" href="#jobs" title="Permalink to this headline">¶</a></h2>
-<p>We only need to build the site once and deploy it so we only need to run it with
-a single instance.</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">Build</span><span class="p">:</span>
   <span class="nt">runs-on</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
 </pre></div>
@@ -223,12 +220,12 @@ a single instance.</p>
 <h2>Steps<a class="headerlink" href="#steps" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="setup">
 <h3>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h3>
-<p>We start off with the basics, checking out the repo, configuring the build
-environment etc. Notice that we install the pre-release version of
-<code class="code docutils literal notranslate"><span class="pre">arlunio</span></code>, this is so we can see if any changes are going to break any
-uses cases currently covered by the gallery.</p>
+<p>Setup for this job is fairly standard in that we checkout the repository and get
+ourselves setup with a Python version. The only interesting thing to note is
+that alongside the dependencies listed in <code class="code docutils literal notranslate"><span class="pre">docs/requirements.txt</span></code> we also
+need to install <code class="code docutils literal notranslate"><span class="pre">arlunio</span></code> itself since it’s used to build some aspects of
+the documentation.</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">actions/checkout@v1</span>
-
 <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Setup Python</span>
   <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">actions/setup-python@v1</span>
   <span class="nt">with</span><span class="p">:</span>
@@ -239,34 +236,60 @@ uses cases currently covered by the gallery.</p>
     <span class="no">python --version</span>
 
     <span class="no">python -m pip install --upgrade pip</span>
-    <span class="no">python -m pip install --pre arlunio</span>
-    <span class="no">python -m pip install -r blog/requirements.txt</span>
+    <span class="no">python -m pip install -e .[doc]</span>
+    <span class="no">python -m pip install -r docs/requirements.txt</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="build-blog">
-<h3>Build Blog<a class="headerlink" href="#build-blog" title="Permalink to this headline">¶</a></h3>
-<p>As mentioned above the only component currently in the blog is the gallery,
-which we will build now. The details of this are handled by the
-<code class="code docutils literal notranslate"><span class="pre">gallery.py</span></code> script that is not detailed here.</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Build Gallery</span>
+<div class="section" id="build-docs">
+<h3>Build Docs<a class="headerlink" href="#build-docs" title="Permalink to this headline">¶</a></h3>
+<p>Since the documentation is built using Sphinx it follows standard practice for
+the most part. However before running the Sphinx build we:</p>
+<ul class="simple">
+<li><p>Use towncrier to update the changelog with details of anything that will be
+coming up in the next release.</p></li>
+<li><p>Fetch the latest release from Github so we can set the appropriate version
+number in Sphinx</p></li>
+</ul>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Build Docs</span>
   <span class="nt">run</span><span class="p">:</span> <span class="p p-Indicator">|</span>
-    <span class="no">cd blog</span>
-    <span class="no">python gallery.py</span>
+
+    <span class="no">version=$(cat arlunio/_version.py | sed &#39;s/.*&quot;\(.*\)&quot;/\1/&#39;)</span>
+    <span class="no">towncrier --date &#39;Unreleased&#39; --version &quot;v${version}&quot; --yes</span>
+
+    <span class="no">latest=$(curl -s &quot;https://api.github.com/repos/swyddfa/arlunio/releases&quot; | jq -r &#39;.[0].tag_name&#39;)</span>
+    <span class="no">export VERSION=&quot;$latest&quot;</span>
+
+    <span class="no">cd docs</span>
+    <span class="no">make html</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="delpoy-blog">
-<h3>Delpoy Blog<a class="headerlink" href="#delpoy-blog" title="Permalink to this headline">¶</a></h3>
-<p>Finally, if this is not a PR build, we publish the built site to our
-<code class="code docutils literal notranslate"><span class="pre">gh-pages</span></code> branch using <a class="reference external" href="https://github.com/JamesIves/github-pages-deploy-action">JamesIves/github-pages-deploy-action</a>.</p>
+<div class="section" id="publish-build-artifact">
+<h3>Publish Build Artifact<a class="headerlink" href="#publish-build-artifact" title="Permalink to this headline">¶</a></h3>
+<p>So that it’s easy to inspect the final build of the documentation if required we
+also publish the <code class="code docutils literal notranslate"><span class="pre">docs/_build</span></code> directory as a build artifact.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Publish Artifact</span>
+  <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">actions/upload-artifact@v1.0.0</span>
+  <span class="nt">with</span><span class="p">:</span>
+      <span class="nt">name</span><span class="p">:</span> <span class="s">&#39;docs&#39;</span>
+      <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">docs/_build</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="deploy-docs">
+<h3>Deploy Docs<a class="headerlink" href="#deploy-docs" title="Permalink to this headline">¶</a></h3>
+<p>Finally assuming the docs have been built successfully and this is not a PR
+build, we deploy the result to Github Pages using
+<a class="reference external" href="https://github.com/JamesIves/github-pages-deploy-action">JamesIves/github-pages-deploy-action</a>.</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Deploy</span>
   <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">JamesIves/github-pages-deploy-action@releases/v3</span>
   <span class="nt">with</span><span class="p">:</span>
     <span class="nt">ACCESS_TOKEN</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">${{ secrets.ACCESS_TOKEN }}</span>
     <span class="nt">BASE_BRANCH</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">develop</span>
     <span class="nt">BRANCH</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">gh-pages</span>
-    <span class="nt">FOLDER</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">blog/public</span>
+    <span class="nt">FOLDER</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">docs/_build/html</span>
+    <span class="nt">TARGET_FOLDER</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">docs/</span>
   <span class="nt">if</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">github.event_name != &#39;pull_request&#39;</span>
 </pre></div>
 </div>
@@ -282,10 +305,10 @@ which we will build now. The details of this are handled by the
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="docs-release.html" class="btn btn-neutral float-right" title="Documentation Release" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="python-linting.html" class="btn btn-neutral float-right" title="Python Linting" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral float-left" title="CI &amp; Automation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="blog-release.html" class="btn btn-neutral float-left" title="Blog Release" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
