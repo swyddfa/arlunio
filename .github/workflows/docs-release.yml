@@ -1,5 +1,6 @@
 name: Docs Build
 on:
+  # <trigger-push>
   push:
     branches:
     - develop
@@ -7,6 +8,8 @@ on:
     - 'arlunio/**'
     - 'docs/**'
     - '.github/workflows/docs-release.yml'
+  # </trigger-push>
+  # <trigger-pr>
   pull_request:
     branches:
     - develop
@@ -14,11 +17,15 @@ on:
     - 'arlunio/**'
     - 'docs/**'
     - '.github/workflows/docs-release.yml'
+  # </trigger-pr>
 jobs:
+  # <build-job>
   Build:
     runs-on: ubuntu-latest
+  # </build-job>
     steps:
 
+    # <build-job-setup>
     - uses: actions/checkout@v1
     - name: Setup Python
       uses: actions/setup-python@v1
@@ -32,12 +39,28 @@ jobs:
         python -m pip install --upgrade pip
         python -m pip install -e .[doc]
         python -m pip install -r docs/requirements.txt
+    # </build-job-setup>
 
+    # <build-job-docs>
     - name: Build Docs
       run: |
+
+        version=$(cat arlunio/_verison.py | sed 's/.*"\(.*\)"/\1/')
+        towncrier --date 'Unreleased' --version "v${version}" --yes
+
         cd docs
         make html
+    # </build-job-docs>
 
+    # <build-job-artifact>
+    - name: Publish Artifact
+      uses: actions/upload-artifact@v1.0.0
+      with:
+          name: 'docs'
+          path: docs/_build
+    # </build-job-artifact>
+
+    # <build-job-deploy>
     - name: Deploy
       uses: JamesIves/github-pages-deploy-action@releases/v3
       with:
@@ -47,3 +70,4 @@ jobs:
         FOLDER: docs/_build/html
         TARGET_FOLDER: docs/
       if: github.event_name != 'pull_request'
+    # </build-job-deploy>
