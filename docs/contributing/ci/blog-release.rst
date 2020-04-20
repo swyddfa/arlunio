@@ -7,7 +7,7 @@ arlunio website. Currently this is only composed of the gallery.
 Triggers
 --------
 
-This action is triggered when ever a commit has been made to the :code:`develop`
+This action is triggered whenever a commit has been made to the :code:`develop`
 branch within the :code:`blog/` directory so that new additions are published
 immediately.
 
@@ -82,7 +82,7 @@ Delpoy Blog
 ^^^^^^^^^^^
 
 Finally, if this is not a PR build, we publish the built site to our
-:code:`gh-pages` branch using the `JamesIves/github-pages-deploy-action`_.
+:code:`gh-pages` branch using `JamesIves/github-pages-deploy-action`_.
 
 .. literalinclude:: ../../../.github/workflows/blog-release.yml
    :language: yaml
