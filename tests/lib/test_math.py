@@ -3,7 +3,7 @@ import numpy as np
 import numpy.testing as npt
 import py.test
 
-from arlunio.lib.parameters import X, Y
+from arlunio.lib.math import X, Y
 from hypothesis import assume, given
 
 

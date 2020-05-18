@@ -8,11 +8,6 @@ import attr
 logger = logging.getLogger(__name__)
 
 
-class Mask:
-    """Currently just a type alias for boolean numpy arrays but gives us the flexibility
-    to add smarts later."""
-
-
 def _format_type(obj: Optional[Any] = None, type_: Optional[Any] = None) -> str:
     """Given an object, return an appropriate representation for its type."""
 

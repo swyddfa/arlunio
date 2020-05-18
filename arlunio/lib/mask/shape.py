@@ -1,16 +1,21 @@
+"""Here we define many shapes
+
+"""
 import arlunio as ar
 import numpy as np
 
-from .parameters import X, Y
+from arlunio.lib.math import X, Y
+
+from .mask import Mask
 
 
 @ar.definition
-def Circle(x: X, y: Y, *, xc=0, yc=0, r=0.8, pt=None) -> ar.Mask:
+def Circle(x: X, y: Y, *, xc=0, yc=0, r=0.8, pt=None) -> Mask:
     """
     .. arlunio-image::
 
         import arlunio as ar
-        from arlunio.lib import Circle
+        from arlunio.lib.mask import Circle
 
         circle = Circle()
         image = ar.fill(circle(width=1920, height=1080))
@@ -46,7 +51,7 @@ def Circle(x: X, y: Y, *, xc=0, yc=0, r=0.8, pt=None) -> ar.Mask:
        :include-code: before
 
        import arlunio as ar
-       from arlunio.lib import Circle
+       from arlunio.lib.mask import Circle
 
        @ar.definition
        def Target(width: int, height: int):
@@ -75,7 +80,7 @@ def Circle(x: X, y: Y, *, xc=0, yc=0, r=0.8, pt=None) -> ar.Mask:
        :include-code: before
 
        import arlunio as ar
-       from arlunio.lib import Circle
+       from arlunio.lib.mask import Circle
 
        @ar.definition
        def OlympicRings(width: int, height: int, *, spacing=0.5, pt=0.025):
@@ -117,12 +122,12 @@ def Circle(x: X, y: Y, *, xc=0, yc=0, r=0.8, pt=None) -> ar.Mask:
 
 
 @ar.definition
-def Ellipse(x: X, y: Y, *, xc=0, yc=0, a=2, b=1, r=0.8, pt=None) -> ar.Mask:
+def Ellipse(x: X, y: Y, *, xc=0, yc=0, a=2, b=1, r=0.8, pt=None) -> Mask:
     """
     .. arlunio-image::
 
        import arlunio as ar
-       from arlunio.lib import Ellipse
+       from arlunio.lib.mask import Ellipse
 
        ellipse = Ellipse()
        image = ar.fill(ellipse(width=1920, height=1080))
@@ -171,7 +176,7 @@ def Ellipse(x: X, y: Y, *, xc=0, yc=0, a=2, b=1, r=0.8, pt=None) -> ar.Mask:
        :include-code: before
 
        import arlunio as ar
-       from arlunio.lib import Ellipse
+       from arlunio.lib.mask import Ellipse
 
        @ar.definition
        def EllipseDemo(width: int, height: int):
@@ -200,7 +205,8 @@ def Ellipse(x: X, y: Y, *, xc=0, yc=0, a=2, b=1, r=0.8, pt=None) -> ar.Mask:
        :include-code: before
 
        import arlunio as ar
-       from arlunio.lib import Ellipse, X, Y
+       from arlunio.lib.mask import Ellipse
+       from arlunio.lib.math import X, Y
 
        @ar.definition
        def Atom(x: X, y: Y):
@@ -243,12 +249,12 @@ def Ellipse(x: X, y: Y, *, xc=0, yc=0, a=2, b=1, r=0.8, pt=None) -> ar.Mask:
 @ar.definition
 def SuperEllipse(
     x: X, y: Y, *, xc=0, yc=0, a=1, b=1, n=3, r=0.8, m=None, pt=None
-) -> ar.Mask:
+) -> Mask:
     """
     .. arlunio-image::
 
        import arlunio as ar
-       from arlunio.lib import SuperEllipse
+       from arlunio.lib.mask import SuperEllipse
 
        ellipse = SuperEllipse()
        image = ar.fill(ellipse(width=1920, height=1080))
@@ -301,7 +307,7 @@ def SuperEllipse(
        :include-code: before
 
        import arlunio as ar
-       from arlunio.lib import SuperEllipse
+       from arlunio.lib.mask import SuperEllipse
 
        @ar.definition
        def SuperEllipseDemo(width: int, height: int):
@@ -332,7 +338,7 @@ def SuperEllipse(
        :include-code: before
 
        import arlunio as ar
-       from arlunio.lib import SuperEllipse
+       from arlunio.lib.mask import SuperEllipse
 
        @ar.definition
        def Sauron(width: int, height: int):
@@ -375,7 +381,7 @@ def SuperEllipse(
 
 
 @ar.definition
-def Empty(width: int, height: int) -> ar.Mask:
+def Empty(width: int, height: int) -> Mask:
     """An empty shape definition.
 
     Example
@@ -385,7 +391,7 @@ def Empty(width: int, height: int) -> ar.Mask:
        :include-code: before
 
        import arlunio as ar
-       from arlunio.lib import Empty
+       from arlunio.lib.mask import Empty
 
        e = Empty()
        image = ar.fill(e(width=1920, height=1080))
@@ -394,7 +400,7 @@ def Empty(width: int, height: int) -> ar.Mask:
 
 
 @ar.definition
-def Full(width: int, height: int) -> ar.Mask:
+def Full(width: int, height: int) -> Mask:
     """An full shape definition.
 
     Example
@@ -404,7 +410,7 @@ def Full(width: int, height: int) -> ar.Mask:
        :include-code: before
 
        import arlunio as ar
-       from arlunio.lib import Full
+       from arlunio.lib.mask import Full
 
        f = Full()
        image = ar.fill(f(width=1920, height=1080))
@@ -413,12 +419,12 @@ def Full(width: int, height: int) -> ar.Mask:
 
 
 @ar.definition
-def Square(x: X, y: Y, *, xc=0, yc=0, size=0.8, pt=None) -> ar.Mask:
+def Square(x: X, y: Y, *, xc=0, yc=0, size=0.8, pt=None) -> Mask:
     """
     .. arlunio-image::
 
        import arlunio as ar
-       from arlunio.lib import Square
+       from arlunio.lib.mask import Square
 
        square = Square()
        image = ar.fill(square(width=1920, height=1080))
@@ -446,7 +452,8 @@ def Square(x: X, y: Y, *, xc=0, yc=0, size=0.8, pt=None) -> ar.Mask:
        :include-code: before
 
        import arlunio as ar
-       from arlunio.lib import Square, X, Y
+       from arlunio.lib.mask import Square
+       from arlunio.lib.math import X, Y
 
        @ar.definition
        def SquareDemo(x: X, y: Y):
@@ -484,12 +491,12 @@ def Square(x: X, y: Y, *, xc=0, yc=0, size=0.8, pt=None) -> ar.Mask:
 
 
 @ar.definition
-def Rectangle(x: X, y: Y, *, xc=0, yc=0, size=0.6, ratio=1.618, pt=None) -> ar.Mask:
+def Rectangle(x: X, y: Y, *, xc=0, yc=0, size=0.6, ratio=1.618, pt=None) -> Mask:
     """
     .. arlunio-image::
 
        import arlunio as ar
-       from arlunio.lib import Rectangle
+       from arlunio.lib.mask import Rectangle
 
        rectangle = Rectangle()
        image = ar.fill(rectangle(width=1920, height=1080))
@@ -519,7 +526,7 @@ def Rectangle(x: X, y: Y, *, xc=0, yc=0, size=0.6, ratio=1.618, pt=None) -> ar.M
        :include-code: before
 
        import arlunio as ar
-       from arlunio.lib import Rectangle
+       from arlunio.lib.mask import Rectangle
 
        @ar.definition
        def RectangleDemo(width: int, height: int):

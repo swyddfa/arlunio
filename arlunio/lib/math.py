@@ -8,7 +8,7 @@ def X(width: int, height: int, *, x0=0, scale=1, stretch=False):
     .. arlunio-image::
 
        import arlunio as ar
-       from arlunio.lib import X
+       from arlunio.lib.math import X
 
        x = X()
        image = ar.colorramp(x(width=1920, height=1080))
@@ -32,7 +32,7 @@ def X(width: int, height: int, *, x0=0, scale=1, stretch=False):
 
     By default values will be generated between :math:`\\pm 1`::
 
-       >>> from arlunio.lib import X
+       >>> from arlunio.lib.math import X
        >>> x = X()
        >>> x(width=4, height=4)
        array([[-1.        , -0.33333333,  0.33333333,  1.        ],
@@ -83,7 +83,7 @@ def Y(width: int, height: int, *, y0=0, scale=1, stretch=False):
     .. arlunio-image::
 
        import arlunio as ar
-       from arlunio.lib import Y
+       from arlunio.lib.math import Y
 
        y = Y()
        image = ar.colorramp(y(width=1920, height=1080))
@@ -107,7 +107,7 @@ def Y(width: int, height: int, *, y0=0, scale=1, stretch=False):
 
     By default values will be generated between :math:`\\pm 1`::
 
-       >>> from arlunio.lib import Y
+       >>> from arlunio.lib.math import Y
        >>> y = Y()
        >>> y(width=4, height=4)
        array([[ 1.        ,  1.        ,  1.        ,  1.        ],
@@ -162,7 +162,7 @@ def R(x: X, y: Y):
     .. arlunio-image::
 
        import arlunio as ar
-       from arlunio.lib import R
+       from arlunio.lib.math import R
 
        r = R()
        image = ar.colorramp(r(width=1920, height=1080))
@@ -180,7 +180,7 @@ def R(x: X, y: Y):
     --------
     ::
 
-       >>> from arlunio.lib import R
+       >>> from arlunio.lib.math import R
        >>> r = R()
        >>> r(width=5, height=5)
        array([[1.41421356, 1.11803399, 1.        , 1.11803399, 1.41421356],
@@ -215,7 +215,7 @@ def T(x: X, y: Y, *, t0=0):
     .. arlunio-image::
 
        import arlunio as ar
-       from arlunio.lib import T
+       from arlunio.lib.math import T
 
        t = T()
        image = ar.colorramp(t(width=1920, height=1080))
@@ -240,7 +240,7 @@ def T(x: X, y: Y, *, t0=0):
 
     By default all point on the :math:`x`-axis will have a value of :code:`t = 0`::
 
-       >>> from arlunio.lib import T
+       >>> from arlunio.lib.math import T
        >>> t = T()
        >>> t(width=5, height=5)
        array([[ 2.35619449,  2.03444394,  1.57079633,  1.10714872,  0.78539816],

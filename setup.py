@@ -26,6 +26,7 @@ extras = {
         "sphinx-autobuild",
         "sphinx_rtd_theme",
         "sphobjinv",
+        "towncrier",
         "tox",
     ],
     "doc": ["sphinx", "nbformat"],

@@ -2,7 +2,7 @@ import string
 import textwrap
 import traceback
 
-from typing import List
+from typing import List, Tuple
 
 import arlunio as ar
 
@@ -84,7 +84,9 @@ def parse_content(state, content: StringList) -> List[nodes.Node]:
     return section.children
 
 
-def render_image(src: str, smooth: bool = True) -> List[nodes.Node]:
+def render_image(
+    src: str, smooth: bool = True, location: Tuple[str, int] = None
+) -> List[nodes.Node]:
     """Given the source code for an image return a doctree that when rendered by
     Sphinx will insert that image into a HTML page.
 
@@ -97,23 +99,20 @@ def render_image(src: str, smooth: bool = True) -> List[nodes.Node]:
         algorithm that smooths out the edges of the image.
     """
     doctree = []
-
-    try:
-        code = compile(src, "<string>", "exec")
-    except Exception:
-        message = nodes.Text("Unable to render image: Invalid code")
-        err = nodes.literal_block("", traceback.format_exc())
-        doctree.append(nodes.error("", message, err))
-
-        return doctree
-
     environment = {}
 
     try:
+        code = compile(src, "<string>", "exec")
         exec(code, environment)
     except Exception:
+        tback = traceback.format_exc()
+
+        # Flag the issue to the user to the issue in the log
+        logger.warning("Unable to render image\n%s", tback, location=location)
+
+        # But also make the error obvious in the docs.
         message = nodes.Text("Unable to render image: Error in code")
-        err = nodes.literal_block("", traceback.format_exc())
+        err = nodes.literal_block("", tback)
         doctree.append(nodes.error("", message, err))
 
         return doctree
@@ -179,7 +178,9 @@ class ArlunioImageDirective(rst.Directive):
 
         src = "\n".join(self.content)
         smooth = not ("disable-smoothing" in self.options.keys())
-        nodelist = render_image(src, smooth)
+
+        location = self.state_machine.get_source_and_line(self.lineno)
+        nodelist = render_image(src, smooth, location=location)
 
         if "include-code" in self.options.keys():
 
