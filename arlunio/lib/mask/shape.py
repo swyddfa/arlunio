@@ -4,7 +4,7 @@
 import arlunio as ar
 import numpy as np
 
-from arlunio.lib.math import X, Y
+from arlunio.lib.math import X, Y, all_, invert
 
 from .mask import Mask
 
@@ -14,11 +14,11 @@ def Circle(x: X, y: Y, *, xc=0, yc=0, r=0.8, pt=None) -> Mask:
     """
     .. arlunio-image::
 
-        import arlunio as ar
         from arlunio.lib.mask import Circle
+        from arlunio.lib.image import fill
 
         circle = Circle()
-        image = ar.fill(circle(width=1920, height=1080))
+        image = fill(circle(width=1920, height=1080))
 
     We define a circle using the following equality.
 
@@ -51,7 +51,9 @@ def Circle(x: X, y: Y, *, xc=0, yc=0, r=0.8, pt=None) -> Mask:
        :include-code: before
 
        import arlunio as ar
+
        from arlunio.lib.mask import Circle
+       from arlunio.lib.image import fill
 
        @ar.definition
        def Target(width: int, height: int):
@@ -64,7 +66,7 @@ def Circle(x: X, y: Y, *, xc=0, yc=0, r=0.8, pt=None) -> Mask:
            ]
 
            for part, color in parts:
-               image = ar.fill(
+               image = fill(
                    part(width=width, height=height), color=color, image=image
                )
 
@@ -80,7 +82,9 @@ def Circle(x: X, y: Y, *, xc=0, yc=0, r=0.8, pt=None) -> Mask:
        :include-code: before
 
        import arlunio as ar
+
        from arlunio.lib.mask import Circle
+       from arlunio.lib.image import fill
 
        @ar.definition
        def OlympicRings(width: int, height: int, *, spacing=0.5, pt=0.025):
@@ -99,7 +103,7 @@ def Circle(x: X, y: Y, *, xc=0, yc=0, r=0.8, pt=None) -> Mask:
            ]
 
            for ring, color in rings:
-               image = ar.fill(
+               image = fill(
                    ring(width=width, height=height), color=color, image=image
                )
 
@@ -118,7 +122,7 @@ def Circle(x: X, y: Y, *, xc=0, yc=0, r=0.8, pt=None) -> Mask:
     inner = (1 - pt) * r ** 2
     outer = (1 + pt) * r ** 2
 
-    return ar.all(inner < circle, circle < outer)
+    return all_(inner < circle, circle < outer)
 
 
 @ar.definition
@@ -126,11 +130,11 @@ def Ellipse(x: X, y: Y, *, xc=0, yc=0, a=2, b=1, r=0.8, pt=None) -> Mask:
     """
     .. arlunio-image::
 
-       import arlunio as ar
        from arlunio.lib.mask import Ellipse
+       from arlunio.lib.image import fill
 
        ellipse = Ellipse()
-       image = ar.fill(ellipse(width=1920, height=1080))
+       image = fill(ellipse(width=1920, height=1080))
 
     An ellipse can be defined using the following equality.
 
@@ -176,7 +180,9 @@ def Ellipse(x: X, y: Y, *, xc=0, yc=0, a=2, b=1, r=0.8, pt=None) -> Mask:
        :include-code: before
 
        import arlunio as ar
+
        from arlunio.lib.mask import Ellipse
+       from arlunio.lib.image import fill
 
        @ar.definition
        def EllipseDemo(width: int, height: int):
@@ -192,7 +198,7 @@ def Ellipse(x: X, y: Y, *, xc=0, yc=0, a=2, b=1, r=0.8, pt=None) -> Mask:
            ]
 
            for ellipse in ellipses:
-               image = ar.fill(ellipse(width=1920, height=1080), image=image)
+               image = fill(ellipse(width=1920, height=1080), image=image)
            return image
 
        demo = EllipseDemo()
@@ -205,8 +211,10 @@ def Ellipse(x: X, y: Y, *, xc=0, yc=0, a=2, b=1, r=0.8, pt=None) -> Mask:
        :include-code: before
 
        import arlunio as ar
+
        from arlunio.lib.mask import Ellipse
        from arlunio.lib.math import X, Y
+       from arlunio.lib.image import fill
 
        @ar.definition
        def Atom(x: X, y: Y):
@@ -221,7 +229,7 @@ def Ellipse(x: X, y: Y, *, xc=0, yc=0, a=2, b=1, r=0.8, pt=None) -> Mask:
            ]
 
            for ellipse, ex, ey in ellipses:
-               image = ar.fill(ellipse(x=ex, y=ey), image=image)
+               image = fill(ellipse(x=ex, y=ey), image=image)
 
            return image
 
@@ -243,7 +251,7 @@ def Ellipse(x: X, y: Y, *, xc=0, yc=0, a=2, b=1, r=0.8, pt=None) -> Mask:
     inner = (1 - pt) * r ** 2
     outer = (1 + pt) * r ** 2
 
-    return ar.all(inner < ellipse, ellipse < outer)
+    return all_(inner < ellipse, ellipse < outer)
 
 
 @ar.definition
@@ -253,11 +261,11 @@ def SuperEllipse(
     """
     .. arlunio-image::
 
-       import arlunio as ar
        from arlunio.lib.mask import SuperEllipse
+       from arlunio.lib.image import fill
 
        ellipse = SuperEllipse()
-       image = ar.fill(ellipse(width=1920, height=1080))
+       image = fill(ellipse(width=1920, height=1080))
 
     We define a `SuperEllipse`_ by the following equality.
 
@@ -307,7 +315,9 @@ def SuperEllipse(
        :include-code: before
 
        import arlunio as ar
+
        from arlunio.lib.mask import SuperEllipse
+       from arlunio.lib.image import fill
 
        @ar.definition
        def SuperEllipseDemo(width: int, height: int):
@@ -321,7 +331,7 @@ def SuperEllipse(
            ]
 
            for ellipse, color in ellipses:
-               image = ar.fill(
+               image = fill(
                    ellipse(width=1920, height=1080), color=color, image=image
                )
 
@@ -338,7 +348,9 @@ def SuperEllipse(
        :include-code: before
 
        import arlunio as ar
+
        from arlunio.lib.mask import SuperEllipse
+       from arlunio.lib.image import fill
 
        @ar.definition
        def Sauron(width: int, height: int):
@@ -350,7 +362,7 @@ def SuperEllipse(
            ]
 
            for ellipse, color in ellipses:
-               image = ar.fill(
+               image = fill(
                    ellipse(width=1920, height=1080), color=color, image=image
                )
 
@@ -377,7 +389,7 @@ def SuperEllipse(
     inner = (1 - pt) * r
     outer = (1 + pt) * r
 
-    return ar.all(inner < ellipse, ellipse < outer)
+    return all_(inner < ellipse, ellipse < outer)
 
 
 @ar.definition
@@ -390,11 +402,11 @@ def Empty(width: int, height: int) -> Mask:
     .. arlunio-image::
        :include-code: before
 
-       import arlunio as ar
        from arlunio.lib.mask import Empty
+       from arlunio.lib.image import fill
 
        e = Empty()
-       image = ar.fill(e(width=1920, height=1080))
+       image = fill(e(width=1920, height=1080))
     """
     return np.full((height, width), False)
 
@@ -409,11 +421,11 @@ def Full(width: int, height: int) -> Mask:
     .. arlunio-image::
        :include-code: before
 
-       import arlunio as ar
        from arlunio.lib.mask import Full
+       from arlunio.lib.image import fill
 
        f = Full()
-       image = ar.fill(f(width=1920, height=1080))
+       image = fill(f(width=1920, height=1080))
     """
     return np.full((height, width), True)
 
@@ -423,11 +435,11 @@ def Square(x: X, y: Y, *, xc=0, yc=0, size=0.8, pt=None) -> Mask:
     """
     .. arlunio-image::
 
-       import arlunio as ar
        from arlunio.lib.mask import Square
+       from arlunio.lib.image import fill
 
        square = Square()
-       image = ar.fill(square(width=1920, height=1080))
+       image = fill(square(width=1920, height=1080))
 
     A square.
 
@@ -452,8 +464,10 @@ def Square(x: X, y: Y, *, xc=0, yc=0, size=0.8, pt=None) -> Mask:
        :include-code: before
 
        import arlunio as ar
+
        from arlunio.lib.mask import Square
        from arlunio.lib.math import X, Y
+       from arlunio.lib.image import fill
 
        @ar.definition
        def SquareDemo(x: X, y: Y):
@@ -467,7 +481,7 @@ def Square(x: X, y: Y, *, xc=0, yc=0, size=0.8, pt=None) -> Mask:
            ]
 
            for square, sx, sy in squares:
-               image = ar.fill(square(x=sx, y=sy), image=image)
+               image = fill(square(x=sx, y=sy), image=image)
 
            return image
 
@@ -479,15 +493,15 @@ def Square(x: X, y: Y, *, xc=0, yc=0, size=0.8, pt=None) -> Mask:
     ys = np.abs(y - yc)
 
     if pt is None:
-        return ar.all(xs < size, ys < size)
+        return all_(xs < size, ys < size)
 
     s = (1 - pt) * size
     S = (1 + pt) * size
 
-    inner = ar.all(xs < s, ys < s)
-    outer = ar.all(xs < S, ys < S)
+    inner = all_(xs < s, ys < s)
+    outer = all_(xs < S, ys < S)
 
-    return ar.all(outer, ar.invert(inner))
+    return all_(outer, invert(inner))
 
 
 @ar.definition
@@ -495,11 +509,11 @@ def Rectangle(x: X, y: Y, *, xc=0, yc=0, size=0.6, ratio=1.618, pt=None) -> Mask
     """
     .. arlunio-image::
 
-       import arlunio as ar
        from arlunio.lib.mask import Rectangle
+       from arlunio.lib.image import fill
 
        rectangle = Rectangle()
-       image = ar.fill(rectangle(width=1920, height=1080))
+       image = fill(rectangle(width=1920, height=1080))
 
     A Rectangle.
 
@@ -526,7 +540,9 @@ def Rectangle(x: X, y: Y, *, xc=0, yc=0, size=0.6, ratio=1.618, pt=None) -> Mask
        :include-code: before
 
        import arlunio as ar
+
        from arlunio.lib.mask import Rectangle
+       from arlunio.lib.image import fill
 
        @ar.definition
        def RectangleDemo(width: int, height: int):
@@ -538,7 +554,7 @@ def Rectangle(x: X, y: Y, *, xc=0, yc=0, size=0.6, ratio=1.618, pt=None) -> Mask
            ]
 
            for r in rects:
-               image = ar.fill(r(width=width, height=height), image=image)
+               image = fill(r(width=width, height=height), image=image)
 
            return image
 
@@ -553,12 +569,12 @@ def Rectangle(x: X, y: Y, *, xc=0, yc=0, size=0.6, ratio=1.618, pt=None) -> Mask
     width = height * ratio
 
     if pt is None:
-        return ar.all(xs < width, ys < height)
+        return all_(xs < width, ys < height)
 
     w, W = (1 - pt) * width, (1 + pt) * width
     h, H = (1 - pt) * height, (1 + pt) * height
 
-    inner = ar.all(xs < w, ys < h)
-    outer = ar.all(xs < W, ys < H)
+    inner = all_(xs < w, ys < h)
+    outer = all_(xs < W, ys < H)
 
-    return ar.all(outer, ar.invert(inner))
+    return all_(outer, invert(inner))

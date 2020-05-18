@@ -4,7 +4,7 @@ import traceback
 
 from typing import List, Tuple
 
-import arlunio as ar
+import arlunio.lib.image as img
 
 from docutils import nodes
 from docutils.parsers import rst
@@ -125,7 +125,7 @@ def render_image(
 
     if image is not None:
         context = {
-            "data": ar.encode(image).decode("utf-8"),
+            "data": img.encode(image).decode("utf-8"),
             "rendering": "auto" if smooth else "crisp-edges",
         }
         html = IMAGE_TEMPLATE.safe_substitute(context)

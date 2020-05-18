@@ -10,7 +10,7 @@ import numpy as np
 import PIL.Image as PImage
 import PIL.ImageColor as PColor
 
-from ._expressions import lerp, normalise
+from arlunio.lib.math import lerp, normalise
 
 logger = logging.getLogger(__name__)
 
@@ -24,7 +24,7 @@ class Resolutions(enum.Enum):
     Members of this enum are tuples containing the width and height which can be
     accessed by name::
 
-       >>> from arlunio import Resolutions as R
+       >>> from arlunio.lib.image import Resolutions as R
 
        >>> hd = R.HD
        >>> hd.width
