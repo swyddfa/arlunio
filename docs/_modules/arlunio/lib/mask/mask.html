@@ -1,0 +1,359 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>arlunio.lib.mask.mask &mdash; Arlunio V0.0.7b32 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> Arlunio
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                V0.0.7b32
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../users/index.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../stdlib/index.html">Standard Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contributing/index.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../changelog/index.html">Changelog</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Arlunio</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>arlunio.lib.mask.mask</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for arlunio.lib.mask.mask</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">arlunio</span> <span class="k">as</span> <span class="nn">ar</span>
+
+
+<div class="viewcode-block" id="Mask"><a class="viewcode-back" href="../../../../stdlib/masks.html#arlunio.lib.mask.Mask">[docs]</a><span class="k">class</span> <span class="nc">Mask</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Currently just a type alias for boolean numpy arrays but gives us the flexibility</span>
+<span class="sd">    to add smarts later.&quot;&quot;&quot;</span></div>
+
+
+<span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span><span class="p">(</span><span class="n">operation</span><span class="o">=</span><span class="n">ar</span><span class="o">.</span><span class="n">Defn</span><span class="o">.</span><span class="n">OP_ADD</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">MaskAdd</span><span class="p">(</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="n">ar</span><span class="o">.</span><span class="n">Defn</span><span class="p">[</span><span class="n">Mask</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">ar</span><span class="o">.</span><span class="n">Defn</span><span class="p">[</span><span class="n">Mask</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mask</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Add any two mask producing definitions together.</span>
+
+<span class="sd">    The resulting defintion will return a mask that is :code:`True` if a given point</span>
+<span class="sd">    is :code:`True` in either :code:`a` or :code:`b`.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a:</span>
+<span class="sd">        The first mask</span>
+<span class="sd">    b:</span>
+<span class="sd">        The second mask</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    This definition is used implicitly when adding two masks together</span>
+
+<span class="sd">    .. arlunio-image::</span>
+<span class="sd">       :include-code: before</span>
+
+<span class="sd">       import arlunio as ar</span>
+<span class="sd">       from arlunio.lib import Circle, Square</span>
+
+<span class="sd">       c1 = Square(xc=-0.25, yc=-0.25, size=0.55)</span>
+<span class="sd">       c2 = Circle(xc=0.25, yc=0.25, r=0.7)</span>
+
+<span class="sd">       c = c1 + c2</span>
+<span class="sd">       image = ar.fill(c(width=1920, height=1080))</span>
+
+<span class="sd">    Or can be used directly</span>
+
+<span class="sd">    .. arlunio-image::</span>
+<span class="sd">       :include-code: before</span>
+
+<span class="sd">       import arlunio as ar</span>
+<span class="sd">       from arlunio.lib import Circle, MaskAdd, Square</span>
+
+<span class="sd">       a = Square(xc=-0.25, yc=-0.25, size=0.55)</span>
+<span class="sd">       b = Circle(xc=0.25, yc=0.25, r=0.7)</span>
+
+<span class="sd">       c = MaskAdd(a=a, b=b)</span>
+<span class="sd">       image = ar.fill(c(width=1920, height=1080))</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="n">ar</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">),</span> <span class="n">b</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">))</span>
+
+
+<span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span><span class="p">(</span><span class="n">operation</span><span class="o">=</span><span class="n">ar</span><span class="o">.</span><span class="n">Defn</span><span class="o">.</span><span class="n">OP_SUB</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">MaskSub</span><span class="p">(</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="n">ar</span><span class="o">.</span><span class="n">Defn</span><span class="p">[</span><span class="n">Mask</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">ar</span><span class="o">.</span><span class="n">Defn</span><span class="p">[</span><span class="n">Mask</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mask</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Subtract one mask away from another mask.</span>
+
+<span class="sd">    The resulting definition will return a mask that is :code:`True` only if a given</span>
+<span class="sd">    point is in :code:`a` **and not** in :code:`b`.</span>
+
+<span class="sd">    .. note::</span>
+
+<span class="sd">       You will get very different results depending on which way around you set</span>
+<span class="sd">       :code:`a` and :code:`b`!</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a:</span>
+<span class="sd">        The first &quot;base&quot; mask</span>
+<span class="sd">    b:</span>
+<span class="sd">        The second mask that defines the region to remove from :code:`a`</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    This definition is used implicitly when subtracting one mask from another</span>
+
+<span class="sd">    .. arlunio-image::</span>
+<span class="sd">       :include-code: before</span>
+
+<span class="sd">       import arlunio as ar</span>
+<span class="sd">       from arlunio.lib import Circle, Square</span>
+
+<span class="sd">       c1 = Square(xc=-0.25, yc=-0.25, size=0.55)</span>
+<span class="sd">       c2 = Circle(xc=0.25, yc=0.25, r=0.7)</span>
+
+<span class="sd">       c = c1 - c2</span>
+<span class="sd">       image = ar.fill(c(width=1920, height=1080))</span>
+
+<span class="sd">    Or can be used directly</span>
+
+<span class="sd">    .. arlunio-image::</span>
+<span class="sd">       :include-code: before</span>
+
+<span class="sd">       import arlunio as ar</span>
+<span class="sd">       from arlunio.lib import Circle, MaskSub, Square</span>
+
+<span class="sd">       a = Square(xc=-0.25, yc=-0.25, size=0.55)</span>
+<span class="sd">       b = Circle(xc=0.25, yc=0.25, r=0.7)</span>
+
+<span class="sd">       c = MaskSub(a=b, b=a)</span>
+<span class="sd">       image = ar.fill(c(width=1920, height=1080))</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">ar</span><span class="o">.</span><span class="n">all</span><span class="p">(</span>
+        <span class="n">a</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">),</span> <span class="n">ar</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">b</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">))</span>
+    <span class="p">)</span>
+
+
+<span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span><span class="p">(</span><span class="n">operation</span><span class="o">=</span><span class="n">ar</span><span class="o">.</span><span class="n">Defn</span><span class="o">.</span><span class="n">OP_MUL</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">MaskMul</span><span class="p">(</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="n">ar</span><span class="o">.</span><span class="n">Defn</span><span class="p">[</span><span class="n">Mask</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">ar</span><span class="o">.</span><span class="n">Defn</span><span class="p">[</span><span class="n">Mask</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mask</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Muliply any two mask producing definitions together.</span>
+
+<span class="sd">    The resulting definition will return a mask that is :code:`True` only if a given</span>
+<span class="sd">    point is in both :code:`a` and :code:`b`.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a:</span>
+<span class="sd">        The first mask</span>
+<span class="sd">    b:</span>
+<span class="sd">        The second mask</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    This definition is used implicitly when multiplying two masks together</span>
+
+<span class="sd">    .. arlunio-image::</span>
+<span class="sd">       :include-code: before</span>
+
+<span class="sd">       import arlunio as ar</span>
+<span class="sd">       from arlunio.lib import Circle, Square</span>
+
+<span class="sd">       c1 = Square(xc=-0.25, yc=-0.25, size=0.55)</span>
+<span class="sd">       c2 = Circle(xc=0.25, yc=0.25, r=0.7)</span>
+
+<span class="sd">       c = c1 * c2</span>
+<span class="sd">       image = ar.fill(c(width=1920, height=1080))</span>
+
+<span class="sd">    Or can be used directly</span>
+
+<span class="sd">    .. arlunio-image::</span>
+<span class="sd">       :include-code: before</span>
+
+<span class="sd">       import arlunio as ar</span>
+<span class="sd">       from arlunio.lib import Circle, MaskMul, Square</span>
+
+<span class="sd">       a = Square(xc=-0.25, yc=-0.25, size=0.55)</span>
+<span class="sd">       b = Circle(xc=0.25, yc=0.25, r=0.7)</span>
+
+<span class="sd">       c = MaskMul(a=a, b=b)</span>
+<span class="sd">       image = ar.fill(c(width=1920, height=1080))</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">ar</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">),</span> <span class="n">b</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">))</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-, Swyddfa Developers
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
