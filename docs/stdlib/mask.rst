@@ -1,5 +1,7 @@
-Masks
-=====
+.. _stdlib_mask:
+
+Mask
+====
 
 .. automodule:: arlunio.lib.mask
    :members:

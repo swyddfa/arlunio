@@ -12,5 +12,6 @@ basics everyone will need along with some useful utilities for various tasks.
    :maxdepth: 2
    :caption: Index
 
-   masks
+   image
+   mask
    math
