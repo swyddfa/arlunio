@@ -17,7 +17,7 @@ import traceback
 from datetime import datetime
 from typing import Any, Dict, List
 
-import arlunio
+import arlunio.lib.image as img
 import attr
 import jinja2 as j2
 import PIL
@@ -164,7 +164,7 @@ class NbCell:
         return cls(type=type, contents=contents, raw=cell.source)
 
 
-def find_image(candidates: Dict[str, arlunio.Image]) -> arlunio.Image:
+def find_image(candidates: Dict[str, img.Image]) -> img.Image:
     """Try and find the image we should be pushing into the gallery.
 
     The process for discovering images is as follows:
@@ -245,22 +245,20 @@ class ImageContext:
         code = "\n".join([cell.raw for cell in cells if cell.type == "code"])
         sloc = code.count("\n")
 
-        candidates = {
-            k: v for k, v in nb.__dict__.items() if isinstance(v, arlunio.Image)
-        }
+        candidates = {k: v for k, v in nb.__dict__.items() if isinstance(v, img.Image)}
 
         image = find_image(candidates)
 
         # Render the fullsize image
         fullfile = pathlib.Path(config.output, "gallery", "image", slug + ".png")
-        arlunio.save(image, fullfile, mkdirs=True)
+        img.save(image, fullfile, mkdirs=True)
         url = "image/{}.png".format(slug)
 
         # Create a scaled down version to use as a thumbnail on the main page
         thumb = image.copy()
         thumb.thumbnail((250, 250), PIL.Image.BICUBIC)
         thumbfile = pathlib.Path(config.output, "gallery", "thumb", slug + ".png")
-        arlunio.save(thumb, thumbfile, mkdirs=True)
+        img.save(thumb, thumbfile, mkdirs=True)
         thumburl = "thumb/{}.png".format(slug)
 
         return cls(
