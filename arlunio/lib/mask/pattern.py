@@ -13,11 +13,11 @@ def Grid(width: int, height: int, *, n=4, m=None, defn=None) -> Mask:
     """
     .. arlunio-image::
 
-       import arlunio as ar
        from arlunio.lib.mask import Circle, Grid
+       from arlunio.lib.image import fill
 
        pattern = Grid(defn=Circle())
-       image = ar.fill(pattern(width=1920, height=1080))
+       image = fill(pattern(width=1920, height=1080))
 
     Repeatedly draw the given defintition in a grid.
 
@@ -53,6 +53,7 @@ def Grid(width: int, height: int, *, n=4, m=None, defn=None) -> Mask:
 
        from arlunio.lib.mask import Circle, Grid
        from arlunio.lib.math import X, Y
+       from arlunio.lib.image import fill
 
        @ar.definition
        def Template(x:X, y: Y):
@@ -60,7 +61,7 @@ def Grid(width: int, height: int, *, n=4, m=None, defn=None) -> Mask:
            return c(x=np.abs(x), y=np.abs(y))
 
        pattern = Grid(defn=Template(scale=1.))
-       image = ar.fill(
+       image = fill(
            pattern(width=1080, height=1080), background="#000", color="#ff0"
        )
 
@@ -74,13 +75,14 @@ def Grid(width: int, height: int, *, n=4, m=None, defn=None) -> Mask:
 
        from arlunio.lib.mask import Grid
        from arlunio.lib.math import X, Y
+       from arlunio.lib.image import fill
 
        @ar.definition
        def Template(x: X, y: Y):
            return np.abs(x) - np.abs(y) < 0
 
        grid = Grid(defn=Template(), n=22, m=13)
-       image = ar.fill(grid(width=1920, height=1080))
+       image = fill(grid(width=1920, height=1080))
     """
     if m is None:
         m = n
@@ -130,6 +132,8 @@ def Map(width: int, height: int, *, layout=None, legend=None) -> Mask:
        import numpy as np
 
        from arlunio.lib.mask import Empty, Map, Rectangle
+       from arlunio.lib.math import any_
+       from arlunio.lib.image import fill
 
        @ar.definition
        def Wall(width: int, height: int, *, sides=None):
@@ -145,7 +149,7 @@ def Map(width: int, height: int, *, layout=None, legend=None) -> Mask:
            mask = False
            for side in sides.split('-'):
                wall = Rectangle(size=0.2, **walls[side])
-               mask = ar.any(mask, wall(width=width, height=height))
+               mask = any_(mask, wall(width=width, height=height))
 
            return mask
 
@@ -170,7 +174,7 @@ def Map(width: int, height: int, *, layout=None, legend=None) -> Mask:
        ])
 
        map_ = Map(legend=legend, layout=layout)
-       image = ar.fill(map_(width=1080, height=1080), color="blue")
+       image = fill(map_(width=1080, height=1080), color="blue")
     """
 
     # TODO: Handle divisions with rounding errors
@@ -190,11 +194,11 @@ def Pixelize(
     """
     .. arlunio-image::
 
-       import arlunio as ar
        from arlunio.lib.mask import Circle, Pixelize
+       from arlunio.lib.image import fill
 
        pix = Pixelize(defn=Circle(), n=32, m=32)
-       image = ar.fill(pix(width=1920, height=1080))
+       image = fill(pix(width=1920, height=1080))
 
     Draw a pixelated version of a definition.
 
@@ -232,10 +236,10 @@ def Pixelize(
     .. arlunio-image::
        :include-code: before
 
-       import arlunio as ar
        import numpy as np
 
        from arlunio.lib.mask import Pixelize
+       from arlunio.lib.image import fill
 
        pixels = np.array([
            [False,  True,  True, False],
@@ -244,7 +248,7 @@ def Pixelize(
            [False,  True,  True, False]
        ])
        defn = Pixelize(pixels=pixels)
-       image = ar.fill(defn(width=1080, height=1080))
+       image = fill(defn(width=1080, height=1080))
 
     Alternatively we can generate the pixels from an instance of another definition
 
@@ -255,29 +259,30 @@ def Pixelize(
        import numpy as np
 
        from arlunio.lib.mask import Circle, Pixelize
-       from arlunio.lib.math import X, Y
+       from arlunio.lib.math import X, Y, all_, any_, invert
+       from arlunio.lib.image import fill
 
        @ar.definition
        def Ghost(x: X, y: Y):
            head = Circle(yc=0.5, r=0.7)
            eyes = Circle(xc=0.2, yc=0.6, r=0.3)
 
-           body = ar.all(
+           body = all_(
                y < 0.5,
                np.abs(x) < 0.49,
                0.1 * np.cos(5 * np.pi * x) - 0.3 < y
            )
 
-           return ar.any(
-               ar.all(
+           return any_(
+               all_(
                    head(x=x, y=y),
-                   ar.invert(eyes(x=np.abs(x), y=y))
+                   invert(eyes(x=np.abs(x), y=y))
                ),
                body
            )
 
        ghost = Pixelize(defn=Ghost(y0=-0.3), n=32, m=32)
-       image = ar.fill(ghost(width=1080, height=1080), color="#f00")
+       image = fill(ghost(width=1080, height=1080), color="#f00")
     """
 
     if defn is None and pixels is None:

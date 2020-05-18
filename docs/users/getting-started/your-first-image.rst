@@ -18,8 +18,8 @@ code::
 
    .. arlunio-image::
 
-      import arlunio as ar
       from arlunio.lib.mask import Circle
+      from arlunio.lib.image import fill
 
       circle = Circle()
-      image = ar.fill(circle(width=1920, height=1080), color="red")
+      image = fill(circle(width=1920, height=1080), color="red")

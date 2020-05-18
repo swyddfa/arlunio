@@ -19,6 +19,7 @@ extras = {
     "dev": [
         "black",
         "flake8",
+        "hypothesis",
         "jupyterlab",
         "pre-commit",
         "pytest",
