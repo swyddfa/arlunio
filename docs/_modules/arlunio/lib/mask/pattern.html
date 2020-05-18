@@ -164,16 +164,16 @@
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="Grid"><a class="viewcode-back" href="../../../../stdlib/masks.html#arlunio.lib.mask.Grid">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
+<div class="viewcode-block" id="Grid"><a class="viewcode-back" href="../../../../stdlib/mask.html#arlunio.lib.mask.Grid">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
 <span class="k">def</span> <span class="nf">Grid</span><span class="p">(</span><span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">defn</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mask</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    .. arlunio-image::</span>
 
-<span class="sd">       import arlunio as ar</span>
 <span class="sd">       from arlunio.lib.mask import Circle, Grid</span>
+<span class="sd">       from arlunio.lib.image import fill</span>
 
 <span class="sd">       pattern = Grid(defn=Circle())</span>
-<span class="sd">       image = ar.fill(pattern(width=1920, height=1080))</span>
+<span class="sd">       image = fill(pattern(width=1920, height=1080))</span>
 
 <span class="sd">    Repeatedly draw the given defintition in a grid.</span>
 
@@ -209,6 +209,7 @@
 
 <span class="sd">       from arlunio.lib.mask import Circle, Grid</span>
 <span class="sd">       from arlunio.lib.math import X, Y</span>
+<span class="sd">       from arlunio.lib.image import fill</span>
 
 <span class="sd">       @ar.definition</span>
 <span class="sd">       def Template(x:X, y: Y):</span>
@@ -216,7 +217,7 @@
 <span class="sd">           return c(x=np.abs(x), y=np.abs(y))</span>
 
 <span class="sd">       pattern = Grid(defn=Template(scale=1.))</span>
-<span class="sd">       image = ar.fill(</span>
+<span class="sd">       image = fill(</span>
 <span class="sd">           pattern(width=1080, height=1080), background=&quot;#000&quot;, color=&quot;#ff0&quot;</span>
 <span class="sd">       )</span>
 
@@ -230,13 +231,14 @@
 
 <span class="sd">       from arlunio.lib.mask import Grid</span>
 <span class="sd">       from arlunio.lib.math import X, Y</span>
+<span class="sd">       from arlunio.lib.image import fill</span>
 
 <span class="sd">       @ar.definition</span>
 <span class="sd">       def Template(x: X, y: Y):</span>
 <span class="sd">           return np.abs(x) - np.abs(y) &lt; 0</span>
 
 <span class="sd">       grid = Grid(defn=Template(), n=22, m=13)</span>
-<span class="sd">       image = ar.fill(grid(width=1920, height=1080))</span>
+<span class="sd">       image = fill(grid(width=1920, height=1080))</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">m</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">m</span> <span class="o">=</span> <span class="n">n</span>
@@ -260,7 +262,7 @@
     <span class="k">return</span> <span class="n">bg</span></div>
 
 
-<div class="viewcode-block" id="Map"><a class="viewcode-back" href="../../../../stdlib/masks.html#arlunio.lib.mask.Map">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
+<div class="viewcode-block" id="Map"><a class="viewcode-back" href="../../../../stdlib/mask.html#arlunio.lib.mask.Map">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
 <span class="k">def</span> <span class="nf">Map</span><span class="p">(</span><span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mask</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;For more complex layouts.</span>
 
@@ -286,6 +288,8 @@
 <span class="sd">       import numpy as np</span>
 
 <span class="sd">       from arlunio.lib.mask import Empty, Map, Rectangle</span>
+<span class="sd">       from arlunio.lib.math import any_</span>
+<span class="sd">       from arlunio.lib.image import fill</span>
 
 <span class="sd">       @ar.definition</span>
 <span class="sd">       def Wall(width: int, height: int, *, sides=None):</span>
@@ -301,7 +305,7 @@
 <span class="sd">           mask = False</span>
 <span class="sd">           for side in sides.split(&#39;-&#39;):</span>
 <span class="sd">               wall = Rectangle(size=0.2, **walls[side])</span>
-<span class="sd">               mask = ar.any(mask, wall(width=width, height=height))</span>
+<span class="sd">               mask = any_(mask, wall(width=width, height=height))</span>
 
 <span class="sd">           return mask</span>
 
@@ -326,7 +330,7 @@
 <span class="sd">       ])</span>
 
 <span class="sd">       map_ = Map(legend=legend, layout=layout)</span>
-<span class="sd">       image = ar.fill(map_(width=1080, height=1080), color=&quot;blue&quot;)</span>
+<span class="sd">       image = fill(map_(width=1080, height=1080), color=&quot;blue&quot;)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># TODO: Handle divisions with rounding errors</span>
@@ -339,18 +343,18 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">block</span><span class="p">([[</span><span class="n">items</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">row</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">layout</span><span class="p">])</span></div>
 
 
-<div class="viewcode-block" id="Pixelize"><a class="viewcode-back" href="../../../../stdlib/masks.html#arlunio.lib.mask.Pixelize">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
+<div class="viewcode-block" id="Pixelize"><a class="viewcode-back" href="../../../../stdlib/mask.html#arlunio.lib.mask.Pixelize">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
 <span class="k">def</span> <span class="nf">Pixelize</span><span class="p">(</span>
     <span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">pixels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">defn</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mask</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    .. arlunio-image::</span>
 
-<span class="sd">       import arlunio as ar</span>
 <span class="sd">       from arlunio.lib.mask import Circle, Pixelize</span>
+<span class="sd">       from arlunio.lib.image import fill</span>
 
 <span class="sd">       pix = Pixelize(defn=Circle(), n=32, m=32)</span>
-<span class="sd">       image = ar.fill(pix(width=1920, height=1080))</span>
+<span class="sd">       image = fill(pix(width=1920, height=1080))</span>
 
 <span class="sd">    Draw a pixelated version of a definition.</span>
 
@@ -388,10 +392,10 @@
 <span class="sd">    .. arlunio-image::</span>
 <span class="sd">       :include-code: before</span>
 
-<span class="sd">       import arlunio as ar</span>
 <span class="sd">       import numpy as np</span>
 
 <span class="sd">       from arlunio.lib.mask import Pixelize</span>
+<span class="sd">       from arlunio.lib.image import fill</span>
 
 <span class="sd">       pixels = np.array([</span>
 <span class="sd">           [False,  True,  True, False],</span>
@@ -400,7 +404,7 @@
 <span class="sd">           [False,  True,  True, False]</span>
 <span class="sd">       ])</span>
 <span class="sd">       defn = Pixelize(pixels=pixels)</span>
-<span class="sd">       image = ar.fill(defn(width=1080, height=1080))</span>
+<span class="sd">       image = fill(defn(width=1080, height=1080))</span>
 
 <span class="sd">    Alternatively we can generate the pixels from an instance of another definition</span>
 
@@ -411,29 +415,30 @@
 <span class="sd">       import numpy as np</span>
 
 <span class="sd">       from arlunio.lib.mask import Circle, Pixelize</span>
-<span class="sd">       from arlunio.lib.math import X, Y</span>
+<span class="sd">       from arlunio.lib.math import X, Y, all_, any_, invert</span>
+<span class="sd">       from arlunio.lib.image import fill</span>
 
 <span class="sd">       @ar.definition</span>
 <span class="sd">       def Ghost(x: X, y: Y):</span>
 <span class="sd">           head = Circle(yc=0.5, r=0.7)</span>
 <span class="sd">           eyes = Circle(xc=0.2, yc=0.6, r=0.3)</span>
 
-<span class="sd">           body = ar.all(</span>
+<span class="sd">           body = all_(</span>
 <span class="sd">               y &lt; 0.5,</span>
 <span class="sd">               np.abs(x) &lt; 0.49,</span>
 <span class="sd">               0.1 * np.cos(5 * np.pi * x) - 0.3 &lt; y</span>
 <span class="sd">           )</span>
 
-<span class="sd">           return ar.any(</span>
-<span class="sd">               ar.all(</span>
+<span class="sd">           return any_(</span>
+<span class="sd">               all_(</span>
 <span class="sd">                   head(x=x, y=y),</span>
-<span class="sd">                   ar.invert(eyes(x=np.abs(x), y=y))</span>
+<span class="sd">                   invert(eyes(x=np.abs(x), y=y))</span>
 <span class="sd">               ),</span>
 <span class="sd">               body</span>
 <span class="sd">           )</span>
 
 <span class="sd">       ghost = Pixelize(defn=Ghost(y0=-0.3), n=32, m=32)</span>
-<span class="sd">       image = ar.fill(ghost(width=1080, height=1080), color=&quot;#f00&quot;)</span>
+<span class="sd">       image = fill(ghost(width=1080, height=1080), color=&quot;#f00&quot;)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">defn</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">pixels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>

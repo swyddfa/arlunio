@@ -160,21 +160,21 @@
 <span class="kn">import</span> <span class="nn">arlunio</span> <span class="k">as</span> <span class="nn">ar</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">arlunio.lib.math</span> <span class="kn">import</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span>
+<span class="kn">from</span> <span class="nn">arlunio.lib.math</span> <span class="kn">import</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">all_</span><span class="p">,</span> <span class="n">invert</span>
 
 <span class="kn">from</span> <span class="nn">.mask</span> <span class="kn">import</span> <span class="n">Mask</span>
 
 
-<div class="viewcode-block" id="Circle"><a class="viewcode-back" href="../../../../stdlib/masks.html#arlunio.lib.mask.Circle">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
+<div class="viewcode-block" id="Circle"><a class="viewcode-back" href="../../../../stdlib/mask.html#arlunio.lib.mask.Circle">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
 <span class="k">def</span> <span class="nf">Circle</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Y</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">xc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">yc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">pt</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mask</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    .. arlunio-image::</span>
 
-<span class="sd">        import arlunio as ar</span>
 <span class="sd">        from arlunio.lib.mask import Circle</span>
+<span class="sd">        from arlunio.lib.image import fill</span>
 
 <span class="sd">        circle = Circle()</span>
-<span class="sd">        image = ar.fill(circle(width=1920, height=1080))</span>
+<span class="sd">        image = fill(circle(width=1920, height=1080))</span>
 
 <span class="sd">    We define a circle using the following equality.</span>
 
@@ -207,7 +207,9 @@
 <span class="sd">       :include-code: before</span>
 
 <span class="sd">       import arlunio as ar</span>
+
 <span class="sd">       from arlunio.lib.mask import Circle</span>
+<span class="sd">       from arlunio.lib.image import fill</span>
 
 <span class="sd">       @ar.definition</span>
 <span class="sd">       def Target(width: int, height: int):</span>
@@ -220,7 +222,7 @@
 <span class="sd">           ]</span>
 
 <span class="sd">           for part, color in parts:</span>
-<span class="sd">               image = ar.fill(</span>
+<span class="sd">               image = fill(</span>
 <span class="sd">                   part(width=width, height=height), color=color, image=image</span>
 <span class="sd">               )</span>
 
@@ -236,7 +238,9 @@
 <span class="sd">       :include-code: before</span>
 
 <span class="sd">       import arlunio as ar</span>
+
 <span class="sd">       from arlunio.lib.mask import Circle</span>
+<span class="sd">       from arlunio.lib.image import fill</span>
 
 <span class="sd">       @ar.definition</span>
 <span class="sd">       def OlympicRings(width: int, height: int, *, spacing=0.5, pt=0.025):</span>
@@ -255,7 +259,7 @@
 <span class="sd">           ]</span>
 
 <span class="sd">           for ring, color in rings:</span>
-<span class="sd">               image = ar.fill(</span>
+<span class="sd">               image = fill(</span>
 <span class="sd">                   ring(width=width, height=height), color=color, image=image</span>
 <span class="sd">               )</span>
 
@@ -274,19 +278,19 @@
     <span class="n">inner</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">pt</span><span class="p">)</span> <span class="o">*</span> <span class="n">r</span> <span class="o">**</span> <span class="mi">2</span>
     <span class="n">outer</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">pt</span><span class="p">)</span> <span class="o">*</span> <span class="n">r</span> <span class="o">**</span> <span class="mi">2</span>
 
-    <span class="k">return</span> <span class="n">ar</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">inner</span> <span class="o">&lt;</span> <span class="n">circle</span><span class="p">,</span> <span class="n">circle</span> <span class="o">&lt;</span> <span class="n">outer</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">all_</span><span class="p">(</span><span class="n">inner</span> <span class="o">&lt;</span> <span class="n">circle</span><span class="p">,</span> <span class="n">circle</span> <span class="o">&lt;</span> <span class="n">outer</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Ellipse"><a class="viewcode-back" href="../../../../stdlib/masks.html#arlunio.lib.mask.Ellipse">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
+<div class="viewcode-block" id="Ellipse"><a class="viewcode-back" href="../../../../stdlib/mask.html#arlunio.lib.mask.Ellipse">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
 <span class="k">def</span> <span class="nf">Ellipse</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Y</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">xc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">yc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">pt</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mask</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    .. arlunio-image::</span>
 
-<span class="sd">       import arlunio as ar</span>
 <span class="sd">       from arlunio.lib.mask import Ellipse</span>
+<span class="sd">       from arlunio.lib.image import fill</span>
 
 <span class="sd">       ellipse = Ellipse()</span>
-<span class="sd">       image = ar.fill(ellipse(width=1920, height=1080))</span>
+<span class="sd">       image = fill(ellipse(width=1920, height=1080))</span>
 
 <span class="sd">    An ellipse can be defined using the following equality.</span>
 
@@ -332,7 +336,9 @@
 <span class="sd">       :include-code: before</span>
 
 <span class="sd">       import arlunio as ar</span>
+
 <span class="sd">       from arlunio.lib.mask import Ellipse</span>
+<span class="sd">       from arlunio.lib.image import fill</span>
 
 <span class="sd">       @ar.definition</span>
 <span class="sd">       def EllipseDemo(width: int, height: int):</span>
@@ -348,7 +354,7 @@
 <span class="sd">           ]</span>
 
 <span class="sd">           for ellipse in ellipses:</span>
-<span class="sd">               image = ar.fill(ellipse(width=1920, height=1080), image=image)</span>
+<span class="sd">               image = fill(ellipse(width=1920, height=1080), image=image)</span>
 <span class="sd">           return image</span>
 
 <span class="sd">       demo = EllipseDemo()</span>
@@ -361,8 +367,10 @@
 <span class="sd">       :include-code: before</span>
 
 <span class="sd">       import arlunio as ar</span>
+
 <span class="sd">       from arlunio.lib.mask import Ellipse</span>
 <span class="sd">       from arlunio.lib.math import X, Y</span>
+<span class="sd">       from arlunio.lib.image import fill</span>
 
 <span class="sd">       @ar.definition</span>
 <span class="sd">       def Atom(x: X, y: Y):</span>
@@ -377,7 +385,7 @@
 <span class="sd">           ]</span>
 
 <span class="sd">           for ellipse, ex, ey in ellipses:</span>
-<span class="sd">               image = ar.fill(ellipse(x=ex, y=ey), image=image)</span>
+<span class="sd">               image = fill(ellipse(x=ex, y=ey), image=image)</span>
 
 <span class="sd">           return image</span>
 
@@ -399,21 +407,21 @@
     <span class="n">inner</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">pt</span><span class="p">)</span> <span class="o">*</span> <span class="n">r</span> <span class="o">**</span> <span class="mi">2</span>
     <span class="n">outer</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">pt</span><span class="p">)</span> <span class="o">*</span> <span class="n">r</span> <span class="o">**</span> <span class="mi">2</span>
 
-    <span class="k">return</span> <span class="n">ar</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">inner</span> <span class="o">&lt;</span> <span class="n">ellipse</span><span class="p">,</span> <span class="n">ellipse</span> <span class="o">&lt;</span> <span class="n">outer</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">all_</span><span class="p">(</span><span class="n">inner</span> <span class="o">&lt;</span> <span class="n">ellipse</span><span class="p">,</span> <span class="n">ellipse</span> <span class="o">&lt;</span> <span class="n">outer</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="SuperEllipse"><a class="viewcode-back" href="../../../../stdlib/masks.html#arlunio.lib.mask.SuperEllipse">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
+<div class="viewcode-block" id="SuperEllipse"><a class="viewcode-back" href="../../../../stdlib/mask.html#arlunio.lib.mask.SuperEllipse">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
 <span class="k">def</span> <span class="nf">SuperEllipse</span><span class="p">(</span>
     <span class="n">x</span><span class="p">:</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Y</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">xc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">yc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pt</span><span class="o">=</span><span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mask</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    .. arlunio-image::</span>
 
-<span class="sd">       import arlunio as ar</span>
 <span class="sd">       from arlunio.lib.mask import SuperEllipse</span>
+<span class="sd">       from arlunio.lib.image import fill</span>
 
 <span class="sd">       ellipse = SuperEllipse()</span>
-<span class="sd">       image = ar.fill(ellipse(width=1920, height=1080))</span>
+<span class="sd">       image = fill(ellipse(width=1920, height=1080))</span>
 
 <span class="sd">    We define a `SuperEllipse`_ by the following equality.</span>
 
@@ -463,7 +471,9 @@
 <span class="sd">       :include-code: before</span>
 
 <span class="sd">       import arlunio as ar</span>
+
 <span class="sd">       from arlunio.lib.mask import SuperEllipse</span>
+<span class="sd">       from arlunio.lib.image import fill</span>
 
 <span class="sd">       @ar.definition</span>
 <span class="sd">       def SuperEllipseDemo(width: int, height: int):</span>
@@ -477,7 +487,7 @@
 <span class="sd">           ]</span>
 
 <span class="sd">           for ellipse, color in ellipses:</span>
-<span class="sd">               image = ar.fill(</span>
+<span class="sd">               image = fill(</span>
 <span class="sd">                   ellipse(width=1920, height=1080), color=color, image=image</span>
 <span class="sd">               )</span>
 
@@ -494,7 +504,9 @@
 <span class="sd">       :include-code: before</span>
 
 <span class="sd">       import arlunio as ar</span>
+
 <span class="sd">       from arlunio.lib.mask import SuperEllipse</span>
+<span class="sd">       from arlunio.lib.image import fill</span>
 
 <span class="sd">       @ar.definition</span>
 <span class="sd">       def Sauron(width: int, height: int):</span>
@@ -506,7 +518,7 @@
 <span class="sd">           ]</span>
 
 <span class="sd">           for ellipse, color in ellipses:</span>
-<span class="sd">               image = ar.fill(</span>
+<span class="sd">               image = fill(</span>
 <span class="sd">                   ellipse(width=1920, height=1080), color=color, image=image</span>
 <span class="sd">               )</span>
 
@@ -533,10 +545,10 @@
     <span class="n">inner</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">pt</span><span class="p">)</span> <span class="o">*</span> <span class="n">r</span>
     <span class="n">outer</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">pt</span><span class="p">)</span> <span class="o">*</span> <span class="n">r</span>
 
-    <span class="k">return</span> <span class="n">ar</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">inner</span> <span class="o">&lt;</span> <span class="n">ellipse</span><span class="p">,</span> <span class="n">ellipse</span> <span class="o">&lt;</span> <span class="n">outer</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">all_</span><span class="p">(</span><span class="n">inner</span> <span class="o">&lt;</span> <span class="n">ellipse</span><span class="p">,</span> <span class="n">ellipse</span> <span class="o">&lt;</span> <span class="n">outer</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Empty"><a class="viewcode-back" href="../../../../stdlib/masks.html#arlunio.lib.mask.Empty">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
+<div class="viewcode-block" id="Empty"><a class="viewcode-back" href="../../../../stdlib/mask.html#arlunio.lib.mask.Empty">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
 <span class="k">def</span> <span class="nf">Empty</span><span class="p">(</span><span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mask</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;An empty shape definition.</span>
 
@@ -546,16 +558,16 @@
 <span class="sd">    .. arlunio-image::</span>
 <span class="sd">       :include-code: before</span>
 
-<span class="sd">       import arlunio as ar</span>
 <span class="sd">       from arlunio.lib.mask import Empty</span>
+<span class="sd">       from arlunio.lib.image import fill</span>
 
 <span class="sd">       e = Empty()</span>
-<span class="sd">       image = ar.fill(e(width=1920, height=1080))</span>
+<span class="sd">       image = fill(e(width=1920, height=1080))</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">),</span> <span class="kc">False</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Full"><a class="viewcode-back" href="../../../../stdlib/masks.html#arlunio.lib.mask.Full">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
+<div class="viewcode-block" id="Full"><a class="viewcode-back" href="../../../../stdlib/mask.html#arlunio.lib.mask.Full">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
 <span class="k">def</span> <span class="nf">Full</span><span class="p">(</span><span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mask</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;An full shape definition.</span>
 
@@ -565,25 +577,25 @@
 <span class="sd">    .. arlunio-image::</span>
 <span class="sd">       :include-code: before</span>
 
-<span class="sd">       import arlunio as ar</span>
 <span class="sd">       from arlunio.lib.mask import Full</span>
+<span class="sd">       from arlunio.lib.image import fill</span>
 
 <span class="sd">       f = Full()</span>
-<span class="sd">       image = ar.fill(f(width=1920, height=1080))</span>
+<span class="sd">       image = fill(f(width=1920, height=1080))</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">),</span> <span class="kc">True</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Square"><a class="viewcode-back" href="../../../../stdlib/masks.html#arlunio.lib.mask.Square">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
+<div class="viewcode-block" id="Square"><a class="viewcode-back" href="../../../../stdlib/mask.html#arlunio.lib.mask.Square">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
 <span class="k">def</span> <span class="nf">Square</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Y</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">xc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">yc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">pt</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mask</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    .. arlunio-image::</span>
 
-<span class="sd">       import arlunio as ar</span>
 <span class="sd">       from arlunio.lib.mask import Square</span>
+<span class="sd">       from arlunio.lib.image import fill</span>
 
 <span class="sd">       square = Square()</span>
-<span class="sd">       image = ar.fill(square(width=1920, height=1080))</span>
+<span class="sd">       image = fill(square(width=1920, height=1080))</span>
 
 <span class="sd">    A square.</span>
 
@@ -608,8 +620,10 @@
 <span class="sd">       :include-code: before</span>
 
 <span class="sd">       import arlunio as ar</span>
+
 <span class="sd">       from arlunio.lib.mask import Square</span>
 <span class="sd">       from arlunio.lib.math import X, Y</span>
+<span class="sd">       from arlunio.lib.image import fill</span>
 
 <span class="sd">       @ar.definition</span>
 <span class="sd">       def SquareDemo(x: X, y: Y):</span>
@@ -623,7 +637,7 @@
 <span class="sd">           ]</span>
 
 <span class="sd">           for square, sx, sy in squares:</span>
-<span class="sd">               image = ar.fill(square(x=sx, y=sy), image=image)</span>
+<span class="sd">               image = fill(square(x=sx, y=sy), image=image)</span>
 
 <span class="sd">           return image</span>
 
@@ -635,27 +649,27 @@
     <span class="n">ys</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">yc</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">pt</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">ar</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">xs</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">,</span> <span class="n">ys</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">all_</span><span class="p">(</span><span class="n">xs</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">,</span> <span class="n">ys</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">)</span>
 
     <span class="n">s</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">pt</span><span class="p">)</span> <span class="o">*</span> <span class="n">size</span>
     <span class="n">S</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">pt</span><span class="p">)</span> <span class="o">*</span> <span class="n">size</span>
 
-    <span class="n">inner</span> <span class="o">=</span> <span class="n">ar</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">xs</span> <span class="o">&lt;</span> <span class="n">s</span><span class="p">,</span> <span class="n">ys</span> <span class="o">&lt;</span> <span class="n">s</span><span class="p">)</span>
-    <span class="n">outer</span> <span class="o">=</span> <span class="n">ar</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">xs</span> <span class="o">&lt;</span> <span class="n">S</span><span class="p">,</span> <span class="n">ys</span> <span class="o">&lt;</span> <span class="n">S</span><span class="p">)</span>
+    <span class="n">inner</span> <span class="o">=</span> <span class="n">all_</span><span class="p">(</span><span class="n">xs</span> <span class="o">&lt;</span> <span class="n">s</span><span class="p">,</span> <span class="n">ys</span> <span class="o">&lt;</span> <span class="n">s</span><span class="p">)</span>
+    <span class="n">outer</span> <span class="o">=</span> <span class="n">all_</span><span class="p">(</span><span class="n">xs</span> <span class="o">&lt;</span> <span class="n">S</span><span class="p">,</span> <span class="n">ys</span> <span class="o">&lt;</span> <span class="n">S</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">ar</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">outer</span><span class="p">,</span> <span class="n">ar</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">inner</span><span class="p">))</span></div>
+    <span class="k">return</span> <span class="n">all_</span><span class="p">(</span><span class="n">outer</span><span class="p">,</span> <span class="n">invert</span><span class="p">(</span><span class="n">inner</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="Rectangle"><a class="viewcode-back" href="../../../../stdlib/masks.html#arlunio.lib.mask.Rectangle">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
+<div class="viewcode-block" id="Rectangle"><a class="viewcode-back" href="../../../../stdlib/mask.html#arlunio.lib.mask.Rectangle">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
 <span class="k">def</span> <span class="nf">Rectangle</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Y</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">xc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">yc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">ratio</span><span class="o">=</span><span class="mf">1.618</span><span class="p">,</span> <span class="n">pt</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mask</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    .. arlunio-image::</span>
 
-<span class="sd">       import arlunio as ar</span>
 <span class="sd">       from arlunio.lib.mask import Rectangle</span>
+<span class="sd">       from arlunio.lib.image import fill</span>
 
 <span class="sd">       rectangle = Rectangle()</span>
-<span class="sd">       image = ar.fill(rectangle(width=1920, height=1080))</span>
+<span class="sd">       image = fill(rectangle(width=1920, height=1080))</span>
 
 <span class="sd">    A Rectangle.</span>
 
@@ -682,7 +696,9 @@
 <span class="sd">       :include-code: before</span>
 
 <span class="sd">       import arlunio as ar</span>
+
 <span class="sd">       from arlunio.lib.mask import Rectangle</span>
+<span class="sd">       from arlunio.lib.image import fill</span>
 
 <span class="sd">       @ar.definition</span>
 <span class="sd">       def RectangleDemo(width: int, height: int):</span>
@@ -694,7 +710,7 @@
 <span class="sd">           ]</span>
 
 <span class="sd">           for r in rects:</span>
-<span class="sd">               image = ar.fill(r(width=width, height=height), image=image)</span>
+<span class="sd">               image = fill(r(width=width, height=height), image=image)</span>
 
 <span class="sd">           return image</span>
 
@@ -709,15 +725,15 @@
     <span class="n">width</span> <span class="o">=</span> <span class="n">height</span> <span class="o">*</span> <span class="n">ratio</span>
 
     <span class="k">if</span> <span class="n">pt</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">ar</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">xs</span> <span class="o">&lt;</span> <span class="n">width</span><span class="p">,</span> <span class="n">ys</span> <span class="o">&lt;</span> <span class="n">height</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">all_</span><span class="p">(</span><span class="n">xs</span> <span class="o">&lt;</span> <span class="n">width</span><span class="p">,</span> <span class="n">ys</span> <span class="o">&lt;</span> <span class="n">height</span><span class="p">)</span>
 
     <span class="n">w</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">pt</span><span class="p">)</span> <span class="o">*</span> <span class="n">width</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">pt</span><span class="p">)</span> <span class="o">*</span> <span class="n">width</span>
     <span class="n">h</span><span class="p">,</span> <span class="n">H</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">pt</span><span class="p">)</span> <span class="o">*</span> <span class="n">height</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">pt</span><span class="p">)</span> <span class="o">*</span> <span class="n">height</span>
 
-    <span class="n">inner</span> <span class="o">=</span> <span class="n">ar</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">xs</span> <span class="o">&lt;</span> <span class="n">w</span><span class="p">,</span> <span class="n">ys</span> <span class="o">&lt;</span> <span class="n">h</span><span class="p">)</span>
-    <span class="n">outer</span> <span class="o">=</span> <span class="n">ar</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">xs</span> <span class="o">&lt;</span> <span class="n">W</span><span class="p">,</span> <span class="n">ys</span> <span class="o">&lt;</span> <span class="n">H</span><span class="p">)</span>
+    <span class="n">inner</span> <span class="o">=</span> <span class="n">all_</span><span class="p">(</span><span class="n">xs</span> <span class="o">&lt;</span> <span class="n">w</span><span class="p">,</span> <span class="n">ys</span> <span class="o">&lt;</span> <span class="n">h</span><span class="p">)</span>
+    <span class="n">outer</span> <span class="o">=</span> <span class="n">all_</span><span class="p">(</span><span class="n">xs</span> <span class="o">&lt;</span> <span class="n">W</span><span class="p">,</span> <span class="n">ys</span> <span class="o">&lt;</span> <span class="n">H</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">ar</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">outer</span><span class="p">,</span> <span class="n">ar</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">inner</span><span class="p">))</span></div>
+    <span class="k">return</span> <span class="n">all_</span><span class="p">(</span><span class="n">outer</span><span class="p">,</span> <span class="n">invert</span><span class="p">(</span><span class="n">inner</span><span class="p">))</span></div>
 </pre></div>
 
            </div>

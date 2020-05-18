@@ -37,7 +37,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Background" href="../background/index.html" />
-    <link rel="prev" title="Masks" href="masks.html" /> 
+    <link rel="prev" title="Mask" href="mask.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -89,7 +89,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../users/index.html">User Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Standard Library</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="masks.html">Masks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="image.html">Image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mask.html">Mask</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Math</a></li>
 </ul>
 </li>
@@ -448,6 +449,185 @@ the values by a given amount:</p>
 </div>
 </dd></dl>
 
+<dl class="py function">
+<dt id="arlunio.lib.math.all_">
+<code class="sig-prename descclassname">arlunio.lib.math.</code><code class="sig-name descname">all_</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Union<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a><span class="p">, </span><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.17)">numpy.ndarray</a><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a><span class="p">, </span><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.17)">numpy.ndarray</a><span class="p">]</span><a class="reference internal" href="../_modules/arlunio/lib/math.html#all_"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.lib.math.all_" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a number of conditions, return <code class="code docutils literal notranslate"><span class="pre">True</span></code> only if <strong>all</strong>
+of the given conditions are true.</p>
+<p>This function is implemented as a thin wrapper around numpy’s
+<code class="code docutils literal notranslate"><span class="pre">np.logical_and</span></code> function so that it can take an arbitrary number of inputs.
+This also means that this function will accept arrays of differing sizes - assuming
+that they can be broadcasted to a common shape.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>args</strong> – A number of boolean conditions, a conditon can either be a single boolean value,
+or a numpy array of boolean values.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">arlunio.lib.math</span> <span class="kn">import</span> <span class="n">all_</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">all_</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">all_</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+<p>If the arguments are boolean numpy arrays, then the any condition is applied
+element-wise</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">all_</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">x3</span><span class="p">)</span>
+<span class="go">array([False, False,  True])</span>
+</pre></div>
+</div>
+<p>This function can even handle a mixture of arrays and single values - assuming
+their shapes can be broadcasted to a common shape.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">all_</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">],</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]]))</span>
+<span class="go">array([[False, False],</span>
+<span class="go">       [ True, False]])</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference external" href="https://docs.scipy.org/doc/numpy/user/basics.broadcasting.html" title="(in NumPy v1.17)"><span class="xref std std-doc">Broadcasting</span></a></dt><dd><p>Numpy documentation on broadcasting.</p>
+</dd>
+<dt><a class="reference external" href="https://docs.scipy.org/doc/numpy/user/theory.broadcasting.html" title="(in NumPy v1.17)"><span class="xref std std-doc">Array Broadcasting</span></a></dt><dd><p>Further background on broadcasting.</p>
+</dd>
+<dt><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.logical_and.html#numpy.logical_and" title="(in NumPy v1.17)"><code class="xref py py-data docutils literal notranslate"><span class="pre">np.logical_and</span></code></a></dt><dd><p>Reference documentation on the <code class="code docutils literal notranslate"><span class="pre">logical_and</span></code> function.</p>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="arlunio.lib.math.any_">
+<code class="sig-prename descclassname">arlunio.lib.math.</code><code class="sig-name descname">any_</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Union<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a><span class="p">, </span><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.17)">numpy.ndarray</a><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a><span class="p">, </span><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.17)">numpy.ndarray</a><span class="p">]</span><a class="reference internal" href="../_modules/arlunio/lib/math.html#any_"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.lib.math.any_" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a number of conditions, return <code class="code docutils literal notranslate"><span class="pre">True</span></code> if any of the conditions
+are true.</p>
+<p>This function is implemented as a thin wrapper around numpy’s
+<code class="code docutils literal notranslate"><span class="pre">np.logical_or</span></code> function so that it can take an arbitrary number of inputs.
+This also means that this function will accept arrays of differing sizes - assuming
+that they can be broadcasted to a common shape.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>args</strong> – A number of boolean conditions, a condition can either be a single boolean value
+or a numpy array of boolean values.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">arlunio.lib.math</span> <span class="kn">import</span> <span class="n">any_</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">any_</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">any_</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+<p>If the arguments are boolean numpy arrays, then the any condition is applied
+element-wise</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">any_</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">x3</span><span class="p">)</span>
+<span class="go">array([ True,  True,  True])</span>
+</pre></div>
+</div>
+<p>This function can even handle a mixture of arrays and single values - assuming
+their shapes can be broadcasted to a common shape.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">any_</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">],</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]]))</span>
+<span class="go">array([[ True,  True],</span>
+<span class="go">       [ True, False]])</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference external" href="https://docs.scipy.org/doc/numpy/user/basics.broadcasting.html" title="(in NumPy v1.17)"><span class="xref std std-doc">Broadcasting</span></a></dt><dd><p>Numpy documentation on broadcasting.</p>
+</dd>
+<dt><a class="reference external" href="https://docs.scipy.org/doc/numpy/user/theory.broadcasting.html" title="(in NumPy v1.17)"><span class="xref std std-doc">Array Broadcasting</span></a></dt><dd><p>Further background on broadcasting.</p>
+</dd>
+<dt><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.logical_or.html#numpy.logical_or" title="(in NumPy v1.17)"><code class="xref py py-data docutils literal notranslate"><span class="pre">np.logical_or</span></code></a></dt><dd><p>Reference documentation on the <code class="code docutils literal notranslate"><span class="pre">np.logical_or</span></code> function</p>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="arlunio.lib.math.clamp">
+<code class="sig-prename descclassname">arlunio.lib.math.</code><code class="sig-name descname">clamp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">values</span></em>, <em class="sig-param"><span class="n">min_value</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">max_value</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/lib/math.html#clamp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.lib.math.clamp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Force an array of values to stay within a range of values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>values</strong> – The array of values to clamp</p></li>
+<li><p><strong>min_value</strong> – The minimum value the result should contain</p></li>
+<li><p><strong>max_value</strong> – The maximum value the resul should contain</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>By default values will be limited to between <code class="code docutils literal notranslate"><span class="pre">0</span></code> and <code class="code docutils literal notranslate"><span class="pre">1</span></code></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">arlunio.lib.math</span> <span class="kn">import</span> <span class="n">clamp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">clamp</span><span class="p">(</span><span class="n">vs</span><span class="p">)</span>
+<span class="go">array([0. , 0. , 0.2, 0.8, 1. , 1. ])</span>
+</pre></div>
+</div>
+<p>But this can be changed with extra arguments to the <code class="code docutils literal notranslate"><span class="pre">clamp</span></code> function</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">clamp</span><span class="p">(</span><span class="n">vs</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="go">array([-1. , -0.4,  0.2,  0.5,  0.5,  0.5])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="arlunio.lib.math.lerp">
+<code class="sig-prename descclassname">arlunio.lib.math.</code><code class="sig-name descname">lerp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">start</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a></span> <span class="o">=</span> <span class="default_value">0</span></em>, <em class="sig-param"><span class="n">stop</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a></span> <span class="o">=</span> <span class="default_value">1</span></em><span class="sig-paren">)</span> &#x2192; Callable<span class="p">[</span><span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a><span class="p">]</span><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a><span class="p">]</span><a class="reference internal" href="../_modules/arlunio/lib/math.html#lerp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.lib.math.lerp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a function that will linerarly interpolate between a and b.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start</strong> – The value the interpolation should start from.</p></li>
+<li><p><strong>stop</strong> – The value the interpolation should stop at.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>By default this function will interpolate between <code class="code docutils literal notranslate"><span class="pre">0</span></code> and <code class="code docutils literal notranslate"><span class="pre">1</span></code></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">arlunio.lib.math</span> <span class="kn">import</span> <span class="n">lerp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">lerp</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+<p>However by passing arguments to the <code class="code docutils literal notranslate"><span class="pre">lerp</span></code> function we can change the bounds
+of the interpolation.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">lerp</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stop</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="n">ts</span><span class="p">)</span>
+<span class="go">array([ 3.        ,  1.66666667,  0.33333333, -1.        ])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="arlunio.lib.math.normalise">
+<code class="sig-prename descclassname">arlunio.lib.math.</code><code class="sig-name descname">normalise</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/lib/math.html#normalise"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.lib.math.normalise" title="Permalink to this definition">¶</a></dt>
+<dd><p>Normalise an array into the range <span class="math notranslate nohighlight">\([0, 1]\)</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>vs</strong> – The array to normalise.</p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 
 
@@ -461,7 +641,7 @@ the values by a given amount:</p>
         <a href="../background/index.html" class="btn btn-neutral float-right" title="Background" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="masks.html" class="btn btn-neutral float-left" title="Masks" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="mask.html" class="btn btn-neutral float-left" title="Mask" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

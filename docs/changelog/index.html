@@ -102,8 +102,8 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v0-0-6-2020-04-18">v0.0.6 - 2020-04-18</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#features">Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id8">Docs</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id12">Misc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">Docs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id13">Misc</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v0-0-5-2020-03-18">v0.0.5 - 2020-03-18</a><ul>
@@ -112,13 +112,13 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v0-0-4-2020-02-15">v0.0.4 - 2020-02-15</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id16">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id17">Added</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#removed">Removed</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v0-0-3-2019-12-30">v0.0.3 - 2019-12-30</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id17">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id18">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id18">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id19">Changed</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v0-0-2-2019-09-04">v0.0.2 - 2019-09-04</a></li>
@@ -212,10 +212,14 @@ if a given image fails to render. (<a class="reference external" href="https://g
 </div>
 <div class="section" id="standard-library">
 <h3>Standard Library<a class="headerlink" href="#standard-library" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
+<ul>
 <li><p>Reorganised the standard library the <cite>shapes</cite>, <cite>patterns</cite> and <cite>operators</cite> modules have
 been merged into a single <cite>arlunio.lib.mask</cite> module. The <cite>parameters</cite> module has
 also been renamed to <cite>math</cite>. (<a class="reference external" href="https://github.com/swyddfa/arlunio/issues/227">#227</a>)</p></li>
+<li><p>Moved the “expression” based code out of core into the <code class="code docutils literal notranslate"><span class="pre">arlunio.lib.math</span></code> module.</p>
+<p>New <code class="code docutils literal notranslate"><span class="pre">arlunio.lib.image</span></code> module. This contains the image code that was originally
+part of “core” arlunio. (<a class="reference external" href="https://github.com/swyddfa/arlunio/issues/228">#228</a>)</p>
+</li>
 </ul>
 </div>
 <div class="section" id="misc">
@@ -241,8 +245,8 @@ been updated to incorporate a few operators for working with masks. (<a class="r
 from other definitions any inputs will be automatically inherited. (<a class="reference external" href="https://github.com/swyddfa/arlunio/issues/216">#216</a>)</p></li>
 </ul>
 </div>
-<div class="section" id="id8">
-<h3>Docs<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id9">
+<h3>Docs<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Added some documentation around the CI build for the blog. Also updated the blog
 build to run every day. (<a class="reference external" href="https://github.com/swyddfa/arlunio/issues/177">#177</a>)</p></li>
@@ -251,8 +255,8 @@ entries going forward. (<a class="reference external" href="https://github.com/s
 <li><p>Flatten structure of the User Guide section and add placeholder first tutorial (<a class="reference external" href="https://github.com/swyddfa/arlunio/issues/205">#205</a>)</p></li>
 </ul>
 </div>
-<div class="section" id="id12">
-<h3>Misc<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id13">
+<h3>Misc<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Fix handling of multiple notebooks in  <code class="code docutils literal notranslate"><span class="pre">clean-notebook.sh</span></code> and add VSCode
 tasks to aid with tutorial development (<a class="reference external" href="https://github.com/swyddfa/arlunio/issues/205">#205</a>)</p></li>
@@ -284,8 +288,8 @@ definition was defined in.</p></li>
 </div>
 <div class="section" id="v0-0-4-2020-02-15">
 <h2>v0.0.4 - 2020-02-15<a class="headerlink" href="#v0-0-4-2020-02-15" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id16">
-<h3>Added<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id17">
+<h3>Added<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>The concept of a <code class="code docutils literal notranslate"><span class="pre">Definition</span></code>.</p>
 <ul>
@@ -308,8 +312,8 @@ Python classes.</p></li>
 </div>
 <div class="section" id="v0-0-3-2019-12-30">
 <h2>v0.0.3 - 2019-12-30<a class="headerlink" href="#v0-0-3-2019-12-30" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id17">
-<h3>Added<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id18">
+<h3>Added<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p><code class="code docutils literal notranslate"><span class="pre">Pixelize</span></code> shape that can take another shape and and render a lower res
 version of that shape giving it a pixel art vibe</p></li>
@@ -318,8 +322,8 @@ a dictionary that maps those values to shapes that should be drawn there.</p></l
 <li><p>Proof of concept notebook importer</p></li>
 </ul>
 </div>
-<div class="section" id="id18">
-<h3>Changed<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id19">
+<h3>Changed<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Add <code class="code docutils literal notranslate"><span class="pre">mkdirs</span></code> flag to the :code`Image.save` function to have the option
 of automatically creating any required parent directories</p></li>
