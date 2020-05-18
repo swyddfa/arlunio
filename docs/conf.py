@@ -87,7 +87,6 @@ html_theme = "sphinx_rtd_theme"
 # -- Extension Configuration -------------------------------------------------
 autodoc_member_order = "groupwise"
 autodoc_default_options = {"members": True}
-# autodoc_typehints = "description" TODO: Try this when Sphinx 3.0 ships...
 
 linkcheck_ignore = ["https://crontab.guru/#"]
 
