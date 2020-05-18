@@ -1,0 +1,4 @@
+Moved the "expression" based code out of core into the :code:`arlunio.lib.math` module.
+
+New :code:`arlunio.lib.image` module. This contains the image code that was originally
+part of "core" arlunio.
