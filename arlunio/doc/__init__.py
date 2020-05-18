@@ -71,8 +71,8 @@ def _process_docstring(
 
         if inherits is not None:
 
-            for l in reversed(inherits):
-                lines.insert(0, l)
+            for line in reversed(inherits):
+                lines.insert(0, line)
 
 
 def setup(app: Sphinx) -> Dict[str, Any]:
