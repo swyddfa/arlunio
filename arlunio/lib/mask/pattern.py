@@ -3,16 +3,18 @@ import logging
 import arlunio as ar
 import numpy as np
 
+from .shape import Mask
+
 logger = logging.getLogger(__name__)
 
 
 @ar.definition
-def Grid(width: int, height: int, *, n=4, m=None, defn=None) -> ar.Mask:
+def Grid(width: int, height: int, *, n=4, m=None, defn=None) -> Mask:
     """
     .. arlunio-image::
 
        import arlunio as ar
-       from arlunio.lib import Circle, Grid
+       from arlunio.lib.mask import Circle, Grid
 
        pattern = Grid(defn=Circle())
        image = ar.fill(pattern(width=1920, height=1080))
@@ -49,7 +51,8 @@ def Grid(width: int, height: int, *, n=4, m=None, defn=None) -> ar.Mask:
        import arlunio as ar
        import numpy as np
 
-       from arlunio.lib import Circle, Grid, X, Y
+       from arlunio.lib.mask import Circle, Grid
+       from arlunio.lib.math import X, Y
 
        @ar.definition
        def Template(x:X, y: Y):
@@ -69,7 +72,8 @@ def Grid(width: int, height: int, *, n=4, m=None, defn=None) -> ar.Mask:
        import arlunio as ar
        import numpy as np
 
-       from arlunio.lib import Grid, X, Y
+       from arlunio.lib.mask import Grid
+       from arlunio.lib.math import X, Y
 
        @ar.definition
        def Template(x: X, y: Y):
@@ -101,7 +105,7 @@ def Grid(width: int, height: int, *, n=4, m=None, defn=None) -> ar.Mask:
 
 
 @ar.definition
-def Map(width: int, height: int, *, layout=None, legend=None) -> ar.Mask:
+def Map(width: int, height: int, *, layout=None, legend=None) -> Mask:
     """For more complex layouts.
 
     .. note::
@@ -125,7 +129,7 @@ def Map(width: int, height: int, *, layout=None, legend=None) -> ar.Mask:
        import arlunio as ar
        import numpy as np
 
-       from arlunio.lib import Empty, Map, Rectangle
+       from arlunio.lib.mask import Empty, Map, Rectangle
 
        @ar.definition
        def Wall(width: int, height: int, *, sides=None):
@@ -182,12 +186,12 @@ def Map(width: int, height: int, *, layout=None, legend=None) -> ar.Mask:
 @ar.definition
 def Pixelize(
     width: int, height: int, *, pixels=None, defn=None, n=None, m=None
-) -> ar.Mask:
+) -> Mask:
     """
     .. arlunio-image::
 
        import arlunio as ar
-       from arlunio.lib import Circle, Pixelize
+       from arlunio.lib.mask import Circle, Pixelize
 
        pix = Pixelize(defn=Circle(), n=32, m=32)
        image = ar.fill(pix(width=1920, height=1080))
@@ -231,7 +235,7 @@ def Pixelize(
        import arlunio as ar
        import numpy as np
 
-       from arlunio.lib import Pixelize
+       from arlunio.lib.mask import Pixelize
 
        pixels = np.array([
            [False,  True,  True, False],
@@ -250,7 +254,8 @@ def Pixelize(
        import arlunio as ar
        import numpy as np
 
-       from arlunio.lib import Circle, X, Y, Pixelize
+       from arlunio.lib.mask import Circle, Pixelize
+       from arlunio.lib.math import X, Y
 
        @ar.definition
        def Ghost(x: X, y: Y):

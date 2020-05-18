@@ -1,11 +1,14 @@
 import arlunio as ar
 
-from arlunio import Defn, Mask
+
+class Mask:
+    """Currently just a type alias for boolean numpy arrays but gives us the flexibility
+    to add smarts later."""
 
 
-@ar.definition(operation=Defn.OP_ADD)
+@ar.definition(operation=ar.Defn.OP_ADD)
 def MaskAdd(
-    width: int, height: int, *, a: Defn[Mask] = None, b: Defn[Mask] = None
+    width: int, height: int, *, a: ar.Defn[Mask] = None, b: ar.Defn[Mask] = None
 ) -> Mask:
     """Add any two mask producing definitions together.
 
@@ -53,9 +56,9 @@ def MaskAdd(
     return ar.any(a(width=width, height=height), b(width=width, height=height))
 
 
-@ar.definition(operation=Defn.OP_SUB)
+@ar.definition(operation=ar.Defn.OP_SUB)
 def MaskSub(
-    width: int, height: int, *, a: Defn[Mask] = None, b: Defn[Mask] = None
+    width: int, height: int, *, a: ar.Defn[Mask] = None, b: ar.Defn[Mask] = None
 ) -> Mask:
     """Subtract one mask away from another mask.
 
@@ -109,9 +112,9 @@ def MaskSub(
     )
 
 
-@ar.definition(operation=Defn.OP_MUL)
+@ar.definition(operation=ar.Defn.OP_MUL)
 def MaskMul(
-    width: int, height: int, *, a: Defn[Mask] = None, b: Defn[Mask] = None
+    width: int, height: int, *, a: ar.Defn[Mask] = None, b: ar.Defn[Mask] = None
 ) -> Mask:
     """Muliply any two mask producing definitions together.
 
