@@ -54,11 +54,11 @@ def test_render_image_image_provided():
     """Ensure that if the code provides an image we use that."""
 
     src = """\
-    import arlunio as ar
     from arlunio.lib.mask import Circle
+    from arlunio.lib.image import fill
 
     circle = Circle()
-    disk = ar.fill(circle(width=4, height=4))
+    disk = fill(circle(width=4, height=4))
     """
     doctree = render_image(textwrap.dedent(src))
 

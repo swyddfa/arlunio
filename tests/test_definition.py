@@ -24,7 +24,7 @@ def test_definition_module():
     def Circle():
         pass
 
-    assert Circle.__module__ == "tests.test_core"
+    assert Circle.__module__ == "tests.test_definition"
 
 
 def test_definition_constant():
