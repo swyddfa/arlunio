@@ -47,6 +47,11 @@ underlines = ["-", "^", "\""]
      showcontent = true
 
 [[tool.towncrier.type]]
+     directory = "stdlib"
+     name = "Standard Library"
+     showcontent = true
+
+[[tool.towncrier.type]]
      directory = "removal"
      name = "Removed"
      showcontent = true

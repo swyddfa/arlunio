@@ -1,0 +1,2 @@
+Updated the :code:`arlunio-image` directive to output a warning during a Sphinx build
+if a given image fails to render.
