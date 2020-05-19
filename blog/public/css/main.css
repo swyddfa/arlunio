@@ -34,11 +34,6 @@ h3 {font-size: 26pt}
 h4 {font-size: 20pt}
 h5 {font-size: 16pt}
 
-i.far,
-i.fas {
-  font-size: 20pt;
-}
-
 header {
   position: sticky;
   top: 0;
@@ -53,6 +48,7 @@ header {
   border-bottom: solid 1px var(--foreground);
 
   padding: 0 1em ;
+  z-index: 1;
 }
 
 header a,
@@ -103,7 +99,7 @@ footer {
 }
 
 .footer-content {
-  margin: 2rem;
+  margin: 1rem;
   display: grid;
   grid-template-columns: auto auto auto;
 }
@@ -111,6 +107,10 @@ footer {
 footer h4 {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 12pt
+}
+
+footer a {
+  text-decoration: none;;
 }
 
 footer p {
