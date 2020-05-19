@@ -34,12 +34,10 @@ h3 {font-size: 26pt}
 h4 {font-size: 20pt}
 h5 {font-size: 16pt}
 
-i.far,
-i.fas {
-  font-size: 20pt;
-}
-
 header {
+  position: sticky;
+  top: 0;
+
   display: flex;
   justify-content: flex-start;
   align-items: baseline;
@@ -50,6 +48,7 @@ header {
   border-bottom: solid 1px var(--foreground);
 
   padding: 0 1em ;
+  z-index: 1;
 }
 
 header a,
@@ -94,10 +93,24 @@ nav a:hover::after {
 }
 
 footer {
-  padding-left: 1rem;
-  color: var(--foreground-faint);
+  color: var(--foreground);
   background: var(--background);
   border-top: solid 1px var(--foreground);
+}
+
+.footer-content {
+  margin: 1rem;
+  display: grid;
+  grid-template-columns: auto auto auto;
+}
+
+footer h4 {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12pt
+}
+
+footer a {
+  text-decoration: none;;
 }
 
 footer p {

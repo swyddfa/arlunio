@@ -21,7 +21,7 @@
     <input type="checkbox" id="img-fullscreen" />
     <div class="image-display">
         <label for="img-fullscreen">
-            <img src="{{ url }}" alt="{{ title }}"/>
+            <img src="{{ url }}" alt="{{ title }}" />
         </label>
     </div>
 
@@ -35,10 +35,10 @@
                     <h3>{{ author.name }}</h3>
                 </div>
             </div>
-            <i class="far fa-calendar-alt"></i><span>{{ created }}</span>
-            <i class="fas fa-history"></i><span>{{ revision }} revisions</span>
-            <i class="far fa-file-code"></i><span>{{ sloc }} sloc</span>
-            <i class="fas fa-terminal"></i><span>v{{ version }}</span>
+            {{ icon('calendar') }}<span>{{ created }}</span>
+            {{ icon('git-merge') }}<span>{{ revision }} revisions</span>
+            {{ icon('file-text') }}<span>{{ sloc }} sloc</span>
+            {{ icon('terminal') }}<span>v{{ version }}</span>
         </div>
         <div class="image-meta">
             <label for="hide-notes">Notes</label>

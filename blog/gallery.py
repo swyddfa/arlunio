@@ -18,6 +18,7 @@ from datetime import datetime
 from typing import Any, Dict, List
 
 import arlunio
+import arlunio.lib.image as img
 import attr
 import jinja2 as j2
 import PIL
@@ -164,7 +165,7 @@ class NbCell:
         return cls(type=type, contents=contents, raw=cell.source)
 
 
-def find_image(candidates: Dict[str, arlunio.Image]) -> arlunio.Image:
+def find_image(candidates: Dict[str, img.Image]) -> img.Image:
     """Try and find the image we should be pushing into the gallery.
 
     The process for discovering images is as follows:
@@ -198,6 +199,9 @@ class ImageContext:
     author: Any
     """Information about the image's author"""
 
+    arlunio_version: str
+    """The version of arlunio used to build the site"""
+
     baseurl: str
     """The base url the site is being hosted on"""
 
@@ -220,7 +224,7 @@ class ImageContext:
     """The human friendly name of the image."""
 
     version: str
-    """The version of arlunio used to make the image."""
+    """The version of arlunio used to originally make the image."""
 
     cells: List[NbCell] = attr.Factory(list)
     """The list of cells representing the notebook that defines the image."""
@@ -245,26 +249,25 @@ class ImageContext:
         code = "\n".join([cell.raw for cell in cells if cell.type == "code"])
         sloc = code.count("\n")
 
-        candidates = {
-            k: v for k, v in nb.__dict__.items() if isinstance(v, arlunio.Image)
-        }
+        candidates = {k: v for k, v in nb.__dict__.items() if isinstance(v, img.Image)}
 
         image = find_image(candidates)
 
         # Render the fullsize image
         fullfile = pathlib.Path(config.output, "gallery", "image", slug + ".png")
-        arlunio.save(image, fullfile, mkdirs=True)
+        img.save(image, fullfile, mkdirs=True)
         url = "image/{}.png".format(slug)
 
         # Create a scaled down version to use as a thumbnail on the main page
         thumb = image.copy()
         thumb.thumbnail((250, 250), PIL.Image.BICUBIC)
         thumbfile = pathlib.Path(config.output, "gallery", "thumb", slug + ".png")
-        arlunio.save(thumb, thumbfile, mkdirs=True)
+        img.save(thumb, thumbfile, mkdirs=True)
         thumburl = "thumb/{}.png".format(slug)
 
         return cls(
             author=meta.author,
+            arlunio_version=gallery.arlunio_version,
             baseurl=gallery.baseurl,
             cells=cells,
             created=created.strftime("%d %b %Y"),
@@ -286,6 +289,9 @@ class ImageContext:
 class GalleryContext:
     """Represents the values needed to render the main gallery template."""
 
+    arlunio_version: str
+    """The version of arlunio used to build the site"""
+
     baseurl: str
     """The base url the site is being hosted on"""
 
@@ -303,7 +309,7 @@ class GalleryContext:
             baseurl = "http://localhost:8001/"
 
         date = datetime.now().strftime("%d/%m/%y %H:%M:%S")
-        return cls(baseurl=baseurl, date=date)
+        return cls(arlunio_version=arlunio.__version__, baseurl=baseurl, date=date)
 
     def prepare_notebooks(self, notebooks, config, skip_failures=False):
         """Given the notebooks that represent an image, prepare them."""
