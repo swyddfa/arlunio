@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,7 +14,6 @@
 
     <link rel="stylesheet" href="/css/main.css" />
     <link href="https://fonts.googleapis.com/css?family=Caveat|Open+Sans:300&display=swap" rel="stylesheet" />
-    <script src="https://kit.fontawesome.com/f1d1c3586c.js" crossorigin="anonymous"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML'
         async></script>
 
@@ -47,7 +48,7 @@
     <input type="checkbox" id="img-fullscreen" />
     <div class="image-display">
         <label for="img-fullscreen">
-            <img src="image/rolling-hills.png" alt="Rolling Hills"/>
+            <img src="image/rolling-hills.png" alt="Rolling Hills" />
         </label>
     </div>
 
@@ -61,10 +62,22 @@
                     <h3>Alex Carney</h3>
                 </div>
             </div>
-            <i class="far fa-calendar-alt"></i><span>27 Dec 2019</span>
-            <i class="fas fa-history"></i><span>6 revisions</span>
-            <i class="far fa-file-code"></i><span>44 sloc</span>
-            <i class="fas fa-terminal"></i><span>v0.0.6</span>
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+    stroke-linejoin="round">
+    <use xlink:href="/svg/feather-sprite.svg#calendar" />
+</svg><span>27 Dec 2019</span>
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+    stroke-linejoin="round">
+    <use xlink:href="/svg/feather-sprite.svg#git-merge" />
+</svg><span>7 revisions</span>
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+    stroke-linejoin="round">
+    <use xlink:href="/svg/feather-sprite.svg#file-text" />
+</svg><span>46 sloc</span>
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+    stroke-linejoin="round">
+    <use xlink:href="/svg/feather-sprite.svg#terminal" />
+</svg><span>v0.0.6</span>
         </div>
         <div class="image-meta">
             <label for="hide-notes">Notes</label>
@@ -81,7 +94,9 @@
             <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arlunio</span> <span class="k">as</span> <span class="nn">ar</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">arlunio.lib</span> <span class="kn">import</span> <span class="n">Circle</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span>
+<span class="kn">from</span> <span class="nn">arlunio.lib.image</span> <span class="kn">import</span> <span class="n">Image</span><span class="p">,</span> <span class="n">fill</span>
+<span class="kn">from</span> <span class="nn">arlunio.lib.mask</span> <span class="kn">import</span> <span class="n">Circle</span>
+<span class="kn">from</span> <span class="nn">arlunio.lib.math</span> <span class="kn">import</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">any_</span>
 </pre></div>
 
         </div>
@@ -96,7 +111,7 @@
     <span class="n">c3</span> <span class="o">=</span> <span class="n">Circle</span><span class="p">(</span><span class="n">xc</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">yc</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="p">(</span><span class="n">r</span><span class="o">*</span><span class="mf">0.8</span><span class="p">))</span>
     <span class="n">c4</span> <span class="o">=</span> <span class="n">Circle</span><span class="p">(</span><span class="n">yc</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="p">(</span><span class="n">r</span><span class="o">*</span><span class="mf">0.8</span><span class="p">))</span>
     
-    <span class="k">return</span> <span class="n">ar</span><span class="o">.</span><span class="n">any</span><span class="p">(</span>
+    <span class="k">return</span> <span class="n">any_</span><span class="p">(</span>
         <span class="n">c1</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">),</span>
         <span class="n">c2</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">),</span>
         <span class="n">c3</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">y</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y</span><span class="p">)),</span>
@@ -108,10 +123,10 @@
         
         <div class="code">
             <div class="highlight"><pre><span></span><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
-<span class="k">def</span> <span class="nf">RollingHills</span><span class="p">(</span><span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ar</span><span class="o">.</span><span class="n">Image</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">RollingHills</span><span class="p">(</span><span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Image</span><span class="p">:</span>
     
     <span class="n">sun</span> <span class="o">=</span> <span class="n">Circle</span><span class="p">(</span><span class="n">xc</span><span class="o">=-</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">yc</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
-    <span class="n">image</span> <span class="o">=</span> <span class="n">ar</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">sun</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#ff0&quot;</span><span class="p">,</span> <span class="n">background</span><span class="o">=</span><span class="s2">&quot;#aef&quot;</span><span class="p">)</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span><span class="n">sun</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#ff0&quot;</span><span class="p">,</span> <span class="n">background</span><span class="o">=</span><span class="s2">&quot;#aef&quot;</span><span class="p">)</span>
 
     <span class="n">clouds</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">Cloud</span><span class="p">(</span><span class="n">x0</span><span class="o">=</span><span class="mf">3.2</span><span class="p">,</span> <span class="n">y0</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
@@ -120,13 +135,13 @@
     <span class="p">]</span>
 
     <span class="k">for</span> <span class="n">cloud</span> <span class="ow">in</span> <span class="n">clouds</span><span class="p">:</span>
-        <span class="n">image</span> <span class="o">=</span> <span class="n">ar</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">cloud</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#fff&quot;</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="n">image</span><span class="p">)</span>
+        <span class="n">image</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span><span class="n">cloud</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#fff&quot;</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="n">image</span><span class="p">)</span>
 
     <span class="n">big_hill</span> <span class="o">=</span> <span class="n">Circle</span><span class="p">(</span><span class="n">x0</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">y0</span><span class="o">=-</span><span class="mf">2.1</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
     <span class="n">small_hill</span> <span class="o">=</span> <span class="n">Circle</span><span class="p">(</span><span class="n">x0</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">y0</span><span class="o">=-</span><span class="mf">1.8</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mf">1.3</span><span class="p">)</span>
 
-    <span class="n">image</span> <span class="o">=</span> <span class="n">ar</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">big_hill</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#0c0&quot;</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="n">image</span><span class="p">)</span>
-    <span class="n">image</span> <span class="o">=</span> <span class="n">ar</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">small_hill</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#0e0&quot;</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="n">image</span><span class="p">)</span>       
+    <span class="n">image</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span><span class="n">big_hill</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#0c0&quot;</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="n">image</span><span class="p">)</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span><span class="n">small_hill</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#0e0&quot;</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="n">image</span><span class="p">)</span>       
 
     <span class="k">return</span> <span class="n">image</span> 
 </pre></div>
@@ -145,8 +160,19 @@
 </div>
 
     <footer>
-        <p>Color Scheme: <a href="https://github.com/arcticicestudio/nord">Nord</a></p>
-        <p>Last Updated: 18/05/20 06:05:17</p>
+        <div class="footer-content">
+            <div>
+                <h4>Site</h4>
+                <p>Last Updated: 19/05/20 12:09:30</p>
+                <p>Arlunio: v0.0.7b33</p>
+            </div>
+            <div></div>
+            <div>
+                <h4>Credits</h4>
+                <p><a href="https://github.com/arcticicestudio/nord">Nord Color Scheme</a></p>
+                <p><a href="https://github.com/feathericons/feather">Feather Icons</a></p>
+            </div>
+        </div>
     </footer>
 </body>
 
