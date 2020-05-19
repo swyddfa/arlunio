@@ -17,6 +17,7 @@ import traceback
 from datetime import datetime
 from typing import Any, Dict, List
 
+import arlunio
 import arlunio.lib.image as img
 import attr
 import jinja2 as j2
@@ -198,6 +199,9 @@ class ImageContext:
     author: Any
     """Information about the image's author"""
 
+    arlunio_version: str
+    """The version of arlunio used to build the site"""
+
     baseurl: str
     """The base url the site is being hosted on"""
 
@@ -220,7 +224,7 @@ class ImageContext:
     """The human friendly name of the image."""
 
     version: str
-    """The version of arlunio used to make the image."""
+    """The version of arlunio used to originally make the image."""
 
     cells: List[NbCell] = attr.Factory(list)
     """The list of cells representing the notebook that defines the image."""
@@ -263,6 +267,7 @@ class ImageContext:
 
         return cls(
             author=meta.author,
+            arlunio_version=gallery.arlunio_version,
             baseurl=gallery.baseurl,
             cells=cells,
             created=created.strftime("%d %b %Y"),
@@ -284,6 +289,9 @@ class ImageContext:
 class GalleryContext:
     """Represents the values needed to render the main gallery template."""
 
+    arlunio_version: str
+    """The version of arlunio used to build the site"""
+
     baseurl: str
     """The base url the site is being hosted on"""
 
@@ -301,7 +309,7 @@ class GalleryContext:
             baseurl = "http://localhost:8001/"
 
         date = datetime.now().strftime("%d/%m/%y %H:%M:%S")
-        return cls(baseurl=baseurl, date=date)
+        return cls(arlunio_version=arlunio.__version__, baseurl=baseurl, date=date)
 
     def prepare_notebooks(self, notebooks, config, skip_failures=False):
         """Given the notebooks that represent an image, prepare them."""

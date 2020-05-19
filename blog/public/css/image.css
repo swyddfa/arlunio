@@ -7,10 +7,16 @@ input[type="checkbox"] {
 
 .image {
   height: 100%;
-  display: flex;
+  display: grid;
+  grid-template-columns: auto minmax(500px, 30%);
+  grid-template-rows: 80vh;
 
   color: var(--foreground);
   background: var(--background);
+}
+
+.image-display {
+  padding: 1rem;
 }
 
 .image-display img {
@@ -21,22 +27,10 @@ input[type="checkbox"] {
   object-fit: contain;
 }
 
-.image-display img {
-  position: sticky;
-  top: 0;
-}
-
 .image-definition {
   padding: 10px 1em;
-  max-width: 40%;
   overflow-x: hidden;
   flex-grow: 1;
-}
-
-.image-definition {
-  padding: 10px 1em;
-  max-width: 40%;
-  overflow: hidden;
 }
 
 .image-meta {
@@ -47,9 +41,6 @@ input[type="checkbox"] {
   grid-template-columns: auto auto auto auto;
 
   padding: 1rem 0;
-  position: sticky;
-  top: 0;
-  z-index: 1;
 }
 
 .image-author {

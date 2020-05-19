@@ -32,8 +32,18 @@
 
     {% block content %}{% endblock %}
     <footer>
-        <p>Color Scheme: <a href="https://github.com/arcticicestudio/nord">Nord</a></p>
-        <p>Last Updated: {{ date }}</p>
+        <div class="footer-content">
+            <div>
+                <h4>Site</h4>
+                <p>Last Updated: {{ date }}</p>
+                <p>Arlunio: v{{ arlunio_version }}</p>
+            </div>
+            <div></div>
+            <div>
+                <h4>Credits</h4>
+                <p>Color Scheme: <a href="https://github.com/arcticicestudio/nord">Nord</a></p>
+            </div>
+        </div>
     </footer>
 </body>
 

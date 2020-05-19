@@ -40,6 +40,9 @@ i.fas {
 }
 
 header {
+  position: sticky;
+  top: 0;
+
   display: flex;
   justify-content: flex-start;
   align-items: baseline;
@@ -94,10 +97,20 @@ nav a:hover::after {
 }
 
 footer {
-  padding-left: 1rem;
-  color: var(--foreground-faint);
+  color: var(--foreground);
   background: var(--background);
   border-top: solid 1px var(--foreground);
+}
+
+.footer-content {
+  margin: 2rem;
+  display: grid;
+  grid-template-columns: auto auto auto;
+}
+
+footer h4 {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12pt
 }
 
 footer p {
