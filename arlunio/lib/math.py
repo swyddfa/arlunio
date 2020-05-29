@@ -120,17 +120,17 @@ def all_(*args: Union[bool, np.ndarray]) -> Union[bool, np.ndarray]:
     return functools.reduce(np.logical_and, args)
 
 
-def clamp(values, min_value=0, max_value=1):
+def clamp(vs, min_=0, max_=1):
     """Force an array of values to stay within a range of values.
 
     Parameters
     ----------
-    values:
+    vs:
       The array of values to clamp
-    min_value:
+    min_:
       The minimum value the result should contain
-    max_value:
-      The maximum value the resul should contain
+    max_:
+      The maximum value the result should contain
 
     Examples
     --------
@@ -145,18 +145,27 @@ def clamp(values, min_value=0, max_value=1):
 
     But this can be changed with extra arguments to the :code:`clamp` function
 
-    >>> clamp(vs, min_value=-1, max_value=0.5)
+    >>> clamp(vs, min_=-1, max_=0.5)
     array([-1. , -0.4,  0.2,  0.5,  0.5,  0.5])
     """
-    vs = np.array(values)
-    vs[vs > max_value] = max_value
-    vs[vs < min_value] = min_value
+    vs = np.array(vs)
+    vs[vs > max_] = max_
+    vs[vs < min_] = min_
 
     return vs
 
 
+def dot(us, vs):
+    """Return the dot product of two arrays of vectors."""
+    return np.sum(us * vs, axis=-1)
+
+
 def invert(x):
     return np.logical_not(x)
+
+
+def length(vs):
+    return np.sqrt(np.sum(vs * vs, axis=-1))
 
 
 def lerp(start: float = 0, stop: float = 1) -> Callable[[float], float]:
@@ -206,11 +215,12 @@ def normalise(vs):
     vs:
        The array to normalise.
     """
-    minx = np.min(vs)
-    vs = np.array(vs)
 
-    vs = vs - minx
-    return vs / np.max(vs)
+    if len(vs.shape) == 1:
+        return vs / length(vs)
+
+    if len(vs.shape) == 2:
+        return vs / length(vs)[:, np.newaxis]
 
 
 @ar.definition
