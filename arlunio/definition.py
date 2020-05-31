@@ -75,9 +75,9 @@ class Defn(metaclass=_BaseDefn):
     OP_XOR: ClassVar[str] = "exclusive_or"
 
     def __call__(self, *pos, **kwargs):
-        logger.debug("Evaluating definition: '%s'", self.__class__.__name__)
+        logger.debug("Preparing: '%s'", self.__class__.__name__)
         logger.debug("--> Positional Args: %s", pos)
-        logger.debug("--> Keyword arguments: %s", kwargs)
+        logger.debug("--> Keyword arguments: %s", kwargs.keys())
 
         # Requiring inputs to be given as kw args makes the api less sensitive to
         # changes in the implementation
@@ -122,8 +122,8 @@ class Defn(metaclass=_BaseDefn):
             # And then evaluate it!
             args[name] = instance(**kwargs)
 
-        message = "Executing implementation for '%s' with args: %s"
-        logger.debug(message, self.__class__.__name__, args)
+        message = "Executing '%s' with %s"
+        logger.debug(message, self.__class__.__name__, args.keys())
 
         return self._impl(**args, **self.attributes())
 

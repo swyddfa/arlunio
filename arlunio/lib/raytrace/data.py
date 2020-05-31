@@ -1,10 +1,12 @@
+from typing import ClassVar
+
 import attr
 import numpy as np
 
 from arlunio.lib.math import normalise
 
 
-@attr.s(auto_attribs=True)
+@attr.s(auto_attribs=True, repr=False)
 class Rays:
     """A collection of rays"""
 
@@ -14,8 +16,11 @@ class Rays:
     direction: np.ndarray
     """An array of vectors indicating which direction each ray is pointing"""
 
+    def __repr__(self):
+        return f"Rays(origin={self.origin.shape}, direction={self.direction.shape})"
+
     def __getitem__(self, key):
-        return Rays(self.origin, self.direction[key])
+        return Rays(self.origin[key], self.direction[key])
 
     def at(self, t):
         """Get the position for each value of t."""
@@ -26,6 +31,8 @@ class Rays:
 class ScatterPoint:
     """A scatter point is where rays have intersected an object and where various
     calculations should take place."""
+
+    MAX_FLOAT: ClassVar[float] = np.finfo(np.float64).max
 
     hit: np.ndarray
     """A boolean array with shape :code:`(n,)` indicating which rays have intersected
@@ -61,12 +68,11 @@ class ScatterPoint:
     def new(cls, rays: Rays):
         """Create a new scatter point based on an initial cluster of rays."""
 
-        MAX_FLOAT = np.finfo(np.float64).max
         n, _ = rays.direction.shape
 
         true = np.full((n,), True)
         false = np.full((n,), False)
-        maxf = np.full((n,), MAX_FLOAT)
+        maxf = np.full((n,), cls.MAX_FLOAT)
 
         params = {
             "hit": false,

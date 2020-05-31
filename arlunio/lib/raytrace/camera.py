@@ -36,7 +36,13 @@ def UniformSampler(width: int, height: int):
 
 @ar.definition
 def SimpleCamera(
-    width: int, height: int, *, origin=None, scale=2.0, focal_length=1.0, sampler=None
+    width: int,
+    height: int,
+    *,
+    origin=np.array([0.0, 0.0, 0.0]),
+    scale=2.0,
+    focal_length=1.0,
+    sampler=None
 ) -> Rays:
     """A simple camera that generates rays to be cast into the scene.
 
@@ -55,7 +61,7 @@ def SimpleCamera(
     """
 
     # Pick sensible defaults if some attributes are not set
-    origin = np.array([0.0, 0.0, 0.0]) if origin is None else origin
+    origin = np.array(origin)
     sampler = UniformSampler() if sampler is None else sampler
 
     ratio = width / height
@@ -69,9 +75,13 @@ def SimpleCamera(
         origin - (horizontal / 2) - (vertical / 2) - np.array([0, 0, focal_length])
     )
 
+    n = uv.shape[0]
+
     hs = np.einsum("n,np->np", uv[:, 0], horizontal.reshape(1, 3))
     vs = np.einsum("n,np->np", uv[:, 1], vertical.reshape(1, 3))
-    ll = np.full((uv.shape[0], 3), lower_left)
+    ll = np.full((n, 3), lower_left)
 
+    origin = np.full((n, 3), origin)
     directions = ll + hs + vs
+
     return Rays(origin, directions)
