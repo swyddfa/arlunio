@@ -5,7 +5,7 @@ import numpy as np
 import numpy.random as npr
 import PIL.Image as Image
 
-from arlunio.lib.math import clamp, normalise
+from arlunio.lib.math import clamp
 
 from .camera import SimpleCamera
 from .data import Rays, ScatterPoint
@@ -60,6 +60,14 @@ def ZDepthRenderer(width: int, height: int, *, camera=None, objects=None):
     return Image.fromarray(vs, "L")
 
 
+def random_unit_sphere(n):
+    a = npr.rand(n) * 2 * np.pi
+    z = (npr.rand(n) * 2) - 1
+    r = np.sqrt(1 - (z * z))
+
+    return np.dstack([r * np.cos(a), r * np.sin(a), z])[0]
+
+
 @ar.definition
 def ClayRenderer(
     width: int, height: int, *, background=None, camera=None, objects=None, bounces=8,
@@ -79,9 +87,8 @@ def ClayRenderer(
 
     while depth < bounces:
 
-        print(".", end="")
         for obj in objects:
-            test = obj(rays=rays, t_min=0, t_max=scatter.t)
+            test = obj(rays=rays, t_min=0.001, t_max=scatter.t)
             scatter.merge(test)
 
         # If there were no hits, then there's nothing to do
@@ -97,7 +104,8 @@ def ClayRenderer(
         depth += 1
 
         origin = scatter.p[scatter.hit]
-        directions = scatter.normal[scatter.hit] + normalise(npr.rand(n, 3))
+        # directions = scatter.normal[scatter.hit] + normalise(npr.rand(n, 3))
+        directions = scatter.normal[scatter.hit] + random_unit_sphere(n)
 
         rays = Rays(origin, directions)
         scatter = ScatterPoint.new(rays)
@@ -119,7 +127,9 @@ def SampledRenderer(width: int, height: int, *, kernel=None, samples=10):
     cols = np.zeros((n, 3))
     for _ in range(s):
         cols += kernel(width=width, height=height) * scale
-        print("+")
+
+    # Gamma correction...
+    cols = np.sqrt(cols)
 
     r = clamp(cols[:, 0], 0, 0.99999) * 256
     g = clamp(cols[:, 1], 0, 0.99999) * 256
