@@ -2,39 +2,13 @@ import logging
 
 import arlunio as ar
 import numpy as np
-import numpy.random as npr
 import PIL.Image as Image
 
 from arlunio.lib.math import clamp
 
 from .camera import SimpleCamera
 from .data import Rays, ScatterPoint
-from .material import Gradient, NormalMap
-
-logger = logging.getLogger(__name__)
-
-
-@ar.definition
-def SimpleWorld(width: int, height: int, *, background=None, camera=None, objects=None):
-    """A world is responsible for bringing everything together in order to render a
-    single sample of the scene."""
-
-    camera = SimpleCamera() if camera is None else camera
-    background = Gradient() if background is None else background
-    objects = [] if objects is None else objects
-
-    rays = camera(width=width, height=height)
-    scatter = ScatterPoint.new(rays)
-    color = background(scatter=scatter)
-
-    for obj, _ in objects:
-        test = obj(rays=rays, t_min=0, t_max=scatter.t)
-        scatter.merge(test)
-
-    mat = NormalMap()
-    color[scatter.hit] = mat(scatter=scatter)[scatter.hit]
-
-    return color
+from .material import Gradient, LambertianDiffuse
 
 
 @ar.definition
@@ -60,17 +34,16 @@ def ZDepthRenderer(width: int, height: int, *, camera=None, objects=None):
     return Image.fromarray(vs, "L")
 
 
-def random_unit_sphere(n):
-    a = npr.rand(n) * 2 * np.pi
-    z = (npr.rand(n) * 2) - 1
-    r = np.sqrt(1 - (z * z))
-
-    return np.dstack([r * np.cos(a), r * np.sin(a), z])[0]
-
-
 @ar.definition
 def ClayRenderer(
-    width: int, height: int, *, background=None, camera=None, objects=None, bounces=8,
+    width: int,
+    height: int,
+    *,
+    background=None,
+    color="lightgrey",
+    camera=None,
+    objects=None,
+    bounces=8,
 ):
     """A simple clay renderer."""
 
@@ -80,6 +53,7 @@ def ClayRenderer(
 
     rays = camera(width=width, height=height)
     scatter = ScatterPoint.new(rays)
+    mat = LambertianDiffuse(color=color)
     color = background(scatter=scatter)
 
     depth = 1
@@ -97,15 +71,97 @@ def ClayRenderer(
 
         # Update the mask to reflect where we have intersections.
         mask[mask] = scatter.hit
-        color[mask] *= 0.5
-        n = mask[mask].shape[0]
+
+        matcol, rays = mat(scatter=scatter[scatter.hit])
+        color[mask] *= matcol
 
         # Increasee the bounce counter and run again
         depth += 1
+        scatter = ScatterPoint.new(rays)
 
+    return color
+
+
+@ar.definition
+def MaterialRenderer(
+    width: int, height: int, *, objects=None, bounces=8, camera=None, background=None
+):
+    """A renderer capable of rendering materials."""
+
+    logger = logging.getLogger(__name__)
+
+    background = Gradient() if background is None else background
+    camera = SimpleCamera() if camera is None else camera
+    objects = [] if objects is None else objects
+
+    rays = camera(width=width, height=height)
+    scatter = ScatterPoint.new(rays)
+    color = background(scatter=scatter)
+
+    depth = 1
+    mask = np.full((scatter.hit.shape), True)
+
+    materials = [mat for _, mat in objects]
+
+    logger.info("Starting render.")
+
+    while depth < bounces:
+
+        matmap = np.full((scatter.hit.shape), -1)
+
+        logger.debug(" Depth: %i ".center(80, "-"), depth)
+        logger.debug("Mask: %s", mask.shape)
+        logger.debug("Material Map: %s", matmap.shape)
+        logger.debug("%s", scatter)
+
+        for idx, (obj, _) in enumerate(objects):
+            logger.debug(" Obj: %i ".center(80, "-"), idx)
+            test = obj(rays=rays, t_min=0.001, t_max=scatter.t)
+
+            # Record which material should be used for these intersections.
+            matmap[test.hit] = idx
+            scatter.merge(test)
+
+        if not np.any(scatter.hit):
+            logger.debug("Nothing hit, stopping")
+            break
+
+        matids = np.unique(matmap[matmap != -1])
+        logger.debug("-" * 80)
+        logger.debug("Mat Ids: %s", matids)
+        logger.debug("#hits: %s", scatter.hit[scatter.hit == True].shape)
+
+        mask[mask] = scatter.hit
         origin = scatter.p[scatter.hit]
-        # directions = scatter.normal[scatter.hit] + normalise(npr.rand(n, 3))
-        directions = scatter.normal[scatter.hit] + random_unit_sphere(n)
+        directions = scatter.normal[scatter.hit]
+
+        for idx in matids:
+            logger.debug(" Mat: %i ".center(80, "-"), idx)
+            mat = materials[idx]
+
+            # Only select the intersections that correspond with this material
+            mat_mask = matmap[scatter.hit] == idx
+
+            scatter_mask = np.array(scatter.hit)
+            scatter_mask[scatter.hit] = mat_mask
+
+            color_mask = np.array(mask)
+            color_mask[color_mask] = scatter_mask[scatter.hit]
+
+            logger.debug("Mat Mask: %s", mat_mask.shape)
+            logger.debug("Scatter Mask: %s", scatter_mask.shape)
+            logger.debug("Color Mask: %s", color_mask.shape)
+
+            mat_scatter = scatter[scatter_mask]
+            logger.debug("Mat Scatter: %s", mat_scatter)
+
+            matcol, matrays = mat(scatter=mat_scatter)
+            color[color_mask] *= matcol
+
+            origin[mat_mask] = matrays.origin
+            directions[mat_mask] = matrays.direction
+
+        depth += 1
 
         rays = Rays(origin, directions)
         scatter = ScatterPoint.new(rays)

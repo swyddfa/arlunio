@@ -1,3 +1,5 @@
+import logging
+
 import arlunio as ar
 import numpy as np
 
@@ -12,16 +14,28 @@ def Sphere(
 ) -> ScatterPoint:
     """A sphere."""
 
+    logger = logging.getLogger(__name__)
+
     center = np.array([0, 0, -1]) if center is None else center
+
     oc = rays.origin - center
 
     a = dot(rays.direction, rays.direction)
     b = dot(oc, rays.direction)
     c = dot(oc, oc) - radius * radius
 
+    logger.debug("a: %s, b: %s, c: %s", a.shape, b.shape, c.shape)
+
     # Determine which rays intersect
     disc = b * b - a * c
     hits = disc > 0
+
+    logger.debug(
+        "disc: %s, hits: %s, #hits: %s",
+        disc.shape,
+        hits.shape,
+        hits[hits == True].shape,
+    )
 
     a, b, root = a[hits], b[hits], np.sqrt(disc[hits])
 
