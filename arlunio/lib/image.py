@@ -10,7 +10,7 @@ import numpy as np
 import PIL.Image as PImage
 import PIL.ImageColor as PColor
 
-from arlunio.lib.math import lerp, normalise
+from arlunio.lib.math import lerp
 
 logger = logging.getLogger(__name__)
 
@@ -93,7 +93,11 @@ def encode(image) -> bytes:
 def colorramp(values, start: Optional[str] = None, stop: Optional[str] = None) -> Image:
     """Given a range of values, produce an image mapping those values onto colors."""
 
-    vs = normalise(values)
+    # Scale all the values so that they fall into the range [0, 1]
+    minx = np.min(values)
+    vs = np.array(values)
+    vs = (vs - minx) / np.max(vs)
+
     (r, g, b) = PColor.getrgb("#000") if start is None else PColor.getrgb(start)
     (R, G, B) = PColor.getrgb("#fff") if stop is None else PColor.getrgb(stop)
 
