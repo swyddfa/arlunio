@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>arlunio.lib.image &mdash; Arlunio V0.0.7b32 documentation</title>
+  <title>arlunio.lib.image &mdash; Arlunio V0.0.7b33 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                V0.0.7b32
+                V0.0.7b33
               </div>
             
           
@@ -166,7 +166,7 @@
 <span class="kn">import</span> <span class="nn">PIL.Image</span> <span class="k">as</span> <span class="nn">PImage</span>
 <span class="kn">import</span> <span class="nn">PIL.ImageColor</span> <span class="k">as</span> <span class="nn">PColor</span>
 
-<span class="kn">from</span> <span class="nn">arlunio.lib.math</span> <span class="kn">import</span> <span class="n">lerp</span><span class="p">,</span> <span class="n">normalise</span>
+<span class="kn">from</span> <span class="nn">arlunio.lib.math</span> <span class="kn">import</span> <span class="n">lerp</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -249,7 +249,11 @@
 <div class="viewcode-block" id="colorramp"><a class="viewcode-back" href="../../../stdlib/image.html#arlunio.lib.image.colorramp">[docs]</a><span class="k">def</span> <span class="nf">colorramp</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">start</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">stop</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Image</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Given a range of values, produce an image mapping those values onto colors.&quot;&quot;&quot;</span>
 
-    <span class="n">vs</span> <span class="o">=</span> <span class="n">normalise</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+    <span class="c1"># Scale all the values so that they fall into the range [0, 1]</span>
+    <span class="n">minx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+    <span class="n">vs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+    <span class="n">vs</span> <span class="o">=</span> <span class="p">(</span><span class="n">vs</span> <span class="o">-</span> <span class="n">minx</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">vs</span><span class="p">)</span>
+
     <span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="o">=</span> <span class="n">PColor</span><span class="o">.</span><span class="n">getrgb</span><span class="p">(</span><span class="s2">&quot;#000&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">start</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">PColor</span><span class="o">.</span><span class="n">getrgb</span><span class="p">(</span><span class="n">start</span><span class="p">)</span>
     <span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span> <span class="o">=</span> <span class="n">PColor</span><span class="o">.</span><span class="n">getrgb</span><span class="p">(</span><span class="s2">&quot;#fff&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">stop</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">PColor</span><span class="o">.</span><span class="n">getrgb</span><span class="p">(</span><span class="n">stop</span><span class="p">)</span>
 

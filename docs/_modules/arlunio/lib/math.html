@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>arlunio.lib.math &mdash; Arlunio V0.0.7b32 documentation</title>
+  <title>arlunio.lib.math &mdash; Arlunio V0.0.7b33 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                V0.0.7b32
+                V0.0.7b33
               </div>
             
           
@@ -276,17 +276,17 @@
     <span class="k">return</span> <span class="n">functools</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="clamp"><a class="viewcode-back" href="../../../stdlib/math.html#arlunio.lib.math.clamp">[docs]</a><span class="k">def</span> <span class="nf">clamp</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<div class="viewcode-block" id="clamp"><a class="viewcode-back" href="../../../stdlib/math.html#arlunio.lib.math.clamp">[docs]</a><span class="k">def</span> <span class="nf">clamp</span><span class="p">(</span><span class="n">vs</span><span class="p">,</span> <span class="n">min_</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Force an array of values to stay within a range of values.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    values:</span>
+<span class="sd">    vs:</span>
 <span class="sd">      The array of values to clamp</span>
-<span class="sd">    min_value:</span>
+<span class="sd">    min_:</span>
 <span class="sd">      The minimum value the result should contain</span>
-<span class="sd">    max_value:</span>
-<span class="sd">      The maximum value the resul should contain</span>
+<span class="sd">    max_:</span>
+<span class="sd">      The maximum value the result should contain</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -301,18 +301,27 @@
 
 <span class="sd">    But this can be changed with extra arguments to the :code:`clamp` function</span>
 
-<span class="sd">    &gt;&gt;&gt; clamp(vs, min_value=-1, max_value=0.5)</span>
+<span class="sd">    &gt;&gt;&gt; clamp(vs, min_=-1, max_=0.5)</span>
 <span class="sd">    array([-1. , -0.4,  0.2,  0.5,  0.5,  0.5])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">vs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
-    <span class="n">vs</span><span class="p">[</span><span class="n">vs</span> <span class="o">&gt;</span> <span class="n">max_value</span><span class="p">]</span> <span class="o">=</span> <span class="n">max_value</span>
-    <span class="n">vs</span><span class="p">[</span><span class="n">vs</span> <span class="o">&lt;</span> <span class="n">min_value</span><span class="p">]</span> <span class="o">=</span> <span class="n">min_value</span>
+    <span class="n">vs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">vs</span><span class="p">)</span>
+    <span class="n">vs</span><span class="p">[</span><span class="n">vs</span> <span class="o">&gt;</span> <span class="n">max_</span><span class="p">]</span> <span class="o">=</span> <span class="n">max_</span>
+    <span class="n">vs</span><span class="p">[</span><span class="n">vs</span> <span class="o">&lt;</span> <span class="n">min_</span><span class="p">]</span> <span class="o">=</span> <span class="n">min_</span>
 
     <span class="k">return</span> <span class="n">vs</span></div>
 
 
+<div class="viewcode-block" id="dot"><a class="viewcode-back" href="../../../stdlib/math.html#arlunio.lib.math.dot">[docs]</a><span class="k">def</span> <span class="nf">dot</span><span class="p">(</span><span class="n">us</span><span class="p">,</span> <span class="n">vs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return the dot product of two arrays of vectors.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">us</span> <span class="o">*</span> <span class="n">vs</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span></div>
+
+
 <span class="k">def</span> <span class="nf">invert</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_not</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">length</span><span class="p">(</span><span class="n">vs</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">vs</span> <span class="o">*</span> <span class="n">vs</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span>
 
 
 <div class="viewcode-block" id="lerp"><a class="viewcode-back" href="../../../stdlib/math.html#arlunio.lib.math.lerp">[docs]</a><span class="k">def</span> <span class="nf">lerp</span><span class="p">(</span><span class="n">start</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">stop</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">float</span><span class="p">],</span> <span class="nb">float</span><span class="p">]:</span>
@@ -362,11 +371,12 @@
 <span class="sd">    vs:</span>
 <span class="sd">       The array to normalise.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">minx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">vs</span><span class="p">)</span>
-    <span class="n">vs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">vs</span><span class="p">)</span>
 
-    <span class="n">vs</span> <span class="o">=</span> <span class="n">vs</span> <span class="o">-</span> <span class="n">minx</span>
-    <span class="k">return</span> <span class="n">vs</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">vs</span><span class="p">)</span></div>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">vs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">vs</span> <span class="o">/</span> <span class="n">length</span><span class="p">(</span><span class="n">vs</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">vs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">vs</span> <span class="o">/</span> <span class="n">length</span><span class="p">(</span><span class="n">vs</span><span class="p">)[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="X"><a class="viewcode-back" href="../../../stdlib/math.html#arlunio.lib.math.X">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
