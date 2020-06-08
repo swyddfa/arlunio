@@ -3,7 +3,7 @@ import logging
 import arlunio as ar
 import numpy as np
 
-from .shape import Mask
+from arlunio.lib.mask import Mask
 
 logger = logging.getLogger(__name__)
 

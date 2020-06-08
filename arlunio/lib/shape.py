@@ -4,9 +4,8 @@
 import arlunio as ar
 import numpy as np
 
-from arlunio.lib.math import X, Y, all_, invert
-
-from .mask import Mask
+from arlunio.lib.mask import Mask, all_, invert
+from arlunio.lib.math import X, Y
 
 
 @ar.definition
@@ -112,17 +111,18 @@ def Circle(x: X, y: Y, *, xc=0, yc=0, r=0.8, pt=None) -> Mask:
        rings = OlympicRings()
        image = rings(width=1920, height=1080)
     """
+
     x = (x - xc) ** 2
     y = (y - yc) ** 2
     circle = np.sqrt(x + y)
 
     if pt is None:
-        return circle < r ** 2
+        return (circle < r ** 2).view(Mask)
 
     inner = (1 - pt) * r ** 2
     outer = (1 + pt) * r ** 2
 
-    return all_(inner < circle, circle < outer)
+    return all_(inner < circle, circle < outer).view(Mask)
 
 
 @ar.definition
