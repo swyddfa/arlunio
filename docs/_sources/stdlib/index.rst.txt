@@ -15,3 +15,5 @@ basics everyone will need along with some useful utilities for various tasks.
    image
    mask
    math
+   pattern
+   shape
