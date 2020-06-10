@@ -24,7 +24,7 @@
         {
             "label": "Build Docs",
             "type": "shell",
-            "command": "source ${workspaceRoot}/.dev/bin/activate && sphinx-autobuild -E -a -b html docs/ docs/_build/",
+            "command": "source ${workspaceRoot}/.env/bin/activate && sphinx-autobuild -E -a -b html docs/ docs/_build/",
             "problemMatcher": [],
             "group": "build",
             "options": {
@@ -34,7 +34,7 @@
         {
             "label": "Build Tutorial",
             "type": "shell",
-            "command": "source ${workspaceRoot}/.dev/bin/activate && sphinx-build -M nbtutorial docs/ docs/_build/ -E -a",
+            "command": "source ${workspaceRoot}/.env/bin/activate && sphinx-build -M nbtutorial docs/ docs/_build/ -E -a",
             "problemMatcher": [],
             "group": "build",
             "options": {
@@ -44,7 +44,7 @@
         {
             "label": "Edit Gallery",
             "type": "shell",
-            "command": "source ${workspaceRoot}/.dev/bin/activate && jupyter-lab --no-browser",
+            "command": "source ${workspaceRoot}/.env/bin/activate && jupyter-lab --no-browser",
             "problemMatcher": [],
             "group": "build",
             "options": {
@@ -54,7 +54,7 @@
         {
             "label": "Edit Gallery (browser)",
             "type": "shell",
-            "command": "source ${workspaceRoot}/.dev/bin/activate && jupyter-lab",
+            "command": "source ${workspaceRoot}/.env/bin/activate && jupyter-lab",
             "problemMatcher": [],
             "group": "build",
             "options": {
@@ -107,7 +107,7 @@
         {
             "label": "Scratch Notebooks",
             "type": "shell",
-            "command": "source ${workspaceRoot}/.dev/bin/activate && jupyter-lab",
+            "command": "source ${workspaceRoot}/.env/bin/activate && jupyter-lab",
             "problemMatcher": [],
             "group": "build",
             "options": {
@@ -117,7 +117,7 @@
         {
             "label": "Open Tutorial",
             "type": "shell",
-            "command": "source ${workspaceRoot}/.dev/bin/activate && jupyter-lab",
+            "command": "source ${workspaceRoot}/.env/bin/activate && jupyter-lab",
             "problemMatcher": [],
             "group": "build",
             "options": {
