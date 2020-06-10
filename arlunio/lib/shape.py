@@ -393,44 +393,6 @@ def SuperEllipse(
 
 
 @ar.definition
-def Empty(width: int, height: int) -> Mask:
-    """An empty shape definition.
-
-    Example
-    -------
-
-    .. arlunio-image::
-       :include-code: before
-
-       from arlunio.lib.shape import Empty
-       from arlunio.lib.image import fill
-
-       e = Empty()
-       image = fill(e(width=1920, height=1080))
-    """
-    return np.full((height, width), False)
-
-
-@ar.definition
-def Full(width: int, height: int) -> Mask:
-    """An full shape definition.
-
-    Example
-    -------
-
-    .. arlunio-image::
-       :include-code: before
-
-       from arlunio.lib.shape import Full
-       from arlunio.lib.image import fill
-
-       f = Full()
-       image = fill(f(width=1920, height=1080))
-    """
-    return np.full((height, width), True)
-
-
-@ar.definition
 def Square(x: X, y: Y, *, xc=0, yc=0, size=0.8, pt=None) -> Mask:
     """
     .. arlunio-image::

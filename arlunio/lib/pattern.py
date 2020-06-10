@@ -3,7 +3,7 @@ import logging
 import arlunio as ar
 import numpy as np
 
-from arlunio.lib.mask import Mask
+from arlunio.lib.mask import Empty, Mask
 
 logger = logging.getLogger(__name__)
 
@@ -188,7 +188,9 @@ def Map(width: int, height: int, *, layout=None, legend=None) -> Mask:
     # Build a new dict with the values being the shapes drawn at the appropriate res
     # to ensure we only draw them once.
     items = {k: v(**size) for k, v in legend.items()}
-    return np.block([[items[key] for key in row] for row in layout])
+    default = Empty()(**size)
+
+    return np.block([[items.get(key, default) for key in row] for row in layout])
 
 
 @ar.definition

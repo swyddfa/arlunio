@@ -37,6 +37,62 @@ class Mask(np.ndarray):
     def __rsub__(self, other):
         return np.logical_and(other, np.logical_not(self))
 
+    @classmethod
+    def empty(cls, *shape):
+        """Return an empty mask with the given shape."""
+
+        if len(shape) == 1 and isinstance(shape[0], tuple):
+            return cls(np.full(shape[0], False))
+
+        return cls(np.full(shape, False))
+
+    @classmethod
+    def full(cls, *shape):
+        """Return a full mask with the given shape."""
+
+        if len(shape) == 1 and isinstance(shape[0], tuple):
+            return cls(np.full(shape[0], True))
+
+        return cls(np.full(shape, True))
+
+
+@ar.definition
+def Empty(width: int, height: int) -> Mask:
+    """An empty shape definition.
+
+    Example
+    -------
+
+    .. arlunio-image::
+       :include-code: before
+
+       from arlunio.lib.shape import Empty
+       from arlunio.lib.image import fill
+
+       e = Empty()
+       image = fill(e(width=1920, height=1080))
+    """
+    return Mask.empty(height, width)
+
+
+@ar.definition
+def Full(width: int, height: int) -> Mask:
+    """An full shape definition.
+
+    Example
+    -------
+
+    .. arlunio-image::
+       :include-code: before
+
+       from arlunio.lib.shape import Full
+       from arlunio.lib.image import fill
+
+       f = Full()
+       image = fill(f(width=1920, height=1080))
+    """
+    return Mask.full(height, width)
+
 
 @ar.definition(operation=ar.Defn.OP_ADD)
 def MaskAdd(
