@@ -13,7 +13,7 @@ def Circle(x: X, y: Y, *, xc=0, yc=0, r=0.8, pt=None) -> Mask:
     """
     .. arlunio-image::
 
-        from arlunio.lib.mask import Circle
+        from arlunio.lib.shape import Circle
         from arlunio.lib.image import fill
 
         circle = Circle()
@@ -51,7 +51,7 @@ def Circle(x: X, y: Y, *, xc=0, yc=0, r=0.8, pt=None) -> Mask:
 
        import arlunio as ar
 
-       from arlunio.lib.mask import Circle
+       from arlunio.lib.shape import Circle
        from arlunio.lib.image import fill
 
        @ar.definition
@@ -82,7 +82,7 @@ def Circle(x: X, y: Y, *, xc=0, yc=0, r=0.8, pt=None) -> Mask:
 
        import arlunio as ar
 
-       from arlunio.lib.mask import Circle
+       from arlunio.lib.shape import Circle
        from arlunio.lib.image import fill
 
        @ar.definition
@@ -130,7 +130,7 @@ def Ellipse(x: X, y: Y, *, xc=0, yc=0, a=2, b=1, r=0.8, pt=None) -> Mask:
     """
     .. arlunio-image::
 
-       from arlunio.lib.mask import Ellipse
+       from arlunio.lib.shape import Ellipse
        from arlunio.lib.image import fill
 
        ellipse = Ellipse()
@@ -181,7 +181,7 @@ def Ellipse(x: X, y: Y, *, xc=0, yc=0, a=2, b=1, r=0.8, pt=None) -> Mask:
 
        import arlunio as ar
 
-       from arlunio.lib.mask import Ellipse
+       from arlunio.lib.shape import Ellipse
        from arlunio.lib.image import fill
 
        @ar.definition
@@ -212,7 +212,7 @@ def Ellipse(x: X, y: Y, *, xc=0, yc=0, a=2, b=1, r=0.8, pt=None) -> Mask:
 
        import arlunio as ar
 
-       from arlunio.lib.mask import Ellipse
+       from arlunio.lib.shape import Ellipse
        from arlunio.lib.math import X, Y
        from arlunio.lib.image import fill
 
@@ -261,7 +261,7 @@ def SuperEllipse(
     """
     .. arlunio-image::
 
-       from arlunio.lib.mask import SuperEllipse
+       from arlunio.lib.shape import SuperEllipse
        from arlunio.lib.image import fill
 
        ellipse = SuperEllipse()
@@ -316,7 +316,7 @@ def SuperEllipse(
 
        import arlunio as ar
 
-       from arlunio.lib.mask import SuperEllipse
+       from arlunio.lib.shape import SuperEllipse
        from arlunio.lib.image import fill
 
        @ar.definition
@@ -349,7 +349,7 @@ def SuperEllipse(
 
        import arlunio as ar
 
-       from arlunio.lib.mask import SuperEllipse
+       from arlunio.lib.shape import SuperEllipse
        from arlunio.lib.image import fill
 
        @ar.definition
@@ -402,7 +402,7 @@ def Empty(width: int, height: int) -> Mask:
     .. arlunio-image::
        :include-code: before
 
-       from arlunio.lib.mask import Empty
+       from arlunio.lib.shape import Empty
        from arlunio.lib.image import fill
 
        e = Empty()
@@ -421,7 +421,7 @@ def Full(width: int, height: int) -> Mask:
     .. arlunio-image::
        :include-code: before
 
-       from arlunio.lib.mask import Full
+       from arlunio.lib.shape import Full
        from arlunio.lib.image import fill
 
        f = Full()
@@ -435,7 +435,7 @@ def Square(x: X, y: Y, *, xc=0, yc=0, size=0.8, pt=None) -> Mask:
     """
     .. arlunio-image::
 
-       from arlunio.lib.mask import Square
+       from arlunio.lib.shape import Square
        from arlunio.lib.image import fill
 
        square = Square()
@@ -465,7 +465,7 @@ def Square(x: X, y: Y, *, xc=0, yc=0, size=0.8, pt=None) -> Mask:
 
        import arlunio as ar
 
-       from arlunio.lib.mask import Square
+       from arlunio.lib.shape import Square
        from arlunio.lib.math import X, Y
        from arlunio.lib.image import fill
 
@@ -509,7 +509,7 @@ def Rectangle(x: X, y: Y, *, xc=0, yc=0, size=0.6, ratio=1.618, pt=None) -> Mask
     """
     .. arlunio-image::
 
-       from arlunio.lib.mask import Rectangle
+       from arlunio.lib.shape import Rectangle
        from arlunio.lib.image import fill
 
        rectangle = Rectangle()
@@ -541,7 +541,7 @@ def Rectangle(x: X, y: Y, *, xc=0, yc=0, size=0.6, ratio=1.618, pt=None) -> Mask
 
        import arlunio as ar
 
-       from arlunio.lib.mask import Rectangle
+       from arlunio.lib.shape import Rectangle
        from arlunio.lib.image import fill
 
        @ar.definition
