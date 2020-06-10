@@ -10,8 +10,32 @@ class Mask(np.ndarray):
     """Currently just a type alias for boolean numpy arrays but gives us the flexibility
     to add smarts later."""
 
-    def __add__(self, other):
-        return all_(self, other)
+    def __new__(cls, arr):
+        return np.asarray(arr).view(cls)
+
+    def __mul__(self, other):
+
+        try:
+            return np.logical_and(self, other)
+        except ValueError:
+
+            mask = self.copy()
+            size = np.prod(other.shape)
+
+            if mask[mask].shape == size:
+                mask[mask] = other.reshape(size)
+                return mask
+
+            raise
+
+    def __neg__(self):
+        return np.logical_not(self)
+
+    def __sub__(self, other):
+        return np.logical_and(self, np.logical_not(other))
+
+    def __rsub__(self, other):
+        return np.logical_and(other, np.logical_not(self))
 
 
 @ar.definition(operation=ar.Defn.OP_ADD)
@@ -31,7 +55,7 @@ def MaskAdd(
         The second mask
     """
 
-    return any_(a(width=width, height=height), b(width=width, height=height))
+    return a(width=width, height=height) + b(width=width, height=height)
 
 
 @ar.definition(operation=ar.Defn.OP_SUB)
@@ -55,7 +79,7 @@ def MaskSub(
     b:
         The second mask that defines the region to remove from :code:`a`
     """
-    return all_(a(width=width, height=height), ar.invert(b(width=width, height=height)))
+    return a(width=width, height=height) - b(width=width, height=height)
 
 
 @ar.definition(operation=ar.Defn.OP_MUL)
@@ -74,7 +98,7 @@ def MaskMul(
     b:
         The second mask
     """
-    return all_(a(width=width, height=height), b(width=width, height=height))
+    return a(width=width, height=height) * b(width=width, height=height)
 
 
 def any_(*args: Union[bool, np.ndarray]) -> Union[bool, np.ndarray]:
@@ -95,11 +119,11 @@ def any_(*args: Union[bool, np.ndarray]) -> Union[bool, np.ndarray]:
     Examples
     --------
 
-    >>> from arlunio.lib.math import any_
+    >>> from arlunio.lib.mask import any_
     >>> any_(True, False, False)
-    True
+    Mask(True)
     >>> any_(False, False, False, False)
-    False
+    Mask(False)
 
     If the arguments are boolean numpy arrays, then the any condition is applied
     element-wise
@@ -109,14 +133,14 @@ def any_(*args: Union[bool, np.ndarray]) -> Union[bool, np.ndarray]:
     >>> x2 = np.array([False, False, True])
     >>> x3 = np.array([False, True, False])
     >>> any_(x1, x2, x3)
-    array([ True,  True,  True])
+    Mask([ True,  True,  True])
 
     This function can even handle a mixture of arrays and single values - assuming
     their shapes can be broadcasted to a common shape.
 
     >>> any_(False, np.array([True, False]), np.array([[False, True], [True, False]]))
-    array([[ True,  True],
-           [ True, False]])
+    Mask([[ True,  True],
+          [ True, False]])
 
 
     See Also
@@ -131,7 +155,7 @@ def any_(*args: Union[bool, np.ndarray]) -> Union[bool, np.ndarray]:
     |numpy.logical_or|
        Reference documentation on the :code:`np.logical_or` function
     """
-    return functools.reduce(np.logical_or, args)
+    return Mask(functools.reduce(np.logical_or, args))
 
 
 def all_(*args: Union[bool, np.ndarray]) -> Union[bool, np.ndarray]:
@@ -152,11 +176,11 @@ def all_(*args: Union[bool, np.ndarray]) -> Union[bool, np.ndarray]:
     Examples
     --------
 
-    >>> from arlunio.lib.math import all_
+    >>> from arlunio.lib.mask import all_
     >>> all_(True, True, True)
-    True
+    Mask(True)
     >>> all_(True, False, True, True)
-    False
+    Mask(False)
 
     If the arguments are boolean numpy arrays, then the any condition is applied
     element-wise
@@ -166,14 +190,14 @@ def all_(*args: Union[bool, np.ndarray]) -> Union[bool, np.ndarray]:
     >>> x2 = np.array([False, False, True])
     >>> x3 = np.array([False, True, True])
     >>> all_(x1, x2, x3)
-    array([False, False,  True])
+    Mask([False, False,  True])
 
     This function can even handle a mixture of arrays and single values - assuming
     their shapes can be broadcasted to a common shape.
 
     >>> all_(True, np.array([True, False]), np.array([[False, True], [True, False]]))
-    array([[False, False],
-           [ True, False]])
+    Mask([[False, False],
+          [ True, False]])
 
 
     See Also
@@ -188,8 +212,8 @@ def all_(*args: Union[bool, np.ndarray]) -> Union[bool, np.ndarray]:
     |numpy.logical_and|
        Reference documentation on the :code:`logical_and` function.
     """
-    return functools.reduce(np.logical_and, args)
+    return Mask(functools.reduce(np.logical_and, args))
 
 
 def invert(x):
-    return np.logical_not(x)
+    return Mask(np.logical_not(x))
