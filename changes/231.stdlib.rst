@@ -1,0 +1,5 @@
+Refine the concept of a :code:`Mask`
+
+A Mask is now a sub-class of a :code:`numpy.ndarray` that is geared towards manipulating
+boolean numpy arrays. They can be added (:code:`a OR b`), subtracted
+(:code:`a AND (NOT b)`), multiplied (:code:`a AND b`) and negated (:code:`NOT a`).

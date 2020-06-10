@@ -1,3 +1,0 @@
-Reorganised the standard library the `shapes`, `patterns` and `operators` modules have
-been merged into a single `arlunio.lib.mask` module. The `parameters` module has
-also been renamed to `math`.

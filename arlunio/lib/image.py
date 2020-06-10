@@ -95,8 +95,8 @@ def colorramp(values, start: Optional[str] = None, stop: Optional[str] = None) -
 
     # Scale all the values so that they fall into the range [0, 1]
     minx = np.min(values)
-    vs = np.array(values)
-    vs = (vs - minx) / np.max(vs)
+    vs = np.array(values) - minx
+    vs = vs / np.max(vs)
 
     (r, g, b) = PColor.getrgb("#000") if start is None else PColor.getrgb(start)
     (R, G, B) = PColor.getrgb("#fff") if stop is None else PColor.getrgb(stop)

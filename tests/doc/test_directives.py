@@ -54,7 +54,7 @@ def test_render_image_image_provided():
     """Ensure that if the code provides an image we use that."""
 
     src = """\
-    from arlunio.lib.mask import Circle
+    from arlunio.lib.shape import Circle
     from arlunio.lib.image import fill
 
     circle = Circle()
