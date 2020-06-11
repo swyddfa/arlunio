@@ -1,12 +1,11 @@
 .. _users_getting_started_first_image:
 
-Your First Image
-================
+The Chess Board
+===============
 
 .. nbtutorial::
 
-Drawing an image with :code:`arlunio` can be as simple as a few lines of
-code::
+Every game of chess takes place on a board
 
    import arlunio as ar
    from arlunio.lib import Circle

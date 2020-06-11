@@ -4,7 +4,7 @@
 import arlunio as ar
 import numpy as np
 
-from arlunio.lib.mask import Mask, all_, invert
+from arlunio.lib.mask import Mask, all_
 from arlunio.lib.math import X, Y
 
 
@@ -117,12 +117,12 @@ def Circle(x: X, y: Y, *, xc=0, yc=0, r=0.8, pt=None) -> Mask:
     circle = np.sqrt(x + y)
 
     if pt is None:
-        return (circle < r ** 2).view(Mask)
+        return Mask(circle < r ** 2)
 
     inner = (1 - pt) * r ** 2
     outer = (1 + pt) * r ** 2
 
-    return all_(inner < circle, circle < outer).view(Mask)
+    return all_(inner < circle, circle < outer)
 
 
 @ar.definition
@@ -246,7 +246,7 @@ def Ellipse(x: X, y: Y, *, xc=0, yc=0, a=2, b=1, r=0.8, pt=None) -> Mask:
     ellipse = np.sqrt(x / a + y / b)
 
     if pt is None:
-        return ellipse < r * r
+        return Mask(ellipse < r * r)
 
     inner = (1 - pt) * r ** 2
     outer = (1 + pt) * r ** 2
@@ -384,7 +384,7 @@ def SuperEllipse(
     ellipse = np.abs(x / a) ** n + np.abs(y / b) ** m
 
     if pt is None:
-        return ellipse < r
+        return Mask(ellipse < r)
 
     inner = (1 - pt) * r
     outer = (1 + pt) * r
@@ -463,7 +463,7 @@ def Square(x: X, y: Y, *, xc=0, yc=0, size=0.8, pt=None) -> Mask:
     inner = all_(xs < s, ys < s)
     outer = all_(xs < S, ys < S)
 
-    return all_(outer, invert(inner))
+    return outer - inner
 
 
 @ar.definition
@@ -539,4 +539,4 @@ def Rectangle(x: X, y: Y, *, xc=0, yc=0, size=0.6, ratio=1.618, pt=None) -> Mask
     inner = all_(xs < w, ys < h)
     outer = all_(xs < W, ys < H)
 
-    return all_(outer, invert(inner))
+    return outer - inner

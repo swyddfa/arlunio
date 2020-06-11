@@ -296,12 +296,12 @@ class Defn(metaclass=_BaseDefn):
     @classmethod
     def produces(cls):
         """Return the type of the object that this definition produces."""
-        rtype = inspect.signature(cls._impl).return_annotation
 
-        if rtype == inspect._empty:
+        if not hasattr(cls, "_impl"):
             return Any
 
-        return rtype
+        rtype = inspect.signature(cls._impl).return_annotation
+        return rtype if rtype != inspect._empty else Any
 
 
 @attr.s(auto_attribs=True)

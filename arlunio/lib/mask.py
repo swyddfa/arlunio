@@ -7,8 +7,11 @@ import numpy as np
 
 
 class Mask(np.ndarray):
-    """Currently just a type alias for boolean numpy arrays but gives us the flexibility
-    to add smarts later."""
+    """A mask is just a boolean numpy array.
+
+    They are typically used to represent 'selections' for various operations such as
+    when coloring a region of an image.
+    """
 
     def __new__(cls, arr):
         return np.asarray(arr).view(cls)
@@ -58,38 +61,32 @@ class Mask(np.ndarray):
 
 @ar.definition
 def Empty(width: int, height: int) -> Mask:
-    """An empty shape definition.
+    """An empty mask.
 
     Example
     -------
-
-    .. arlunio-image::
-       :include-code: before
-
-       from arlunio.lib.shape import Empty
-       from arlunio.lib.image import fill
-
-       e = Empty()
-       image = fill(e(width=1920, height=1080))
+    >>> from arlunio.lib.mask import Empty
+    >>> empty = Empty()
+    >>> empty(width=4, height=3)
+    Mask([[False, False, False, False],
+          [False, False, Fasle, False],
+          [Fasle, Fasle, False, False]])
     """
     return Mask.empty(height, width)
 
 
 @ar.definition
 def Full(width: int, height: int) -> Mask:
-    """An full shape definition.
+    """An full mask.
 
     Example
     -------
-
-    .. arlunio-image::
-       :include-code: before
-
-       from arlunio.lib.shape import Full
-       from arlunio.lib.image import fill
-
-       f = Full()
-       image = fill(f(width=1920, height=1080))
+    >>> from arlunio.lib.mask import Full
+    >>> full = Full()
+    >>> full(width=4, height=3)
+    Mask([[True, True, True, True],
+          [True, True, True, True],
+          [True, True, True, True]])
     """
     return Mask.full(height, width)
 
@@ -157,7 +154,7 @@ def MaskMul(
     return a(width=width, height=height) * b(width=width, height=height)
 
 
-def any_(*args: Union[bool, np.ndarray]) -> Union[bool, np.ndarray]:
+def any_(*args: Union[bool, np.ndarray]) -> Mask:
     """Given a number of conditions, return :code:`True` if any of the conditions
     are true.
 
@@ -214,7 +211,7 @@ def any_(*args: Union[bool, np.ndarray]) -> Union[bool, np.ndarray]:
     return Mask(functools.reduce(np.logical_or, args))
 
 
-def all_(*args: Union[bool, np.ndarray]) -> Union[bool, np.ndarray]:
+def all_(*args: Union[bool, np.ndarray]) -> Mask:
     """Given a number of conditions, return :code:`True` only if **all**
     of the given conditions are true.
 
@@ -269,7 +266,3 @@ def all_(*args: Union[bool, np.ndarray]) -> Union[bool, np.ndarray]:
        Reference documentation on the :code:`logical_and` function.
     """
     return Mask(functools.reduce(np.logical_and, args))
-
-
-def invert(x):
-    return Mask(np.logical_not(x))

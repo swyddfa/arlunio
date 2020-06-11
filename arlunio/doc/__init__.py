@@ -26,12 +26,10 @@ TEMPLATE = [
 # fmt: on
 
 
-def _document_inheritance(defn: arlunio.Defn) -> Optional[List[str]]:
-    """Given a definition, link back to any definitions it derives from."""
+def _document_inputs(defn: arlunio.Defn, lines: List[str]):
+    """Given a definition, document any inputs."""
 
-    lines = []
     inputs = []
-    defns = []
 
     for name, value in defn.inputs().items():
         dtype = value.dtype
@@ -43,7 +41,13 @@ def _document_inheritance(defn: arlunio.Defn) -> Optional[List[str]]:
 
     if len(inputs) > 0:
         lines.append(textwrap.indent("* - **Inputs:**", " " * 3))
-        lines.append(textwrap.indent(", ".join(inputs), " " * 5 + "- "))
+        lines.append(textwrap.indent(" ".join(inputs), " " * 5 + "- "))
+
+
+def _document_bases(defn: arlunio.Defn, lines: List[str]):
+    """Given a definition, document any definitions it is derived from."""
+
+    defns = []
 
     for name, value in defn.bases().items():
 
@@ -54,7 +58,32 @@ def _document_inheritance(defn: arlunio.Defn) -> Optional[List[str]]:
 
     if len(defns) > 0:
         lines.append(textwrap.indent("* - **Bases:**", " " * 3))
-        lines.append(textwrap.indent(", ".join(defns), " " * 5 + "- "))
+        lines.append(textwrap.indent(" ".join(defns), " " * 5 + "- "))
+
+
+def _document_produces(defn: arlunio.Defn, lines: List[str]):
+    """Given a definition and it declares with it produces, document it."""
+
+    if defn.produces() == Any:
+        return
+
+    result = defn.produces()
+
+    name = result.__name__
+    mod = result.__module__
+
+    lines.append(textwrap.indent("* - **Produces:**", " " * 3))
+    lines.append(textwrap.indent(f":class:`{name} <{mod}.{name}>`", " " * 5 + "- "))
+
+
+def _document_inheritance(defn: arlunio.Defn) -> Optional[List[str]]:
+    """Given a definition, link back to any definitions it derives from."""
+
+    lines = []
+
+    _document_inputs(defn, lines)
+    _document_bases(defn, lines)
+    _document_produces(defn, lines)
 
     if len(lines) == 0:
         return None

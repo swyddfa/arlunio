@@ -4,8 +4,25 @@ import arlunio as ar
 import numpy as np
 
 from arlunio.lib.mask import Empty, Mask
+from arlunio.lib.math import X, Y
 
 logger = logging.getLogger(__name__)
+
+
+@ar.definition
+def Checker(x: X, y: Y) -> Mask:
+    """
+    .. arlunio-image::
+
+       from arlunio.lib.image import fill
+       from arlunio.lib.pattern import Checker
+
+       checker = Checker()
+       image = fill(checker(width=256, height=256))
+
+    A simple checker pattern.
+    """
+    return x * y > 0
 
 
 @ar.definition
@@ -137,7 +154,7 @@ def Map(width: int, height: int, *, layout=None, legend=None) -> Mask:
        from arlunio.lib.image import fill
        from arlunio.lib.mask import any_
        from arlunio.lib.pattern import Map
-       from arlunio.lib.shape import Empty, Rectangle
+       from arlunio.lib.shape import Rectangle
 
        @ar.definition
        def Wall(width: int, height: int, *, sides=None):
@@ -158,7 +175,6 @@ def Map(width: int, height: int, *, layout=None, legend=None) -> Mask:
            return mask
 
        legend = {
-           "": Empty(),
            "tt": Wall(sides="top"),
            "bb": Wall(sides="bottom"),
            "ll": Wall(sides="left"),
@@ -266,7 +282,7 @@ def Pixelize(
        import numpy as np
 
        from arlunio.lib.image import fill
-       from arlunio.lib.mask import all_, any_, invert
+       from arlunio.lib.mask import all_
        from arlunio.lib.math import X, Y
        from arlunio.lib.pattern import Pixelize
        from arlunio.lib.shape import Circle
