@@ -41,7 +41,7 @@
 
 .gallery-image .thumbnail > * {
   align-self: flex-end;
-  transform: translate(0, 70px);
+  transform: translate(0, 150px);
   transition: all 0.2s ease-out;
 }
 
