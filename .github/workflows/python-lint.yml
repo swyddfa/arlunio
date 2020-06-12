@@ -38,3 +38,9 @@ jobs:
       run: |
         tox -e lint
     # </lint-job-steps>
+    # <lint-job-onerror>
+    - name: Show Fixes
+      run:
+        git diff
+      if: ${{ failure() }}
+    # </lint-job-onerror>
