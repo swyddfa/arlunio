@@ -3,9 +3,9 @@ import textwrap
 
 from typing import Any, Dict, List, Optional
 
-import arlunio
-
 from sphinx.application import Sphinx
+
+import arlunio
 
 from .builder import NotebookTutorialBuilder
 from .directives import (

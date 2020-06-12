@@ -17,19 +17,21 @@ import traceback
 from datetime import datetime
 from typing import Any, Dict, List
 
-import arlunio
-import arlunio.lib.image as img
 import attr
 import jinja2 as j2
 import PIL
-import tomlkit as toml
 
-from arlunio.imp import NotebookLoader
-from markdown import markdown
 from pygments import highlight
 from pygments.formatters import HtmlFormatter
 from pygments.lexers import PythonLexer
 from tqdm import tqdm
+
+import arlunio
+import arlunio.lib.image as img
+import tomlkit as toml
+
+from arlunio.imp import NotebookLoader
+from markdown import markdown
 
 # from importlib import import_module
 logger = logging.getLogger(__name__)
