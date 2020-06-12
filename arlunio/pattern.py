@@ -6,8 +6,8 @@ import numpy as np
 
 import arlunio as ar
 
-from arlunio.lib.mask import Empty, Mask
-from arlunio.lib.math import X, Y
+from arlunio.mask import Empty, Mask
+from arlunio.math import X, Y
 
 logger = logging.getLogger(__name__)
 

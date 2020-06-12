@@ -1,10 +1,11 @@
 import logging
 
-import arlunio as ar
 import numpy as np
 import PIL.Image as Image
 
-from arlunio.lib.math import clamp
+import arlunio as ar
+
+from arlunio.math import clamp
 
 from .camera import SimpleCamera
 from .data import Rays, ScatterPoint

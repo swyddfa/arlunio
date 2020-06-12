@@ -1,8 +1,9 @@
-import arlunio as ar
 import numpy as np
 import numpy.random as npr
 
-from arlunio.lib.color import getcolorf
+import arlunio as ar
+
+from arlunio.color import getcolorf
 
 from .data import Rays, ScatterPoint
 

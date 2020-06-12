@@ -47,7 +47,7 @@ class Mask(np.ndarray):
 
         Example
         -------
-        >>> from arlunio.lib.mask import Mask
+        >>> from arlunio.mask import Mask
         >>> Mask.empty(3, 4)
         Mask([[False, False, False, False],
               [False, False, False, False],
@@ -65,7 +65,7 @@ class Mask(np.ndarray):
 
         Example
         -------
-        >>> from arlunio.lib.mask import Mask
+        >>> from arlunio.mask import Mask
         >>> Mask.full(3, 4)
         Mask([[ True,  True,  True,  True],
               [ True,  True,  True,  True],
@@ -84,7 +84,7 @@ def Empty(width: int, height: int) -> Mask:
 
     Example
     -------
-    >>> from arlunio.lib.mask import Empty
+    >>> from arlunio.mask import Empty
     >>> empty = Empty()
     >>> empty(width=4, height=3)
     Mask([[False, False, False, False],
@@ -100,7 +100,7 @@ def Full(width: int, height: int) -> Mask:
 
     Example
     -------
-    >>> from arlunio.lib.mask import Full
+    >>> from arlunio.mask import Full
     >>> full = Full()
     >>> full(width=4, height=3)
     Mask([[ True,  True,  True,  True],
@@ -191,7 +191,7 @@ def any_(*args: Union[bool, np.ndarray]) -> Mask:
     Examples
     --------
 
-    >>> from arlunio.lib.mask import any_
+    >>> from arlunio.mask import any_
     >>> any_(True, False, False)
     Mask(True)
     >>> any_(False, False, False, False)
@@ -248,7 +248,7 @@ def all_(*args: Union[bool, np.ndarray]) -> Mask:
     Examples
     --------
 
-    >>> from arlunio.lib.mask import all_
+    >>> from arlunio.mask import all_
     >>> all_(True, True, True)
     Mask(True)
     >>> all_(True, False, True, True)

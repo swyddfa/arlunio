@@ -1,11 +1,12 @@
 """Here we define many shapes
 
 """
-import arlunio as ar
 import numpy as np
 
-from arlunio.lib.mask import Mask, all_
-from arlunio.lib.math import X, Y
+import arlunio as ar
+
+from arlunio.mask import Mask, all_
+from arlunio.math import X, Y
 
 
 @ar.definition

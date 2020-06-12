@@ -4,12 +4,7 @@ This module defines a number of classes that allow us to extend Python's import
 machinery to support more than just regular Python files. Currently this includes
 support for the following formats.
 
-- .ipynb - Jupyter Notebooks
-
-Note: The code that adds support for Jupyter Notebooks is heavily based on code
-originally found in the documentation.
-
-https://jupyter-notebook.readthedocs.io/en/stable/examples/Notebook/Importing%20Notebooks.html
+- :code:`.ipynb`: Jupyter Notebooks
 """
 import importlib.util as imutil
 import logging
@@ -23,6 +18,9 @@ import nbformat
 from IPython.core.interactiveshell import InteractiveShell
 
 logger = logging.getLogger(__name__)
+
+# Notebook implementation based on
+# https://jupyter-notebook.readthedocs.io/en/stable/examples/Notebook/Importing%20Notebooks.html
 
 
 def _find_notebook(fullname, path=None):
@@ -53,11 +51,10 @@ def _find_notebook(fullname, path=None):
 
 
 class NotebookLoader(Loader):
-    """This does the legwork of importing a notebook.
+    """This does the legwork of importing a notebook."""
 
-    Note: It's not currently clear when all the various loaders should be used so we're
-    sticking with a vanilla Loader for now.
-    """
+    # Note: It's not currently clear when all the various loaders should be used so
+    # sticking with a vanilla Loader for now.
 
     def __init__(self, path=None):
         self.path = path
@@ -100,15 +97,11 @@ class NotebookLoader(Loader):
 
 
 class NotebookFinder(MetaPathFinder):
-    """Responsible for checking a path to see if it "looks like a notebook".
+    """Responsible for checking a path to see if it "looks like a notebook"."""
 
-    If we think we can handle a given path then we should return a loader capable of
-    processing it.
-
-    Note: It's not currently clear what the difference is between MetaPathFinder and
-    PathEntryFinder, currently implementing the MetaPathFinder interface since it seems
-    to work correctly.
-    """
+    # Note: It's not currently clear what the difference is between MetaPathFinder and
+    # PathEntryFinder, currently implementing the MetaPathFinder interface since it
+    # seems to work correctly.
 
     def __init__(self):
         self.loaders = {}
