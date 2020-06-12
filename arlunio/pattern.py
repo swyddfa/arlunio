@@ -17,8 +17,8 @@ def Checker(x: X, y: Y) -> Mask:
     """
     .. arlunio-image::
 
-       from arlunio.lib.image import fill
-       from arlunio.lib.pattern import Checker
+       from arlunio.image import fill
+       from arlunio.pattern import Checker
 
        checker = Checker()
        image = fill(checker(width=256, height=256))
@@ -33,9 +33,9 @@ def Grid(width: int, height: int, *, n=4, m=None, defn=None) -> Mask:
     """
     .. arlunio-image::
 
-       from arlunio.lib.image import fill
-       from arlunio.lib.pattern import Grid
-       from arlunio.lib.shape import Circle
+       from arlunio.image import fill
+       from arlunio.pattern import Grid
+       from arlunio.shape import Circle
 
        pattern = Grid(defn=Circle())
        image = fill(pattern(width=512, height=256))
@@ -72,10 +72,10 @@ def Grid(width: int, height: int, *, n=4, m=None, defn=None) -> Mask:
        import arlunio as ar
        import numpy as np
 
-       from arlunio.lib.image import fill
-       from arlunio.lib.math import X, Y
-       from arlunio.lib.shape import Circle
-       from arlunio.lib.pattern import Grid
+       from arlunio.image import fill
+       from arlunio.math import X, Y
+       from arlunio.shape import Circle
+       from arlunio.pattern import Grid
 
 
        @ar.definition
@@ -96,9 +96,9 @@ def Grid(width: int, height: int, *, n=4, m=None, defn=None) -> Mask:
        import arlunio as ar
        import numpy as np
 
-       from arlunio.lib.image import fill
-       from arlunio.lib.math import X, Y
-       from arlunio.lib.pattern import Grid
+       from arlunio.image import fill
+       from arlunio.math import X, Y
+       from arlunio.pattern import Grid
 
        @ar.definition
        def Template(x: X, y: Y):
@@ -154,10 +154,10 @@ def Map(width: int, height: int, *, layout=None, legend=None) -> Mask:
        import arlunio as ar
        import numpy as np
 
-       from arlunio.lib.image import fill
-       from arlunio.lib.mask import any_
-       from arlunio.lib.pattern import Map
-       from arlunio.lib.shape import Rectangle
+       from arlunio.image import fill
+       from arlunio.mask import any_
+       from arlunio.pattern import Map
+       from arlunio.shape import Rectangle
 
        @ar.definition
        def Wall(width: int, height: int, *, sides=None):
@@ -219,9 +219,9 @@ def Pixelize(
     """
     .. arlunio-image::
 
-       from arlunio.lib.image import fill
-       from arlunio.lib.pattern import Pixelize
-       from arlunio.lib.shape import Circle
+       from arlunio.image import fill
+       from arlunio.pattern import Pixelize
+       from arlunio.shape import Circle
 
        pix = Pixelize(defn=Circle(), n=16, m=16)
        image = fill(pix(width=256, height=256))
@@ -264,8 +264,8 @@ def Pixelize(
 
        import numpy as np
 
-       from arlunio.lib.image import fill
-       from arlunio.lib.pattern import Pixelize
+       from arlunio.image import fill
+       from arlunio.pattern import Pixelize
 
        pixels = np.array([
            [False,  True,  True, False],
@@ -284,11 +284,11 @@ def Pixelize(
        import arlunio as ar
        import numpy as np
 
-       from arlunio.lib.image import fill
-       from arlunio.lib.mask import all_
-       from arlunio.lib.math import X, Y
-       from arlunio.lib.pattern import Pixelize
-       from arlunio.lib.shape import Circle
+       from arlunio.image import fill
+       from arlunio.mask import all_
+       from arlunio.math import X, Y
+       from arlunio.pattern import Pixelize
+       from arlunio.shape import Circle
 
        @ar.definition
        def Ghost(x: X, y: Y):

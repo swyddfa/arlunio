@@ -3,4 +3,4 @@
 Pattern
 =======
 
-.. automodule:: arlunio.lib.pattern
+.. automodule:: arlunio.pattern

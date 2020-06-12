@@ -1,8 +1,5 @@
-"""Import utilities.
-
-This module defines a number of classes that allow us to extend Python's import
-machinery to support more than just regular Python files. Currently this includes
-support for the following formats.
+"""Extensions to Python's import machinery to support more than just regular Python
+files. Currently includes support for the following formats.
 
 - :code:`.ipynb`: Jupyter Notebooks
 """

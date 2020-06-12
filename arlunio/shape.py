@@ -14,8 +14,8 @@ def Circle(x: X, y: Y, *, xc=0, yc=0, r=0.8, pt=None) -> Mask:
     """
     .. arlunio-image::
 
-        from arlunio.lib.shape import Circle
-        from arlunio.lib.image import fill
+        from arlunio.shape import Circle
+        from arlunio.image import fill
 
         circle = Circle()
         image = fill(circle(width=1920, height=1080))
@@ -52,8 +52,8 @@ def Circle(x: X, y: Y, *, xc=0, yc=0, r=0.8, pt=None) -> Mask:
 
        import arlunio as ar
 
-       from arlunio.lib.shape import Circle
-       from arlunio.lib.image import fill
+       from arlunio.shape import Circle
+       from arlunio.image import fill
 
        @ar.definition
        def Target(width: int, height: int):
@@ -83,8 +83,8 @@ def Circle(x: X, y: Y, *, xc=0, yc=0, r=0.8, pt=None) -> Mask:
 
        import arlunio as ar
 
-       from arlunio.lib.shape import Circle
-       from arlunio.lib.image import fill
+       from arlunio.shape import Circle
+       from arlunio.image import fill
 
        @ar.definition
        def OlympicRings(width: int, height: int, *, spacing=0.5, pt=0.025):
@@ -131,8 +131,8 @@ def Ellipse(x: X, y: Y, *, xc=0, yc=0, a=2, b=1, r=0.8, pt=None) -> Mask:
     """
     .. arlunio-image::
 
-       from arlunio.lib.shape import Ellipse
-       from arlunio.lib.image import fill
+       from arlunio.shape import Ellipse
+       from arlunio.image import fill
 
        ellipse = Ellipse()
        image = fill(ellipse(width=1920, height=1080))
@@ -182,8 +182,8 @@ def Ellipse(x: X, y: Y, *, xc=0, yc=0, a=2, b=1, r=0.8, pt=None) -> Mask:
 
        import arlunio as ar
 
-       from arlunio.lib.shape import Ellipse
-       from arlunio.lib.image import fill
+       from arlunio.shape import Ellipse
+       from arlunio.image import fill
 
        @ar.definition
        def EllipseDemo(width: int, height: int):
@@ -213,9 +213,9 @@ def Ellipse(x: X, y: Y, *, xc=0, yc=0, a=2, b=1, r=0.8, pt=None) -> Mask:
 
        import arlunio as ar
 
-       from arlunio.lib.shape import Ellipse
-       from arlunio.lib.math import X, Y
-       from arlunio.lib.image import fill
+       from arlunio.shape import Ellipse
+       from arlunio.math import X, Y
+       from arlunio.image import fill
 
        @ar.definition
        def Atom(x: X, y: Y):
@@ -262,8 +262,8 @@ def SuperEllipse(
     """
     .. arlunio-image::
 
-       from arlunio.lib.shape import SuperEllipse
-       from arlunio.lib.image import fill
+       from arlunio.shape import SuperEllipse
+       from arlunio.image import fill
 
        ellipse = SuperEllipse()
        image = fill(ellipse(width=1920, height=1080))
@@ -317,8 +317,8 @@ def SuperEllipse(
 
        import arlunio as ar
 
-       from arlunio.lib.shape import SuperEllipse
-       from arlunio.lib.image import fill
+       from arlunio.shape import SuperEllipse
+       from arlunio.image import fill
 
        @ar.definition
        def SuperEllipseDemo(width: int, height: int):
@@ -350,8 +350,8 @@ def SuperEllipse(
 
        import arlunio as ar
 
-       from arlunio.lib.shape import SuperEllipse
-       from arlunio.lib.image import fill
+       from arlunio.shape import SuperEllipse
+       from arlunio.image import fill
 
        @ar.definition
        def Sauron(width: int, height: int):
@@ -398,8 +398,8 @@ def Square(x: X, y: Y, *, xc=0, yc=0, size=0.8, pt=None) -> Mask:
     """
     .. arlunio-image::
 
-       from arlunio.lib.shape import Square
-       from arlunio.lib.image import fill
+       from arlunio.shape import Square
+       from arlunio.image import fill
 
        square = Square()
        image = fill(square(width=1920, height=1080))
@@ -428,9 +428,9 @@ def Square(x: X, y: Y, *, xc=0, yc=0, size=0.8, pt=None) -> Mask:
 
        import arlunio as ar
 
-       from arlunio.lib.shape import Square
-       from arlunio.lib.math import X, Y
-       from arlunio.lib.image import fill
+       from arlunio.shape import Square
+       from arlunio.math import X, Y
+       from arlunio.image import fill
 
        @ar.definition
        def SquareDemo(x: X, y: Y):
@@ -472,8 +472,8 @@ def Rectangle(x: X, y: Y, *, xc=0, yc=0, size=0.6, ratio=1.618, pt=None) -> Mask
     """
     .. arlunio-image::
 
-       from arlunio.lib.shape import Rectangle
-       from arlunio.lib.image import fill
+       from arlunio.shape import Rectangle
+       from arlunio.image import fill
 
        rectangle = Rectangle()
        image = fill(rectangle(width=1920, height=1080))
@@ -504,8 +504,8 @@ def Rectangle(x: X, y: Y, *, xc=0, yc=0, size=0.6, ratio=1.618, pt=None) -> Mask
 
        import arlunio as ar
 
-       from arlunio.lib.shape import Rectangle
-       from arlunio.lib.image import fill
+       from arlunio.shape import Rectangle
+       from arlunio.image import fill
 
        @ar.definition
        def RectangleDemo(width: int, height: int):
