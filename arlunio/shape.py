@@ -4,9 +4,10 @@
 import numpy as np
 
 import arlunio as ar
-
-from arlunio.mask import Mask, all_
-from arlunio.math import X, Y
+from arlunio.mask import all_
+from arlunio.mask import Mask
+from arlunio.math import X
+from arlunio.math import Y
 
 
 @ar.definition

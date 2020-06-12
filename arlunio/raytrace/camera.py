@@ -2,7 +2,6 @@ import numpy as np
 import numpy.random as npr
 
 import arlunio as ar
-
 from .data import Rays
 
 

@@ -7,9 +7,8 @@ import traceback
 
 import pkg_resources
 
-from arlunio._version import __version__
-
 from ._interface import build_command_parser
+from arlunio._version import __version__
 
 logger = logging.getLogger(__name__)
 

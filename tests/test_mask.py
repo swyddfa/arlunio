@@ -1,13 +1,11 @@
 import numpy as np
 import numpy.random as npr
 import py.test
-
 from hypothesis import given
 from hypothesis.strategies import integers
 
 import arlunio as ar
 import arlunio.testing as T
-
 from arlunio.mask import Mask
 
 

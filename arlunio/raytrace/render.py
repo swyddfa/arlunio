@@ -4,12 +4,12 @@ import numpy as np
 import PIL.Image as Image
 
 import arlunio as ar
-
-from arlunio.math import clamp
-
 from .camera import SimpleCamera
-from .data import Rays, ScatterPoint
-from .material import Gradient, LambertianDiffuse
+from .data import Rays
+from .data import ScatterPoint
+from .material import Gradient
+from .material import LambertianDiffuse
+from arlunio.math import clamp
 
 
 @ar.definition

@@ -2,15 +2,16 @@ import random
 import string
 import textwrap
 import traceback
-
-from typing import List, Tuple
+from typing import List
+from typing import Tuple
 
 from docutils import nodes
 from docutils.parsers import rst
 from docutils.parsers.rst.directives.admonitions import BaseAdmonition
 from docutils.statemachine import StringList
 from PIL.Image import Image
-from sphinx.util import logging, nested_parse_with_titles
+from sphinx.util import logging
+from sphinx.util import nested_parse_with_titles
 
 import arlunio.image as img
 

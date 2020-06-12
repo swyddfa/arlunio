@@ -2,10 +2,9 @@ import numpy as np
 import numpy.random as npr
 
 import arlunio as ar
-
+from .data import Rays
+from .data import ScatterPoint
 from arlunio.color import getcolorf
-
-from .data import Rays, ScatterPoint
 
 
 def random_unit_sphere(n):

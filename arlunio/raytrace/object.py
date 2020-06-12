@@ -3,11 +3,11 @@ import logging
 import numpy as np
 
 import arlunio as ar
-
+from .data import Rays
+from .data import ScatterPoint
 from arlunio.mask import all_
-from arlunio.math import dot, normalise
-
-from .data import Rays, ScatterPoint
+from arlunio.math import dot
+from arlunio.math import normalise
 
 
 @ar.definition

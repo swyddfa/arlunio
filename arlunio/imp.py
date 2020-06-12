@@ -7,11 +7,10 @@ import importlib.util as imutil
 import logging
 import os
 import pathlib
-
-from importlib.abc import Loader, MetaPathFinder
+from importlib.abc import Loader
+from importlib.abc import MetaPathFinder
 
 import nbformat
-
 from IPython.core.interactiveshell import InteractiveShell
 
 logger = logging.getLogger(__name__)

@@ -3,7 +3,8 @@ import textwrap
 from docutils import nodes
 from docutils.statemachine import StringList
 
-from arlunio.doc.directives import format_error, render_image
+from arlunio.doc.directives import format_error
+from arlunio.doc.directives import render_image
 
 
 def test_render_image_handles_syntax_error():

@@ -1,20 +1,19 @@
 import inspect
 import textwrap
-
-from typing import Any, Dict, List, Optional
+from typing import Any
+from typing import Dict
+from typing import List
+from typing import Optional
 
 from sphinx.application import Sphinx
 
 import arlunio
-
 from .builder import NotebookTutorialBuilder
-from .directives import (
-    ArlunioImageDirective,
-    NBTutorialDirective,
-    depart_nbtutorial,
-    nbtutorial,
-    visit_nbtutorial,
-)
+from .directives import ArlunioImageDirective
+from .directives import depart_nbtutorial
+from .directives import nbtutorial
+from .directives import NBTutorialDirective
+from .directives import visit_nbtutorial
 
 # fmt: off
 TEMPLATE = [

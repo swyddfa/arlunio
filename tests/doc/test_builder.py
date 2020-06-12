@@ -3,9 +3,9 @@ import unittest.mock as mock
 
 import nbformat.v4 as nbf
 import py.test
-
 from docutils.io import StringInput
-from docutils.parsers.rst import Parser, directives
+from docutils.parsers.rst import directives
+from docutils.parsers.rst import Parser
 from docutils.readers.standalone import Reader
 from sphinx.ext.doctest import DoctestDirective
 

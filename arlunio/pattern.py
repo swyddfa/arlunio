@@ -5,9 +5,10 @@ import logging
 import numpy as np
 
 import arlunio as ar
-
-from arlunio.mask import Empty, Mask
-from arlunio.math import X, Y
+from arlunio.mask import Empty
+from arlunio.mask import Mask
+from arlunio.math import X
+from arlunio.math import Y
 
 logger = logging.getLogger(__name__)
 

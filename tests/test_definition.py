@@ -3,7 +3,6 @@ from typing import Any
 import py.test
 
 import arlunio as ar
-
 from arlunio import DefnInput
 
 

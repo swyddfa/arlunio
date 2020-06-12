@@ -1,7 +1,10 @@
 import inspect
 import logging
-
-from typing import Any, ClassVar, Dict, List, Optional
+from typing import Any
+from typing import ClassVar
+from typing import Dict
+from typing import List
+from typing import Optional
 
 import attr
 

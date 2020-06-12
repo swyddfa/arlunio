@@ -3,7 +3,6 @@ import enum
 import io
 import logging
 import pathlib
-
 from typing import Optional
 
 import numpy as np
