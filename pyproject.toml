@@ -18,6 +18,7 @@ ignore = [
   "tests/*"]
 
 [tool.isort]
+known_first_party = ["arlunio"]
 include_trailing_comma = true
 line_length = 88
 lines_between_types = 1
