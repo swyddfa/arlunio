@@ -11,13 +11,13 @@ environment that contains all the dependencies for :code:`arlunio` itself as
 well as a number of development tools.
 
 From the root of the repository create a virtual envrionment named
-:code:`.dev` and activate it
+:code:`.env` and activate it
 
 .. code-block:: sh
 
-   $ python -m venv .dev
-   $ source .dev/bin/activate
-   (.dev) $
+   $ python -m venv .env
+   $ source .env/bin/activate
+   (.env) $
 
 Once active you should see the prompt change to include the name of the
 activated environment. The next step is to then install all the runtime and
@@ -25,7 +25,7 @@ development dependencies
 
 .. code-block:: sh
 
-   (.dev) $ pip install -e .[dev]
+   (.env) $ pip install -e .[dev]
 
 Pre-Commit (Optional, but recommended)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -60,7 +60,7 @@ To setup pre-commit in your copy of the codebase run the following command
 
 .. code-block:: sh
 
-   (.dev) $ pre-commit install
+   (.env) $ pre-commit install
 
 From now on any commits in your copy of the repository will be checked against
 all the hooks defined the repository's :code:`.pre-commit-config.yaml` file.
