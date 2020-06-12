@@ -31,12 +31,11 @@ jobs:
       run: |
         python --version
         python -m pip install --upgrade pip
-        python -m pip install --upgrade tox
+        python -m pip install --upgrade pre-commit
 
-    - name: Tox
-      shell: bash
+    - name: Lint
       run: |
-        tox -e lint
+        pre-commit run --all-files
     # </lint-job-steps>
     # <lint-job-onerror>
     - name: Show Fixes
