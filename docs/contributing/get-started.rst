@@ -41,8 +41,8 @@ programs
 - `black`_: This ensures that all python source code is formatted consistently
 - `flake8`_: This ensures that all python code is free of any obvious bugs
   (undefined variables etc.)
-- `isort`_: This ensures that all python :code:`import` statements are listed in
-  a standard order.
+- `reorder_python_imports`_: This ensures that all python :code:`import` statements are
+  listed in a standard order.
 
 Whether or not you setup :code:`pre-commit` is down to where in your workflow
 you want to resolve any issues flagged by these checks i.e. when you commit vs
@@ -75,4 +75,4 @@ all the hooks defined the repository's :code:`.pre-commit-config.yaml` file.
 .. _black: https://black.readthedocs.io/en/stable/
 .. _flake8: http://flake8.pycqa.org/en/latest/index.html
 .. _pre-commit: https://pre-commit.com/
-.. _isort: https://github.com/timothycrosley/isort
+.. _reorder_python_imports: https://github.com/asottile/reorder_python_imports

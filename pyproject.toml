@@ -2,28 +2,6 @@
 requires = ["setuptools >= 35.0.2", "wheel >= 0.29.0"]
 build-backend = "setuptools.build_meta"
 
-[tool.check-manifest]
-ignore = [
-  "docs",
-  "docs/*",
-  ".pre-commit-config.yaml",
-  "azure-pipelines.yml",
-  "scripts",
-  "scripts/*",
-  ".coveragerc",
-  ".flake8",
-  "*.ipynb_checkpoints",
-  "*.ipynb_checkpoints/*",
-  "tests",
-  "tests/*"]
-
-[tool.isort]
-known_first_party = ["arlunio"]
-include_trailing_comma = true
-line_length = 88
-lines_between_types = 1
-multi_line_output = 3
-
 [tool.towncrier]
 filename = "CHANGES.rst"
 directory = "changes/"
