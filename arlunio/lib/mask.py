@@ -2,8 +2,9 @@ import functools
 
 from typing import Union
 
-import arlunio as ar
 import numpy as np
+
+import arlunio as ar
 
 
 class Mask(np.ndarray):
@@ -42,7 +43,16 @@ class Mask(np.ndarray):
 
     @classmethod
     def empty(cls, *shape):
-        """Return an empty mask with the given shape."""
+        """Return an empty mask with the given shape.
+
+        Example
+        -------
+        >>> from arlunio.lib.mask import Mask
+        >>> Mask.empty(3, 4)
+        Mask([[False, False, False, False],
+              [False, False, False, False],
+              [False, False, False, False]])
+        """
 
         if len(shape) == 1 and isinstance(shape[0], tuple):
             return cls(np.full(shape[0], False))
@@ -51,7 +61,16 @@ class Mask(np.ndarray):
 
     @classmethod
     def full(cls, *shape):
-        """Return a full mask with the given shape."""
+        """Return a full mask with the given shape.
+
+        Example
+        -------
+        >>> from arlunio.lib.mask import Mask
+        >>> Mask.full(3, 4)
+        Mask([[ True,  True,  True,  True],
+              [ True,  True,  True,  True],
+              [ True,  True,  True,  True]])
+        """
 
         if len(shape) == 1 and isinstance(shape[0], tuple):
             return cls(np.full(shape[0], True))
@@ -69,8 +88,8 @@ def Empty(width: int, height: int) -> Mask:
     >>> empty = Empty()
     >>> empty(width=4, height=3)
     Mask([[False, False, False, False],
-          [False, False, Fasle, False],
-          [Fasle, Fasle, False, False]])
+          [False, False, False, False],
+          [False, False, False, False]])
     """
     return Mask.empty(height, width)
 
@@ -84,9 +103,9 @@ def Full(width: int, height: int) -> Mask:
     >>> from arlunio.lib.mask import Full
     >>> full = Full()
     >>> full(width=4, height=3)
-    Mask([[True, True, True, True],
-          [True, True, True, True],
-          [True, True, True, True]])
+    Mask([[ True,  True,  True,  True],
+          [ True,  True,  True,  True],
+          [ True,  True,  True,  True]])
     """
     return Mask.full(height, width)
 

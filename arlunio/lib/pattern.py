@@ -1,7 +1,10 @@
+"""Module level docstring.
+"""
 import logging
 
-import arlunio as ar
 import numpy as np
+
+import arlunio as ar
 
 from arlunio.lib.mask import Empty, Mask
 from arlunio.lib.math import X, Y
@@ -35,7 +38,7 @@ def Grid(width: int, height: int, *, n=4, m=None, defn=None) -> Mask:
        from arlunio.lib.shape import Circle
 
        pattern = Grid(defn=Circle())
-       image = fill(pattern(width=1920, height=1080))
+       image = fill(pattern(width=512, height=256))
 
     Repeatedly draw the given defintition in a grid.
 
@@ -82,7 +85,7 @@ def Grid(width: int, height: int, *, n=4, m=None, defn=None) -> Mask:
 
        pattern = Grid(defn=Template(scale=1.))
        image = fill(
-           pattern(width=1080, height=1080), background="#000", color="#ff0"
+           pattern(width=512, height=512), background="#000", color="#ff0"
        )
 
     A checkerboard like pattern
@@ -101,8 +104,8 @@ def Grid(width: int, height: int, *, n=4, m=None, defn=None) -> Mask:
        def Template(x: X, y: Y):
            return np.abs(x) - np.abs(y) < 0
 
-       grid = Grid(defn=Template(), n=22, m=13)
-       image = fill(grid(width=1920, height=1080))
+       grid = Grid(defn=Template(), n=16, m=8)
+       image = fill(grid(width=512, height=256))
     """
     if m is None:
         m = n
@@ -194,7 +197,7 @@ def Map(width: int, height: int, *, layout=None, legend=None) -> Mask:
        ])
 
        map_ = Map(legend=legend, layout=layout)
-       image = fill(map_(width=1080, height=1080), color="blue")
+       image = fill(map_(width=256, height=256), color="blue")
     """
 
     # TODO: Handle divisions with rounding errors
@@ -220,8 +223,8 @@ def Pixelize(
        from arlunio.lib.pattern import Pixelize
        from arlunio.lib.shape import Circle
 
-       pix = Pixelize(defn=Circle(), n=32, m=32)
-       image = fill(pix(width=1920, height=1080))
+       pix = Pixelize(defn=Circle(), n=16, m=16)
+       image = fill(pix(width=256, height=256))
 
     Draw a pixelated version of a definition.
 
@@ -271,7 +274,7 @@ def Pixelize(
            [False,  True,  True, False]
        ])
        defn = Pixelize(pixels=pixels)
-       image = fill(defn(width=1080, height=1080))
+       image = fill(defn(width=512, height=512))
 
     Alternatively we can generate the pixels from an instance of another definition
 
@@ -301,7 +304,7 @@ def Pixelize(
            return (head(x=x, y=y) - eyes(x=np.abs(x), y=y)) + body
 
        ghost = Pixelize(defn=Ghost(y0=-0.3), n=32, m=32)
-       image = fill(ghost(width=1080, height=1080), color="#f00")
+       image = fill(ghost(width=512, height=512), color="#f00")
     """
 
     if defn is None and pixels is None:

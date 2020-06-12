@@ -5,14 +5,14 @@ import traceback
 
 from typing import List, Tuple
 
-import arlunio.lib.image as img
-
 from docutils import nodes
 from docutils.parsers import rst
 from docutils.parsers.rst.directives.admonitions import BaseAdmonition
 from docutils.statemachine import StringList
 from PIL.Image import Image
 from sphinx.util import logging, nested_parse_with_titles
+
+import arlunio.lib.image as img
 
 logger = logging.getLogger(__name__)
 
@@ -45,7 +45,7 @@ IMAGE_TEMPLATE = string.Template(
   <img src="data:image/png;base64,${data}"></img>
 </figure>
 <style>
-  .${id} {margin: auto;}
+  .${id} {display: flex; margin: 1rem auto;}
   .${id} img {
       border: solid 1px #ddd;
       margin: auto;
