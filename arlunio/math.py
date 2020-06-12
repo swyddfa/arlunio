@@ -1,7 +1,8 @@
 from typing import Callable
 
-import arlunio as ar
 import numpy as np
+
+import arlunio as ar
 
 
 def clamp(vs, min_=0, max_=1):
@@ -21,7 +22,7 @@ def clamp(vs, min_=0, max_=1):
 
     By default values will be limited to between :code:`0` and :code:`1`
 
-    >>> from arlunio.lib.math import clamp
+    >>> from arlunio.math import clamp
     >>> import numpy as np
     >>> vs = np.linspace(-1, 2, 6)
     >>> clamp(vs)
@@ -63,7 +64,7 @@ def lerp(start: float = 0, stop: float = 1) -> Callable[[float], float]:
 
     By default this function will interpolate between :code:`0` and :code:`1`
 
-    >>> from arlunio.lib.math import lerp
+    >>> from arlunio.math import lerp
     >>> f = lerp()
     >>> f(0)
     0
@@ -108,8 +109,8 @@ def X(width: int, height: int, *, x0=0, scale=1, stretch=False):
     """
     .. arlunio-image::
 
-       from arlunio.lib.math import X
-       from arlunio.lib.image import colorramp
+       from arlunio.math import X
+       from arlunio.image import colorramp
 
        x = X()
        image = colorramp(x(width=1920, height=1080))
@@ -133,7 +134,7 @@ def X(width: int, height: int, *, x0=0, scale=1, stretch=False):
 
     By default values will be generated between :math:`\\pm 1`::
 
-       >>> from arlunio.lib.math import X
+       >>> from arlunio.math import X
        >>> x = X()
        >>> x(width=4, height=4)
        array([[-1.        , -0.33333333,  0.33333333,  1.        ],
@@ -183,8 +184,8 @@ def Y(width: int, height: int, *, y0=0, scale=1, stretch=False):
     """
     .. arlunio-image::
 
-       from arlunio.lib.math import Y
-       from arlunio.lib.image import colorramp
+       from arlunio.math import Y
+       from arlunio.image import colorramp
 
        y = Y()
        image = colorramp(y(width=1920, height=1080))
@@ -208,7 +209,7 @@ def Y(width: int, height: int, *, y0=0, scale=1, stretch=False):
 
     By default values will be generated between :math:`\\pm 1`::
 
-       >>> from arlunio.lib.math import Y
+       >>> from arlunio.math import Y
        >>> y = Y()
        >>> y(width=4, height=4)
        array([[ 1.        ,  1.        ,  1.        ,  1.        ],
@@ -262,8 +263,8 @@ def R(x: X, y: Y):
     """
     .. arlunio-image::
 
-       from arlunio.lib.math import R
-       from arlunio.lib.image import colorramp
+       from arlunio.math import R
+       from arlunio.image import colorramp
 
        r = R()
        image = colorramp(r(width=1920, height=1080))
@@ -281,7 +282,7 @@ def R(x: X, y: Y):
     --------
     ::
 
-       >>> from arlunio.lib.math import R
+       >>> from arlunio.math import R
        >>> r = R()
        >>> r(width=5, height=5)
        array([[1.41421356, 1.11803399, 1.        , 1.11803399, 1.41421356],
@@ -315,8 +316,8 @@ def T(x: X, y: Y, *, t0=0):
     """
     .. arlunio-image::
 
-       from arlunio.lib.math import T
-       from arlunio.lib.image import colorramp
+       from arlunio.math import T
+       from arlunio.image import colorramp
 
        t = T()
        image = colorramp(t(width=1920, height=1080))
@@ -341,7 +342,7 @@ def T(x: X, y: Y, *, t0=0):
 
     By default all point on the :math:`x`-axis will have a value of :code:`t = 0`::
 
-       >>> from arlunio.lib.math import T
+       >>> from arlunio.math import T
        >>> t = T()
        >>> t(width=5, height=5)
        array([[ 2.35619449,  2.03444394,  1.57079633,  1.10714872,  0.78539816],

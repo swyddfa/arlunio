@@ -22,19 +22,24 @@ jobs:
     # <lint-job-steps>
     - uses: actions/checkout@v1
 
-    - name: Setup Python 3.7
+    - name: Setup Python 3.8
       uses: actions/setup-python@v1
       with:
-        python-version: 3.7
+        python-version: 3.8
 
     - name: Setup Environment
       run: |
         python --version
-        python -m pip install --upgrade pip
-        python -m pip install --upgrade tox
+        python -m pip install --upgrade pip wheel
+        python -m pip install -e .[dev]
 
-    - name: Tox
-      shell: bash
+    - name: Lint
       run: |
-        tox -e lint
+        pre-commit run --all-files
     # </lint-job-steps>
+    # <lint-job-onerror>
+    - name: Show Fixes
+      run:
+        git diff
+      if: ${{ failure() }}
+    # </lint-job-onerror>

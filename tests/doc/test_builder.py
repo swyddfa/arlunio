@@ -3,12 +3,13 @@ import unittest.mock as mock
 
 import nbformat.v4 as nbf
 import py.test
-
-from arlunio.doc.builder import NotebookTranslator
 from docutils.io import StringInput
-from docutils.parsers.rst import Parser, directives
+from docutils.parsers.rst import directives
+from docutils.parsers.rst import Parser
 from docutils.readers.standalone import Reader
 from sphinx.ext.doctest import DoctestDirective
+
+from arlunio.doc.builder import NotebookTranslator
 
 # Register sphinx specific directives with docutils
 directives.register_directive("doctest", DoctestDirective)

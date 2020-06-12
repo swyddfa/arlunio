@@ -1,14 +1,17 @@
 import functools
-
 from typing import Union
 
-import arlunio as ar
 import numpy as np
+
+import arlunio as ar
 
 
 class Mask(np.ndarray):
-    """Currently just a type alias for boolean numpy arrays but gives us the flexibility
-    to add smarts later."""
+    """A mask is just a boolean numpy array.
+
+    They are typically used to represent 'selections' for various operations such as
+    when coloring a region of an image.
+    """
 
     def __new__(cls, arr):
         return np.asarray(arr).view(cls)
@@ -36,6 +39,74 @@ class Mask(np.ndarray):
 
     def __rsub__(self, other):
         return np.logical_and(other, np.logical_not(self))
+
+    @classmethod
+    def empty(cls, *shape):
+        """Return an empty mask with the given shape.
+
+        Example
+        -------
+        >>> from arlunio.mask import Mask
+        >>> Mask.empty(3, 4)
+        Mask([[False, False, False, False],
+              [False, False, False, False],
+              [False, False, False, False]])
+        """
+
+        if len(shape) == 1 and isinstance(shape[0], tuple):
+            return cls(np.full(shape[0], False))
+
+        return cls(np.full(shape, False))
+
+    @classmethod
+    def full(cls, *shape):
+        """Return a full mask with the given shape.
+
+        Example
+        -------
+        >>> from arlunio.mask import Mask
+        >>> Mask.full(3, 4)
+        Mask([[ True,  True,  True,  True],
+              [ True,  True,  True,  True],
+              [ True,  True,  True,  True]])
+        """
+
+        if len(shape) == 1 and isinstance(shape[0], tuple):
+            return cls(np.full(shape[0], True))
+
+        return cls(np.full(shape, True))
+
+
+@ar.definition
+def Empty(width: int, height: int) -> Mask:
+    """An empty mask.
+
+    Example
+    -------
+    >>> from arlunio.mask import Empty
+    >>> empty = Empty()
+    >>> empty(width=4, height=3)
+    Mask([[False, False, False, False],
+          [False, False, False, False],
+          [False, False, False, False]])
+    """
+    return Mask.empty(height, width)
+
+
+@ar.definition
+def Full(width: int, height: int) -> Mask:
+    """An full mask.
+
+    Example
+    -------
+    >>> from arlunio.mask import Full
+    >>> full = Full()
+    >>> full(width=4, height=3)
+    Mask([[ True,  True,  True,  True],
+          [ True,  True,  True,  True],
+          [ True,  True,  True,  True]])
+    """
+    return Mask.full(height, width)
 
 
 @ar.definition(operation=ar.Defn.OP_ADD)
@@ -101,7 +172,7 @@ def MaskMul(
     return a(width=width, height=height) * b(width=width, height=height)
 
 
-def any_(*args: Union[bool, np.ndarray]) -> Union[bool, np.ndarray]:
+def any_(*args: Union[bool, np.ndarray]) -> Mask:
     """Given a number of conditions, return :code:`True` if any of the conditions
     are true.
 
@@ -119,7 +190,7 @@ def any_(*args: Union[bool, np.ndarray]) -> Union[bool, np.ndarray]:
     Examples
     --------
 
-    >>> from arlunio.lib.mask import any_
+    >>> from arlunio.mask import any_
     >>> any_(True, False, False)
     Mask(True)
     >>> any_(False, False, False, False)
@@ -158,7 +229,7 @@ def any_(*args: Union[bool, np.ndarray]) -> Union[bool, np.ndarray]:
     return Mask(functools.reduce(np.logical_or, args))
 
 
-def all_(*args: Union[bool, np.ndarray]) -> Union[bool, np.ndarray]:
+def all_(*args: Union[bool, np.ndarray]) -> Mask:
     """Given a number of conditions, return :code:`True` only if **all**
     of the given conditions are true.
 
@@ -176,7 +247,7 @@ def all_(*args: Union[bool, np.ndarray]) -> Union[bool, np.ndarray]:
     Examples
     --------
 
-    >>> from arlunio.lib.mask import all_
+    >>> from arlunio.mask import all_
     >>> all_(True, True, True)
     Mask(True)
     >>> all_(True, False, True, True)
@@ -213,7 +284,3 @@ def all_(*args: Union[bool, np.ndarray]) -> Union[bool, np.ndarray]:
        Reference documentation on the :code:`logical_and` function.
     """
     return Mask(functools.reduce(np.logical_and, args))
-
-
-def invert(x):
-    return Mask(np.logical_not(x))

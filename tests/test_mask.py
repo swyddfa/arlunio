@@ -1,12 +1,12 @@
-import arlunio as ar
-import arlunio.testing as T
 import numpy as np
 import numpy.random as npr
 import py.test
-
-from arlunio.lib.mask import Mask
 from hypothesis import given
 from hypothesis.strategies import integers
+
+import arlunio as ar
+import arlunio.testing as T
+from arlunio.mask import Mask
 
 
 @ar.definition
@@ -267,6 +267,38 @@ class TestMask:
 
         assert isinstance(result, Mask), "The result should also be a mask"
         assert (result == expected).all()
+
+    @py.test.mark.parametrize(
+        "id, shape, expected",
+        [
+            ("no arguments", None, Mask(False)),
+            ("shape as tuple", ((3, 2),), Mask(np.full((3, 2), False))),
+            ("shape as ints", (3, 2), Mask(np.full((3, 2), False))),
+        ],
+    )
+    def test_empty(self, id, shape, expected):
+        """Ensure that we can generate an empty mask with the given shape."""
+
+        mask = Mask.empty() if shape is None else Mask.empty(*shape)
+
+        assert isinstance(mask, Mask)
+        assert (mask == expected).all()
+
+    @py.test.mark.parametrize(
+        "id, shape, expected",
+        [
+            ("no arguments", None, Mask(True)),
+            ("shape as tuple", ((3, 2),), Mask(np.full((3, 2), True))),
+            ("shape as ints", (3, 2), Mask(np.full((3, 2), True))),
+        ],
+    )
+    def test_full(self, id, shape, expected):
+        """Ensure that we can generate an empty mask with the given shape."""
+
+        mask = Mask.full() if shape is None else Mask.full(*shape)
+
+        assert isinstance(mask, Mask)
+        assert (mask == expected).all()
 
 
 class TestOperators:

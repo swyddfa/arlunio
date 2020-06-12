@@ -3,5 +3,5 @@
 Image
 =====
 
-.. automodule:: arlunio.lib.image
+.. automodule:: arlunio.image
    :members:

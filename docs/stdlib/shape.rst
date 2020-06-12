@@ -3,5 +3,5 @@
 Shape
 =====
 
-.. automodule:: arlunio.lib.shape
+.. automodule:: arlunio.shape
    :members:

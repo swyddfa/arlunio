@@ -1,8 +1,10 @@
 import textwrap
 
-from arlunio.doc.directives import format_error, render_image
 from docutils import nodes
 from docutils.statemachine import StringList
+
+from arlunio.doc.directives import format_error
+from arlunio.doc.directives import render_image
 
 
 def test_render_image_handles_syntax_error():
@@ -54,8 +56,8 @@ def test_render_image_image_provided():
     """Ensure that if the code provides an image we use that."""
 
     src = """\
-    from arlunio.lib.shape import Circle
-    from arlunio.lib.image import fill
+    from arlunio.shape import Circle
+    from arlunio.image import fill
 
     circle = Circle()
     disk = fill(circle(width=4, height=4))

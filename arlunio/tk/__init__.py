@@ -1,7 +1,6 @@
 import logging
 
 import arlunio as ar
-
 from .components import ImageViewer
 
 try:

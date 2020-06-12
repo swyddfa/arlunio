@@ -1,6 +1,7 @@
 import numpy as np
 
-from arlunio.lib.image import colorramp, fill
+from arlunio.image import colorramp
+from arlunio.image import fill
 
 
 def test_colorramp_defaults():

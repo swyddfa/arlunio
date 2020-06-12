@@ -1,10 +1,12 @@
-import arlunio.testing as T
 import numpy as np
 import numpy.testing as npt
 import py.test
+from hypothesis import assume
+from hypothesis import given
 
-from arlunio.lib.math import X, Y
-from hypothesis import assume, given
+import arlunio.testing as T
+from arlunio.math import X
+from arlunio.math import Y
 
 
 @given(width=T.dimension, height=T.dimension)

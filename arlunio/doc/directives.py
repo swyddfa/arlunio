@@ -1,17 +1,19 @@
+import random
 import string
 import textwrap
 import traceback
-
-from typing import List, Tuple
-
-import arlunio.lib.image as img
+from typing import List
+from typing import Tuple
 
 from docutils import nodes
 from docutils.parsers import rst
 from docutils.parsers.rst.directives.admonitions import BaseAdmonition
 from docutils.statemachine import StringList
 from PIL.Image import Image
-from sphinx.util import logging, nested_parse_with_titles
+from sphinx.util import logging
+from sphinx.util import nested_parse_with_titles
+
+import arlunio.image as img
 
 logger = logging.getLogger(__name__)
 
@@ -40,10 +42,18 @@ PREVIEW_TEMPLATE = """\
 
 IMAGE_TEMPLATE = string.Template(
     """\
-<figure style="border: solid 1px #ddd;margin:auto">
-  <img style="image-rendering:$rendering;width:100%"
-       src="data:image/png;base64,$data"></img>
+<figure class="${id}">
+  <img src="data:image/png;base64,${data}"></img>
 </figure>
+<style>
+  .${id} {display: flex; margin: 1rem auto;}
+  .${id} img {
+      border: solid 1px #ddd;
+      margin: auto;
+      width: ${width};
+      image-rendering: ${rendering};
+  }
+</style>
 """
 )
 
@@ -85,7 +95,7 @@ def parse_content(state, content: StringList) -> List[nodes.Node]:
 
 
 def render_image(
-    src: str, smooth: bool = True, location: Tuple[str, int] = None
+    src: str, smooth: bool = True, width: str = "auto", location: Tuple[str, int] = None
 ) -> List[nodes.Node]:
     """Given the source code for an image return a doctree that when rendered by
     Sphinx will insert that image into a HTML page.
@@ -124,9 +134,12 @@ def render_image(
             image = obj
 
     if image is not None:
+        id_ = "".join(random.choice(string.ascii_letters) for _ in range(8))
         context = {
+            "id": f"arlunio-image-{id_}",
             "data": img.encode(image).decode("utf-8"),
             "rendering": "auto" if smooth else "crisp-edges",
+            "width": width,
         }
         html = IMAGE_TEMPLATE.safe_substitute(context)
         doctree.append(nodes.raw("", html, format="html"))
@@ -172,15 +185,17 @@ class ArlunioImageDirective(rst.Directive):
     option_spec = {
         "include-code": rst.directives.unchanged,
         "disable-smoothing": rst.directives.flag,
+        "width": rst.directives.unchanged,
     }
 
     def run(self):
 
         src = "\n".join(self.content)
         smooth = not ("disable-smoothing" in self.options.keys())
+        width = self.options.get("width", "auto")
 
         location = self.state_machine.get_source_and_line(self.lineno)
-        nodelist = render_image(src, smooth, location=location)
+        nodelist = render_image(src, smooth=smooth, width=width, location=location)
 
         if "include-code" in self.options.keys():
 

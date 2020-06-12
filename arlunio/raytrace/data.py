@@ -3,7 +3,7 @@ from typing import ClassVar
 import attr
 import numpy as np
 
-from arlunio.lib.math import normalise
+from arlunio.math import normalise
 
 
 @attr.s(auto_attribs=True, repr=False)

@@ -6,16 +6,9 @@ User Guide
 .. nbtutorial::
 
 
-Welcome to the user guide! It is made up from a number of sections each focused
-on a particular aspect of :code:`arlunio`. Each section tries to be self
-contained so feel free to visit them in whichever order you fancy. However if
-this is your first time using :code:`arlunio` then it is recommended to start
-with the |Getting Started| section.
-
-Where possible we have tried to include examples and short excercises that aim
-to demonstrate particular concepts and to encourage experimentation - while
-solutions to these excercises are available keep in mind that there is often
-more than one way to achieve the same outcome!
+Welcome to the user guide! It is made up from a number of guided projects that each try
+to focus on a particular aspect of :code:`arlunio`. Each project should be self
+contained so feel free to try them in whichever order you fancy.
 
 .. only:: html
 
@@ -53,13 +46,13 @@ more than one way to achieve the same outcome!
 
 The user guide is made up of the following sections
 
-- |Getting Started|: If you are new to arlunio start here.
+- |Chess|: Build a tool for visualising chess games.
 
 .. toctree::
    :hidden:
 
-   getting-started/index
+   chess/index
 
 
-.. |Getting Started| replace:: :ref:`Getting Started <users_getting_started>`
+.. |Chess| replace:: :ref:`Chess <users_chess>`
 .. _Jupyter Lab: https://jupyterlab.readthedocs.io/en/stable/

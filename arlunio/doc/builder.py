@@ -1,19 +1,21 @@
 import os
 import re
 import textwrap
-
 from pathlib import Path
-from typing import Iterable, List, Set, Union
+from typing import Iterable
+from typing import List
+from typing import Set
+from typing import Union
 
 import docutils.nodes as nodes
 import docutils.writers as writers
 import nbformat.v4 as nbf
-
 from docutils.io import StringOutput
 from sphinx.builders import Builder
 from sphinx.util import logging
 
-from .directives import nbsolution, nbtutorial
+from .directives import nbsolution
+from .directives import nbtutorial
 
 logger = logging.getLogger(__name__)
 

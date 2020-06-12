@@ -13,23 +13,24 @@ import random
 import subprocess
 import sys
 import traceback
-
 from datetime import datetime
-from typing import Any, Dict, List
+from typing import Any
+from typing import Dict
+from typing import List
 
-import arlunio
-import arlunio.lib.image as img
 import attr
 import jinja2 as j2
 import PIL
 import tomlkit as toml
-
-from arlunio.imp import NotebookLoader
 from markdown import markdown
 from pygments import highlight
 from pygments.formatters import HtmlFormatter
 from pygments.lexers import PythonLexer
 from tqdm import tqdm
+
+import arlunio
+import arlunio.lib.image as img
+from arlunio.imp import NotebookLoader
 
 # from importlib import import_module
 logger = logging.getLogger(__name__)

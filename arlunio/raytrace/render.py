@@ -1,14 +1,15 @@
 import logging
 
-import arlunio as ar
 import numpy as np
 import PIL.Image as Image
 
-from arlunio.lib.math import clamp
-
+import arlunio as ar
 from .camera import SimpleCamera
-from .data import Rays, ScatterPoint
-from .material import Gradient, LambertianDiffuse
+from .data import Rays
+from .data import ScatterPoint
+from .material import Gradient
+from .material import LambertianDiffuse
+from arlunio.math import clamp
 
 
 @ar.definition

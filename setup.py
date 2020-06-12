@@ -1,6 +1,7 @@
 import os
 
-from setuptools import find_packages, setup
+from setuptools import find_packages
+from setuptools import setup
 
 info = {}
 version = os.path.join("arlunio", "_version.py")

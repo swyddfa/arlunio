@@ -2,27 +2,6 @@
 requires = ["setuptools >= 35.0.2", "wheel >= 0.29.0"]
 build-backend = "setuptools.build_meta"
 
-[tool.check-manifest]
-ignore = [
-  "docs",
-  "docs/*",
-  ".pre-commit-config.yaml",
-  "azure-pipelines.yml",
-  "scripts",
-  "scripts/*",
-  ".coveragerc",
-  ".flake8",
-  "*.ipynb_checkpoints",
-  "*.ipynb_checkpoints/*",
-  "tests",
-  "tests/*"]
-
-[tool.isort]
-include_trailing_comma = true
-line_length = 88
-lines_between_types = 1
-multi_line_output = 3
-
 [tool.towncrier]
 filename = "CHANGES.rst"
 directory = "changes/"
@@ -64,7 +43,7 @@ underlines = ["-", "^", "\""]
 [tool.tox]
 legacy_tox_ini = """
 [tox]
-envlist = pkg, lint, docs, py37
+envlist = pkg, docs, py37
 isolated_build = True
 
 [testenv]
@@ -83,12 +62,6 @@ deps =
 commands =
     sphinx-build -M linkcheck docs docs/_build -E -a -j auto {posargs}
     sphinx-build -M html docs docs/_build -E -a -j auto {posargs}
-
-[testenv:lint]
-deps =
-     pre-commit
-commands =
-    pre-commit run --all-files
 
 [testenv:pkg]
 deps =
