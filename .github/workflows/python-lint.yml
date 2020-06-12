@@ -35,6 +35,7 @@ jobs:
 
     - name: Lint
       run: |
+        ls -a
         pre-commit run --all-files
     # </lint-job-steps>
     # <lint-job-onerror>
