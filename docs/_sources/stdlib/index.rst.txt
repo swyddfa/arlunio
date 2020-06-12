@@ -16,4 +16,5 @@ basics everyone will need along with some useful utilities for various tasks.
    mask
    math
    pattern
+   raytrace
    shape

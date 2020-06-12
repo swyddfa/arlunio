@@ -3,5 +3,5 @@
 Mask
 ====
 
-.. automodule:: arlunio.lib.mask
+.. automodule:: arlunio.mask
    :members:

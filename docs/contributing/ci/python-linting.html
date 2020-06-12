@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Python Linting &mdash; Arlunio V0.0.7b34 documentation</title>
+  <title>Python Linting &mdash; Arlunio V0.0.7b35 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                V0.0.7b34
+                V0.0.7b35
               </div>
             
           
@@ -214,26 +214,33 @@ agent.</p>
 <h2>Steps<a class="headerlink" href="#steps" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span>    <span class="p p-Indicator">-</span> <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">actions/checkout@v1</span>
 
-    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Setup Python 3.7</span>
+    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Setup Python 3.8</span>
       <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">actions/setup-python@v1</span>
       <span class="nt">with</span><span class="p">:</span>
-        <span class="nt">python-version</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">3.7</span>
+        <span class="nt">python-version</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">3.8</span>
 
     <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Setup Environment</span>
       <span class="nt">run</span><span class="p">:</span> <span class="p p-Indicator">|</span>
         <span class="no">python --version</span>
-        <span class="no">python -m pip install --upgrade pip</span>
-        <span class="no">python -m pip install --upgrade tox</span>
+        <span class="no">python -m pip install --upgrade pip wheel</span>
+        <span class="no">python -m pip install -e .[dev]</span>
 
-    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Tox</span>
-      <span class="nt">shell</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">bash</span>
+    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Lint</span>
       <span class="nt">run</span><span class="p">:</span> <span class="p p-Indicator">|</span>
-        <span class="no">tox -e lint</span>
+        <span class="no">pre-commit run --all-files</span>
 </pre></div>
 </div>
 <p>This action is fairly straight forword, we checkout the code, setup the python
-envrionment and then run our <code class="code docutils literal notranslate"><span class="pre">lint</span></code> <a class="reference internal" href="../../glossary.html#term-tox"><span class="xref std std-term">tox</span></a> envrionment which handles
-the details of running the static analysis tools via <a class="reference internal" href="../../glossary.html#term-pre-commit"><span class="xref std std-term">pre-commit</span></a></p>
+envrionment and then run <code class="code docutils literal notranslate"><span class="pre">pre-commit</span></code> across all the entire project.</p>
+<p>The only other step to note is that if any of the <code class="code docutils literal notranslate"><span class="pre">pre-commit</span></code> jobs applied fixes
+(and thus fail the workflow) we run git diff in an attempt to help show and fix the
+errors.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span>    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Show Fixes</span>
+      <span class="nt">run</span><span class="p">:</span>
+        <span class="l l-Scalar l-Scalar-Plain">git diff</span>
+      <span class="nt">if</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">${{ failure() }}</span>
+</pre></div>
+</div>
 </div>
 </div>
 

@@ -38,5 +38,13 @@ Steps
    :end-before: # </lint-job-steps>
 
 This action is fairly straight forword, we checkout the code, setup the python
-envrionment and then run our :code:`lint` :term:`tox` envrionment which handles
-the details of running the static analysis tools via :term:`pre-commit`
+envrionment and then run :code:`pre-commit` across all the entire project.
+
+The only other step to note is that if any of the :code:`pre-commit` jobs applied fixes
+(and thus fail the workflow) we run git diff in an attempt to help show and fix the
+errors.
+
+.. literalinclude:: ../../../.github/workflows/python-lint.yml
+   :language: yaml
+   :start-after: # <lint-job-onerror>
+   :end-before: # </lint-job-onerror>

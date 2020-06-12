@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Changelog &mdash; Arlunio V0.0.7b34 documentation</title>
+  <title>Changelog &mdash; Arlunio V0.0.7b35 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                V0.0.7b34
+                V0.0.7b35
               </div>
             
           
@@ -102,8 +102,8 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v0-0-6-2020-04-18">v0.0.6 - 2020-04-18</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#features">Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id10">Docs</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id14">Misc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id12">Docs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id16">Misc</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v0-0-5-2020-03-18">v0.0.5 - 2020-03-18</a><ul>
@@ -112,13 +112,13 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v0-0-4-2020-02-15">v0.0.4 - 2020-02-15</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id18">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id20">Added</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#removed">Removed</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v0-0-3-2019-12-30">v0.0.3 - 2019-12-30</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id19">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id20">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id21">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id22">Changed</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v0-0-2-2019-09-04">v0.0.2 - 2019-09-04</a></li>
@@ -208,16 +208,18 @@ allow combining multiple definition instances together. (<a class="reference ext
 <ul class="simple">
 <li><p>Updated the <code class="code docutils literal notranslate"><span class="pre">arlunio-image</span></code> directive to output a warning during a Sphinx build
 if a given image fails to render. (<a class="reference external" href="https://github.com/swyddfa/arlunio/issues/227">#227</a>)</p></li>
+<li><p>Update the <code class="code docutils literal notranslate"><span class="pre">arlunio-image</span></code> directive to take a <code class="code docutils literal notranslate"><span class="pre">width</span></code> argument so there’s
+more control over the image’s presentation. (<a class="reference external" href="https://github.com/swyddfa/arlunio/issues/233">#233</a>)</p></li>
 </ul>
 </div>
 <div class="section" id="standard-library">
 <h3>Standard Library<a class="headerlink" href="#standard-library" title="Permalink to this headline">¶</a></h3>
 <ul>
-<li><p>Moved the “expression” based code out of core into the <code class="code docutils literal notranslate"><span class="pre">arlunio.lib.math</span></code> module.</p>
-<p>New <code class="code docutils literal notranslate"><span class="pre">arlunio.lib.image</span></code> module. This contains the image code that was originally
+<li><p>Moved the “expression” based code out of core into the <code class="code docutils literal notranslate"><span class="pre">arlunio.math</span></code> module.</p>
+<p>New <code class="code docutils literal notranslate"><span class="pre">arlunio.image</span></code> module. This contains the image code that was originally
 part of “core” arlunio. (<a class="reference external" href="https://github.com/swyddfa/arlunio/issues/228">#228</a>)</p>
 </li>
-<li><p>New <code class="code docutils literal notranslate"><span class="pre">arlunio.lib.raytrace</span></code> module based on the <a class="reference external" href="https://raytracing.github.io/books/RayTracingInOneWeekend.html">Ray Tracing in One Weekend</a>
+<li><p>New <code class="code docutils literal notranslate"><span class="pre">arlunio.raytrace</span></code> module based on the <a class="reference external" href="https://raytracing.github.io/books/RayTracingInOneWeekend.html">Ray Tracing in One Weekend</a>
 book. Currently only supports diffuse materials and spheres, will probably need a few
 revisions before it becomes useful. (<a class="reference external" href="https://github.com/swyddfa/arlunio/issues/230">#230</a>)</p></li>
 <li><p>Refine the concept of a <code class="code docutils literal notranslate"><span class="pre">Mask</span></code></p>
@@ -225,6 +227,7 @@ revisions before it becomes useful. (<a class="reference external" href="https:/
 boolean numpy arrays. They can be added (<code class="code docutils literal notranslate"><span class="pre">a</span> <span class="pre">OR</span> <span class="pre">b</span></code>), subtracted
 (<code class="code docutils literal notranslate"><span class="pre">a</span> <span class="pre">AND</span> <span class="pre">(NOT</span> <span class="pre">b)</span></code>), multiplied (<code class="code docutils literal notranslate"><span class="pre">a</span> <span class="pre">AND</span> <span class="pre">b</span></code>) and negated (<code class="code docutils literal notranslate"><span class="pre">NOT</span> <span class="pre">a</span></code>). (<a class="reference external" href="https://github.com/swyddfa/arlunio/issues/231">#231</a>)</p>
 </li>
+<li><p>Rename all standard library modules from <code class="code docutils literal notranslate"><span class="pre">arlunio.lib.X</span></code> to <code class="code docutils literal notranslate"><span class="pre">arlunio.X</span></code> (<a class="reference external" href="https://github.com/swyddfa/arlunio/issues/233">#233</a>)</p></li>
 </ul>
 </div>
 <div class="section" id="misc">
@@ -250,8 +253,8 @@ been updated to incorporate a few operators for working with masks. (<a class="r
 from other definitions any inputs will be automatically inherited. (<a class="reference external" href="https://github.com/swyddfa/arlunio/issues/216">#216</a>)</p></li>
 </ul>
 </div>
-<div class="section" id="id10">
-<h3>Docs<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id12">
+<h3>Docs<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Added some documentation around the CI build for the blog. Also updated the blog
 build to run every day. (<a class="reference external" href="https://github.com/swyddfa/arlunio/issues/177">#177</a>)</p></li>
@@ -260,8 +263,8 @@ entries going forward. (<a class="reference external" href="https://github.com/s
 <li><p>Flatten structure of the User Guide section and add placeholder first tutorial (<a class="reference external" href="https://github.com/swyddfa/arlunio/issues/205">#205</a>)</p></li>
 </ul>
 </div>
-<div class="section" id="id14">
-<h3>Misc<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id16">
+<h3>Misc<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Fix handling of multiple notebooks in  <code class="code docutils literal notranslate"><span class="pre">clean-notebook.sh</span></code> and add VSCode
 tasks to aid with tutorial development (<a class="reference external" href="https://github.com/swyddfa/arlunio/issues/205">#205</a>)</p></li>
@@ -293,8 +296,8 @@ definition was defined in.</p></li>
 </div>
 <div class="section" id="v0-0-4-2020-02-15">
 <h2>v0.0.4 - 2020-02-15<a class="headerlink" href="#v0-0-4-2020-02-15" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id18">
-<h3>Added<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id20">
+<h3>Added<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>The concept of a <code class="code docutils literal notranslate"><span class="pre">Definition</span></code>.</p>
 <ul>
@@ -317,8 +320,8 @@ Python classes.</p></li>
 </div>
 <div class="section" id="v0-0-3-2019-12-30">
 <h2>v0.0.3 - 2019-12-30<a class="headerlink" href="#v0-0-3-2019-12-30" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id19">
-<h3>Added<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id21">
+<h3>Added<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p><code class="code docutils literal notranslate"><span class="pre">Pixelize</span></code> shape that can take another shape and and render a lower res
 version of that shape giving it a pixel art vibe</p></li>
@@ -327,8 +330,8 @@ a dictionary that maps those values to shapes that should be drawn there.</p></l
 <li><p>Proof of concept notebook importer</p></li>
 </ul>
 </div>
-<div class="section" id="id20">
-<h3>Changed<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id22">
+<h3>Changed<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Add <code class="code docutils literal notranslate"><span class="pre">mkdirs</span></code> flag to the :code`Image.save` function to have the option
 of automatically creating any required parent directories</p></li>

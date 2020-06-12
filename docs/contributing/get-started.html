@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Getting Started &mdash; Arlunio V0.0.7b34 documentation</title>
+  <title>Getting Started &mdash; Arlunio V0.0.7b35 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                V0.0.7b34
+                V0.0.7b35
               </div>
             
           
@@ -177,16 +177,16 @@
 environment that contains all the dependencies for <code class="code docutils literal notranslate"><span class="pre">arlunio</span></code> itself as
 well as a number of development tools.</p>
 <p>From the root of the repository create a virtual envrionment named
-<code class="code docutils literal notranslate"><span class="pre">.dev</span></code> and activate it</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ python -m venv .dev
-$ <span class="nb">source</span> .dev/bin/activate
-<span class="o">(</span>.dev<span class="o">)</span> $
+<code class="code docutils literal notranslate"><span class="pre">.env</span></code> and activate it</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ python -m venv .env
+$ <span class="nb">source</span> .env/bin/activate
+<span class="o">(</span>.env<span class="o">)</span> $
 </pre></div>
 </div>
 <p>Once active you should see the prompt change to include the name of the
 activated environment. The next step is to then install all the runtime and
 development dependencies</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="o">(</span>.dev<span class="o">)</span> $ pip install -e .<span class="o">[</span>dev<span class="o">]</span>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="o">(</span>.env<span class="o">)</span> $ pip install -e .<span class="o">[</span>dev<span class="o">]</span>
 </pre></div>
 </div>
 <div class="section" id="pre-commit-optional-but-recommended">
@@ -201,8 +201,8 @@ programs</p>
 <li><p><a class="reference external" href="https://black.readthedocs.io/en/stable/">black</a>: This ensures that all python source code is formatted consistently</p></li>
 <li><p><a class="reference external" href="http://flake8.pycqa.org/en/latest/index.html">flake8</a>: This ensures that all python code is free of any obvious bugs
 (undefined variables etc.)</p></li>
-<li><p><a class="reference external" href="https://github.com/timothycrosley/isort">isort</a>: This ensures that all python <code class="code docutils literal notranslate"><span class="pre">import</span></code> statements are listed in
-a standard order.</p></li>
+<li><p><a class="reference external" href="https://github.com/asottile/reorder_python_imports">reorder_python_imports</a>: This ensures that all python <code class="code docutils literal notranslate"><span class="pre">import</span></code> statements are
+listed in a standard order.</p></li>
 </ul>
 <p>Whether or not you setup <code class="code docutils literal notranslate"><span class="pre">pre-commit</span></code> is down to where in your workflow
 you want to resolve any issues flagged by these checks i.e. when you commit vs
@@ -215,7 +215,7 @@ manually while refining your pull request.</p>
 <p>For this reason we recommended setting this up for yourself.</p>
 </div>
 <p>To setup pre-commit in your copy of the codebase run the following command</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="o">(</span>.dev<span class="o">)</span> $ pre-commit install
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="o">(</span>.env<span class="o">)</span> $ pre-commit install
 </pre></div>
 </div>
 <p>From now on any commits in your copy of the repository will be checked against

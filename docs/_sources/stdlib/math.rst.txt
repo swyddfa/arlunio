@@ -3,5 +3,5 @@
 Math
 ====
 
-.. automodule:: arlunio.lib.math
+.. automodule:: arlunio.math
    :members:

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Image &mdash; Arlunio V0.0.7b34 documentation</title>
+  <title>Image &mdash; Arlunio V0.0.7b35 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                V0.0.7b34
+                V0.0.7b35
               </div>
             
           
@@ -93,6 +93,7 @@
 <li class="toctree-l2"><a class="reference internal" href="mask.html">Mask</a></li>
 <li class="toctree-l2"><a class="reference internal" href="math.html">Math</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pattern.html">Pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="raytrace.html">Raytrace</a></li>
 <li class="toctree-l2"><a class="reference internal" href="shape.html">Shape</a></li>
 </ul>
 </li>
@@ -166,15 +167,15 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="module-arlunio.lib.image">
-<span id="image"></span><span id="stdlib-image"></span><h1>Image<a class="headerlink" href="#module-arlunio.lib.image" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-arlunio.image">
+<span id="image"></span><span id="stdlib-image"></span><h1>Image<a class="headerlink" href="#module-arlunio.image" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
-<dt id="arlunio.lib.image.Resolutions">
-<em class="property">class </em><code class="sig-prename descclassname">arlunio.lib.image.</code><code class="sig-name descname">Resolutions</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/lib/image.html#Resolutions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.lib.image.Resolutions" title="Permalink to this definition">¶</a></dt>
+<dt id="arlunio.image.Resolutions">
+<em class="property">class </em><code class="sig-prename descclassname">arlunio.image.</code><code class="sig-name descname">Resolutions</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/image.html#Resolutions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.image.Resolutions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Enum that defines some common image resolutions</p>
 <p>Members of this enum are tuples containing the width and height which can be
 accessed by name:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">arlunio.lib.image</span> <span class="kn">import</span> <span class="n">Resolutions</span> <span class="k">as</span> <span class="n">R</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">arlunio.image</span> <span class="kn">import</span> <span class="n">Resolutions</span> <span class="k">as</span> <span class="n">R</span>
 
 <span class="gp">&gt;&gt;&gt; </span><span class="n">hd</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">HD</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">hd</span><span class="o">.</span><span class="n">width</span>
@@ -194,40 +195,40 @@ accessed by name:</p>
 </pre></div>
 </div>
 <dl class="py attribute">
-<dt id="arlunio.lib.image.Resolutions.FHD">
-<code class="sig-name descname">FHD</code><em class="property"> = (1920, 1080)</em><a class="headerlink" href="#arlunio.lib.image.Resolutions.FHD" title="Permalink to this definition">¶</a></dt>
+<dt id="arlunio.image.Resolutions.FHD">
+<code class="sig-name descname">FHD</code><em class="property"> = (1920, 1080)</em><a class="headerlink" href="#arlunio.image.Resolutions.FHD" title="Permalink to this definition">¶</a></dt>
 <dd><p>1920 x 1080</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="arlunio.lib.image.Resolutions.HD">
-<code class="sig-name descname">HD</code><em class="property"> = (1280, 720)</em><a class="headerlink" href="#arlunio.lib.image.Resolutions.HD" title="Permalink to this definition">¶</a></dt>
+<dt id="arlunio.image.Resolutions.HD">
+<code class="sig-name descname">HD</code><em class="property"> = (1280, 720)</em><a class="headerlink" href="#arlunio.image.Resolutions.HD" title="Permalink to this definition">¶</a></dt>
 <dd><p>1280 x 720</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="arlunio.lib.image.Resolutions.QHD">
-<code class="sig-name descname">QHD</code><em class="property"> = (2560, 1440)</em><a class="headerlink" href="#arlunio.lib.image.Resolutions.QHD" title="Permalink to this definition">¶</a></dt>
+<dt id="arlunio.image.Resolutions.QHD">
+<code class="sig-name descname">QHD</code><em class="property"> = (2560, 1440)</em><a class="headerlink" href="#arlunio.image.Resolutions.QHD" title="Permalink to this definition">¶</a></dt>
 <dd><p>2560 x 1440</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="py function">
-<dt id="arlunio.lib.image.colorramp">
-<code class="sig-prename descclassname">arlunio.lib.image.</code><code class="sig-name descname">colorramp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">values</span></em>, <em class="sig-param"><span class="n">start</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">stop</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image" title="(in Pillow (PIL Fork) v7.1.2)">PIL.Image.Image</a><a class="reference internal" href="../_modules/arlunio/lib/image.html#colorramp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.lib.image.colorramp" title="Permalink to this definition">¶</a></dt>
+<dt id="arlunio.image.colorramp">
+<code class="sig-prename descclassname">arlunio.image.</code><code class="sig-name descname">colorramp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">values</span></em>, <em class="sig-param"><span class="n">start</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">stop</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image" title="(in Pillow (PIL Fork) v7.1.2)">PIL.Image.Image</a><a class="reference internal" href="../_modules/arlunio/image.html#colorramp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.image.colorramp" title="Permalink to this definition">¶</a></dt>
 <dd><p>Given a range of values, produce an image mapping those values onto colors.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="arlunio.lib.image.encode">
-<code class="sig-prename descclassname">arlunio.lib.image.</code><code class="sig-name descname">encode</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.8)">bytes</a><a class="reference internal" href="../_modules/arlunio/lib/image.html#encode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.lib.image.encode" title="Permalink to this definition">¶</a></dt>
+<dt id="arlunio.image.encode">
+<code class="sig-prename descclassname">arlunio.image.</code><code class="sig-name descname">encode</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.8)">bytes</a><a class="reference internal" href="../_modules/arlunio/image.html#encode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.image.encode" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the image encoded as a base64 string.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="arlunio.lib.image.fill">
-<code class="sig-prename descclassname">arlunio.lib.image.</code><code class="sig-name descname">fill</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mask</span></em>, <em class="sig-param"><span class="n">color</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">background</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">image</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image" title="(in Pillow (PIL Fork) v7.1.2)">PIL.Image.Image</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image" title="(in Pillow (PIL Fork) v7.1.2)">PIL.Image.Image</a><a class="reference internal" href="../_modules/arlunio/lib/image.html#fill"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.lib.image.fill" title="Permalink to this definition">¶</a></dt>
+<dt id="arlunio.image.fill">
+<code class="sig-prename descclassname">arlunio.image.</code><code class="sig-name descname">fill</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mask</span></em>, <em class="sig-param"><span class="n">color</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">background</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">image</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image" title="(in Pillow (PIL Fork) v7.1.2)">PIL.Image.Image</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image" title="(in Pillow (PIL Fork) v7.1.2)">PIL.Image.Image</a><a class="reference internal" href="../_modules/arlunio/image.html#fill"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.image.fill" title="Permalink to this definition">¶</a></dt>
 <dd><p>Given a mask, fill it in with a color.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -250,8 +251,8 @@ white.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="arlunio.lib.image.save">
-<code class="sig-prename descclassname">arlunio.lib.image.</code><code class="sig-name descname">save</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span></em>, <em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="n">mkdirs</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)">None</a><a class="reference internal" href="../_modules/arlunio/lib/image.html#save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.lib.image.save" title="Permalink to this definition">¶</a></dt>
+<dt id="arlunio.image.save">
+<code class="sig-prename descclassname">arlunio.image.</code><code class="sig-name descname">save</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span></em>, <em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="n">mkdirs</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)">None</a><a class="reference internal" href="../_modules/arlunio/image.html#save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.image.save" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save an image in PNG format.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
