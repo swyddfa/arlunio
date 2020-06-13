@@ -29,7 +29,7 @@ from pygments.lexers import PythonLexer
 from tqdm import tqdm
 
 import arlunio
-import arlunio.lib.image as img
+import arlunio.image as image
 from arlunio.imp import NotebookLoader
 
 # from importlib import import_module
@@ -166,7 +166,7 @@ class NbCell:
         return cls(type=type, contents=contents, raw=cell.source)
 
 
-def find_image(candidates: Dict[str, img.Image]) -> img.Image:
+def find_image(candidates: Dict[str, image.Image]) -> image.Image:
     """Try and find the image we should be pushing into the gallery.
 
     The process for discovering images is as follows:
@@ -175,22 +175,22 @@ def find_image(candidates: Dict[str, img.Image]) -> img.Image:
     - If there is more than one image in the namespace, but there is one called
       'image' then we'll use that.
     """
-    image = None
+    img = None
 
     if len(candidates) == 0:
         raise ValueError("Notebook did not produce a usable image.")
 
     if len(candidates) == 1:
-        image = list(candidates.values())[0]
+        img = list(candidates.values())[0]
 
     if image is None and "image" in candidates:
-        image = candidates["image"]
+        img = candidates["image"]
 
-    if image is None:
+    if img is None:
         names = ", ".join("'" + k + "'" for k in candidates.keys())
         raise ValueError(f"Can't determine image object to use from namespace: {names}")
 
-    return image
+    return img
 
 
 @attr.s(auto_attribs=True)
@@ -250,20 +250,22 @@ class ImageContext:
         code = "\n".join([cell.raw for cell in cells if cell.type == "code"])
         sloc = code.count("\n")
 
-        candidates = {k: v for k, v in nb.__dict__.items() if isinstance(v, img.Image)}
+        candidates = {
+            k: v for k, v in nb.__dict__.items() if isinstance(v, image.Image)
+        }
 
-        image = find_image(candidates)
+        img = find_image(candidates)
 
         # Render the fullsize image
         fullfile = pathlib.Path(config.output, "gallery", "image", slug + ".png")
-        img.save(image, fullfile, mkdirs=True)
+        image.save(img, fullfile, mkdirs=True)
         url = "image/{}.png".format(slug)
 
         # Create a scaled down version to use as a thumbnail on the main page
-        thumb = image.copy()
+        thumb = img.copy()
         thumb.thumbnail((250, 250), PIL.Image.BICUBIC)
         thumbfile = pathlib.Path(config.output, "gallery", "thumb", slug + ".png")
-        img.save(thumb, thumbfile, mkdirs=True)
+        image.save(thumb, thumbfile, mkdirs=True)
         thumburl = "thumb/{}.png".format(slug)
 
         return cls(
@@ -359,9 +361,9 @@ class Site:
         write_file(index, gallery_template.render(context.as_dict()))
 
         # For each image, render its detail page.
-        for image in context.images:
-            filename = os.path.join(self.config.output, "gallery", image.slug + ".html")
-            write_file(filename, image_template.render(image.as_dict()))
+        for img in context.images:
+            filename = os.path.join(self.config.output, "gallery", img.slug + ".html")
+            write_file(filename, image_template.render(img.as_dict()))
 
 
 def write_file(filepath, content):
