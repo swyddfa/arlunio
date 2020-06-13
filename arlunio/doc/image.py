@@ -9,7 +9,15 @@ from sphinx.util import logging
 import arlunio.image as image
 
 
-class arlunio_image(nodes.General):
+class arlunio_image(nodes.General, nodes.Element):
+    pass
+
+
+def visit_arlunio_image(self, node):
+    pass
+
+
+def depart_arlunio_image(self, node):
     pass
 
 
@@ -97,17 +105,27 @@ class ArlunioImageDirective(Figure):
 
         # Now defer to the standard figure implementation.
         self.content = None
-        nodelist = Figure.run(self)
+        (figure,) = Figure.run(self)
 
         if include_code is None:
-            return nodelist
+            return [arlunio_image("", figure)]
 
         code_block = nodes.literal_block("", src)
         code_block["language"] = "python"
 
         if include_code == "above":
-            nodelist.insert(0, code_block)
-        else:
-            nodelist.append(code_block)
+            return [arlunio_image("", code_block, figure)]
 
-        return nodelist
+        return [arlunio_image("", figure, code_block)]
+
+
+def register(app):
+
+    app.add_node(
+        arlunio_image,
+        html=(visit_arlunio_image, depart_arlunio_image),
+        latex=(visit_arlunio_image, depart_arlunio_image),
+        text=(visit_arlunio_image, depart_arlunio_image),
+    )
+
+    app.add_directive("arlunio-image", ArlunioImageDirective)
