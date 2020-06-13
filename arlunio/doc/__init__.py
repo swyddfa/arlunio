@@ -9,11 +9,12 @@ from sphinx.application import Sphinx
 
 import arlunio
 from .builder import NotebookTutorialBuilder
-from .directives import ArlunioImageDirective
 from .directives import depart_nbtutorial
 from .directives import nbtutorial
 from .directives import NBTutorialDirective
 from .directives import visit_nbtutorial
+from .image import arlunio_image
+from .image import ArlunioImageDirective
 
 # fmt: off
 TEMPLATE = [
@@ -111,6 +112,7 @@ def setup(app: Sphinx) -> Dict[str, Any]:
         latex=(visit_nbtutorial, depart_nbtutorial),
         text=(visit_nbtutorial, depart_nbtutorial),
     )
+    app.add_node(arlunio_image)
     app.add_builder(NotebookTutorialBuilder)
 
     app.setup_extension("sphinx.ext.autodoc")

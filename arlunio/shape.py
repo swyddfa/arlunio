@@ -13,7 +13,7 @@ from arlunio.math import Y
 @ar.definition
 def Circle(x: X, y: Y, *, xc=0, yc=0, r=0.8, pt=None) -> Mask:
     """
-    .. arlunio-image::
+    .. arlunio-image:: Basic Circle
 
         from arlunio.shape import Circle
         from arlunio.image import fill
@@ -48,8 +48,8 @@ def Circle(x: X, y: Y, *, xc=0, yc=0, r=0.8, pt=None) -> Mask:
     --------
     Combining a few circles it's easy enough to draw a target
 
-    .. arlunio-image::
-       :include-code: before
+    .. arlunio-image:: Target
+       :include-code: below
 
        import arlunio as ar
 
@@ -79,8 +79,8 @@ def Circle(x: X, y: Y, *, xc=0, yc=0, r=0.8, pt=None) -> Mask:
     Making use of the :code:`xc` and :code:`yc` attributes we can produce an
     approximation of the olympics logo
 
-    .. arlunio-image::
-       :include-code: before
+    .. arlunio-image:: Olympic Rings
+       :include-code: below
 
        import arlunio as ar
 
@@ -130,7 +130,7 @@ def Circle(x: X, y: Y, *, xc=0, yc=0, r=0.8, pt=None) -> Mask:
 @ar.definition
 def Ellipse(x: X, y: Y, *, xc=0, yc=0, a=2, b=1, r=0.8, pt=None) -> Mask:
     """
-    .. arlunio-image::
+    .. arlunio-image:: Simple Ellipse
 
        from arlunio.shape import Ellipse
        from arlunio.image import fill
@@ -178,8 +178,8 @@ def Ellipse(x: X, y: Y, *, xc=0, yc=0, a=2, b=1, r=0.8, pt=None) -> Mask:
     on the shape of the ellipse. If :code:`a = b` then the equation simplifies to that
     of a circle
 
-    .. arlunio-image::
-       :include-code: before
+    .. arlunio-image:: Ellipse Demo
+       :include-code: below
 
        import arlunio as ar
 
@@ -209,8 +209,8 @@ def Ellipse(x: X, y: Y, *, xc=0, yc=0, a=2, b=1, r=0.8, pt=None) -> Mask:
     Playing around with the values and the coordinate inputs it's possible to draw
     something that looks like a diagram of an atom
 
-    .. arlunio-image::
-       :include-code: before
+    .. arlunio-image:: Atom
+       :include-code: below
 
        import arlunio as ar
 
@@ -261,7 +261,7 @@ def SuperEllipse(
     x: X, y: Y, *, xc=0, yc=0, a=1, b=1, n=3, r=0.8, m=None, pt=None
 ) -> Mask:
     """
-    .. arlunio-image::
+    .. arlunio-image:: SuperEllipse
 
        from arlunio.shape import SuperEllipse
        from arlunio.image import fill
@@ -313,8 +313,8 @@ def SuperEllipse(
     examples. For the :code:`SuperEllipse` definition the most interesting attributes
     are :code:`n` and :code:`m` greatly affect the shape of the super ellipse.
 
-    .. arlunio-image::
-       :include-code: before
+    .. arlunio-image:: SuperEllipse Demo
+       :include-code: below
 
        import arlunio as ar
 
@@ -346,8 +346,8 @@ def SuperEllipse(
     assigned to :code:`n`. However if you set :code:`m` to a different value then you
     can get even more interesting results!
 
-    .. arlunio-image::
-       :include-code: before
+    .. arlunio-image:: Eye of Sauron
+       :include-code: below
 
        import arlunio as ar
 
@@ -397,7 +397,7 @@ def SuperEllipse(
 @ar.definition
 def Square(x: X, y: Y, *, xc=0, yc=0, size=0.8, pt=None) -> Mask:
     """
-    .. arlunio-image::
+    .. arlunio-image:: Simple Square
 
        from arlunio.shape import Square
        from arlunio.image import fill
@@ -424,8 +424,8 @@ def Square(x: X, y: Y, *, xc=0, yc=0, size=0.8, pt=None) -> Mask:
     Example
     -------
 
-    .. arlunio-image::
-       :include-code: before
+    .. arlunio-image:: Square Demo
+       :include-code: below
 
        import arlunio as ar
 
@@ -471,7 +471,7 @@ def Square(x: X, y: Y, *, xc=0, yc=0, size=0.8, pt=None) -> Mask:
 @ar.definition
 def Rectangle(x: X, y: Y, *, xc=0, yc=0, size=0.6, ratio=1.618, pt=None) -> Mask:
     """
-    .. arlunio-image::
+    .. arlunio-image:: Simple Rectangle
 
        from arlunio.shape import Rectangle
        from arlunio.image import fill
@@ -500,8 +500,8 @@ def Rectangle(x: X, y: Y, *, xc=0, yc=0, size=0.6, ratio=1.618, pt=None) -> Mask
     Examples
     --------
 
-    .. arlunio-image::
-       :include-code: before
+    .. arlunio-image:: Rectangle Demo
+       :include-code: below
 
        import arlunio as ar
 

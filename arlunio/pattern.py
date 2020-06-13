@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 @ar.definition
 def Checker(x: X, y: Y) -> Mask:
     """
-    .. arlunio-image::
+    .. arlunio-image:: Checker
 
        from arlunio.image import fill
        from arlunio.pattern import Checker
@@ -32,7 +32,7 @@ def Checker(x: X, y: Y) -> Mask:
 @ar.definition
 def Grid(width: int, height: int, *, n=4, m=None, defn=None) -> Mask:
     """
-    .. arlunio-image::
+    .. arlunio-image:: Simple Grid
 
        from arlunio.image import fill
        from arlunio.pattern import Grid
@@ -67,8 +67,8 @@ def Grid(width: int, height: int, *, n=4, m=None, defn=None) -> Mask:
     --------
     Pattern generated from circles
 
-    .. arlunio-image::
-       :include-code: before
+    .. arlunio-image:: Grid Example
+       :include-code: below
 
        import arlunio as ar
        import numpy as np
@@ -91,8 +91,8 @@ def Grid(width: int, height: int, *, n=4, m=None, defn=None) -> Mask:
 
     A checkerboard like pattern
 
-    .. arlunio-image::
-       :include-code: before
+    .. arlunio-image:: Checker Pattern
+       :include-code: below
 
        import arlunio as ar
        import numpy as np
@@ -149,8 +149,8 @@ def Map(width: int, height: int, *, layout=None, legend=None) -> Mask:
 
     Example
     -------
-    .. arlunio-image::
-       :include-code: before
+    .. arlunio-image:: Simple Map
+       :include-code: below
 
        import arlunio as ar
        import numpy as np
@@ -218,7 +218,7 @@ def Pixelize(
     width: int, height: int, *, pixels=None, defn=None, n=None, m=None
 ) -> Mask:
     """
-    .. arlunio-image::
+    .. arlunio-image:: Pixelise
 
        from arlunio.image import fill
        from arlunio.pattern import Pixelize
@@ -260,8 +260,8 @@ def Pixelize(
     --------
     This definition can be used to render a simple pixel pattern at a higher resolution
 
-    .. arlunio-image::
-       :include-code: before
+    .. arlunio-image:: Simple Pixelise
+       :include-code: below
 
        import numpy as np
 
@@ -279,8 +279,8 @@ def Pixelize(
 
     Alternatively we can generate the pixels from an instance of another definition
 
-    .. arlunio-image::
-       :include-code: before
+    .. arlunio-image:: Ghost
+       :include-code: below
 
        import arlunio as ar
        import numpy as np

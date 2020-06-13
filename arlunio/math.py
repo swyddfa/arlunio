@@ -107,13 +107,14 @@ def normalise(vs):
 @ar.definition
 def X(width: int, height: int, *, x0=0, scale=1, stretch=False):
     """
-    .. arlunio-image::
+    .. arlunio-image:: X Coordinates
+       :align: right
 
        from arlunio.math import X
        from arlunio.image import colorramp
 
        x = X()
-       image = colorramp(x(width=1920, height=1080))
+       image = colorramp(x(width=256, height=256))
 
     Cartesian :math:`x` coordinates.
 
@@ -182,13 +183,14 @@ def X(width: int, height: int, *, x0=0, scale=1, stretch=False):
 @ar.definition
 def Y(width: int, height: int, *, y0=0, scale=1, stretch=False):
     """
-    .. arlunio-image::
+    .. arlunio-image:: Y Coordinates
+       :align: right
 
        from arlunio.math import Y
        from arlunio.image import colorramp
 
        y = Y()
-       image = colorramp(y(width=1920, height=1080))
+       image = colorramp(y(width=256, height=256))
 
     Cartesian :math:`y` coordinates.
 
@@ -261,13 +263,14 @@ def Y(width: int, height: int, *, y0=0, scale=1, stretch=False):
 @ar.definition
 def R(x: X, y: Y):
     """
-    .. arlunio-image::
+    .. arlunio-image:: R Coordinates
+       :align: right
 
        from arlunio.math import R
        from arlunio.image import colorramp
 
        r = R()
-       image = colorramp(r(width=1920, height=1080))
+       image = colorramp(r(width=256, height=256))
 
     Polar :math:`r` coordinates.
 
@@ -314,13 +317,14 @@ def R(x: X, y: Y):
 @ar.definition
 def T(x: X, y: Y, *, t0=0):
     """
-    .. arlunio-image::
+    .. arlunio-image:: T Coordinates
+       :align: right
 
        from arlunio.math import T
        from arlunio.image import colorramp
 
        t = T()
-       image = colorramp(t(width=1920, height=1080))
+       image = colorramp(t(width=256, height=256))
 
     Polar, :math:`t` coordinates.
 
