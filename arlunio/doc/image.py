@@ -77,7 +77,6 @@ class ArlunioImageDirective(Figure):
         logger = logging.getLogger(__name__)
 
         src = "\n".join(self.content)
-        logger.debug("[arlunio-image: %s", type(self.content))
         imgname = self.arguments[0].lower().replace(" ", "-")
         include_code = self.options.pop("include-code", None)
 
