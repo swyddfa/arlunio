@@ -5,14 +5,11 @@ arlunio itself.
 """
 import argparse
 import collections
-import importlib.util as imutil
 import logging
 import os
 import pathlib
 import random
 import subprocess
-import sys
-import traceback
 from datetime import datetime
 from typing import Any
 from typing import Dict
@@ -94,51 +91,6 @@ def setup_logging(verbose: int, quiet: bool) -> None:
     root.addHandler(console)
 
 
-class UserContext:
-    def __init__(self, pkg):
-        self.pkg = pkg
-
-    def __enter__(self):
-        return self
-
-    def __exit__(self, err_type, err, tback):
-
-        if err is None:
-            return
-
-        print()
-        traceback.print_exception(err_type, err, tback)
-        print("\nUnable to load module: {}".format(self.pkg))
-
-        sys.exit(1)
-
-
-@attr.s(auto_attribs=True)
-class Config:
-    """Represents site configuration."""
-
-    baseurl: str
-    output: str
-    notebooks: str
-    templates: str
-
-    @classmethod
-    def fromfile(cls, filepath):
-
-        with open(filepath) as f:
-            config = toml.parse(f.read())
-
-        baseurl = config["site"]["baseurl"]
-        templates = config["site"]["templates"]
-        output = config["site"]["output"]
-
-        notebooks = config["gallery"]["images"]
-
-        return cls(
-            baseurl=baseurl, templates=templates, output=output, notebooks=notebooks
-        )
-
-
 @attr.s(auto_attribs=True)
 class NbCell:
 
@@ -200,17 +152,8 @@ class ImageContext:
     author: Any
     """Information about the image's author"""
 
-    arlunio_version: str
-    """The version of arlunio used to build the site"""
-
-    baseurl: str
-    """The base url the site is being hosted on"""
-
     created: str
     """The date the image was created"""
-
-    date: str
-    """A string representing the time the site was built"""
 
     revision: int
     """Number of revisions made to the image."""
@@ -237,7 +180,7 @@ class ImageContext:
     """The url to the full size image"""
 
     @classmethod
-    def fromnb(cls, nb, gallery, config):
+    def fromnb(cls, nb, config):
         """Create a context from the notebook representing the image."""
         filename = pathlib.Path(nb.__file__).stem
         slug = filename.lower().replace(" ", "-")
@@ -270,11 +213,8 @@ class ImageContext:
 
         return cls(
             author=meta.author,
-            arlunio_version=gallery.arlunio_version,
-            baseurl=gallery.baseurl,
             cells=cells,
             created=created.strftime("%d %b %Y"),
-            date=gallery.date,
             revision=num_revisions,
             sloc=sloc,
             slug=slug,
@@ -289,81 +229,72 @@ class ImageContext:
 
 
 @attr.s(auto_attribs=True)
-class GalleryContext:
-    """Represents the values needed to render the main gallery template."""
-
-    arlunio_version: str
-    """The version of arlunio used to build the site"""
-
-    baseurl: str
-    """The base url the site is being hosted on"""
-
-    date: str
-    """A string representing the time the site was built"""
-
-    images: List[str] = attr.Factory(list)
-    """Represents the images that are included in the gallery"""
-
-    @classmethod
-    def new(cls, config, local):
-        baseurl = config.baseurl
-
-        if local:
-            baseurl = "http://localhost:8001/"
-
-        date = datetime.now().strftime("%d/%m/%y %H:%M:%S")
-        return cls(arlunio_version=arlunio.__version__, baseurl=baseurl, date=date)
-
-    def prepare_notebooks(self, notebooks, config, skip_failures=False):
-        """Given the notebooks that represent an image, prepare them."""
-
-        # Shuffle the notebooks so that the gallery is drawn in a random order
-        # on each build.
-        random.shuffle(notebooks)
-
-        for nb in tqdm(notebooks, desc="Rendering images"):
-
-            try:
-                image = ImageContext.fromnb(nb, self, config)
-            except Exception as err:
-                if skip_failures:
-                    logger.warning(
-                        "Skipping broken notebook: %s -- %s", nb.__file__, err
-                    )
-                    continue
-
-                raise RuntimeError(f"Broken notebook {nb.__file__}") from err
-
-            self.images.append(image)
-
-    def as_dict(self):
-        return attr.asdict(self)
-
-
-@attr.s(auto_attribs=True)
 class Site:
 
-    config: str
-    local: bool
+    baseurl: str
+    """The base url the site will be hosted on."""
 
-    def build(self, destination, skip_failures=False):
-        env = j2.Environment(loader=j2.FileSystemLoader(self.config.templates))
+    notebooks: str
+    """The path to the directory holding the notebooks."""
+
+    output: str
+    """The output directory to save the site to."""
+
+    templates: str
+    """The path to the directory containing the templates."""
+
+    @classmethod
+    def fromfile(cls, filepath):
+
+        with open(filepath) as f:
+            config = toml.parse(f.read())
+
+        baseurl = config["site"]["baseurl"]
+        templates = config["site"]["templates"]
+        output = config["site"]["output"]
+
+        notebooks = config["gallery"]["images"]
+
+        return cls(
+            baseurl=baseurl, notebooks=notebooks, output=output, templates=templates
+        )
+
+    def build(self, skip_failures=False, local=False):
+
+        baseurl = "http://localhost:8001/" if local else self.baseurl
+
+        env = j2.Environment(loader=j2.FileSystemLoader(self.templates))
         gallery_template = env.get_template("gallery.html")
         image_template = env.get_template("image.html")
 
-        index = os.path.join(self.config.output, "gallery", "index.html")
-        notebooks = load_notebooks(self.config.notebooks, skip_failures)
+        index = os.path.join(self.output, "gallery", "index.html")
+        images = render_images(self.notebooks, self, skip_failures)
 
-        context = GalleryContext.new(self.config, self.local)
-        context.prepare_notebooks(notebooks, self.config, skip_failures)
+        context = {
+            "site": {
+                "arlunio_version": arlunio.__version__,
+                "baseurl": baseurl,
+                "date": datetime.now().strftime("%d/%m/%y %H:%M:%S"),
+            }
+        }
+
+        # Shuffle the images so that the gallery is drawn in a random order
+        # on each build.
+        random.shuffle(images)
 
         # Render the main index page
-        write_file(index, gallery_template.render(context.as_dict()))
+        gallery = context.copy()
+        gallery["images"] = images
+        write_file(index, gallery_template.render(gallery))
 
         # For each image, render its detail page.
-        for img in context.images:
-            filename = os.path.join(self.config.output, "gallery", img.slug + ".html")
-            write_file(filename, image_template.render(img.as_dict()))
+        for img in images:
+
+            imgcontext = context.copy()
+            imgcontext["image"] = img.as_dict()
+
+            filename = os.path.join(self.output, "gallery", img.slug + ".html")
+            write_file(filename, image_template.render(imgcontext))
 
 
 def write_file(filepath, content):
@@ -378,35 +309,28 @@ def write_file(filepath, content):
         f.write(content)
 
 
-def load_notebooks(notebooks, skip_failures=False):
-    """Discover and load each of the notebooks that represent images."""
-    nbdir = pathlib.Path(notebooks)
-    loader = NotebookLoader(str(nbdir))
+def render_images(nbdir, config, skip_failures=False):
+    """Discover and load and render each of the notebooks that represent images."""
 
-    modules = []
+    nbdir = pathlib.Path(nbdir)
+    nbpaths = list(nbdir.glob("*.ipynb"))
 
-    for nbpath in tqdm(list(nbdir.glob("*.ipynb")), desc="Loading notebooks"):
-        nbname = nbpath.stem.replace(" ", "_")
+    images = []
 
-        spec = imutil.spec_from_file_location(nbname, str(nbpath), loader=loader)
-        module = imutil.module_from_spec(spec)
-
-        logger.debug("--> spec  : %s", spec)
-        logger.debug("--> module: %s", module)
+    for path in tqdm(nbpaths, desc="Rendering Images"):
 
         try:
-            spec.loader.exec_module(module)
+            nb = NotebookLoader.fromfile(path)
+            images.append(ImageContext.fromnb(nb, config))
         except Exception as err:
 
             if skip_failures:
-                logger.warning("Skipping broken notebook: %s -- %s", nbpath, err)
+                logger.warning("Skipping broken notebook: %s -- %s", path, err)
                 continue
 
-            raise RuntimeError(f"Broken notebook: {nbpath}") from err
+            raise RuntimeError(f"Broken notebook {path}") from err
 
-        modules.append(module)
-
-    return modules
+    return images
 
 
 cli = argparse.ArgumentParser(description="Gallery builder for the arlunio blog.")
@@ -424,9 +348,6 @@ cli.add_argument(
     action="store_true",
 )
 cli.add_argument(
-    "-o", "--output", help="folder to render results to", default="public/"
-)
-cli.add_argument(
     "-q", "--quiet", help="disable all console output", action="store_true"
 )
 cli.add_argument(
@@ -442,7 +363,5 @@ if __name__ == "__main__":
     args = cli.parse_args()
     setup_logging(args.verbose, args.quiet)
 
-    config = Config.fromfile(args.config)
-
-    site = Site(config, args.local)
-    site.build(args.output, args.skip_failures)
+    site = Site.fromfile(args.config)
+    site.build(args.skip_failures)

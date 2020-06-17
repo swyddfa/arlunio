@@ -77,16 +77,20 @@ class NotebookLoader(Loader):
     def fromfile(cls, filepath: str):
         """Import a Jupyter Notebook directly from a filepath."""
         nbpath = pathlib.Path(filepath)
+        logger.debug("Importing notebook: %s", filepath)
 
         if not nbpath.exists():
             raise FileNotFoundError(nbpath)
 
         nbname = nbpath.stem.replace(" ", "_")
-
         loader = cls(str(nbpath.parent))
-        spec = imutil.spec_from_file_location(nbname, str(nbpath), loader=loader)
 
+        spec = imutil.spec_from_file_location(nbname, str(nbpath), loader=loader)
         module = imutil.module_from_spec(spec)
+
+        logger.debug("--> spec: %s", spec)
+        logger.debug("--> module: %s", module)
+
         spec.loader.exec_module(module)
 
         return module

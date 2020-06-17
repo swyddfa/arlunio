@@ -4,13 +4,13 @@
 <link rel="stylesheet" href="/css/image.css">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="{{title}} by {{ author.name }} | Arlunio Gallery ">
-<meta name="twitter:image" content="{{ baseurl }}gallery/{{ url }}">
-<meta name="twitter:image:alt" content="{{title}}">
+<meta name="twitter:title" content="{{ image.title }} by {{ image.author.name }} | Arlunio Gallery ">
+<meta name="twitter:image" content="{{ site.baseurl }}gallery/{{ image.url }}">
+<meta name="twitter:image:alt" content="{{ image.title }}">
 {% endblock %}
 
 {% block title %}
-<title>{{ title }} | Arlunio Gallery</title>
+<title>{{ image.title }} | Arlunio Gallery</title>
 {% endblock %}
 
 {% block content %}
@@ -21,7 +21,7 @@
     <input type="checkbox" id="img-fullscreen" />
     <div class="image-display">
         <label for="img-fullscreen">
-            <img src="{{ url }}" alt="{{ title }}" />
+            <img src="{{ image.url }}" alt="{{ image.title }}" />
         </label>
     </div>
 
@@ -29,16 +29,16 @@
         <input type="checkbox" id="hide-notes" />
         <div class="image-meta">
             <div class="image-author">
-                <img class="avatar" src="https://github.com/{{ author.github }}.png" />
+                <img class="avatar" src="https://github.com/{{ image.author.github }}.png" />
                 <div>
-                    <h1>{{ title }}</h1>
-                    <h3>{{ author.name }}</h3>
+                    <h1>{{ image.title }}</h1>
+                    <h3>{{ image.author.name }}</h3>
                 </div>
             </div>
-            {{ icon('calendar') }}<span>{{ created }}</span>
-            {{ icon('git-merge') }}<span>{{ revision }} revisions</span>
-            {{ icon('file-text') }}<span>{{ sloc }} sloc</span>
-            {{ icon('terminal') }}<span>v{{ version }}</span>
+            {{ icon('calendar') }}<span>{{ image.created }}</span>
+            {{ icon('git-merge') }}<span>{{ image.revision }} revisions</span>
+            {{ icon('file-text') }}<span>{{ image.sloc }} sloc</span>
+            {{ icon('terminal') }}<span>v{{ image.version }}</span>
         </div>
         <div class="image-meta">
             <label for="hide-notes">Notes</label>
@@ -48,7 +48,7 @@
             {% include "binder_badge.html" %}
         </div>
 
-        {% for cell in cells %}
+        {% for cell in image.cells %}
         <div class="{{ cell.type }}">
             {{ cell.contents | safe }}
         </div>
