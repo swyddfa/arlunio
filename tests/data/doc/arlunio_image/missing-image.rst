@@ -1,3 +1,5 @@
 .. arlunio-image:: Missing Image
 
-   x = 1 + 3
+   ::
+
+      x = 1 + 3

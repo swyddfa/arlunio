@@ -1,6 +1,6 @@
-.. arlunio-image:: No Options
+.. arlunio-image:: Img Caption
 
-   ::
+   An image with a caption::
 
       from arlunio.shape import Circle
       from arlunio.image import fill

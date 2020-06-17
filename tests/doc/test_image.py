@@ -55,19 +55,18 @@ class TestArlunioImageDirective:
             ("fig-align", {"figure": {"align": "right"}}),
             ("fig-width", {"figure": {"width": "50%"}}),
             ("img-alt", {"image": {"alt": "Example alt text."}}),
+            ("img-gallery", {"arlunio_image": {"gallery": "example"}}),
             ("img-height", {"image": {"height": "500"}}),
             ("img-scale", {"image": {"scale": 50}}),
             ("img-width", {"image": {"width": "75%"}}),
         ],
     )
-    def test_directive_no_code(self, read_rst, name, opts):
-        """Ensure that the directive handles the case where the user doesn't ask for the
-        code to be included."""
+    def test_directive_options_passthrough(self, read_rst, name, opts):
+        """Ensure that the directive handles the case where the user provides options
+        that should be passed through to the doctree."""
 
         with mock.patch("arlunio.doc.image.image.save") as m_save:
             rst = read_rst(pathlib.Path("doc", "arlunio_image", name + ".rst"))
-
-        print(rst)
 
         # Ensure the image produced by the code was saved to disk
         m_save.assert_called_once()
@@ -79,6 +78,9 @@ class TestArlunioImageDirective:
         # Now ensure the correct doctree was produced
         node = rst.children[0]
         assert isinstance(node, arlunio_image), "Expected arlunio image node."
+
+        for k, v in opts.get("arlunio_image", {}).items():
+            assert node[k] == v
 
         figure = node.children[0]
         assert isinstance(figure, nodes.figure), "Expected figure node."
@@ -112,7 +114,6 @@ class TestArlunioImageDirective:
         node = rst.children[0]
         assert isinstance(node, arlunio_image), "Expected arlunio image node."
 
-        print(rst)
         figure = node.children[0]
         assert isinstance(figure, nodes.figure), "Expected figure node."
 
@@ -124,3 +125,64 @@ class TestArlunioImageDirective:
 
         assert isinstance(imgnode, nodes.image), "Expected image node."
         assert imgnode["uri"] == "/_images/img-target.png"
+
+    def test_with_caption(self, read_rst):
+        """Ensure that the directive handles the case where the user provides an image
+        caption."""
+
+        with mock.patch("arlunio.doc.image.image.save") as m_save:
+            rst = read_rst(pathlib.Path("doc", "arlunio_image", "img-caption.rst"))
+
+        # Ensure that the image produced by the code was saved to disk.
+        m_save.assert_called_once()
+        (img, path), _ = m_save.call_args
+
+        assert isinstance(img, image.Image), "Expected Image instance."
+        assert path == pathlib.Path("/project/docs/_images/img-caption.png")
+
+        # Now ensure that the correct doctree was produced
+        node = rst.children[0]
+        assert isinstance(node, arlunio_image), "Expected arlunio image node."
+
+        figure = node.children[0]
+        assert isinstance(figure, nodes.figure), "Expected figure node."
+
+        imgnode, caption = figure.children
+
+        assert isinstance(imgnode, nodes.image), "Expected image node."
+        assert imgnode["uri"] == "/_images/img-caption.png"
+
+        assert isinstance(caption, nodes.caption), "Expected caption node."
+        assert "An image with a caption:" == caption.astext()
+
+    def test_with_code(self, read_rst):
+        """Ensure that the directive handles the case where the user asks for the code
+        to be included with the image."""
+
+        with mock.patch("arlunio.doc.image.image.save") as m_save:
+            rst = read_rst(pathlib.Path("doc", "arlunio_image", "img-code.rst"))
+
+        # Ensure that the image produced by the code was saved to disk
+        m_save.assert_called_once()
+        (img, path), _ = m_save.call_args
+
+        assert isinstance(img, image.Image), "Expected Image instance"
+        assert path == pathlib.Path("/project/docs/_images/img-code.png")
+
+        # Now ensure that the correct doctree was produced.
+        node = rst.children[0]
+        assert isinstance(node, arlunio_image), "Expected arlunio image node."
+
+        figure = node.children[0]
+        assert isinstance(figure, nodes.figure), "Expected figure node."
+
+        imgnode, legend = figure.children
+
+        assert isinstance(imgnode, nodes.image), "Expected image node."
+        assert imgnode["uri"] == "/_images/img-code.png"
+
+        assert isinstance(legend, nodes.legend), "Expected legend node."
+
+        code = legend.children[0]
+        assert isinstance(code, nodes.literal_block), "Expected literal_block node."
+        assert "from arlunio.shape import Circle" in code.astext()

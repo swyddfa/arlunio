@@ -1,4 +1,5 @@
-.. arlunio-image:: No Options
+.. arlunio-image:: Img Gallery
+   :gallery: example
 
    ::
 

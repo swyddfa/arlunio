@@ -1,4 +1,5 @@
-.. arlunio-image:: No Options
+.. arlunio-image:: Img Code
+   :include-code:
 
    ::
 

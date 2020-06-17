@@ -1,12 +1,25 @@
 import pathlib
+import textwrap
 import traceback
+from typing import List
 
 from docutils import nodes
 from docutils.parsers.rst import directives
 from docutils.parsers.rst.directives.images import Figure
+from docutils.statemachine import StringList
 from sphinx.util import logging
+from sphinx.util.nodes import nested_parse_with_titles
 
 import arlunio.image as image
+
+
+class Count:
+    def __init__(self):
+        self.i = 0
+
+    def __call__(self):
+        self.i += 1
+        return self.i
 
 
 class arlunio_image(nodes.General, nodes.Element):
@@ -19,6 +32,73 @@ def visit_arlunio_image(self, node):
 
 def depart_arlunio_image(self, node):
     pass
+
+
+def parse_content(state, content: StringList) -> List[nodes.Node]:
+    """Given a reStructured text representation of some content format parse it
+    into a list of nodes."""
+
+    section = nodes.section()
+    section.document = state.document
+    nested_parse_with_titles(state, content, section)
+
+    return section.children
+
+
+def reformat_content(caption: str, code: str, include_code: bool) -> StringList:
+    """Reformat the content of the arlunio-image directive so that it's compatible with
+    the standard figure directive."""
+
+    count = Count()
+    src = "<arlunio_image>"
+
+    content = StringList()
+    content.append(caption, src, count())
+    content.append("", src, count())
+
+    if include_code:
+
+        content.append(".. code-block:: python", src, count())
+        content.append("", src, count())
+
+        for line in code.splitlines():
+            line = textwrap.indent(line, "   ")
+            content.append(line, src, count())
+
+    return content
+
+
+def find_caption(doctree: List[nodes.Node]) -> str:
+    """Given the doctree representing the content of the arlunio-image directive
+    find and return the text representing the caption (if any)."""
+
+    logger = logging.getLogger(__name__)
+    text = ".."
+
+    if len(doctree) > 0 and isinstance(doctree[0], nodes.paragraph):
+        text = doctree[0].astext()
+        logger.debug("[arlunio-image]: Found caption text '%s'", text)
+
+    return text
+
+
+def find_code(doctree: List[nodes.Node]) -> str:
+    """Given the doctree representing the content of the arlunio-image directive
+    find and return the source code for the image (if any)."""
+
+    logger = logging.getLogger(__name__)
+    candidates = [n for n in doctree if isinstance(n, nodes.literal_block)]
+
+    if len(candidates) == 0:
+        raise ValueError("Missing image code.")
+
+    if len(candidates) > 1:
+        raise ValueError("Multiple code blocks is not supported.")
+
+    code = candidates[0].astext()
+    logger.debug("[arlunio-image]: Found source code: %s...", code[: code.find("\n")])
+
+    return code
 
 
 def render_image(src: str, name: str, outdir: pathlib.Path) -> pathlib.Path:
@@ -66,29 +146,28 @@ class ArlunioImageDirective(Figure):
     has_content = True
     final_argument_whitespace = True
 
-    def code(arg):
-        return directives.choice(arg, ("above", "below"))
-
     option_spec = Figure.option_spec.copy()
-    option_spec["include-code"] = code
+    option_spec["gallery"] = directives.unchanged
+    option_spec["include-code"] = directives.flag
 
     def run(self):
 
         logger = logging.getLogger(__name__)
 
-        src = "\n".join(self.content)
         imgname = self.arguments[0].lower().replace(" ", "-")
-        include_code = self.options.pop("include-code", None)
+        include_code = "include-code" in self.options.keys()
 
         # First we will process the content of the directive in order to produce an
         # image on disk. We will then defer to the default behavior of the Figure
         # directive to handle the rest.
         app = self.state.document.settings.env.app
 
+        doctree = parse_content(self.state, self.content)
+        caption = find_caption(doctree)
+
         try:
-            # Rewrite the arguments list to contain the reference to the image file
+            src = find_code(doctree)
             imguri = render_image(src, imgname, app.confdir)
-            self.arguments[0] = "/" + str(imguri)
         except Exception:
             tback = traceback.format_exc()
 
@@ -102,20 +181,21 @@ class ArlunioImageDirective(Figure):
 
             return [nodes.error("", message, err)]
 
+        # Rewrite the arguments list to contain the reference to the image file
+        self.arguments[0] = "/" + str(imguri)
+
+        # Rewrite the content according to the given options.
+        content = reformat_content(caption, src, include_code)
+
+        self.content_offset = 0
+        self.content = content
+
         # Now defer to the standard figure implementation.
-        self.content = None
         (figure,) = Figure.run(self)
+        logger.debug("[arlunio-image]: Figure: %s", figure)
 
-        if include_code is None:
-            return [arlunio_image("", figure)]
-
-        code_block = nodes.literal_block("", src)
-        code_block["language"] = "python"
-
-        if include_code == "above":
-            return [arlunio_image("", code_block, figure)]
-
-        return [arlunio_image("", figure, code_block)]
+        opts = {k: v for k, v in self.options.items() if k in ("gallery",)}
+        return [arlunio_image("", figure, **opts)]
 
 
 def register(app):

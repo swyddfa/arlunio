@@ -1,3 +1,5 @@
 .. arlunio-image:: Syntax Error
 
-   x 1 + 2
+   ::
+
+      x 1 + 2
