@@ -13,13 +13,10 @@ __pycache__/
 .env/
 dist/
 docs/_build
-docs/_images
 htmlcov
 arlunio/tutorial/
 
 *.png
-!docs/**/*.png
-!img/*.png
 
 .eggs/
 *.egg-info/
