@@ -64,7 +64,7 @@ jobs:
     - name: 'Tox: Run Tests'
       shell: bash
       run: |
-        tox -e py`echo ${{ matrix.python-version }} | tr -d .`
+        tox -v -e py`echo ${{ matrix.python-version }} | tr -d .`
 
     - name: 'Tox: Build Docs'
       run: |
@@ -72,7 +72,7 @@ jobs:
 
     - name: 'Tox: Build Pkg'
       run: |
-        tox -e pkg
+        tox -v -e pkg
         ls dist
       if: matrix.python-version == '3.7'
     # </test-job-tox>
