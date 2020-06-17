@@ -15,7 +15,7 @@ def readme():
         return f.read()
 
 
-required = ["attrs", "appdirs", "numpy", "Pillow>=6.1.0"]
+required = ["attrs", "appdirs", "ipython", "numpy", "Pillow>=6.1.0"]
 extras = {
     "dev": [
         "black",
