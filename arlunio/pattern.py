@@ -15,15 +15,17 @@ logger = logging.getLogger(__name__)
 def Checker(x: X, y: Y) -> Mask:
     """
     .. arlunio-image:: Checker
+       :align: center
 
-       A simple checker pattern::
+       ::
 
-          from arlunio.image import fill
           from arlunio.pattern import Checker
+          from arlunio.image import fill
 
           checker = Checker()
           image = fill(checker(width=256, height=256))
 
+    A simple checker pattern
     """
     return x * y > 0
 

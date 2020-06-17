@@ -110,13 +110,13 @@ def X(width: int, height: int, *, x0=0, scale=1, stretch=False):
     .. arlunio-image:: X Coordinates
        :align: right
 
-       from arlunio.math import X
-       from arlunio.image import colorramp
+       Cartesian X coordinates::
 
-       x = X()
-       image = colorramp(x(width=256, height=256))
+          from arlunio.math import X
+          from arlunio.image import colorramp
 
-    Cartesian :math:`x` coordinates.
+          x = X()
+          image = colorramp(x(width=256, height=256))
 
     Attributes
     ----------
@@ -186,13 +186,13 @@ def Y(width: int, height: int, *, y0=0, scale=1, stretch=False):
     .. arlunio-image:: Y Coordinates
        :align: right
 
-       from arlunio.math import Y
-       from arlunio.image import colorramp
+       Cartesian Y coordinates::
 
-       y = Y()
-       image = colorramp(y(width=256, height=256))
+          from arlunio.math import Y
+          from arlunio.image import colorramp
 
-    Cartesian :math:`y` coordinates.
+          y = Y()
+          image = colorramp(y(width=256, height=256))
 
     Attributes
     ----------
@@ -266,13 +266,13 @@ def R(x: X, y: Y):
     .. arlunio-image:: R Coordinates
        :align: right
 
-       from arlunio.math import R
-       from arlunio.image import colorramp
+       Polar R coordinates::
 
-       r = R()
-       image = colorramp(r(width=256, height=256))
+          from arlunio.math import R
+          from arlunio.image import colorramp
 
-    Polar :math:`r` coordinates.
+          r = R()
+          image = colorramp(r(width=256, height=256))
 
     This definition corresponds with the distance a given point is from the origin and
     can be calculated from the point's equivalent Cartesian coordinate representation
@@ -320,13 +320,13 @@ def T(x: X, y: Y, *, t0=0):
     .. arlunio-image:: T Coordinates
        :align: right
 
-       from arlunio.math import T
-       from arlunio.image import colorramp
+       Polar T coordinates::
 
-       t = T()
-       image = colorramp(t(width=256, height=256))
+          from arlunio.math import T
+          from arlunio.image import colorramp
 
-    Polar, :math:`t` coordinates.
+          t = T()
+          image = colorramp(t(width=256, height=256))
 
     This definition corresponds with the angle a given point is around from the positive
     :math:`x`-axis. This can be calculated from the point's equivalent Cartesian

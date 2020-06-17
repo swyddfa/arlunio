@@ -87,6 +87,7 @@ def find_code(doctree: List[nodes.Node]) -> str:
     find and return the source code for the image (if any)."""
 
     logger = logging.getLogger(__name__)
+    logger.debug("[arlunio-image] doctree: %s", doctree)
     candidates = [n for n in doctree if isinstance(n, nodes.literal_block)]
 
     if len(candidates) == 0:
@@ -155,6 +156,7 @@ class ArlunioImageDirective(Figure):
         logger = logging.getLogger(__name__)
 
         imgname = self.arguments[0].lower().replace(" ", "-")
+        logger.debug("[arlunio-image]: Rendering: %s", imgname)
         include_code = "include-code" in self.options.keys()
 
         # First we will process the content of the directive in order to produce an
