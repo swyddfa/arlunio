@@ -9,11 +9,11 @@ from sphinx.application import Sphinx
 
 import arlunio
 from .builder import NotebookTutorialBuilder
-from .directives import ArlunioImageDirective
 from .directives import depart_nbtutorial
 from .directives import nbtutorial
 from .directives import NBTutorialDirective
 from .directives import visit_nbtutorial
+from .image import register as register_image
 
 # fmt: off
 TEMPLATE = [
@@ -117,6 +117,7 @@ def setup(app: Sphinx) -> Dict[str, Any]:
     app.connect("autodoc-process-docstring", _process_docstring)
 
     app.add_directive("nbtutorial", NBTutorialDirective)
-    app.add_directive("arlunio-image", ArlunioImageDirective)
+
+    register_image(app)
 
     return {"version": arlunio.__version__, "parallel_read_safe": True}

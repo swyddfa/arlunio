@@ -17,8 +17,6 @@ htmlcov
 arlunio/tutorial/
 
 *.png
-!docs/**/*.png
-!img/*.png
 
 .eggs/
 *.egg-info/

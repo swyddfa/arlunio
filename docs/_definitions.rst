@@ -1,16 +1,23 @@
 .. Code References
 
-.. -- Shapes
 .. |@definition| replace:: :py:func:`@definition <arlunio.definition>`
 .. |Defn| replace:: :py:class:`Defn <arlunio.Defn>`
 
-.. |Circle| replace:: :py:class:`Circle <arlunio.lib.shapes.Circle>`
-.. |Ellipse| replace:: :py:class:`Ellipse <arlunio.lib.shapes.Ellipse>`
-.. |Rectangle| replace:: :py:class:`Rectangle <arlunio.lib.shapes.Rectangle>`
-.. |Square| replace:: :py:class:`Square <arlunio.lib.shapes.Square>`
-.. |SuperEllipse| replace:: :py:class:`SuperEllipse <arlunio.lib.shapes.SuperEllipse>`
-.. |X| replace:: :py:class:`X <arlunio.lib.parameters.X>`
-.. |Y| replace:: :py:class:`Y <arlunio.lib.parameters.Y>`
+.. Math
+.. |X| replace:: :py:class:`X <arlunio.math.X>`
+.. |Y| replace:: :py:class:`Y <arlunio.math.Y>`
+
+
+.. Raytrace
+.. |UniformSampler| replace:: :py:class:`UniformSampler <arlunio.raytrace.UniformSampler>`
+
+.. Shape
+.. |Circle| replace:: :py:class:`Circle <arlunio.shape.Circle>`
+.. |Ellipse| replace:: :py:class:`Ellipse <arlunio.shape.Ellipse>`
+.. |Rectangle| replace:: :py:class:`Rectangle <arlunio.shape.Rectangle>`
+.. |Square| replace:: :py:class:`Square <arlunio.shape.Square>`
+.. |SuperEllipse| replace:: :py:class:`SuperEllipse <arlunio.shape.SuperEllipse>`
+
 
 .. Docs References
 

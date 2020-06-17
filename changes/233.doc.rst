@@ -1,2 +1,0 @@
-Update the :code:`arlunio-image` directive to take a :code:`width` argument so there's
-more control over the image's presentation.

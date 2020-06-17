@@ -1,0 +1,3 @@
+Refactor :code:`arlunio-image` directive to be based on the standard :code:`figure`
+directive. This means that the standard :code:`figure` options now also work with
+:code:`arlunio-image`.

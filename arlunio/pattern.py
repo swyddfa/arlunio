@@ -1,5 +1,3 @@
-"""Module level docstring.
-"""
 import logging
 
 import numpy as np
@@ -16,15 +14,18 @@ logger = logging.getLogger(__name__)
 @ar.definition
 def Checker(x: X, y: Y) -> Mask:
     """
-    .. arlunio-image::
+    .. arlunio-image:: Checker
+       :align: center
 
-       from arlunio.image import fill
-       from arlunio.pattern import Checker
+       ::
 
-       checker = Checker()
-       image = fill(checker(width=256, height=256))
+          from arlunio.pattern import Checker
+          from arlunio.image import fill
 
-    A simple checker pattern.
+          checker = Checker()
+          image = fill(checker(width=256, height=256))
+
+    A simple checker pattern
     """
     return x * y > 0
 
@@ -32,14 +33,16 @@ def Checker(x: X, y: Y) -> Mask:
 @ar.definition
 def Grid(width: int, height: int, *, n=4, m=None, defn=None) -> Mask:
     """
-    .. arlunio-image::
+    .. arlunio-image:: Simple Grid
 
-       from arlunio.image import fill
-       from arlunio.pattern import Grid
-       from arlunio.shape import Circle
+       ::
 
-       pattern = Grid(defn=Circle())
-       image = fill(pattern(width=512, height=256))
+          from arlunio.image import fill
+          from arlunio.pattern import Grid
+          from arlunio.shape import Circle
+
+          pattern = Grid(defn=Circle())
+          image = fill(pattern(width=512, height=256))
 
     Repeatedly draw the given defintition in a grid.
 
@@ -65,48 +68,50 @@ def Grid(width: int, height: int, *, n=4, m=None, defn=None) -> Mask:
 
     Examples
     --------
-    Pattern generated from circles
 
-    .. arlunio-image::
-       :include-code: before
+    .. arlunio-image:: Grid Example
+       :include-code:
 
-       import arlunio as ar
-       import numpy as np
+       A pattern generated from circles::
 
-       from arlunio.image import fill
-       from arlunio.math import X, Y
-       from arlunio.shape import Circle
-       from arlunio.pattern import Grid
+          import arlunio as ar
+          import numpy as np
 
+          from arlunio.image import fill
+          from arlunio.math import X, Y
+          from arlunio.shape import Circle
+          from arlunio.pattern import Grid
 
-       @ar.definition
-       def Template(x:X, y: Y):
-           c = Circle(xc=.4, yc=.4, pt=.02)
-           return c(x=np.abs(x), y=np.abs(y))
+          @ar.definition
+          def Template(x:X, y: Y):
+              c = Circle(xc=.4, yc=.4, pt=.02)
+              return c(x=np.abs(x), y=np.abs(y))
 
-       pattern = Grid(defn=Template(scale=1.))
-       image = fill(
-           pattern(width=512, height=512), background="#000", color="#ff0"
-       )
+          pattern = Grid(defn=Template(scale=1.))
+          image = fill(
+              pattern(width=512, height=512), background="#000", color="#ff0"
+          )
 
     A checkerboard like pattern
 
-    .. arlunio-image::
-       :include-code: before
+    .. arlunio-image:: Checker Pattern
+       :include-code:
 
-       import arlunio as ar
-       import numpy as np
+       A checkerboard like pattern::
 
-       from arlunio.image import fill
-       from arlunio.math import X, Y
-       from arlunio.pattern import Grid
+          import arlunio as ar
+          import numpy as np
 
-       @ar.definition
-       def Template(x: X, y: Y):
-           return np.abs(x) - np.abs(y) < 0
+          from arlunio.image import fill
+          from arlunio.math import X, Y
+          from arlunio.pattern import Grid
 
-       grid = Grid(defn=Template(), n=16, m=8)
-       image = fill(grid(width=512, height=256))
+          @ar.definition
+          def Template(x: X, y: Y):
+              return np.abs(x) - np.abs(y) < 0
+
+          grid = Grid(defn=Template(), n=16, m=8)
+          image = fill(grid(width=512, height=256))
     """
     if m is None:
         m = n
@@ -149,56 +154,58 @@ def Map(width: int, height: int, *, layout=None, legend=None) -> Mask:
 
     Example
     -------
-    .. arlunio-image::
-       :include-code: before
+    .. arlunio-image:: Simple Map
+       :include-code:
 
-       import arlunio as ar
-       import numpy as np
+       ::
 
-       from arlunio.image import fill
-       from arlunio.mask import any_
-       from arlunio.pattern import Map
-       from arlunio.shape import Rectangle
+          import arlunio as ar
+          import numpy as np
 
-       @ar.definition
-       def Wall(width: int, height: int, *, sides=None):
-           r = 50
-           d = 1
-           walls = {
-               'top': {"yc": d, "ratio": r},
-               'bottom': {"yc": -d, "ratio": r},
-               'left': {"xc": -d, "ratio": 1/r},
-               "right": {"xc": d, "ratio": 1/r}
-           }
+          from arlunio.image import fill
+          from arlunio.mask import any_
+          from arlunio.pattern import Map
+          from arlunio.shape import Rectangle
 
-           mask = False
-           for side in sides.split('-'):
-               wall = Rectangle(size=0.2, **walls[side])
-               mask = any_(mask, wall(width=width, height=height))
+          @ar.definition
+          def Wall(width: int, height: int, *, sides=None):
+              r = 50
+              d = 1
+              walls = {
+                  'top': {"yc": d, "ratio": r},
+                  'bottom': {"yc": -d, "ratio": r},
+                  'left': {"xc": -d, "ratio": 1/r},
+                  "right": {"xc": d, "ratio": 1/r}
+              }
 
-           return mask
+              mask = False
+              for side in sides.split('-'):
+                  wall = Rectangle(size=0.2, **walls[side])
+                  mask = any_(mask, wall(width=width, height=height))
 
-       legend = {
-           "tt": Wall(sides="top"),
-           "bb": Wall(sides="bottom"),
-           "ll": Wall(sides="left"),
-           "rr": Wall(sides="right"),
-           "tl": Wall(sides="top-left"),
-           "tr": Wall(sides="top-right"),
-           "bl": Wall(sides='bottom-left'),
-           "br": Wall(sides="bottom-right")
-       }
+              return mask
 
-       layout = np.array([
-           ["tt", "tt", "tt", "tt", "tr"],
-           [  "", "tl", "tt", "tr", "rr"],
-           [  "", "ll", "bl", "br", "rr"],
-           [  "", "bl", "bb", "bb", "br"],
-           [  "",   "",   "",   "",   ""]
-       ])
+          legend = {
+              "tt": Wall(sides="top"),
+              "bb": Wall(sides="bottom"),
+              "ll": Wall(sides="left"),
+              "rr": Wall(sides="right"),
+              "tl": Wall(sides="top-left"),
+              "tr": Wall(sides="top-right"),
+              "bl": Wall(sides='bottom-left'),
+              "br": Wall(sides="bottom-right")
+          }
 
-       map_ = Map(legend=legend, layout=layout)
-       image = fill(map_(width=256, height=256), color="blue")
+          layout = np.array([
+              ["tt", "tt", "tt", "tt", "tr"],
+              [  "", "tl", "tt", "tr", "rr"],
+              [  "", "ll", "bl", "br", "rr"],
+              [  "", "bl", "bb", "bb", "br"],
+              [  "",   "",   "",   "",   ""]
+          ])
+
+          map_ = Map(legend=legend, layout=layout)
+          image = fill(map_(width=256, height=256), color="blue")
     """
 
     # TODO: Handle divisions with rounding errors
@@ -218,16 +225,17 @@ def Pixelize(
     width: int, height: int, *, pixels=None, defn=None, n=None, m=None
 ) -> Mask:
     """
-    .. arlunio-image::
+    .. arlunio-image:: Pixelise
 
-       from arlunio.image import fill
-       from arlunio.pattern import Pixelize
-       from arlunio.shape import Circle
+       Draw a pixelated version of a definition::
 
-       pix = Pixelize(defn=Circle(), n=16, m=16)
-       image = fill(pix(width=256, height=256))
+          from arlunio.image import fill
+          from arlunio.pattern import Pixelize
+          from arlunio.shape import Circle
 
-    Draw a pixelated version of a definition.
+          pix = Pixelize(defn=Circle(), n=16, m=16)
+          image = fill(pix(width=256, height=256))
+
 
     .. note::
 
@@ -260,52 +268,56 @@ def Pixelize(
     --------
     This definition can be used to render a simple pixel pattern at a higher resolution
 
-    .. arlunio-image::
-       :include-code: before
+    .. arlunio-image:: Simple Pixelise
+       :include-code:
 
-       import numpy as np
+       This definition can be used to render a simple picel patter at a higher
+       resolution::
 
-       from arlunio.image import fill
-       from arlunio.pattern import Pixelize
+          import numpy as np
 
-       pixels = np.array([
-           [False,  True,  True, False],
-           [ True, False, False,  True],
-           [ True, False, False,  True],
-           [False,  True,  True, False]
-       ])
-       defn = Pixelize(pixels=pixels)
-       image = fill(defn(width=512, height=512))
+          from arlunio.image import fill
+          from arlunio.pattern import Pixelize
 
-    Alternatively we can generate the pixels from an instance of another definition
+          pixels = np.array([
+              [False,  True,  True, False],
+              [ True, False, False,  True],
+              [ True, False, False,  True],
+              [False,  True,  True, False]
+          ])
+          defn = Pixelize(pixels=pixels)
+          image = fill(defn(width=512, height=512))
 
-    .. arlunio-image::
-       :include-code: before
 
-       import arlunio as ar
-       import numpy as np
+    .. arlunio-image:: Ghost
+       :include-code:
 
-       from arlunio.image import fill
-       from arlunio.mask import all_
-       from arlunio.math import X, Y
-       from arlunio.pattern import Pixelize
-       from arlunio.shape import Circle
+       We can also generate the pixels from an instance of another definition::
 
-       @ar.definition
-       def Ghost(x: X, y: Y):
-           head = Circle(yc=0.5, r=0.7)
-           eyes = Circle(xc=0.2, yc=0.6, r=0.3)
+          import arlunio as ar
+          import numpy as np
 
-           body = all_(
-               y < 0.5,
-               np.abs(x) < 0.49,
-               0.1 * np.cos(5 * np.pi * x) - 0.3 < y
-           )
+          from arlunio.image import fill
+          from arlunio.mask import all_
+          from arlunio.math import X, Y
+          from arlunio.pattern import Pixelize
+          from arlunio.shape import Circle
 
-           return (head(x=x, y=y) - eyes(x=np.abs(x), y=y)) + body
+          @ar.definition
+          def Ghost(x: X, y: Y):
+              head = Circle(yc=0.5, r=0.7)
+              eyes = Circle(xc=0.2, yc=0.6, r=0.3)
 
-       ghost = Pixelize(defn=Ghost(y0=-0.3), n=32, m=32)
-       image = fill(ghost(width=512, height=512), color="#f00")
+              body = all_(
+                  y < 0.5,
+                  np.abs(x) < 0.49,
+                  0.1 * np.cos(5 * np.pi * x) - 0.3 < y
+              )
+
+              return (head(x=x, y=y) - eyes(x=np.abs(x), y=y)) + body
+
+          ghost = Pixelize(defn=Ghost(y0=-0.3), n=32, m=32)
+          image = fill(ghost(width=512, height=512), color="#f00")
     """
 
     if defn is None and pixels is None:
