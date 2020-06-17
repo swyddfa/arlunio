@@ -1,6 +1,3 @@
-"""Here we define many shapes
-
-"""
 import numpy as np
 
 import arlunio as ar
@@ -14,12 +11,15 @@ from arlunio.math import Y
 def Circle(x: X, y: Y, *, xc=0, yc=0, r=0.8, pt=None) -> Mask:
     """
     .. arlunio-image:: Basic Circle
+       :align: right
 
-        from arlunio.shape import Circle
-        from arlunio.image import fill
+       ::
 
-        circle = Circle()
-        image = fill(circle(width=1920, height=1080))
+          from arlunio.shape import Circle
+          from arlunio.image import fill
+
+          circle = Circle()
+          image = fill(circle(width=256, height=256))
 
     We define a circle using the following equality.
 
@@ -46,72 +46,75 @@ def Circle(x: X, y: Y, *, xc=0, yc=0, r=0.8, pt=None) -> Mask:
 
     Examples
     --------
-    Combining a few circles it's easy enough to draw a target
 
     .. arlunio-image:: Target
-       :include-code: below
+       :include-code:
 
-       import arlunio as ar
+       Combining a few circles it's easy enough to draw a target::
 
-       from arlunio.shape import Circle
-       from arlunio.image import fill
+          import arlunio as ar
 
-       @ar.definition
-       def Target(width: int, height: int):
-           image = None
-           parts = [
-               (Circle(pt=0.02), "#000"),
-               (Circle(r=0.75, pt=0.12), "#f00"),
-               (Circle(r=0.6, pt=0.05), "#f00"),
-               (Circle(r=0.4), "#f00"),
-           ]
+          from arlunio.shape import Circle
+          from arlunio.image import fill
 
-           for part, color in parts:
-               image = fill(
-                   part(width=width, height=height), color=color, image=image
-               )
+          @ar.definition
+          def Target(width: int, height: int):
+              image = None
+              parts = [
+                  (Circle(pt=0.02), "#000"),
+                  (Circle(r=0.75, pt=0.12), "#f00"),
+                  (Circle(r=0.6, pt=0.05), "#f00"),
+                  (Circle(r=0.4), "#f00"),
+              ]
 
-           return image
+              for part, color in parts:
+                  image = fill(
+                      part(width=width, height=height), color=color, image=image
+                  )
 
-       target = Target()
-       image = target(width=1920, height=1080)
+              return image
+
+          target = Target()
+          image = target(width=1920, height=1080)
 
     Making use of the :code:`xc` and :code:`yc` attributes we can produce an
     approximation of the olympics logo
 
     .. arlunio-image:: Olympic Rings
-       :include-code: below
+       :include-code:
 
-       import arlunio as ar
+       ::
 
-       from arlunio.shape import Circle
-       from arlunio.image import fill
+          import arlunio as ar
 
-       @ar.definition
-       def OlympicRings(width: int, height: int, *, spacing=0.5, pt=0.025):
+          from arlunio.shape import Circle
+          from arlunio.image import fill
 
-           dy = spacing / 4
-           dx = spacing / 2
-           args = {"scale": 0.5, "r": spacing, "pt": pt}
+          @ar.definition
+          def OlympicRings(width: int, height: int, *, spacing=0.5, pt=0.025):
 
-           image = None
-           rings = [
-               (Circle(yc=dy, xc=-(2.2 * dx), **args), "#0ff"),
-               (Circle(yc=dy, **args), "#000"),
-               (Circle(yc=dy, xc=(2.2 * dx), **args), "#f00"),
-               (Circle(yc=-dy, xc=-(1.1 * dx), **args), "#ff0"),
-               (Circle(yc=-dy, xc=(1.1 * dx), **args), "#0f0")
-           ]
+              dy = spacing / 4
+              dx = spacing / 2
+              args = {"scale": 0.5, "r": spacing, "pt": pt}
 
-           for ring, color in rings:
-               image = fill(
-                   ring(width=width, height=height), color=color, image=image
-               )
+              image = None
+              rings = [
+                  (Circle(yc=dy, xc=-(2.2 * dx), **args), "#0ff"),
+                  (Circle(yc=dy, **args), "#000"),
+                  (Circle(yc=dy, xc=(2.2 * dx), **args), "#f00"),
+                  (Circle(yc=-dy, xc=-(1.1 * dx), **args), "#ff0"),
+                  (Circle(yc=-dy, xc=(1.1 * dx), **args), "#0f0")
+              ]
 
-           return image
+              for ring, color in rings:
+                  image = fill(
+                      ring(width=width, height=height), color=color, image=image
+                  )
 
-       rings = OlympicRings()
-       image = rings(width=1920, height=1080)
+              return image
+
+          rings = OlympicRings()
+          image = rings(width=1920, height=1080)
     """
 
     x = (x - xc) ** 2
@@ -131,12 +134,15 @@ def Circle(x: X, y: Y, *, xc=0, yc=0, r=0.8, pt=None) -> Mask:
 def Ellipse(x: X, y: Y, *, xc=0, yc=0, a=2, b=1, r=0.8, pt=None) -> Mask:
     """
     .. arlunio-image:: Simple Ellipse
+       :align: right
 
-       from arlunio.shape import Ellipse
-       from arlunio.image import fill
+       ::
 
-       ellipse = Ellipse()
-       image = fill(ellipse(width=1920, height=1080))
+          from arlunio.shape import Ellipse
+          from arlunio.image import fill
+
+          ellipse = Ellipse(r=0.6)
+          image = fill(ellipse(width=256, height=256))
 
     An ellipse can be defined using the following equality.
 
@@ -179,64 +185,66 @@ def Ellipse(x: X, y: Y, *, xc=0, yc=0, a=2, b=1, r=0.8, pt=None) -> Mask:
     of a circle
 
     .. arlunio-image:: Ellipse Demo
-       :include-code: below
+       :include-code:
 
-       import arlunio as ar
+       ::
 
-       from arlunio.shape import Ellipse
-       from arlunio.image import fill
+          import arlunio as ar
 
-       @ar.definition
-       def EllipseDemo(width: int, height: int):
-           image = None
-           ellipses = [
-               Ellipse(xc=-0.5, yc=-0.5, a=0.5, b=0.5, r=0.4),
-               Ellipse(yc=-0.5, a=1, b=0.5, r=0.4),
-               Ellipse(xc=0.5, yc=-0.5, a=2, b=0.5, r=0.4),
-               Ellipse(a=1, b=1, r=0.4),
-               Ellipse(xc=0.5, yc=0.5, a=2, b=2, r=0.4),
-               Ellipse(xc=-0.5, a=0.5, b=1, r=0.4),
-               Ellipse(xc=-0.5, yc=0.5, a=0.5, b=2, r=0.4)
-           ]
+          from arlunio.shape import Ellipse
+          from arlunio.image import fill
 
-           for ellipse in ellipses:
-               image = fill(ellipse(width=1920, height=1080), image=image)
-           return image
+          @ar.definition
+          def EllipseDemo(width: int, height: int):
+              image = None
+              ellipses = [
+                  Ellipse(xc=-0.5, yc=-0.5, a=0.5, b=0.5, r=0.4),
+                  Ellipse(yc=-0.5, a=1, b=0.5, r=0.4),
+                  Ellipse(xc=0.5, yc=-0.5, a=2, b=0.5, r=0.4),
+                  Ellipse(a=1, b=1, r=0.4),
+                  Ellipse(xc=0.5, yc=0.5, a=2, b=2, r=0.4),
+                  Ellipse(xc=-0.5, a=0.5, b=1, r=0.4),
+                  Ellipse(xc=-0.5, yc=0.5, a=0.5, b=2, r=0.4)
+              ]
 
-       demo = EllipseDemo()
-       image = demo(width=1920, height=1080)
+              for ellipse in ellipses:
+                  image = fill(ellipse(width=1920, height=1080), image=image)
+              return image
 
-    Playing around with the values and the coordinate inputs it's possible to draw
-    something that looks like a diagram of an atom
+          demo = EllipseDemo()
+          image = demo(width=1920, height=1080)
 
     .. arlunio-image:: Atom
-       :include-code: below
+       :include-code:
 
-       import arlunio as ar
+       Playing around with the values and the coordinate inputs it's possible to
+       draw something that looks like a diagram of an atom::
 
-       from arlunio.shape import Ellipse
-       from arlunio.math import X, Y
-       from arlunio.image import fill
+          import arlunio as ar
 
-       @ar.definition
-       def Atom(x: X, y: Y):
-           image = None
+          from arlunio.shape import Ellipse
+          from arlunio.math import X, Y
+          from arlunio.image import fill
 
-           ellipses = [
-               (Ellipse(a=1.5, b=0.5, pt=0.005), x, y),
-               (Ellipse(a=1.5, b=0.5, r=1, pt=0.005), x + y, y - x),
-               (Ellipse(a=0.5, b=1.5, pt=0.005), x, y),
-               (Ellipse(a=1.5, b=0.5, r=1, pt=0.005), x - y, x + y),
-               (Ellipse(a=1, b=1, r=0.15), x, y)
-           ]
+          @ar.definition
+          def Atom(x: X, y: Y):
+              image = None
 
-           for ellipse, ex, ey in ellipses:
-               image = fill(ellipse(x=ex, y=ey), image=image)
+              ellipses = [
+                  (Ellipse(a=1.5, b=0.5, pt=0.005), x, y),
+                  (Ellipse(a=1.5, b=0.5, r=1, pt=0.005), x + y, y - x),
+                  (Ellipse(a=0.5, b=1.5, pt=0.005), x, y),
+                  (Ellipse(a=1.5, b=0.5, r=1, pt=0.005), x - y, x + y),
+                  (Ellipse(a=1, b=1, r=0.15), x, y)
+              ]
 
-           return image
+              for ellipse, ex, ey in ellipses:
+                  image = fill(ellipse(x=ex, y=ey), image=image)
 
-       atom = Atom()
-       image = atom(width=1920, height=1080)
+              return image
+
+          atom = Atom()
+          image = atom(width=1920, height=1080)
     """
 
     x = (x - xc) ** 2
@@ -262,12 +270,15 @@ def SuperEllipse(
 ) -> Mask:
     """
     .. arlunio-image:: SuperEllipse
+       :align: right
 
-       from arlunio.shape import SuperEllipse
-       from arlunio.image import fill
+       ::
 
-       ellipse = SuperEllipse()
-       image = fill(ellipse(width=1920, height=1080))
+          from arlunio.shape import SuperEllipse
+          from arlunio.image import fill
+
+          ellipse = SuperEllipse()
+          image = fill(ellipse(width=256, height=256))
 
     We define a `SuperEllipse`_ by the following equality.
 
@@ -314,64 +325,68 @@ def SuperEllipse(
     are :code:`n` and :code:`m` greatly affect the shape of the super ellipse.
 
     .. arlunio-image:: SuperEllipse Demo
-       :include-code: below
+       :include-code:
 
-       import arlunio as ar
+       ::
 
-       from arlunio.shape import SuperEllipse
-       from arlunio.image import fill
+          import arlunio as ar
 
-       @ar.definition
-       def SuperEllipseDemo(width: int, height: int):
-           image = None
-           ellipses = [
-               (SuperEllipse(n=0.5, pt=0.01),'#f00'),
-               (SuperEllipse(n=1, pt=0.01),'#0f0'),
-               (SuperEllipse(n=1.5, pt=0.01), '#00f'),
-               (SuperEllipse(n=2, pt=0.01), '#ff0'),
-               (SuperEllipse(n=3, pt=0.01), '#0ff')
-           ]
+          from arlunio.shape import SuperEllipse
+          from arlunio.image import fill
 
-           for ellipse, color in ellipses:
-               image = fill(
-                   ellipse(width=1920, height=1080), color=color, image=image
-               )
+          @ar.definition
+          def SuperEllipseDemo(width: int, height: int):
+              image = None
+              ellipses = [
+                  (SuperEllipse(n=0.5, pt=0.01),'#f00'),
+                  (SuperEllipse(n=1, pt=0.01),'#0f0'),
+                  (SuperEllipse(n=1.5, pt=0.01), '#00f'),
+                  (SuperEllipse(n=2, pt=0.01), '#ff0'),
+                  (SuperEllipse(n=3, pt=0.01), '#0ff')
+              ]
 
-           return image
+              for ellipse, color in ellipses:
+                  image = fill(
+                      ellipse(width=1920, height=1080), color=color, image=image
+                  )
 
-       demo = SuperEllipseDemo()
-       image = demo(width=1920, height=1080)
+              return image
+
+          demo = SuperEllipseDemo()
+          image = demo(width=1920, height=1080)
 
     By default if you don't specify a value for :code:`m` it will inherit the value
     assigned to :code:`n`. However if you set :code:`m` to a different value then you
     can get even more interesting results!
 
     .. arlunio-image:: Eye of Sauron
-       :include-code: below
+       :include-code:
 
-       import arlunio as ar
+       "Eye of Sauron"::
 
-       from arlunio.shape import SuperEllipse
-       from arlunio.image import fill
+          import arlunio as ar
 
-       @ar.definition
-       def Sauron(width: int, height: int):
-           image = None
-           ellipses = [
-               (SuperEllipse(a=2, n=3, m=0.2, r=0.98),'#f00'),
-               (SuperEllipse(n=2),'#f50'),
-               (SuperEllipse(n=0.1, m=2), '#000'),
-           ]
+          from arlunio.shape import SuperEllipse
+          from arlunio.image import fill
 
-           for ellipse, color in ellipses:
-               image = fill(
-                   ellipse(width=1920, height=1080), color=color, image=image
-               )
+          @ar.definition
+          def Sauron(width: int, height: int):
+              image = None
+              ellipses = [
+                  (SuperEllipse(a=2, n=3, m=0.2, r=0.98),'#f00'),
+                  (SuperEllipse(n=2),'#f50'),
+                  (SuperEllipse(n=0.1, m=2), '#000'),
+              ]
 
-           return image
+              for ellipse, color in ellipses:
+                  image = fill(
+                      ellipse(width=1920, height=1080), color=color, image=image
+                  )
 
-       eye = Sauron()
-       image = eye(width=1920, height=1080)
+              return image
+
+          eye = Sauron()
+          image = eye(width=1920, height=1080)
 
     .. _SuperEllipse: https://en.wikipedia.org/wiki/Superellipse
 
@@ -398,14 +413,15 @@ def SuperEllipse(
 def Square(x: X, y: Y, *, xc=0, yc=0, size=0.8, pt=None) -> Mask:
     """
     .. arlunio-image:: Simple Square
+       :align: right
 
-       from arlunio.shape import Square
-       from arlunio.image import fill
+       A square::
 
-       square = Square()
-       image = fill(square(width=1920, height=1080))
+          from arlunio.shape import Square
+          from arlunio.image import fill
 
-    A square.
+          square = Square()
+          image = fill(square(width=256, height=256))
 
     Attributes
     ----------
@@ -425,32 +441,34 @@ def Square(x: X, y: Y, *, xc=0, yc=0, size=0.8, pt=None) -> Mask:
     -------
 
     .. arlunio-image:: Square Demo
-       :include-code: below
+       :include-code:
 
-       import arlunio as ar
+       ::
 
-       from arlunio.shape import Square
-       from arlunio.math import X, Y
-       from arlunio.image import fill
+          import arlunio as ar
 
-       @ar.definition
-       def SquareDemo(x: X, y: Y):
-           image = None
-           squares = [
-               (Square(pt=0.01), x, y),
-               (Square(pt=0.01), x + y, x - y),
-               (Square(size=0.39, pt=0.01), x, y),
-               (Square(size=0.39, pt=0.01), x + y, x - y),
-               (Square(size=0.2), x, y),
-           ]
+          from arlunio.shape import Square
+          from arlunio.math import X, Y
+          from arlunio.image import fill
 
-           for square, sx, sy in squares:
-               image = fill(square(x=sx, y=sy), image=image)
+          @ar.definition
+          def SquareDemo(x: X, y: Y):
+              image = None
+              squares = [
+                  (Square(pt=0.01), x, y),
+                  (Square(pt=0.01), x + y, x - y),
+                  (Square(size=0.39, pt=0.01), x, y),
+                  (Square(size=0.39, pt=0.01), x + y, x - y),
+                  (Square(size=0.2), x, y),
+              ]
 
-           return image
+              for square, sx, sy in squares:
+                  image = fill(square(x=sx, y=sy), image=image)
 
-       square = SquareDemo()
-       image = square(width=1920, height=1080)
+              return image
+
+          square = SquareDemo()
+          image = square(width=1920, height=1080)
     """
 
     xs = np.abs(x - xc)
@@ -472,16 +490,17 @@ def Square(x: X, y: Y, *, xc=0, yc=0, size=0.8, pt=None) -> Mask:
 def Rectangle(x: X, y: Y, *, xc=0, yc=0, size=0.6, ratio=1.618, pt=None) -> Mask:
     """
     .. arlunio-image:: Simple Rectangle
+       :align: right
 
-       from arlunio.shape import Rectangle
-       from arlunio.image import fill
+       A rectangle::
 
-       rectangle = Rectangle()
-       image = fill(rectangle(width=1920, height=1080))
+          from arlunio.shape import Rectangle
+          from arlunio.image import fill
 
-    A Rectangle.
+          rectangle = Rectangle()
+          image = fill(rectangle(width=256, height=256))
 
-    Parameters
+    Attributes
     ----------
     xc:
         Defines the :math:`x`-coordinate of the center of the rectangle
@@ -501,29 +520,31 @@ def Rectangle(x: X, y: Y, *, xc=0, yc=0, size=0.6, ratio=1.618, pt=None) -> Mask
     --------
 
     .. arlunio-image:: Rectangle Demo
-       :include-code: below
+       :include-code:
 
-       import arlunio as ar
+       ::
 
-       from arlunio.shape import Rectangle
-       from arlunio.image import fill
+          import arlunio as ar
 
-       @ar.definition
-       def RectangleDemo(width: int, height: int):
-           image = None
-           rects = [
-               Rectangle(xc=-1, size=0.4, ratio=0.5),
-               Rectangle(xc=0.25, yc=0.5, size=0.2, ratio=1),
-               Rectangle(xc=0.5, yc=-0.5, size=0.4, ratio=2)
-           ]
+          from arlunio.shape import Rectangle
+          from arlunio.image import fill
 
-           for r in rects:
-               image = fill(r(width=width, height=height), image=image)
+          @ar.definition
+          def RectangleDemo(width: int, height: int):
+              image = None
+              rects = [
+                  Rectangle(xc=-1, size=0.4, ratio=0.5),
+                  Rectangle(xc=0.25, yc=0.5, size=0.2, ratio=1),
+                  Rectangle(xc=0.5, yc=-0.5, size=0.4, ratio=2)
+              ]
 
-           return image
+              for r in rects:
+                  image = fill(r(width=width, height=height), image=image)
 
-       demo = RectangleDemo()
-       image = demo(width=1920, height=1080)
+              return image
+
+          demo = RectangleDemo()
+          image = demo(width=1920, height=1080)
     """
 
     xs = np.abs(x - xc)
