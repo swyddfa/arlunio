@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>arlunio.pattern &mdash; Arlunio V0.0.7b35 documentation</title>
+  <title>arlunio.pattern &mdash; Arlunio V0.0.7b36 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                V0.0.7b35
+                V0.0.7b36
               </div>
             
           
@@ -156,9 +156,7 @@
            <div itemprop="articleBody">
             
   <h1>Source code for arlunio.pattern</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Module level docstring.</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">import</span> <span class="nn">logging</span>
+<span></span><span class="kn">import</span> <span class="nn">logging</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
@@ -174,15 +172,18 @@
 <div class="viewcode-block" id="Checker"><a class="viewcode-back" href="../../stdlib/pattern.html#arlunio.pattern.Checker">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
 <span class="k">def</span> <span class="nf">Checker</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Y</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mask</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    .. arlunio-image::</span>
+<span class="sd">    .. arlunio-image:: Checker</span>
+<span class="sd">       :align: center</span>
 
-<span class="sd">       from arlunio.image import fill</span>
-<span class="sd">       from arlunio.pattern import Checker</span>
+<span class="sd">       ::</span>
 
-<span class="sd">       checker = Checker()</span>
-<span class="sd">       image = fill(checker(width=256, height=256))</span>
+<span class="sd">          from arlunio.pattern import Checker</span>
+<span class="sd">          from arlunio.image import fill</span>
 
-<span class="sd">    A simple checker pattern.</span>
+<span class="sd">          checker = Checker()</span>
+<span class="sd">          image = fill(checker(width=256, height=256))</span>
+
+<span class="sd">    A simple checker pattern</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span> <span class="o">&gt;</span> <span class="mi">0</span></div>
 
@@ -190,14 +191,16 @@
 <div class="viewcode-block" id="Grid"><a class="viewcode-back" href="../../stdlib/pattern.html#arlunio.pattern.Grid">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
 <span class="k">def</span> <span class="nf">Grid</span><span class="p">(</span><span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">defn</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mask</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    .. arlunio-image::</span>
+<span class="sd">    .. arlunio-image:: Simple Grid</span>
 
-<span class="sd">       from arlunio.image import fill</span>
-<span class="sd">       from arlunio.pattern import Grid</span>
-<span class="sd">       from arlunio.shape import Circle</span>
+<span class="sd">       ::</span>
 
-<span class="sd">       pattern = Grid(defn=Circle())</span>
-<span class="sd">       image = fill(pattern(width=512, height=256))</span>
+<span class="sd">          from arlunio.image import fill</span>
+<span class="sd">          from arlunio.pattern import Grid</span>
+<span class="sd">          from arlunio.shape import Circle</span>
+
+<span class="sd">          pattern = Grid(defn=Circle())</span>
+<span class="sd">          image = fill(pattern(width=512, height=256))</span>
 
 <span class="sd">    Repeatedly draw the given defintition in a grid.</span>
 
@@ -223,48 +226,50 @@
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    Pattern generated from circles</span>
 
-<span class="sd">    .. arlunio-image::</span>
-<span class="sd">       :include-code: before</span>
+<span class="sd">    .. arlunio-image:: Grid Example</span>
+<span class="sd">       :include-code:</span>
 
-<span class="sd">       import arlunio as ar</span>
-<span class="sd">       import numpy as np</span>
+<span class="sd">       A pattern generated from circles::</span>
 
-<span class="sd">       from arlunio.image import fill</span>
-<span class="sd">       from arlunio.math import X, Y</span>
-<span class="sd">       from arlunio.shape import Circle</span>
-<span class="sd">       from arlunio.pattern import Grid</span>
+<span class="sd">          import arlunio as ar</span>
+<span class="sd">          import numpy as np</span>
 
+<span class="sd">          from arlunio.image import fill</span>
+<span class="sd">          from arlunio.math import X, Y</span>
+<span class="sd">          from arlunio.shape import Circle</span>
+<span class="sd">          from arlunio.pattern import Grid</span>
 
-<span class="sd">       @ar.definition</span>
-<span class="sd">       def Template(x:X, y: Y):</span>
-<span class="sd">           c = Circle(xc=.4, yc=.4, pt=.02)</span>
-<span class="sd">           return c(x=np.abs(x), y=np.abs(y))</span>
+<span class="sd">          @ar.definition</span>
+<span class="sd">          def Template(x:X, y: Y):</span>
+<span class="sd">              c = Circle(xc=.4, yc=.4, pt=.02)</span>
+<span class="sd">              return c(x=np.abs(x), y=np.abs(y))</span>
 
-<span class="sd">       pattern = Grid(defn=Template(scale=1.))</span>
-<span class="sd">       image = fill(</span>
-<span class="sd">           pattern(width=512, height=512), background=&quot;#000&quot;, color=&quot;#ff0&quot;</span>
-<span class="sd">       )</span>
+<span class="sd">          pattern = Grid(defn=Template(scale=1.))</span>
+<span class="sd">          image = fill(</span>
+<span class="sd">              pattern(width=512, height=512), background=&quot;#000&quot;, color=&quot;#ff0&quot;</span>
+<span class="sd">          )</span>
 
 <span class="sd">    A checkerboard like pattern</span>
 
-<span class="sd">    .. arlunio-image::</span>
-<span class="sd">       :include-code: before</span>
+<span class="sd">    .. arlunio-image:: Checker Pattern</span>
+<span class="sd">       :include-code:</span>
 
-<span class="sd">       import arlunio as ar</span>
-<span class="sd">       import numpy as np</span>
+<span class="sd">       A checkerboard like pattern::</span>
 
-<span class="sd">       from arlunio.image import fill</span>
-<span class="sd">       from arlunio.math import X, Y</span>
-<span class="sd">       from arlunio.pattern import Grid</span>
+<span class="sd">          import arlunio as ar</span>
+<span class="sd">          import numpy as np</span>
 
-<span class="sd">       @ar.definition</span>
-<span class="sd">       def Template(x: X, y: Y):</span>
-<span class="sd">           return np.abs(x) - np.abs(y) &lt; 0</span>
+<span class="sd">          from arlunio.image import fill</span>
+<span class="sd">          from arlunio.math import X, Y</span>
+<span class="sd">          from arlunio.pattern import Grid</span>
 
-<span class="sd">       grid = Grid(defn=Template(), n=16, m=8)</span>
-<span class="sd">       image = fill(grid(width=512, height=256))</span>
+<span class="sd">          @ar.definition</span>
+<span class="sd">          def Template(x: X, y: Y):</span>
+<span class="sd">              return np.abs(x) - np.abs(y) &lt; 0</span>
+
+<span class="sd">          grid = Grid(defn=Template(), n=16, m=8)</span>
+<span class="sd">          image = fill(grid(width=512, height=256))</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">m</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">m</span> <span class="o">=</span> <span class="n">n</span>
@@ -307,56 +312,58 @@
 
 <span class="sd">    Example</span>
 <span class="sd">    -------</span>
-<span class="sd">    .. arlunio-image::</span>
-<span class="sd">       :include-code: before</span>
+<span class="sd">    .. arlunio-image:: Simple Map</span>
+<span class="sd">       :include-code:</span>
 
-<span class="sd">       import arlunio as ar</span>
-<span class="sd">       import numpy as np</span>
+<span class="sd">       ::</span>
 
-<span class="sd">       from arlunio.image import fill</span>
-<span class="sd">       from arlunio.mask import any_</span>
-<span class="sd">       from arlunio.pattern import Map</span>
-<span class="sd">       from arlunio.shape import Rectangle</span>
+<span class="sd">          import arlunio as ar</span>
+<span class="sd">          import numpy as np</span>
 
-<span class="sd">       @ar.definition</span>
-<span class="sd">       def Wall(width: int, height: int, *, sides=None):</span>
-<span class="sd">           r = 50</span>
-<span class="sd">           d = 1</span>
-<span class="sd">           walls = {</span>
-<span class="sd">               &#39;top&#39;: {&quot;yc&quot;: d, &quot;ratio&quot;: r},</span>
-<span class="sd">               &#39;bottom&#39;: {&quot;yc&quot;: -d, &quot;ratio&quot;: r},</span>
-<span class="sd">               &#39;left&#39;: {&quot;xc&quot;: -d, &quot;ratio&quot;: 1/r},</span>
-<span class="sd">               &quot;right&quot;: {&quot;xc&quot;: d, &quot;ratio&quot;: 1/r}</span>
-<span class="sd">           }</span>
+<span class="sd">          from arlunio.image import fill</span>
+<span class="sd">          from arlunio.mask import any_</span>
+<span class="sd">          from arlunio.pattern import Map</span>
+<span class="sd">          from arlunio.shape import Rectangle</span>
 
-<span class="sd">           mask = False</span>
-<span class="sd">           for side in sides.split(&#39;-&#39;):</span>
-<span class="sd">               wall = Rectangle(size=0.2, **walls[side])</span>
-<span class="sd">               mask = any_(mask, wall(width=width, height=height))</span>
+<span class="sd">          @ar.definition</span>
+<span class="sd">          def Wall(width: int, height: int, *, sides=None):</span>
+<span class="sd">              r = 50</span>
+<span class="sd">              d = 1</span>
+<span class="sd">              walls = {</span>
+<span class="sd">                  &#39;top&#39;: {&quot;yc&quot;: d, &quot;ratio&quot;: r},</span>
+<span class="sd">                  &#39;bottom&#39;: {&quot;yc&quot;: -d, &quot;ratio&quot;: r},</span>
+<span class="sd">                  &#39;left&#39;: {&quot;xc&quot;: -d, &quot;ratio&quot;: 1/r},</span>
+<span class="sd">                  &quot;right&quot;: {&quot;xc&quot;: d, &quot;ratio&quot;: 1/r}</span>
+<span class="sd">              }</span>
 
-<span class="sd">           return mask</span>
+<span class="sd">              mask = False</span>
+<span class="sd">              for side in sides.split(&#39;-&#39;):</span>
+<span class="sd">                  wall = Rectangle(size=0.2, **walls[side])</span>
+<span class="sd">                  mask = any_(mask, wall(width=width, height=height))</span>
 
-<span class="sd">       legend = {</span>
-<span class="sd">           &quot;tt&quot;: Wall(sides=&quot;top&quot;),</span>
-<span class="sd">           &quot;bb&quot;: Wall(sides=&quot;bottom&quot;),</span>
-<span class="sd">           &quot;ll&quot;: Wall(sides=&quot;left&quot;),</span>
-<span class="sd">           &quot;rr&quot;: Wall(sides=&quot;right&quot;),</span>
-<span class="sd">           &quot;tl&quot;: Wall(sides=&quot;top-left&quot;),</span>
-<span class="sd">           &quot;tr&quot;: Wall(sides=&quot;top-right&quot;),</span>
-<span class="sd">           &quot;bl&quot;: Wall(sides=&#39;bottom-left&#39;),</span>
-<span class="sd">           &quot;br&quot;: Wall(sides=&quot;bottom-right&quot;)</span>
-<span class="sd">       }</span>
+<span class="sd">              return mask</span>
 
-<span class="sd">       layout = np.array([</span>
-<span class="sd">           [&quot;tt&quot;, &quot;tt&quot;, &quot;tt&quot;, &quot;tt&quot;, &quot;tr&quot;],</span>
-<span class="sd">           [  &quot;&quot;, &quot;tl&quot;, &quot;tt&quot;, &quot;tr&quot;, &quot;rr&quot;],</span>
-<span class="sd">           [  &quot;&quot;, &quot;ll&quot;, &quot;bl&quot;, &quot;br&quot;, &quot;rr&quot;],</span>
-<span class="sd">           [  &quot;&quot;, &quot;bl&quot;, &quot;bb&quot;, &quot;bb&quot;, &quot;br&quot;],</span>
-<span class="sd">           [  &quot;&quot;,   &quot;&quot;,   &quot;&quot;,   &quot;&quot;,   &quot;&quot;]</span>
-<span class="sd">       ])</span>
+<span class="sd">          legend = {</span>
+<span class="sd">              &quot;tt&quot;: Wall(sides=&quot;top&quot;),</span>
+<span class="sd">              &quot;bb&quot;: Wall(sides=&quot;bottom&quot;),</span>
+<span class="sd">              &quot;ll&quot;: Wall(sides=&quot;left&quot;),</span>
+<span class="sd">              &quot;rr&quot;: Wall(sides=&quot;right&quot;),</span>
+<span class="sd">              &quot;tl&quot;: Wall(sides=&quot;top-left&quot;),</span>
+<span class="sd">              &quot;tr&quot;: Wall(sides=&quot;top-right&quot;),</span>
+<span class="sd">              &quot;bl&quot;: Wall(sides=&#39;bottom-left&#39;),</span>
+<span class="sd">              &quot;br&quot;: Wall(sides=&quot;bottom-right&quot;)</span>
+<span class="sd">          }</span>
 
-<span class="sd">       map_ = Map(legend=legend, layout=layout)</span>
-<span class="sd">       image = fill(map_(width=256, height=256), color=&quot;blue&quot;)</span>
+<span class="sd">          layout = np.array([</span>
+<span class="sd">              [&quot;tt&quot;, &quot;tt&quot;, &quot;tt&quot;, &quot;tt&quot;, &quot;tr&quot;],</span>
+<span class="sd">              [  &quot;&quot;, &quot;tl&quot;, &quot;tt&quot;, &quot;tr&quot;, &quot;rr&quot;],</span>
+<span class="sd">              [  &quot;&quot;, &quot;ll&quot;, &quot;bl&quot;, &quot;br&quot;, &quot;rr&quot;],</span>
+<span class="sd">              [  &quot;&quot;, &quot;bl&quot;, &quot;bb&quot;, &quot;bb&quot;, &quot;br&quot;],</span>
+<span class="sd">              [  &quot;&quot;,   &quot;&quot;,   &quot;&quot;,   &quot;&quot;,   &quot;&quot;]</span>
+<span class="sd">          ])</span>
+
+<span class="sd">          map_ = Map(legend=legend, layout=layout)</span>
+<span class="sd">          image = fill(map_(width=256, height=256), color=&quot;blue&quot;)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># TODO: Handle divisions with rounding errors</span>
@@ -376,16 +383,17 @@
     <span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">pixels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">defn</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mask</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    .. arlunio-image::</span>
+<span class="sd">    .. arlunio-image:: Pixelise</span>
 
-<span class="sd">       from arlunio.image import fill</span>
-<span class="sd">       from arlunio.pattern import Pixelize</span>
-<span class="sd">       from arlunio.shape import Circle</span>
+<span class="sd">       Draw a pixelated version of a definition::</span>
 
-<span class="sd">       pix = Pixelize(defn=Circle(), n=16, m=16)</span>
-<span class="sd">       image = fill(pix(width=256, height=256))</span>
+<span class="sd">          from arlunio.image import fill</span>
+<span class="sd">          from arlunio.pattern import Pixelize</span>
+<span class="sd">          from arlunio.shape import Circle</span>
 
-<span class="sd">    Draw a pixelated version of a definition.</span>
+<span class="sd">          pix = Pixelize(defn=Circle(), n=16, m=16)</span>
+<span class="sd">          image = fill(pix(width=256, height=256))</span>
+
 
 <span class="sd">    .. note::</span>
 
@@ -418,52 +426,56 @@
 <span class="sd">    --------</span>
 <span class="sd">    This definition can be used to render a simple pixel pattern at a higher resolution</span>
 
-<span class="sd">    .. arlunio-image::</span>
-<span class="sd">       :include-code: before</span>
+<span class="sd">    .. arlunio-image:: Simple Pixelise</span>
+<span class="sd">       :include-code:</span>
 
-<span class="sd">       import numpy as np</span>
+<span class="sd">       This definition can be used to render a simple picel patter at a higher</span>
+<span class="sd">       resolution::</span>
 
-<span class="sd">       from arlunio.image import fill</span>
-<span class="sd">       from arlunio.pattern import Pixelize</span>
+<span class="sd">          import numpy as np</span>
 
-<span class="sd">       pixels = np.array([</span>
-<span class="sd">           [False,  True,  True, False],</span>
-<span class="sd">           [ True, False, False,  True],</span>
-<span class="sd">           [ True, False, False,  True],</span>
-<span class="sd">           [False,  True,  True, False]</span>
-<span class="sd">       ])</span>
-<span class="sd">       defn = Pixelize(pixels=pixels)</span>
-<span class="sd">       image = fill(defn(width=512, height=512))</span>
+<span class="sd">          from arlunio.image import fill</span>
+<span class="sd">          from arlunio.pattern import Pixelize</span>
 
-<span class="sd">    Alternatively we can generate the pixels from an instance of another definition</span>
+<span class="sd">          pixels = np.array([</span>
+<span class="sd">              [False,  True,  True, False],</span>
+<span class="sd">              [ True, False, False,  True],</span>
+<span class="sd">              [ True, False, False,  True],</span>
+<span class="sd">              [False,  True,  True, False]</span>
+<span class="sd">          ])</span>
+<span class="sd">          defn = Pixelize(pixels=pixels)</span>
+<span class="sd">          image = fill(defn(width=512, height=512))</span>
 
-<span class="sd">    .. arlunio-image::</span>
-<span class="sd">       :include-code: before</span>
 
-<span class="sd">       import arlunio as ar</span>
-<span class="sd">       import numpy as np</span>
+<span class="sd">    .. arlunio-image:: Ghost</span>
+<span class="sd">       :include-code:</span>
 
-<span class="sd">       from arlunio.image import fill</span>
-<span class="sd">       from arlunio.mask import all_</span>
-<span class="sd">       from arlunio.math import X, Y</span>
-<span class="sd">       from arlunio.pattern import Pixelize</span>
-<span class="sd">       from arlunio.shape import Circle</span>
+<span class="sd">       We can also generate the pixels from an instance of another definition::</span>
 
-<span class="sd">       @ar.definition</span>
-<span class="sd">       def Ghost(x: X, y: Y):</span>
-<span class="sd">           head = Circle(yc=0.5, r=0.7)</span>
-<span class="sd">           eyes = Circle(xc=0.2, yc=0.6, r=0.3)</span>
+<span class="sd">          import arlunio as ar</span>
+<span class="sd">          import numpy as np</span>
 
-<span class="sd">           body = all_(</span>
-<span class="sd">               y &lt; 0.5,</span>
-<span class="sd">               np.abs(x) &lt; 0.49,</span>
-<span class="sd">               0.1 * np.cos(5 * np.pi * x) - 0.3 &lt; y</span>
-<span class="sd">           )</span>
+<span class="sd">          from arlunio.image import fill</span>
+<span class="sd">          from arlunio.mask import all_</span>
+<span class="sd">          from arlunio.math import X, Y</span>
+<span class="sd">          from arlunio.pattern import Pixelize</span>
+<span class="sd">          from arlunio.shape import Circle</span>
 
-<span class="sd">           return (head(x=x, y=y) - eyes(x=np.abs(x), y=y)) + body</span>
+<span class="sd">          @ar.definition</span>
+<span class="sd">          def Ghost(x: X, y: Y):</span>
+<span class="sd">              head = Circle(yc=0.5, r=0.7)</span>
+<span class="sd">              eyes = Circle(xc=0.2, yc=0.6, r=0.3)</span>
 
-<span class="sd">       ghost = Pixelize(defn=Ghost(y0=-0.3), n=32, m=32)</span>
-<span class="sd">       image = fill(ghost(width=512, height=512), color=&quot;#f00&quot;)</span>
+<span class="sd">              body = all_(</span>
+<span class="sd">                  y &lt; 0.5,</span>
+<span class="sd">                  np.abs(x) &lt; 0.49,</span>
+<span class="sd">                  0.1 * np.cos(5 * np.pi * x) - 0.3 &lt; y</span>
+<span class="sd">              )</span>
+
+<span class="sd">              return (head(x=x, y=y) - eyes(x=np.abs(x), y=y)) + body</span>
+
+<span class="sd">          ghost = Pixelize(defn=Ghost(y0=-0.3), n=32, m=32)</span>
+<span class="sd">          image = fill(ghost(width=512, height=512), color=&quot;#f00&quot;)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">defn</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">pixels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>

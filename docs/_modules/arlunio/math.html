@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>arlunio.math &mdash; Arlunio V0.0.7b35 documentation</title>
+  <title>arlunio.math &mdash; Arlunio V0.0.7b36 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                V0.0.7b35
+                V0.0.7b36
               </div>
             
           
@@ -265,15 +265,16 @@
 <div class="viewcode-block" id="X"><a class="viewcode-back" href="../../stdlib/math.html#arlunio.math.X">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
 <span class="k">def</span> <span class="nf">X</span><span class="p">(</span><span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">x0</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">stretch</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    .. arlunio-image::</span>
+<span class="sd">    .. arlunio-image:: X Coordinates</span>
+<span class="sd">       :align: right</span>
 
-<span class="sd">       from arlunio.math import X</span>
-<span class="sd">       from arlunio.image import colorramp</span>
+<span class="sd">       Cartesian X coordinates::</span>
 
-<span class="sd">       x = X()</span>
-<span class="sd">       image = colorramp(x(width=1920, height=1080))</span>
+<span class="sd">          from arlunio.math import X</span>
+<span class="sd">          from arlunio.image import colorramp</span>
 
-<span class="sd">    Cartesian :math:`x` coordinates.</span>
+<span class="sd">          x = X()</span>
+<span class="sd">          image = colorramp(x(width=256, height=256))</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
@@ -340,15 +341,16 @@
 <div class="viewcode-block" id="Y"><a class="viewcode-back" href="../../stdlib/math.html#arlunio.math.Y">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
 <span class="k">def</span> <span class="nf">Y</span><span class="p">(</span><span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">y0</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">stretch</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    .. arlunio-image::</span>
+<span class="sd">    .. arlunio-image:: Y Coordinates</span>
+<span class="sd">       :align: right</span>
 
-<span class="sd">       from arlunio.math import Y</span>
-<span class="sd">       from arlunio.image import colorramp</span>
+<span class="sd">       Cartesian Y coordinates::</span>
 
-<span class="sd">       y = Y()</span>
-<span class="sd">       image = colorramp(y(width=1920, height=1080))</span>
+<span class="sd">          from arlunio.math import Y</span>
+<span class="sd">          from arlunio.image import colorramp</span>
 
-<span class="sd">    Cartesian :math:`y` coordinates.</span>
+<span class="sd">          y = Y()</span>
+<span class="sd">          image = colorramp(y(width=256, height=256))</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
@@ -419,15 +421,16 @@
 <div class="viewcode-block" id="R"><a class="viewcode-back" href="../../stdlib/math.html#arlunio.math.R">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
 <span class="k">def</span> <span class="nf">R</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Y</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    .. arlunio-image::</span>
+<span class="sd">    .. arlunio-image:: R Coordinates</span>
+<span class="sd">       :align: right</span>
 
-<span class="sd">       from arlunio.math import R</span>
-<span class="sd">       from arlunio.image import colorramp</span>
+<span class="sd">       Polar R coordinates::</span>
 
-<span class="sd">       r = R()</span>
-<span class="sd">       image = colorramp(r(width=1920, height=1080))</span>
+<span class="sd">          from arlunio.math import R</span>
+<span class="sd">          from arlunio.image import colorramp</span>
 
-<span class="sd">    Polar :math:`r` coordinates.</span>
+<span class="sd">          r = R()</span>
+<span class="sd">          image = colorramp(r(width=256, height=256))</span>
 
 <span class="sd">    This definition corresponds with the distance a given point is from the origin and</span>
 <span class="sd">    can be calculated from the point&#39;s equivalent Cartesian coordinate representation</span>
@@ -472,15 +475,16 @@
 <div class="viewcode-block" id="T"><a class="viewcode-back" href="../../stdlib/math.html#arlunio.math.T">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
 <span class="k">def</span> <span class="nf">T</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Y</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">t0</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    .. arlunio-image::</span>
+<span class="sd">    .. arlunio-image:: T Coordinates</span>
+<span class="sd">       :align: right</span>
 
-<span class="sd">       from arlunio.math import T</span>
-<span class="sd">       from arlunio.image import colorramp</span>
+<span class="sd">       Polar T coordinates::</span>
 
-<span class="sd">       t = T()</span>
-<span class="sd">       image = colorramp(t(width=1920, height=1080))</span>
+<span class="sd">          from arlunio.math import T</span>
+<span class="sd">          from arlunio.image import colorramp</span>
 
-<span class="sd">    Polar, :math:`t` coordinates.</span>
+<span class="sd">          t = T()</span>
+<span class="sd">          image = colorramp(t(width=256, height=256))</span>
 
 <span class="sd">    This definition corresponds with the angle a given point is around from the positive</span>
 <span class="sd">    :math:`x`-axis. This can be calculated from the point&#39;s equivalent Cartesian</span>
