@@ -10,8 +10,6 @@ import os
 import pathlib
 import random
 import subprocess
-import sys
-import traceback
 from datetime import datetime
 from typing import Any
 from typing import Dict
@@ -91,51 +89,6 @@ def setup_logging(verbose: int, quiet: bool) -> None:
         console.addFilter(logging.Filter(__name__))
 
     root.addHandler(console)
-
-
-class UserContext:
-    def __init__(self, pkg):
-        self.pkg = pkg
-
-    def __enter__(self):
-        return self
-
-    def __exit__(self, err_type, err, tback):
-
-        if err is None:
-            return
-
-        print()
-        traceback.print_exception(err_type, err, tback)
-        print("\nUnable to load module: {}".format(self.pkg))
-
-        sys.exit(1)
-
-
-@attr.s(auto_attribs=True)
-class Config:
-    """Represents site configuration."""
-
-    baseurl: str
-    output: str
-    notebooks: str
-    templates: str
-
-    @classmethod
-    def fromfile(cls, filepath):
-
-        with open(filepath) as f:
-            config = toml.parse(f.read())
-
-        baseurl = config["site"]["baseurl"]
-        templates = config["site"]["templates"]
-        output = config["site"]["output"]
-
-        notebooks = config["gallery"]["images"]
-
-        return cls(
-            baseurl=baseurl, templates=templates, output=output, notebooks=notebooks
-        )
 
 
 @attr.s(auto_attribs=True)
@@ -278,21 +231,44 @@ class ImageContext:
 @attr.s(auto_attribs=True)
 class Site:
 
-    config: Dict[str, Any]
-    local: bool
+    baseurl: str
+    """The base url the site will be hosted on."""
 
-    def build(self, destination, skip_failures=False):
+    notebooks: str
+    """The path to the directory holding the notebooks."""
 
-        baseurl = "http://localhost:8001/" if self.local else self.config["baseurl"]
+    output: str
+    """The output directory to save the site to."""
 
-        env = j2.Environment(loader=j2.FileSystemLoader(self.config.templates))
+    templates: str
+    """The path to the directory containing the templates."""
+
+    @classmethod
+    def fromfile(cls, filepath):
+
+        with open(filepath) as f:
+            config = toml.parse(f.read())
+
+        baseurl = config["site"]["baseurl"]
+        templates = config["site"]["templates"]
+        output = config["site"]["output"]
+
+        notebooks = config["gallery"]["images"]
+
+        return cls(
+            baseurl=baseurl, notebooks=notebooks, output=output, templates=templates
+        )
+
+    def build(self, skip_failures=False, local=False):
+
+        baseurl = "http://localhost:8001/" if local else self.baseurl
+
+        env = j2.Environment(loader=j2.FileSystemLoader(self.templates))
         gallery_template = env.get_template("gallery.html")
         image_template = env.get_template("image.html")
 
-        index = os.path.join(self.config.output, "gallery", "index.html")
-
-        nbdir = self.config.notebooks
-        images = render_images(nbdir, self.config, skip_failures)
+        index = os.path.join(self.output, "gallery", "index.html")
+        images = render_images(self.notebooks, self, skip_failures)
 
         context = {
             "site": {
@@ -317,7 +293,7 @@ class Site:
             imgcontext = context.copy()
             imgcontext["image"] = img.as_dict()
 
-            filename = os.path.join(self.config.output, "gallery", img.slug + ".html")
+            filename = os.path.join(self.output, "gallery", img.slug + ".html")
             write_file(filename, image_template.render(imgcontext))
 
 
@@ -372,9 +348,6 @@ cli.add_argument(
     action="store_true",
 )
 cli.add_argument(
-    "-o", "--output", help="folder to render results to", default="public/"
-)
-cli.add_argument(
     "-q", "--quiet", help="disable all console output", action="store_true"
 )
 cli.add_argument(
@@ -390,7 +363,5 @@ if __name__ == "__main__":
     args = cli.parse_args()
     setup_logging(args.verbose, args.quiet)
 
-    config = Config.fromfile(args.config)
-
-    site = Site(config, args.local)
-    site.build(args.output, args.skip_failures)
+    site = Site.fromfile(args.config)
+    site.build(args.skip_failures)
