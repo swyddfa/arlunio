@@ -8,13 +8,12 @@ from typing import Optional
 from sphinx.application import Sphinx
 
 import arlunio
-import arlunio.doc.image as image
 from .builder import NotebookTutorialBuilder
 from .directives import depart_nbtutorial
 from .directives import nbtutorial
 from .directives import NBTutorialDirective
 from .directives import visit_nbtutorial
-
+from .image import register as register_image
 
 # fmt: off
 TEMPLATE = [
@@ -119,6 +118,6 @@ def setup(app: Sphinx) -> Dict[str, Any]:
 
     app.add_directive("nbtutorial", NBTutorialDirective)
 
-    image.register(app)
+    register_image(app)
 
     return {"version": arlunio.__version__, "parallel_read_safe": True}
