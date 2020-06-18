@@ -1,4 +1,5 @@
 import os
+import pathlib
 import re
 import textwrap
 from pathlib import Path
@@ -11,13 +12,57 @@ import docutils.nodes as nodes
 import docutils.writers as writers
 import nbformat.v4 as nbf
 from docutils.io import StringOutput
+from docutils.parsers import rst
+from docutils.parsers.rst.directives.admonitions import BaseAdmonition
 from sphinx.builders import Builder
 from sphinx.util import logging
 
-from .directives import nbsolution
-from .directives import nbtutorial
+import arlunio
+from .image import arlunio_image
 
 logger = logging.getLogger(__name__)
+
+
+class nbtutorial(nodes.General, nodes.Element):
+    pass
+
+
+def visit_nbtutorial(self, node):
+    pass
+
+
+def depart_nbtutorial(self, node):
+    pass
+
+
+class nbsolution(nodes.General, nodes.Element):
+    pass
+
+
+def visit_nbsolution(self, node):
+    self.body.append('<details class="admonition note">\n')
+    self.body.append(
+        '<summary class="admonition-title">Solution (click to expand)</summary>\n'
+    )
+
+
+def depart_nbsolution(self, node):
+    self.body.append("</details>\n")
+
+
+class NBTutorialDirective(rst.Directive):
+    def run(self):
+        return [nbtutorial("")]
+
+
+class NBSolutionDirective(BaseAdmonition):
+
+    has_content = True
+    node_class = nbsolution
+
+    def run(self):
+        (soln,) = super().run()
+        return [soln]
 
 
 class NotebookWriter(writers.Writer):
@@ -269,6 +314,61 @@ def codeblock(source: str) -> nodes.literal_block:
     return block
 
 
+class NotebookGalleryBuilder(Builder):
+    """Builder that exports gallery images from the docs as a folder of notebooks."""
+
+    name = "nbgallery"
+    format = "ipynb"
+
+    def init(self) -> None:
+        logger.debug("[nbgallery]: Outdir: %s", self.outdir)
+
+        # Standard metadata for exported notebooks.
+        self.nbmeta = {
+            "author": {"name": self.app.config.author,},
+            "version": arlunio.__version__,
+        }
+
+        if self.app.config.arlunio_github_author is not None:
+            self.nbmeta["author"]["github"] = self.app.config.arlunio_github_author
+
+    def get_outdated_docs(self) -> Union[str, Iterable[str]]:
+        """Not too sure what should put here yet."""
+        return self.env.found_docs
+
+    def get_target_uri(self, docname: str, type: str = None) -> str:
+        return docname + ".ipynb"
+
+    def prepare_writing(self, docnames: Set[str]):
+        self.docwriter = NotebookWriter(self)
+
+    def write_doc(self, docname: str, doctree: nodes.Node) -> None:
+        """Write out any gallery images on the given page."""
+
+        logger.debug("[nbgallery]: Processing: %s", docname)
+        images = [
+            n for n in doctree.traverse(condition=arlunio_image) if "gallery" in n
+        ]
+
+        for image in images:
+
+            gallery = image["gallery"]
+            name = image["name"]
+
+            code = nbf.new_code_cell(source=image["source"])
+            caption = nbf.new_markdown_cell(source=image["caption"])
+
+            metadata = {"arlunio": self.nbmeta}
+            notebook = nbf.new_notebook(metadata=metadata, cells=[caption, code])
+
+            outpath = pathlib.Path(self.outdir, gallery, name + ".ipynb")
+            outpath.parent.mkdir(exist_ok=True)
+
+            with outpath.open(mode="w") as f:
+                logger.debug("[nbgallery]: Writing: %s", outpath)
+                f.write(nbf.writes(notebook))
+
+
 class NotebookTutorialBuilder(Builder):
     """Builder that can convert static tutorials into an interactive jupyer
     notebook."""
@@ -360,3 +460,23 @@ class NotebookTutorialBuilder(Builder):
 
         with open(outfile, "w") as f:
             f.write(self.docwriter.output)
+
+
+def register(app):
+
+    app.add_node(
+        nbtutorial,
+        html=(visit_nbtutorial, depart_nbtutorial),
+        latex=(visit_nbtutorial, depart_nbtutorial),
+        text=(visit_nbtutorial, depart_nbtutorial),
+    )
+
+    app.add_node(nbsolution, html=(visit_nbsolution, depart_nbsolution))
+
+    app.add_builder(NotebookGalleryBuilder)
+    app.add_builder(NotebookTutorialBuilder)
+
+    app.add_config_value("arlunio_github_author", None, "env")
+
+    app.add_directive("nbsolution", NBSolutionDirective)
+    app.add_directive("nbtutorial", NBTutorialDirective)
