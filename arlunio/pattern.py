@@ -69,8 +69,9 @@ def Grid(width: int, height: int, *, n=4, m=None, defn=None) -> Mask:
     Examples
     --------
 
-    .. arlunio-image:: Grid Example
+    .. arlunio-image:: Circular Pattern
        :include-code:
+       :gallery: examples
 
        A pattern generated from circles::
 
@@ -156,6 +157,8 @@ def Map(width: int, height: int, *, layout=None, legend=None) -> Mask:
     -------
     .. arlunio-image:: Simple Map
        :include-code:
+       :width: 50%
+       :gallery: examples
 
        ::
 
@@ -205,7 +208,7 @@ def Map(width: int, height: int, *, layout=None, legend=None) -> Mask:
           ])
 
           map_ = Map(legend=legend, layout=layout)
-          image = fill(map_(width=256, height=256), color="blue")
+          image = fill(map_(width=1080, height=1080), color="blue")
     """
 
     # TODO: Handle divisions with rounding errors
@@ -226,6 +229,7 @@ def Pixelize(
 ) -> Mask:
     """
     .. arlunio-image:: Pixelise
+       :align: center
 
        Draw a pixelated version of a definition::
 
@@ -270,8 +274,9 @@ def Pixelize(
 
     .. arlunio-image:: Simple Pixelise
        :include-code:
+       :width: 50%
 
-       This definition can be used to render a simple picel patter at a higher
+       This definition can be used to render a simple pixel pattern at a higher
        resolution::
 
           import numpy as np
@@ -291,6 +296,8 @@ def Pixelize(
 
     .. arlunio-image:: Ghost
        :include-code:
+       :width: 50%
+       :gallery: examples
 
        We can also generate the pixels from an instance of another definition::
 
@@ -317,7 +324,7 @@ def Pixelize(
               return (head(x=x, y=y) - eyes(x=np.abs(x), y=y)) + body
 
           ghost = Pixelize(defn=Ghost(y0=-0.3), n=32, m=32)
-          image = fill(ghost(width=512, height=512), color="#f00")
+          image = fill(ghost(width=1080, height=1080), color="#f00")
     """
 
     if defn is None and pixels is None:
