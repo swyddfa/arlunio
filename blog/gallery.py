@@ -49,7 +49,11 @@ def get_date_added(filepath: str) -> datetime:
     result = subprocess.run(cmd, capture_output=True)
     isotime = result.stdout.decode("utf8")
 
-    return datetime.fromisoformat(isotime)
+    try:
+        return datetime.fromisoformat(isotime)
+    except ValueError as err:
+        logger.debug("Unable to parse datetime, %s", err)
+        return datetime.now()
 
 
 def get_num_revisions(filepath: str) -> int:
