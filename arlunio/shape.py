@@ -51,7 +51,7 @@ def Circle(x: X, y: Y, *, xc=0, yc=0, r=0.8, pt=None) -> Mask:
        :include-code:
        :gallery: examples
 
-       Combining a few circles it's easy enough to draw a target::
+       Combining a few circles we're able to draw a target::
 
           import arlunio as ar
 
@@ -83,6 +83,7 @@ def Circle(x: X, y: Y, *, xc=0, yc=0, r=0.8, pt=None) -> Mask:
 
     .. arlunio-image:: Olympic Rings
        :include-code:
+       :gallery: examples
 
        ::
 
@@ -217,6 +218,7 @@ def Ellipse(x: X, y: Y, *, xc=0, yc=0, a=2, b=1, r=0.8, pt=None) -> Mask:
 
     .. arlunio-image:: Atom
        :include-code:
+       :gallery: examples
 
        Playing around with the values and the coordinate inputs it's possible to
        draw something that looks like a diagram of an atom::
@@ -327,6 +329,7 @@ def SuperEllipse(
 
     .. arlunio-image:: SuperEllipse Demo
        :include-code:
+       :gallery: examples
 
        ::
 
@@ -362,6 +365,7 @@ def SuperEllipse(
 
     .. arlunio-image:: Eye of Sauron
        :include-code:
+       :gallery: examples
 
        "Eye of Sauron"::
 
@@ -443,6 +447,7 @@ def Square(x: X, y: Y, *, xc=0, yc=0, size=0.8, pt=None) -> Mask:
 
     .. arlunio-image:: Square Demo
        :include-code:
+       :gallery: examples
 
        ::
 
