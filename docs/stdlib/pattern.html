@@ -249,7 +249,7 @@ of the final image.</p>
 
 <p class="rubric">Examples</p>
 <div class="figure align-default" id="id1">
-<img alt="../_images/grid-example.png" src="../_images/grid-example.png" />
+<img alt="../_images/circular-pattern.png" src="../_images/circular-pattern.png" />
 <p class="caption"><span class="caption-text">A pattern generated from circles:</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
 <div class="legend">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arlunio</span> <span class="k">as</span> <span class="nn">ar</span>
@@ -335,7 +335,7 @@ of the final image.</p>
 
 <p class="rubric">Example</p>
 <div class="figure align-default">
-<img alt="../_images/simple-map.png" src="../_images/simple-map.png" />
+<a class="reference internal image-reference" href="../_images/simple-map.png"><img alt="../_images/simple-map.png" src="../_images/simple-map.png" style="width: 50%;" /></a>
 <div class="legend">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arlunio</span> <span class="k">as</span> <span class="nn">ar</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -383,7 +383,7 @@ of the final image.</p>
 <span class="p">])</span>
 
 <span class="n">map_</span> <span class="o">=</span> <span class="n">Map</span><span class="p">(</span><span class="n">legend</span><span class="o">=</span><span class="n">legend</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">layout</span><span class="p">)</span>
-<span class="n">image</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span><span class="n">map_</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">256</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">)</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span><span class="n">map_</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1080</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -407,7 +407,7 @@ of the final image.</p>
 </tr>
 </tbody>
 </table>
-<div class="figure align-default" id="id3">
+<div class="figure align-center" id="id3">
 <img alt="../_images/pixelise.png" src="../_images/pixelise.png" />
 <p class="caption"><span class="caption-text">Draw a pixelated version of a definition:</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
 </div>
@@ -454,8 +454,8 @@ to generate vertically</p>
 <p class="rubric">Examples</p>
 <p>This definition can be used to render a simple pixel pattern at a higher resolution</p>
 <div class="figure align-default" id="id4">
-<img alt="../_images/simple-pixelise.png" src="../_images/simple-pixelise.png" />
-<p class="caption"><span class="caption-text">This definition can be used to render a simple picel patter at a higher
+<a class="reference internal image-reference" href="../_images/simple-pixelise.png"><img alt="../_images/simple-pixelise.png" src="../_images/simple-pixelise.png" style="width: 50%;" /></a>
+<p class="caption"><span class="caption-text">This definition can be used to render a simple pixel pattern at a higher
 resolution:</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
 <div class="legend">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -476,7 +476,7 @@ resolution:</span><a class="headerlink" href="#id4" title="Permalink to this ima
 </div>
 </div>
 <div class="figure align-default" id="id5">
-<img alt="../_images/ghost.png" src="../_images/ghost.png" />
+<a class="reference internal image-reference" href="../_images/ghost.png"><img alt="../_images/ghost.png" src="../_images/ghost.png" style="width: 50%;" /></a>
 <p class="caption"><span class="caption-text">We can also generate the pixels from an instance of another definition:</span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
 <div class="legend">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arlunio</span> <span class="k">as</span> <span class="nn">ar</span>
@@ -502,7 +502,7 @@ resolution:</span><a class="headerlink" href="#id4" title="Permalink to this ima
     <span class="k">return</span> <span class="p">(</span><span class="n">head</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">)</span> <span class="o">-</span> <span class="n">eyes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">))</span> <span class="o">+</span> <span class="n">body</span>
 
 <span class="n">ghost</span> <span class="o">=</span> <span class="n">Pixelize</span><span class="p">(</span><span class="n">defn</span><span class="o">=</span><span class="n">Ghost</span><span class="p">(</span><span class="n">y0</span><span class="o">=-</span><span class="mf">0.3</span><span class="p">),</span> <span class="n">n</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
-<span class="n">image</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span><span class="n">ghost</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">512</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#f00&quot;</span><span class="p">)</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span><span class="n">ghost</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1080</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#f00&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

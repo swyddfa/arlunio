@@ -242,7 +242,7 @@ uses cases currently covered by the gallery.</p>
     <span class="no">python --version</span>
 
     <span class="no">python -m pip install --upgrade pip</span>
-    <span class="no">python -m pip install --pre arlunio</span>
+    <span class="no">python -m pip install .</span>
     <span class="no">python -m pip install -r blog/requirements.txt</span>
 </pre></div>
 </div>
@@ -254,7 +254,13 @@ which we will build now. The details of this are handled by the
 <code class="code docutils literal notranslate"><span class="pre">gallery.py</span></code> script that is not detailed here.</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Build Gallery</span>
   <span class="nt">run</span><span class="p">:</span> <span class="p p-Indicator">|</span>
-    <span class="no">cd blog</span>
+    <span class="no">cd docs</span>
+    <span class="no">make nbgallery</span>
+
+    <span class="no">ls -1 _build/nbgallery/examples/</span>
+    <span class="no">cp _build/nbgallery/examples/*.ipynb ../blog/src/gallery</span>
+
+    <span class="no">cd ../blog</span>
     <span class="no">python gallery.py</span>
 </pre></div>
 </div>
@@ -263,7 +269,14 @@ which we will build now. The details of this are handled by the
 <h3>Delpoy Blog<a class="headerlink" href="#delpoy-blog" title="Permalink to this headline">¶</a></h3>
 <p>Finally, if this is not a PR build, we publish the built site to our
 <code class="code docutils literal notranslate"><span class="pre">gh-pages</span></code> branch using <a class="reference external" href="https://github.com/JamesIves/github-pages-deploy-action">JamesIves/github-pages-deploy-action</a>.</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Deploy</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Publish Release Artifact</span>
+  <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">actions/upload-artifact@v1.0.0</span>
+  <span class="nt">with</span><span class="p">:</span>
+    <span class="nt">name</span><span class="p">:</span> <span class="s">&#39;blog&#39;</span>
+    <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">blog/public</span>
+  <span class="nt">if</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">github.event_name == &#39;pull_request&#39;</span>
+
+<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Deploy</span>
   <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">JamesIves/github-pages-deploy-action@releases/v3</span>
   <span class="nt">with</span><span class="p">:</span>
     <span class="nt">ACCESS_TOKEN</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">${{ secrets.ACCESS_TOKEN }}</span>
