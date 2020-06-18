@@ -1,10 +1,10 @@
 import inspect
-
 from typing import List
 
 import py.test
 
-from arlunio.cli._interface import CliCommand, CliOption
+from arlunio.cli._interface import CliCommand
+from arlunio.cli._interface import CliOption
 
 
 def mkparam(name, type_, default=None):

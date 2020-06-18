@@ -2,6 +2,17 @@ name: Python PR Build
 
 # <trigger>
 on:
+  push:
+    branches:
+    - develop
+    paths:
+    - 'arlunio/**'
+    - 'docs/using/tutorial/**'
+    - 'tests/**'
+    - 'setup.py'
+    - 'pyproject.toml'
+    - 'MANIFEST.in'
+
   pull_request:
     branches:
     - develop
@@ -51,14 +62,14 @@ jobs:
 
         echo "::set-env name=BUILD_NUMBER::$build"
         echo "::set-output name=BUILD_NUMBER::$build"
-      if: matrix.python-version == '3.7'
+      if: matrix.python-version == '3.7' && github.event_name == 'pull_request'
 
     - name: Set Version Number
       shell: bash
       run : |
         sed -i 's/"\(.*\)"/"\1dev'"${BUILD_NUMBER}"'"/' arlunio/_version.py
         cat arlunio/_version.py
-      if: matrix.python-version == '3.7'
+      if: matrix.python-version == '3.7' && github.event_name == 'pull_request'
     # </test-job-version>
     # <test-job-tox>
     - name: 'Tox: Run Tests'
@@ -66,15 +77,11 @@ jobs:
       run: |
         tox -e py`echo ${{ matrix.python-version }} | tr -d .`
 
-    - name: 'Tox: Build Docs'
-      run: |
-        tox -e docs
-
     - name: 'Tox: Build Pkg'
       run: |
         tox -e pkg
         ls dist
-      if: matrix.python-version == '3.7'
+      if: matrix.python-version == '3.7' && github.event_name == 'pull_request'
     # </test-job-tox>
     # <test-job-publish>
     - name: 'Publish Pkg'
@@ -82,14 +89,7 @@ jobs:
       with:
         name: 'pkg'
         path: dist
-      if: matrix.python-version == '3.7'
-
-    - name: 'Publish Docs'
-      uses: actions/upload-artifact@v1.0.0
-      with:
-        name: 'docs'
-        path: 'docs/_build/html'
-      if: matrix.python-version == '3.7'
+      if: matrix.python-version == '3.7' && github.event_name == 'pull_request'
 
     - name: 'Report Code Coverage'
       uses: codecov/codecov-action@v1

@@ -10,22 +10,19 @@
 
 __pycache__/
 
-env/
+.env/
 dist/
 docs/_build
 htmlcov
 arlunio/tutorial/
 
 *.png
-!docs/**/*.png
-!img/*.png
 
 .eggs/
 *.egg-info/
 build
 *.pyc
 pip-wheel-metadata
-.dev
 *.mo
 *.xml
 *.snap

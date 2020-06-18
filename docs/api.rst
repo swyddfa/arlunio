@@ -3,39 +3,17 @@
 API Reference
 =============
 
+
+.. _api_definition:
+
 Definitions
 -----------
 
-- |@definition|: Decorator used to create new definitions
-- |Defn|: Base class for all definitions
+.. automodule:: arlunio
 
-.. autodecorator:: arlunio.definition
+.. _api_import:
 
-.. autoclass:: arlunio.Defn
-   :members:
+Import Utilities
+----------------
 
-
-Expressions
------------
-
-.. autofunction:: arlunio.any
-
-.. autofunction:: arlunio.all
-
-.. autofunction:: arlunio.clamp
-
-.. autofunction:: arlunio.invert
-
-.. autofunction:: arlunio.lerp
-
-.. autofunction:: arlunio.normalise
-
-Images
-------
-
-.. autoclass:: arlunio.Resolutions
-   :members:
-
-.. autofunction:: arlunio.colorramp
-
-.. autofunction:: arlunio.fill
+.. automodule:: arlunio.imp

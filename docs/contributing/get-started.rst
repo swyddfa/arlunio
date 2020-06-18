@@ -11,13 +11,13 @@ environment that contains all the dependencies for :code:`arlunio` itself as
 well as a number of development tools.
 
 From the root of the repository create a virtual envrionment named
-:code:`.dev` and activate it
+:code:`.env` and activate it
 
 .. code-block:: sh
 
-   $ python -m venv .dev
-   $ source .dev/bin/activate
-   (.dev) $
+   $ python -m venv .env
+   $ source .env/bin/activate
+   (.env) $
 
 Once active you should see the prompt change to include the name of the
 activated environment. The next step is to then install all the runtime and
@@ -25,7 +25,7 @@ development dependencies
 
 .. code-block:: sh
 
-   (.dev) $ pip install -e .[dev]
+   (.env) $ pip install -e .[dev]
 
 Pre-Commit (Optional, but recommended)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -41,8 +41,8 @@ programs
 - `black`_: This ensures that all python source code is formatted consistently
 - `flake8`_: This ensures that all python code is free of any obvious bugs
   (undefined variables etc.)
-- `isort`_: This ensures that all python :code:`import` statements are listed in
-  a standard order.
+- `reorder_python_imports`_: This ensures that all python :code:`import` statements are
+  listed in a standard order.
 
 Whether or not you setup :code:`pre-commit` is down to where in your workflow
 you want to resolve any issues flagged by these checks i.e. when you commit vs
@@ -60,7 +60,7 @@ To setup pre-commit in your copy of the codebase run the following command
 
 .. code-block:: sh
 
-   (.dev) $ pre-commit install
+   (.env) $ pre-commit install
 
 From now on any commits in your copy of the repository will be checked against
 all the hooks defined the repository's :code:`.pre-commit-config.yaml` file.
@@ -75,4 +75,4 @@ all the hooks defined the repository's :code:`.pre-commit-config.yaml` file.
 .. _black: https://black.readthedocs.io/en/stable/
 .. _flake8: http://flake8.pycqa.org/en/latest/index.html
 .. _pre-commit: https://pre-commit.com/
-.. _isort: https://github.com/timothycrosley/isort
+.. _reorder_python_imports: https://github.com/asottile/reorder_python_imports

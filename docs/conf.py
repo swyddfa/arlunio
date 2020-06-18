@@ -3,25 +3,34 @@
 # This file only contains a selection of the most common options. For a full
 # list see the documentation:
 # http://www.sphinx-doc.org/en/master/config
-
 # -- Path setup --------------------------------------------------------------
-
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
 import os
 
-import arlunio
-
 # -- Project information -----------------------------------------------------
 
 project = "Arlunio"
 copyright = "2017-, Swyddfa Developers"
 author = "Swyddfa Developers"
+arlunio_github_author = "swyddfa"
 
 # The full version, including alpha/beta/rc tags
-version = arlunio.__version__
+version = None
+
+if "VERSION" in os.environ:
+    version = os.environ["VERSION"]
+
+if version is None:
+    try:
+        import arlunio
+
+        version = arlunio.__version__
+    except Exception:
+        version = "latest"
+
 release = version
 
 
@@ -77,7 +86,6 @@ html_theme = "sphinx_rtd_theme"
 # -- Extension Configuration -------------------------------------------------
 autodoc_member_order = "groupwise"
 autodoc_default_options = {"members": True}
-# autodoc_typehints = "description" TODO: Try this when Sphinx 3.0 ships...
 
 linkcheck_ignore = ["https://crontab.guru/#"]
 

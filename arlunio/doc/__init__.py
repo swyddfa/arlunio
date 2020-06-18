@@ -1,20 +1,15 @@
 import inspect
 import textwrap
-
-from typing import Any, Dict, List, Optional
-
-import arlunio
+from typing import Any
+from typing import Dict
+from typing import List
+from typing import Optional
 
 from sphinx.application import Sphinx
 
-from .builder import NotebookTutorialBuilder
-from .directives import (
-    ArlunioImageDirective,
-    NBTutorialDirective,
-    depart_nbtutorial,
-    nbtutorial,
-    visit_nbtutorial,
-)
+import arlunio
+from .image import register as register_image
+from .notebook import register as register_notebook
 
 # fmt: off
 TEMPLATE = [
@@ -26,12 +21,10 @@ TEMPLATE = [
 # fmt: on
 
 
-def _document_inheritance(defn: arlunio.Defn) -> Optional[List[str]]:
-    """Given a definition, link back to any definitions it derives from."""
+def _document_inputs(defn: arlunio.Defn, lines: List[str]):
+    """Given a definition, document any inputs."""
 
-    lines = []
     inputs = []
-    defns = []
 
     for name, value in defn.inputs().items():
         dtype = value.dtype
@@ -43,7 +36,13 @@ def _document_inheritance(defn: arlunio.Defn) -> Optional[List[str]]:
 
     if len(inputs) > 0:
         lines.append(textwrap.indent("* - **Inputs:**", " " * 3))
-        lines.append(textwrap.indent(", ".join(inputs), " " * 5 + "- "))
+        lines.append(textwrap.indent(" ".join(inputs), " " * 5 + "- "))
+
+
+def _document_bases(defn: arlunio.Defn, lines: List[str]):
+    """Given a definition, document any definitions it is derived from."""
+
+    defns = []
 
     for name, value in defn.bases().items():
 
@@ -54,7 +53,32 @@ def _document_inheritance(defn: arlunio.Defn) -> Optional[List[str]]:
 
     if len(defns) > 0:
         lines.append(textwrap.indent("* - **Bases:**", " " * 3))
-        lines.append(textwrap.indent(", ".join(defns), " " * 5 + "- "))
+        lines.append(textwrap.indent(" ".join(defns), " " * 5 + "- "))
+
+
+def _document_produces(defn: arlunio.Defn, lines: List[str]):
+    """Given a definition and it declares with it produces, document it."""
+
+    if defn.produces() == Any:
+        return
+
+    result = defn.produces()
+
+    name = result.__name__
+    mod = result.__module__
+
+    lines.append(textwrap.indent("* - **Produces:**", " " * 3))
+    lines.append(textwrap.indent(f":class:`{name} <{mod}.{name}>`", " " * 5 + "- "))
+
+
+def _document_inheritance(defn: arlunio.Defn) -> Optional[List[str]]:
+    """Given a definition, link back to any definitions it derives from."""
+
+    lines = []
+
+    _document_inputs(defn, lines)
+    _document_bases(defn, lines)
+    _document_produces(defn, lines)
 
     if len(lines) == 0:
         return None
@@ -71,24 +95,16 @@ def _process_docstring(
 
         if inherits is not None:
 
-            for l in reversed(inherits):
-                lines.insert(0, l)
+            for line in reversed(inherits):
+                lines.insert(0, line)
 
 
 def setup(app: Sphinx) -> Dict[str, Any]:
 
-    app.add_node(
-        nbtutorial,
-        html=(visit_nbtutorial, depart_nbtutorial),
-        latex=(visit_nbtutorial, depart_nbtutorial),
-        text=(visit_nbtutorial, depart_nbtutorial),
-    )
-    app.add_builder(NotebookTutorialBuilder)
-
     app.setup_extension("sphinx.ext.autodoc")
     app.connect("autodoc-process-docstring", _process_docstring)
 
-    app.add_directive("nbtutorial", NBTutorialDirective)
-    app.add_directive("arlunio-image", ArlunioImageDirective)
+    register_image(app)
+    register_notebook(app)
 
     return {"version": arlunio.__version__, "parallel_read_safe": True}

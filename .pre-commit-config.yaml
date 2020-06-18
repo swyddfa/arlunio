@@ -1,17 +1,14 @@
 repos:
-- repo: https://github.com/pre-commit/pre-commit-hooks
+- repo: https://gitlab.com/pycqa/flake8
   rev: master
   hooks:
   - id: flake8
     exclude: 'solutions'
 
-- repo: https://github.com/pre-commit/mirrors-isort
-  rev: master
+- repo: https://github.com/asottile/reorder_python_imports
+  rev: v2.3.0
   hooks:
-  - id: isort
-    exclude: 'solutions'
-    additional_dependencies:
-    - 'toml'
+  - id: reorder-python-imports
 
 - repo: https://github.com/python/black
   rev: master

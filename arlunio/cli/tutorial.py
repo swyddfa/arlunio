@@ -3,9 +3,8 @@ import os
 import shutil
 import subprocess
 
-import pkg_resources
-
 import appdirs
+import pkg_resources
 
 logger = logging.getLogger(__name__)
 

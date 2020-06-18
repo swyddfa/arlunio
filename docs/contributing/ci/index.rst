@@ -9,6 +9,7 @@ the actions that are defined and how they work.
    :maxdepth: 1
 
    blog-release
+   docs-release
    python-linting
    python-pr-builds
    python-release
