@@ -46,12 +46,24 @@ jobs:
     # <build-job-blog>
     - name: Build Gallery
       run: |
-        cd blog
+        cd docs
+        make nbgallery
+
+        ls -1 _build/nbgallery/examples/
+        cp _build/nbgallery/examples/*.ipynb ../blog/src/gallery
+
+        cd ../blog
         python gallery.py
 
     # </build-job-blog>
-
     # <build-job-deploy>
+    - name: Publish Release Artifact
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name: 'blog'
+        path: blog/public
+      if: github.event_name == 'pull_request'
+
     - name: Deploy
       uses: JamesIves/github-pages-deploy-action@releases/v3
       with:

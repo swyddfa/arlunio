@@ -3,5 +3,6 @@ jupyter
 jinja2
 markdown
 pygments
+sphinx
 tomlkit
 tqdm
