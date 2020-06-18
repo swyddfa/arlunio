@@ -1,3 +1,48 @@
+v0.0.7 - 2020-06-18
+-------------------
+
+Fixes
+^^^^^
+
+- Add missing return type annotation to :code:`MaskXXX` operators, this should
+  allow combining multiple definition instances together. (`#223 <https://github.com/swyddfa/arlunio/issues/223>`_)
+
+
+Docs
+^^^^
+
+- Updated the :code:`arlunio-image` directive to output a warning during a Sphinx build
+  if a given image fails to render. (`#227 <https://github.com/swyddfa/arlunio/issues/227>`_)
+- Refactor :code:`arlunio-image` directive to be based on the standard :code:`figure`
+  directive. This means that the standard :code:`figure` options now also work with
+  :code:`arlunio-image`. (`#237 <https://github.com/swyddfa/arlunio/issues/237>`_)
+
+
+Standard Library
+^^^^^^^^^^^^^^^^
+
+- Moved the "expression" based code out of core into the :code:`arlunio.math` module.
+
+  New :code:`arlunio.image` module. This contains the image code that was originally
+  part of "core" arlunio. (`#228 <https://github.com/swyddfa/arlunio/issues/228>`_)
+- New :code:`arlunio.raytrace` module based on the `Ray Tracing in One Weekend <https://raytracing.github.io/books/RayTracingInOneWeekend.html>`_
+  book. Currently only supports diffuse materials and spheres, will probably need a few
+  revisions before it becomes useful. (`#230 <https://github.com/swyddfa/arlunio/issues/230>`_)
+- Refine the concept of a :code:`Mask`
+
+  A Mask is now a sub-class of a :code:`numpy.ndarray` that is geared towards manipulating
+  boolean numpy arrays. They can be added (:code:`a OR b`), subtracted
+  (:code:`a AND (NOT b)`), multiplied (:code:`a AND b`) and negated (:code:`NOT a`). (`#231 <https://github.com/swyddfa/arlunio/issues/231>`_)
+- Rename all standard library modules from :code:`arlunio.lib.X` to :code:`arlunio.X` (`#233 <https://github.com/swyddfa/arlunio/issues/233>`_)
+
+
+Misc
+^^^^
+
+- Fix reference to :code:`flake8` in :code:`.pre-commit-config.yaml`. Changed virtualenv
+  name from :code:`.dev` to :code:`.env` (`#227 <https://github.com/swyddfa/arlunio/issues/227>`_)
+
+
 v0.0.6 - 2020-04-18
 -------------------
 

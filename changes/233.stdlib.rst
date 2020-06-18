@@ -1,1 +1,0 @@
-Rename all standard library modules from :code:`arlunio.lib.X` to :code:`arlunio.X`

@@ -1,2 +1,0 @@
-Fix reference to :code:`flake8` in :code:`.pre-commit-config.yaml`. Changed virtualenv
-name from :code:`.dev` to :code:`.env`

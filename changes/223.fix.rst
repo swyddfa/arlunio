@@ -1,2 +1,0 @@
-Add missing return type annotation to :code:`MaskXXX` operators, this should
-allow combining multiple definition instances together.
