@@ -3,7 +3,7 @@ import pathlib
 import nbformat.v4 as nbf
 import py.test
 
-from arlunio.doc.builder import NotebookTranslator
+from arlunio.doc.notebook import NotebookTranslator
 
 
 @py.test.mark.parametrize(

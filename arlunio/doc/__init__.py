@@ -8,12 +8,8 @@ from typing import Optional
 from sphinx.application import Sphinx
 
 import arlunio
-from .builder import NotebookTutorialBuilder
-from .directives import depart_nbtutorial
-from .directives import nbtutorial
-from .directives import NBTutorialDirective
-from .directives import visit_nbtutorial
 from .image import register as register_image
+from .notebook import register as register_notebook
 
 # fmt: off
 TEMPLATE = [
@@ -105,19 +101,10 @@ def _process_docstring(
 
 def setup(app: Sphinx) -> Dict[str, Any]:
 
-    app.add_node(
-        nbtutorial,
-        html=(visit_nbtutorial, depart_nbtutorial),
-        latex=(visit_nbtutorial, depart_nbtutorial),
-        text=(visit_nbtutorial, depart_nbtutorial),
-    )
-    app.add_builder(NotebookTutorialBuilder)
-
     app.setup_extension("sphinx.ext.autodoc")
     app.connect("autodoc-process-docstring", _process_docstring)
 
-    app.add_directive("nbtutorial", NBTutorialDirective)
-
     register_image(app)
+    register_notebook(app)
 
     return {"version": arlunio.__version__, "parallel_read_safe": True}

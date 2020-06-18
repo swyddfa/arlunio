@@ -15,6 +15,7 @@ import os
 project = "Arlunio"
 copyright = "2017-, Swyddfa Developers"
 author = "Swyddfa Developers"
+arlunio_github_author = "swyddfa"
 
 # The full version, including alpha/beta/rc tags
 version = None

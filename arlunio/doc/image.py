@@ -155,7 +155,9 @@ class ArlunioImageDirective(Figure):
 
         logger = logging.getLogger(__name__)
 
-        imgname = self.arguments[0].lower().replace(" ", "-")
+        imgname = self.arguments[0]
+        imgpath = imgname.lower().replace(" ", "-")
+
         logger.debug("[arlunio-image]: Rendering: %s", imgname)
         include_code = "include-code" in self.options.keys()
 
@@ -169,7 +171,7 @@ class ArlunioImageDirective(Figure):
 
         try:
             src = find_code(doctree)
-            imguri = render_image(src, imgname, app.confdir)
+            imguri = render_image(src, imgpath, app.confdir)
         except Exception:
             tback = traceback.format_exc()
 
@@ -197,6 +199,10 @@ class ArlunioImageDirective(Figure):
         logger.debug("[arlunio-image]: Figure: %s", figure)
 
         opts = {k: v for k, v in self.options.items() if k in ("gallery",)}
+        opts["source"] = src
+        opts["name"] = imgname
+        opts["caption"] = caption
+
         return [arlunio_image("", figure, **opts)]
 
 

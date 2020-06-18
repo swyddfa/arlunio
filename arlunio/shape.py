@@ -49,6 +49,7 @@ def Circle(x: X, y: Y, *, xc=0, yc=0, r=0.8, pt=None) -> Mask:
 
     .. arlunio-image:: Target
        :include-code:
+       :gallery: examples
 
        Combining a few circles it's easy enough to draw a target::
 
