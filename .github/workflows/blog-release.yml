@@ -39,7 +39,7 @@ jobs:
         python --version
 
         python -m pip install --upgrade pip
-        python -m pip install --pre arlunio
+        python -m pip install .
         python -m pip install -r blog/requirements.txt
     # </build-job-setup>
 
