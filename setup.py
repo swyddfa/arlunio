@@ -44,15 +44,15 @@ setup(
     name="arlunio",
     version=info["__version__"],
     project_urls={
-        "Documentation": "https://arlunio.readthedocs.io/en/latest",
+        "Documentation": "https://www.arlun.io/docs/",
         "Source": "https://github.com/swyddfa/arlunio",
         "Tracker": "https://github.com/swyddfa/arlunio/issues",
     },
     description="Drawing and animating with a blend of Python and mathematics.",
     long_description=readme(),
     long_description_content_type="text/markdown",
-    author="Alex Carney",
-    author_email="alcarneyme@gmail.com",
+    author="Swyddfa Developers",
+    author_email="swyddfa.dev@gmail.com",
     license="MIT",
     packages=find_packages(".", exclude=["tests*"]),
     package_data={
@@ -76,11 +76,10 @@ setup(
     ],
     entry_points={
         "console_scripts": ["arlunio = arlunio.cli.__main__:main"],
-        "sphinx.builders": ["nbtutorial = arlunio.doc"],
+        "sphinx.builders": ["nbtutorial = arlunio.doc", "nbgallery = arlunio.doc"],
         "arlunio.cli.commands": [
             "repl = arlunio.cli.repl:Repl",
             "tutorial = arlunio.cli.tutorial:Tutorial",
-            "shapes = arlunio.tk:Shapes",
         ],
     },
 )
