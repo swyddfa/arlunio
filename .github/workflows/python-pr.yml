@@ -91,13 +91,6 @@ jobs:
         path: dist
       if: matrix.python-version == '3.7' && github.event_name == 'pull_request'
 
-    - name: 'Publish Docs'
-      uses: actions/upload-artifact@v1.0.0
-      with:
-        name: 'docs'
-        path: 'docs/_build/html'
-      if: matrix.python-version == '3.7' && github.event_name == 'pull_request'
-
     - name: 'Report Code Coverage'
       uses: codecov/codecov-action@v1
       with:
