@@ -55,9 +55,7 @@ Setup
 ^^^^^
 
 We start off with the basics, checking out the repo, configuring the build
-environment etc. Notice that we install the pre-release version of
-:code:`arlunio`, this is so we can see if any changes are going to break any
-uses cases currently covered by the gallery.
+environment etc.
 
 .. literalinclude:: ../../../.github/workflows/blog-release.yml
    :language: yaml
@@ -68,9 +66,11 @@ uses cases currently covered by the gallery.
 Build Blog
 ^^^^^^^^^^
 
-As mentioned above the only component currently in the blog is the gallery,
-which we will build now. The details of this are handled by the
-:code:`gallery.py` script that is not detailed here.
+As mentioned above the only component currently in the blog is the gallery, which we
+will build now. First we run the :code:`nbgallery` builder across the documentation to
+extract any examples that should be included in the gallery. The resulting notebook
+files are then copied into the gallery before it is built with the :code:`gallery.py`
+script.
 
 .. literalinclude:: ../../../.github/workflows/blog-release.yml
    :language: yaml
@@ -78,10 +78,33 @@ which we will build now. The details of this are handled by the
    :start-after: # <build-job-blog>
    :end-before: # </build-job-blog>
 
+Since a lot of :code:`arlunio` is inherently visual it's quite difficult to write tests
+that capture visual output. Instead we treat the gallery as an integration test suite
+that we also record code coverage for.
+
 Delpoy Blog
 ^^^^^^^^^^^
 
-Finally, if this is not a PR build, we publish the built site to our
+First as long as the build was not a scheduled nightly build we publish the collected
+code coverage results.
+
+.. literalinclude:: ../../../.github/workflows/blog-release.yml
+   :language: yaml
+   :dedent: 4
+   :start-after: # <build-job-codecov>
+   :end-before: # </build-job-codecov>
+
+Then if we are on a PR build, we publish the results as an artifact that can be
+inspected if needed
+
+.. literalinclude:: ../../../.github/workflows/blog-release.yml
+   :language: yaml
+   :dedent: 4
+   :start-after: # <build-job-artifact>
+   :end-before: # </build-job-artifact>
+
+
+Otherwise, if this is not a PR build, we publish the built site to our
 :code:`gh-pages` branch using `JamesIves/github-pages-deploy-action`_.
 
 .. literalinclude:: ../../../.github/workflows/blog-release.yml
@@ -93,5 +116,3 @@ Finally, if this is not a PR build, we publish the built site to our
 
 .. _crontab.guru: https://crontab.guru/#0_6_*_*_*
 .. _JamesIves/github-pages-deploy-action: https://github.com/JamesIves/github-pages-deploy-action
-
-

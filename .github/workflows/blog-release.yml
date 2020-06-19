@@ -53,17 +53,28 @@ jobs:
         cp _build/nbgallery/examples/*.ipynb ../blog/src/gallery
 
         cd ../blog
-        python gallery.py
+        coverage run python gallery.py
 
     # </build-job-blog>
-    # <build-job-deploy>
+    # <build-job-codecov>
+    - name: 'Report Code Coverage'
+      uses: codecov/codecov-action@v1
+      with:
+        name: "gallery"
+        flags: gallery
+      if: github.event_name != 'schedule'
+    # </build-job-codecov>
+
+    # <build-job-artifact>
     - name: Publish Release Artifact
       uses: actions/upload-artifact@v1.0.0
       with:
         name: 'blog'
         path: blog/public
       if: github.event_name == 'pull_request'
+    # </build-job-artifact>
 
+    # <build-job-deploy>
     - name: Deploy
       uses: JamesIves/github-pages-deploy-action@releases/v3
       with:
