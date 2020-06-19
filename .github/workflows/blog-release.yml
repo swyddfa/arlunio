@@ -53,7 +53,7 @@ jobs:
         cp _build/nbgallery/examples/*.ipynb ../blog/src/gallery
 
         cd ../blog
-        coverage run python gallery.py
+        coverage run gallery.py
 
     # </build-job-blog>
     # <build-job-codecov>
