@@ -54,12 +54,14 @@ jobs:
 
         cd ../blog
         coverage run gallery.py
+        coverage xml
 
     # </build-job-blog>
     # <build-job-codecov>
     - name: 'Report Code Coverage'
       uses: codecov/codecov-action@v1
       with:
+        file: blog/coverage.xml
         name: "gallery"
         flags: gallery
       if: github.event_name != 'schedule'
