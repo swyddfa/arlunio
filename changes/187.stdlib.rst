@@ -1,0 +1,2 @@
+Add new definition :code:`arlunio.shape.Triangle`, also add
+new :code:`arlunio.math.Barycentric` definition which serves as the Triangle's base.

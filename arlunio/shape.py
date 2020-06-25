@@ -1,14 +1,12 @@
 import numpy as np
 
 import arlunio as ar
-from arlunio.mask import all_
-from arlunio.mask import Mask
-from arlunio.math import X
-from arlunio.math import Y
+import arlunio.mask as mask
+import arlunio.math as math
 
 
 @ar.definition
-def Circle(x: X, y: Y, *, xc=0, yc=0, r=0.8, pt=None) -> Mask:
+def Circle(x: math.X, y: math.Y, *, xc=0, yc=0, r=0.8, pt=None) -> mask.Mask:
     """
     .. arlunio-image:: Basic Circle
        :align: right
@@ -124,16 +122,16 @@ def Circle(x: X, y: Y, *, xc=0, yc=0, r=0.8, pt=None) -> Mask:
     circle = np.sqrt(x + y)
 
     if pt is None:
-        return Mask(circle < r ** 2)
+        return mask.Mask(circle < r ** 2)
 
     inner = (1 - pt) * r ** 2
     outer = (1 + pt) * r ** 2
 
-    return all_(inner < circle, circle < outer)
+    return mask.all_(inner < circle, circle < outer)
 
 
 @ar.definition
-def Ellipse(x: X, y: Y, *, xc=0, yc=0, a=2, b=1, r=0.8, pt=None) -> Mask:
+def Ellipse(x: math.X, y: math.Y, *, xc=0, yc=0, a=2, b=1, r=0.8, pt=None) -> mask.Mask:
     """
     .. arlunio-image:: Simple Ellipse
        :align: right
@@ -259,18 +257,18 @@ def Ellipse(x: X, y: Y, *, xc=0, yc=0, a=2, b=1, r=0.8, pt=None) -> Mask:
     ellipse = np.sqrt(x / a + y / b)
 
     if pt is None:
-        return Mask(ellipse < r * r)
+        return mask.Mask(ellipse < r * r)
 
     inner = (1 - pt) * r ** 2
     outer = (1 + pt) * r ** 2
 
-    return all_(inner < ellipse, ellipse < outer)
+    return mask.all_(inner < ellipse, ellipse < outer)
 
 
 @ar.definition
 def SuperEllipse(
-    x: X, y: Y, *, xc=0, yc=0, a=1, b=1, n=3, r=0.8, m=None, pt=None
-) -> Mask:
+    x: math.X, y: math.Y, *, xc=0, yc=0, a=1, b=1, n=3, r=0.8, m=None, pt=None
+) -> mask.Mask:
     """
     .. arlunio-image:: SuperEllipse
        :align: right
@@ -406,16 +404,16 @@ def SuperEllipse(
     ellipse = np.abs(x / a) ** n + np.abs(y / b) ** m
 
     if pt is None:
-        return Mask(ellipse < r)
+        return mask.Mask(ellipse < r)
 
     inner = (1 - pt) * r
     outer = (1 + pt) * r
 
-    return all_(inner < ellipse, ellipse < outer)
+    return mask.all_(inner < ellipse, ellipse < outer)
 
 
 @ar.definition
-def Square(x: X, y: Y, *, xc=0, yc=0, size=0.8, pt=None) -> Mask:
+def Square(x: math.X, y: math.Y, *, xc=0, yc=0, size=0.8, pt=None) -> mask.Mask:
     """
     .. arlunio-image:: Simple Square
        :align: right
@@ -481,19 +479,21 @@ def Square(x: X, y: Y, *, xc=0, yc=0, size=0.8, pt=None) -> Mask:
     ys = np.abs(y - yc)
 
     if pt is None:
-        return all_(xs < size, ys < size)
+        return mask.all_(xs < size, ys < size)
 
     s = (1 - pt) * size
     S = (1 + pt) * size
 
-    inner = all_(xs < s, ys < s)
-    outer = all_(xs < S, ys < S)
+    inner = mask.all_(xs < s, ys < s)
+    outer = mask.all_(xs < S, ys < S)
 
     return outer - inner
 
 
 @ar.definition
-def Rectangle(x: X, y: Y, *, xc=0, yc=0, size=0.6, ratio=1.618, pt=None) -> Mask:
+def Rectangle(
+    x: math.X, y: math.Y, *, xc=0, yc=0, size=0.6, ratio=1.618, pt=None
+) -> mask.Mask:
     """
     .. arlunio-image:: Simple Rectangle
        :align: right
@@ -560,12 +560,36 @@ def Rectangle(x: X, y: Y, *, xc=0, yc=0, size=0.6, ratio=1.618, pt=None) -> Mask
     width = height * ratio
 
     if pt is None:
-        return all_(xs < width, ys < height)
+        return mask.all_(xs < width, ys < height)
 
     w, W = (1 - pt) * width, (1 + pt) * width
     h, H = (1 - pt) * height, (1 + pt) * height
 
-    inner = all_(xs < w, ys < h)
-    outer = all_(xs < W, ys < H)
+    inner = mask.all_(xs < w, ys < h)
+    outer = mask.all_(xs < W, ys < H)
 
     return outer - inner
+
+
+@ar.definition
+def Triangle(p: math.Barycentric) -> mask.Mask:
+    """A triangle.
+
+    .. arlunio-image:: Triangle Demo
+       :align: right
+
+       ::
+
+          import arlunio.shape as shape
+          import arlunio.image as img
+
+          tri = shape.Triangle()
+          image = img.fill(tri(width=256, height=256))
+
+    """
+
+    l1 = p[:, :, 0]
+    l2 = p[:, :, 1]
+    l3 = p[:, :, 2]
+
+    return mask.all_(0 < l1, l1 < 1, 0 < l2, l2 < 1, 0 < l3, l3 < 1)
