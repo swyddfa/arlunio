@@ -380,3 +380,67 @@ def T(x: X, y: Y, *, t0=0):
     """
     t = np.arctan2(y, x)
     return t - t0
+
+
+@ar.definition
+def Barycentric(x: X, y: Y, *, a=(0.5, -0.5), b=(0, 0.5), c=(-0.5, -0.5)):
+    """Barycentric coordinates.
+
+    .. arlunio-image:: Barycentric Demo
+       :align: right
+
+       ::
+
+          import arlunio.math as math
+          import arlunio.image as img
+          import numpy as np
+
+          coords = math.Barycentric()(width=256, height=256)
+
+          l1 = np.abs(coords[:, :, 0])
+          l2 = np.abs(coords[:, :, 1])
+          l3 = np.abs(coords[:, :, 2])
+
+          r = img.colorramp(l1, start='red', stop='black')
+          g = img.colorramp(l2, start='green', stop='black')
+          b = img.colorramp(l3, start='blue', stop='black')
+
+          rs = np.asarray(r)
+          gs = np.asarray(g)
+          bs = np.asarray(b)
+
+          image = img.fromarray(rs + gs + bs)
+
+    Returns the Barycentric coordinate grid as defined by the given triangle.
+
+    Attributes
+    ----------
+    a:
+      The cartesian :math:`(x, y)` coordinates of the point :math:`a`
+    b:
+      The cartesian :math:`(x, y)` coordinates of the point :math:`b`
+    c:
+      The cartesian :math:`(x, y)` coordinates of the point :math:`c`
+    """
+
+    h, w = x.shape
+
+    # Construct the transform matrix T
+    t1 = a[0] - c[0]
+    t2 = b[0] - c[0]
+    t3 = a[1] - c[1]
+    t4 = b[1] - c[1]
+
+    # Compute the inverse determinant
+    d = 1 / ((t1 * t4) - (t2 * t3))
+    p = np.dstack([x, y]).reshape(w * h, 2) - c
+
+    p1 = p[:, 0]
+    p2 = p[:, 1]
+
+    # Compute the coordinates
+    l1 = d * ((p1 * t4) - (p2 * t2))
+    l2 = d * ((p2 * t1) - (p1 * t3))
+    l3 = 1 - l1 - l2
+
+    return np.dstack([l1, l2, l3])[0].reshape(h, w, 3)
