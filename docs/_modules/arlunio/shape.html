@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>arlunio.shape &mdash; Arlunio V0.0.7 documentation</title>
+  <title>arlunio.shape &mdash; Arlunio V0.10.0b1 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                V0.0.7
+                V0.10.0b1
               </div>
             
           
@@ -162,14 +162,12 @@
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="kn">import</span> <span class="nn">arlunio</span> <span class="k">as</span> <span class="nn">ar</span>
-<span class="kn">from</span> <span class="nn">arlunio.mask</span> <span class="kn">import</span> <span class="n">all_</span>
-<span class="kn">from</span> <span class="nn">arlunio.mask</span> <span class="kn">import</span> <span class="n">Mask</span>
-<span class="kn">from</span> <span class="nn">arlunio.math</span> <span class="kn">import</span> <span class="n">X</span>
-<span class="kn">from</span> <span class="nn">arlunio.math</span> <span class="kn">import</span> <span class="n">Y</span>
+<span class="kn">import</span> <span class="nn">arlunio.mask</span> <span class="k">as</span> <span class="nn">mask</span>
+<span class="kn">import</span> <span class="nn">arlunio.math</span> <span class="k">as</span> <span class="nn">math</span>
 
 
 <div class="viewcode-block" id="Circle"><a class="viewcode-back" href="../../stdlib/shape.html#arlunio.shape.Circle">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
-<span class="k">def</span> <span class="nf">Circle</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Y</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">xc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">yc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">pt</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mask</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">Circle</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">math</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">math</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">xc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">yc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">pt</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">mask</span><span class="o">.</span><span class="n">Mask</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    .. arlunio-image:: Basic Circle</span>
 <span class="sd">       :align: right</span>
@@ -285,16 +283,16 @@
     <span class="n">circle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">pt</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">Mask</span><span class="p">(</span><span class="n">circle</span> <span class="o">&lt;</span> <span class="n">r</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">mask</span><span class="o">.</span><span class="n">Mask</span><span class="p">(</span><span class="n">circle</span> <span class="o">&lt;</span> <span class="n">r</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
 
     <span class="n">inner</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">pt</span><span class="p">)</span> <span class="o">*</span> <span class="n">r</span> <span class="o">**</span> <span class="mi">2</span>
     <span class="n">outer</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">pt</span><span class="p">)</span> <span class="o">*</span> <span class="n">r</span> <span class="o">**</span> <span class="mi">2</span>
 
-    <span class="k">return</span> <span class="n">all_</span><span class="p">(</span><span class="n">inner</span> <span class="o">&lt;</span> <span class="n">circle</span><span class="p">,</span> <span class="n">circle</span> <span class="o">&lt;</span> <span class="n">outer</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">mask</span><span class="o">.</span><span class="n">all_</span><span class="p">(</span><span class="n">inner</span> <span class="o">&lt;</span> <span class="n">circle</span><span class="p">,</span> <span class="n">circle</span> <span class="o">&lt;</span> <span class="n">outer</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Ellipse"><a class="viewcode-back" href="../../stdlib/shape.html#arlunio.shape.Ellipse">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
-<span class="k">def</span> <span class="nf">Ellipse</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Y</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">xc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">yc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">pt</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mask</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">Ellipse</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">math</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">math</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">xc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">yc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">pt</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">mask</span><span class="o">.</span><span class="n">Mask</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    .. arlunio-image:: Simple Ellipse</span>
 <span class="sd">       :align: right</span>
@@ -420,18 +418,18 @@
     <span class="n">ellipse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="n">a</span> <span class="o">+</span> <span class="n">y</span> <span class="o">/</span> <span class="n">b</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">pt</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">Mask</span><span class="p">(</span><span class="n">ellipse</span> <span class="o">&lt;</span> <span class="n">r</span> <span class="o">*</span> <span class="n">r</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">mask</span><span class="o">.</span><span class="n">Mask</span><span class="p">(</span><span class="n">ellipse</span> <span class="o">&lt;</span> <span class="n">r</span> <span class="o">*</span> <span class="n">r</span><span class="p">)</span>
 
     <span class="n">inner</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">pt</span><span class="p">)</span> <span class="o">*</span> <span class="n">r</span> <span class="o">**</span> <span class="mi">2</span>
     <span class="n">outer</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">pt</span><span class="p">)</span> <span class="o">*</span> <span class="n">r</span> <span class="o">**</span> <span class="mi">2</span>
 
-    <span class="k">return</span> <span class="n">all_</span><span class="p">(</span><span class="n">inner</span> <span class="o">&lt;</span> <span class="n">ellipse</span><span class="p">,</span> <span class="n">ellipse</span> <span class="o">&lt;</span> <span class="n">outer</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">mask</span><span class="o">.</span><span class="n">all_</span><span class="p">(</span><span class="n">inner</span> <span class="o">&lt;</span> <span class="n">ellipse</span><span class="p">,</span> <span class="n">ellipse</span> <span class="o">&lt;</span> <span class="n">outer</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="SuperEllipse"><a class="viewcode-back" href="../../stdlib/shape.html#arlunio.shape.SuperEllipse">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
 <span class="k">def</span> <span class="nf">SuperEllipse</span><span class="p">(</span>
-    <span class="n">x</span><span class="p">:</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Y</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">xc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">yc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pt</span><span class="o">=</span><span class="kc">None</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mask</span><span class="p">:</span>
+    <span class="n">x</span><span class="p">:</span> <span class="n">math</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">math</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">xc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">yc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pt</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">mask</span><span class="o">.</span><span class="n">Mask</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    .. arlunio-image:: SuperEllipse</span>
 <span class="sd">       :align: right</span>
@@ -567,16 +565,16 @@
     <span class="n">ellipse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="n">a</span><span class="p">)</span> <span class="o">**</span> <span class="n">n</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y</span> <span class="o">/</span> <span class="n">b</span><span class="p">)</span> <span class="o">**</span> <span class="n">m</span>
 
     <span class="k">if</span> <span class="n">pt</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">Mask</span><span class="p">(</span><span class="n">ellipse</span> <span class="o">&lt;</span> <span class="n">r</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">mask</span><span class="o">.</span><span class="n">Mask</span><span class="p">(</span><span class="n">ellipse</span> <span class="o">&lt;</span> <span class="n">r</span><span class="p">)</span>
 
     <span class="n">inner</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">pt</span><span class="p">)</span> <span class="o">*</span> <span class="n">r</span>
     <span class="n">outer</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">pt</span><span class="p">)</span> <span class="o">*</span> <span class="n">r</span>
 
-    <span class="k">return</span> <span class="n">all_</span><span class="p">(</span><span class="n">inner</span> <span class="o">&lt;</span> <span class="n">ellipse</span><span class="p">,</span> <span class="n">ellipse</span> <span class="o">&lt;</span> <span class="n">outer</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">mask</span><span class="o">.</span><span class="n">all_</span><span class="p">(</span><span class="n">inner</span> <span class="o">&lt;</span> <span class="n">ellipse</span><span class="p">,</span> <span class="n">ellipse</span> <span class="o">&lt;</span> <span class="n">outer</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Square"><a class="viewcode-back" href="../../stdlib/shape.html#arlunio.shape.Square">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
-<span class="k">def</span> <span class="nf">Square</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Y</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">xc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">yc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">pt</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mask</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">Square</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">math</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">math</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">xc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">yc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">pt</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">mask</span><span class="o">.</span><span class="n">Mask</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    .. arlunio-image:: Simple Square</span>
 <span class="sd">       :align: right</span>
@@ -642,19 +640,21 @@
     <span class="n">ys</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">yc</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">pt</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">all_</span><span class="p">(</span><span class="n">xs</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">,</span> <span class="n">ys</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">mask</span><span class="o">.</span><span class="n">all_</span><span class="p">(</span><span class="n">xs</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">,</span> <span class="n">ys</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">)</span>
 
     <span class="n">s</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">pt</span><span class="p">)</span> <span class="o">*</span> <span class="n">size</span>
     <span class="n">S</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">pt</span><span class="p">)</span> <span class="o">*</span> <span class="n">size</span>
 
-    <span class="n">inner</span> <span class="o">=</span> <span class="n">all_</span><span class="p">(</span><span class="n">xs</span> <span class="o">&lt;</span> <span class="n">s</span><span class="p">,</span> <span class="n">ys</span> <span class="o">&lt;</span> <span class="n">s</span><span class="p">)</span>
-    <span class="n">outer</span> <span class="o">=</span> <span class="n">all_</span><span class="p">(</span><span class="n">xs</span> <span class="o">&lt;</span> <span class="n">S</span><span class="p">,</span> <span class="n">ys</span> <span class="o">&lt;</span> <span class="n">S</span><span class="p">)</span>
+    <span class="n">inner</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">all_</span><span class="p">(</span><span class="n">xs</span> <span class="o">&lt;</span> <span class="n">s</span><span class="p">,</span> <span class="n">ys</span> <span class="o">&lt;</span> <span class="n">s</span><span class="p">)</span>
+    <span class="n">outer</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">all_</span><span class="p">(</span><span class="n">xs</span> <span class="o">&lt;</span> <span class="n">S</span><span class="p">,</span> <span class="n">ys</span> <span class="o">&lt;</span> <span class="n">S</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">outer</span> <span class="o">-</span> <span class="n">inner</span></div>
 
 
 <div class="viewcode-block" id="Rectangle"><a class="viewcode-back" href="../../stdlib/shape.html#arlunio.shape.Rectangle">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
-<span class="k">def</span> <span class="nf">Rectangle</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Y</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">xc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">yc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">ratio</span><span class="o">=</span><span class="mf">1.618</span><span class="p">,</span> <span class="n">pt</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mask</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">Rectangle</span><span class="p">(</span>
+    <span class="n">x</span><span class="p">:</span> <span class="n">math</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">math</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">xc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">yc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">ratio</span><span class="o">=</span><span class="mf">1.618</span><span class="p">,</span> <span class="n">pt</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">mask</span><span class="o">.</span><span class="n">Mask</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    .. arlunio-image:: Simple Rectangle</span>
 <span class="sd">       :align: right</span>
@@ -721,15 +721,39 @@
     <span class="n">width</span> <span class="o">=</span> <span class="n">height</span> <span class="o">*</span> <span class="n">ratio</span>
 
     <span class="k">if</span> <span class="n">pt</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">all_</span><span class="p">(</span><span class="n">xs</span> <span class="o">&lt;</span> <span class="n">width</span><span class="p">,</span> <span class="n">ys</span> <span class="o">&lt;</span> <span class="n">height</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">mask</span><span class="o">.</span><span class="n">all_</span><span class="p">(</span><span class="n">xs</span> <span class="o">&lt;</span> <span class="n">width</span><span class="p">,</span> <span class="n">ys</span> <span class="o">&lt;</span> <span class="n">height</span><span class="p">)</span>
 
     <span class="n">w</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">pt</span><span class="p">)</span> <span class="o">*</span> <span class="n">width</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">pt</span><span class="p">)</span> <span class="o">*</span> <span class="n">width</span>
     <span class="n">h</span><span class="p">,</span> <span class="n">H</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">pt</span><span class="p">)</span> <span class="o">*</span> <span class="n">height</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">pt</span><span class="p">)</span> <span class="o">*</span> <span class="n">height</span>
 
-    <span class="n">inner</span> <span class="o">=</span> <span class="n">all_</span><span class="p">(</span><span class="n">xs</span> <span class="o">&lt;</span> <span class="n">w</span><span class="p">,</span> <span class="n">ys</span> <span class="o">&lt;</span> <span class="n">h</span><span class="p">)</span>
-    <span class="n">outer</span> <span class="o">=</span> <span class="n">all_</span><span class="p">(</span><span class="n">xs</span> <span class="o">&lt;</span> <span class="n">W</span><span class="p">,</span> <span class="n">ys</span> <span class="o">&lt;</span> <span class="n">H</span><span class="p">)</span>
+    <span class="n">inner</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">all_</span><span class="p">(</span><span class="n">xs</span> <span class="o">&lt;</span> <span class="n">w</span><span class="p">,</span> <span class="n">ys</span> <span class="o">&lt;</span> <span class="n">h</span><span class="p">)</span>
+    <span class="n">outer</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">all_</span><span class="p">(</span><span class="n">xs</span> <span class="o">&lt;</span> <span class="n">W</span><span class="p">,</span> <span class="n">ys</span> <span class="o">&lt;</span> <span class="n">H</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">outer</span> <span class="o">-</span> <span class="n">inner</span></div>
+
+
+<div class="viewcode-block" id="Triangle"><a class="viewcode-back" href="../../stdlib/shape.html#arlunio.shape.Triangle">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
+<span class="k">def</span> <span class="nf">Triangle</span><span class="p">(</span><span class="n">p</span><span class="p">:</span> <span class="n">math</span><span class="o">.</span><span class="n">Barycentric</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">mask</span><span class="o">.</span><span class="n">Mask</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;A triangle.</span>
+
+<span class="sd">    .. arlunio-image:: Triangle Demo</span>
+<span class="sd">       :align: right</span>
+
+<span class="sd">       ::</span>
+
+<span class="sd">          import arlunio.shape as shape</span>
+<span class="sd">          import arlunio.image as img</span>
+
+<span class="sd">          tri = shape.Triangle()</span>
+<span class="sd">          image = img.fill(tri(width=256, height=256))</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">l1</span> <span class="o">=</span> <span class="n">p</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">l2</span> <span class="o">=</span> <span class="n">p</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">l3</span> <span class="o">=</span> <span class="n">p</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">mask</span><span class="o">.</span><span class="n">all_</span><span class="p">(</span><span class="mi">0</span> <span class="o">&lt;</span> <span class="n">l1</span><span class="p">,</span> <span class="n">l1</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span> <span class="o">&lt;</span> <span class="n">l2</span><span class="p">,</span> <span class="n">l2</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span> <span class="o">&lt;</span> <span class="n">l3</span><span class="p">,</span> <span class="n">l3</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)</span></div>
 </pre></div>
 
            </div>

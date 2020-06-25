@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>arlunio.math &mdash; Arlunio V0.0.7 documentation</title>
+  <title>arlunio.math &mdash; Arlunio V0.10.0b1 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                V0.0.7
+                V0.10.0b1
               </div>
             
           
@@ -541,6 +541,70 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">t</span> <span class="o">-</span> <span class="n">t0</span></div>
+
+
+<div class="viewcode-block" id="Barycentric"><a class="viewcode-back" href="../../stdlib/math.html#arlunio.math.Barycentric">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
+<span class="k">def</span> <span class="nf">Barycentric</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Y</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">),</span> <span class="n">b</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">)):</span>
+    <span class="sd">&quot;&quot;&quot;Barycentric coordinates.</span>
+
+<span class="sd">    .. arlunio-image : : Barycentric Demo</span>
+<span class="sd">       :align: right</span>
+
+<span class="sd">       ::</span>
+
+<span class="sd">          import arlunio.math as math</span>
+<span class="sd">          import arlunio.image as img</span>
+<span class="sd">          import numpy as np</span>
+
+<span class="sd">          coords = math.Barycentric()(width=256, height=256)</span>
+
+<span class="sd">          l1 = np.abs(coords[:, :, 0])</span>
+<span class="sd">          l2 = np.abs(coords[:, :, 1])</span>
+<span class="sd">          l3 = np.abs(coords[:, :, 2])</span>
+
+<span class="sd">          r = img.colorramp(l1, start=&#39;red&#39;, stop=&#39;black&#39;)</span>
+<span class="sd">          g = img.colorramp(l2, start=&#39;green&#39;, stop=&#39;black&#39;)</span>
+<span class="sd">          b = img.colorramp(l3, start=&#39;blue&#39;, stop=&#39;black&#39;)</span>
+
+<span class="sd">          rs = np.asarray(r)</span>
+<span class="sd">          gs = np.asarray(g)</span>
+<span class="sd">          bs = np.asarray(b)</span>
+
+<span class="sd">          image = img.fromarray(rs + gs + bs)</span>
+
+<span class="sd">    Returns the Barycentric coordinate grid as defined by the given triangle.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a:</span>
+<span class="sd">      The cartesian :math:`(x, y)` coordinates of the point :math:`a`</span>
+<span class="sd">    b:</span>
+<span class="sd">      The cartesian :math:`(x, y)` coordinates of the point :math:`b`</span>
+<span class="sd">    c:</span>
+<span class="sd">      The cartesian :math:`(x, y)` coordinates of the point :math:`c`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">h</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>
+
+    <span class="c1"># Construct the transform matrix T</span>
+    <span class="n">t1</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">t2</span> <span class="o">=</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">t3</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">t4</span> <span class="o">=</span> <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="c1"># Compute the inverse determinant</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">((</span><span class="n">t1</span> <span class="o">*</span> <span class="n">t4</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">t2</span> <span class="o">*</span> <span class="n">t3</span><span class="p">))</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dstack</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="n">h</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">c</span>
+
+    <span class="n">p1</span> <span class="o">=</span> <span class="n">p</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">p2</span> <span class="o">=</span> <span class="n">p</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+
+    <span class="c1"># Compute the coordinates</span>
+    <span class="n">l1</span> <span class="o">=</span> <span class="n">d</span> <span class="o">*</span> <span class="p">((</span><span class="n">p1</span> <span class="o">*</span> <span class="n">t4</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">p2</span> <span class="o">*</span> <span class="n">t2</span><span class="p">))</span>
+    <span class="n">l2</span> <span class="o">=</span> <span class="n">d</span> <span class="o">*</span> <span class="p">((</span><span class="n">p2</span> <span class="o">*</span> <span class="n">t1</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">p1</span> <span class="o">*</span> <span class="n">t3</span><span class="p">))</span>
+    <span class="n">l3</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">l1</span> <span class="o">-</span> <span class="n">l2</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dstack</span><span class="p">([</span><span class="n">l1</span><span class="p">,</span> <span class="n">l2</span><span class="p">,</span> <span class="n">l3</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span></div>
 </pre></div>
 
            </div>
