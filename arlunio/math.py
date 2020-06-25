@@ -386,7 +386,7 @@ def T(x: X, y: Y, *, t0=0):
 def Barycentric(x: X, y: Y, *, a=(0.5, -0.5), b=(0, 0.5), c=(-0.5, -0.5)):
     """Barycentric coordinates.
 
-    .. arlunio-image:: Barycentric Demo
+    .. arlunio-image : : Barycentric Demo
        :align: right
 
        ::
