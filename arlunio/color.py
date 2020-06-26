@@ -1,14 +1,14 @@
 import PIL.ImageColor as Color
 
 
-def getcolor(color):
+def getcolor(*args, **kwargs):
     """Exactly as Pillow's getrgb function."""
 
-    return Color.getrgb(color)
+    return Color.getcolor(*args, **kwargs)
 
 
-def getcolorf(color):
+def getcolorf(*args, **kwargs):
     """Exactly as Pillow's getrgb function, but the values are returned as floats."""
 
-    r, g, b = Color.getrgb(color)
-    return tuple([r / 255, g / 255, b / 255])
+    col = Color.getcolor(*args, **kwargs)
+    return tuple([c / 255 for c in col])

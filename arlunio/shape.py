@@ -68,7 +68,7 @@ def Circle(x: math.X, y: math.Y, *, xc=0, yc=0, r=0.8, pt=None) -> mask.Mask:
 
               for part, color in parts:
                   image = fill(
-                      part(width=width, height=height), color=color, image=image
+                      part(width=width, height=height), foreground=color, image=image
                   )
 
               return image
@@ -108,7 +108,7 @@ def Circle(x: math.X, y: math.Y, *, xc=0, yc=0, r=0.8, pt=None) -> mask.Mask:
 
               for ring, color in rings:
                   image = fill(
-                      ring(width=width, height=height), color=color, image=image
+                      ring(width=width, height=height), foreground=color, image=image
                   )
 
               return image
@@ -320,10 +320,11 @@ def SuperEllipse(
     Examples
     --------
 
-    Being a generalisation of the regular |Ellipse| definition most of the attributes
-    will have a similar effect on the outcome so be sure to check it out for additional
-    examples. For the :code:`SuperEllipse` definition the most interesting attributes
-    are :code:`n` and :code:`m` greatly affect the shape of the super ellipse.
+    Being a generalisation of the regular :class:`arlunio.shape.Ellipse` definition most
+    of the attributes will have a similar effect on the outcome so be sure to check it
+    out for additional examples. For the :code:`SuperEllipse` definition the most
+    interesting attributes are :code:`n` and :code:`m` greatly affect the shape of the
+    super ellipse.
 
     .. arlunio-image:: SuperEllipse Demo
        :include-code:
@@ -349,7 +350,7 @@ def SuperEllipse(
 
               for ellipse, color in ellipses:
                   image = fill(
-                      ellipse(width=1920, height=1080), color=color, image=image
+                      ellipse(width=1920, height=1080), foreground=color, image=image
                   )
 
               return image
@@ -383,7 +384,7 @@ def SuperEllipse(
 
               for ellipse, color in ellipses:
                   image = fill(
-                      ellipse(width=1920, height=1080), color=color, image=image
+                      ellipse(width=1920, height=1080), foreground=color, image=image
                   )
 
               return image

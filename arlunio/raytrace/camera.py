@@ -55,7 +55,7 @@ def SimpleCamera(
         :math:`(0, 0, 0)`
     sampler:
         The sampler the camera should use in order to generate rays. If not set this
-        will default to the |UniformSampler|
+        will default to an instance of :class:`arlunio.raytrace.UniformSampler`
     scale:
         Something something scale.
     """
