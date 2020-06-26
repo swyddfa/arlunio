@@ -138,7 +138,7 @@ def encode(image: Image) -> bytes:
     ::
 
        >>> import arlunio.image as image
-       >>> img = image.new("RGBA", (16, 16), color='red')
+       >>> img = image.new("RGBA", (8, 8), color='red')
        >>> image.encode(img)
        b'iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAFklEQVR4nGP8z8DwnwEPYMInOXwUAAASWwIOH0pJXQAAAABJRU5ErkJggg=='
 
