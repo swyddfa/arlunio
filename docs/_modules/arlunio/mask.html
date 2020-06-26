@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>arlunio.mask &mdash; Arlunio V0.10.0b1 documentation</title>
+  <title>arlunio.mask &mdash; Arlunio V0.10.0b2 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                V0.10.0b1
+                V0.10.0b2
               </div>
             
           
@@ -333,14 +333,14 @@
     <span class="k">return</span> <span class="n">a</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">)</span> <span class="o">*</span> <span class="n">b</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="any_"><a class="viewcode-back" href="../../stdlib/mask.html#arlunio.mask.any_">[docs]</a><span class="k">def</span> <span class="nf">any_</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Mask</span><span class="p">:</span>
+<div class="viewcode-block" id="any_"><a class="viewcode-back" href="../../stdlib/mask.html#arlunio.mask.any_">[docs]</a><span class="k">def</span> <span class="nf">any_</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Mask</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Mask</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Given a number of conditions, return :code:`True` if any of the conditions</span>
 <span class="sd">    are true.</span>
 
 <span class="sd">    This function is implemented as a thin wrapper around numpy&#39;s</span>
-<span class="sd">    :code:`np.logical_or` function so that it can take an arbitrary number of inputs.</span>
-<span class="sd">    This also means that this function will accept arrays of differing sizes - assuming</span>
-<span class="sd">    that they can be broadcasted to a common shape.</span>
+<span class="sd">    :data:`numpy:numpy.logical_or` function so that it can take an arbitrary number of</span>
+<span class="sd">    inputs. This also means that this function will accept arrays of differing sizes,</span>
+<span class="sd">    assuming that they can be broadcasted to a common shape.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -351,10 +351,10 @@
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 
-<span class="sd">    &gt;&gt;&gt; from arlunio.mask import any_</span>
-<span class="sd">    &gt;&gt;&gt; any_(True, False, False)</span>
+<span class="sd">    &gt;&gt;&gt; import arlunio.mask as mask</span>
+<span class="sd">    &gt;&gt;&gt; mask.any_(True, False, False)</span>
 <span class="sd">    Mask(True)</span>
-<span class="sd">    &gt;&gt;&gt; any_(False, False, False, False)</span>
+<span class="sd">    &gt;&gt;&gt; mask.any_(False, False, False, False)</span>
 <span class="sd">    Mask(False)</span>
 
 <span class="sd">    If the arguments are boolean numpy arrays, then the any condition is applied</span>
@@ -364,13 +364,12 @@
 <span class="sd">    &gt;&gt;&gt; x1 = np.array([True, False, True])</span>
 <span class="sd">    &gt;&gt;&gt; x2 = np.array([False, False, True])</span>
 <span class="sd">    &gt;&gt;&gt; x3 = np.array([False, True, False])</span>
-<span class="sd">    &gt;&gt;&gt; any_(x1, x2, x3)</span>
+<span class="sd">    &gt;&gt;&gt; mask.any_(x1, x2, x3)</span>
 <span class="sd">    Mask([ True,  True,  True])</span>
 
-<span class="sd">    This function can even handle a mixture of arrays and single values - assuming</span>
-<span class="sd">    their shapes can be broadcasted to a common shape.</span>
+<span class="sd">    The arguments can be any mixture of booleans, arrays and masks.</span>
 
-<span class="sd">    &gt;&gt;&gt; any_(False, np.array([True, False]), np.array([[False, True], [True, False]]))</span>
+<span class="sd">    &gt;&gt;&gt; mask.any_(False, Mask([True, False]), np.array([[False, True], [True, False]]))</span>
 <span class="sd">    Mask([[ True,  True],</span>
 <span class="sd">          [ True, False]])</span>
 
@@ -378,26 +377,26 @@
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
 
-<span class="sd">    |numpy.Broadcasting|</span>
+<span class="sd">    :doc:`numpy:user/basics.broadcasting`</span>
 <span class="sd">       Numpy documentation on broadcasting.</span>
 
-<span class="sd">    |numpy.Array Broadcasting|</span>
+<span class="sd">    :doc:`numpy:user/theory.broadcasting`</span>
 <span class="sd">       Further background on broadcasting.</span>
 
-<span class="sd">    |numpy.logical_or|</span>
-<span class="sd">       Reference documentation on the :code:`np.logical_or` function</span>
+<span class="sd">    :data:`numpy:numpy.logical_or`</span>
+<span class="sd">       Reference documentation on the :code:`numpy.logical_or` function</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">Mask</span><span class="p">(</span><span class="n">functools</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logical_or</span><span class="p">,</span> <span class="n">args</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="all_"><a class="viewcode-back" href="../../stdlib/mask.html#arlunio.mask.all_">[docs]</a><span class="k">def</span> <span class="nf">all_</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Mask</span><span class="p">:</span>
+<div class="viewcode-block" id="all_"><a class="viewcode-back" href="../../stdlib/mask.html#arlunio.mask.all_">[docs]</a><span class="k">def</span> <span class="nf">all_</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Mask</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Mask</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Given a number of conditions, return :code:`True` only if **all**</span>
 <span class="sd">    of the given conditions are true.</span>
 
 <span class="sd">    This function is implemented as a thin wrapper around numpy&#39;s</span>
-<span class="sd">    :code:`np.logical_and` function so that it can take an arbitrary number of inputs.</span>
-<span class="sd">    This also means that this function will accept arrays of differing sizes - assuming</span>
-<span class="sd">    that they can be broadcasted to a common shape.</span>
+<span class="sd">    :data:`numpy:numpy.logical_and` function so that it can take an arbitrary number of</span>
+<span class="sd">    inputs. This also means that this function will accept arrays of differing sizes,</span>
+<span class="sd">    assuming that they can be broadcasted to a common shape.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -408,10 +407,10 @@
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 
-<span class="sd">    &gt;&gt;&gt; from arlunio.mask import all_</span>
-<span class="sd">    &gt;&gt;&gt; all_(True, True, True)</span>
+<span class="sd">    &gt;&gt;&gt; import arlunio.mask as mask</span>
+<span class="sd">    &gt;&gt;&gt; mask.all_(True, True, True)</span>
 <span class="sd">    Mask(True)</span>
-<span class="sd">    &gt;&gt;&gt; all_(True, False, True, True)</span>
+<span class="sd">    &gt;&gt;&gt; mask.all_(True, False, True, True)</span>
 <span class="sd">    Mask(False)</span>
 
 <span class="sd">    If the arguments are boolean numpy arrays, then the any condition is applied</span>
@@ -424,10 +423,9 @@
 <span class="sd">    &gt;&gt;&gt; all_(x1, x2, x3)</span>
 <span class="sd">    Mask([False, False,  True])</span>
 
-<span class="sd">    This function can even handle a mixture of arrays and single values - assuming</span>
-<span class="sd">    their shapes can be broadcasted to a common shape.</span>
+<span class="sd">    Arugments can be any mixture of booleans, masks and numpy arrays.</span>
 
-<span class="sd">    &gt;&gt;&gt; all_(True, np.array([True, False]), np.array([[False, True], [True, False]]))</span>
+<span class="sd">    &gt;&gt;&gt; mask.all_(True, Mask([True, False]), np.array([[False, True], [True, False]]))</span>
 <span class="sd">    Mask([[False, False],</span>
 <span class="sd">          [ True, False]])</span>
 
@@ -435,13 +433,13 @@
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
 
-<span class="sd">    |numpy.Broadcasting|</span>
+<span class="sd">    :doc:`numpy:user/basics.broadcasting`</span>
 <span class="sd">       Numpy documentation on broadcasting.</span>
 
-<span class="sd">    |numpy.Array Broadcasting|</span>
+<span class="sd">    :doc:`numpy:user/theory.broadcasting`</span>
 <span class="sd">       Further background on broadcasting.</span>
 
-<span class="sd">    |numpy.logical_and|</span>
+<span class="sd">    :data:`numpy:numpy.logical_and`</span>
 <span class="sd">       Reference documentation on the :code:`logical_and` function.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">Mask</span><span class="p">(</span><span class="n">functools</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">,</span> <span class="n">args</span><span class="p">))</span></div>

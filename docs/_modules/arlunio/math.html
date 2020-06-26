@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>arlunio.math &mdash; Arlunio V0.10.0b1 documentation</title>
+  <title>arlunio.math &mdash; Arlunio V0.10.0b2 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                V0.10.0b1
+                V0.10.0b2
               </div>
             
           
@@ -267,11 +267,12 @@
 
 <div class="viewcode-block" id="X"><a class="viewcode-back" href="../../stdlib/math.html#arlunio.math.X">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
 <span class="k">def</span> <span class="nf">X</span><span class="p">(</span><span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">x0</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">stretch</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Cartesian :math:`x` coordinates.</span>
+
 <span class="sd">    .. arlunio-image:: X Coordinates</span>
 <span class="sd">       :align: right</span>
 
-<span class="sd">       Cartesian X coordinates::</span>
+<span class="sd">       ::</span>
 
 <span class="sd">          from arlunio.math import X</span>
 <span class="sd">          from arlunio.image import colorramp</span>
@@ -343,11 +344,12 @@
 
 <div class="viewcode-block" id="Y"><a class="viewcode-back" href="../../stdlib/math.html#arlunio.math.Y">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
 <span class="k">def</span> <span class="nf">Y</span><span class="p">(</span><span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">y0</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">stretch</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Cartesian :math:`y` coordinates</span>
+
 <span class="sd">    .. arlunio-image:: Y Coordinates</span>
 <span class="sd">       :align: right</span>
 
-<span class="sd">       Cartesian Y coordinates::</span>
+<span class="sd">       ::</span>
 
 <span class="sd">          from arlunio.math import Y</span>
 <span class="sd">          from arlunio.image import colorramp</span>
@@ -423,11 +425,12 @@
 
 <div class="viewcode-block" id="R"><a class="viewcode-back" href="../../stdlib/math.html#arlunio.math.R">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
 <span class="k">def</span> <span class="nf">R</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Y</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Polar :math:`r` coordinates.</span>
+
 <span class="sd">    .. arlunio-image:: R Coordinates</span>
 <span class="sd">       :align: right</span>
 
-<span class="sd">       Polar R coordinates::</span>
+<span class="sd">       ::</span>
 
 <span class="sd">          from arlunio.math import R</span>
 <span class="sd">          from arlunio.image import colorramp</span>
@@ -456,8 +459,8 @@
 <span class="sd">              [1.41421356, 1.11803399, 1.        , 1.11803399, 1.41421356]])</span>
 
 <span class="sd">    While this definition does not currently have any attributes of its own, since it&#39;s</span>
-<span class="sd">    derived from the |X| and |Y| definitions it automatically inherits the attributes</span>
-<span class="sd">    from these base definitions::</span>
+<span class="sd">    derived from the :class:`arlunio.math.X` and :class:`arlunio.math.Y` definitions it</span>
+<span class="sd">    automatically inherits the attributes from these base definitions::</span>
 
 <span class="sd">       &gt;&gt;&gt; r = R(x0=-2, y0=-2, scale=2)</span>
 <span class="sd">       &gt;&gt;&gt; r(width=5, height=5)</span>
@@ -477,11 +480,12 @@
 
 <div class="viewcode-block" id="T"><a class="viewcode-back" href="../../stdlib/math.html#arlunio.math.T">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
 <span class="k">def</span> <span class="nf">T</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Y</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">t0</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Polar :math:`\\theta` coordinates.</span>
+
 <span class="sd">    .. arlunio-image:: T Coordinates</span>
 <span class="sd">       :align: right</span>
 
-<span class="sd">       Polar T coordinates::</span>
+<span class="sd">       ::</span>
 
 <span class="sd">          from arlunio.math import T</span>
 <span class="sd">          from arlunio.image import colorramp</span>
@@ -527,8 +531,9 @@
 <span class="sd">              [-5.8195377 , -5.49778714, -4.71238898, -3.92699082, -3.60524026],</span>
 <span class="sd">              [-5.49778714, -5.17603659, -4.71238898, -4.24874137, -3.92699082]])</span>
 
-<span class="sd">    Also, being a definition derived from |X| and |Y| the attributes for these</span>
-<span class="sd">    definitions are also available to control the output::</span>
+<span class="sd">    Also, being a definition derived from :class:`arlunio.math.X` and</span>
+<span class="sd">    :class:`arlunio.math.Y` the attributes for these definitions are also available to</span>
+<span class="sd">    control the output::</span>
 
 <span class="sd">       &gt;&gt;&gt; t = T(x0=-2, y0=-2, scale=2)</span>
 <span class="sd">       &gt;&gt;&gt; t(width=5, height=5)</span>
@@ -543,11 +548,23 @@
     <span class="k">return</span> <span class="n">t</span> <span class="o">-</span> <span class="n">t0</span></div>
 
 
+<div class="viewcode-block" id="Cartesian"><a class="viewcode-back" href="../../stdlib/math.html#arlunio.math.Cartesian">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
+<span class="k">def</span> <span class="nf">Cartesian</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Y</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Cartesian coordinates.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dstack</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="Polar"><a class="viewcode-back" href="../../stdlib/math.html#arlunio.math.Polar">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
+<span class="k">def</span> <span class="nf">Polar</span><span class="p">(</span><span class="n">r</span><span class="p">:</span> <span class="n">R</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="n">T</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Polar coordinates.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dstack</span><span class="p">([</span><span class="n">r</span><span class="p">,</span> <span class="n">t</span><span class="p">])</span></div>
+
+
 <div class="viewcode-block" id="Barycentric"><a class="viewcode-back" href="../../stdlib/math.html#arlunio.math.Barycentric">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
 <span class="k">def</span> <span class="nf">Barycentric</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Y</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">),</span> <span class="n">b</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">)):</span>
     <span class="sd">&quot;&quot;&quot;Barycentric coordinates.</span>
 
-<span class="sd">    .. arlunio-image : : Barycentric Demo</span>
+<span class="sd">    .. arlunio-image:: Barycentric Demo</span>
 <span class="sd">       :align: right</span>
 
 <span class="sd">       ::</span>

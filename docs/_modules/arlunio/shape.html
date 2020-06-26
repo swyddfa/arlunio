@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>arlunio.shape &mdash; Arlunio V0.10.0b1 documentation</title>
+  <title>arlunio.shape &mdash; Arlunio V0.10.0b2 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                V0.10.0b1
+                V0.10.0b2
               </div>
             
           
@@ -229,7 +229,7 @@
 
 <span class="sd">              for part, color in parts:</span>
 <span class="sd">                  image = fill(</span>
-<span class="sd">                      part(width=width, height=height), color=color, image=image</span>
+<span class="sd">                      part(width=width, height=height), foreground=color, image=image</span>
 <span class="sd">                  )</span>
 
 <span class="sd">              return image</span>
@@ -269,7 +269,7 @@
 
 <span class="sd">              for ring, color in rings:</span>
 <span class="sd">                  image = fill(</span>
-<span class="sd">                      ring(width=width, height=height), color=color, image=image</span>
+<span class="sd">                      ring(width=width, height=height), foreground=color, image=image</span>
 <span class="sd">                  )</span>
 
 <span class="sd">              return image</span>
@@ -481,10 +481,11 @@
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 
-<span class="sd">    Being a generalisation of the regular |Ellipse| definition most of the attributes</span>
-<span class="sd">    will have a similar effect on the outcome so be sure to check it out for additional</span>
-<span class="sd">    examples. For the :code:`SuperEllipse` definition the most interesting attributes</span>
-<span class="sd">    are :code:`n` and :code:`m` greatly affect the shape of the super ellipse.</span>
+<span class="sd">    Being a generalisation of the regular :class:`arlunio.shape.Ellipse` definition most</span>
+<span class="sd">    of the attributes will have a similar effect on the outcome so be sure to check it</span>
+<span class="sd">    out for additional examples. For the :code:`SuperEllipse` definition the most</span>
+<span class="sd">    interesting attributes are :code:`n` and :code:`m` greatly affect the shape of the</span>
+<span class="sd">    super ellipse.</span>
 
 <span class="sd">    .. arlunio-image:: SuperEllipse Demo</span>
 <span class="sd">       :include-code:</span>
@@ -510,7 +511,7 @@
 
 <span class="sd">              for ellipse, color in ellipses:</span>
 <span class="sd">                  image = fill(</span>
-<span class="sd">                      ellipse(width=1920, height=1080), color=color, image=image</span>
+<span class="sd">                      ellipse(width=1920, height=1080), foreground=color, image=image</span>
 <span class="sd">                  )</span>
 
 <span class="sd">              return image</span>
@@ -544,7 +545,7 @@
 
 <span class="sd">              for ellipse, color in ellipses:</span>
 <span class="sd">                  image = fill(</span>
-<span class="sd">                      ellipse(width=1920, height=1080), color=color, image=image</span>
+<span class="sd">                      ellipse(width=1920, height=1080), foreground=color, image=image</span>
 <span class="sd">                  )</span>
 
 <span class="sd">              return image</span>

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Index &mdash; Arlunio V0.10.0b1 documentation</title>
+  <title>Index &mdash; Arlunio V0.10.0b2 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                V0.10.0b1
+                V0.10.0b2
               </div>
             
           
@@ -174,7 +174,6 @@
  | <a href="#N"><strong>N</strong></a>
  | <a href="#O"><strong>O</strong></a>
  | <a href="#P"><strong>P</strong></a>
- | <a href="#Q"><strong>Q</strong></a>
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
  | <a href="#T"><strong>T</strong></a>
@@ -204,6 +203,8 @@
       </ul></li>
       <li><a href="stdlib/mask.html#arlunio.mask.all_">all_() (in module arlunio.mask)</a>
 </li>
+      <li><a href="stdlib/image.html#arlunio.image.Image.alpha_composite">alpha_composite() (arlunio.image.Image method)</a>
+</li>
       <li><a href="stdlib/mask.html#arlunio.mask.any_">any_() (in module arlunio.mask)</a>
 </li>
       <li>
@@ -211,13 +212,6 @@
 
       <ul>
         <li><a href="api.html#module-arlunio">module</a>
-</li>
-      </ul></li>
-      <li>
-    arlunio.image
-
-      <ul>
-        <li><a href="stdlib/image.html#module-arlunio.image">module</a>
 </li>
       </ul></li>
       <li>
@@ -304,6 +298,8 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="stdlib/math.html#arlunio.math.Barycentric.c">c (arlunio.math.Barycentric attribute)</a>
 </li>
+      <li><a href="stdlib/math.html#arlunio.math.Cartesian">Cartesian (class in arlunio.math)</a>
+</li>
       <li><a href="stdlib/pattern.html#arlunio.pattern.Checker">Checker (class in arlunio.pattern)</a>
 </li>
       <li><a href="stdlib/shape.html#arlunio.shape.Circle">Circle (class in arlunio.shape)</a>
@@ -316,12 +312,16 @@
 </li>
       <li><a href="stdlib/image.html#arlunio.image.colorramp">colorramp() (in module arlunio.image)</a>
 </li>
+      <li><a href="stdlib/image.html#arlunio.image.Image.copy">copy() (arlunio.image.Image method)</a>
+</li>
   </ul></td>
 </tr></table>
 
 <h2 id="D">D</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="stdlib/image.html#arlunio.image.decode">decode() (in module arlunio.image)</a>
+</li>
       <li><a href="api.html#arlunio.definition">definition() (in module arlunio)</a>
 </li>
       <li><a href="stdlib/pattern.html#arlunio.pattern.Grid.defn">defn (arlunio.pattern.Grid attribute)</a>
@@ -330,10 +330,10 @@
         <li><a href="stdlib/pattern.html#arlunio.pattern.Pixelize.defn">(arlunio.pattern.Pixelize attribute)</a>
 </li>
       </ul></li>
-      <li><a href="api.html#arlunio.Defn">Defn (class in arlunio)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api.html#arlunio.Defn">Defn (class in arlunio)</a>
+</li>
       <li><a href="api.html#arlunio.DefnInput">DefnInput (class in arlunio)</a>
 </li>
       <li><a href="stdlib/raytrace.html#arlunio.raytrace.Rays.direction">direction (arlunio.raytrace.Rays attribute)</a>
@@ -364,11 +364,11 @@
 <h2 id="F">F</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="stdlib/image.html#arlunio.image.Resolutions.FHD">FHD (arlunio.image.Resolutions attribute)</a>
-</li>
       <li><a href="stdlib/image.html#arlunio.image.fill">fill() (in module arlunio.image)</a>
 </li>
       <li><a href="stdlib/raytrace.html#arlunio.raytrace.SimpleCamera.focal_length">focal_length (arlunio.raytrace.SimpleCamera attribute)</a>
+</li>
+      <li><a href="stdlib/image.html#arlunio.image.fromarray">fromarray() (in module arlunio.image)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -398,10 +398,6 @@
 <h2 id="H">H</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="stdlib/image.html#arlunio.image.Resolutions.HD">HD (arlunio.image.Resolutions attribute)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="stdlib/raytrace.html#arlunio.raytrace.ScatterPoint.hit">hit (arlunio.raytrace.ScatterPoint attribute)</a>
 </li>
   </ul></td>
@@ -410,10 +406,14 @@
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#arlunio.DefnInput.inherited">inherited (arlunio.DefnInput attribute)</a>
+      <li><a href="stdlib/image.html#arlunio.image.Image">Image (class in arlunio.image)</a>
+</li>
+      <li><a href="stdlib/image.html#arlunio.image.Image.img">img (arlunio.image.Image attribute)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api.html#arlunio.DefnInput.inherited">inherited (arlunio.DefnInput attribute)</a>
+</li>
       <li><a href="api.html#arlunio.Defn.inputs">inputs() (arlunio.Defn class method)</a>
 </li>
   </ul></td>
@@ -426,13 +426,15 @@
 </li>
       <li><a href="stdlib/pattern.html#arlunio.pattern.Map.layout">layout (arlunio.pattern.Map attribute)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="stdlib/pattern.html#arlunio.pattern.Map.legened">legened (arlunio.pattern.Map attribute)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="stdlib/math.html#arlunio.math.lerp">lerp() (in module arlunio.math)</a>
 </li>
       <li><a href="glossary.html#term-LHS"><strong>LHS</strong></a>
+</li>
+      <li><a href="stdlib/image.html#arlunio.image.load">load() (in module arlunio.image)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -470,8 +472,6 @@
       <ul>
         <li><a href="api.html#module-arlunio">arlunio</a>
 </li>
-        <li><a href="stdlib/image.html#module-arlunio.image">arlunio.image</a>
-</li>
         <li><a href="api.html#module-arlunio.imp">arlunio.imp</a>
 </li>
         <li><a href="stdlib/mask.html#module-arlunio.mask">arlunio.mask</a>
@@ -502,7 +502,11 @@
       <li><a href="api.html#arlunio.DefnInput.name">name (arlunio.DefnInput attribute)</a>
 </li>
       <li><a href="stdlib/raytrace.html#arlunio.raytrace.ScatterPoint.new">new() (arlunio.raytrace.ScatterPoint class method)</a>
+
+      <ul>
+        <li><a href="stdlib/image.html#arlunio.image.new">(in module arlunio.image)</a>
 </li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="stdlib/raytrace.html#arlunio.raytrace.ScatterPoint.normal">normal (arlunio.raytrace.ScatterPoint attribute)</a>
@@ -535,16 +539,20 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="stdlib/raytrace.html#arlunio.raytrace.ScatterPoint.p">p (arlunio.raytrace.ScatterPoint attribute)</a>
 </li>
+      <li><a href="stdlib/image.html#arlunio.image.Image.paste">paste() (arlunio.image.Image method)</a>
+</li>
       <li><a href="stdlib/pattern.html#arlunio.pattern.Pixelize">Pixelize (class in arlunio.pattern)</a>
 </li>
       <li><a href="stdlib/pattern.html#arlunio.pattern.Pixelize.pixels">pixels (arlunio.pattern.Pixelize attribute)</a>
 </li>
-      <li><a href="glossary.html#term-pre-commit"><strong>pre-commit</strong></a>
+      <li><a href="stdlib/math.html#arlunio.math.Polar">Polar (class in arlunio.math)</a>
 </li>
-      <li><a href="api.html#arlunio.Defn.produces">produces() (arlunio.Defn class method)</a>
+      <li><a href="glossary.html#term-pre-commit"><strong>pre-commit</strong></a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api.html#arlunio.Defn.produces">produces() (arlunio.Defn class method)</a>
+</li>
       <li><a href="stdlib/shape.html#arlunio.shape.Circle.pt">pt (arlunio.shape.Circle attribute)</a>
 
       <ul>
@@ -562,14 +570,6 @@
   </ul></td>
 </tr></table>
 
-<h2 id="Q">Q</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="stdlib/image.html#arlunio.image.Resolutions.QHD">QHD (arlunio.image.Resolutions attribute)</a>
-</li>
-  </ul></td>
-</tr></table>
-
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -583,10 +583,10 @@
       </ul></li>
       <li><a href="stdlib/math.html#arlunio.math.R">R (class in arlunio.math)</a>
 </li>
-      <li><a href="glossary.html#term-radian"><strong>radian</strong></a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="glossary.html#term-radian"><strong>radian</strong></a>
+</li>
       <li><a href="glossary.html#term-radians"><strong>radians</strong></a>
 </li>
       <li><a href="stdlib/shape.html#arlunio.shape.Rectangle.ratio">ratio (arlunio.shape.Rectangle attribute)</a>
@@ -594,8 +594,6 @@
       <li><a href="stdlib/raytrace.html#arlunio.raytrace.Rays">Rays (class in arlunio.raytrace)</a>
 </li>
       <li><a href="stdlib/shape.html#arlunio.shape.Rectangle">Rectangle (class in arlunio.shape)</a>
-</li>
-      <li><a href="stdlib/image.html#arlunio.image.Resolutions">Resolutions (class in arlunio.image)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -607,8 +605,12 @@
 </li>
       <li><a href="stdlib/raytrace.html#arlunio.raytrace.SimpleCamera.sampler">sampler (arlunio.raytrace.SimpleCamera attribute)</a>
 </li>
-      <li><a href="stdlib/image.html#arlunio.image.save">save() (in module arlunio.image)</a>
+      <li><a href="stdlib/image.html#arlunio.image.Image.save">save() (arlunio.image.Image method)</a>
+
+      <ul>
+        <li><a href="stdlib/image.html#arlunio.image.save">(in module arlunio.image)</a>
 </li>
+      </ul></li>
       <li><a href="stdlib/math.html#arlunio.math.X.scale">scale (arlunio.math.X attribute)</a>
 
       <ul>
@@ -621,10 +623,10 @@
 </li>
       <li><a href="glossary.html#term-sdist"><strong>sdist</strong></a>
 </li>
-      <li><a href="stdlib/raytrace.html#arlunio.raytrace.SimpleCamera">SimpleCamera (class in arlunio.raytrace)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="stdlib/raytrace.html#arlunio.raytrace.SimpleCamera">SimpleCamera (class in arlunio.raytrace)</a>
+</li>
       <li><a href="stdlib/raytrace.html#arlunio.raytrace.SimpleSampler">SimpleSampler (class in arlunio.raytrace)</a>
 </li>
       <li><a href="stdlib/shape.html#arlunio.shape.Rectangle.size">size (arlunio.shape.Rectangle attribute)</a>

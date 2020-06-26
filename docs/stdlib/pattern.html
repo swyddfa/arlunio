@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Pattern &mdash; Arlunio V0.10.0b1 documentation</title>
+  <title>Pattern &mdash; Arlunio V0.10.0b2 documentation</title>
   
 
   
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                V0.10.0b1
+                V0.10.0b2
               </div>
             
           
@@ -267,7 +267,7 @@ of the final image.</p>
 
 <span class="n">pattern</span> <span class="o">=</span> <span class="n">Grid</span><span class="p">(</span><span class="n">defn</span><span class="o">=</span><span class="n">Template</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mf">1.</span><span class="p">))</span>
 <span class="n">image</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span>
-    <span class="n">pattern</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">512</span><span class="p">),</span> <span class="n">background</span><span class="o">=</span><span class="s2">&quot;#000&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#ff0&quot;</span>
+    <span class="n">pattern</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">512</span><span class="p">),</span> <span class="n">background</span><span class="o">=</span><span class="s2">&quot;#000&quot;</span><span class="p">,</span> <span class="n">foreground</span><span class="o">=</span><span class="s2">&quot;#ff0&quot;</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -383,7 +383,7 @@ of the final image.</p>
 <span class="p">])</span>
 
 <span class="n">map_</span> <span class="o">=</span> <span class="n">Map</span><span class="p">(</span><span class="n">legend</span><span class="o">=</span><span class="n">legend</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">layout</span><span class="p">)</span>
-<span class="n">image</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span><span class="n">map_</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1080</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">)</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span><span class="n">map_</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1080</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">),</span> <span class="n">foreground</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -502,7 +502,7 @@ resolution:</span><a class="headerlink" href="#id4" title="Permalink to this ima
     <span class="k">return</span> <span class="p">(</span><span class="n">head</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">)</span> <span class="o">-</span> <span class="n">eyes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">))</span> <span class="o">+</span> <span class="n">body</span>
 
 <span class="n">ghost</span> <span class="o">=</span> <span class="n">Pixelize</span><span class="p">(</span><span class="n">defn</span><span class="o">=</span><span class="n">Ghost</span><span class="p">(</span><span class="n">y0</span><span class="o">=-</span><span class="mf">0.3</span><span class="p">),</span> <span class="n">n</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
-<span class="n">image</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span><span class="n">ghost</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1080</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#f00&quot;</span><span class="p">)</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span><span class="n">ghost</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1080</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">),</span> <span class="n">foreground</span><span class="o">=</span><span class="s2">&quot;#f00&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Shape &mdash; Arlunio V0.10.0b1 documentation</title>
+  <title>Shape &mdash; Arlunio V0.10.0b2 documentation</title>
   
 
   
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                V0.10.0b1
+                V0.10.0b2
               </div>
             
           
@@ -250,7 +250,7 @@ considered part of the circle.</p>
 
     <span class="k">for</span> <span class="n">part</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="n">parts</span><span class="p">:</span>
         <span class="n">image</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span>
-            <span class="n">part</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="n">image</span>
+            <span class="n">part</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">),</span> <span class="n">foreground</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="n">image</span>
         <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">image</span>
@@ -289,7 +289,7 @@ approximation of the olympics logo</p>
 
     <span class="k">for</span> <span class="n">ring</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="n">rings</span><span class="p">:</span>
         <span class="n">image</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span>
-            <span class="n">ring</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="n">image</span>
+            <span class="n">ring</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">),</span> <span class="n">foreground</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="n">image</span>
         <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">image</span>
@@ -706,10 +706,11 @@ considered part of the super ellipse.</p>
 </dd></dl>
 
 <p class="rubric">Examples</p>
-<p>Being a generalisation of the regular <a class="reference internal" href="#arlunio.shape.Ellipse" title="arlunio.shape.Ellipse"><code class="xref py py-class docutils literal notranslate"><span class="pre">Ellipse</span></code></a> definition most of the attributes
-will have a similar effect on the outcome so be sure to check it out for additional
-examples. For the <code class="code docutils literal notranslate"><span class="pre">SuperEllipse</span></code> definition the most interesting attributes
-are <code class="code docutils literal notranslate"><span class="pre">n</span></code> and <code class="code docutils literal notranslate"><span class="pre">m</span></code> greatly affect the shape of the super ellipse.</p>
+<p>Being a generalisation of the regular <a class="reference internal" href="#arlunio.shape.Ellipse" title="arlunio.shape.Ellipse"><code class="xref py py-class docutils literal notranslate"><span class="pre">arlunio.shape.Ellipse</span></code></a> definition most
+of the attributes will have a similar effect on the outcome so be sure to check it
+out for additional examples. For the <code class="code docutils literal notranslate"><span class="pre">SuperEllipse</span></code> definition the most
+interesting attributes are <code class="code docutils literal notranslate"><span class="pre">n</span></code> and <code class="code docutils literal notranslate"><span class="pre">m</span></code> greatly affect the shape of the
+super ellipse.</p>
 <div class="figure align-default">
 <img alt="../_images/superellipse-demo.png" src="../_images/superellipse-demo.png" />
 <div class="legend">
@@ -731,7 +732,7 @@ are <code class="code docutils literal notranslate"><span class="pre">n</span></
 
     <span class="k">for</span> <span class="n">ellipse</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="n">ellipses</span><span class="p">:</span>
         <span class="n">image</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span>
-            <span class="n">ellipse</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1920</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="n">image</span>
+            <span class="n">ellipse</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1920</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">),</span> <span class="n">foreground</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="n">image</span>
         <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">image</span>
@@ -765,7 +766,7 @@ can get even more interesting results!</p>
 
     <span class="k">for</span> <span class="n">ellipse</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="n">ellipses</span><span class="p">:</span>
         <span class="n">image</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span>
-            <span class="n">ellipse</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1920</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="n">image</span>
+            <span class="n">ellipse</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1920</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">),</span> <span class="n">foreground</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="n">image</span>
         <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">image</span>

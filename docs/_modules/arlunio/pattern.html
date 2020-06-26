@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>arlunio.pattern &mdash; Arlunio V0.10.0b1 documentation</title>
+  <title>arlunio.pattern &mdash; Arlunio V0.10.0b2 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                V0.10.0b1
+                V0.10.0b2
               </div>
             
           
@@ -251,7 +251,7 @@
 
 <span class="sd">          pattern = Grid(defn=Template(scale=1.))</span>
 <span class="sd">          image = fill(</span>
-<span class="sd">              pattern(width=512, height=512), background=&quot;#000&quot;, color=&quot;#ff0&quot;</span>
+<span class="sd">              pattern(width=512, height=512), background=&quot;#000&quot;, foreground=&quot;#ff0&quot;</span>
 <span class="sd">          )</span>
 
 <span class="sd">    A checkerboard like pattern</span>
@@ -369,7 +369,7 @@
 <span class="sd">          ])</span>
 
 <span class="sd">          map_ = Map(legend=legend, layout=layout)</span>
-<span class="sd">          image = fill(map_(width=1080, height=1080), color=&quot;blue&quot;)</span>
+<span class="sd">          image = fill(map_(width=1080, height=1080), foreground=&quot;blue&quot;)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># TODO: Handle divisions with rounding errors</span>
@@ -485,7 +485,7 @@
 <span class="sd">              return (head(x=x, y=y) - eyes(x=np.abs(x), y=y)) + body</span>
 
 <span class="sd">          ghost = Pixelize(defn=Ghost(y0=-0.3), n=32, m=32)</span>
-<span class="sd">          image = fill(ghost(width=1080, height=1080), color=&quot;#f00&quot;)</span>
+<span class="sd">          image = fill(ghost(width=1080, height=1080), foreground=&quot;#f00&quot;)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">defn</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">pixels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>

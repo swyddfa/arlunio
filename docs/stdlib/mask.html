@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Mask &mdash; Arlunio V0.10.0b1 documentation</title>
+  <title>Mask &mdash; Arlunio V0.10.0b2 documentation</title>
   
 
   
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                V0.10.0b1
+                V0.10.0b2
               </div>
             
           
@@ -375,13 +375,13 @@ point is in <code class="code docutils literal notranslate"><span class="pre">a<
 
 <dl class="py function">
 <dt id="arlunio.mask.all_">
-<code class="sig-prename descclassname">arlunio.mask.</code><code class="sig-name descname">all_</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Union<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a><span class="p">, </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.18)">numpy.ndarray</a><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#arlunio.mask.Mask" title="arlunio.mask.Mask">arlunio.mask.Mask</a><a class="reference internal" href="../_modules/arlunio/mask.html#all_"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.mask.all_" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">arlunio.mask.</code><code class="sig-name descname">all_</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Union<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a><span class="p">, </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.18)">numpy.ndarray</a><span class="p">, </span><a class="reference internal" href="#arlunio.mask.Mask" title="arlunio.mask.Mask">arlunio.mask.Mask</a><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#arlunio.mask.Mask" title="arlunio.mask.Mask">arlunio.mask.Mask</a><a class="reference internal" href="../_modules/arlunio/mask.html#all_"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.mask.all_" title="Permalink to this definition">¶</a></dt>
 <dd><p>Given a number of conditions, return <code class="code docutils literal notranslate"><span class="pre">True</span></code> only if <strong>all</strong>
 of the given conditions are true.</p>
 <p>This function is implemented as a thin wrapper around numpy’s
-<code class="code docutils literal notranslate"><span class="pre">np.logical_and</span></code> function so that it can take an arbitrary number of inputs.
-This also means that this function will accept arrays of differing sizes - assuming
-that they can be broadcasted to a common shape.</p>
+<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.logical_and.html#numpy.logical_and" title="(in NumPy v1.18)"><code class="docutils literal notranslate"><span class="pre">numpy.logical_and</span></code></a> function so that it can take an arbitrary number of
+inputs. This also means that this function will accept arrays of differing sizes,
+assuming that they can be broadcasted to a common shape.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>args</strong> – A number of boolean conditions, a conditon can either be a single boolean value,
@@ -389,10 +389,10 @@ or a numpy array of boolean values.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">arlunio.mask</span> <span class="kn">import</span> <span class="n">all_</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">all_</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">arlunio.mask</span> <span class="k">as</span> <span class="nn">mask</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mask</span><span class="o">.</span><span class="n">all_</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
 <span class="go">Mask(True)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">all_</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mask</span><span class="o">.</span><span class="n">all_</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
 <span class="go">Mask(False)</span>
 </pre></div>
 </div>
@@ -406,9 +406,8 @@ element-wise</p>
 <span class="go">Mask([False, False,  True])</span>
 </pre></div>
 </div>
-<p>This function can even handle a mixture of arrays and single values - assuming
-their shapes can be broadcasted to a common shape.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">all_</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">],</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]]))</span>
+<p>Arugments can be any mixture of booleans, masks and numpy arrays.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mask</span><span class="o">.</span><span class="n">all_</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">Mask</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">],</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]]))</span>
 <span class="go">Mask([[False, False],</span>
 <span class="go">      [ True, False]])</span>
 </pre></div>
@@ -416,11 +415,11 @@ their shapes can be broadcasted to a common shape.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <dl class="simple">
-<dt><a class="reference external" href="https://numpy.org/doc/stable/user/basics.broadcasting.html" title="(in NumPy v1.18)"><span class="xref std std-doc">Broadcasting</span></a></dt><dd><p>Numpy documentation on broadcasting.</p>
+<dt><a class="reference external" href="https://numpy.org/doc/stable/user/basics.broadcasting.html" title="(in NumPy v1.18)"><span>Broadcasting</span></a></dt><dd><p>Numpy documentation on broadcasting.</p>
 </dd>
-<dt><a class="reference external" href="https://numpy.org/doc/stable/user/theory.broadcasting.html" title="(in NumPy v1.18)"><span class="xref std std-doc">Array Broadcasting</span></a></dt><dd><p>Further background on broadcasting.</p>
+<dt><a class="reference external" href="https://numpy.org/doc/stable/user/theory.broadcasting.html" title="(in NumPy v1.18)"><span>Array Broadcasting in Numpy</span></a></dt><dd><p>Further background on broadcasting.</p>
 </dd>
-<dt><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.logical_and.html#numpy.logical_and" title="(in NumPy v1.18)"><code class="xref py py-data docutils literal notranslate"><span class="pre">np.logical_and</span></code></a></dt><dd><p>Reference documentation on the <code class="code docutils literal notranslate"><span class="pre">logical_and</span></code> function.</p>
+<dt><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.logical_and.html#numpy.logical_and" title="(in NumPy v1.18)"><code class="docutils literal notranslate"><span class="pre">numpy.logical_and</span></code></a></dt><dd><p>Reference documentation on the <code class="code docutils literal notranslate"><span class="pre">logical_and</span></code> function.</p>
 </dd>
 </dl>
 </div>
@@ -428,13 +427,13 @@ their shapes can be broadcasted to a common shape.</p>
 
 <dl class="py function">
 <dt id="arlunio.mask.any_">
-<code class="sig-prename descclassname">arlunio.mask.</code><code class="sig-name descname">any_</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Union<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a><span class="p">, </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.18)">numpy.ndarray</a><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#arlunio.mask.Mask" title="arlunio.mask.Mask">arlunio.mask.Mask</a><a class="reference internal" href="../_modules/arlunio/mask.html#any_"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.mask.any_" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">arlunio.mask.</code><code class="sig-name descname">any_</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Union<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a><span class="p">, </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.18)">numpy.ndarray</a><span class="p">, </span><a class="reference internal" href="#arlunio.mask.Mask" title="arlunio.mask.Mask">arlunio.mask.Mask</a><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#arlunio.mask.Mask" title="arlunio.mask.Mask">arlunio.mask.Mask</a><a class="reference internal" href="../_modules/arlunio/mask.html#any_"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.mask.any_" title="Permalink to this definition">¶</a></dt>
 <dd><p>Given a number of conditions, return <code class="code docutils literal notranslate"><span class="pre">True</span></code> if any of the conditions
 are true.</p>
 <p>This function is implemented as a thin wrapper around numpy’s
-<code class="code docutils literal notranslate"><span class="pre">np.logical_or</span></code> function so that it can take an arbitrary number of inputs.
-This also means that this function will accept arrays of differing sizes - assuming
-that they can be broadcasted to a common shape.</p>
+<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.logical_or.html#numpy.logical_or" title="(in NumPy v1.18)"><code class="docutils literal notranslate"><span class="pre">numpy.logical_or</span></code></a> function so that it can take an arbitrary number of
+inputs. This also means that this function will accept arrays of differing sizes,
+assuming that they can be broadcasted to a common shape.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>args</strong> – A number of boolean conditions, a condition can either be a single boolean value
@@ -442,10 +441,10 @@ or a numpy array of boolean values.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">arlunio.mask</span> <span class="kn">import</span> <span class="n">any_</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">any_</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">arlunio.mask</span> <span class="k">as</span> <span class="nn">mask</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mask</span><span class="o">.</span><span class="n">any_</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 <span class="go">Mask(True)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">any_</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mask</span><span class="o">.</span><span class="n">any_</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 <span class="go">Mask(False)</span>
 </pre></div>
 </div>
@@ -455,13 +454,12 @@ element-wise</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">any_</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">x3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mask</span><span class="o">.</span><span class="n">any_</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">x3</span><span class="p">)</span>
 <span class="go">Mask([ True,  True,  True])</span>
 </pre></div>
 </div>
-<p>This function can even handle a mixture of arrays and single values - assuming
-their shapes can be broadcasted to a common shape.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">any_</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">],</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]]))</span>
+<p>The arguments can be any mixture of booleans, arrays and masks.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mask</span><span class="o">.</span><span class="n">any_</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">Mask</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">],</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]]))</span>
 <span class="go">Mask([[ True,  True],</span>
 <span class="go">      [ True, False]])</span>
 </pre></div>
@@ -469,11 +467,11 @@ their shapes can be broadcasted to a common shape.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <dl class="simple">
-<dt><a class="reference external" href="https://numpy.org/doc/stable/user/basics.broadcasting.html" title="(in NumPy v1.18)"><span class="xref std std-doc">Broadcasting</span></a></dt><dd><p>Numpy documentation on broadcasting.</p>
+<dt><a class="reference external" href="https://numpy.org/doc/stable/user/basics.broadcasting.html" title="(in NumPy v1.18)"><span>Broadcasting</span></a></dt><dd><p>Numpy documentation on broadcasting.</p>
 </dd>
-<dt><a class="reference external" href="https://numpy.org/doc/stable/user/theory.broadcasting.html" title="(in NumPy v1.18)"><span class="xref std std-doc">Array Broadcasting</span></a></dt><dd><p>Further background on broadcasting.</p>
+<dt><a class="reference external" href="https://numpy.org/doc/stable/user/theory.broadcasting.html" title="(in NumPy v1.18)"><span>Array Broadcasting in Numpy</span></a></dt><dd><p>Further background on broadcasting.</p>
 </dd>
-<dt><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.logical_or.html#numpy.logical_or" title="(in NumPy v1.18)"><code class="xref py py-data docutils literal notranslate"><span class="pre">np.logical_or</span></code></a></dt><dd><p>Reference documentation on the <code class="code docutils literal notranslate"><span class="pre">np.logical_or</span></code> function</p>
+<dt><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.logical_or.html#numpy.logical_or" title="(in NumPy v1.18)"><code class="docutils literal notranslate"><span class="pre">numpy.logical_or</span></code></a></dt><dd><p>Reference documentation on the <code class="code docutils literal notranslate"><span class="pre">numpy.logical_or</span></code> function</p>
 </dd>
 </dl>
 </div>
