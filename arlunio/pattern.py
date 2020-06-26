@@ -90,7 +90,7 @@ def Grid(width: int, height: int, *, n=4, m=None, defn=None) -> Mask:
 
           pattern = Grid(defn=Template(scale=1.))
           image = fill(
-              pattern(width=512, height=512), background="#000", color="#ff0"
+              pattern(width=512, height=512), background="#000", foreground="#ff0"
           )
 
     A checkerboard like pattern
@@ -208,7 +208,7 @@ def Map(width: int, height: int, *, layout=None, legend=None) -> Mask:
           ])
 
           map_ = Map(legend=legend, layout=layout)
-          image = fill(map_(width=1080, height=1080), color="blue")
+          image = fill(map_(width=1080, height=1080), foreground="blue")
     """
 
     # TODO: Handle divisions with rounding errors
@@ -324,7 +324,7 @@ def Pixelize(
               return (head(x=x, y=y) - eyes(x=np.abs(x), y=y)) + body
 
           ghost = Pixelize(defn=Ghost(y0=-0.3), n=32, m=32)
-          image = fill(ghost(width=1080, height=1080), color="#f00")
+          image = fill(ghost(width=1080, height=1080), foreground="#f00")
     """
 
     if defn is None and pixels is None:

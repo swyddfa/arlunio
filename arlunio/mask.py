@@ -172,14 +172,14 @@ def MaskMul(
     return a(width=width, height=height) * b(width=width, height=height)
 
 
-def any_(*args: Union[bool, np.ndarray]) -> Mask:
+def any_(*args: Union[bool, np.ndarray, Mask]) -> Mask:
     """Given a number of conditions, return :code:`True` if any of the conditions
     are true.
 
     This function is implemented as a thin wrapper around numpy's
-    :code:`np.logical_or` function so that it can take an arbitrary number of inputs.
-    This also means that this function will accept arrays of differing sizes - assuming
-    that they can be broadcasted to a common shape.
+    :data:`numpy:numpy.logical_or` function so that it can take an arbitrary number of
+    inputs. This also means that this function will accept arrays of differing sizes,
+    assuming that they can be broadcasted to a common shape.
 
     Parameters
     ----------
@@ -190,10 +190,10 @@ def any_(*args: Union[bool, np.ndarray]) -> Mask:
     Examples
     --------
 
-    >>> from arlunio.mask import any_
-    >>> any_(True, False, False)
+    >>> import arlunio.mask as mask
+    >>> mask.any_(True, False, False)
     Mask(True)
-    >>> any_(False, False, False, False)
+    >>> mask.any_(False, False, False, False)
     Mask(False)
 
     If the arguments are boolean numpy arrays, then the any condition is applied
@@ -203,13 +203,12 @@ def any_(*args: Union[bool, np.ndarray]) -> Mask:
     >>> x1 = np.array([True, False, True])
     >>> x2 = np.array([False, False, True])
     >>> x3 = np.array([False, True, False])
-    >>> any_(x1, x2, x3)
+    >>> mask.any_(x1, x2, x3)
     Mask([ True,  True,  True])
 
-    This function can even handle a mixture of arrays and single values - assuming
-    their shapes can be broadcasted to a common shape.
+    The arguments can be any mixture of booleans, arrays and masks.
 
-    >>> any_(False, np.array([True, False]), np.array([[False, True], [True, False]]))
+    >>> mask.any_(False, Mask([True, False]), np.array([[False, True], [True, False]]))
     Mask([[ True,  True],
           [ True, False]])
 
@@ -217,26 +216,26 @@ def any_(*args: Union[bool, np.ndarray]) -> Mask:
     See Also
     --------
 
-    |numpy.Broadcasting|
+    :doc:`numpy:user/basics.broadcasting`
        Numpy documentation on broadcasting.
 
-    |numpy.Array Broadcasting|
+    :doc:`numpy:user/theory.broadcasting`
        Further background on broadcasting.
 
-    |numpy.logical_or|
-       Reference documentation on the :code:`np.logical_or` function
+    :data:`numpy:numpy.logical_or`
+       Reference documentation on the :code:`numpy.logical_or` function
     """
     return Mask(functools.reduce(np.logical_or, args))
 
 
-def all_(*args: Union[bool, np.ndarray]) -> Mask:
+def all_(*args: Union[bool, np.ndarray, Mask]) -> Mask:
     """Given a number of conditions, return :code:`True` only if **all**
     of the given conditions are true.
 
     This function is implemented as a thin wrapper around numpy's
-    :code:`np.logical_and` function so that it can take an arbitrary number of inputs.
-    This also means that this function will accept arrays of differing sizes - assuming
-    that they can be broadcasted to a common shape.
+    :data:`numpy:numpy.logical_and` function so that it can take an arbitrary number of
+    inputs. This also means that this function will accept arrays of differing sizes,
+    assuming that they can be broadcasted to a common shape.
 
     Parameters
     ----------
@@ -247,10 +246,10 @@ def all_(*args: Union[bool, np.ndarray]) -> Mask:
     Examples
     --------
 
-    >>> from arlunio.mask import all_
-    >>> all_(True, True, True)
+    >>> import arlunio.mask as mask
+    >>> mask.all_(True, True, True)
     Mask(True)
-    >>> all_(True, False, True, True)
+    >>> mask.all_(True, False, True, True)
     Mask(False)
 
     If the arguments are boolean numpy arrays, then the any condition is applied
@@ -263,10 +262,9 @@ def all_(*args: Union[bool, np.ndarray]) -> Mask:
     >>> all_(x1, x2, x3)
     Mask([False, False,  True])
 
-    This function can even handle a mixture of arrays and single values - assuming
-    their shapes can be broadcasted to a common shape.
+    Arugments can be any mixture of booleans, masks and numpy arrays.
 
-    >>> all_(True, np.array([True, False]), np.array([[False, True], [True, False]]))
+    >>> mask.all_(True, Mask([True, False]), np.array([[False, True], [True, False]]))
     Mask([[False, False],
           [ True, False]])
 
@@ -274,13 +272,13 @@ def all_(*args: Union[bool, np.ndarray]) -> Mask:
     See Also
     --------
 
-    |numpy.Broadcasting|
+    :doc:`numpy:user/basics.broadcasting`
        Numpy documentation on broadcasting.
 
-    |numpy.Array Broadcasting|
+    :doc:`numpy:user/theory.broadcasting`
        Further background on broadcasting.
 
-    |numpy.logical_and|
+    :data:`numpy:numpy.logical_and`
        Reference documentation on the :code:`logical_and` function.
     """
     return Mask(functools.reduce(np.logical_and, args))

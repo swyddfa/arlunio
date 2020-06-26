@@ -55,12 +55,7 @@ templates_path = ["_templates"]
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", "_definitions.rst"]
-
-basedir = os.path.dirname(__file__)
-
-with open(os.path.join(basedir, "_definitions.rst")) as f:
-    rst_epilog = f.read()
+exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 # -- Internationalisation ----------------------------------------------------
 
@@ -92,7 +87,7 @@ linkcheck_ignore = ["https://crontab.guru/#"]
 intersphinx_mapping = {
     "pillow": ("https://pillow.readthedocs.io/en/stable/", None),
     "python": ("https://docs.python.org/3", None),
-    "numpy": ("https://docs.scipy.org/doc/numpy/", None),
+    "numpy": ("https://numpy.org/doc/stable/", None),
 }
 
 napoleon_use_rtype = False
