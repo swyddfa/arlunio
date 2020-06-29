@@ -1,20 +1,21 @@
 import numpy as np
 import numpy.random as npr
 import py.test
+from hypothesis import assume
 from hypothesis import given
 from hypothesis.strategies import integers
 
 import arlunio as ar
+import arlunio.mask as mask
 import arlunio.testing as T
-from arlunio.mask import Mask
 
 
 @ar.definition
-def MaskGenerator(width: int, height: int, *, seed=1024) -> Mask:
+def MaskGenerator(width: int, height: int, *, seed=1024) -> mask.Mask:
     """A generator of random masks."""
 
     gen = npr.default_rng(seed=seed)
-    return Mask(gen.random(size=(height, width)) < 0.5)
+    return mask.Mask(gen.random(size=(height, width)) < 0.5)
 
 
 class TestMask:
@@ -26,10 +27,10 @@ class TestMask:
     def test_init(self, arr):
         """Ensure that masks can be created directly from an existing array,"""
 
-        mask = Mask(arr)
+        m = mask.Mask(arr)
 
-        assert isinstance(mask, Mask)
-        assert (mask == arr).all()
+        assert isinstance(m, mask.Mask)
+        assert (m == arr).all()
 
     @py.test.mark.parametrize(
         "arr", [np.array([True, False, True]), np.array([[True, False], [False, True]])]
@@ -37,10 +38,10 @@ class TestMask:
     def test_init_view(self, arr):
         """Ensure that masks can be created as a view on an existing numpy array."""
 
-        mask = arr.view(Mask)
+        m = arr.view(mask.Mask)
 
-        assert isinstance(mask, Mask)
-        assert (mask == arr).all()
+        assert isinstance(m, mask.Mask)
+        assert (m == arr).all()
 
     @py.test.mark.parametrize(
         "id, a, b, expected",
@@ -48,56 +49,56 @@ class TestMask:
             (
                 "broadcast with 'a = True'",
                 True,
-                Mask(np.array([True, False, True])),
-                Mask(np.full(3, True)),
+                mask.Mask(np.array([True, False, True])),
+                mask.Mask(np.full(3, True)),
             ),
             (
                 "broadcast with 'a = False'",
                 False,
-                Mask(np.array([True, False, True])),
-                Mask(np.array([True, False, True])),
+                mask.Mask(np.array([True, False, True])),
+                mask.Mask(np.array([True, False, True])),
             ),
             (
                 "broadcast with 'b = True'",
-                Mask(np.array([True, False, True])),
+                mask.Mask(np.array([True, False, True])),
                 True,
-                Mask(np.full(3, True)),
+                mask.Mask(np.full(3, True)),
             ),
             (
                 "broadcast with 'b = False'",
-                Mask(np.array([True, False, True])),
+                mask.Mask(np.array([True, False, True])),
                 False,
-                Mask(np.array([True, False, True])),
+                mask.Mask(np.array([True, False, True])),
             ),
             (
                 "broadcast with a = array",
                 np.array([True, False]),
-                Mask(np.array([[False, True], [True, False]])),
-                Mask(np.array([[True, True], [True, False]])),
+                mask.Mask(np.array([[False, True], [True, False]])),
+                mask.Mask(np.array([[True, True], [True, False]])),
             ),
             (
                 "broadcast with b = array",
-                Mask(np.array([[False, True], [True, False]])),
+                mask.Mask(np.array([[False, True], [True, False]])),
                 np.array([True, False]),
-                Mask(np.array([[True, True], [True, False]])),
+                mask.Mask(np.array([[True, True], [True, False]])),
             ),
             (
                 "one mask, one array of equal size",
-                Mask(np.array([True, False, True])),
+                mask.Mask(np.array([True, False, True])),
                 np.array([False, True, False]),
-                Mask(np.array([True, True, True])),
+                mask.Mask(np.array([True, True, True])),
             ),
             (
                 "one array, one mask of equal size",
                 np.array([False, True, False]),
-                Mask(np.array([True, False, True])),
-                Mask(np.array([True, True, True])),
+                mask.Mask(np.array([True, False, True])),
+                mask.Mask(np.array([True, True, True])),
             ),
             (
                 "two masks of equal size",
-                Mask(np.array([False, True, False])),
-                Mask(np.array([True, False, True])),
-                Mask(np.array([True, True, True])),
+                mask.Mask(np.array([False, True, False])),
+                mask.Mask(np.array([True, False, True])),
+                mask.Mask(np.array([True, True, True])),
             ),
         ],
     )
@@ -107,7 +108,7 @@ class TestMask:
 
         result = a + b
 
-        assert isinstance(result, Mask), "The result should also be a mask"
+        assert isinstance(result, mask.Mask), "The result should also be a mask"
         assert (result == expected).all()
 
     @py.test.mark.parametrize(
@@ -116,56 +117,56 @@ class TestMask:
             (
                 "broadcast with 'a = True",
                 True,
-                Mask(np.array([True, False, True])),
-                Mask(np.array([True, False, True])),
+                mask.Mask(np.array([True, False, True])),
+                mask.Mask(np.array([True, False, True])),
             ),
             (
                 "broadcast with 'a = False",
                 False,
-                Mask(np.array([True, False, True])),
-                Mask(np.full(3, False)),
+                mask.Mask(np.array([True, False, True])),
+                mask.Mask(np.full(3, False)),
             ),
             (
                 "broadcast with 'b = True'",
-                Mask(np.array([True, False, True])),
+                mask.Mask(np.array([True, False, True])),
                 True,
-                Mask(np.array([True, False, True])),
+                mask.Mask(np.array([True, False, True])),
             ),
             (
                 "broadcast with 'b = False'",
-                Mask(np.array([True, False, True])),
+                mask.Mask(np.array([True, False, True])),
                 False,
-                Mask(np.array([False, False, False])),
+                mask.Mask(np.array([False, False, False])),
             ),
             (
                 "broadcast with a = array",
                 np.array([True, False]),
-                Mask(np.array([[True, False], [False, True]])),
-                Mask(np.array([[True, False], [False, False]])),
+                mask.Mask(np.array([[True, False], [False, True]])),
+                mask.Mask(np.array([[True, False], [False, False]])),
             ),
             (
                 "broadcast with b = array",
-                Mask(np.array([[True, False], [False, True]])),
+                mask.Mask(np.array([[True, False], [False, True]])),
                 np.array([True, False]),
-                Mask(np.array([[True, False], [False, False]])),
+                mask.Mask(np.array([[True, False], [False, False]])),
             ),
             (
                 "one mask, one array of equal size",
-                Mask(np.array([True, False, True])),
+                mask.Mask(np.array([True, False, True])),
                 np.array([True, True, False]),
-                Mask(np.array([True, False, False])),
+                mask.Mask(np.array([True, False, False])),
             ),
             (
                 "one array, one mask of equal size",
                 np.array([True, True, False]),
-                Mask(np.array([True, False, True])),
-                Mask(np.array([True, False, False])),
+                mask.Mask(np.array([True, False, True])),
+                mask.Mask(np.array([True, False, False])),
             ),
             (
                 "two masks of equal size",
-                Mask(np.array([True, False, True])),
-                Mask(np.array([True, True, False])),
-                Mask(np.array([True, False, False])),
+                mask.Mask(np.array([True, False, True])),
+                mask.Mask(np.array([True, True, False])),
+                mask.Mask(np.array([True, False, False])),
             ),
         ],
     )
@@ -175,7 +176,7 @@ class TestMask:
 
         result = a * b
 
-        assert isinstance(result, Mask), "The result should also be a mask"
+        assert isinstance(result, mask.Mask), "The result should also be a mask"
         assert (result == expected).all()
 
     @py.test.mark.parametrize(
@@ -183,21 +184,21 @@ class TestMask:
         [
             (
                 "1D base, 1D sub-selection",
-                Mask(np.array([True, False, True, False, True])),
+                mask.Mask(np.array([True, False, True, False, True])),
                 np.array([True, False, True]),
-                Mask(np.array([True, False, False, False, True])),
+                mask.Mask(np.array([True, False, False, False, True])),
             ),
             (
                 "2D base, 1D sub-selection",
-                Mask(np.array([[True, True], [True, False]])),
+                mask.Mask(np.array([[True, True], [True, False]])),
                 np.array([True, False, False]),
-                Mask(np.array([[True, False], [False, False]])),
+                mask.Mask(np.array([[True, False], [False, False]])),
             ),
             (
                 "2D base, 2D sub-selection",
-                Mask(np.full((3, 3), (True, False, True))),
+                mask.Mask(np.full((3, 3), (True, False, True))),
                 np.array([[True, False], [True, False], [False, True]]),
-                Mask(
+                mask.Mask(
                     np.array(
                         [
                             [True, False, False],
@@ -215,7 +216,7 @@ class TestMask:
 
         result = a * b
 
-        assert isinstance(result, Mask), "The result should also be a mask"
+        assert isinstance(result, mask.Mask), "The result should also be a mask"
         assert (result == expected).all()
 
     @py.test.mark.parametrize(
@@ -223,39 +224,39 @@ class TestMask:
         [
             (
                 "broadcast with 'b = True'",
-                Mask(np.array([True, False, True])),
+                mask.Mask(np.array([True, False, True])),
                 True,
-                Mask(np.full(3, False)),
+                mask.Mask(np.full(3, False)),
             ),
             (
                 "broadcast with 'b = False'",
-                Mask(np.array([True, False, True])),
+                mask.Mask(np.array([True, False, True])),
                 False,
-                Mask(np.array([True, False, True])),
+                mask.Mask(np.array([True, False, True])),
             ),
             (
                 "broadcast with b = array",
-                Mask(np.array([[True, False], [False, True]])),
+                mask.Mask(np.array([[True, False], [False, True]])),
                 np.array([True, False]),
-                Mask(np.array([[False, False], [False, True]])),
+                mask.Mask(np.array([[False, False], [False, True]])),
             ),
             (
                 "one mask, one array of equal size",
-                Mask(np.array([True, False, True])),
+                mask.Mask(np.array([True, False, True])),
                 np.array([True, True, False]),
-                Mask(np.array([False, False, True])),
+                mask.Mask(np.array([False, False, True])),
             ),
             (
                 "one array, one mask of equal size",
                 np.array([True, True, False]),
-                Mask(np.array([True, False, True])),
-                Mask(np.array([False, True, False])),
+                mask.Mask(np.array([True, False, True])),
+                mask.Mask(np.array([False, True, False])),
             ),
             (
                 "two masks of equal size",
-                Mask(np.array([True, False, True])),
-                Mask(np.array([True, True, False])),
-                Mask(np.array([False, False, True])),
+                mask.Mask(np.array([True, False, True])),
+                mask.Mask(np.array([True, True, False])),
+                mask.Mask(np.array([False, False, True])),
             ),
         ],
     )
@@ -265,40 +266,40 @@ class TestMask:
 
         result = a - b
 
-        assert isinstance(result, Mask), "The result should also be a mask"
+        assert isinstance(result, mask.Mask), "The result should also be a mask"
         assert (result == expected).all()
 
     @py.test.mark.parametrize(
         "id, shape, expected",
         [
-            ("no arguments", None, Mask(False)),
-            ("shape as tuple", ((3, 2),), Mask(np.full((3, 2), False))),
-            ("shape as ints", (3, 2), Mask(np.full((3, 2), False))),
+            ("no arguments", None, mask.Mask(False)),
+            ("shape as tuple", ((3, 2),), mask.Mask(np.full((3, 2), False))),
+            ("shape as ints", (3, 2), mask.Mask(np.full((3, 2), False))),
         ],
     )
     def test_empty(self, id, shape, expected):
         """Ensure that we can generate an empty mask with the given shape."""
 
-        mask = Mask.empty() if shape is None else Mask.empty(*shape)
+        m = mask.Mask.empty() if shape is None else mask.Mask.empty(*shape)
 
-        assert isinstance(mask, Mask)
-        assert (mask == expected).all()
+        assert isinstance(m, mask.Mask)
+        assert (m == expected).all()
 
     @py.test.mark.parametrize(
         "id, shape, expected",
         [
-            ("no arguments", None, Mask(True)),
-            ("shape as tuple", ((3, 2),), Mask(np.full((3, 2), True))),
-            ("shape as ints", (3, 2), Mask(np.full((3, 2), True))),
+            ("no arguments", None, mask.Mask(True)),
+            ("shape as tuple", ((3, 2),), mask.Mask(np.full((3, 2), True))),
+            ("shape as ints", (3, 2), mask.Mask(np.full((3, 2), True))),
         ],
     )
     def test_full(self, id, shape, expected):
         """Ensure that we can generate an empty mask with the given shape."""
 
-        mask = Mask.full() if shape is None else Mask.full(*shape)
+        m = mask.Mask.full() if shape is None else mask.Mask.full(*shape)
 
-        assert isinstance(mask, Mask)
-        assert (mask == expected).all()
+        assert isinstance(m, mask.Mask)
+        assert (m == expected).all()
 
 
 class TestOperators:
@@ -354,3 +355,37 @@ class TestOperators:
         r2 = a(width=width, height=height) - b(width=width, height=height)
 
         assert (r1 == r2).all()
+
+
+class TestPixelize:
+    """Tests for the pixelize definition."""
+
+    @py.test.mark.parametrize(
+        "args, message", [({}, "provide a mask or a mask producing definition"),],
+    )
+    def test_validation(self, args, message):
+        """Ensure that the definition checks it is being setup correctly."""
+
+        with py.test.raises(ValueError) as err:
+            pix = mask.Pixelize(**args)
+            pix(width=4, height=4)
+
+        assert message in str(err.value)
+
+    @given(width=T.dimension, seed=integers(min_value=1))
+    def test_simple_mask_case(self, width, seed):
+        """Ensure that the 'simple' case of providing a mask works as expected. That is
+        when its shape cleanly divides the width and height.
+        """
+        assume(width > 0 and width % 4 == 0)
+
+        w = int(width // 4)
+        generator = MaskGenerator(seed=seed)
+
+        m = generator(width=w, height=w)
+        pix = mask.Pixelize(mask=m)
+
+        result = pix(width=width, height=width)
+
+        assert isinstance(result, mask.Mask), "Expected mask instance."
+        assert result.shape == (width, width)
