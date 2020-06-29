@@ -209,7 +209,7 @@ def any_(*args: Union[bool, np.ndarray, Mask]) -> Mask:
 
     The arguments can be any mixture of booleans, arrays and masks.
 
-    >>> mask.any_(False, Mask([True, False]), np.array([[False, True], [True, False]]))
+    >>> mask.any_(False, mask.Mask([True, False]), np.array([[False, True], [True, False]]))  # noqa: E501
     Mask([[ True,  True],
           [ True, False]])
 
@@ -260,12 +260,12 @@ def all_(*args: Union[bool, np.ndarray, Mask]) -> Mask:
     >>> x1 = np.array([True, False, True])
     >>> x2 = np.array([False, False, True])
     >>> x3 = np.array([False, True, True])
-    >>> all_(x1, x2, x3)
+    >>> mask.all_(x1, x2, x3)
     Mask([False, False,  True])
 
     Arugments can be any mixture of booleans, masks and numpy arrays.
 
-    >>> mask.all_(True, Mask([True, False]), np.array([[False, True], [True, False]]))
+    >>> mask.all_(True, mask.Mask([True, False]), np.array([[False, True], [True, False]]))  # noqa: E501
     Mask([[False, False],
           [ True, False]])
 
@@ -615,4 +615,4 @@ def Pixelize(width: int, height: int, *, mask=None, defn=None, scale=16) -> Mask
     fill = Mask.full(m, n)
     empty = Mask.empty(m, n)
 
-    return np.block([[fill if col else empty for col in row] for row in mask])
+    return Mask(np.block([[fill if col else empty for col in row] for row in mask]))

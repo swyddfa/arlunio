@@ -1,0 +1,3 @@
+Moved :code:`arlunio.pattern.Grid`, :code:`arlunio.pattern.Map` and
+:code:`arlunio.pattern.Pixelize` into :code:`arlunio.mask`. Also :code:`Grid` has been
+renamed to :code:`Repeat`.

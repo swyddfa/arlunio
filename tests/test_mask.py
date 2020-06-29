@@ -1,6 +1,7 @@
 import numpy as np
 import numpy.random as npr
 import py.test
+from hypothesis import assume
 from hypothesis import given
 from hypothesis.strategies import integers
 
@@ -370,3 +371,21 @@ class TestPixelize:
             pix(width=4, height=4)
 
         assert message in str(err.value)
+
+    @given(width=T.dimension, seed=integers(min_value=1))
+    def test_simple_mask_case(self, width, seed):
+        """Ensure that the 'simple' case of providing a mask works as expected. That is
+        when its shape cleanly divides the width and height.
+        """
+        assume(width > 0 and width % 4 == 0)
+
+        w = int(width // 4)
+        generator = MaskGenerator(seed=seed)
+
+        m = generator(width=w, height=w)
+        pix = mask.Pixelize(mask=m)
+
+        result = pix(width=width, height=width)
+
+        assert isinstance(result, mask.Mask), "Expected mask instance."
+        assert result.shape == (width, width)
