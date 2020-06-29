@@ -1,4 +1,5 @@
 import functools
+import logging
 from typing import Union
 
 import numpy as np
@@ -484,7 +485,7 @@ def Map(width: int, height: int, *, layout=None, legend=None, fill=None) -> Mask
 
 
 @ar.definition
-def Pixelize(width: int, height: int, *, mask=None, defn=None, n=None, m=None) -> Mask:
+def Pixelize(width: int, height: int, *, mask=None, defn=None, scale=16) -> Mask:
     """Produce a pixelated version of the given mask.
 
     .. arlunio-image:: Pixelise
@@ -496,7 +497,7 @@ def Pixelize(width: int, height: int, *, mask=None, defn=None, n=None, m=None) -
           import arlunio.mask as mask
           import arlunio.shape as shape
 
-          pix = mask.Pixelize(defn=shape.Circle(), n=16, m=16)
+          pix = mask.Pixelize(defn=shape.Circle())
           img = image.fill(pix(width=256, height=256))
 
     This definition can either be given an existing :code:`mask` or a mask producing
@@ -505,17 +506,15 @@ def Pixelize(width: int, height: int, *, mask=None, defn=None, n=None, m=None) -
 
     .. note::
 
-       Due to a limitation in the current implementation you will get the best results
-       if your values for :code:`n` and :code:`m` cleanly divides into the resolution of
-       the final mask. This also applies to the dimensions of your array if you are
-       providing the :code:`pixels` attribute directly.
+       There is a limitation in the current implementation where the resulting mask may
+       be smaller than expected due to rounding errors. For best results
 
-    .. note::
+       - Ensure that the shape of the mask given with the :code:`mask` attribute cleanly
+         divides your desired :code:`width` and :code:`height`.
 
-       Due to how each enlarged pixel in the final mask is mapped onto a rectangular
-       region, unless your :code:`n` by :code:`m` grid matches the aspect ratio of the
-       final mask you will find your original mask will be distorted as it is
-       strectched to cover the final image.
+       - When using the :code:`defn` attribute ensure that the :code:`scale` attribute
+         cleanly divides your desired :code:`width` and :code:`height`.
+
 
     Attributes
     ----------
@@ -524,19 +523,16 @@ def Pixelize(width: int, height: int, *, mask=None, defn=None, n=None, m=None) -
     defn:
         The mask producing definition to use. If given then :code:`mask` must be
         :code:`None`
-    n:
-        Required when specifying the :code:`defn` attribute, sets the horizontal size of
-        the mask to pixelise
-    m:
-        Required when specifying the :code:`defn` attribute, sets the vertical size of
-        the mask to pixelise
+    scale:
+        When providing the :code:`defn` attribute this controls the resolution the
+        definition is rendered at. Has no effect when providing a :code:`mask`
 
     Examples
     --------
 
     This definition can be used to render a mask at a higher resolution
 
-    .. arlunio-image:: Creeper
+     .. arlunio-image:: Creeper
        :gallery: examples
        :include-code:
        :width: 50%
@@ -592,25 +588,31 @@ def Pixelize(width: int, height: int, *, mask=None, defn=None, n=None, m=None) -
 
               return (head(x=x, y=y) - eyes(x=np.abs(x), y=y)) + body
 
-          ghost = mask.Pixelize(defn=Ghost(y0=-0.3), n=32, m=32)
+          ghost = mask.Pixelize(defn=Ghost(y0=-0.3), scale=32)
           img = image.fill(ghost(width=1080, height=1080), foreground="#f00")
 
     """
+    logger = logging.getLogger(__name__)
 
     if defn is None and mask is None:
-        raise ValueError("You must either provide a shape or a pixel pattern.")
+        raise ValueError("You must provide a mask or a mask producing definition.")
+
+    if mask is not None:
+        w, h = len(mask), len(mask[0])
 
     if defn is not None:
+        # Based on the given resolution, calculate the size of each enlarged element.
+        ratio = width / height
 
-        if n is None or m is None:
-            raise ValueError("You must also provide the `n` and `m` attributes")
+        w, h = int(scale * ratio), scale
+        mask = defn(width=w, height=h)
 
-        mask = defn(width=n, height=m)
+    n, m = int(width // w), int(height // h)
 
-    n, m = len(mask), len(mask[0])
-    size = (height // m, width // n)  # TODO: Handle divisions with rounding errors
+    logger.debug("Mask size: (%s, %s)", w, h)
+    logger.debug("Pixel size: (%s, %s)", n, m)
 
-    fill = np.full(size, True)
-    empty = np.full(size, False)
+    fill = Mask.full(m, n)
+    empty = Mask.empty(m, n)
 
     return np.block([[fill if col else empty for col in row] for row in mask])
