@@ -36,6 +36,7 @@
                 </div>
             </div>
             {{ icon('calendar') }}<span>{{ image.created }}</span>
+            {{ icon('image') }}<span>{{ image.dimensions.width }} x {{ image.dimensions.height }}</span>
             {{ icon('git-merge') }}<span>{{ image.revision }} revisions</span>
             {{ icon('file-text') }}<span>{{ image.sloc }} sloc</span>
             {{ icon('terminal') }}<span>v{{ image.version }}</span>
