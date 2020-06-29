@@ -209,7 +209,11 @@ def any_(*args: Union[bool, np.ndarray, Mask]) -> Mask:
 
     The arguments can be any mixture of booleans, arrays and masks.
 
-    >>> mask.any_(False, mask.Mask([True, False]), np.array([[False, True], [True, False]]))  # noqa: E501
+    >>> mask.any_(
+    ...     False,
+    ...     mask.Mask([True, False]),
+    ...     np.array([[False, True], [True, False]])
+    ... )
     Mask([[ True,  True],
           [ True, False]])
 
@@ -265,7 +269,11 @@ def all_(*args: Union[bool, np.ndarray, Mask]) -> Mask:
 
     Arugments can be any mixture of booleans, masks and numpy arrays.
 
-    >>> mask.all_(True, mask.Mask([True, False]), np.array([[False, True], [True, False]]))  # noqa: E501
+    >>> mask.all_(
+    ...     True,
+    ...     mask.Mask([True, False]),
+    ...     np.array([[False, True], [True, False]])
+    ... )
     Mask([[False, False],
           [ True, False]])
 
@@ -467,8 +475,9 @@ def Map(width: int, height: int, *, layout=None, legend=None, fill=None) -> Mask
           ])
 
           map_ = mask.Map(legend=legend, layout=layout)
-          img = image.fill(map_(width=1080, height=1080), foreground="blue")
-
+          img = image.fill(
+              map_(width=1080, height=1080), foreground="blue", background="white"
+          )
     """
     fill = fill if fill is not None else Empty()
 
@@ -556,7 +565,7 @@ def Pixelize(width: int, height: int, *, mask=None, defn=None, scale=16) -> Mask
           ])
 
           defn = mask.Pixelize(mask=face)
-          img = image.fill(defn(width=512, height=512))
+          img = image.fill(defn(width=512, height=512), background="white")
 
     We can also generate the mask directly from another definition.
 
@@ -589,7 +598,9 @@ def Pixelize(width: int, height: int, *, mask=None, defn=None, scale=16) -> Mask
               return (head(x=x, y=y) - eyes(x=np.abs(x), y=y)) + body
 
           ghost = mask.Pixelize(defn=Ghost(y0=-0.3), scale=32)
-          img = image.fill(ghost(width=1080, height=1080), foreground="#f00")
+          img = image.fill(
+              ghost(width=1080, height=1080), foreground="#f00", background="white"
+          )
 
     """
     logger = logging.getLogger(__name__)

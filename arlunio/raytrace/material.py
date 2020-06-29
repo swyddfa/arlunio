@@ -45,7 +45,7 @@ def NormalMap(scatter: ScatterPoint):
 def LambertianDiffuse(scatter: ScatterPoint, *, color="lightgrey"):
     """Lambertian diffuse material."""
 
-    color = getcolorf(color)
+    color = getcolorf(color, "RGB")
     n = scatter.p.shape[0]
 
     origin = scatter.p
