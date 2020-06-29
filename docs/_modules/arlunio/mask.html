@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>arlunio.mask &mdash; Arlunio V0.10.0b2 documentation</title>
+  <title>arlunio.mask &mdash; Arlunio V0.10.0b3 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                V0.10.0b2
+                V0.10.0b3
               </div>
             
           
@@ -160,6 +160,7 @@
             
   <h1>Source code for arlunio.mask</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">functools</span>
+<span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -256,7 +257,7 @@
 
 <div class="viewcode-block" id="Full"><a class="viewcode-back" href="../../stdlib/mask.html#arlunio.mask.Full">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
 <span class="k">def</span> <span class="nf">Full</span><span class="p">(</span><span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mask</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;An full mask.</span>
+    <span class="sd">&quot;&quot;&quot;A full mask.</span>
 
 <span class="sd">    Example</span>
 <span class="sd">    -------</span>
@@ -270,7 +271,7 @@
     <span class="k">return</span> <span class="n">Mask</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="MaskAdd"><a class="viewcode-back" href="../../stdlib/mask.html#arlunio.mask.MaskAdd">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span><span class="p">(</span><span class="n">operation</span><span class="o">=</span><span class="n">ar</span><span class="o">.</span><span class="n">Defn</span><span class="o">.</span><span class="n">OP_ADD</span><span class="p">)</span>
+<span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span><span class="p">(</span><span class="n">operation</span><span class="o">=</span><span class="n">ar</span><span class="o">.</span><span class="n">Defn</span><span class="o">.</span><span class="n">OP_ADD</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">MaskAdd</span><span class="p">(</span>
     <span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="n">ar</span><span class="o">.</span><span class="n">Defn</span><span class="p">[</span><span class="n">Mask</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">ar</span><span class="o">.</span><span class="n">Defn</span><span class="p">[</span><span class="n">Mask</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mask</span><span class="p">:</span>
@@ -287,10 +288,10 @@
 <span class="sd">        The second mask</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">return</span> <span class="n">a</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">)</span> <span class="o">+</span> <span class="n">b</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">a</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">)</span> <span class="o">+</span> <span class="n">b</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="MaskSub"><a class="viewcode-back" href="../../stdlib/mask.html#arlunio.mask.MaskSub">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span><span class="p">(</span><span class="n">operation</span><span class="o">=</span><span class="n">ar</span><span class="o">.</span><span class="n">Defn</span><span class="o">.</span><span class="n">OP_SUB</span><span class="p">)</span>
+<span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span><span class="p">(</span><span class="n">operation</span><span class="o">=</span><span class="n">ar</span><span class="o">.</span><span class="n">Defn</span><span class="o">.</span><span class="n">OP_SUB</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">MaskSub</span><span class="p">(</span>
     <span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="n">ar</span><span class="o">.</span><span class="n">Defn</span><span class="p">[</span><span class="n">Mask</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">ar</span><span class="o">.</span><span class="n">Defn</span><span class="p">[</span><span class="n">Mask</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mask</span><span class="p">:</span>
@@ -311,10 +312,10 @@
 <span class="sd">    b:</span>
 <span class="sd">        The second mask that defines the region to remove from :code:`a`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">a</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">)</span> <span class="o">-</span> <span class="n">b</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">a</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">)</span> <span class="o">-</span> <span class="n">b</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="MaskMul"><a class="viewcode-back" href="../../stdlib/mask.html#arlunio.mask.MaskMul">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span><span class="p">(</span><span class="n">operation</span><span class="o">=</span><span class="n">ar</span><span class="o">.</span><span class="n">Defn</span><span class="o">.</span><span class="n">OP_MUL</span><span class="p">)</span>
+<span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span><span class="p">(</span><span class="n">operation</span><span class="o">=</span><span class="n">ar</span><span class="o">.</span><span class="n">Defn</span><span class="o">.</span><span class="n">OP_MUL</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">MaskMul</span><span class="p">(</span>
     <span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="n">ar</span><span class="o">.</span><span class="n">Defn</span><span class="p">[</span><span class="n">Mask</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">ar</span><span class="o">.</span><span class="n">Defn</span><span class="p">[</span><span class="n">Mask</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mask</span><span class="p">:</span>
@@ -330,7 +331,7 @@
 <span class="sd">    b:</span>
 <span class="sd">        The second mask</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">a</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">)</span> <span class="o">*</span> <span class="n">b</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">a</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">)</span> <span class="o">*</span> <span class="n">b</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="any_"><a class="viewcode-back" href="../../stdlib/mask.html#arlunio.mask.any_">[docs]</a><span class="k">def</span> <span class="nf">any_</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Mask</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Mask</span><span class="p">:</span>
@@ -369,7 +370,7 @@
 
 <span class="sd">    The arguments can be any mixture of booleans, arrays and masks.</span>
 
-<span class="sd">    &gt;&gt;&gt; mask.any_(False, Mask([True, False]), np.array([[False, True], [True, False]]))</span>
+<span class="sd">    &gt;&gt;&gt; mask.any_(False, mask.Mask([True, False]), np.array([[False, True], [True, False]]))  # noqa: E501</span>
 <span class="sd">    Mask([[ True,  True],</span>
 <span class="sd">          [ True, False]])</span>
 
@@ -420,12 +421,12 @@
 <span class="sd">    &gt;&gt;&gt; x1 = np.array([True, False, True])</span>
 <span class="sd">    &gt;&gt;&gt; x2 = np.array([False, False, True])</span>
 <span class="sd">    &gt;&gt;&gt; x3 = np.array([False, True, True])</span>
-<span class="sd">    &gt;&gt;&gt; all_(x1, x2, x3)</span>
+<span class="sd">    &gt;&gt;&gt; mask.all_(x1, x2, x3)</span>
 <span class="sd">    Mask([False, False,  True])</span>
 
 <span class="sd">    Arugments can be any mixture of booleans, masks and numpy arrays.</span>
 
-<span class="sd">    &gt;&gt;&gt; mask.all_(True, Mask([True, False]), np.array([[False, True], [True, False]]))</span>
+<span class="sd">    &gt;&gt;&gt; mask.all_(True, mask.Mask([True, False]), np.array([[False, True], [True, False]]))  # noqa: E501</span>
 <span class="sd">    Mask([[False, False],</span>
 <span class="sd">          [ True, False]])</span>
 
@@ -443,6 +444,339 @@
 <span class="sd">       Reference documentation on the :code:`logical_and` function.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">Mask</span><span class="p">(</span><span class="n">functools</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">,</span> <span class="n">args</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="Repeat"><a class="viewcode-back" href="../../stdlib/mask.html#arlunio.mask.Repeat">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
+<span class="k">def</span> <span class="nf">Repeat</span><span class="p">(</span><span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">defn</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mask</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Given a mask producing definition, replicate the resulting mask in a grid.</span>
+
+<span class="sd">    .. arlunio-image:: Simple Grid</span>
+
+<span class="sd">       ::</span>
+
+<span class="sd">          import arlunio.image as image</span>
+<span class="sd">          import arlunio.mask as mask</span>
+<span class="sd">          import arlunio.shape as shape</span>
+
+<span class="sd">          pattern = mask.Repeat(defn=shape.Circle())</span>
+<span class="sd">          img = image.fill(pattern(width=256, height=256))</span>
+
+<span class="sd">    When evaluated this will create a mask with the given :code:`width` and</span>
+<span class="sd">    :code:`height`. It will then subdivide it into an :math:`n \\times m` grid where</span>
+<span class="sd">    each cell contains a copy of the mask as produced by the definition specified with</span>
+<span class="sd">    the :code:`defn` attribute.</span>
+
+<span class="sd">    It&#39;s important to note that the given definition must only take :code:`width` and</span>
+<span class="sd">    :code:`height` as inputs.</span>
+
+
+<span class="sd">    .. note::</span>
+
+<span class="sd">       Due to a limitation in the current implementation, you will get the best results</span>
+<span class="sd">       if your :math:`n \\times m` grid divides cleanly into the resolution of the final</span>
+<span class="sd">       mask. Otherwise you will find that the generated grid won&#39;t completly fill it.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n:</span>
+<span class="sd">        The number of times to repeat the given definition horizontally</span>
+<span class="sd">    m:</span>
+<span class="sd">        The number of times to repeat the given definition vertically. If :code:`None`</span>
+<span class="sd">        this defaults to the value of :code:`n`</span>
+<span class="sd">    defn:</span>
+<span class="sd">        The instance of the definition to replicate.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. arlunio-image:: Circular Pattern</span>
+<span class="sd">       :gallery: examples</span>
+<span class="sd">       :include-code:</span>
+<span class="sd">       :width: 50%</span>
+
+<span class="sd">       A pattern generated from circles::</span>
+
+<span class="sd">          import arlunio as ar</span>
+<span class="sd">          import numpy as np</span>
+
+<span class="sd">          import arlunio.image as image</span>
+<span class="sd">          import arlunio.math as math</span>
+<span class="sd">          import arlunio.mask as mask</span>
+<span class="sd">          import arlunio.shape as shape</span>
+
+<span class="sd">          @ar.definition</span>
+<span class="sd">          def Template(x: math.X, y: math.Y) -&gt; mask.Mask:</span>
+<span class="sd">              c = shape.Circle(xc=0.4, yc=0.4, pt=0.02)</span>
+<span class="sd">              return c(x=np.abs(x), y=np.abs(y))</span>
+
+<span class="sd">          pattern = mask.Repeat(defn=Template(scale=1.))</span>
+<span class="sd">          img = image.fill(</span>
+<span class="sd">              pattern(width=1080, height=1080), background=&quot;#000&quot;, foreground=&quot;#ff0&quot;</span>
+<span class="sd">          )</span>
+
+<span class="sd">    .. arlunio-image:: Checkerboard</span>
+<span class="sd">       :gallery: examples</span>
+<span class="sd">       :include-code:</span>
+<span class="sd">       :width: 50%</span>
+
+<span class="sd">       A checkerboard::</span>
+
+<span class="sd">          import arlunio.image as image</span>
+<span class="sd">          import arlunio.mask as mask</span>
+<span class="sd">          import arlunio.pattern as pattern</span>
+
+<span class="sd">          grid = mask.Repeat(defn=pattern.Checker())</span>
+<span class="sd">          img = image.fill(grid(width=1080, height=1080), background=&quot;white&quot;)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">m</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">n</span>
+
+    <span class="n">bg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">),</span> <span class="kc">False</span><span class="p">)</span>
+
+    <span class="c1"># Draw the shape at a size determined by the size of the grid</span>
+    <span class="n">s_height</span><span class="p">,</span> <span class="n">s_width</span> <span class="o">=</span> <span class="n">height</span> <span class="o">//</span> <span class="n">m</span><span class="p">,</span> <span class="n">width</span> <span class="o">//</span> <span class="n">n</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">defn</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">s_width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">s_height</span><span class="p">)</span>
+
+    <span class="c1"># Let numpy handle the repeating of the shape across the image.</span>
+    <span class="n">pattern</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+
+    <span class="c1"># Apply the pattern to the background, depending on the grid size and</span>
+    <span class="c1"># image dimensions align, the generated grid may not perfectly fill the</span>
+    <span class="c1"># image.</span>
+    <span class="n">p_height</span><span class="p">,</span> <span class="n">p_width</span> <span class="o">=</span> <span class="n">pattern</span><span class="o">.</span><span class="n">shape</span>
+
+    <span class="n">bg</span><span class="p">[:</span><span class="n">p_height</span><span class="p">,</span> <span class="p">:</span><span class="n">p_width</span><span class="p">]</span> <span class="o">=</span> <span class="n">pattern</span>
+
+    <span class="k">return</span> <span class="n">bg</span></div>
+
+
+<div class="viewcode-block" id="Map"><a class="viewcode-back" href="../../stdlib/mask.html#arlunio.mask.Map">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
+<span class="k">def</span> <span class="nf">Map</span><span class="p">(</span><span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mask</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Build a mask composed out of smaller, simpler masks.</span>
+
+<span class="sd">    When evaluated this will produce a mask with the given :code:`width` and</span>
+<span class="sd">    :code:`height` and divide it into a grid. The dimensions of this grid are determined</span>
+<span class="sd">    by shape of the :code:`layout` array.</span>
+
+<span class="sd">    The :code:`layout` attribute should be set to a 2D array the elements of which can</span>
+<span class="sd">    be anything. While the :code:`legend` attribute is set to a dictionary whose keys</span>
+<span class="sd">    correspond to values in the :code:`layout` array. These keys should then map to mask</span>
+<span class="sd">    producing definitions. It&#39;s important to note that these definitions can only take</span>
+<span class="sd">    :code:`width` and :code:`height` as inputs.</span>
+
+<span class="sd">    The cells in the grid will then be set to the mask produced by the definition</span>
+<span class="sd">    corresponding to the value in the :code:`layout`. If however the :code:`legend` does</span>
+<span class="sd">    not contain a matching key then the :code:`fill` definition will be used instead.</span>
+
+<span class="sd">    .. note::</span>
+
+<span class="sd">       Due to a limitation in the current implementation, you will get best results</span>
+<span class="sd">       if the dimensions of the :code:`layout` grid divide cleanly into the dimensions</span>
+<span class="sd">       of the final mask.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fill:</span>
+<span class="sd">        The definition to use in any cell where a corresponding definition cannot be</span>
+<span class="sd">        found in the legend. If :code:`None` this will default to</span>
+<span class="sd">        :class:`arlunio.mask.Empty`</span>
+<span class="sd">    layout:</span>
+<span class="sd">        A 2D numpy array of values representing keys from the :code:`legend` detailing</span>
+<span class="sd">        which mask should be used in which cell.</span>
+<span class="sd">    legend:</span>
+<span class="sd">        A dictionary with keys corresponding to values in the :code:`layout` that map to</span>
+<span class="sd">        mask producing definitions that should be used.</span>
+
+<span class="sd">    Example</span>
+<span class="sd">    -------</span>
+<span class="sd">    .. arlunio-image:: Simple Map</span>
+<span class="sd">       :include-code:</span>
+<span class="sd">       :width: 50%</span>
+<span class="sd">       :gallery: examples</span>
+
+<span class="sd">       ::</span>
+
+<span class="sd">          import arlunio.image as image</span>
+<span class="sd">          import arlunio.mask as mask</span>
+<span class="sd">          import arlunio.shape as shape</span>
+
+<span class="sd">          import numpy as np</span>
+
+<span class="sd">          top = shape.Rectangle(size=0.2, yc=1, ratio=50)</span>
+<span class="sd">          left = shape.Rectangle(size=0.2, xc=-1, ratio=1/50)</span>
+<span class="sd">          right = shape.Rectangle(size=0.2, xc=1, ratio=1/50)</span>
+<span class="sd">          bottom = shape.Rectangle(size=0.2, yc=-1, ratio=50)</span>
+
+<span class="sd">          legend = {</span>
+<span class="sd">              &quot;tt&quot;: top,</span>
+<span class="sd">              &quot;bb&quot;: bottom,</span>
+<span class="sd">              &quot;ll&quot;: left,</span>
+<span class="sd">              &quot;rr&quot;: right,</span>
+<span class="sd">              &quot;tl&quot;: top + left,</span>
+<span class="sd">              &quot;tr&quot;: top + right,</span>
+<span class="sd">              &quot;bl&quot;: bottom + left,</span>
+<span class="sd">              &quot;br&quot;: bottom + right</span>
+<span class="sd">          }</span>
+
+<span class="sd">          layout = np.array([</span>
+<span class="sd">              [&quot;tt&quot;, &quot;tt&quot;, &quot;tt&quot;, &quot;tt&quot;, &quot;tr&quot;],</span>
+<span class="sd">              [  &quot;&quot;, &quot;tl&quot;, &quot;tt&quot;, &quot;tr&quot;, &quot;rr&quot;],</span>
+<span class="sd">              [  &quot;&quot;, &quot;ll&quot;, &quot;bl&quot;, &quot;br&quot;, &quot;rr&quot;],</span>
+<span class="sd">              [  &quot;&quot;, &quot;bl&quot;, &quot;bb&quot;, &quot;bb&quot;, &quot;br&quot;],</span>
+<span class="sd">              [  &quot;&quot;,   &quot;&quot;,   &quot;&quot;,   &quot;&quot;,   &quot;&quot;]</span>
+<span class="sd">          ])</span>
+
+<span class="sd">          map_ = mask.Map(legend=legend, layout=layout)</span>
+<span class="sd">          img = image.fill(map_(width=1080, height=1080), foreground=&quot;blue&quot;)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">fill</span> <span class="o">=</span> <span class="n">fill</span> <span class="k">if</span> <span class="n">fill</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">Empty</span><span class="p">()</span>
+
+    <span class="c1"># TODO: Handle divisions with rounding errors</span>
+    <span class="n">nx</span><span class="p">,</span> <span class="n">ny</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">layout</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">layout</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;height&quot;</span><span class="p">:</span> <span class="n">height</span> <span class="o">//</span> <span class="n">ny</span><span class="p">,</span> <span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="n">width</span> <span class="o">//</span> <span class="n">nx</span><span class="p">}</span>
+
+    <span class="c1"># Build a new dict with the values being the shapes drawn at the appropriate res</span>
+    <span class="c1"># to ensure we only draw them once.</span>
+    <span class="n">items</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="p">(</span><span class="o">**</span><span class="n">size</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">legend</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="n">default</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span><span class="o">**</span><span class="n">size</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">block</span><span class="p">([[</span><span class="n">items</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">default</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">row</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">layout</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="Pixelize"><a class="viewcode-back" href="../../stdlib/mask.html#arlunio.mask.Pixelize">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
+<span class="k">def</span> <span class="nf">Pixelize</span><span class="p">(</span><span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">defn</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mask</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Produce a pixelated version of the given mask.</span>
+
+<span class="sd">    .. arlunio-image:: Pixelise</span>
+<span class="sd">       :align: center</span>
+
+<span class="sd">       ::</span>
+
+<span class="sd">          import arlunio.image as image</span>
+<span class="sd">          import arlunio.mask as mask</span>
+<span class="sd">          import arlunio.shape as shape</span>
+
+<span class="sd">          pix = mask.Pixelize(defn=shape.Circle())</span>
+<span class="sd">          img = image.fill(pix(width=256, height=256))</span>
+
+<span class="sd">    This definition can either be given an existing :code:`mask` or a mask producing</span>
+<span class="sd">    definition which can be given with the :code:`defn` attribute. Note that this</span>
+<span class="sd">    definition can only take :code:`width` and :code:`height` as inputs.</span>
+
+<span class="sd">    .. note::</span>
+
+<span class="sd">       There is a limitation in the current implementation where the resulting mask may</span>
+<span class="sd">       be smaller than expected due to rounding errors. For best results</span>
+
+<span class="sd">       - Ensure that the shape of the mask given with the :code:`mask` attribute cleanly</span>
+<span class="sd">         divides your desired :code:`width` and :code:`height`.</span>
+
+<span class="sd">       - When using the :code:`defn` attribute ensure that the :code:`scale` attribute</span>
+<span class="sd">         cleanly divides your desired :code:`width` and :code:`height`.</span>
+
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mask:</span>
+<span class="sd">        The mask to pixelise. If given then :code:`defn` must be :code:`None`.</span>
+<span class="sd">    defn:</span>
+<span class="sd">        The mask producing definition to use. If given then :code:`mask` must be</span>
+<span class="sd">        :code:`None`</span>
+<span class="sd">    scale:</span>
+<span class="sd">        When providing the :code:`defn` attribute this controls the resolution the</span>
+<span class="sd">        definition is rendered at. Has no effect when providing a :code:`mask`</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    This definition can be used to render a mask at a higher resolution</span>
+
+<span class="sd">     .. arlunio-image:: Creeper</span>
+<span class="sd">       :gallery: examples</span>
+<span class="sd">       :include-code:</span>
+<span class="sd">       :width: 50%</span>
+
+<span class="sd">       ::</span>
+
+<span class="sd">          import numpy as np</span>
+
+<span class="sd">          import arlunio.image as image</span>
+<span class="sd">          import arlunio.mask as mask</span>
+
+<span class="sd">          face = np.array([</span>
+<span class="sd">              [False, False, False, False, False, False, False, False],</span>
+<span class="sd">              [False, False, False, False, False, False, False, False],</span>
+<span class="sd">              [False,  True,  True, False, False,  True,  True, False],</span>
+<span class="sd">              [False,  True,  True, False, False,  True,  True, False],</span>
+<span class="sd">              [False, False, False,  True,  True, False, False, False],</span>
+<span class="sd">              [False, False,  True,  True,  True,  True, False, False],</span>
+<span class="sd">              [False, False,  True,  True,  True,  True, False, False],</span>
+<span class="sd">              [False, False,  True, False, False,  True, False, False],</span>
+<span class="sd">          ])</span>
+
+<span class="sd">          defn = mask.Pixelize(mask=face)</span>
+<span class="sd">          img = image.fill(defn(width=512, height=512))</span>
+
+<span class="sd">    We can also generate the mask directly from another definition.</span>
+
+<span class="sd">    .. arlunio-image:: Ghost</span>
+<span class="sd">       :include-code:</span>
+<span class="sd">       :width: 50%</span>
+<span class="sd">       :gallery: examples</span>
+
+<span class="sd">       ::</span>
+
+<span class="sd">          import arlunio as ar</span>
+<span class="sd">          import arlunio.image as image</span>
+<span class="sd">          import arlunio.mask as mask</span>
+<span class="sd">          import arlunio.math as math</span>
+<span class="sd">          import arlunio.shape as shape</span>
+
+<span class="sd">          import numpy as np</span>
+
+<span class="sd">          @ar.definition</span>
+<span class="sd">          def Ghost(x: math.X, y: math.Y) -&gt; mask.Mask:</span>
+<span class="sd">              head = shape.Circle(yc=0.5, r=0.7)</span>
+<span class="sd">              eyes = shape.Circle(xc=0.2, yc=0.6, r=0.3)</span>
+
+<span class="sd">              body = mask.all_(</span>
+<span class="sd">                  y &lt; 0.5,</span>
+<span class="sd">                  np.abs(x) &lt; 0.49,</span>
+<span class="sd">                  0.1 * np.cos(5 * np.pi * x) - 0.3 &lt; y</span>
+<span class="sd">              )</span>
+
+<span class="sd">              return (head(x=x, y=y) - eyes(x=np.abs(x), y=y)) + body</span>
+
+<span class="sd">          ghost = mask.Pixelize(defn=Ghost(y0=-0.3), scale=32)</span>
+<span class="sd">          img = image.fill(ghost(width=1080, height=1080), foreground=&quot;#f00&quot;)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">defn</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">mask</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;You must provide a mask or a mask producing definition.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">mask</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">mask</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="n">defn</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Based on the given resolution, calculate the size of each enlarged element.</span>
+        <span class="n">ratio</span> <span class="o">=</span> <span class="n">width</span> <span class="o">/</span> <span class="n">height</span>
+
+        <span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">scale</span> <span class="o">*</span> <span class="n">ratio</span><span class="p">),</span> <span class="n">scale</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">defn</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">w</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">h</span><span class="p">)</span>
+
+    <span class="n">n</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">width</span> <span class="o">//</span> <span class="n">w</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">height</span> <span class="o">//</span> <span class="n">h</span><span class="p">)</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Mask size: (</span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Pixel size: (</span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+
+    <span class="n">fill</span> <span class="o">=</span> <span class="n">Mask</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+    <span class="n">empty</span> <span class="o">=</span> <span class="n">Mask</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">Mask</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">block</span><span class="p">([[</span><span class="n">fill</span> <span class="k">if</span> <span class="n">col</span> <span class="k">else</span> <span class="n">empty</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">row</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">mask</span><span class="p">]))</span></div>
 </pre></div>
 
            </div>

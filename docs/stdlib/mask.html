@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Mask &mdash; Arlunio V0.10.0b2 documentation</title>
+  <title>Mask &mdash; Arlunio V0.10.0b3 documentation</title>
   
 
   
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                V0.10.0b2
+                V0.10.0b3
               </div>
             
           
@@ -92,7 +92,18 @@
 <li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Standard Library</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="image.html">Image</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Mask</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Mask</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#creating-masks">Creating Masks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#definitions">Definitions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#empty">Empty</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#full">Full</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#map">Map</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#repeat">Repeat</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pixelize">Pixelize</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="math.html">Math</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pattern.html">Pattern</a></li>
 <li class="toctree-l2"><a class="reference internal" href="raytrace.html">Raytrace</a></li>
@@ -170,209 +181,15 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="module-arlunio.mask">
-<span id="mask"></span><span id="stdlib-mask"></span><h1>Mask<a class="headerlink" href="#module-arlunio.mask" title="Permalink to this headline">¶</a></h1>
-<dl class="py class">
-<dt id="arlunio.mask.Empty">
-<em class="property">class </em><code class="sig-prename descclassname">arlunio.mask.</code><code class="sig-name descname">Empty</code><a class="reference internal" href="../_modules/arlunio/mask.html#Empty"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.mask.Empty" title="Permalink to this definition">¶</a></dt>
-<dd><table class="colwidths-given docutils align-default">
-<colgroup>
-<col style="width: 20%" />
-<col style="width: 80%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><strong>Inputs:</strong></p></td>
-<td><p><code class="code docutils literal notranslate"><span class="pre">width:</span> <span class="pre">int</span></code> <code class="code docutils literal notranslate"><span class="pre">height:</span> <span class="pre">int</span></code></p></td>
-</tr>
-<tr class="row-even"><td><p><strong>Produces:</strong></p></td>
-<td><p><a class="reference internal" href="#arlunio.mask.Mask" title="arlunio.mask.Mask"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mask</span></code></a></p></td>
-</tr>
-</tbody>
-</table>
-<p>An empty mask.</p>
-<p class="rubric">Example</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">arlunio.mask</span> <span class="kn">import</span> <span class="n">Empty</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">empty</span> <span class="o">=</span> <span class="n">Empty</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">empty</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-<span class="go">Mask([[False, False, False, False],</span>
-<span class="go">      [False, False, False, False],</span>
-<span class="go">      [False, False, False, False]])</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py class">
-<dt id="arlunio.mask.Full">
-<em class="property">class </em><code class="sig-prename descclassname">arlunio.mask.</code><code class="sig-name descname">Full</code><a class="reference internal" href="../_modules/arlunio/mask.html#Full"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.mask.Full" title="Permalink to this definition">¶</a></dt>
-<dd><table class="colwidths-given docutils align-default">
-<colgroup>
-<col style="width: 20%" />
-<col style="width: 80%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><strong>Inputs:</strong></p></td>
-<td><p><code class="code docutils literal notranslate"><span class="pre">width:</span> <span class="pre">int</span></code> <code class="code docutils literal notranslate"><span class="pre">height:</span> <span class="pre">int</span></code></p></td>
-</tr>
-<tr class="row-even"><td><p><strong>Produces:</strong></p></td>
-<td><p><a class="reference internal" href="#arlunio.mask.Mask" title="arlunio.mask.Mask"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mask</span></code></a></p></td>
-</tr>
-</tbody>
-</table>
-<p>An full mask.</p>
-<p class="rubric">Example</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">arlunio.mask</span> <span class="kn">import</span> <span class="n">Full</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">full</span> <span class="o">=</span> <span class="n">Full</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">full</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-<span class="go">Mask([[ True,  True,  True,  True],</span>
-<span class="go">      [ True,  True,  True,  True],</span>
-<span class="go">      [ True,  True,  True,  True]])</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py class">
-<dt id="arlunio.mask.Mask">
-<em class="property">class </em><code class="sig-prename descclassname">arlunio.mask.</code><code class="sig-name descname">Mask</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">arr</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/mask.html#Mask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.mask.Mask" title="Permalink to this definition">¶</a></dt>
-<dd><p>A mask is just a boolean numpy array.</p>
-<p>They are typically used to represent ‘selections’ for various operations such as
-when coloring a region of an image.</p>
-<dl class="py method">
-<dt id="arlunio.mask.Mask.empty">
-<em class="property">classmethod </em><code class="sig-name descname">empty</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">shape</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/mask.html#Mask.empty"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.mask.Mask.empty" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return an empty mask with the given shape.</p>
-<p class="rubric">Example</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">arlunio.mask</span> <span class="kn">import</span> <span class="n">Mask</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">Mask</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
-<span class="go">Mask([[False, False, False, False],</span>
-<span class="go">      [False, False, False, False],</span>
-<span class="go">      [False, False, False, False]])</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt id="arlunio.mask.Mask.full">
-<em class="property">classmethod </em><code class="sig-name descname">full</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">shape</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/mask.html#Mask.full"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.mask.Mask.full" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a full mask with the given shape.</p>
-<p class="rubric">Example</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">arlunio.mask</span> <span class="kn">import</span> <span class="n">Mask</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">Mask</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
-<span class="go">Mask([[ True,  True,  True,  True],</span>
-<span class="go">      [ True,  True,  True,  True],</span>
-<span class="go">      [ True,  True,  True,  True]])</span>
-</pre></div>
-</div>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="arlunio.mask.MaskAdd">
-<em class="property">class </em><code class="sig-prename descclassname">arlunio.mask.</code><code class="sig-name descname">MaskAdd</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">a</span><span class="p">:</span> <span class="n">Defn<span class="p">[</span>Mask<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">b</span><span class="p">:</span> <span class="n">Defn<span class="p">[</span>Mask<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/mask.html#MaskAdd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.mask.MaskAdd" title="Permalink to this definition">¶</a></dt>
-<dd><table class="colwidths-given docutils align-default">
-<colgroup>
-<col style="width: 20%" />
-<col style="width: 80%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><strong>Inputs:</strong></p></td>
-<td><p><code class="code docutils literal notranslate"><span class="pre">width:</span> <span class="pre">int</span></code> <code class="code docutils literal notranslate"><span class="pre">height:</span> <span class="pre">int</span></code></p></td>
-</tr>
-<tr class="row-even"><td><p><strong>Produces:</strong></p></td>
-<td><p><a class="reference internal" href="#arlunio.mask.Mask" title="arlunio.mask.Mask"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mask</span></code></a></p></td>
-</tr>
-</tbody>
-</table>
-<p>Add any two mask producing definitions together.</p>
-<p>The resulting defintion will return a mask that is <code class="code docutils literal notranslate"><span class="pre">True</span></code> if a given point
-is <code class="code docutils literal notranslate"><span class="pre">True</span></code> in either <code class="code docutils literal notranslate"><span class="pre">a</span></code> or <code class="code docutils literal notranslate"><span class="pre">b</span></code>.</p>
-<dl class="py attribute">
-<dt id="arlunio.mask.MaskAdd.a">
-<code class="sig-name descname">a</code><a class="headerlink" href="#arlunio.mask.MaskAdd.a" title="Permalink to this definition">¶</a></dt>
-<dd><p>The first mask</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="arlunio.mask.MaskAdd.b">
-<code class="sig-name descname">b</code><a class="headerlink" href="#arlunio.mask.MaskAdd.b" title="Permalink to this definition">¶</a></dt>
-<dd><p>The second mask</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="arlunio.mask.MaskMul">
-<em class="property">class </em><code class="sig-prename descclassname">arlunio.mask.</code><code class="sig-name descname">MaskMul</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">a</span><span class="p">:</span> <span class="n">Defn<span class="p">[</span>Mask<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">b</span><span class="p">:</span> <span class="n">Defn<span class="p">[</span>Mask<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/mask.html#MaskMul"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.mask.MaskMul" title="Permalink to this definition">¶</a></dt>
-<dd><table class="colwidths-given docutils align-default">
-<colgroup>
-<col style="width: 20%" />
-<col style="width: 80%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><strong>Inputs:</strong></p></td>
-<td><p><code class="code docutils literal notranslate"><span class="pre">width:</span> <span class="pre">int</span></code> <code class="code docutils literal notranslate"><span class="pre">height:</span> <span class="pre">int</span></code></p></td>
-</tr>
-<tr class="row-even"><td><p><strong>Produces:</strong></p></td>
-<td><p><a class="reference internal" href="#arlunio.mask.Mask" title="arlunio.mask.Mask"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mask</span></code></a></p></td>
-</tr>
-</tbody>
-</table>
-<p>Muliply any two mask producing definitions together.</p>
-<p>The resulting definition will return a mask that is <code class="code docutils literal notranslate"><span class="pre">True</span></code> only if a given
-point is in both <code class="code docutils literal notranslate"><span class="pre">a</span></code> and <code class="code docutils literal notranslate"><span class="pre">b</span></code>.</p>
-<dl class="py attribute">
-<dt id="arlunio.mask.MaskMul.a">
-<code class="sig-name descname">a</code><a class="headerlink" href="#arlunio.mask.MaskMul.a" title="Permalink to this definition">¶</a></dt>
-<dd><p>The first mask</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="arlunio.mask.MaskMul.b">
-<code class="sig-name descname">b</code><a class="headerlink" href="#arlunio.mask.MaskMul.b" title="Permalink to this definition">¶</a></dt>
-<dd><p>The second mask</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="arlunio.mask.MaskSub">
-<em class="property">class </em><code class="sig-prename descclassname">arlunio.mask.</code><code class="sig-name descname">MaskSub</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">a</span><span class="p">:</span> <span class="n">Defn<span class="p">[</span>Mask<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">b</span><span class="p">:</span> <span class="n">Defn<span class="p">[</span>Mask<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/mask.html#MaskSub"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.mask.MaskSub" title="Permalink to this definition">¶</a></dt>
-<dd><table class="colwidths-given docutils align-default">
-<colgroup>
-<col style="width: 20%" />
-<col style="width: 80%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><strong>Inputs:</strong></p></td>
-<td><p><code class="code docutils literal notranslate"><span class="pre">width:</span> <span class="pre">int</span></code> <code class="code docutils literal notranslate"><span class="pre">height:</span> <span class="pre">int</span></code></p></td>
-</tr>
-<tr class="row-even"><td><p><strong>Produces:</strong></p></td>
-<td><p><a class="reference internal" href="#arlunio.mask.Mask" title="arlunio.mask.Mask"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mask</span></code></a></p></td>
-</tr>
-</tbody>
-</table>
-<p>Subtract one mask away from another mask.</p>
-<p>The resulting definition will return a mask that is <code class="code docutils literal notranslate"><span class="pre">True</span></code> only if a given
-point is in <code class="code docutils literal notranslate"><span class="pre">a</span></code> <strong>and not</strong> in <code class="code docutils literal notranslate"><span class="pre">b</span></code>.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>You will get very different results depending on which way around you set
-<code class="code docutils literal notranslate"><span class="pre">a</span></code> and <code class="code docutils literal notranslate"><span class="pre">b</span></code>!</p>
-</div>
-<dl class="py attribute">
-<dt id="arlunio.mask.MaskSub.a">
-<code class="sig-name descname">a</code><a class="headerlink" href="#arlunio.mask.MaskSub.a" title="Permalink to this definition">¶</a></dt>
-<dd><p>The first “base” mask</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="arlunio.mask.MaskSub.b">
-<code class="sig-name descname">b</code><a class="headerlink" href="#arlunio.mask.MaskSub.b" title="Permalink to this definition">¶</a></dt>
-<dd><p>The second mask that defines the region to remove from <code class="code docutils literal notranslate"><span class="pre">a</span></code></p>
-</dd></dl>
-
-</dd></dl>
-
+  <div class="section" id="mask">
+<span id="stdlib-mask"></span><h1>Mask<a class="headerlink" href="#mask" title="Permalink to this headline">¶</a></h1>
+<p>Masks are 2D boolean numpy arrays which are primarily used to represent selections for
+example some region of an image. Masks are typically given to functions like
+<a class="reference internal" href="image.html#arlunio.image.fill" title="arlunio.image.fill"><code class="xref py py-func docutils literal notranslate"><span class="pre">arlunio.image.fill()</span></code></a> to indicate which regions of an image a particular operation
+should affect. This module provides a <a class="reference internal" href="#arlunio.mask.Mask" title="arlunio.mask.Mask"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mask</span></code></a> class that builds on a standard
+numpy array as well as a number of functions and definitions for manipulating it.</p>
+<div class="section" id="creating-masks">
+<h2>Creating Masks<a class="headerlink" href="#creating-masks" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="arlunio.mask.all_">
 <code class="sig-prename descclassname">arlunio.mask.</code><code class="sig-name descname">all_</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Union<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a><span class="p">, </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.18)">numpy.ndarray</a><span class="p">, </span><a class="reference internal" href="#arlunio.mask.Mask" title="arlunio.mask.Mask">arlunio.mask.Mask</a><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#arlunio.mask.Mask" title="arlunio.mask.Mask">arlunio.mask.Mask</a><a class="reference internal" href="../_modules/arlunio/mask.html#all_"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.mask.all_" title="Permalink to this definition">¶</a></dt>
@@ -402,12 +219,12 @@ element-wise</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">all_</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">x3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mask</span><span class="o">.</span><span class="n">all_</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">x3</span><span class="p">)</span>
 <span class="go">Mask([False, False,  True])</span>
 </pre></div>
 </div>
 <p>Arugments can be any mixture of booleans, masks and numpy arrays.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mask</span><span class="o">.</span><span class="n">all_</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">Mask</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">],</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]]))</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mask</span><span class="o">.</span><span class="n">all_</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">mask</span><span class="o">.</span><span class="n">Mask</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">],</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]]))</span>  <span class="c1"># noqa: E501</span>
 <span class="go">Mask([[False, False],</span>
 <span class="go">      [ True, False]])</span>
 </pre></div>
@@ -459,7 +276,7 @@ element-wise</p>
 </pre></div>
 </div>
 <p>The arguments can be any mixture of booleans, arrays and masks.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mask</span><span class="o">.</span><span class="n">any_</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">Mask</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">],</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]]))</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mask</span><span class="o">.</span><span class="n">any_</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">mask</span><span class="o">.</span><span class="n">Mask</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">],</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]]))</span>  <span class="c1"># noqa: E501</span>
 <span class="go">Mask([[ True,  True],</span>
 <span class="go">      [ True, False]])</span>
 </pre></div>
@@ -477,6 +294,455 @@ element-wise</p>
 </div>
 </dd></dl>
 
+<dl class="py class">
+<dt id="arlunio.mask.Mask">
+<em class="property">class </em><code class="sig-prename descclassname">arlunio.mask.</code><code class="sig-name descname">Mask</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">arr</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/mask.html#Mask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.mask.Mask" title="Permalink to this definition">¶</a></dt>
+<dd><p>A mask is just a boolean numpy array.</p>
+<p>They are typically used to represent ‘selections’ for various operations such as
+when coloring a region of an image.</p>
+<dl class="py method">
+<dt id="arlunio.mask.Mask.empty">
+<em class="property">classmethod </em><code class="sig-name descname">empty</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">shape</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/mask.html#Mask.empty"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.mask.Mask.empty" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an empty mask with the given shape.</p>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">arlunio.mask</span> <span class="kn">import</span> <span class="n">Mask</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Mask</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="go">Mask([[False, False, False, False],</span>
+<span class="go">      [False, False, False, False],</span>
+<span class="go">      [False, False, False, False]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="arlunio.mask.Mask.full">
+<em class="property">classmethod </em><code class="sig-name descname">full</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">shape</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/mask.html#Mask.full"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.mask.Mask.full" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a full mask with the given shape.</p>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">arlunio.mask</span> <span class="kn">import</span> <span class="n">Mask</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Mask</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="go">Mask([[ True,  True,  True,  True],</span>
+<span class="go">      [ True,  True,  True,  True],</span>
+<span class="go">      [ True,  True,  True,  True]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="definitions">
+<h2>Definitions<a class="headerlink" href="#definitions" title="Permalink to this headline">¶</a></h2>
+<p>This module also contains a number of definitions that either produce or manipulate
+masks in some way</p>
+<table class="colwidths-given docutils align-center" id="id1">
+<caption><span class="caption-text">Summary</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 75%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#arlunio.mask.Empty" title="arlunio.mask.Empty"><code class="xref py py-class docutils literal notranslate"><span class="pre">Empty</span></code></a></p></td>
+<td><p>Return an empty mask with the given dimensions</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#arlunio.mask.Full" title="arlunio.mask.Full"><code class="xref py py-class docutils literal notranslate"><span class="pre">Full</span></code></a></p></td>
+<td><p>Return a full mask with the given dimensions</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#arlunio.mask.Map" title="arlunio.mask.Map"><code class="xref py py-class docutils literal notranslate"><span class="pre">Map</span></code></a></p></td>
+<td><p>Construct a mask from smaller, simpler masks</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#arlunio.mask.Repeat" title="arlunio.mask.Repeat"><code class="xref py py-class docutils literal notranslate"><span class="pre">Repeat</span></code></a></p></td>
+<td><p>Construct a mask by replicating an existing one.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#arlunio.mask.Pixelize" title="arlunio.mask.Pixelize"><code class="xref py py-class docutils literal notranslate"><span class="pre">Pixelize</span></code></a></p></td>
+<td><p>Enlarge an existing mask, creating a pixelised effect.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="empty">
+<h3>Empty<a class="headerlink" href="#empty" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="arlunio.mask.Empty">
+<em class="property">class </em><code class="sig-prename descclassname">arlunio.mask.</code><code class="sig-name descname">Empty</code><a class="reference internal" href="../_modules/arlunio/mask.html#Empty"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.mask.Empty" title="Permalink to this definition">¶</a></dt>
+<dd><table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>Inputs:</strong></p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">width:</span> <span class="pre">int</span></code> <code class="code docutils literal notranslate"><span class="pre">height:</span> <span class="pre">int</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Produces:</strong></p></td>
+<td><p><a class="reference internal" href="#arlunio.mask.Mask" title="arlunio.mask.Mask"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mask</span></code></a></p></td>
+</tr>
+</tbody>
+</table>
+<p>An empty mask.</p>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">arlunio.mask</span> <span class="kn">import</span> <span class="n">Empty</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">empty</span> <span class="o">=</span> <span class="n">Empty</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">empty</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">Mask([[False, False, False, False],</span>
+<span class="go">      [False, False, False, False],</span>
+<span class="go">      [False, False, False, False]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="full">
+<h3>Full<a class="headerlink" href="#full" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="arlunio.mask.Full">
+<em class="property">class </em><code class="sig-prename descclassname">arlunio.mask.</code><code class="sig-name descname">Full</code><a class="reference internal" href="../_modules/arlunio/mask.html#Full"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.mask.Full" title="Permalink to this definition">¶</a></dt>
+<dd><table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>Inputs:</strong></p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">width:</span> <span class="pre">int</span></code> <code class="code docutils literal notranslate"><span class="pre">height:</span> <span class="pre">int</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Produces:</strong></p></td>
+<td><p><a class="reference internal" href="#arlunio.mask.Mask" title="arlunio.mask.Mask"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mask</span></code></a></p></td>
+</tr>
+</tbody>
+</table>
+<p>A full mask.</p>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">arlunio.mask</span> <span class="kn">import</span> <span class="n">Full</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">full</span> <span class="o">=</span> <span class="n">Full</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">full</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">Mask([[ True,  True,  True,  True],</span>
+<span class="go">      [ True,  True,  True,  True],</span>
+<span class="go">      [ True,  True,  True,  True]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="map">
+<h3>Map<a class="headerlink" href="#map" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="arlunio.mask.Map">
+<em class="property">class </em><code class="sig-prename descclassname">arlunio.mask.</code><code class="sig-name descname">Map</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">layout</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">legend</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">fill</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/mask.html#Map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.mask.Map" title="Permalink to this definition">¶</a></dt>
+<dd><table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>Inputs:</strong></p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">width:</span> <span class="pre">int</span></code> <code class="code docutils literal notranslate"><span class="pre">height:</span> <span class="pre">int</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Produces:</strong></p></td>
+<td><p><a class="reference internal" href="#arlunio.mask.Mask" title="arlunio.mask.Mask"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mask</span></code></a></p></td>
+</tr>
+</tbody>
+</table>
+<p>Build a mask composed out of smaller, simpler masks.</p>
+<p>When evaluated this will produce a mask with the given <code class="code docutils literal notranslate"><span class="pre">width</span></code> and
+<code class="code docutils literal notranslate"><span class="pre">height</span></code> and divide it into a grid. The dimensions of this grid are determined
+by shape of the <code class="code docutils literal notranslate"><span class="pre">layout</span></code> array.</p>
+<p>The <code class="code docutils literal notranslate"><span class="pre">layout</span></code> attribute should be set to a 2D array the elements of which can
+be anything. While the <code class="code docutils literal notranslate"><span class="pre">legend</span></code> attribute is set to a dictionary whose keys
+correspond to values in the <code class="code docutils literal notranslate"><span class="pre">layout</span></code> array. These keys should then map to mask
+producing definitions. It’s important to note that these definitions can only take
+<code class="code docutils literal notranslate"><span class="pre">width</span></code> and <code class="code docutils literal notranslate"><span class="pre">height</span></code> as inputs.</p>
+<p>The cells in the grid will then be set to the mask produced by the definition
+corresponding to the value in the <code class="code docutils literal notranslate"><span class="pre">layout</span></code>. If however the <code class="code docutils literal notranslate"><span class="pre">legend</span></code> does
+not contain a matching key then the <code class="code docutils literal notranslate"><span class="pre">fill</span></code> definition will be used instead.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Due to a limitation in the current implementation, you will get best results
+if the dimensions of the <code class="code docutils literal notranslate"><span class="pre">layout</span></code> grid divide cleanly into the dimensions
+of the final mask.</p>
+</div>
+<dl class="py attribute">
+<dt id="arlunio.mask.Map.fill">
+<code class="sig-name descname">fill</code><a class="headerlink" href="#arlunio.mask.Map.fill" title="Permalink to this definition">¶</a></dt>
+<dd><p>The definition to use in any cell where a corresponding definition cannot be
+found in the legend. If <code class="code docutils literal notranslate"><span class="pre">None</span></code> this will default to
+<a class="reference internal" href="#arlunio.mask.Empty" title="arlunio.mask.Empty"><code class="xref py py-class docutils literal notranslate"><span class="pre">arlunio.mask.Empty</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="arlunio.mask.Map.layout">
+<code class="sig-name descname">layout</code><a class="headerlink" href="#arlunio.mask.Map.layout" title="Permalink to this definition">¶</a></dt>
+<dd><p>A 2D numpy array of values representing keys from the <code class="code docutils literal notranslate"><span class="pre">legend</span></code> detailing
+which mask should be used in which cell.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="arlunio.mask.Map.legend">
+<code class="sig-name descname">legend</code><a class="headerlink" href="#arlunio.mask.Map.legend" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dictionary with keys corresponding to values in the <code class="code docutils literal notranslate"><span class="pre">layout</span></code> that map to
+mask producing definitions that should be used.</p>
+</dd></dl>
+
+<p class="rubric">Example</p>
+<div class="figure align-default">
+<a class="reference internal image-reference" href="../_images/simple-map.png"><img alt="../_images/simple-map.png" src="../_images/simple-map.png" style="width: 50%;" /></a>
+<div class="legend">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arlunio.image</span> <span class="k">as</span> <span class="nn">image</span>
+<span class="kn">import</span> <span class="nn">arlunio.mask</span> <span class="k">as</span> <span class="nn">mask</span>
+<span class="kn">import</span> <span class="nn">arlunio.shape</span> <span class="k">as</span> <span class="nn">shape</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">top</span> <span class="o">=</span> <span class="n">shape</span><span class="o">.</span><span class="n">Rectangle</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">yc</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ratio</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">left</span> <span class="o">=</span> <span class="n">shape</span><span class="o">.</span><span class="n">Rectangle</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">xc</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">ratio</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">right</span> <span class="o">=</span> <span class="n">shape</span><span class="o">.</span><span class="n">Rectangle</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">xc</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ratio</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">bottom</span> <span class="o">=</span> <span class="n">shape</span><span class="o">.</span><span class="n">Rectangle</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">yc</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">ratio</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+
+<span class="n">legend</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;tt&quot;</span><span class="p">:</span> <span class="n">top</span><span class="p">,</span>
+    <span class="s2">&quot;bb&quot;</span><span class="p">:</span> <span class="n">bottom</span><span class="p">,</span>
+    <span class="s2">&quot;ll&quot;</span><span class="p">:</span> <span class="n">left</span><span class="p">,</span>
+    <span class="s2">&quot;rr&quot;</span><span class="p">:</span> <span class="n">right</span><span class="p">,</span>
+    <span class="s2">&quot;tl&quot;</span><span class="p">:</span> <span class="n">top</span> <span class="o">+</span> <span class="n">left</span><span class="p">,</span>
+    <span class="s2">&quot;tr&quot;</span><span class="p">:</span> <span class="n">top</span> <span class="o">+</span> <span class="n">right</span><span class="p">,</span>
+    <span class="s2">&quot;bl&quot;</span><span class="p">:</span> <span class="n">bottom</span> <span class="o">+</span> <span class="n">left</span><span class="p">,</span>
+    <span class="s2">&quot;br&quot;</span><span class="p">:</span> <span class="n">bottom</span> <span class="o">+</span> <span class="n">right</span>
+<span class="p">}</span>
+
+<span class="n">layout</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+    <span class="p">[</span><span class="s2">&quot;tt&quot;</span><span class="p">,</span> <span class="s2">&quot;tt&quot;</span><span class="p">,</span> <span class="s2">&quot;tt&quot;</span><span class="p">,</span> <span class="s2">&quot;tt&quot;</span><span class="p">,</span> <span class="s2">&quot;tr&quot;</span><span class="p">],</span>
+    <span class="p">[</span>  <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;tl&quot;</span><span class="p">,</span> <span class="s2">&quot;tt&quot;</span><span class="p">,</span> <span class="s2">&quot;tr&quot;</span><span class="p">,</span> <span class="s2">&quot;rr&quot;</span><span class="p">],</span>
+    <span class="p">[</span>  <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;ll&quot;</span><span class="p">,</span> <span class="s2">&quot;bl&quot;</span><span class="p">,</span> <span class="s2">&quot;br&quot;</span><span class="p">,</span> <span class="s2">&quot;rr&quot;</span><span class="p">],</span>
+    <span class="p">[</span>  <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;bl&quot;</span><span class="p">,</span> <span class="s2">&quot;bb&quot;</span><span class="p">,</span> <span class="s2">&quot;bb&quot;</span><span class="p">,</span> <span class="s2">&quot;br&quot;</span><span class="p">],</span>
+    <span class="p">[</span>  <span class="s2">&quot;&quot;</span><span class="p">,</span>   <span class="s2">&quot;&quot;</span><span class="p">,</span>   <span class="s2">&quot;&quot;</span><span class="p">,</span>   <span class="s2">&quot;&quot;</span><span class="p">,</span>   <span class="s2">&quot;&quot;</span><span class="p">]</span>
+<span class="p">])</span>
+
+<span class="n">map_</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">Map</span><span class="p">(</span><span class="n">legend</span><span class="o">=</span><span class="n">legend</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">layout</span><span class="p">)</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">map_</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1080</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">),</span> <span class="n">foreground</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="repeat">
+<h3>Repeat<a class="headerlink" href="#repeat" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="arlunio.mask.Repeat">
+<em class="property">class </em><code class="sig-prename descclassname">arlunio.mask.</code><code class="sig-name descname">Repeat</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">n</span><span class="o">=</span><span class="default_value">4</span></em>, <em class="sig-param"><span class="n">m</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">defn</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/mask.html#Repeat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.mask.Repeat" title="Permalink to this definition">¶</a></dt>
+<dd><table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>Inputs:</strong></p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">width:</span> <span class="pre">int</span></code> <code class="code docutils literal notranslate"><span class="pre">height:</span> <span class="pre">int</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Produces:</strong></p></td>
+<td><p><a class="reference internal" href="#arlunio.mask.Mask" title="arlunio.mask.Mask"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mask</span></code></a></p></td>
+</tr>
+</tbody>
+</table>
+<p>Given a mask producing definition, replicate the resulting mask in a grid.</p>
+<div class="figure align-default">
+<img alt="../_images/simple-grid.png" src="../_images/simple-grid.png" />
+</div>
+<p>When evaluated this will create a mask with the given <code class="code docutils literal notranslate"><span class="pre">width</span></code> and
+<code class="code docutils literal notranslate"><span class="pre">height</span></code>. It will then subdivide it into an <span class="math notranslate nohighlight">\(n \times m\)</span> grid where
+each cell contains a copy of the mask as produced by the definition specified with
+the <code class="code docutils literal notranslate"><span class="pre">defn</span></code> attribute.</p>
+<p>It’s important to note that the given definition must only take <code class="code docutils literal notranslate"><span class="pre">width</span></code> and
+<code class="code docutils literal notranslate"><span class="pre">height</span></code> as inputs.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Due to a limitation in the current implementation, you will get the best results
+if your <span class="math notranslate nohighlight">\(n \times m\)</span> grid divides cleanly into the resolution of the final
+mask. Otherwise you will find that the generated grid won’t completly fill it.</p>
+</div>
+<dl class="py attribute">
+<dt id="arlunio.mask.Repeat.n">
+<code class="sig-name descname">n</code><a class="headerlink" href="#arlunio.mask.Repeat.n" title="Permalink to this definition">¶</a></dt>
+<dd><p>The number of times to repeat the given definition horizontally</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="arlunio.mask.Repeat.m">
+<code class="sig-name descname">m</code><a class="headerlink" href="#arlunio.mask.Repeat.m" title="Permalink to this definition">¶</a></dt>
+<dd><p>The number of times to repeat the given definition vertically. If <code class="code docutils literal notranslate"><span class="pre">None</span></code>
+this defaults to the value of <code class="code docutils literal notranslate"><span class="pre">n</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="arlunio.mask.Repeat.defn">
+<code class="sig-name descname">defn</code><a class="headerlink" href="#arlunio.mask.Repeat.defn" title="Permalink to this definition">¶</a></dt>
+<dd><p>The instance of the definition to replicate.</p>
+</dd></dl>
+
+<p class="rubric">Examples</p>
+<div class="figure align-default" id="id2">
+<a class="reference internal image-reference" href="../_images/circular-pattern.png"><img alt="../_images/circular-pattern.png" src="../_images/circular-pattern.png" style="width: 50%;" /></a>
+<p class="caption"><span class="caption-text">A pattern generated from circles:</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+<div class="legend">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arlunio</span> <span class="k">as</span> <span class="nn">ar</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">import</span> <span class="nn">arlunio.image</span> <span class="k">as</span> <span class="nn">image</span>
+<span class="kn">import</span> <span class="nn">arlunio.math</span> <span class="k">as</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">arlunio.mask</span> <span class="k">as</span> <span class="nn">mask</span>
+<span class="kn">import</span> <span class="nn">arlunio.shape</span> <span class="k">as</span> <span class="nn">shape</span>
+
+<span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
+<span class="k">def</span> <span class="nf">Template</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">math</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">math</span><span class="o">.</span><span class="n">Y</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">mask</span><span class="o">.</span><span class="n">Mask</span><span class="p">:</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">shape</span><span class="o">.</span><span class="n">Circle</span><span class="p">(</span><span class="n">xc</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">yc</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">pt</span><span class="o">=</span><span class="mf">0.02</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">c</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">y</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+
+<span class="n">pattern</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">Repeat</span><span class="p">(</span><span class="n">defn</span><span class="o">=</span><span class="n">Template</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mf">1.</span><span class="p">))</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span>
+    <span class="n">pattern</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1080</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">),</span> <span class="n">background</span><span class="o">=</span><span class="s2">&quot;#000&quot;</span><span class="p">,</span> <span class="n">foreground</span><span class="o">=</span><span class="s2">&quot;#ff0&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="figure align-default" id="id3">
+<a class="reference internal image-reference" href="../_images/checkerboard.png"><img alt="../_images/checkerboard.png" src="../_images/checkerboard.png" style="width: 50%;" /></a>
+<p class="caption"><span class="caption-text">A checkerboard:</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+<div class="legend">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arlunio.image</span> <span class="k">as</span> <span class="nn">image</span>
+<span class="kn">import</span> <span class="nn">arlunio.mask</span> <span class="k">as</span> <span class="nn">mask</span>
+<span class="kn">import</span> <span class="nn">arlunio.pattern</span> <span class="k">as</span> <span class="nn">pattern</span>
+
+<span class="n">grid</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">Repeat</span><span class="p">(</span><span class="n">defn</span><span class="o">=</span><span class="n">pattern</span><span class="o">.</span><span class="n">Checker</span><span class="p">())</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">grid</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1080</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">),</span> <span class="n">background</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="pixelize">
+<h3>Pixelize<a class="headerlink" href="#pixelize" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="arlunio.mask.Pixelize">
+<em class="property">class </em><code class="sig-prename descclassname">arlunio.mask.</code><code class="sig-name descname">Pixelize</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">mask</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">defn</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">scale</span><span class="o">=</span><span class="default_value">16</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/mask.html#Pixelize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.mask.Pixelize" title="Permalink to this definition">¶</a></dt>
+<dd><table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>Inputs:</strong></p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">width:</span> <span class="pre">int</span></code> <code class="code docutils literal notranslate"><span class="pre">height:</span> <span class="pre">int</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Produces:</strong></p></td>
+<td><p><a class="reference internal" href="#arlunio.mask.Mask" title="arlunio.mask.Mask"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mask</span></code></a></p></td>
+</tr>
+</tbody>
+</table>
+<p>Produce a pixelated version of the given mask.</p>
+<div class="figure align-center">
+<img alt="../_images/pixelise.png" src="../_images/pixelise.png" />
+</div>
+<p>This definition can either be given an existing <code class="code docutils literal notranslate"><span class="pre">mask</span></code> or a mask producing
+definition which can be given with the <code class="code docutils literal notranslate"><span class="pre">defn</span></code> attribute. Note that this
+definition can only take <code class="code docutils literal notranslate"><span class="pre">width</span></code> and <code class="code docutils literal notranslate"><span class="pre">height</span></code> as inputs.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>There is a limitation in the current implementation where the resulting mask may
+be smaller than expected due to rounding errors. For best results</p>
+<ul class="simple">
+<li><p>Ensure that the shape of the mask given with the <code class="code docutils literal notranslate"><span class="pre">mask</span></code> attribute cleanly
+divides your desired <code class="code docutils literal notranslate"><span class="pre">width</span></code> and <code class="code docutils literal notranslate"><span class="pre">height</span></code>.</p></li>
+<li><p>When using the <code class="code docutils literal notranslate"><span class="pre">defn</span></code> attribute ensure that the <code class="code docutils literal notranslate"><span class="pre">scale</span></code> attribute
+cleanly divides your desired <code class="code docutils literal notranslate"><span class="pre">width</span></code> and <code class="code docutils literal notranslate"><span class="pre">height</span></code>.</p></li>
+</ul>
+</div>
+<dl class="py attribute">
+<dt id="arlunio.mask.Pixelize.mask">
+<code class="sig-name descname">mask</code><a class="headerlink" href="#arlunio.mask.Pixelize.mask" title="Permalink to this definition">¶</a></dt>
+<dd><p>The mask to pixelise. If given then <code class="code docutils literal notranslate"><span class="pre">defn</span></code> must be <code class="code docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="arlunio.mask.Pixelize.defn">
+<code class="sig-name descname">defn</code><a class="headerlink" href="#arlunio.mask.Pixelize.defn" title="Permalink to this definition">¶</a></dt>
+<dd><p>The mask producing definition to use. If given then <code class="code docutils literal notranslate"><span class="pre">mask</span></code> must be
+<code class="code docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="arlunio.mask.Pixelize.scale">
+<code class="sig-name descname">scale</code><a class="headerlink" href="#arlunio.mask.Pixelize.scale" title="Permalink to this definition">¶</a></dt>
+<dd><p>When providing the <code class="code docutils literal notranslate"><span class="pre">defn</span></code> attribute this controls the resolution the
+definition is rendered at. Has no effect when providing a <code class="code docutils literal notranslate"><span class="pre">mask</span></code></p>
+</dd></dl>
+
+<p class="rubric">Examples</p>
+<p>This definition can be used to render a mask at a higher resolution</p>
+<blockquote>
+<div><div class="figure align-default">
+<a class="reference internal image-reference" href="../_images/creeper.png"><img alt="../_images/creeper.png" src="../_images/creeper.png" style="width: 50%;" /></a>
+<div class="legend">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">import</span> <span class="nn">arlunio.image</span> <span class="k">as</span> <span class="nn">image</span>
+<span class="kn">import</span> <span class="nn">arlunio.mask</span> <span class="k">as</span> <span class="nn">mask</span>
+
+<span class="n">face</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+    <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span>
+    <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span>
+    <span class="p">[</span><span class="kc">False</span><span class="p">,</span>  <span class="kc">True</span><span class="p">,</span>  <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span>  <span class="kc">True</span><span class="p">,</span>  <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span>
+    <span class="p">[</span><span class="kc">False</span><span class="p">,</span>  <span class="kc">True</span><span class="p">,</span>  <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span>  <span class="kc">True</span><span class="p">,</span>  <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span>
+    <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span>  <span class="kc">True</span><span class="p">,</span>  <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span>
+    <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span>  <span class="kc">True</span><span class="p">,</span>  <span class="kc">True</span><span class="p">,</span>  <span class="kc">True</span><span class="p">,</span>  <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span>
+    <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span>  <span class="kc">True</span><span class="p">,</span>  <span class="kc">True</span><span class="p">,</span>  <span class="kc">True</span><span class="p">,</span>  <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span>
+    <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span>  <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span>  <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span>
+<span class="p">])</span>
+
+<span class="n">defn</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">Pixelize</span><span class="p">(</span><span class="n">mask</span><span class="o">=</span><span class="n">face</span><span class="p">)</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">defn</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">512</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div></blockquote>
+<p>We can also generate the mask directly from another definition.</p>
+<div class="figure align-default">
+<a class="reference internal image-reference" href="../_images/ghost.png"><img alt="../_images/ghost.png" src="../_images/ghost.png" style="width: 50%;" /></a>
+<div class="legend">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arlunio</span> <span class="k">as</span> <span class="nn">ar</span>
+<span class="kn">import</span> <span class="nn">arlunio.image</span> <span class="k">as</span> <span class="nn">image</span>
+<span class="kn">import</span> <span class="nn">arlunio.mask</span> <span class="k">as</span> <span class="nn">mask</span>
+<span class="kn">import</span> <span class="nn">arlunio.math</span> <span class="k">as</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">arlunio.shape</span> <span class="k">as</span> <span class="nn">shape</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
+<span class="k">def</span> <span class="nf">Ghost</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">math</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">math</span><span class="o">.</span><span class="n">Y</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">mask</span><span class="o">.</span><span class="n">Mask</span><span class="p">:</span>
+    <span class="n">head</span> <span class="o">=</span> <span class="n">shape</span><span class="o">.</span><span class="n">Circle</span><span class="p">(</span><span class="n">yc</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+    <span class="n">eyes</span> <span class="o">=</span> <span class="n">shape</span><span class="o">.</span><span class="n">Circle</span><span class="p">(</span><span class="n">xc</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">yc</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+    <span class="n">body</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">all_</span><span class="p">(</span>
+        <span class="n">y</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">,</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.49</span><span class="p">,</span>
+        <span class="mf">0.1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.3</span> <span class="o">&lt;</span> <span class="n">y</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">head</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">)</span> <span class="o">-</span> <span class="n">eyes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">))</span> <span class="o">+</span> <span class="n">body</span>
+
+<span class="n">ghost</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">Pixelize</span><span class="p">(</span><span class="n">defn</span><span class="o">=</span><span class="n">Ghost</span><span class="p">(</span><span class="n">y0</span><span class="o">=-</span><span class="mf">0.3</span><span class="p">),</span> <span class="n">scale</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">ghost</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1080</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">),</span> <span class="n">foreground</span><span class="o">=</span><span class="s2">&quot;#f00&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+</div>
+</div>
 </div>
 
 
