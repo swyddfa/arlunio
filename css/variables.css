@@ -16,8 +16,8 @@
   --nord14: #a3be8c;
   --nord15: #b48ead;
 
-  --background: var(--nord4);
-  --foreground: var(--nord2);
+  --background: var(--nord1);
+  --foreground: var(--nord4);
   --foreground-faint: var(--nord3);
 
   --primary: var(--nord10);
@@ -30,13 +30,4 @@
   --variable: var(--nord4);
   --string: var(--nord14);
   --numeral: var(--nord15);
-}
-
-/* -- Dark Mode! -- */
-@media(prefers-color-scheme:dark) {
-  :root {
-    --background: var(--nord0);
-    --foreground: var(--nord4);
-    --foreground-faint: var(--nord3);
-  }
 }

@@ -65,7 +65,11 @@
             <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
     stroke-linejoin="round">
     <use xlink:href="/svg/feather-sprite.svg#calendar" />
-</svg><span>26 Jun 2020</span>
+</svg><span>29 Jun 2020</span>
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+    stroke-linejoin="round">
+    <use xlink:href="/svg/feather-sprite.svg#image" />
+</svg><span>1080 x 1080</span>
             <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
     stroke-linejoin="round">
     <use xlink:href="/svg/feather-sprite.svg#git-merge" />
@@ -98,19 +102,19 @@
             <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arlunio</span> <span class="k">as</span> <span class="nn">ar</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">arlunio.image</span> <span class="kn">import</span> <span class="n">fill</span>
-<span class="kn">from</span> <span class="nn">arlunio.math</span> <span class="kn">import</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span>
-<span class="kn">from</span> <span class="nn">arlunio.shape</span> <span class="kn">import</span> <span class="n">Circle</span>
-<span class="kn">from</span> <span class="nn">arlunio.pattern</span> <span class="kn">import</span> <span class="n">Grid</span>
+<span class="kn">import</span> <span class="nn">arlunio.image</span> <span class="k">as</span> <span class="nn">image</span>
+<span class="kn">import</span> <span class="nn">arlunio.math</span> <span class="k">as</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">arlunio.mask</span> <span class="k">as</span> <span class="nn">mask</span>
+<span class="kn">import</span> <span class="nn">arlunio.shape</span> <span class="k">as</span> <span class="nn">shape</span>
 
 <span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
-<span class="k">def</span> <span class="nf">Template</span><span class="p">(</span><span class="n">x</span><span class="p">:</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Y</span><span class="p">):</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">Circle</span><span class="p">(</span><span class="n">xc</span><span class="o">=.</span><span class="mi">4</span><span class="p">,</span> <span class="n">yc</span><span class="o">=.</span><span class="mi">4</span><span class="p">,</span> <span class="n">pt</span><span class="o">=.</span><span class="mi">02</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">Template</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">math</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">math</span><span class="o">.</span><span class="n">Y</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">mask</span><span class="o">.</span><span class="n">Mask</span><span class="p">:</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">shape</span><span class="o">.</span><span class="n">Circle</span><span class="p">(</span><span class="n">xc</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">yc</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">pt</span><span class="o">=</span><span class="mf">0.02</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">c</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">y</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
 
-<span class="n">pattern</span> <span class="o">=</span> <span class="n">Grid</span><span class="p">(</span><span class="n">defn</span><span class="o">=</span><span class="n">Template</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mf">1.</span><span class="p">))</span>
-<span class="n">image</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span>
-    <span class="n">pattern</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">512</span><span class="p">),</span> <span class="n">background</span><span class="o">=</span><span class="s2">&quot;#000&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#ff0&quot;</span>
+<span class="n">pattern</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">Repeat</span><span class="p">(</span><span class="n">defn</span><span class="o">=</span><span class="n">Template</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mf">1.</span><span class="p">))</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span>
+    <span class="n">pattern</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1080</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">),</span> <span class="n">background</span><span class="o">=</span><span class="s2">&quot;#000&quot;</span><span class="p">,</span> <span class="n">foreground</span><span class="o">=</span><span class="s2">&quot;#ff0&quot;</span>
 <span class="p">)</span>
 </pre></div>
 
@@ -123,7 +127,7 @@
         <div class="footer-content">
             <div>
                 <h4>Site</h4>
-                <p>Last Updated: 26/06/20 06:11:09</p>
+                <p>Last Updated: 29/06/20 20:40:02</p>
                 <p>Arlunio: v0.10.0</p>
             </div>
             <div></div>

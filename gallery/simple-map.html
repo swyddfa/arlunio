@@ -65,7 +65,11 @@
             <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
     stroke-linejoin="round">
     <use xlink:href="/svg/feather-sprite.svg#calendar" />
-</svg><span>26 Jun 2020</span>
+</svg><span>29 Jun 2020</span>
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+    stroke-linejoin="round">
+    <use xlink:href="/svg/feather-sprite.svg#image" />
+</svg><span>1080 x 1080</span>
             <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
     stroke-linejoin="round">
     <use xlink:href="/svg/feather-sprite.svg#git-merge" />
@@ -73,7 +77,7 @@
             <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
     stroke-linejoin="round">
     <use xlink:href="/svg/feather-sprite.svg#file-text" />
-</svg><span>46 sloc</span>
+</svg><span>33 sloc</span>
             <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
     stroke-linejoin="round">
     <use xlink:href="/svg/feather-sprite.svg#terminal" />
@@ -95,41 +99,26 @@
         </div>
         
         <div class="code">
-            <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arlunio</span> <span class="k">as</span> <span class="nn">ar</span>
+            <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arlunio.image</span> <span class="k">as</span> <span class="nn">image</span>
+<span class="kn">import</span> <span class="nn">arlunio.mask</span> <span class="k">as</span> <span class="nn">mask</span>
+<span class="kn">import</span> <span class="nn">arlunio.shape</span> <span class="k">as</span> <span class="nn">shape</span>
+
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">arlunio.image</span> <span class="kn">import</span> <span class="n">fill</span>
-<span class="kn">from</span> <span class="nn">arlunio.mask</span> <span class="kn">import</span> <span class="n">any_</span>
-<span class="kn">from</span> <span class="nn">arlunio.pattern</span> <span class="kn">import</span> <span class="n">Map</span>
-<span class="kn">from</span> <span class="nn">arlunio.shape</span> <span class="kn">import</span> <span class="n">Rectangle</span>
-
-<span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
-<span class="k">def</span> <span class="nf">Wall</span><span class="p">(</span><span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">sides</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="n">r</span> <span class="o">=</span> <span class="mi">50</span>
-    <span class="n">d</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="n">walls</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;top&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;yc&quot;</span><span class="p">:</span> <span class="n">d</span><span class="p">,</span> <span class="s2">&quot;ratio&quot;</span><span class="p">:</span> <span class="n">r</span><span class="p">},</span>
-        <span class="s1">&#39;bottom&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;yc&quot;</span><span class="p">:</span> <span class="o">-</span><span class="n">d</span><span class="p">,</span> <span class="s2">&quot;ratio&quot;</span><span class="p">:</span> <span class="n">r</span><span class="p">},</span>
-        <span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;xc&quot;</span><span class="p">:</span> <span class="o">-</span><span class="n">d</span><span class="p">,</span> <span class="s2">&quot;ratio&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="o">/</span><span class="n">r</span><span class="p">},</span>
-        <span class="s2">&quot;right&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;xc&quot;</span><span class="p">:</span> <span class="n">d</span><span class="p">,</span> <span class="s2">&quot;ratio&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="o">/</span><span class="n">r</span><span class="p">}</span>
-    <span class="p">}</span>
-
-    <span class="n">mask</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="k">for</span> <span class="n">side</span> <span class="ow">in</span> <span class="n">sides</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">):</span>
-        <span class="n">wall</span> <span class="o">=</span> <span class="n">Rectangle</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="o">**</span><span class="n">walls</span><span class="p">[</span><span class="n">side</span><span class="p">])</span>
-        <span class="n">mask</span> <span class="o">=</span> <span class="n">any_</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">wall</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">))</span>
-
-    <span class="k">return</span> <span class="n">mask</span>
+<span class="n">top</span> <span class="o">=</span> <span class="n">shape</span><span class="o">.</span><span class="n">Rectangle</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">yc</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ratio</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">left</span> <span class="o">=</span> <span class="n">shape</span><span class="o">.</span><span class="n">Rectangle</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">xc</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">ratio</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">right</span> <span class="o">=</span> <span class="n">shape</span><span class="o">.</span><span class="n">Rectangle</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">xc</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ratio</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">bottom</span> <span class="o">=</span> <span class="n">shape</span><span class="o">.</span><span class="n">Rectangle</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">yc</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">ratio</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
 
 <span class="n">legend</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;tt&quot;</span><span class="p">:</span> <span class="n">Wall</span><span class="p">(</span><span class="n">sides</span><span class="o">=</span><span class="s2">&quot;top&quot;</span><span class="p">),</span>
-    <span class="s2">&quot;bb&quot;</span><span class="p">:</span> <span class="n">Wall</span><span class="p">(</span><span class="n">sides</span><span class="o">=</span><span class="s2">&quot;bottom&quot;</span><span class="p">),</span>
-    <span class="s2">&quot;ll&quot;</span><span class="p">:</span> <span class="n">Wall</span><span class="p">(</span><span class="n">sides</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">),</span>
-    <span class="s2">&quot;rr&quot;</span><span class="p">:</span> <span class="n">Wall</span><span class="p">(</span><span class="n">sides</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">),</span>
-    <span class="s2">&quot;tl&quot;</span><span class="p">:</span> <span class="n">Wall</span><span class="p">(</span><span class="n">sides</span><span class="o">=</span><span class="s2">&quot;top-left&quot;</span><span class="p">),</span>
-    <span class="s2">&quot;tr&quot;</span><span class="p">:</span> <span class="n">Wall</span><span class="p">(</span><span class="n">sides</span><span class="o">=</span><span class="s2">&quot;top-right&quot;</span><span class="p">),</span>
-    <span class="s2">&quot;bl&quot;</span><span class="p">:</span> <span class="n">Wall</span><span class="p">(</span><span class="n">sides</span><span class="o">=</span><span class="s1">&#39;bottom-left&#39;</span><span class="p">),</span>
-    <span class="s2">&quot;br&quot;</span><span class="p">:</span> <span class="n">Wall</span><span class="p">(</span><span class="n">sides</span><span class="o">=</span><span class="s2">&quot;bottom-right&quot;</span><span class="p">)</span>
+    <span class="s2">&quot;tt&quot;</span><span class="p">:</span> <span class="n">top</span><span class="p">,</span>
+    <span class="s2">&quot;bb&quot;</span><span class="p">:</span> <span class="n">bottom</span><span class="p">,</span>
+    <span class="s2">&quot;ll&quot;</span><span class="p">:</span> <span class="n">left</span><span class="p">,</span>
+    <span class="s2">&quot;rr&quot;</span><span class="p">:</span> <span class="n">right</span><span class="p">,</span>
+    <span class="s2">&quot;tl&quot;</span><span class="p">:</span> <span class="n">top</span> <span class="o">+</span> <span class="n">left</span><span class="p">,</span>
+    <span class="s2">&quot;tr&quot;</span><span class="p">:</span> <span class="n">top</span> <span class="o">+</span> <span class="n">right</span><span class="p">,</span>
+    <span class="s2">&quot;bl&quot;</span><span class="p">:</span> <span class="n">bottom</span> <span class="o">+</span> <span class="n">left</span><span class="p">,</span>
+    <span class="s2">&quot;br&quot;</span><span class="p">:</span> <span class="n">bottom</span> <span class="o">+</span> <span class="n">right</span>
 <span class="p">}</span>
 
 <span class="n">layout</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
@@ -140,8 +129,10 @@
     <span class="p">[</span>  <span class="s2">&quot;&quot;</span><span class="p">,</span>   <span class="s2">&quot;&quot;</span><span class="p">,</span>   <span class="s2">&quot;&quot;</span><span class="p">,</span>   <span class="s2">&quot;&quot;</span><span class="p">,</span>   <span class="s2">&quot;&quot;</span><span class="p">]</span>
 <span class="p">])</span>
 
-<span class="n">map_</span> <span class="o">=</span> <span class="n">Map</span><span class="p">(</span><span class="n">legend</span><span class="o">=</span><span class="n">legend</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">layout</span><span class="p">)</span>
-<span class="n">image</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span><span class="n">map_</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1080</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">)</span>
+<span class="n">map_</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">Map</span><span class="p">(</span><span class="n">legend</span><span class="o">=</span><span class="n">legend</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">layout</span><span class="p">)</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span>
+    <span class="n">map_</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1080</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">),</span> <span class="n">foreground</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="n">background</span><span class="o">=</span><span class="s2">&quot;white&quot;</span>
+<span class="p">)</span>
 </pre></div>
 
         </div>
@@ -153,7 +144,7 @@
         <div class="footer-content">
             <div>
                 <h4>Site</h4>
-                <p>Last Updated: 26/06/20 06:11:09</p>
+                <p>Last Updated: 29/06/20 20:40:02</p>
                 <p>Arlunio: v0.10.0</p>
             </div>
             <div></div>

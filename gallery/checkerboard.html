@@ -21,7 +21,7 @@
 <link rel="stylesheet" href="/css/image.css">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Checkerboard by Alex Carney | Arlunio Gallery ">
+<meta name="twitter:title" content="Checkerboard by Swyddfa Developers | Arlunio Gallery ">
 <meta name="twitter:image" content="https://www.arlun.io/gallery/image/checkerboard.png">
 <meta name="twitter:image:alt" content="Checkerboard">
 
@@ -56,10 +56,10 @@
         <input type="checkbox" id="hide-notes" />
         <div class="image-meta">
             <div class="image-author">
-                <img class="avatar" src="https://github.com/alcarney.png" />
+                <img class="avatar" src="https://github.com/swyddfa.png" />
                 <div>
                     <h1>Checkerboard</h1>
-                    <h3>Alex Carney</h3>
+                    <h3>Swyddfa Developers</h3>
                 </div>
             </div>
             <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -68,16 +68,20 @@
 </svg><span>27 Dec 2019</span>
             <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
     stroke-linejoin="round">
+    <use xlink:href="/svg/feather-sprite.svg#image" />
+</svg><span>1080 x 1080</span>
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+    stroke-linejoin="round">
     <use xlink:href="/svg/feather-sprite.svg#git-merge" />
-</svg><span>9 revisions</span>
+</svg><span>10 revisions</span>
             <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
     stroke-linejoin="round">
     <use xlink:href="/svg/feather-sprite.svg#file-text" />
-</svg><span>15 sloc</span>
+</svg><span>5 sloc</span>
             <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
     stroke-linejoin="round">
     <use xlink:href="/svg/feather-sprite.svg#terminal" />
-</svg><span>v0.0.6</span>
+</svg><span>v0.10.0</span>
         </div>
         <div class="image-meta">
             <label for="hide-notes">Notes</label>
@@ -90,43 +94,17 @@
         </div>
 
         
-        <div class="code">
-            <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arlunio</span> <span class="k">as</span> <span class="nn">ar</span>
-
-<span class="kn">from</span> <span class="nn">arlunio.image</span> <span class="kn">import</span> <span class="n">Image</span><span class="p">,</span> <span class="n">fill</span>
-<span class="kn">from</span> <span class="nn">arlunio.pattern</span> <span class="kn">import</span> <span class="n">Grid</span>
-<span class="kn">from</span> <span class="nn">arlunio.math</span> <span class="kn">import</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span>
-</pre></div>
-
+        <div class="markdown">
+            <p>A checkerboard:</p>
         </div>
         
         <div class="code">
-            <div class="highlight"><pre><span></span><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
-<span class="k">def</span> <span class="nf">CheckerPattern</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Y</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span> <span class="o">&gt;</span> <span class="mi">0</span>
-</pre></div>
+            <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arlunio.image</span> <span class="k">as</span> <span class="nn">image</span>
+<span class="kn">import</span> <span class="nn">arlunio.mask</span> <span class="k">as</span> <span class="nn">mask</span>
+<span class="kn">import</span> <span class="nn">arlunio.pattern</span> <span class="k">as</span> <span class="nn">pattern</span>
 
-        </div>
-        
-        <div class="code">
-            <div class="highlight"><pre><span></span><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
-<span class="k">def</span> <span class="nf">Checkerboard</span><span class="p">(</span><span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Image</span><span class="p">:</span>
-    <span class="n">board</span> <span class="o">=</span> <span class="n">Grid</span><span class="p">(</span><span class="n">defn</span><span class="o">=</span><span class="n">CheckerPattern</span><span class="p">())</span>
-    <span class="k">return</span> <span class="n">fill</span><span class="p">(</span><span class="n">board</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">))</span>
-</pre></div>
-
-        </div>
-        
-        <div class="code">
-            <div class="highlight"><pre><span></span><span class="n">checkerboard</span> <span class="o">=</span> <span class="n">Checkerboard</span><span class="p">()</span>
-<span class="n">image</span> <span class="o">=</span> <span class="n">checkerboard</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1080</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">)</span> 
-<span class="n">image</span>
-</pre></div>
-
-        </div>
-        
-        <div class="code">
-            <div class="highlight"><pre><span></span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">Repeat</span><span class="p">(</span><span class="n">defn</span><span class="o">=</span><span class="n">pattern</span><span class="o">.</span><span class="n">Checker</span><span class="p">())</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">grid</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1080</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">),</span> <span class="n">background</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">)</span>
 </pre></div>
 
         </div>
@@ -138,7 +116,7 @@
         <div class="footer-content">
             <div>
                 <h4>Site</h4>
-                <p>Last Updated: 26/06/20 06:11:09</p>
+                <p>Last Updated: 29/06/20 20:40:02</p>
                 <p>Arlunio: v0.10.0</p>
             </div>
             <div></div>
