@@ -54,6 +54,10 @@ class Image:
         # Give nice previews in jupyter notebooks
         return self.img._repr_png_()
 
+    @property
+    def size(self):
+        return self.img.size
+
     def alpha_composite(self, im, *args, **kwargs):
         """Composites an image onto this image.
 
@@ -84,6 +88,14 @@ class Image:
         See :meth:`pillow:PIL.Image.Image.save`
         """
         self.img.save(*args, **kwargs)
+
+    def thumbnail(self, *args, **kwargs):
+        """Convert this image into a thumbail.
+
+        See :meth:`pillow:PIL.Image.Image.thumbnail`
+        """
+
+        self.img.thumbnail(*args, **kwargs)
 
 
 def new(*args, **kwargs):

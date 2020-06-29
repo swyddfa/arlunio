@@ -1,5 +1,14 @@
 {% extends "base.html" %}
 
+{%- macro gridsize(dimensions) -%}
+  {%- if dimensions.height < dimensions.width -%}
+    gallery-image-wide
+  {%- endif -%}
+  {%- if dimensions.width < dimensions.height -%}
+    gallery-image-tall
+  {%- endif -%}
+{%- endmacro -%}
+
 {% block extrahead %}
 <link rel="stylesheet" href="/css/gallery.css">
 {% endblock %}
@@ -11,25 +20,17 @@
 {% block content %}
 <div class="gallery">
     {% for image in images %}
-    <div class="gallery-image">
+    <div class="gallery-image {{ gridsize(image.dimensions) }}">
         <a href="{{ image.slug }}.html">
-            <style>
-                .thumbnail-{{ image.slug }} {
-                    background-blend-mode: multiply;
-                    background-image: url("{{ image.thumburl }}"), linear-gradient(180deg, rgba(255,255,255,0) 25%,rgba(0,0,0,0) 75%);
-                    background-size: cover;
-                }
-
-                .thumbnail-{{ image.slug }}:hover {
-                    background-image: url("{{ image.thumburl }}"), linear-gradient(180deg, rgba(255,255,255,0) 25%,rgba(0,0,0,.5) 75%);
-                }
-            </style>
-            <div class="thumbnail thumbnail-{{ image.slug }}">
+            <div class="gallery-image-thumb">
+                <img class="thumbnail" loading="lazy" src="{{ image.thumburl }}" />
+                <div class="gallery-image-meta">
                 <div>
                     <h3>{{ image.title }}</h3>
                     <h5>{{image.author.name}}</h5>
                 </div>
-                <img class="avatar" src="https://github.com/{{ image.author.github }}.png" />
+                <img class="avatar" loading="lazy" src="https://github.com/{{ image.author.github }}.png" />
+                </div>
             </div>
         </a>
     </div>

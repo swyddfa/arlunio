@@ -1,19 +1,21 @@
 import logging
 
 import numpy as np
-import PIL.Image as Image
 
 import arlunio as ar
+import arlunio.image as image
+import arlunio.math as math
 from .camera import SimpleCamera
 from .data import Rays
 from .data import ScatterPoint
 from .material import Gradient
 from .material import LambertianDiffuse
-from arlunio.math import clamp
 
 
 @ar.definition
-def ZDepthRenderer(width: int, height: int, *, camera=None, objects=None):
+def ZDepthRenderer(
+    width: int, height: int, *, camera=None, objects=None
+) -> image.Image:
     """A renderer that returns a z-depth pass."""
 
     camera = SimpleCamera() if camera is None else camera
@@ -32,7 +34,7 @@ def ZDepthRenderer(width: int, height: int, *, camera=None, objects=None):
     vs = np.array((depth / np.max(depth)) * 255, dtype=np.uint8)
     vs = vs.reshape(height, width)
 
-    return Image.fromarray(vs, "L")
+    return image.fromarray(vs, "L")
 
 
 @ar.definition
@@ -45,7 +47,7 @@ def ClayRenderer(
     camera=None,
     objects=None,
     bounces=8,
-):
+) -> image.Image:
     """A simple clay renderer."""
 
     background = Gradient() if background is None else background
@@ -171,7 +173,7 @@ def MaterialRenderer(
 
 
 @ar.definition
-def SampledRenderer(width: int, height: int, *, kernel=None, samples=10):
+def SampledRenderer(width: int, height: int, *, kernel=None, samples=10) -> image.Image:
     """A renderer is responsible for orchestrating the entire process."""
 
     if kernel is None:
@@ -188,11 +190,11 @@ def SampledRenderer(width: int, height: int, *, kernel=None, samples=10):
     # Gamma correction...
     cols = np.sqrt(cols)
 
-    r = clamp(cols[:, 0], 0, 0.99999) * 256
-    g = clamp(cols[:, 1], 0, 0.99999) * 256
-    b = clamp(cols[:, 2], 0, 0.99999) * 256
+    r = math.clamp(cols[:, 0], 0, 0.99999) * 256
+    g = math.clamp(cols[:, 1], 0, 0.99999) * 256
+    b = math.clamp(cols[:, 2], 0, 0.99999) * 256
 
     color = np.array(np.dstack([r, g, b])[0], dtype=np.uint8)
     color = color.reshape(height, width, 3)
 
-    return Image.fromarray(color, "RGB")
+    return image.fromarray(color, "RGB")
