@@ -184,6 +184,9 @@
 <tr class="row-odd"><td><p><strong>Inputs:</strong></p></td>
 <td><p><code class="code docutils literal notranslate"><span class="pre">width:</span> <span class="pre">int</span></code> <code class="code docutils literal notranslate"><span class="pre">height:</span> <span class="pre">int</span></code></p></td>
 </tr>
+<tr class="row-even"><td><p><strong>Produces:</strong></p></td>
+<td><p><a class="reference internal" href="image.html#arlunio.image.Image" title="arlunio.image.Image"><code class="xref py py-class docutils literal notranslate"><span class="pre">Image</span></code></a></p></td>
+</tr>
 </tbody>
 </table>
 <p>A simple clay renderer.</p>
@@ -259,7 +262,7 @@
 
 <dl class="py class">
 <dt id="arlunio.raytrace.Rays">
-<em class="property">class </em><code class="sig-prename descclassname">arlunio.raytrace.</code><code class="sig-name descname">Rays</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">origin</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.18)">numpy.ndarray</a></span></em>, <em class="sig-param"><span class="n">direction</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.18)">numpy.ndarray</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/raytrace/data.html#Rays"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.raytrace.Rays" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">arlunio.raytrace.</code><code class="sig-name descname">Rays</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">origin</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.19)">numpy.ndarray</a></span></em>, <em class="sig-param"><span class="n">direction</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.19)">numpy.ndarray</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/raytrace/data.html#Rays"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.raytrace.Rays" title="Permalink to this definition">¶</a></dt>
 <dd><p>A collection of rays</p>
 <dl class="py method">
 <dt id="arlunio.raytrace.Rays.at">
@@ -293,6 +296,9 @@
 <tr class="row-odd"><td><p><strong>Inputs:</strong></p></td>
 <td><p><code class="code docutils literal notranslate"><span class="pre">width:</span> <span class="pre">int</span></code> <code class="code docutils literal notranslate"><span class="pre">height:</span> <span class="pre">int</span></code></p></td>
 </tr>
+<tr class="row-even"><td><p><strong>Produces:</strong></p></td>
+<td><p><a class="reference internal" href="image.html#arlunio.image.Image" title="arlunio.image.Image"><code class="xref py py-class docutils literal notranslate"><span class="pre">Image</span></code></a></p></td>
+</tr>
 </tbody>
 </table>
 <p>A renderer is responsible for orchestrating the entire process.</p>
@@ -300,7 +306,7 @@
 
 <dl class="py class">
 <dt id="arlunio.raytrace.ScatterPoint">
-<em class="property">class </em><code class="sig-prename descclassname">arlunio.raytrace.</code><code class="sig-name descname">ScatterPoint</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">hit</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.18)">numpy.ndarray</a></span></em>, <em class="sig-param"><span class="n">t</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.18)">numpy.ndarray</a></span></em>, <em class="sig-param"><span class="n">p</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.18)">numpy.ndarray</a></span></em>, <em class="sig-param"><span class="n">normal</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.18)">numpy.ndarray</a></span></em>, <em class="sig-param"><span class="n">front_face</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.18)">numpy.ndarray</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/raytrace/data.html#ScatterPoint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.raytrace.ScatterPoint" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">arlunio.raytrace.</code><code class="sig-name descname">ScatterPoint</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">hit</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.19)">numpy.ndarray</a></span></em>, <em class="sig-param"><span class="n">t</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.19)">numpy.ndarray</a></span></em>, <em class="sig-param"><span class="n">p</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.19)">numpy.ndarray</a></span></em>, <em class="sig-param"><span class="n">normal</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.19)">numpy.ndarray</a></span></em>, <em class="sig-param"><span class="n">front_face</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.19)">numpy.ndarray</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/raytrace/data.html#ScatterPoint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.raytrace.ScatterPoint" title="Permalink to this definition">¶</a></dt>
 <dd><p>A scatter point is where rays have intersected an object and where various
 calculations should take place.</p>
 <dl class="py method">
@@ -463,6 +469,9 @@ will default to an instance of <a class="reference internal" href="#arlunio.rayt
 <tbody>
 <tr class="row-odd"><td><p><strong>Inputs:</strong></p></td>
 <td><p><code class="code docutils literal notranslate"><span class="pre">width:</span> <span class="pre">int</span></code> <code class="code docutils literal notranslate"><span class="pre">height:</span> <span class="pre">int</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Produces:</strong></p></td>
+<td><p><a class="reference internal" href="image.html#arlunio.image.Image" title="arlunio.image.Image"><code class="xref py py-class docutils literal notranslate"><span class="pre">Image</span></code></a></p></td>
 </tr>
 </tbody>
 </table>

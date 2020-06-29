@@ -206,7 +206,7 @@
 <span class="k">def</span> <span class="nf">LambertianDiffuse</span><span class="p">(</span><span class="n">scatter</span><span class="p">:</span> <span class="n">ScatterPoint</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;lightgrey&quot;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Lambertian diffuse material.&quot;&quot;&quot;</span>
 
-    <span class="n">color</span> <span class="o">=</span> <span class="n">getcolorf</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
+    <span class="n">color</span> <span class="o">=</span> <span class="n">getcolorf</span><span class="p">(</span><span class="n">color</span><span class="p">,</span> <span class="s2">&quot;RGB&quot;</span><span class="p">)</span>
     <span class="n">n</span> <span class="o">=</span> <span class="n">scatter</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
     <span class="n">origin</span> <span class="o">=</span> <span class="n">scatter</span><span class="o">.</span><span class="n">p</span>

@@ -162,19 +162,21 @@
 <span></span><span class="kn">import</span> <span class="nn">logging</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">PIL.Image</span> <span class="k">as</span> <span class="nn">Image</span>
 
 <span class="kn">import</span> <span class="nn">arlunio</span> <span class="k">as</span> <span class="nn">ar</span>
+<span class="kn">import</span> <span class="nn">arlunio.image</span> <span class="k">as</span> <span class="nn">image</span>
+<span class="kn">import</span> <span class="nn">arlunio.math</span> <span class="k">as</span> <span class="nn">math</span>
 <span class="kn">from</span> <span class="nn">.camera</span> <span class="kn">import</span> <span class="n">SimpleCamera</span>
 <span class="kn">from</span> <span class="nn">.data</span> <span class="kn">import</span> <span class="n">Rays</span>
 <span class="kn">from</span> <span class="nn">.data</span> <span class="kn">import</span> <span class="n">ScatterPoint</span>
 <span class="kn">from</span> <span class="nn">.material</span> <span class="kn">import</span> <span class="n">Gradient</span>
 <span class="kn">from</span> <span class="nn">.material</span> <span class="kn">import</span> <span class="n">LambertianDiffuse</span>
-<span class="kn">from</span> <span class="nn">arlunio.math</span> <span class="kn">import</span> <span class="n">clamp</span>
 
 
 <div class="viewcode-block" id="ZDepthRenderer"><a class="viewcode-back" href="../../../stdlib/raytrace.html#arlunio.raytrace.ZDepthRenderer">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
-<span class="k">def</span> <span class="nf">ZDepthRenderer</span><span class="p">(</span><span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">camera</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">objects</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">ZDepthRenderer</span><span class="p">(</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">camera</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">objects</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">image</span><span class="o">.</span><span class="n">Image</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;A renderer that returns a z-depth pass.&quot;&quot;&quot;</span>
 
     <span class="n">camera</span> <span class="o">=</span> <span class="n">SimpleCamera</span><span class="p">()</span> <span class="k">if</span> <span class="n">camera</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">camera</span>
@@ -193,7 +195,7 @@
     <span class="n">vs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="n">depth</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">depth</span><span class="p">))</span> <span class="o">*</span> <span class="mi">255</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
     <span class="n">vs</span> <span class="o">=</span> <span class="n">vs</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">Image</span><span class="o">.</span><span class="n">fromarray</span><span class="p">(</span><span class="n">vs</span><span class="p">,</span> <span class="s2">&quot;L&quot;</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">image</span><span class="o">.</span><span class="n">fromarray</span><span class="p">(</span><span class="n">vs</span><span class="p">,</span> <span class="s2">&quot;L&quot;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="ClayRenderer"><a class="viewcode-back" href="../../../stdlib/raytrace.html#arlunio.raytrace.ClayRenderer">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
@@ -206,7 +208,7 @@
     <span class="n">camera</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">objects</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">bounces</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
-<span class="p">):</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">image</span><span class="o">.</span><span class="n">Image</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;A simple clay renderer.&quot;&quot;&quot;</span>
 
     <span class="n">background</span> <span class="o">=</span> <span class="n">Gradient</span><span class="p">()</span> <span class="k">if</span> <span class="n">background</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">background</span>
@@ -332,7 +334,7 @@
 
 
 <div class="viewcode-block" id="SampledRenderer"><a class="viewcode-back" href="../../../stdlib/raytrace.html#arlunio.raytrace.SampledRenderer">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
-<span class="k">def</span> <span class="nf">SampledRenderer</span><span class="p">(</span><span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">samples</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">SampledRenderer</span><span class="p">(</span><span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">samples</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">image</span><span class="o">.</span><span class="n">Image</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;A renderer is responsible for orchestrating the entire process.&quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">kernel</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -349,14 +351,14 @@
     <span class="c1"># Gamma correction...</span>
     <span class="n">cols</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">cols</span><span class="p">)</span>
 
-    <span class="n">r</span> <span class="o">=</span> <span class="n">clamp</span><span class="p">(</span><span class="n">cols</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.99999</span><span class="p">)</span> <span class="o">*</span> <span class="mi">256</span>
-    <span class="n">g</span> <span class="o">=</span> <span class="n">clamp</span><span class="p">(</span><span class="n">cols</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.99999</span><span class="p">)</span> <span class="o">*</span> <span class="mi">256</span>
-    <span class="n">b</span> <span class="o">=</span> <span class="n">clamp</span><span class="p">(</span><span class="n">cols</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.99999</span><span class="p">)</span> <span class="o">*</span> <span class="mi">256</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="n">cols</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.99999</span><span class="p">)</span> <span class="o">*</span> <span class="mi">256</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="n">cols</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.99999</span><span class="p">)</span> <span class="o">*</span> <span class="mi">256</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="n">cols</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.99999</span><span class="p">)</span> <span class="o">*</span> <span class="mi">256</span>
 
     <span class="n">color</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dstack</span><span class="p">([</span><span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span><span class="p">])[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
     <span class="n">color</span> <span class="o">=</span> <span class="n">color</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">Image</span><span class="o">.</span><span class="n">fromarray</span><span class="p">(</span><span class="n">color</span><span class="p">,</span> <span class="s2">&quot;RGB&quot;</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">image</span><span class="o">.</span><span class="n">fromarray</span><span class="p">(</span><span class="n">color</span><span class="p">,</span> <span class="s2">&quot;RGB&quot;</span><span class="p">)</span></div>
 </pre></div>
 
            </div>

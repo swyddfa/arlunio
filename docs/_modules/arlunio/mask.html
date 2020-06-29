@@ -370,7 +370,11 @@
 
 <span class="sd">    The arguments can be any mixture of booleans, arrays and masks.</span>
 
-<span class="sd">    &gt;&gt;&gt; mask.any_(False, mask.Mask([True, False]), np.array([[False, True], [True, False]]))  # noqa: E501</span>
+<span class="sd">    &gt;&gt;&gt; mask.any_(</span>
+<span class="sd">    ...     False,</span>
+<span class="sd">    ...     mask.Mask([True, False]),</span>
+<span class="sd">    ...     np.array([[False, True], [True, False]])</span>
+<span class="sd">    ... )</span>
 <span class="sd">    Mask([[ True,  True],</span>
 <span class="sd">          [ True, False]])</span>
 
@@ -426,7 +430,11 @@
 
 <span class="sd">    Arugments can be any mixture of booleans, masks and numpy arrays.</span>
 
-<span class="sd">    &gt;&gt;&gt; mask.all_(True, mask.Mask([True, False]), np.array([[False, True], [True, False]]))  # noqa: E501</span>
+<span class="sd">    &gt;&gt;&gt; mask.all_(</span>
+<span class="sd">    ...     True,</span>
+<span class="sd">    ...     mask.Mask([True, False]),</span>
+<span class="sd">    ...     np.array([[False, True], [True, False]])</span>
+<span class="sd">    ... )</span>
 <span class="sd">    Mask([[False, False],</span>
 <span class="sd">          [ True, False]])</span>
 
@@ -628,8 +636,9 @@
 <span class="sd">          ])</span>
 
 <span class="sd">          map_ = mask.Map(legend=legend, layout=layout)</span>
-<span class="sd">          img = image.fill(map_(width=1080, height=1080), foreground=&quot;blue&quot;)</span>
-
+<span class="sd">          img = image.fill(</span>
+<span class="sd">              map_(width=1080, height=1080), foreground=&quot;blue&quot;, background=&quot;white&quot;</span>
+<span class="sd">          )</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">fill</span> <span class="o">=</span> <span class="n">fill</span> <span class="k">if</span> <span class="n">fill</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">Empty</span><span class="p">()</span>
 
@@ -717,7 +726,7 @@
 <span class="sd">          ])</span>
 
 <span class="sd">          defn = mask.Pixelize(mask=face)</span>
-<span class="sd">          img = image.fill(defn(width=512, height=512))</span>
+<span class="sd">          img = image.fill(defn(width=512, height=512), background=&quot;white&quot;)</span>
 
 <span class="sd">    We can also generate the mask directly from another definition.</span>
 
@@ -750,7 +759,9 @@
 <span class="sd">              return (head(x=x, y=y) - eyes(x=np.abs(x), y=y)) + body</span>
 
 <span class="sd">          ghost = mask.Pixelize(defn=Ghost(y0=-0.3), scale=32)</span>
-<span class="sd">          img = image.fill(ghost(width=1080, height=1080), foreground=&quot;#f00&quot;)</span>
+<span class="sd">          img = image.fill(</span>
+<span class="sd">              ghost(width=1080, height=1080), foreground=&quot;#f00&quot;, background=&quot;white&quot;</span>
+<span class="sd">          )</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
