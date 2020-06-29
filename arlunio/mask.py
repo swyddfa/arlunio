@@ -95,7 +95,7 @@ def Empty(width: int, height: int) -> Mask:
 
 @ar.definition
 def Full(width: int, height: int) -> Mask:
-    """An full mask.
+    """A full mask.
 
     Example
     -------
@@ -282,3 +282,335 @@ def all_(*args: Union[bool, np.ndarray, Mask]) -> Mask:
        Reference documentation on the :code:`logical_and` function.
     """
     return Mask(functools.reduce(np.logical_and, args))
+
+
+@ar.definition
+def Repeat(width: int, height: int, *, n=4, m=None, defn=None) -> Mask:
+    """Given a mask producing definition, replicate the resulting mask in a grid.
+
+    .. arlunio-image:: Simple Grid
+
+       ::
+
+          import arlunio.image as image
+          import arlunio.mask as mask
+          import arlunio.shape as shape
+
+          pattern = mask.Repeat(defn=shape.Circle())
+          img = image.fill(pattern(width=256, height=256))
+
+    When evaluated this will create a mask with the given :code:`width` and
+    :code:`height`. It will then subdivide it into an :math:`n \\times m` grid where
+    each cell contains a copy of the mask as produced by the definition specified with
+    the :code:`defn` attribute.
+
+    It's important to note that the given definition must only take :code:`width` and
+    :code:`height` as inputs.
+
+
+    .. note::
+
+       Due to a limitation in the current implementation, you will get the best results
+       if your :math:`n \\times m` grid divides cleanly into the resolution of the final
+       mask. Otherwise you will find that the generated grid won't completly fill it.
+
+    Attributes
+    ----------
+    n:
+        The number of times to repeat the given definition horizontally
+    m:
+        The number of times to repeat the given definition vertically. If :code:`None`
+        this defaults to the value of :code:`n`
+    defn:
+        The instance of the definition to replicate.
+
+    Examples
+    --------
+
+    .. arlunio-image:: Circular Pattern
+       :gallery: examples
+       :include-code:
+       :width: 50%
+
+       A pattern generated from circles::
+
+          import arlunio as ar
+          import numpy as np
+
+          import arlunio.image as image
+          import arlunio.math as math
+          import arlunio.mask as mask
+          import arlunio.shape as shape
+
+          @ar.definition
+          def Template(x: math.X, y: math.Y) -> mask.Mask:
+              c = shape.Circle(xc=0.4, yc=0.4, pt=0.02)
+              return c(x=np.abs(x), y=np.abs(y))
+
+          pattern = mask.Repeat(defn=Template(scale=1.))
+          img = image.fill(
+              pattern(width=1080, height=1080), background="#000", foreground="#ff0"
+          )
+
+    .. arlunio-image:: Checkerboard
+       :gallery: examples
+       :include-code:
+       :width: 50%
+
+       A checkerboard::
+
+          import arlunio.image as image
+          import arlunio.mask as mask
+          import arlunio.pattern as pattern
+
+          grid = mask.Repeat(defn=pattern.Checker())
+          img = image.fill(grid(width=1080, height=1080), background="white")
+
+    """
+    if m is None:
+        m = n
+
+    bg = np.full((height, width), False)
+
+    # Draw the shape at a size determined by the size of the grid
+    s_height, s_width = height // m, width // n
+    mask = defn(width=s_width, height=s_height)
+
+    # Let numpy handle the repeating of the shape across the image.
+    pattern = np.tile(mask, (m, n))
+
+    # Apply the pattern to the background, depending on the grid size and
+    # image dimensions align, the generated grid may not perfectly fill the
+    # image.
+    p_height, p_width = pattern.shape
+
+    bg[:p_height, :p_width] = pattern
+
+    return bg
+
+
+@ar.definition
+def Map(width: int, height: int, *, layout=None, legend=None, fill=None) -> Mask:
+    """Build a mask composed out of smaller, simpler masks.
+
+    When evaluated this will produce a mask with the given :code:`width` and
+    :code:`height` and divide it into a grid. The dimensions of this grid are determined
+    by shape of the :code:`layout` array.
+
+    The :code:`layout` attribute should be set to a 2D array the elements of which can
+    be anything. While the :code:`legend` attribute is set to a dictionary whose keys
+    correspond to values in the :code:`layout` array. These keys should then map to mask
+    producing definitions. It's important to note that these definitions can only take
+    :code:`width` and :code:`height` as inputs.
+
+    The cells in the grid will then be set to the mask produced by the definition
+    corresponding to the value in the :code:`layout`. If however the :code:`legend` does
+    not contain a matching key then the :code:`fill` definition will be used instead.
+
+    .. note::
+
+       Due to a limitation in the current implementation, you will get best results
+       if the dimensions of the :code:`layout` grid divide cleanly into the dimensions
+       of the final mask.
+
+    Attributes
+    ----------
+    fill:
+        The definition to use in any cell where a corresponding definition cannot be
+        found in the legend. If :code:`None` this will default to
+        :class:`arlunio.mask.Empty`
+    layout:
+        A 2D numpy array of values representing keys from the :code:`legend` detailing
+        which mask should be used in which cell.
+    legend:
+        A dictionary with keys corresponding to values in the :code:`layout` that map to
+        mask producing definitions that should be used.
+
+    Example
+    -------
+    .. arlunio-image:: Simple Map
+       :include-code:
+       :width: 50%
+       :gallery: examples
+
+       ::
+
+          import arlunio.image as image
+          import arlunio.mask as mask
+          import arlunio.shape as shape
+
+          import numpy as np
+
+          top = shape.Rectangle(size=0.2, yc=1, ratio=50)
+          left = shape.Rectangle(size=0.2, xc=-1, ratio=1/50)
+          right = shape.Rectangle(size=0.2, xc=1, ratio=1/50)
+          bottom = shape.Rectangle(size=0.2, yc=-1, ratio=50)
+
+          legend = {
+              "tt": top,
+              "bb": bottom,
+              "ll": left,
+              "rr": right,
+              "tl": top + left,
+              "tr": top + right,
+              "bl": bottom + left,
+              "br": bottom + right
+          }
+
+          layout = np.array([
+              ["tt", "tt", "tt", "tt", "tr"],
+              [  "", "tl", "tt", "tr", "rr"],
+              [  "", "ll", "bl", "br", "rr"],
+              [  "", "bl", "bb", "bb", "br"],
+              [  "",   "",   "",   "",   ""]
+          ])
+
+          map_ = mask.Map(legend=legend, layout=layout)
+          img = image.fill(map_(width=1080, height=1080), foreground="blue")
+
+    """
+    fill = fill if fill is not None else Empty()
+
+    # TODO: Handle divisions with rounding errors
+    nx, ny = len(layout), len(layout[0])
+    size = {"height": height // ny, "width": width // nx}
+
+    # Build a new dict with the values being the shapes drawn at the appropriate res
+    # to ensure we only draw them once.
+    items = {k: v(**size) for k, v in legend.items()}
+    default = fill(**size)
+
+    return np.block([[items.get(key, default) for key in row] for row in layout])
+
+
+@ar.definition
+def Pixelize(width: int, height: int, *, mask=None, defn=None, n=None, m=None) -> Mask:
+    """Produce a pixelated version of the given mask.
+
+    .. arlunio-image:: Pixelise
+       :align: center
+
+       ::
+
+          import arlunio.image as image
+          import arlunio.mask as mask
+          import arlunio.shape as shape
+
+          pix = mask.Pixelize(defn=shape.Circle(), n=16, m=16)
+          img = image.fill(pix(width=256, height=256))
+
+    This definition can either be given an existing :code:`mask` or a mask producing
+    definition which can be given with the :code:`defn` attribute. Note that this
+    definition can only take :code:`width` and :code:`height` as inputs.
+
+    .. note::
+
+       Due to a limitation in the current implementation you will get the best results
+       if your values for :code:`n` and :code:`m` cleanly divides into the resolution of
+       the final mask. This also applies to the dimensions of your array if you are
+       providing the :code:`pixels` attribute directly.
+
+    .. note::
+
+       Due to how each enlarged pixel in the final mask is mapped onto a rectangular
+       region, unless your :code:`n` by :code:`m` grid matches the aspect ratio of the
+       final mask you will find your original mask will be distorted as it is
+       strectched to cover the final image.
+
+    Attributes
+    ----------
+    mask:
+        The mask to pixelise. If given then :code:`defn` must be :code:`None`.
+    defn:
+        The mask producing definition to use. If given then :code:`mask` must be
+        :code:`None`
+    n:
+        Required when specifying the :code:`defn` attribute, sets the horizontal size of
+        the mask to pixelise
+    m:
+        Required when specifying the :code:`defn` attribute, sets the vertical size of
+        the mask to pixelise
+
+    Examples
+    --------
+
+    This definition can be used to render a mask at a higher resolution
+
+    .. arlunio-image:: Creeper
+       :gallery: examples
+       :include-code:
+       :width: 50%
+
+       ::
+
+          import numpy as np
+
+          import arlunio.image as image
+          import arlunio.mask as mask
+
+          face = np.array([
+              [False, False, False, False, False, False, False, False],
+              [False, False, False, False, False, False, False, False],
+              [False,  True,  True, False, False,  True,  True, False],
+              [False,  True,  True, False, False,  True,  True, False],
+              [False, False, False,  True,  True, False, False, False],
+              [False, False,  True,  True,  True,  True, False, False],
+              [False, False,  True,  True,  True,  True, False, False],
+              [False, False,  True, False, False,  True, False, False],
+          ])
+
+          defn = mask.Pixelize(mask=face)
+          img = image.fill(defn(width=512, height=512))
+
+    We can also generate the mask directly from another definition.
+
+    .. arlunio-image:: Ghost
+       :include-code:
+       :width: 50%
+       :gallery: examples
+
+       ::
+
+          import arlunio as ar
+          import arlunio.image as image
+          import arlunio.mask as mask
+          import arlunio.math as math
+          import arlunio.shape as shape
+
+          import numpy as np
+
+          @ar.definition
+          def Ghost(x: math.X, y: math.Y) -> mask.Mask:
+              head = shape.Circle(yc=0.5, r=0.7)
+              eyes = shape.Circle(xc=0.2, yc=0.6, r=0.3)
+
+              body = mask.all_(
+                  y < 0.5,
+                  np.abs(x) < 0.49,
+                  0.1 * np.cos(5 * np.pi * x) - 0.3 < y
+              )
+
+              return (head(x=x, y=y) - eyes(x=np.abs(x), y=y)) + body
+
+          ghost = mask.Pixelize(defn=Ghost(y0=-0.3), n=32, m=32)
+          img = image.fill(ghost(width=1080, height=1080), foreground="#f00")
+
+    """
+
+    if defn is None and mask is None:
+        raise ValueError("You must either provide a shape or a pixel pattern.")
+
+    if defn is not None:
+
+        if n is None or m is None:
+            raise ValueError("You must also provide the `n` and `m` attributes")
+
+        mask = defn(width=n, height=m)
+
+    n, m = len(mask), len(mask[0])
+    size = (height // m, width // n)  # TODO: Handle divisions with rounding errors
+
+    fill = np.full(size, True)
+    empty = np.full(size, False)
+
+    return np.block([[fill if col else empty for col in row] for row in mask])
