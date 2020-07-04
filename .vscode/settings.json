@@ -9,7 +9,6 @@
         "build": true,
         "dist": true,
         "pip-wheel-metadata": true,
-        ".dev": true,
         "htmlcov": true,
         ".coverage": true,
         "coverage.xml": true,
