@@ -98,12 +98,35 @@ class Image:
         self.img.thumbnail(*args, **kwargs)
 
 
-def new(*args, **kwargs):
-    """Creates a new image with the given mode and size
+def new(size, *args, mode="RGBA", **kwargs) -> Image:
+    """Creates a new image with the given size.
 
-    See :func:`pillow:PIL.Image.new`
+    This function by default will return a new :code:`RGBA` image with the given
+    dimensions. Dimensions can be specified either using a tuple :code:`(width, height)`
+    or by passing in :code:`width` and :code:`height` individually as positional
+    parameters.
+
+    This makes use of pillow's :func:`pillow:PIL.Image.new` function, additional keyword
+    arguments passed to this function will be passed onto it.
+
+    Parameters
+    ----------
+    size:
+        The dimensions of the image, :code:`(width, height)`
+    mode:
+        The type of image to create, default :code:`RGBA`. See
+        :ref:`pillow:concept-modes` for more details.
+
     """
-    return Image(PImage.new(*args, **kwargs))
+
+    if isinstance(size, int):
+        if len(args) == 0:
+            raise ValueError("You must specify a width and a height")
+
+        height, args = args[0], args[1:]
+        size = (size, height)
+
+    return Image(PImage.new(mode, size, *args, **kwargs))
 
 
 def fromarray(*args, **kwargs):
@@ -150,7 +173,7 @@ def encode(image: Image) -> bytes:
     ::
 
        >>> import arlunio.image as image
-       >>> img = image.new("RGBA", (8, 8), color='red')
+       >>> img = image.new((8, 8), color='red')
        >>> image.encode(img)
        b'iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAFklEQVR4nGP8z8DwnwEPYMInOXwUAAASWwIOH0pJXQAAAABJRU5ErkJggg=='
 
@@ -245,7 +268,6 @@ def colorramp(values, start: Optional[str] = None, stop: Optional[str] = None) -
           cartesian = math.Cartesian()
           p = cartesian(width=256, height=256)
 
-          bg = image.new("RGBA", (256, 256), color="black")
           x = image.colorramp(p[:, :, 0], start="#0000", stop="#f007")
           y = image.colorramp(p[:, :, 1], start="#0000", stop="#00f7")
 
@@ -328,7 +350,7 @@ def fill(
         background = "#0000" if background is None else background
 
         height, width = mask.shape
-        image = new("RGBA", (width, height), color=background)
+        image = new((width, height), color=background)
 
     else:
         image = image.copy()

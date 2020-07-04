@@ -57,7 +57,7 @@ def Circle(x: math.X, y: math.Y, *, xc=0, yc=0, r=0.8, pt=None) -> mask.Mask:
 
           @ar.definition
           def Target(width: int, height: int) -> image.Image:
-              img = image.new("RGBA", (width, height), color="white")
+              img = image.new((width, height), color="white")
               parts = [
                   (shape.Circle(pt=0.02), "#000"),
                   (shape.Circle(r=0.75, pt=0.12), "#f00"),
@@ -96,7 +96,7 @@ def Circle(x: math.X, y: math.Y, *, xc=0, yc=0, r=0.8, pt=None) -> mask.Mask:
               dx = spacing / 2
               args = {"scale": 0.5, "r": spacing, "pt": pt}
 
-              img = image.new("RGBA", (width, height), color="white")
+              img = image.new((width, height), color="white")
               rings = [
                   (shape.Circle(yc=dy, xc=-(2.2 * dx), **args), "#0ff"),
                   (shape.Circle(yc=dy, **args), "#000"),
@@ -194,7 +194,7 @@ def Ellipse(x: math.X, y: math.Y, *, xc=0, yc=0, a=2, b=1, r=0.8, pt=None) -> ma
 
           @ar.definition
           def EllipseDemo(width: int, height: int):
-              img = image.new("RGBA", (width, height), color="white")
+              img = image.new(width, height, color="white")
               ellipses = [
                   shape.Ellipse(xc=-0.5, yc=-0.5, a=0.5, b=0.5, r=0.4),
                   shape.Ellipse(yc=-0.5, a=1, b=0.5, r=0.4),
@@ -340,7 +340,7 @@ def SuperEllipse(
 
           @ar.definition
           def SuperEllipseDemo(width: int, height: int):
-              img = image.new("RGBA", (width, height), color="white")
+              img = image.new(width, height, color="white")
               ellipses = [
                   (shape.SuperEllipse(n=0.5, pt=0.01),'#f00'),
                   (shape.SuperEllipse(n=1, pt=0.01),'#0f0'),
@@ -376,7 +376,7 @@ def SuperEllipse(
 
           @ar.definition
           def Sauron(width: int, height: int):
-              img = image.new("RGBA", (width, height), color="white")
+              img = image.new(width, height, color="white")
               ellipses = [
                   (shape.SuperEllipse(a=2, n=3, m=0.2, r=0.98),'#f00'),
                   (shape.SuperEllipse(n=2),'#f50'),
