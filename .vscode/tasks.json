@@ -22,43 +22,14 @@
             }
         },
         {
-            "label": "Build Docs",
+            "label": "Jupyter",
             "type": "shell",
-            "command": "source ${workspaceRoot}/.env/bin/activate && sphinx-autobuild -E -a -b html docs/ docs/_build/",
+            "command": "source ${workspaceRoot}/.env/bin/activate && jupyter-lab ${input:jupyterArgs}",
             "problemMatcher": [],
             "group": "build",
+            "isBackground": true,
             "options": {
-                "cwd": "${workspaceRoot}"
-            }
-        },
-        {
-            "label": "Build Tutorial",
-            "type": "shell",
-            "command": "source ${workspaceRoot}/.env/bin/activate && sphinx-build -M nbtutorial docs/ docs/_build/ -E -a",
-            "problemMatcher": [],
-            "group": "build",
-            "options": {
-                "cwd": "${workspaceRoot}"
-            }
-        },
-        {
-            "label": "Edit Gallery",
-            "type": "shell",
-            "command": "source ${workspaceRoot}/.env/bin/activate && jupyter-lab --no-browser",
-            "problemMatcher": [],
-            "group": "build",
-            "options": {
-                "cwd": "${workspaceRoot}/blog/src/gallery"
-            }
-        },
-        {
-            "label": "Edit Gallery (browser)",
-            "type": "shell",
-            "command": "source ${workspaceRoot}/.env/bin/activate && jupyter-lab",
-            "problemMatcher": [],
-            "group": "build",
-            "options": {
-                "cwd": "${workspaceRoot}/blog/src/gallery"
+                "cwd": "${input:jupyterWd}"
             }
         },
         {
@@ -69,6 +40,16 @@
             "group": "build",
             "options": {
                 "cwd": "${workspaceRoot}/blog/public"
+            }
+        },
+        {
+            "label": "Sphinx",
+            "type": "shell",
+            "command": "source ${workspaceRoot}/.env/bin/activate && make ${input:builder}",
+            "problemMatcher": [],
+            "group": "build",
+            "options": {
+                "cwd": "${workspaceRoot}/docs"
             }
         },
         {
@@ -99,36 +80,6 @@
                     ]
                 }
             ],
-            "group": "test",
-            "options": {
-                "cwd": "${workspaceRoot}"
-            }
-        },
-        {
-            "label": "Scratch Notebooks",
-            "type": "shell",
-            "command": "source ${workspaceRoot}/.env/bin/activate && jupyter-lab",
-            "problemMatcher": [],
-            "group": "build",
-            "options": {
-                "cwd": "${workspaceRoot}/.scratch"
-            }
-        },
-        {
-            "label": "Open Tutorial",
-            "type": "shell",
-            "command": "source ${workspaceRoot}/.env/bin/activate && jupyter-lab",
-            "problemMatcher": [],
-            "group": "build",
-            "options": {
-                "cwd": "${workspaceRoot}/docs/_build/nbtutorial/users"
-            }
-        },
-        {
-            "label": "Test File",
-            "type": "shell",
-            "command": "${config:python.pythonPath} -m tox -e py38 -- ${file}",
-            "problemMatcher": [],
             "group": "test",
             "options": {
                 "cwd": "${workspaceRoot}"
@@ -169,9 +120,38 @@
             "default": "-e py38"
         },
         {
+            "id": "builder",
+            "description": "Sphinx builders",
+            "type": "pickString",
+            "default": "html",
+            "options": [
+                {
+                    "label": "Build HTML Docs",
+                    "value": "html"
+                },
+                {
+                    "label": "Extract gallery images",
+                    "value": "nbgallery"
+                },
+                {
+                    "label": "Extract tutorial",
+                    "value": "nbtutorial"
+                },
+                {
+                    "label": "Test Examples",
+                    "value": "doctest"
+                },
+                {
+                    "label": "Test Links",
+                    "value": "linkcheck"
+                }
+            ]
+        },
+        {
             "id": "blogArgs",
             "description": "Blog Arguments",
             "type": "pickString",
+            "default": "--local",
             "options": [
                 {
                     "label": "Local",
@@ -189,8 +169,39 @@
                     "label": "Local, debug, skipping errors",
                     "value": "-vv --local --skip-failures"
                 }
-            ],
-            "default": "--local"
+            ]
+        },
+        {
+            "id": "jupyterArgs",
+            "description": "Jupyter Arguments",
+            "type": "pickString",
+            "default": "",
+            "options": [
+                {
+                    "label": "Headless",
+                    "value": "--no-browser"
+                },
+                {
+                    "label": "In Browser",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "id": "jupyterWd",
+            "description": "Working directory for jupyter",
+            "type": "pickString",
+            "default": ".scratch",
+            "options": [
+                {
+                    "label": "Scratch Folder",
+                    "value": ".scratch"
+                },
+                {
+                    "label": "Gallery",
+                    "value": "blog/src/gallery"
+                }
+            ]
         }
     ]
 }
