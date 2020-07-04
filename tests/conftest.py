@@ -9,6 +9,7 @@ from docutils.readers.standalone import Reader
 from sphinx.ext.doctest import DoctestDirective
 
 from arlunio.doc.image import ArlunioImageDirective
+from arlunio.doc.notebook import NBSolutionDirective
 
 
 @py.test.fixture(scope="session")
@@ -78,6 +79,7 @@ def parse_rst(rst_mock_settings):
     # Register any extended directives with docutils.
     directives.register_directive("doctest", DoctestDirective)
     directives.register_directive("arlunio-image", ArlunioImageDirective)
+    directives.register_directive("nbsolution", NBSolutionDirective)
 
     def parse(src):
         parser = Parser()

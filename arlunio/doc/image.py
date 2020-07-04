@@ -2,6 +2,7 @@ import pathlib
 import textwrap
 import traceback
 from typing import List
+from typing import Optional
 
 from docutils import nodes
 from docutils.parsers.rst import directives
@@ -45,24 +46,37 @@ def parse_content(state, content: StringList) -> List[nodes.Node]:
     return section.children
 
 
-def reformat_content(caption: str, code: str, include_code: bool) -> StringList:
+def reformat_content(
+    caption: str, code: str, include_code: Optional[str]
+) -> StringList:
     """Reformat the content of the arlunio-image directive so that it's compatible with
     the standard figure directive."""
 
     count = Count()
     src = "<arlunio_image>"
+    indent = "   "
 
     content = StringList()
     content.append(caption, src, count())
     content.append("", src, count())
 
-    if include_code:
+    if include_code is not None:
+        level = 0
 
-        content.append(".. code-block:: python", src, count())
+        if include_code == "solution":
+            content.append(".. nbsolution::", src, count())
+            content.append("", src, count())
+
+            level += 1
+
+        codeblock = textwrap.indent(".. code-block:: python", indent * level)
+        content.append(codeblock, src, count())
         content.append("", src, count())
 
+        level += 1
+
         for line in code.splitlines():
-            line = textwrap.indent(line, "   ")
+            line = textwrap.indent(line, indent * level)
             content.append(line, src, count())
 
     return content
@@ -147,9 +161,13 @@ class ArlunioImageDirective(Figure):
     has_content = True
     final_argument_whitespace = True
 
+    def inccode(arg):
+        arg = "" if arg is None else arg
+        return directives.choice(arg, ("", "solution"))
+
     option_spec = Figure.option_spec.copy()
     option_spec["gallery"] = directives.unchanged
-    option_spec["include-code"] = directives.flag
+    option_spec["include-code"] = inccode
 
     def run(self):
 
@@ -159,7 +177,7 @@ class ArlunioImageDirective(Figure):
         imgpath = imgname.lower().replace(" ", "-")
 
         logger.debug("[arlunio-image]: Rendering: %s", imgname)
-        include_code = "include-code" in self.options.keys()
+        include_code = self.options.pop("include-code", None)
 
         # First we will process the content of the directive in order to produce an
         # image on disk. We will then defer to the default behavior of the Figure
