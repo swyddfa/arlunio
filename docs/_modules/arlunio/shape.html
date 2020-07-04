@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>arlunio.shape &mdash; Arlunio V0.10.0b3 documentation</title>
+  <title>arlunio.shape &mdash; Arlunio V0.10.0b4 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                V0.10.0b3
+                V0.10.0b4
               </div>
             
           
@@ -218,7 +218,7 @@
 
 <span class="sd">          @ar.definition</span>
 <span class="sd">          def Target(width: int, height: int) -&gt; image.Image:</span>
-<span class="sd">              img = image.new(&quot;RGBA&quot;, (width, height), color=&quot;white&quot;)</span>
+<span class="sd">              img = image.new((width, height), color=&quot;white&quot;)</span>
 <span class="sd">              parts = [</span>
 <span class="sd">                  (shape.Circle(pt=0.02), &quot;#000&quot;),</span>
 <span class="sd">                  (shape.Circle(r=0.75, pt=0.12), &quot;#f00&quot;),</span>
@@ -257,7 +257,7 @@
 <span class="sd">              dx = spacing / 2</span>
 <span class="sd">              args = {&quot;scale&quot;: 0.5, &quot;r&quot;: spacing, &quot;pt&quot;: pt}</span>
 
-<span class="sd">              img = image.new(&quot;RGBA&quot;, (width, height), color=&quot;white&quot;)</span>
+<span class="sd">              img = image.new((width, height), color=&quot;white&quot;)</span>
 <span class="sd">              rings = [</span>
 <span class="sd">                  (shape.Circle(yc=dy, xc=-(2.2 * dx), **args), &quot;#0ff&quot;),</span>
 <span class="sd">                  (shape.Circle(yc=dy, **args), &quot;#000&quot;),</span>
@@ -355,7 +355,7 @@
 
 <span class="sd">          @ar.definition</span>
 <span class="sd">          def EllipseDemo(width: int, height: int):</span>
-<span class="sd">              img = image.new(&quot;RGBA&quot;, (width, height), color=&quot;white&quot;)</span>
+<span class="sd">              img = image.new(width, height, color=&quot;white&quot;)</span>
 <span class="sd">              ellipses = [</span>
 <span class="sd">                  shape.Ellipse(xc=-0.5, yc=-0.5, a=0.5, b=0.5, r=0.4),</span>
 <span class="sd">                  shape.Ellipse(yc=-0.5, a=1, b=0.5, r=0.4),</span>
@@ -501,7 +501,7 @@
 
 <span class="sd">          @ar.definition</span>
 <span class="sd">          def SuperEllipseDemo(width: int, height: int):</span>
-<span class="sd">              img = image.new(&quot;RGBA&quot;, (width, height), color=&quot;white&quot;)</span>
+<span class="sd">              img = image.new(width, height, color=&quot;white&quot;)</span>
 <span class="sd">              ellipses = [</span>
 <span class="sd">                  (shape.SuperEllipse(n=0.5, pt=0.01),&#39;#f00&#39;),</span>
 <span class="sd">                  (shape.SuperEllipse(n=1, pt=0.01),&#39;#0f0&#39;),</span>
@@ -537,7 +537,7 @@
 
 <span class="sd">          @ar.definition</span>
 <span class="sd">          def Sauron(width: int, height: int):</span>
-<span class="sd">              img = image.new(&quot;RGBA&quot;, (width, height), color=&quot;white&quot;)</span>
+<span class="sd">              img = image.new(width, height, color=&quot;white&quot;)</span>
 <span class="sd">              ellipses = [</span>
 <span class="sd">                  (shape.SuperEllipse(a=2, n=3, m=0.2, r=0.98),&#39;#f00&#39;),</span>
 <span class="sd">                  (shape.SuperEllipse(n=2),&#39;#f50&#39;),</span>

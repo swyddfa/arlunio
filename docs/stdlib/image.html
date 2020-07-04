@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Image &mdash; Arlunio V0.10.0b3 documentation</title>
+  <title>Image &mdash; Arlunio V0.10.0b4 documentation</title>
   
 
   
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                V0.10.0b3
+                V0.10.0b4
               </div>
             
           
@@ -177,23 +177,37 @@
             
   <div class="section" id="image">
 <span id="stdlib-image"></span><h1>Image<a class="headerlink" href="#image" title="Permalink to this headline">¶</a></h1>
-<p>This module wraps various parts of the <a class="reference external" href="https://pillow.readthedocs.io/en/stable/index.html" title="(in Pillow (PIL Fork) v7.1.2)"><span>Pillow</span></a> image library to better
+<p>This module wraps various parts of the <a class="reference external" href="https://pillow.readthedocs.io/en/stable/index.html" title="(in Pillow (PIL Fork) v7.2.0)"><span>Pillow</span></a> image library to better
 integrate it with other components of <code class="code docutils literal notranslate"><span class="pre">arlunio</span></code> in order to help produce and
 manipulate images that can be saved eventually to disk.</p>
 <div class="section" id="creating-images">
 <h2>Creating Images<a class="headerlink" href="#creating-images" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="arlunio.image.new">
-<code class="sig-prename descclassname">arlunio.image.</code><code class="sig-name descname">new</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/image.html#new"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.image.new" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates a new image with the given mode and size</p>
-<p>See <a class="reference external" href="https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.new" title="(in Pillow (PIL Fork) v7.1.2)"><code class="docutils literal notranslate"><span class="pre">PIL.Image.new()</span></code></a></p>
+<code class="sig-prename descclassname">arlunio.image.</code><code class="sig-name descname">new</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">size</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="n">mode</span><span class="o">=</span><span class="default_value">'RGBA'</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#arlunio.image.Image" title="arlunio.image.Image">arlunio.image.Image</a><a class="reference internal" href="../_modules/arlunio/image.html#new"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.image.new" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new image with the given size.</p>
+<p>This function by default will return a new <code class="code docutils literal notranslate"><span class="pre">RGBA</span></code> image with the given
+dimensions. Dimensions can be specified either using a tuple <code class="code docutils literal notranslate"><span class="pre">(width,</span> <span class="pre">height)</span></code>
+or by passing in <code class="code docutils literal notranslate"><span class="pre">width</span></code> and <code class="code docutils literal notranslate"><span class="pre">height</span></code> individually as positional
+parameters.</p>
+<p>This makes use of pillow’s <a class="reference external" href="https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.new" title="(in Pillow (PIL Fork) v7.2.0)"><code class="docutils literal notranslate"><span class="pre">PIL.Image.new()</span></code></a> function, additional keyword
+arguments passed to this function will be passed onto it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>size</strong> – The dimensions of the image, <code class="code docutils literal notranslate"><span class="pre">(width,</span> <span class="pre">height)</span></code></p></li>
+<li><p><strong>mode</strong> – The type of image to create, default <code class="code docutils literal notranslate"><span class="pre">RGBA</span></code>. See
+<a class="reference external" href="https://pillow.readthedocs.io/en/stable/handbook/concepts.html#concept-modes" title="(in Pillow (PIL Fork) v7.2.0)"><span>Modes</span></a> for more details.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt id="arlunio.image.fromarray">
 <code class="sig-prename descclassname">arlunio.image.</code><code class="sig-name descname">fromarray</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/image.html#fromarray"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.image.fromarray" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create an image from an array</p>
-<p>See <a class="reference external" href="https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.fromarray" title="(in Pillow (PIL Fork) v7.1.2)"><code class="docutils literal notranslate"><span class="pre">PIL.Image.fromarray()</span></code></a></p>
+<p>See <a class="reference external" href="https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.fromarray" title="(in Pillow (PIL Fork) v7.2.0)"><code class="docutils literal notranslate"><span class="pre">PIL.Image.fromarray()</span></code></a></p>
 </dd></dl>
 
 </div>
@@ -210,7 +224,7 @@ manipulate images that can be saved eventually to disk.</p>
 </dl>
 <p class="rubric">Example</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">arlunio.image</span> <span class="k">as</span> <span class="nn">image</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;RGBA&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">new</span><span class="p">((</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">image</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
 <span class="go">b&#39;iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAFklEQVR4nGP8z8DwnwEPYMInOXwUAAASWwIOH0pJXQAAAABJRU5ErkJggg==&#39;</span>
 </pre></div>
@@ -244,7 +258,7 @@ manipulate images that can be saved eventually to disk.</p>
 <dt id="arlunio.image.load">
 <code class="sig-prename descclassname">arlunio.image.</code><code class="sig-name descname">load</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#arlunio.image.Image" title="arlunio.image.Image">arlunio.image.Image</a><a class="reference internal" href="../_modules/arlunio/image.html#load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.image.load" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load an image from the given file.</p>
-<p>See <a class="reference external" href="https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.open" title="(in Pillow (PIL Fork) v7.1.2)"><code class="docutils literal notranslate"><span class="pre">PIL.Image.open()</span></code></a></p>
+<p>See <a class="reference external" href="https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.open" title="(in Pillow (PIL Fork) v7.2.0)"><code class="docutils literal notranslate"><span class="pre">PIL.Image.open()</span></code></a></p>
 </dd></dl>
 
 <dl class="py function">
@@ -300,7 +314,6 @@ value of the scaled array.</p>
 <span class="n">cartesian</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">Cartesian</span><span class="p">()</span>
 <span class="n">p</span> <span class="o">=</span> <span class="n">cartesian</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">256</span><span class="p">)</span>
 
-<span class="n">bg</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;RGBA&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">colorramp</span><span class="p">(</span><span class="n">p</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">start</span><span class="o">=</span><span class="s2">&quot;#0000&quot;</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="s2">&quot;#f007&quot;</span><span class="p">)</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">colorramp</span><span class="p">(</span><span class="n">p</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">start</span><span class="o">=</span><span class="s2">&quot;#0000&quot;</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="s2">&quot;#00f7&quot;</span><span class="p">)</span>
 
@@ -320,11 +333,11 @@ value of the scaled array.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>mask</strong> – The mask that selects the region to be coloured</p></li>
 <li><p><strong>foreground</strong> – A string representation of the color to use, this can be in any format that is
-supported by the <a class="reference external" href="https://pillow.readthedocs.io/en/stable/reference/ImageColor.html#module-PIL.ImageColor" title="(in Pillow (PIL Fork) v7.1.2)"><code class="docutils literal notranslate"><span class="pre">PIL.ImageColor</span></code></a> module. If omitted this will
+supported by the <a class="reference external" href="https://pillow.readthedocs.io/en/stable/reference/ImageColor.html#module-PIL.ImageColor" title="(in Pillow (PIL Fork) v7.2.0)"><code class="docutils literal notranslate"><span class="pre">PIL.ImageColor</span></code></a> module. If omitted this will
 default to black.</p></li>
 <li><p><strong>background</strong> – In the case where an existing image is not provided this parameter can be used
 to set the background color of the generated image. This can be any string that
-is accepted by the <a class="reference external" href="https://pillow.readthedocs.io/en/stable/reference/ImageColor.html#module-PIL.ImageColor" title="(in Pillow (PIL Fork) v7.1.2)"><code class="docutils literal notranslate"><span class="pre">PIL.ImageColor</span></code></a> module. If omitted this will
+is accepted by the <a class="reference external" href="https://pillow.readthedocs.io/en/stable/reference/ImageColor.html#module-PIL.ImageColor" title="(in Pillow (PIL Fork) v7.2.0)"><code class="docutils literal notranslate"><span class="pre">PIL.ImageColor</span></code></a> module. If omitted this will
 default to transparent</p></li>
 <li><p><strong>image</strong> – The image to color in, if omitted a blank image will be used.</p></li>
 </ul>
@@ -353,42 +366,42 @@ default to transparent</p></li>
 
 <dl class="py class">
 <dt id="arlunio.image.Image">
-<em class="property">class </em><code class="sig-prename descclassname">arlunio.image.</code><code class="sig-name descname">Image</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image" title="(in Pillow (PIL Fork) v7.1.2)">PIL.Image.Image</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/image.html#Image"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.image.Image" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">arlunio.image.</code><code class="sig-name descname">Image</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image" title="(in Pillow (PIL Fork) v7.2.0)">PIL.Image.Image</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/image.html#Image"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.image.Image" title="Permalink to this definition">¶</a></dt>
 <dd><p>Our representation of an image, implemented as a wrapper around a standard
 Pillow image.</p>
 <dl class="py method">
 <dt id="arlunio.image.Image.alpha_composite">
 <code class="sig-name descname">alpha_composite</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">im</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/image.html#Image.alpha_composite"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.image.Image.alpha_composite" title="Permalink to this definition">¶</a></dt>
 <dd><p>Composites an image onto this image.</p>
-<p>See <a class="reference external" href="https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.alpha_composite" title="(in Pillow (PIL Fork) v7.1.2)"><code class="docutils literal notranslate"><span class="pre">PIL.Image.Image.alpha_composite()</span></code></a></p>
+<p>See <a class="reference external" href="https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.alpha_composite" title="(in Pillow (PIL Fork) v7.2.0)"><code class="docutils literal notranslate"><span class="pre">PIL.Image.Image.alpha_composite()</span></code></a></p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="arlunio.image.Image.copy">
 <code class="sig-name descname">copy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/image.html#Image.copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.image.Image.copy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a copy of the image.
-See <a class="reference external" href="https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.copy" title="(in Pillow (PIL Fork) v7.1.2)"><code class="docutils literal notranslate"><span class="pre">PIL.Image.Image.copy()</span></code></a></p>
+See <a class="reference external" href="https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.copy" title="(in Pillow (PIL Fork) v7.2.0)"><code class="docutils literal notranslate"><span class="pre">PIL.Image.Image.copy()</span></code></a></p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="arlunio.image.Image.paste">
 <code class="sig-name descname">paste</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/image.html#Image.paste"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.image.Image.paste" title="Permalink to this definition">¶</a></dt>
 <dd><p>Paste another image into this image.</p>
-<p>See <a class="reference external" href="https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.paste" title="(in Pillow (PIL Fork) v7.1.2)"><code class="docutils literal notranslate"><span class="pre">PIL.Image.Image.paste()</span></code></a></p>
+<p>See <a class="reference external" href="https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.paste" title="(in Pillow (PIL Fork) v7.2.0)"><code class="docutils literal notranslate"><span class="pre">PIL.Image.Image.paste()</span></code></a></p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="arlunio.image.Image.save">
 <code class="sig-name descname">save</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/image.html#Image.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.image.Image.save" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save the image with the given filename.</p>
-<p>See <a class="reference external" href="https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.save" title="(in Pillow (PIL Fork) v7.1.2)"><code class="docutils literal notranslate"><span class="pre">PIL.Image.Image.save()</span></code></a></p>
+<p>See <a class="reference external" href="https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.save" title="(in Pillow (PIL Fork) v7.2.0)"><code class="docutils literal notranslate"><span class="pre">PIL.Image.Image.save()</span></code></a></p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="arlunio.image.Image.thumbnail">
 <code class="sig-name descname">thumbnail</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/image.html#Image.thumbnail"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.image.Image.thumbnail" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert this image into a thumbail.</p>
-<p>See <a class="reference external" href="https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.thumbnail" title="(in Pillow (PIL Fork) v7.1.2)"><code class="docutils literal notranslate"><span class="pre">PIL.Image.Image.thumbnail()</span></code></a></p>
+<p>See <a class="reference external" href="https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.thumbnail" title="(in Pillow (PIL Fork) v7.2.0)"><code class="docutils literal notranslate"><span class="pre">PIL.Image.Image.thumbnail()</span></code></a></p>
 </dd></dl>
 
 <dl class="py attribute">

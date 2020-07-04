@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>arlunio.pattern &mdash; Arlunio V0.10.0b4 documentation</title>
+  <title>Getting Started &mdash; Arlunio V0.10.0b4 documentation</title>
   
 
   
@@ -36,7 +36,9 @@
 
     
     <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" /> 
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Your First Image" href="first-image.html" />
+    <link rel="prev" title="User Guide" href="../index.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -85,8 +87,14 @@
               
             
             
-              <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../users/index.html">User Guide</a></li>
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">User Guide</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Getting Started</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="first-image.html">Your First Image</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../../api.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../stdlib/index.html">Standard Library</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../background/index.html">Background</a></li>
@@ -139,14 +147,16 @@
     
       <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="../index.html">Module code</a> &raquo;</li>
+          <li><a href="../index.html">User Guide</a> &raquo;</li>
         
-          <li><a href="../arlunio.html">arlunio</a> &raquo;</li>
-        
-      <li>arlunio.pattern</li>
+      <li>Getting Started</li>
     
     
       <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/users/getstarted/index.rst.txt" rel="nofollow"> View page source</a>
+          
         
       </li>
     
@@ -158,35 +168,33 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for arlunio.pattern</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">arlunio</span> <span class="k">as</span> <span class="nn">ar</span>
-<span class="kn">import</span> <span class="nn">arlunio.mask</span> <span class="k">as</span> <span class="nn">mask</span>
-<span class="kn">import</span> <span class="nn">arlunio.math</span> <span class="k">as</span> <span class="nn">math</span>
+  <div class="section" id="getting-started">
+<span id="users-getstarted"></span><h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Index</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="first-image.html">Your First Image</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="first-image.html#test-your-skills">Test Your Skills</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
 
-
-<div class="viewcode-block" id="Checker"><a class="viewcode-back" href="../../stdlib/pattern.html#arlunio.pattern.Checker">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
-<span class="k">def</span> <span class="nf">Checker</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">math</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">math</span><span class="o">.</span><span class="n">Y</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">mask</span><span class="o">.</span><span class="n">Mask</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    .. arlunio-image:: Checker</span>
-<span class="sd">       :align: center</span>
-
-<span class="sd">       ::</span>
-
-<span class="sd">          from arlunio.pattern import Checker</span>
-<span class="sd">          from arlunio.image import fill</span>
-
-<span class="sd">          checker = Checker()</span>
-<span class="sd">          image = fill(checker(width=256, height=256))</span>
-
-<span class="sd">    A simple checker pattern</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span> <span class="o">&gt;</span> <span class="mi">0</span></div>
-</pre></div>
 
            </div>
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="first-image.html" class="btn btn-neutral float-right" title="Your First Image" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../index.html" class="btn btn-neutral float-left" title="User Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>

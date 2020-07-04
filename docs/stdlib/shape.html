@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Shape &mdash; Arlunio V0.10.0b3 documentation</title>
+  <title>Shape &mdash; Arlunio V0.10.0b4 documentation</title>
   
 
   
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                V0.10.0b3
+                V0.10.0b4
               </div>
             
           
@@ -239,7 +239,7 @@ considered part of the circle.</p>
 
 <span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
 <span class="k">def</span> <span class="nf">Target</span><span class="p">(</span><span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">image</span><span class="o">.</span><span class="n">Image</span><span class="p">:</span>
-    <span class="n">img</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;RGBA&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">)</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">new</span><span class="p">((</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">)</span>
     <span class="n">parts</span> <span class="o">=</span> <span class="p">[</span>
         <span class="p">(</span><span class="n">shape</span><span class="o">.</span><span class="n">Circle</span><span class="p">(</span><span class="n">pt</span><span class="o">=</span><span class="mf">0.02</span><span class="p">),</span> <span class="s2">&quot;#000&quot;</span><span class="p">),</span>
         <span class="p">(</span><span class="n">shape</span><span class="o">.</span><span class="n">Circle</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span> <span class="n">pt</span><span class="o">=</span><span class="mf">0.12</span><span class="p">),</span> <span class="s2">&quot;#f00&quot;</span><span class="p">),</span>
@@ -276,7 +276,7 @@ approximation of the olympics logo</p>
     <span class="n">dx</span> <span class="o">=</span> <span class="n">spacing</span> <span class="o">/</span> <span class="mi">2</span>
     <span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;scale&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">:</span> <span class="n">spacing</span><span class="p">,</span> <span class="s2">&quot;pt&quot;</span><span class="p">:</span> <span class="n">pt</span><span class="p">}</span>
 
-    <span class="n">img</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;RGBA&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">)</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">new</span><span class="p">((</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">)</span>
     <span class="n">rings</span> <span class="o">=</span> <span class="p">[</span>
         <span class="p">(</span><span class="n">shape</span><span class="o">.</span><span class="n">Circle</span><span class="p">(</span><span class="n">yc</span><span class="o">=</span><span class="n">dy</span><span class="p">,</span> <span class="n">xc</span><span class="o">=-</span><span class="p">(</span><span class="mf">2.2</span> <span class="o">*</span> <span class="n">dx</span><span class="p">),</span> <span class="o">**</span><span class="n">args</span><span class="p">),</span> <span class="s2">&quot;#0ff&quot;</span><span class="p">),</span>
         <span class="p">(</span><span class="n">shape</span><span class="o">.</span><span class="n">Circle</span><span class="p">(</span><span class="n">yc</span><span class="o">=</span><span class="n">dy</span><span class="p">,</span> <span class="o">**</span><span class="n">args</span><span class="p">),</span> <span class="s2">&quot;#000&quot;</span><span class="p">),</span>
@@ -387,7 +387,7 @@ of a circle</p>
 
 <span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
 <span class="k">def</span> <span class="nf">EllipseDemo</span><span class="p">(</span><span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-    <span class="n">img</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;RGBA&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">)</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">)</span>
     <span class="n">ellipses</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">shape</span><span class="o">.</span><span class="n">Ellipse</span><span class="p">(</span><span class="n">xc</span><span class="o">=-</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">yc</span><span class="o">=-</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mf">0.4</span><span class="p">),</span>
         <span class="n">shape</span><span class="o">.</span><span class="n">Ellipse</span><span class="p">(</span><span class="n">yc</span><span class="o">=-</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mf">0.4</span><span class="p">),</span>
@@ -721,7 +721,7 @@ super ellipse.</p>
 
 <span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
 <span class="k">def</span> <span class="nf">SuperEllipseDemo</span><span class="p">(</span><span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-    <span class="n">img</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;RGBA&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">)</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">)</span>
     <span class="n">ellipses</span> <span class="o">=</span> <span class="p">[</span>
         <span class="p">(</span><span class="n">shape</span><span class="o">.</span><span class="n">SuperEllipse</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">pt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">),</span><span class="s1">&#39;#f00&#39;</span><span class="p">),</span>
         <span class="p">(</span><span class="n">shape</span><span class="o">.</span><span class="n">SuperEllipse</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">pt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">),</span><span class="s1">&#39;#0f0&#39;</span><span class="p">),</span>
@@ -757,7 +757,7 @@ can get even more interesting results!</p>
 
 <span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
 <span class="k">def</span> <span class="nf">Sauron</span><span class="p">(</span><span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-    <span class="n">img</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;RGBA&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">)</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">)</span>
     <span class="n">ellipses</span> <span class="o">=</span> <span class="p">[</span>
         <span class="p">(</span><span class="n">shape</span><span class="o">.</span><span class="n">SuperEllipse</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mf">0.98</span><span class="p">),</span><span class="s1">&#39;#f00&#39;</span><span class="p">),</span>
         <span class="p">(</span><span class="n">shape</span><span class="o">.</span><span class="n">SuperEllipse</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span><span class="s1">&#39;#f50&#39;</span><span class="p">),</span>

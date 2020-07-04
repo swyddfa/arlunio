@@ -46,13 +46,12 @@ contained so feel free to try them in whichever order you fancy.
 
 The user guide is made up of the following sections
 
-- |Chess|: Build a tool for visualising chess games.
+- :ref:`users_getstarted`: New users should start here.
 
 .. toctree::
    :hidden:
 
-   chess/index
+   getstarted/index
 
 
-.. |Chess| replace:: :ref:`Chess <users_chess>`
 .. _Jupyter Lab: https://jupyterlab.readthedocs.io/en/stable/
