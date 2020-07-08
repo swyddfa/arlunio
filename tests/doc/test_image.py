@@ -6,6 +6,7 @@ from docutils import nodes
 
 import arlunio.image as image
 from arlunio.doc.image import arlunio_image
+from arlunio.doc.notebook import nbsolution
 
 
 class TestArlunioImageDirective:
@@ -184,5 +185,40 @@ class TestArlunioImageDirective:
         assert isinstance(legend, nodes.legend), "Expected legend node."
 
         code = legend.children[0]
+        assert isinstance(code, nodes.literal_block), "Expected literal_block node."
+        assert "from arlunio.shape import Circle" in code.astext()
+
+    def test_with_solution(self, read_rst):
+        """Ensure that the directive handles the case where the user asks for the code
+        to be included as a solution block."""
+
+        with mock.patch("arlunio.doc.image.image.save") as m_save:
+            rst = read_rst(pathlib.Path("doc", "arlunio_image", "img-solution.rst"))
+
+        # Ensure that the image produced by the code was saved to disk.
+        m_save.assert_called_once()
+        (img, path), _ = m_save.call_args
+
+        assert isinstance(img, image.Image), "Expected image instance"
+        assert path == pathlib.Path("/project/docs/_images/img-solution.png")
+
+        # Now ensure that the correct doctree was produced
+        node = rst.children[0]
+        assert isinstance(node, arlunio_image), "Expected arlunio image node."
+
+        figure = node.children[0]
+        assert isinstance(figure, nodes.figure), "Expected figure node."
+
+        imgnode, legend = figure.children
+
+        assert isinstance(imgnode, nodes.image), "Expected image node."
+        assert imgnode["uri"] == "/_images/img-solution.png"
+
+        assert isinstance(legend, nodes.legend), "Expected legend node."
+
+        soln = legend.children[0]
+        assert isinstance(soln, nbsolution), "Expected nbsolution node."
+
+        code = soln.children[0]
         assert isinstance(code, nodes.literal_block), "Expected literal_block node."
         assert "from arlunio.shape import Circle" in code.astext()

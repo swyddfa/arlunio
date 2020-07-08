@@ -5,7 +5,7 @@
             "type": "python",
             "request": "launch",
             "name": "Pytest: Current File",
-            "program": "${workspaceFolder}/.dev/bin/pytest",
+            "program": "${workspaceFolder}/.env/bin/pytest",
             "args": [
                 "${file}"
             ]

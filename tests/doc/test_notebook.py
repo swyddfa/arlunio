@@ -15,6 +15,7 @@ from arlunio.doc.notebook import NotebookTranslator
         "comment",
         "doctest_no_output",
         "heading",
+        "image",
         "inline_code",
         "inline_link",
         "italic",

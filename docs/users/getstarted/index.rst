@@ -3,7 +3,10 @@
 Getting Started
 ===============
 
+.. nbtutorial::
+
 .. toctree::
    :caption: Index
+   :maxdepth: 1
 
    first-image
