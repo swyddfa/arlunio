@@ -1,8 +1,8 @@
 import os
 import pathlib
 import re
+import shutil
 import textwrap
-from pathlib import Path
 from typing import Iterable
 from typing import List
 from typing import Set
@@ -16,11 +16,13 @@ from docutils.parsers import rst
 from docutils.parsers.rst.directives.admonitions import BaseAdmonition
 from sphinx.builders import Builder
 from sphinx.util import logging
+from sphinx.util.docutils import new_document
 
 import arlunio
 from .image import arlunio_image
 
 logger = logging.getLogger(__name__)
+RESOURCE_DIR = "resources"
 
 
 class nbtutorial(nodes.General, nodes.Element):
@@ -155,23 +157,33 @@ class NotebookTranslator(nodes.NodeVisitor):
 
     # --------------------------- Visitors ------------------------------------
 
+    def _no_op(self, node):
+        pass
+
+    no_op = _no_op, _no_op
+
+    visit_arlunio_image, depart_arlunio_image = no_op
+    visit_compound, depart_compound = no_op
+    visit_compact_paragraph, depart_compact_paragraph = no_op
+    visit_document, depart_document = no_op
+    visit_figure, depart_figure = no_op
+    visit_legend, depart_legend = no_op
+    visit_nbtutorial, depart_nbtutorial = no_op
+
+    def _italics(self, node):
+        self.current_cell.source += "*"
+
+    italics = _italics, _italics
+
+    visit_emphasis, depart_emphasis = italics
+    visit_caption, depart_caption = italics
+
     def visit_bullet_list(self, node: nodes.bullet_list) -> None:
         self.new_cell("markdown")
+        self.current_cell.source += "\n"
 
     def depart_bullet_list(self, node: nodes.bullet_list) -> None:
-        pass
-
-    def visit_compound(self, node: nodes.compound) -> None:
-        pass
-
-    def depart_compound(self, node: nodes.compound) -> None:
-        pass
-
-    def visit_compact_paragraph(self, node) -> None:
-        pass
-
-    def depart_compact_paragraph(self, node) -> None:
-        pass
+        self.current_cell.source += "\n"
 
     def visit_comment(self, node: nodes.comment) -> None:
         self.new_cell("markdown")
@@ -179,17 +191,14 @@ class NotebookTranslator(nodes.NodeVisitor):
     def depart_comment(self, node: nodes.comment) -> None:
         pass
 
-    def visit_document(self, node: nodes.document) -> None:
+    def visit_image(self, node: nodes.image) -> None:
+        self.new_cell("markdown")
+
+        path = pathlib.Path(RESOURCE_DIR, pathlib.Path(node["uri"]).name)
+        self.current_cell.source += f"\n![]({path})\n"
+
+    def depart_image(self, node: nodes.image) -> None:
         pass
-
-    def depart_document(self, node: nodes.document) -> None:
-        pass
-
-    def visit_emphasis(self, node: nodes.emphasis) -> None:
-        self.current_cell.source += "*"
-
-    def depart_emphasis(self, node: nodes.emphasis) -> None:
-        self.current_cell.source += "*"
 
     def visit_inline(self, node: nodes.inline) -> None:
         self.current_cell.source += "["
@@ -215,10 +224,10 @@ class NotebookTranslator(nodes.NodeVisitor):
     def depart_literal_block(self, node: nodes.literal_block) -> None:
         pass
 
-    def visit_nbtutorial(self, node: nbtutorial) -> None:
-        pass
+    def visit_nbsolution(self, node: nbsolution) -> None:
+        self.new_cell("code")
 
-    def depart_nbtutorial(self, node: nbtutorial) -> None:
+    def depart_nbsolution(self, node: nbsolution) -> None:
         pass
 
     def visit_note(self, node: nodes.note) -> None:
@@ -394,32 +403,44 @@ class NotebookTutorialBuilder(Builder):
 
         return uri
 
-    def _process_solutions(self, docname: str, solutions: List[nbsolution]) -> None:
-        """Given the solutions for a given tutorial save them to the solutions dir.
+    def _process_solutions(
+        self, docname: pathlib.Path, solutions: List[nbsolution]
+    ) -> None:
+        """Given the solutions for a given tutorial save them to the resources dir.
 
         This also rewrites the doctree so that the solutions are replaced by cells
         the :code:`%load` magic so that the user can load the results in.
         """
         logger.debug("[nbtutorial]: Processing solutions for %s", docname)
 
-        DIRNAME = "solutions"
-        soln_dir = os.path.join(self.outdir, os.path.dirname(docname), DIRNAME)
-        soln_name = os.path.basename(docname)
+        if len(solutions) == 0:
+            return
 
-        if not os.path.exists(soln_dir):
-            os.makedirs(soln_dir)
+        soln_dir = pathlib.Path(self.outdir, docname.parent, RESOURCE_DIR)
+        soln_name = docname.stem
+
+        if not soln_dir.exists():
+            soln_dir.mkdir(parents=True)
 
         for idx, soln in enumerate(solutions):
+            logger.debug("[nbtutorial]: %s", soln)
+
             soln_fname = f"{soln_name}-{idx + 1:02d}.py"
-            soln_path = os.path.join(DIRNAME, soln_fname)
+            soln_path = soln_dir / soln_fname
+
+            # We need to wrap solutions inside a document for some reason
+            doc = new_document("")
+            doc += soln
 
             # Convert the solution to a valid Python file
-            translator = PythonTranslator(soln)
-            soln.walkabout(translator)
+            translator = PythonTranslator(doc)
+            doc.walkabout(translator)
             python_soln = translator.astext()
 
             # Insert a code block into the notebook that will load the solution
-            soln.children = [codeblock(f"%load {soln_path}")]
+            soln.children = [
+                codeblock(f"%load {soln_path.relative_to(soln_dir.parent)}")
+            ]
 
             # Write the actual solution to the given file on disk
             soln_file = os.path.join(soln_dir, soln_fname)
@@ -428,34 +449,60 @@ class NotebookTutorialBuilder(Builder):
             with open(soln_file, "w") as f:
                 f.write(python_soln)
 
+    def _process_images(self, docname: pathlib.Path, images: List[nodes.image]) -> None:
+        """Given the images for a given tutorial, save them to the resources dir."""
+        logger.debug("[nbtutorial]: Processing images for %s", docname)
+
+        if len(images) == 0:
+            return
+
+        img_dir = pathlib.Path(self.outdir, docname.parent, RESOURCE_DIR)
+
+        if not img_dir.exists():
+            img_dir.mkdir(parents=True)
+
+        for img in images:
+            fname = pathlib.Path(img["uri"]).name
+
+            source = pathlib.Path(self.app.confdir, img["uri"])
+            destination = pathlib.Path(img_dir, fname)
+
+            shutil.copy(source, destination)
+
     def prepare_writing(self, docnames: Set[str]) -> None:
         """A place we can add logic to?"""
-
         self.docwriter = NotebookWriter(self)
 
     def write_doc(self, docname: str, doctree: nodes.Node) -> None:
         logger.debug(f"[nbtutorial]: Called on {docname}")
 
         # Determine if the document represents a tutorial.
-        nodes = list(doctree.traverse(condition=nbtutorial))
+        tutorial = list(doctree.traverse(condition=nbtutorial))
 
-        if len(nodes) == 0:
+        if len(tutorial) == 0:
             return
 
-        # Find any solutions that it may constain.
+        docname = pathlib.Path(docname)
+
+        base, fname = docname.parent, docname.stem
+        logger.debug("[nbtutorial]: Base: %s, Filename: %s", base, fname)
+        basedir = pathlib.Path(self.outdir, base)
+
+        if not basedir.exists():
+            basedir.mkdir(parents=True)
+
+        # Find and write out any solutions.
         solutions = list(doctree.traverse(condition=nbsolution))
         self._process_solutions(docname, solutions)
+
+        # Find and copy over any images
+        images = list(doctree.traverse(condition=nodes.image))
+        self._process_images(docname, images)
 
         destination = StringOutput(encoding="utf-8")
         self.docwriter.write(doctree, destination)
 
-        base, fname = os.path.split(docname)
-        basedir = os.path.join(self.outdir, base)
-
-        if not os.path.exists(basedir):
-            os.makedirs(basedir)
-
-        Path(basedir, "__init__.py").touch()
+        pathlib.Path(basedir, "__init__.py").touch()
         outfile = os.path.join(basedir, fname + ".ipynb")
 
         with open(outfile, "w") as f:

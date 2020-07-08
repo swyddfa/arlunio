@@ -130,11 +130,11 @@
                     "value": "html"
                 },
                 {
-                    "label": "Extract gallery images",
+                    "label": "Build Gallery",
                     "value": "nbgallery"
                 },
                 {
-                    "label": "Extract tutorial",
+                    "label": "Build Tutorial",
                     "value": "nbtutorial"
                 },
                 {
@@ -200,6 +200,10 @@
                 {
                     "label": "Gallery",
                     "value": "blog/src/gallery"
+                },
+                {
+                    "label": "Tutorial",
+                    "value": "docs/_build/nbtutorial"
                 }
             ]
         }

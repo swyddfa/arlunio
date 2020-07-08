@@ -1,6 +1,8 @@
 Your First Image
 ================
 
+.. nbtutorial::
+
 .. arlunio-image:: Sunny Day
    :align: center
    :gallery: examples
