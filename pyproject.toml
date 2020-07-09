@@ -75,6 +75,7 @@ commands =
 
      sphinx-build -M nbtutorial docs/ docs/_build -E -a
      cp -r docs/_build/nbtutorial/users/ arlunio/tutorial
+     touch arlunio/tutorial/__init__.py
 
      python setup.py sdist bdist_wheel
 """

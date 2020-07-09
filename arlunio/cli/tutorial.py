@@ -47,4 +47,10 @@ class Tutorial:
             shutil.copytree(src, tutorial_dir)
             logger.info("Copied tutorial resources to %s", tutorial_dir)
 
-        subprocess.run(["jupyter-lab"], cwd=tutorial_dir)
+        try:
+            subprocess.run(["jupyter-lab"], cwd=tutorial_dir)
+        except FileNotFoundError:
+            logger.info(
+                "Unable to start jupyterlab, please make sure it is installed"
+                " and try again"
+            )
