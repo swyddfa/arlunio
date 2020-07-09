@@ -502,7 +502,6 @@ class NotebookTutorialBuilder(Builder):
         destination = StringOutput(encoding="utf-8")
         self.docwriter.write(doctree, destination)
 
-        pathlib.Path(basedir, "__init__.py").touch()
         outfile = os.path.join(basedir, fname + ".ipynb")
 
         with open(outfile, "w") as f:

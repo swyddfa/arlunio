@@ -1,5 +1,5 @@
 import logging
-import os
+import pathlib
 import shutil
 import subprocess
 
@@ -24,40 +24,33 @@ class Tutorial:
     :param reset: reset the tutorial to its default state
     """
 
-    def _copy_resources(self, destination):
-        """Copy the tutorial resources to the given destination."""
-        logger.debug(f"Copying tutorial resources to {destination}")
-        os.makedirs(destination)
-
-        def exclude_item(item, path):
-            return any([item.startswith("."), "__" in item])
-
-        for item in pkg_resources.resource_listdir("arlunio.tutorial", "."):
-            path = pkg_resources.resource_filename("arlunio.tutorial", item)
-
-            if exclude_item(item, path):
-                logger.debug(f"--> {item}, skipping")
-                continue
-
-            logger.debug(f"--> {item}")
-            dest = os.path.join(destination, item)
-
-            if os.path.isdir(path):
-                shutil.copytree(path, dest, copy_function=shutil.copy)
-            else:
-                shutil.copy(path, dest)
-
     def run(self, reset: bool = False):
-        tutorial_dir = os.path.join(
+        tutorial_dir = pathlib.Path(
             appdirs.user_data_dir(appname="arlunio", appauthor="swyddfa"), "tutorial"
         )
 
-        if reset and os.path.exists(tutorial_dir):
-            logger.info("Existing tutorial found found, resetting...")
+        if reset and tutorial_dir.exists():
+            message = (
+                "Existing tutorial resources detected\n"
+                "This command will DELETE any existing tutorial resources\n\n"
+            )
+            logger.info(message)
+            response = input("Do you wish to continue? [y/N] ")
+
+            if not response.lower().startswith("y"):
+                return 0
+
             shutil.rmtree(tutorial_dir)
 
-        if not os.path.exists(tutorial_dir):
-            logger.info("Copying tutorial resources...")
-            self._copy_resources(tutorial_dir)
+        if not tutorial_dir.exists():
+            src = pkg_resources.resource_filename("arlunio.tutorial", ".")
+            shutil.copytree(src, tutorial_dir)
+            logger.info("Copied tutorial resources to %s", tutorial_dir)
 
-        subprocess.run(["jupyter-lab"], cwd=tutorial_dir)
+        try:
+            subprocess.run(["jupyter-lab"], cwd=tutorial_dir)
+        except FileNotFoundError:
+            logger.info(
+                "Unable to start jupyterlab, please make sure it is installed"
+                " and try again"
+            )
