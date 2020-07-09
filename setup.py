@@ -55,11 +55,7 @@ setup(
     author_email="swyddfa.dev@gmail.com",
     license="MIT",
     packages=find_packages(".", exclude=["tests*"]),
-    package_data={
-        "arlunio.cli.scripts": ["*.sh"],
-        "arlunio.tutorial": ["*.ipynb", "**/*.ipynb"],
-        "arlunio.tutorial.solutions": ["*.py"],
-    },
+    include_package_data=True,
     python_requires=">=3.6",
     install_requires=required,
     extras_require=extras,

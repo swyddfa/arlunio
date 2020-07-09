@@ -3,8 +3,8 @@ include CHANGES.rst
 include README.md
 include pyproject.toml
 
-recursive-include arlunio *.sh
-recursive-include arlunio *.ipynb
-recursive-include arlunio *.py
+recursive-include arlunio/tutorial *.ipynb
+recursive-include arlunio/tutorial *.py
+recursive-include arlunio/tutorial *.png
 
 recursive-exclude tests *.py
