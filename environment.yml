@@ -3,4 +3,4 @@ dependencies:
   - python
   - pip
   - pip:
-    - arlunio 
+    - arlunio>=0.10.0
