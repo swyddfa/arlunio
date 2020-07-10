@@ -1,8 +1,0 @@
-Add :code:`arlunio.image.load` and :code:`arlunio.image.decode` functions to
-mirror the existing save and encode functions.
-
-Update :code:`arlunio.image.Image` to now be a class in its own right, wrapping
-a Pillow image object to add additional functionality
-
-Make the :code:`arlunio.image.fill` and :code:`arlunio.image.colorramp` functions
-return RGBA images to make image composition easier.
