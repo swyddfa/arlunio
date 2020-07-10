@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Documentation Release &mdash; Arlunio V0.10.0b6 documentation</title>
+  <title>Documentation Release &mdash; Arlunio V0.10.0b7 documentation</title>
   
 
   
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                V0.10.0b6
+                V0.10.0b7
               </div>
             
           
@@ -267,8 +267,11 @@ number in Sphinx</p></li>
 
     <span class="no">cd docs</span>
     <span class="no">make html</span>
+    <span class="no">make nbtutorial</span>
 </pre></div>
 </div>
+<p>Note that we also run the <cite>nbtutorial</cite> builder to create a Jupyter compatible
+version of the tutorial which we can also publish.</p>
 </div>
 <div class="section" id="publish-build-artifact">
 <h3>Publish Build Artifact<a class="headerlink" href="#publish-build-artifact" title="Permalink to this headline">¶</a></h3>
@@ -284,10 +287,10 @@ also publish the <code class="code docutils literal notranslate"><span class="pr
 </div>
 <div class="section" id="deploy-docs">
 <h3>Deploy Docs<a class="headerlink" href="#deploy-docs" title="Permalink to this headline">¶</a></h3>
-<p>Finally assuming the docs have been built successfully and this is not a PR
-build, we deploy the result to Github Pages using
-<a class="reference external" href="https://github.com/JamesIves/github-pages-deploy-action">JamesIves/github-pages-deploy-action</a>.</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Deploy</span>
+<p>Finally assuming that the docs have been built successfully and this is not a PR
+build, we deploy both the HTML documentation as well as the notebook version
+of the tutorial to Github Pages using <a class="reference external" href="https://github.com/JamesIves/github-pages-deploy-action">JamesIves/github-pages-deploy-action</a>.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Deploy HTML Docs</span>
   <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">JamesIves/github-pages-deploy-action@releases/v3</span>
   <span class="nt">with</span><span class="p">:</span>
     <span class="nt">ACCESS_TOKEN</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">${{ secrets.ACCESS_TOKEN }}</span>
@@ -295,6 +298,16 @@ build, we deploy the result to Github Pages using
     <span class="nt">BRANCH</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">gh-pages</span>
     <span class="nt">FOLDER</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">docs/_build/html</span>
     <span class="nt">TARGET_FOLDER</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">docs/</span>
+  <span class="nt">if</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">github.event_name != &#39;pull_request&#39;</span>
+
+<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Deploy Tutorial Notebooks</span>
+  <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">JamesIves/github-pages-deploy-action@releases/v3</span>
+  <span class="nt">with</span><span class="p">:</span>
+    <span class="nt">ACCESS_TOKEN</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">${{ secrets.ACCESS_TOKEN }}</span>
+    <span class="nt">BASE_BRANCH</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">develop</span>
+    <span class="nt">BRANCH</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">gh-pages</span>
+    <span class="nt">FOLDER</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">docs/_build/nbtutorial/users</span>
+    <span class="nt">TARGET_FOLDER</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">tutorial/</span>
   <span class="nt">if</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">github.event_name != &#39;pull_request&#39;</span>
 </pre></div>
 </div>
