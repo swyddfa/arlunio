@@ -85,6 +85,13 @@ html_context = {
 # html_static_path = ["_static"]
 
 # -- Extension Configuration -------------------------------------------------
+arlunio_nbtutorial_binder = {
+    "user": "swyddfa",
+    "repo": "arlunio",
+    "branch": "gh-pages",
+    "prefix": "tutorial",
+}
+
 autodoc_member_order = "groupwise"
 autodoc_default_options = {"members": True}
 
