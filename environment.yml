@@ -1,0 +1,6 @@
+name: arlunio
+dependencies:
+  - python
+  - pip
+  - pip:
+    - --pre arlunio 
