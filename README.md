@@ -29,7 +29,7 @@ Arlunio is available for Python 3.6+ and can be installed using Pip:
 $ pip install arlunio
 ```
 
-Be sure to check out the [documentation](https://arlunio.readthedocs.io/en/latest/)
+Be sure to check out the [documentation](https://www.arlun.io/docs/)
 (under construction) for details on how to get started with arlunio.
 
 ## Contributing

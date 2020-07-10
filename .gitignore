@@ -3,7 +3,6 @@
 .coverage
 .hypothesis
 .ipynb_checkpoints/
-.scratch
 .pytest_cache
 .mypy_cache
 .tox

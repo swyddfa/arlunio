@@ -3,25 +3,28 @@
 User Guide
 ==========
 
+Welcome to the user guide! It is made up from a number of guided projects that
+each try to focus on a particular aspect of :code:`arlunio`. Each project
+should be self contained so feel free to try them in whichever order you fancy.
+
 .. nbtutorial::
 
-
-Welcome to the user guide! It is made up from a number of guided projects that each try
-to focus on a particular aspect of :code:`arlunio`. Each project should be self
-contained so feel free to try them in whichever order you fancy.
+- :ref:`users_getstarted`: New users should start here.
 
 .. only:: html
 
-   .. note::
+   .. tip::
 
       There is also an interactive version of the user guide available if you
-      have :code:`arlunio` setup on your machine. It can be launched by running
-      the command::
+      have :code:`arlunio` already setup on your machine. Though it requires a
+      few extra dependencies which can be installed with the command::
+
+         $ pip install arlunio[examples]
+
+      Assuming you have everything installed, the interactive version of this
+      guide can be launced with the command::
 
          $ arlunio tutorial
-
-      This will open a `Jupyter Lab`_ instance pointed at this section of the
-      documentation.
 
 
 .. only:: nbtutorial
@@ -43,16 +46,7 @@ contained so feel free to try them in whichever order you fancy.
       deleting any additional notebooks you have created. Be sure to back up
       anything important before running this command.**
 
-
-The user guide is made up of the following sections
-
-- |Chess|: Build a tool for visualising chess games.
-
 .. toctree::
    :hidden:
 
-   chess/index
-
-
-.. |Chess| replace:: :ref:`Chess <users_chess>`
-.. _Jupyter Lab: https://jupyterlab.readthedocs.io/en/stable/
+   getstarted/index

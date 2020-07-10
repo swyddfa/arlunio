@@ -23,7 +23,6 @@ from markdown import markdown
 from pygments import highlight
 from pygments.formatters import HtmlFormatter
 from pygments.lexers import PythonLexer
-from tqdm import tqdm
 
 import arlunio
 import arlunio.image as image
@@ -159,6 +158,9 @@ class ImageContext:
     created: str
     """The date the image was created"""
 
+    dimensions: Dict[str, int]
+    """The dimensions of the image."""
+
     revision: int
     """Number of revisions made to the image."""
 
@@ -202,6 +204,7 @@ class ImageContext:
         }
 
         img = find_image(candidates)
+        dimensions = {"width": img.size[0], "height": img.size[1]}
 
         # Render the fullsize image
         fullfile = pathlib.Path(config.output, "gallery", "image", slug + ".png")
@@ -210,7 +213,7 @@ class ImageContext:
 
         # Create a scaled down version to use as a thumbnail on the main page
         thumb = img.copy()
-        thumb.thumbnail((250, 250), PIL.Image.BICUBIC)
+        thumb.thumbnail((600, 600), PIL.Image.BICUBIC)
         thumbfile = pathlib.Path(config.output, "gallery", "thumb", slug + ".png")
         image.save(thumb, thumbfile, mkdirs=True)
         thumburl = "thumb/{}.png".format(slug)
@@ -219,6 +222,7 @@ class ImageContext:
             author=meta.author,
             cells=cells,
             created=created.strftime("%d %b %Y"),
+            dimensions=dimensions,
             revision=num_revisions,
             sloc=sloc,
             slug=slug,
@@ -320,19 +324,28 @@ def render_images(nbdir, config, skip_failures=False):
     nbpaths = list(nbdir.glob("*.ipynb"))
 
     images = []
+    errors = []
 
-    for path in tqdm(nbpaths, desc="Rendering Images"):
+    print("Rendering Images ", end="", flush=True)
+    for path in nbpaths:
 
         try:
             nb = NotebookLoader.fromfile(path)
             images.append(ImageContext.fromnb(nb, config))
+            print(".", end="", flush=True)
         except Exception as err:
 
             if skip_failures:
-                logger.warning("Skipping broken notebook: %s -- %s", path, err)
+                print("x", end="", flush=True)
+                errors.append(f"{path} -- {err}")
                 continue
 
             raise RuntimeError(f"Broken notebook {path}") from err
+
+    print()
+
+    if len(errors) > 0:
+        print("Errors:", *errors, sep="\n")
 
     return images
 

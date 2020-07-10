@@ -1,3 +1,24 @@
+v0.10.0 - 2020-07-10
+--------------------
+
+Standard Library
+^^^^^^^^^^^^^^^^
+
+- Add new definition :code:`arlunio.shape.Triangle`, also add
+  new :code:`arlunio.math.Barycentric` definition which serves as the Triangle's base. (`#187 <https://github.com/swyddfa/arlunio/issues/187>`_)
+- Add :code:`arlunio.image.load` and :code:`arlunio.image.decode` functions to
+  mirror the existing save and encode functions.
+
+  Update :code:`arlunio.image.Image` to now be a class in its own right, wrapping
+  a Pillow image object to add additional functionality
+
+  Make the :code:`arlunio.image.fill` and :code:`arlunio.image.colorramp` functions
+  return RGBA images to make image composition easier. (`#247 <https://github.com/swyddfa/arlunio/issues/247>`_)
+- Moved :code:`arlunio.pattern.Grid`, :code:`arlunio.pattern.Map` and
+  :code:`arlunio.pattern.Pixelize` into :code:`arlunio.mask`. Also :code:`Grid` has been
+  renamed to :code:`Repeat`. (`#249 <https://github.com/swyddfa/arlunio/issues/249>`_)
+
+
 v0.0.7 - 2020-06-18
 -------------------
 

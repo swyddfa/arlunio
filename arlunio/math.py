@@ -106,11 +106,12 @@ def normalise(vs):
 
 @ar.definition
 def X(width: int, height: int, *, x0=0, scale=1, stretch=False):
-    """
+    """Cartesian :math:`x` coordinates.
+
     .. arlunio-image:: X Coordinates
        :align: right
 
-       Cartesian X coordinates::
+       ::
 
           from arlunio.math import X
           from arlunio.image import colorramp
@@ -182,11 +183,12 @@ def X(width: int, height: int, *, x0=0, scale=1, stretch=False):
 
 @ar.definition
 def Y(width: int, height: int, *, y0=0, scale=1, stretch=False):
-    """
+    """Cartesian :math:`y` coordinates
+
     .. arlunio-image:: Y Coordinates
        :align: right
 
-       Cartesian Y coordinates::
+       ::
 
           from arlunio.math import Y
           from arlunio.image import colorramp
@@ -262,11 +264,12 @@ def Y(width: int, height: int, *, y0=0, scale=1, stretch=False):
 
 @ar.definition
 def R(x: X, y: Y):
-    """
+    """Polar :math:`r` coordinates.
+
     .. arlunio-image:: R Coordinates
        :align: right
 
-       Polar R coordinates::
+       ::
 
           from arlunio.math import R
           from arlunio.image import colorramp
@@ -295,8 +298,8 @@ def R(x: X, y: Y):
               [1.41421356, 1.11803399, 1.        , 1.11803399, 1.41421356]])
 
     While this definition does not currently have any attributes of its own, since it's
-    derived from the |X| and |Y| definitions it automatically inherits the attributes
-    from these base definitions::
+    derived from the :class:`arlunio.math.X` and :class:`arlunio.math.Y` definitions it
+    automatically inherits the attributes from these base definitions::
 
        >>> r = R(x0=-2, y0=-2, scale=2)
        >>> r(width=5, height=5)
@@ -316,11 +319,12 @@ def R(x: X, y: Y):
 
 @ar.definition
 def T(x: X, y: Y, *, t0=0):
-    """
+    """Polar :math:`\\theta` coordinates.
+
     .. arlunio-image:: T Coordinates
        :align: right
 
-       Polar T coordinates::
+       ::
 
           from arlunio.math import T
           from arlunio.image import colorramp
@@ -366,8 +370,9 @@ def T(x: X, y: Y, *, t0=0):
               [-5.8195377 , -5.49778714, -4.71238898, -3.92699082, -3.60524026],
               [-5.49778714, -5.17603659, -4.71238898, -4.24874137, -3.92699082]])
 
-    Also, being a definition derived from |X| and |Y| the attributes for these
-    definitions are also available to control the output::
+    Also, being a definition derived from :class:`arlunio.math.X` and
+    :class:`arlunio.math.Y` the attributes for these definitions are also available to
+    control the output::
 
        >>> t = T(x0=-2, y0=-2, scale=2)
        >>> t(width=5, height=5)
@@ -380,3 +385,79 @@ def T(x: X, y: Y, *, t0=0):
     """
     t = np.arctan2(y, x)
     return t - t0
+
+
+@ar.definition
+def Cartesian(x: X, y: Y):
+    """Cartesian coordinates."""
+    return np.dstack([x, y])
+
+
+@ar.definition
+def Polar(r: R, t: T):
+    """Polar coordinates."""
+    return np.dstack([r, t])
+
+
+@ar.definition
+def Barycentric(x: X, y: Y, *, a=(0.5, -0.5), b=(0, 0.5), c=(-0.5, -0.5)):
+    """Barycentric coordinates.
+
+    .. arlunio-image:: Barycentric Demo
+       :align: right
+
+       ::
+
+          import arlunio.math as math
+          import arlunio.image as img
+          import numpy as np
+
+          coords = math.Barycentric()(width=256, height=256)
+
+          l1 = np.abs(coords[:, :, 0])
+          l2 = np.abs(coords[:, :, 1])
+          l3 = np.abs(coords[:, :, 2])
+
+          r = img.colorramp(l1, start='red', stop='black')
+          g = img.colorramp(l2, start='green', stop='black')
+          b = img.colorramp(l3, start='blue', stop='black')
+
+          rs = np.asarray(r)
+          gs = np.asarray(g)
+          bs = np.asarray(b)
+
+          image = img.fromarray(rs + gs + bs)
+
+    Returns the Barycentric coordinate grid as defined by the given triangle.
+
+    Attributes
+    ----------
+    a:
+      The cartesian :math:`(x, y)` coordinates of the point :math:`a`
+    b:
+      The cartesian :math:`(x, y)` coordinates of the point :math:`b`
+    c:
+      The cartesian :math:`(x, y)` coordinates of the point :math:`c`
+    """
+
+    h, w = x.shape
+
+    # Construct the transform matrix T
+    t1 = a[0] - c[0]
+    t2 = b[0] - c[0]
+    t3 = a[1] - c[1]
+    t4 = b[1] - c[1]
+
+    # Compute the inverse determinant
+    d = 1 / ((t1 * t4) - (t2 * t3))
+    p = np.dstack([x, y]).reshape(w * h, 2) - c
+
+    p1 = p[:, 0]
+    p2 = p[:, 1]
+
+    # Compute the coordinates
+    l1 = d * ((p1 * t4) - (p2 * t2))
+    l2 = d * ((p2 * t1) - (p1 * t3))
+    l3 = 1 - l1 - l2
+
+    return np.dstack([l1, l2, l3])[0].reshape(h, w, 3)

@@ -1,8 +1,9 @@
 import os
 import pathlib
 import re
+import shutil
+import string
 import textwrap
-from pathlib import Path
 from typing import Iterable
 from typing import List
 from typing import Set
@@ -16,11 +17,23 @@ from docutils.parsers import rst
 from docutils.parsers.rst.directives.admonitions import BaseAdmonition
 from sphinx.builders import Builder
 from sphinx.util import logging
+from sphinx.util.docutils import new_document
 
 import arlunio
 from .image import arlunio_image
 
 logger = logging.getLogger(__name__)
+RESOURCE_DIR = "resources"
+
+#
+BINDER = """\
+<p>
+  Try it online for yourself →
+  <a href="https://mybinder.org/v2/gh/${user}/${repo}/${branch}?filepath=${path}" target="_blank" rel="noopener">
+      <img src="https://img.shields.io/badge/Open%20this%20page-%20on%20binder-579ACA.svg?logo=data:image/png;base64,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">
+  </a>
+</p>
+"""  # noqa: E501
 
 
 class nbtutorial(nodes.General, nodes.Element):
@@ -28,7 +41,27 @@ class nbtutorial(nodes.General, nodes.Element):
 
 
 def visit_nbtutorial(self, node):
-    pass
+    binder = self.config.arlunio_nbtutorial_binder
+
+    if binder is None:
+        return
+
+    user = binder.get("user", None)
+    repo = binder.get("repo", None)
+    branch = binder.get("branch", None)
+    prefix = binder.get("prefix", None)
+
+    if not all([user, repo, branch]):
+        return
+
+    path = f"{self.docnames[0]}.ipynb"
+
+    if prefix is not None:
+        path = f"{prefix}/{path}"
+
+    ctx = {"user": user, "repo": repo, "branch": branch, "path": path}
+    link = string.Template(BINDER).safe_substitute(ctx)
+    self.body.append(link)
 
 
 def depart_nbtutorial(self, node):
@@ -132,7 +165,7 @@ class NotebookTranslator(nodes.NodeVisitor):
     def new_cell(self, cell_type: str) -> None:
         current = self.current_cell
 
-        if current is not None and current.cell_type == cell_type:
+        if current is not None and current.cell_type == cell_type == "markdown":
             return
 
         types = {"markdown": nbf.new_markdown_cell, "code": nbf.new_code_cell}
@@ -155,23 +188,31 @@ class NotebookTranslator(nodes.NodeVisitor):
 
     # --------------------------- Visitors ------------------------------------
 
+    def _no_op(self, node):
+        pass
+
+    no_op = _no_op, _no_op
+
+    visit_arlunio_image, depart_arlunio_image = no_op
+    visit_compound, depart_compound = no_op
+    visit_compact_paragraph, depart_compact_paragraph = no_op
+    visit_document, depart_document = no_op
+    visit_figure, depart_figure = no_op
+    visit_legend, depart_legend = no_op
+    visit_nbtutorial, depart_nbtutorial = no_op
+
+    def visit_caption(self, caption):
+        self.current_cell.source += "*"
+
+    def depart_caption(self, caption):
+        self.current_cell.source += "*\n"
+
     def visit_bullet_list(self, node: nodes.bullet_list) -> None:
         self.new_cell("markdown")
+        self.current_cell.source += "\n"
 
     def depart_bullet_list(self, node: nodes.bullet_list) -> None:
-        pass
-
-    def visit_compound(self, node: nodes.compound) -> None:
-        pass
-
-    def depart_compound(self, node: nodes.compound) -> None:
-        pass
-
-    def visit_compact_paragraph(self, node) -> None:
-        pass
-
-    def depart_compact_paragraph(self, node) -> None:
-        pass
+        self.current_cell.source += "\n"
 
     def visit_comment(self, node: nodes.comment) -> None:
         self.new_cell("markdown")
@@ -179,17 +220,20 @@ class NotebookTranslator(nodes.NodeVisitor):
     def depart_comment(self, node: nodes.comment) -> None:
         pass
 
-    def visit_document(self, node: nodes.document) -> None:
-        pass
-
-    def depart_document(self, node: nodes.document) -> None:
-        pass
-
-    def visit_emphasis(self, node: nodes.emphasis) -> None:
+    def visit_emphasis(self, node):
         self.current_cell.source += "*"
 
-    def depart_emphasis(self, node: nodes.emphasis) -> None:
+    def depart_emphasis(self, node):
         self.current_cell.source += "*"
+
+    def visit_image(self, node: nodes.image) -> None:
+        self.new_cell("markdown")
+
+        path = pathlib.Path(RESOURCE_DIR, pathlib.Path(node["uri"]).name)
+        self.current_cell.source += f"\n![]({path})\n"
+
+    def depart_image(self, node: nodes.image) -> None:
+        pass
 
     def visit_inline(self, node: nodes.inline) -> None:
         self.current_cell.source += "["
@@ -215,10 +259,10 @@ class NotebookTranslator(nodes.NodeVisitor):
     def depart_literal_block(self, node: nodes.literal_block) -> None:
         pass
 
-    def visit_nbtutorial(self, node: nbtutorial) -> None:
-        pass
+    def visit_nbsolution(self, node: nbsolution) -> None:
+        self.new_cell("code")
 
-    def depart_nbtutorial(self, node: nbtutorial) -> None:
+    def depart_nbsolution(self, node: nbsolution) -> None:
         pass
 
     def visit_note(self, node: nodes.note) -> None:
@@ -309,7 +353,7 @@ def codeblock(source: str) -> nodes.literal_block:
     """Construct a valid code block."""
 
     block = nodes.literal_block()
-    block.children = [nodes.Text(source)]
+    block += nodes.Text(source)
 
     return block
 
@@ -369,6 +413,73 @@ class NotebookGalleryBuilder(Builder):
                 f.write(nbf.writes(notebook))
 
 
+def process_solutions(
+    solutions: List[nbsolution], outdir: pathlib.Path, docname: pathlib.Path
+):
+    """Given the solutions for a particular tutorial save them to that tutorial's
+    resource directory.
+
+    The rst content under the solution node will be converted to a python friendly
+    format before being written out as a file under the resources directory.
+    The solution node's children will then be replaced by a pair of codeblocks.
+
+    The first will be a prompt for the user to type out their solution. While the
+    second will contain a :code:`%load` magic that will allow the user to load the
+    actual solution from the resources file into the notebook.
+
+    Parameters
+    ----------
+    solutions:
+        The list of solutions to process.
+    outdir:
+        The output folder the builder is writing to
+    docname:
+        The path (without extension) of the rst file being processed, relative to the
+        project root.
+    """
+    logger.debug("[nbtutorial]: Processing solutions for %s", docname)
+
+    if len(solutions) == 0:
+        return
+
+    soln_dir = outdir / docname.parent / RESOURCE_DIR
+    soln_name = f"{docname.stem}-soln"
+
+    if not soln_dir.exists():
+        soln_dir.mkdir(parents=True)
+
+    for idx, soln in enumerate(solutions):
+        logger.debug("[nbtutorial]: %s", soln)
+
+        soln_fname = f"{soln_name}-{idx + 1:02d}.py"
+        soln_path = soln_dir / soln_fname
+
+        # We need to wrap solutions in a document for some reason
+        doc = new_document("")
+        doc += soln
+
+        # Convert the solution to a valid Python file
+        translator = PythonTranslator(doc)
+        doc.walkabout(translator)
+        python_soln = translator.astext()
+
+        # Insert a couple of code blocks into the notebaook that will
+        # load the solution
+        write_here = "# Write your solution here...\n"
+        load = (
+            "# Execute this cell to load the example solution\n"
+            f"%load {soln_path.relative_to(soln_dir.parent)}"
+        )
+        soln.children = [codeblock(write_here), codeblock(load)]
+
+        # Finally write the actual solution to disk
+        soln_file = soln_dir / soln_fname
+        logger.debug("[nbtutorial]: %s", soln_file)
+
+        with soln_file.open(mode="w") as f:
+            f.write(python_soln)
+
+
 class NotebookTutorialBuilder(Builder):
     """Builder that can convert static tutorials into an interactive jupyer
     notebook."""
@@ -394,68 +505,59 @@ class NotebookTutorialBuilder(Builder):
 
         return uri
 
-    def _process_solutions(self, docname: str, solutions: List[nbsolution]) -> None:
-        """Given the solutions for a given tutorial save them to the solutions dir.
+    def _process_images(self, docname: pathlib.Path, images: List[nodes.image]) -> None:
+        """Given the images for a given tutorial, save them to the resources dir."""
+        logger.debug("[nbtutorial]: Processing images for %s", docname)
 
-        This also rewrites the doctree so that the solutions are replaced by cells
-        the :code:`%load` magic so that the user can load the results in.
-        """
-        logger.debug("[nbtutorial]: Processing solutions for %s", docname)
+        if len(images) == 0:
+            return
 
-        DIRNAME = "solutions"
-        soln_dir = os.path.join(self.outdir, os.path.dirname(docname), DIRNAME)
-        soln_name = os.path.basename(docname)
+        img_dir = pathlib.Path(self.outdir, docname.parent, RESOURCE_DIR)
 
-        if not os.path.exists(soln_dir):
-            os.makedirs(soln_dir)
+        if not img_dir.exists():
+            img_dir.mkdir(parents=True)
 
-        for idx, soln in enumerate(solutions):
-            soln_fname = f"{soln_name}-{idx + 1:02d}.py"
-            soln_path = os.path.join(DIRNAME, soln_fname)
+        for img in images:
+            fname = pathlib.Path(img["uri"]).name
 
-            # Convert the solution to a valid Python file
-            translator = PythonTranslator(soln)
-            soln.walkabout(translator)
-            python_soln = translator.astext()
+            source = pathlib.Path(self.app.confdir, img["uri"])
+            destination = pathlib.Path(img_dir, fname)
 
-            # Insert a code block into the notebook that will load the solution
-            soln.children = [codeblock(f"%load {soln_path}")]
-
-            # Write the actual solution to the given file on disk
-            soln_file = os.path.join(soln_dir, soln_fname)
-            logger.debug("[nbtutorial]: --> %s", soln_path)
-
-            with open(soln_file, "w") as f:
-                f.write(python_soln)
+            shutil.copy(source, destination)
 
     def prepare_writing(self, docnames: Set[str]) -> None:
         """A place we can add logic to?"""
-
         self.docwriter = NotebookWriter(self)
 
     def write_doc(self, docname: str, doctree: nodes.Node) -> None:
         logger.debug(f"[nbtutorial]: Called on {docname}")
 
         # Determine if the document represents a tutorial.
-        nodes = list(doctree.traverse(condition=nbtutorial))
+        tutorial = list(doctree.traverse(condition=nbtutorial))
 
-        if len(nodes) == 0:
+        if len(tutorial) == 0:
             return
 
-        # Find any solutions that it may constain.
+        docname = pathlib.Path(docname)
+
+        base, fname = docname.parent, docname.stem
+        logger.debug("[nbtutorial]: Base: %s, Filename: %s", base, fname)
+        basedir = pathlib.Path(self.outdir, base)
+
+        if not basedir.exists():
+            basedir.mkdir(parents=True)
+
+        # Find and write out any solutions.
         solutions = list(doctree.traverse(condition=nbsolution))
-        self._process_solutions(docname, solutions)
+        process_solutions(solutions, pathlib.Path(self.outdir), docname)
+
+        # Find and copy over any images
+        images = list(doctree.traverse(condition=nodes.image))
+        self._process_images(docname, images)
 
         destination = StringOutput(encoding="utf-8")
         self.docwriter.write(doctree, destination)
 
-        base, fname = os.path.split(docname)
-        basedir = os.path.join(self.outdir, base)
-
-        if not os.path.exists(basedir):
-            os.makedirs(basedir)
-
-        Path(basedir, "__init__.py").touch()
         outfile = os.path.join(basedir, fname + ".ipynb")
 
         with open(outfile, "w") as f:
@@ -465,10 +567,7 @@ class NotebookTutorialBuilder(Builder):
 def register(app):
 
     app.add_node(
-        nbtutorial,
-        html=(visit_nbtutorial, depart_nbtutorial),
-        latex=(visit_nbtutorial, depart_nbtutorial),
-        text=(visit_nbtutorial, depart_nbtutorial),
+        nbtutorial, html=(visit_nbtutorial, depart_nbtutorial),
     )
 
     app.add_node(nbsolution, html=(visit_nbsolution, depart_nbsolution))
@@ -477,6 +576,7 @@ def register(app):
     app.add_builder(NotebookTutorialBuilder)
 
     app.add_config_value("arlunio_github_author", None, "env")
+    app.add_config_value("arlunio_nbtutorial_binder", None, "env")
 
     app.add_directive("nbsolution", NBSolutionDirective)
     app.add_directive("nbtutorial", NBTutorialDirective)
