@@ -53,6 +53,7 @@ jobs:
 
         cd docs
         make html
+        make nbtutorial
     # </build-job-docs>
 
     # <build-job-artifact>
@@ -64,7 +65,7 @@ jobs:
     # </build-job-artifact>
 
     # <build-job-deploy>
-    - name: Deploy
+    - name: Deploy HTML Docs
       uses: JamesIves/github-pages-deploy-action@releases/v3
       with:
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
@@ -72,5 +73,15 @@ jobs:
         BRANCH: gh-pages
         FOLDER: docs/_build/html
         TARGET_FOLDER: docs/
+      if: github.event_name != 'pull_request'
+
+    - name: Deploy Tutorial Notebooks
+      uses: JamesIves/github-pages-deploy-action@releases/v3
+      with:
+        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        BASE_BRANCH: develop
+        BRANCH: gh-pages
+        FOLDER: docs/_build/nbtutorial/users
+        TARGET_FOLDER: tutorial/
       if: github.event_name != 'pull_request'
     # </build-job-deploy>

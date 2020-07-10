@@ -73,6 +73,9 @@ the most part. However before running the Sphinx build we:
    :start-after: # <build-job-docs>
    :end-before: # </build-job-docs>
 
+Note that we also run the `nbtutorial` builder to create a Jupyter compatible
+version of the tutorial which we can also publish.
+
 Publish Build Artifact
 ^^^^^^^^^^^^^^^^^^^^^^
 
@@ -89,9 +92,9 @@ also publish the :code:`docs/_build` directory as a build artifact.
 Deploy Docs
 ^^^^^^^^^^^
 
-Finally assuming the docs have been built successfully and this is not a PR
-build, we deploy the result to Github Pages using
-`JamesIves/github-pages-deploy-action`_.
+Finally assuming that the docs have been built successfully and this is not a PR
+build, we deploy both the HTML documentation as well as the notebook version
+of the tutorial to Github Pages using `JamesIves/github-pages-deploy-action`_.
 
 .. literalinclude:: ../../../.github/workflows/docs-release.yml
    :language: yaml
