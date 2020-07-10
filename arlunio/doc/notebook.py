@@ -165,7 +165,7 @@ class NotebookTranslator(nodes.NodeVisitor):
     def new_cell(self, cell_type: str) -> None:
         current = self.current_cell
 
-        if current is not None and current.cell_type == cell_type:
+        if current is not None and current.cell_type == cell_type == "markdown":
             return
 
         types = {"markdown": nbf.new_markdown_cell, "code": nbf.new_code_cell}
@@ -201,13 +201,11 @@ class NotebookTranslator(nodes.NodeVisitor):
     visit_legend, depart_legend = no_op
     visit_nbtutorial, depart_nbtutorial = no_op
 
-    def _italics(self, node):
+    def visit_caption(self, caption):
         self.current_cell.source += "*"
 
-    italics = _italics, _italics
-
-    visit_emphasis, depart_emphasis = italics
-    visit_caption, depart_caption = italics
+    def depart_caption(self, caption):
+        self.current_cell.source += "*\n"
 
     def visit_bullet_list(self, node: nodes.bullet_list) -> None:
         self.new_cell("markdown")
@@ -221,6 +219,12 @@ class NotebookTranslator(nodes.NodeVisitor):
 
     def depart_comment(self, node: nodes.comment) -> None:
         pass
+
+    def visit_emphasis(self, node):
+        self.current_cell.source += "*"
+
+    def depart_emphasis(self, node):
+        self.current_cell.source += "*"
 
     def visit_image(self, node: nodes.image) -> None:
         self.new_cell("markdown")
@@ -349,7 +353,7 @@ def codeblock(source: str) -> nodes.literal_block:
     """Construct a valid code block."""
 
     block = nodes.literal_block()
-    block.children = [nodes.Text(source)]
+    block += nodes.Text(source)
 
     return block
 
@@ -409,6 +413,73 @@ class NotebookGalleryBuilder(Builder):
                 f.write(nbf.writes(notebook))
 
 
+def process_solutions(
+    solutions: List[nbsolution], outdir: pathlib.Path, docname: pathlib.Path
+):
+    """Given the solutions for a particular tutorial save them to that tutorial's
+    resource directory.
+
+    The rst content under the solution node will be converted to a python friendly
+    format before being written out as a file under the resources directory.
+    The solution node's children will then be replaced by a pair of codeblocks.
+
+    The first will be a prompt for the user to type out their solution. While the
+    second will contain a :code:`%load` magic that will allow the user to load the
+    actual solution from the resources file into the notebook.
+
+    Parameters
+    ----------
+    solutions:
+        The list of solutions to process.
+    outdir:
+        The output folder the builder is writing to
+    docname:
+        The path (without extension) of the rst file being processed, relative to the
+        project root.
+    """
+    logger.debug("[nbtutorial]: Processing solutions for %s", docname)
+
+    if len(solutions) == 0:
+        return
+
+    soln_dir = outdir / docname.parent / RESOURCE_DIR
+    soln_name = f"{docname.stem}-soln"
+
+    if not soln_dir.exists():
+        soln_dir.mkdir(parents=True)
+
+    for idx, soln in enumerate(solutions):
+        logger.debug("[nbtutorial]: %s", soln)
+
+        soln_fname = f"{soln_name}-{idx + 1:02d}.py"
+        soln_path = soln_dir / soln_fname
+
+        # We need to wrap solutions in a document for some reason
+        doc = new_document("")
+        doc += soln
+
+        # Convert the solution to a valid Python file
+        translator = PythonTranslator(doc)
+        doc.walkabout(translator)
+        python_soln = translator.astext()
+
+        # Insert a couple of code blocks into the notebaook that will
+        # load the solution
+        write_here = "# Write your solution here...\n"
+        load = (
+            "# Execute this cell to load the example solution\n"
+            f"%load {soln_path.relative_to(soln_dir.parent)}"
+        )
+        soln.children = [codeblock(write_here), codeblock(load)]
+
+        # Finally write the actual solution to disk
+        soln_file = soln_dir / soln_fname
+        logger.debug("[nbtutorial]: %s", soln_file)
+
+        with soln_file.open(mode="w") as f:
+            f.write(python_soln)
+
+
 class NotebookTutorialBuilder(Builder):
     """Builder that can convert static tutorials into an interactive jupyer
     notebook."""
@@ -433,52 +504,6 @@ class NotebookTutorialBuilder(Builder):
         logger.debug(f"[nbtutorial]: Target URI: {uri}")
 
         return uri
-
-    def _process_solutions(
-        self, docname: pathlib.Path, solutions: List[nbsolution]
-    ) -> None:
-        """Given the solutions for a given tutorial save them to the resources dir.
-
-        This also rewrites the doctree so that the solutions are replaced by cells
-        the :code:`%load` magic so that the user can load the results in.
-        """
-        logger.debug("[nbtutorial]: Processing solutions for %s", docname)
-
-        if len(solutions) == 0:
-            return
-
-        soln_dir = pathlib.Path(self.outdir, docname.parent, RESOURCE_DIR)
-        soln_name = docname.stem
-
-        if not soln_dir.exists():
-            soln_dir.mkdir(parents=True)
-
-        for idx, soln in enumerate(solutions):
-            logger.debug("[nbtutorial]: %s", soln)
-
-            soln_fname = f"{soln_name}-{idx + 1:02d}.py"
-            soln_path = soln_dir / soln_fname
-
-            # We need to wrap solutions inside a document for some reason
-            doc = new_document("")
-            doc += soln
-
-            # Convert the solution to a valid Python file
-            translator = PythonTranslator(doc)
-            doc.walkabout(translator)
-            python_soln = translator.astext()
-
-            # Insert a code block into the notebook that will load the solution
-            soln.children = [
-                codeblock(f"%load {soln_path.relative_to(soln_dir.parent)}")
-            ]
-
-            # Write the actual solution to the given file on disk
-            soln_file = os.path.join(soln_dir, soln_fname)
-            logger.debug("[nbtutorial]: --> %s", soln_path)
-
-            with open(soln_file, "w") as f:
-                f.write(python_soln)
 
     def _process_images(self, docname: pathlib.Path, images: List[nodes.image]) -> None:
         """Given the images for a given tutorial, save them to the resources dir."""
@@ -524,7 +549,7 @@ class NotebookTutorialBuilder(Builder):
 
         # Find and write out any solutions.
         solutions = list(doctree.traverse(condition=nbsolution))
-        self._process_solutions(docname, solutions)
+        process_solutions(solutions, pathlib.Path(self.outdir), docname)
 
         # Find and copy over any images
         images = list(doctree.traverse(condition=nodes.image))
