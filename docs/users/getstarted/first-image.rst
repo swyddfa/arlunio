@@ -1,8 +1,6 @@
 Your First Image
 ================
 
-.. nbtutorial::
-
 .. arlunio-image:: Sunny Day
    :align: center
    :gallery: examples
@@ -25,6 +23,9 @@ Your First Image
       img += image.fill(hill(width=width, height=height), foreground="lawngreen")
 
 
+.. nbtutorial::
+
+
 In this tutorial we will be drawing the image you see above. Along the way
 you'll learn some of ways you can create simple images and combine them into a
 final composition. Given the visual nature of this library it's recommended
@@ -45,6 +46,7 @@ and create an image containing the background color representing the sky.
 
    width, height = 1920, 1080
    background = image.new(width, height, color="lightskyblue")
+   background
 
 Now we'll create a circle to represent the sun and position it over and up to
 the left. To produce an image we can use the :code:`fill` function to color in
@@ -54,6 +56,7 @@ the circle with a yellow color.
 
    sun_shape = shape.Circle(xc=-1.2, yc=0.8, r=0.6)
    sun = image.fill(sun_shape(width=width, height=height), foreground="yellow")
+   sun
 
 Adding our :code:`background` and :code:`sun` images together we can start
 building up our final image - order matters!
@@ -61,6 +64,7 @@ building up our final image - order matters!
 .. code-block:: python
 
    final_image = background + sun
+   final_image
 
 Then following a similar process we can create the two hills and add them onto
 the final image.
@@ -72,6 +76,8 @@ the final image.
 
    hill = shape.Circle(xc=1, yc=-1.8, r=1.3)
    final_image += image.fill(hill(width=width, height=height), foreground="lawngreen")
+
+   final_image
 
 Congratulations! You've just drawn your first image with :code:`arlunio`! Don't
 forget to save it as a PNG so you can share it with all your friends 😃
