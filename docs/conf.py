@@ -13,7 +13,7 @@ import os
 # -- Project information -----------------------------------------------------
 
 project = "Arlunio"
-copyright = "2017-, Swyddfa Developers"
+copyright = "2020, Swyddfa Developers"
 author = "Swyddfa Developers"
 arlunio_github_author = "swyddfa"
 
