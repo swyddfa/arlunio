@@ -15,6 +15,7 @@
         "test-output.xml": true,
         ".hypothesis": true
     },
+    "html.format.wrapLineLength": 0,
     "python.autoComplete.addBrackets": true,
     "python.formatting.provider": "black",
     "python.linting.pylintEnabled": false,
