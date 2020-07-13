@@ -1,6 +1,5 @@
 {% macro icon(name) -%}
-<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-    stroke-linejoin="round">
+<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <use xlink:href="/svg/feather-sprite.svg#{{ name }}" />
 </svg>
 {%- endmacro %}
@@ -16,18 +15,19 @@
     {% block title %}<title>Arlunio</title>{% endblock %}
 
     <link rel="stylesheet" href="/css/main.css" />
-    <link href="https://fonts.googleapis.com/css?family=Caveat|Open+Sans:300&display=swap" rel="stylesheet" />
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML'
-        async></script>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300&display=swap" rel="stylesheet" />
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
 
     {% block extrahead %}{% endblock %}
 </head>
 
 <body>
     <header class="two-col">
-        <h1 class="site-title">
-            <a href="/gallery/">Arlunio</a>
-        </h1>
+        <a href="/gallery/">
+            {% with width="120", height="50", color="white" %}
+            {% include "arlunio.svg"  %}
+            {% endwith %}
+        </a>
         <nav class="menu">
             <ul>
                 <li><a href="/docs/">Docs</a></li>

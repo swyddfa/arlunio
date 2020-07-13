@@ -53,6 +53,7 @@ input[type="checkbox"] {
 .image-author .avatar {
   width: 75px;
   height: 75px;
+  border-radius: 5%;
   margin-right: 1em;
 }
 

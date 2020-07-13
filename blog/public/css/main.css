@@ -6,6 +6,7 @@
 
 html, body {
   font-family: 'Open Sans', sans;
+  font-size: 12pt;
   margin: 0;
   background: var(--background);
 }
@@ -24,31 +25,33 @@ li, p {
 }
 
 h1,h2,h3,h4,h5 {
-  font-family: 'Caveat', cursive;
   margin: 0
 }
 
-h1 {font-size: 32pt}
-h2 {font-size: 28pt}
-h3 {font-size: 26pt}
-h4 {font-size: 20pt}
-h5 {font-size: 16pt}
+h1 {font-size: 2rem}
+h2 {font-size: 1.75rem}
+h3 {font-size: 1.5rem}
+h4 {font-size: 1.25rem}
+h5 {font-size: 1rem}
 
 header {
   position: sticky;
   top: 0;
 
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: baseline;
 
   color: white;
-  font-family: 'Caveat', cursive;
   background: var(--primary);
   border-bottom: solid 1px var(--foreground);
 
   padding: 0 1em ;
   z-index: 1;
+}
+
+header a {
+  margin-top: 0.5rem;
 }
 
 header a,
@@ -67,7 +70,7 @@ header a:visited {
 }
 
 nav li {
-  font-size: 20pt;
+  font-size: 1.25rem;
   font-weight: 600;
   list-style: none;
   margin: 0 10px;
@@ -104,10 +107,6 @@ footer {
   grid-template-columns: auto auto auto;
 }
 
-footer h4 {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 12pt
-}
 
 footer a {
   text-decoration: none;;
