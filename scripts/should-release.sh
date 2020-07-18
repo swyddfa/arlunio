@@ -10,7 +10,7 @@ files=$(git diff --name-only ${tag}..HEAD)
 echo -e "Files Changed:\n\n$files"
 
 # Do any of them warrant a new release?
-changes=$(echo $files | grep -E 'arlunio|setup\.py|docs/users')
+changes=$(echo $files | grep -E '^arlunio|setup\.py|docs/users')
 echo
 
 if [ -z "$changes" ]; then

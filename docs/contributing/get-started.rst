@@ -3,32 +3,47 @@
 Getting Started
 ===============
 
-Setting up the Development Environment
---------------------------------------
+So you've decided you want to contribute - fantastic! Welcome aboard! On this
+page you should find everything you need to get yourself setup and ready to
+make changes.
 
-Once you have the forked and cloned the repository you need to create a virtual
-environment that contains all the dependencies for :code:`arlunio` itself as
-well as a number of development tools.
+Obtain the Source Code
+----------------------
 
-From the root of the repository create a virtual envrionment named
-:code:`.env` and activate it
+The source code for :code:`arlunio` itself, the website and the documentation
+are all hosted in a `public repository <https://github.com/swyddfa/arlunio>`_.
+on GitHub. Clicking the :code:`Fork` button on the top right hand side of the
+screen will create your personal copy of the main repository within which you
+will be free to make whatever changes you wish.
 
-.. code-block:: sh
+To pull down a copy of your repository to your machine, open up a terminal
+in a folder of your choosing and run the following command, replacing
+:code:`<username>` with your actual GitHub username::
+
+   $ git clone https://github.com/<username>/arlunio
+
+This will create a folder called :code:`arlunio` containing the contents of the
+repository.
+
+Setup the Python Environment
+----------------------------
+
+Now that you have a copy of the source code the next step would be to create a
+:term:`virtual environment` and install into it all our dependencies,
+development tools along with a development copy of arlunio itself. With your
+terminal open in the repository's folder, create a virutal environment with the
+name :code:`.env`::
 
    $ python -m venv .env
+
+Next activate the environment and run :code:`pip install` to kick off the
+installation::
+
    $ source .env/bin/activate
-   (.env) $
-
-Once active you should see the prompt change to include the name of the
-activated environment. The next step is to then install all the runtime and
-development dependencies
-
-.. code-block:: sh
-
    (.env) $ pip install -e .[dev]
 
-Pre-Commit (Optional, but recommended)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Setup Pre-Commit (Optional)
+---------------------------
 
 `pre-commit`_ is a tool that is used to automatically install and configure
 pre-commit hooks that are run everytime you make a commit inside the
@@ -41,8 +56,8 @@ programs
 - `black`_: This ensures that all python source code is formatted consistently
 - `flake8`_: This ensures that all python code is free of any obvious bugs
   (undefined variables etc.)
-- `reorder_python_imports`_: This ensures that all python :code:`import` statements are
-  listed in a standard order.
+- `reorder_python_imports`_: This ensures that all python :code:`import`
+  statements are listed in a standard order.
 
 Whether or not you setup :code:`pre-commit` is down to where in your workflow
 you want to resolve any issues flagged by these checks i.e. when you commit vs
@@ -71,8 +86,22 @@ all the hooks defined the repository's :code:`.pre-commit-config.yaml` file.
    time as :code:`pre-commit` sets up each hook for the first time. However
    after the initial run, executing the hooks only takes a few seconds.
 
+Setup VSCode (Optional)
+-----------------------
+
+If you already have a preferred editor and workflow then don't let us stop you!
+Feel free to skip this and carry on using your preferred tools.
+
+If however, you're not sure on what to use then you might want to conisder
+using `VS Code`_ as there are a number of integrations bundled with this
+repository that make common tasks such as running code or building the
+documentation easier.
+
 
 .. _black: https://black.readthedocs.io/en/stable/
 .. _flake8: http://flake8.pycqa.org/en/latest/index.html
+.. _Git: https://git-scm.com/
+.. _GitHub: https://github.com
 .. _pre-commit: https://pre-commit.com/
 .. _reorder_python_imports: https://github.com/asottile/reorder_python_imports
+.. _VS Code: https://code.visualstudio.com/
