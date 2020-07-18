@@ -1,6 +1,6 @@
 ![Arlunio](https://www.arlun.io/svg/arlunio.svg)
 
-![MIT License](https://img.shields.io/github/license/alcarney/arlunio.svg) [![Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black) 
+![MIT License](https://img.shields.io/github/license/alcarney/arlunio.svg) [![Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 |   | **Stable** | **Snapshot** |
 |---------------|----|----|
 | **Docs** | | [![Documentation Status](https://github.com/swyddfa/arlunio/workflows/Docs%20Build/badge.svg?branch=develop)](https://www.arlun.io/docs/)|
@@ -35,5 +35,5 @@ Be sure to check out the [documentation](https://www.arlun.io/docs/)
 
 ## Contributing
 
-Contributions are welcome! Just bear with us while contribution guidelines are
-written up
+Contributions are welcome! Check out the [contributing](https://www.arlun.io/docs/contributing/)
+section of the documentation for more information
