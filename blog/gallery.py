@@ -6,9 +6,9 @@ arlunio itself.
 import argparse
 import collections
 import logging
-import os
 import pathlib
 import random
+import shutil
 import subprocess
 from datetime import datetime
 from typing import Any
@@ -111,6 +111,7 @@ class NbCell:
         """Converts the jupyter representation of a cell into one we can show in a
         webpage."""
         type = cell.cell_type
+        contents = ""
 
         if type == "code":
             contents = highlight(cell.source, PythonLexer(), HtmlFormatter())
@@ -275,7 +276,7 @@ class Site:
         gallery_template = env.get_template("gallery.html")
         image_template = env.get_template("image.html")
 
-        index = os.path.join(self.output, "gallery", "index.html")
+        index = pathlib.Path(self.output, "gallery", "index.html")
         images = render_images(self.notebooks, self, skip_failures)
 
         context = {
@@ -301,23 +302,27 @@ class Site:
             imgcontext = context.copy()
             imgcontext["image"] = img.as_dict()
 
-            filename = os.path.join(self.output, "gallery", img.slug + ".html")
+            filename = pathlib.Path(self.output, "gallery", img.slug + ".html")
             write_file(filename, image_template.render(imgcontext))
+
+        # Take the first image from the list as our example that can be linked from
+        # the readme.
+        example = pathlib.Path(self.output, "gallery", "image", images[0].slug + ".png")
+        shutil.copy(example, example.parent / "_example.png")
 
 
 def write_file(filepath, content):
-    path = pathlib.Path(filepath)
-    logger.debug("Writing file: %s", path)
+    logger.debug("Writing file: %s", filepath)
 
-    if not path.parent.exists():
-        logger.debug("Creating dir: %s", path.parent)
-        path.parent.mkdir(parents=True)
+    if not filepath.parent.exists():
+        logger.debug("Creating dir: %s", filepath.parent)
+        filepath.parent.mkdir(parents=True)
 
-    with open(str(path), "w") as f:
+    with filepath.open("w") as f:
         f.write(content)
 
 
-def render_images(nbdir, config, skip_failures=False):
+def render_images(nbdir, config, skip_failures=False) -> List[ImageContext]:
     """Discover and load and render each of the notebooks that represent images."""
 
     nbdir = pathlib.Path(nbdir)
