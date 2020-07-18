@@ -47,12 +47,18 @@ jobs:
     - name: Build Gallery
       run: |
         cd docs
-        make nbgallery
 
+        # Extract examples from the docs as a notebook and copy into gallery
+        make nbgallery
         ls -1 _build/nbgallery/examples/
         cp _build/nbgallery/examples/*.ipynb ../blog/src/gallery
 
+        # Also make the source notebooks available for binder.
         cd ../blog
+        mkdir public/examples
+        cp src/gallery/*.ipynb public/examples
+
+        # Build the gallery
         python gallery.py
 
     # </build-job-blog>
