@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Contributing &mdash; Arlunio V0.11.0b9 documentation</title>
+  <title>Release Process &mdash; Arlunio V0.11.0b9 documentation</title>
   
 
   
@@ -39,8 +39,8 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Getting Started" href="get-started.html" />
-    <link rel="prev" title="Background" href="../background/index.html" /> 
+    <link rel="next" title="CI &amp; Automation" href="ci/index.html" />
+    <link rel="prev" title="Getting Started" href="get-started.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -97,9 +97,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../stdlib/index.html">Standard Library</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../background/index.html">Background</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Contributing</a><ul>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Contributing</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="get-started.html">Getting Started</a></li>
-<li class="toctree-l2"><a class="reference internal" href="release-process.html">Release Process</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Release Process</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ci/index.html">CI &amp; Automation</a></li>
 </ul>
 </li>
@@ -151,14 +151,16 @@
     
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Contributing</li>
+          <li><a href="index.html">Contributing</a> &raquo;</li>
+        
+      <li>Release Process</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
             
-              <a href="https://github.com/swyddfa/arlunio/blob/develop/docs/contributing/index.rst" class="fa fa-github"> Edit on GitHub</a>
+              <a href="https://github.com/swyddfa/arlunio/blob/develop/docs/contributing/release-process.rst" class="fa fa-github"> Edit on GitHub</a>
             
           
         
@@ -172,29 +174,40 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="contributing">
-<span id="id1"></span><h1>Contributing<a class="headerlink" href="#contributing" title="Permalink to this headline">¶</a></h1>
-<div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">Index</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="get-started.html">Getting Started</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="get-started.html#obtain-the-source-code">Obtain the Source Code</a></li>
-<li class="toctree-l2"><a class="reference internal" href="get-started.html#setup-the-python-environment">Setup the Python Environment</a></li>
-<li class="toctree-l2"><a class="reference internal" href="get-started.html#setup-pre-commit-optional">Setup Pre-Commit (Optional)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="get-started.html#setup-vscode-optional">Setup VSCode (Optional)</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="release-process.html">Release Process</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ci/index.html">CI &amp; Automation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="ci/blog-release.html">Blog Release</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ci/docs-release.html">Documentation Release</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ci/python-linting.html">Python Linting</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ci/python-pr-builds.html">Python PR Builds</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ci/python-release.html">Python Release</a></li>
-</ul>
-</li>
-</ul>
+  <div class="section" id="release-process">
+<h1>Release Process<a class="headerlink" href="#release-process" title="Permalink to this headline">¶</a></h1>
+<p>While the process of making beta releases is completely automated, in order to
+make a “real” release there are some manual steps that still need to be
+performed. This page serves as a checklist to make sure that no steps are
+forgotten</p>
+<ol class="arabic">
+<li><p>Start the release process by opening a pull request in the main
+<a class="reference external" href="https://github.com/swyddfa/arlunio">swyddfa/arlunio</a> repository, one that looks to merge <code class="code docutils literal notranslate"><span class="pre">develop</span></code>
+into <code class="code docutils literal notranslate"><span class="pre">master</span></code></p></li>
+<li><p>On a local copy of the <code class="code docutils literal notranslate"><span class="pre">develop</span></code> branch, generate the changelog entry
+for this release with <code class="code docutils literal notranslate"><span class="pre">towncrier</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(.env) $ towncrier --version=v&lt;VERSION&gt;
+</pre></div>
 </div>
+<p>It will ask if it is ok to delete the changelog snippets in the
+<code class="code docutils literal notranslate"><span class="pre">changes/</span></code> directory. Say yes.</p>
+</li>
+<li><p>Commit and push the removal of these files along with the updated changelog
+to update the pull request.</p></li>
+<li><p>Wait to ensure that all the workflow actions pass before merging the pull
+request with the <code class="code docutils literal notranslate"><span class="pre">Create</span> <span class="pre">a</span> <span class="pre">merge</span> <span class="pre">commit</span></code> option. The merge will then
+trigger the automated release pipeline which will package <code class="code docutils literal notranslate"><span class="pre">arlunio</span></code>
+and publish it to PyPi.</p></li>
+<li><p>Once the pipline has finished it will have created the release on our
+<a class="reference external" href="https://github.com/swyddfa/arlunio/releases/">releases</a> page, but the changelog entry will be missing. However the entry
+should be identical to the previous beta release, so copy and paste it over.</p></li>
+<li><p>Delete the <code class="code docutils literal notranslate"><span class="pre">build-number-X</span></code> tag to reset the beta version counter.</p></li>
+<li><p>Checkout the <code class="code docutils literal notranslate"><span class="pre">master</span></code> branch locally and pull down the latest changes.</p></li>
+<li><p>Checkout <code class="code docutils literal notranslate"><span class="pre">develop</span></code> and merge in <code class="code docutils literal notranslate"><span class="pre">master</span></code></p></li>
+<li><p>Bump the version number in <code class="code docutils literal notranslate"><span class="pre">arlunio/_version.py</span></code> to the next candidate
+release number.</p></li>
+<li><p>Commit and push to the <code class="code docutils literal notranslate"><span class="pre">develop</span></code> branch.</p></li>
+</ol>
 </div>
 
 
@@ -205,10 +218,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="get-started.html" class="btn btn-neutral float-right" title="Getting Started" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="ci/index.html" class="btn btn-neutral float-right" title="CI &amp; Automation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../background/index.html" class="btn btn-neutral float-left" title="Background" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="get-started.html" class="btn btn-neutral float-left" title="Getting Started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
