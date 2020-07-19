@@ -44,10 +44,10 @@ def _document_bases(defn: arlunio.Defn, lines: List[str]):
 
     defns = []
 
-    for name, value in defn.bases().items():
+    for name, base in defn.bases().items():
 
-        name = value.__name__
-        mod = value.__module__
+        name = base.defn.__name__
+        mod = base.defn.__module__
 
         defns.append(f":class:`{name} <{mod}.{name}>`")
 
