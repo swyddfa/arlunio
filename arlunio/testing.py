@@ -1,4 +1,6 @@
 """Helpers and utilities for writing tests."""
+from __future__ import annotations
+
 import hypothesis.strategies as st
 import numpy as np
 from hypothesis.extra import numpy

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import inspect
 import logging
 import typing
@@ -368,11 +370,10 @@ class Defn(t.Generic[T]):
     def produces(cls):
         """Return the type of the object that this definition produces."""
 
-        if not hasattr(cls, "_impl"):
+        if not hasattr(cls, "_produces"):
             return t.Any
 
-        rtype = inspect.signature(cls._impl).return_annotation
-        return rtype if rtype != inspect._empty else t.Any
+        return cls._produces
 
 
 def _inspect_arguments(fn: t.Callable):
@@ -383,6 +384,7 @@ def _inspect_arguments(fn: t.Callable):
     hints = typing.get_type_hints(fn)
 
     inputs, bases, attributes = {}, {}, {}
+    produces = hints.get("return", t.Any)
 
     for param in parameters.values():
         dtype = hints.get(param.name, None)
@@ -409,7 +411,7 @@ def _inspect_arguments(fn: t.Callable):
         _inherit_attributes(base, attributes)
         _inherit_inputs(base, inputs)
 
-    return inputs, bases, attributes
+    return inputs, bases, attributes, produces
 
 
 def _inherit_attributes(base: DefnBase, attributes):
@@ -543,7 +545,7 @@ def definition(f=None, *, operation: str = None, operator_pool=None) -> Defn:
             "_operators": operators,
         }
 
-        inputs, bases, attribs = _inspect_arguments(fn)
+        inputs, bases, attribs, produces = _inspect_arguments(fn)
 
         for name, attrib in attribs.items():
             attributes[name] = attrib.to_attr()
@@ -551,6 +553,7 @@ def definition(f=None, *, operation: str = None, operator_pool=None) -> Defn:
         attributes["_attributes"] = attribs
         attributes["_bases"] = bases
         attributes["_inputs"] = inputs
+        attributes["_produces"] = produces
 
         defn = attr.s(type(defn_name, (Defn,), attributes))
 

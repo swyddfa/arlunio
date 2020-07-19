@@ -3,6 +3,8 @@ files. Currently includes support for the following formats.
 
 - :code:`.ipynb`: Jupyter Notebooks
 """
+from __future__ import annotations
+
 import importlib.util as imutil
 import logging
 import os

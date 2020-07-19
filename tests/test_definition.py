@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Any
 
 import py.test
@@ -142,6 +144,11 @@ class TestDefinition:
         assert Param().produces() == int
 
 
+@ar.definition
+def Other(width: str):
+    pass
+
+
 class TestDefinitionInputs:
     """Tests relating to definition inputs."""
 
@@ -242,10 +249,6 @@ class TestDefinitionInputs:
         """Ensure that if a definition includes bases that have conflicting inputs
         an appropriate error is raised."""
 
-        @ar.definition
-        def Other(width: str):
-            pass
-
         with py.test.raises(TypeError) as err:
 
             @ar.definition
@@ -257,19 +260,31 @@ class TestDefinitionInputs:
         assert "'Base'" in str(err.value)
 
 
+@ar.definition
+def BaseAttrs(width: int, height: int, *, a: int = 1, b=2):
+    return width - a
+
+
+@ar.definition
+def DerivedAttrs(base: BaseAttrs, *, b=3, d: float = 4.0):
+    return base + d
+
+
+@ar.definition()
+def Adder(width: int, height: int):
+    return height + width
+
+
+@ar.definition()
+def Subber(a: Adder):
+    return a - 2
+
+
 class TestDerivedDefinitions:
     """Tests related to deriving definitions."""
 
     def test_derivation(self):
         """Ensure that we can derive a definition that's based on other definitions."""
-
-        @ar.definition()
-        def Adder(width: int, height: int):
-            return height + width
-
-        @ar.definition()
-        def Subber(a: Adder):
-            return a - 2
 
         s = Subber()
         assert s(width=1, height=1) == 0
@@ -279,46 +294,30 @@ class TestDerivedDefinitions:
         """Ensure that the attributes method only exposes the attributes that are
         directly defined on the definition by default."""
 
-        @ar.definition
-        def Base(width: int, height: int, *, a: int = 1, b=2):
-            return 3
-
         expected = {
             "a": ar.DefnAttribute(name="a", dtype=int, inherited=False, default=1),
             "b": ar.DefnAttribute(name="b", inherited=False, default=2),
         }
 
-        assert Base().attributes() == expected
-
-        @ar.definition
-        def Derived(base: Base, *, b=3, d: float = 4.0):
-            return 5
+        assert BaseAttrs().attributes() == expected
 
         expected = {
             "b": ar.DefnAttribute(name="b", inherited=False, default=3),
             "d": ar.DefnAttribute(name="d", dtype=float, inherited=False, default=4.0),
         }
 
-        assert Derived().attributes() == expected
+        assert DerivedAttrs().attributes() == expected
 
     def test_inherited_attributes(self):
         """Ensure that the attributes method with the inherited flag exposes all
         available attributes on the definition."""
-
-        @ar.definition
-        def Base(width: int, height: int, *, a: int = 1, b=2):
-            return 3
 
         expected = {
             "a": ar.DefnAttribute(name="a", dtype=int, inherited=False, default=1),
             "b": ar.DefnAttribute(name="b", inherited=False, default=2),
         }
 
-        assert Base().attributes(inherited=True) == expected
-
-        @ar.definition()
-        def Derived(base: Base, *, b=3, d: float = 4.0):
-            return 5
+        assert BaseAttrs().attributes(inherited=True) == expected
 
         expected = {
             "a": ar.DefnAttribute(name="a", dtype=int, inherited=True, default=1),
@@ -326,73 +325,38 @@ class TestDerivedDefinitions:
             "d": ar.DefnAttribute(name="d", dtype=float, inherited=False, default=4.0),
         }
 
-        assert Derived().attributes(inherited=True) == expected
+        assert DerivedAttrs().attributes(inherited=True) == expected
 
     def test_values(self):
         """Ensure that the values method by default only exposes the values of the
         attributes that were directly declared."""
 
-        @ar.definition
-        def Base(width: int, height: int, *, a=1, b=2):
-            return 3
-
-        assert {"a": 1, "b": 2} == Base().values()
-
-        @ar.definition()
-        def Derived(base: Base, *, b=3, d=4):
-            return 5
-
-        assert {"b": 3, "d": 4} == Derived().values()
+        assert {"a": 1, "b": 2} == BaseAttrs().values()
+        assert {"b": 3, "d": 4} == DerivedAttrs().values()
 
     def test_inherited_values(self):
         """Ensure that the values method with the inherited flag exposes all attribute
         values."""
 
-        @ar.definition
-        def Base(width: int, height: int, *, a=1, b=2):
-            return 3
-
-        assert {"a": 1, "b": 2} == Base().values(inherited=True)
-
-        @ar.definition()
-        def Derived(base: Base, *, b=3, d=4):
-            return 5
-
-        assert {"a": 1, "b": 3, "d": 4} == Derived().values(inherited=True)
+        assert {"a": 1, "b": 2} == BaseAttrs().values(inherited=True)
+        assert {"a": 1, "b": 3, "d": 4} == DerivedAttrs().values(inherited=True)
 
     def test_eval_kwargs(self):
         """Ensure that a definition can be evaluted with inputs provided as keyword
         arguments"""
 
-        @ar.definition()
-        def Base(width: int, height: int):
-            return width + height
-
-        assert Base()(width=4, height=4) == 8
-
-        @ar.definition()
-        def Derived(height: int, base: Base):
-            return height - base
-
-        assert Derived()(height=4, base=4) == 0
+        assert BaseAttrs()(width=4, height=4) == 3
+        assert DerivedAttrs()(height=4, base=4) == 8.0
 
     def test_exposes_attributes(self):
         """Ensure that any attributes on base definitions are exposed on the derived
         definition."""
 
-        @ar.definition()
-        def Base(width: int, height: int, *, offset=0):
-            return offset
+        d = DerivedAttrs()
+        d(width=4, height=3) == -1.0
 
-        @ar.definition()
-        def Derived(b: Base, *, start=1):
-            return start - b
-
-        d = Derived()
-        d(width=1, height=1) == 1
-
-        d = Derived(start=5, offset=-1)
-        d(width=1, height=1) == 6
+        d = DerivedAttrs(a=2, d=0.0)
+        d(width=1, height=1) == 2.0
 
     @py.test.mark.parametrize(
         "defn,expected",
