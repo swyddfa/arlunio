@@ -1,6 +1,8 @@
 import inspect
 import logging
+import typing
 from typing import Any
+from typing import Callable
 from typing import ClassVar
 from typing import Dict
 from typing import List
@@ -10,7 +12,14 @@ import attr
 
 from ._version import __version__
 
-__all__ = ["Defn", "DefnInput", "definition", "__version__"]
+__all__ = [
+    "Defn",
+    "DefnAttribute",
+    "DefnBase",
+    "DefnInput",
+    "definition",
+    "__version__",
+]
 
 logger = logging.getLogger(__name__)
 
@@ -109,21 +118,23 @@ class Defn(metaclass=_BaseDefn):
         args = {inpt: kwargs[inpt] for inpt in required}
 
         # Now to evaluate any definitions this definition is derived from.
-        attributes = self.attributes(inherited=True)
+        attributes = self.values(inherited=True)
         bases = dict(self._bases)
 
         logger.debug("--> Attributes: %s", attributes)
         logger.debug("--> Bases: %s", bases)
 
-        for name, defn in bases.items():
+        for name, base in bases.items():
 
             if name in kwargs:
                 logger.debug("%s: Using user provided override, %s", name, kwargs[name])
                 args[name] = kwargs[name]
                 continue
 
-            attrs = {name: attributes[name] for name in defn.attribs(inherited=True)}
-            instance = defn(**attrs)
+            attrs = {
+                name: attributes[name] for name in base.defn.attributes(inherited=True)
+            }
+            instance = base.defn(**attrs)
             logger.debug("%s: Created instance, %s", name, instance)
 
             # And then evaluate it!
@@ -132,7 +143,7 @@ class Defn(metaclass=_BaseDefn):
         message = "Executing '%s' with %s"
         logger.debug(message, self.__class__.__name__, args.keys())
 
-        return self._impl(**args, **self.attributes())
+        return self._impl(**args, **self.values())
 
     def _special_method(self, operation, a, b):
         """Implements the special methods in a standardized way."""
@@ -233,30 +244,12 @@ class Defn(metaclass=_BaseDefn):
     def __rxor__(self, other):
         return self._special_method(self.OP_XOR, other, self)
 
-    def attributes(self, inherited=False):
-        """Return all attributes and their values on this definition instance.
-
-        Parameters
-        ----------
-        inherited:
-            If :code:`True` return all inherited attributes also.
-        """
-
-        if inherited:
-            return {
-                a.name: getattr(self, a.name)
-                for a in attr.fields(self.__class__)
-                if Defn.ATTR_ID in a.metadata
-            }
-
-        return {
-            a.name: getattr(self, a.name)
-            for a in attr.fields(self.__class__)
-            if not a.metadata[Defn.ATTR_ID]["inherited"]
-        }
+    def values(self, inherited=False) -> Dict[str, Any]:
+        """Return all the attribute values on this definition."""
+        return {k: getattr(self, k) for k in self.attributes(inherited)}
 
     @classmethod
-    def attribs(cls, inherited=False):
+    def attributes(cls, inherited=False):
         """Return all attributes defined on this definition.
 
         Parameters
@@ -264,15 +257,13 @@ class Defn(metaclass=_BaseDefn):
         inherited:
             If :code:`True` return all inherited attributes also.
         """
+        if not hasattr(cls, "_attributes"):
+            return {}
 
         if inherited:
-            return {a.name: a for a in attr.fields(cls) if Defn.ATTR_ID in a.metadata}
+            return cls._attributes
 
-        return {
-            a.name: a
-            for a in attr.fields(cls)
-            if not a.metadata[Defn.ATTR_ID]["inherited"]
-        }
+        return {k: v for k, v in cls._attributes.items() if not v.inherited}
 
     @classmethod
     def bases(cls):
@@ -328,29 +319,125 @@ class DefnInput:
     """List of definitions to indicate which definitions an input has been inherited
     from."""
 
+    @classmethod
+    def fromparam(cls, parameter: inspect.Parameter, dtype: Any):
+        """Given a parameter and a type hint, construct an input."""
 
-def _define_attribute(param: inspect.Parameter) -> attr.Attribute:
-    """Given a parameter that represents some definition's attribute, write the
-    corresponding attrs instance."""
-
-    args = {"default": param.default, "kw_only": True}
-    args["metadata"] = {Defn.ATTR_ID: {"inherited": False}}
-
-    if param.annotation != inspect.Parameter.empty:
-        args["type"] = param.annotation
-
-        # TODO: Something, something validation...
-        # args["validator"] = ...
-
-    return attr.ib(**args)
+        name = parameter.name
+        return cls(name=name, dtype=dtype, inherited=False)
 
 
-def _inherit_attributes(defn: Defn, attributes):
+@attr.s(auto_attribs=True)
+class DefnBase:
+    """A definition base."""
+
+    name: str
+    """The name of the base."""
+
+    defn: Defn
+    """The actual definition."""
+
+    @classmethod
+    def fromparam(cls, parameter: inspect.Parameter, defn: Defn):
+        """Given a parameter and type hint, construct a base"""
+
+        name = parameter.name
+        return cls(name=name, defn=defn)
+
+
+@attr.s(auto_attribs=True)
+class DefnAttribute:
+    """A definition attribute"""
+
+    name: str
+    """The name of the attribute."""
+
+    default: Any
+    """The default value of the attrbute."""
+
+    inherited: bool
+    """Indicates whether this attribute is inherited."""
+
+    dtype: Optional[Any] = None
+    """The type of the attribute."""
+
+    @classmethod
+    def copy(cls, existing):
+        """Copy an existing attribute definition."""
+        return cls(**attr.asdict(existing))
+
+    @classmethod
+    def fromparam(cls, parameter: inspect.Parameter, dtype: Any):
+        """Given a parameter and type hints, construct an attribute."""
+
+        args = {
+            "name": parameter.name,
+            "default": parameter.default,
+            "dtype": dtype,
+            "inherited": False,
+        }
+
+        return cls(**args)
+
+    def to_attr(self):
+        """Convert our representation of an attribute into an attrs attribute."""
+
+        metadata = {Defn.ATTR_ID: {"inherited": self.inherited}}
+
+        args = {
+            "default": self.default,
+            "kw_only": True,
+            "metadata": metadata,
+        }
+
+        if self.dtype is not None:
+            args["type"] = self.dtype
+
+        return attr.ib(**args)
+
+
+def _inspect_arguments(fn: Callable):
+    """Given a function, determine what its arguments are and their properties."""
+
+    KW_ONLY = inspect.Parameter.KEYWORD_ONLY
+    parameters = inspect.signature(fn).parameters
+    hints = typing.get_type_hints(fn)
+
+    inputs, bases, attributes = {}, {}, {}
+
+    for param in parameters.values():
+        dtype = hints.get(param.name, None)
+
+        if param.kind == KW_ONLY:
+            attrib = DefnAttribute.fromparam(param, dtype)
+            attributes[param.name] = attrib
+            continue
+
+        # Input parameters must have a type annotation
+        if dtype is None:
+            raise TypeError(f"Missing type annotation for parameter '{param.name}'")
+
+        if issubclass(dtype, Defn):
+            base = DefnBase.fromparam(param, dtype)
+            bases[param.name] = base
+            continue
+
+        input_ = DefnInput.fromparam(param, dtype)
+        inputs[param.name] = input_
+
+    # Now for any bases, inherited all their attributes and inputs.
+    for base in bases.values():
+        _inherit_attributes(base, attributes)
+        _inherit_inputs(base, inputs)
+
+    return inputs, bases, attributes
+
+
+def _inherit_attributes(base: DefnBase, attributes):
     """Given a definition and the attributes for the current definition under
     construction copy over its attributes."""
 
-    # Only look at the fields that represent attributes.
-    for attrib in (a for a in attr.fields(defn) if a.metadata[Defn.ATTR_ID]):
+    for name, attrib in base.defn.attributes(inherited=True).items():
 
         # For now we will skip any attributes that have already been defined.
         # This means that any definitions that share the same attribute name will
@@ -358,37 +445,31 @@ def _inherit_attributes(defn: Defn, attributes):
         #
         # This is probably what you would want in most(?) cases, but I'm sure we will
         # need the ability to do something more clever in the future...
-        if attrib.name in attributes:
+        #
+        # We may also at some point want to consider the case when attrbiutes carry
+        # types which clash...
+        if name in attributes:
             continue
 
-        metadata = dict(**attrib.metadata)
-        metadata[Defn.ATTR_ID] = {"inherited": True}
+        attrib = DefnAttribute.copy(attrib)
+        attrib.inherited = True
 
-        # It seems that the best way to copy an attrs attribute from one class to
-        # another is to construct a fresh instance, copying over all the fields from
-        # the source...
-        attributes[attrib.name] = attr.ib(
-            converter=attrib.converter,
-            default=attrib.default,
-            kw_only=attrib.kw_only,
-            repr=False,
-            metadata=metadata,
-            validator=attrib.validator,
-        )
+        attributes[name] = attrib
 
 
-def _inherit_inputs(defn: Defn, inputs):
+def _inherit_inputs(base: DefnBase, inputs):
     """Given a definition and the inputs for the current definition under construction
     copy over its inputs.
 
     Parameters
     ----------
-    defn:
-        The definition to inherit inputs from
+    base:
+        The definition base to inherit inputs from
     inputs:
         The dictionary carrying the inputs for the definition under construction.
     """
-    logger.debug("Inherting inputs from definition: %s", defn.__name__)
+    logger.debug("Inherting inputs from definition: %s", base.defn.__name__)
+    defn = base.defn
 
     for name, inpt in defn.inputs().items():
 
@@ -427,62 +508,20 @@ def _inherit_inputs(defn: Defn, inputs):
         logger.debug("%s: already defined", name)
 
 
-def _process_parameters(
-    signature: inspect.Signature, attributes: Dict[str, Any]
-) -> List[inspect.Parameter]:
-    """Ensure that the input parameters for the defintion are well defined.
-
-    All parameters must carry a type annotation, if the annotation is not a
-    Defn the parameter will be registered as an input that must be given when
-    evaluating a definiton.
-
-    Otherwise if the annotation is another definition then both the inputs and
-    attributes of that definition will be inherited.
-    """
-
-    # Input parameters are any arguments that are not attributes
-    params = [p for p in signature.values() if p.name not in attributes]
-
-    # We will hold a dict of definitions we are based on.
-    defns = {}
-
-    # As well as a dict of inputs required to evaluate the definiton.
-    inputs = {}
-
-    for param in params:
-
-        if param.annotation == inspect.Parameter.empty:
-            raise TypeError(f"Missing type annotation for parameter '{param.name}'")
-
-        if issubclass(param.annotation, Defn):
-            defns[param.name] = param.annotation
-            continue
-
-        inpt = DefnInput(name=param.name, dtype=param.annotation, inherited=False)
-        inputs[inpt.name] = inpt
-
-    # Now for each definition, inherit its attributes and inputs.
-    for defn in defns.values():
-        _inherit_attributes(defn, attributes)
-        _inherit_inputs(defn, inputs)
-
-    return defns, inputs
-
-
 _OPERATOR_POOL = {}
 
 
 def _define_operator(defn: Defn, operation: str, operator_pool):
     """Given a definition, check to see if it matches the criteria to be an operator."""
 
-    attrs = defn.attribs(inherited=True)
+    attrs = defn.attributes(inherited=True)
 
     if "a" not in attrs.keys() or "b" not in attrs.keys():
         message = "Operators must define 2 attributes 'a' and 'b'"
         raise TypeError(message)
 
-    a = attrs["a"].type
-    b = attrs["b"].type
+    a = attrs["a"].dtype
+    b = attrs["b"].dtype
 
     if a is None:
         raise TypeError("Operator input 'a' is missing a valid type annotation")
@@ -506,8 +545,8 @@ def _define_operator(defn: Defn, operation: str, operator_pool):
     operator_pool[key] = defn
 
 
-def definition(f=None, *, operation: str = None, operator_pool=None):
-    """Create a new Definition.
+def definition(f=None, *, operation: str = None, operator_pool=None) -> Defn:
+    """Define a new Definition.
 
     Parameters
     ----------
@@ -524,11 +563,6 @@ def definition(f=None, *, operation: str = None, operator_pool=None):
         name = fn.__name__
         operators = operator_pool if operator_pool is not None else _OPERATOR_POOL
 
-        KW_ONLY = inspect.Parameter.KEYWORD_ONLY
-        signature = inspect.signature(fn).parameters
-
-        attrs = [attr for attr in signature.values() if attr.kind == KW_ONLY]
-
         attributes = {
             "__doc__": inspect.getdoc(fn),
             "__module__": fn.__module__,
@@ -536,10 +570,12 @@ def definition(f=None, *, operation: str = None, operator_pool=None):
             "_operators": operators,
         }
 
-        for a in attrs:
-            attributes[a.name] = _define_attribute(a)
+        inputs, bases, attribs = _inspect_arguments(fn)
 
-        bases, inputs = _process_parameters(signature, attributes)
+        for name, attrib in attribs.items():
+            attributes[attrib.name] = attrib.to_attr()
+
+        attributes["_attributes"] = attribs
         attributes["_bases"] = bases
         attributes["_inputs"] = inputs
 

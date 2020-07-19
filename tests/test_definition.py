@@ -270,80 +270,85 @@ class TestDerivedDefinitions:
         directly defined on the definition by default."""
 
         @ar.definition
-        def Base(width: int, height: int, *, a=1, b=2):
+        def Base(width: int, height: int, *, a: int = 1, b=2):
             return 3
 
-        assert Base().attributes() == {"a": 1, "b": 2}
+        expected = {
+            "a": ar.DefnAttribute(name="a", dtype=int, inherited=False, default=1),
+            "b": ar.DefnAttribute(name="b", inherited=False, default=2),
+        }
+
+        assert Base().attributes() == expected
 
         @ar.definition
-        def Derived(base: Base, *, b=3, d=4):
+        def Derived(base: Base, *, b=3, d: float = 4.0):
             return 5
 
-        assert Derived().attributes() == {"b": 3, "d": 4}
+        expected = {
+            "b": ar.DefnAttribute(name="b", inherited=False, default=3),
+            "d": ar.DefnAttribute(name="d", dtype=float, inherited=False, default=4.0),
+        }
+
+        assert Derived().attributes() == expected
 
     def test_inherited_attributes(self):
         """Ensure that the attributes method with the inherited flag exposes all
         available attributes on the definition."""
 
         @ar.definition
-        def Base(width: int, height: int, *, a=1, b=2):
+        def Base(width: int, height: int, *, a: int = 1, b=2):
             return 3
 
-        assert Base().attributes(inherited=True) == {"a": 1, "b": 2}
+        expected = {
+            "a": ar.DefnAttribute(name="a", dtype=int, inherited=False, default=1),
+            "b": ar.DefnAttribute(name="b", inherited=False, default=2),
+        }
+
+        assert Base().attributes(inherited=True) == expected
 
         @ar.definition()
-        def Derived(base: Base, *, b=3, d=4):
+        def Derived(base: Base, *, b=3, d: float = 4.0):
             return 5
 
-        assert Derived().attributes(inherited=True) == {"a": 1, "b": 3, "d": 4}
+        expected = {
+            "a": ar.DefnAttribute(name="a", dtype=int, inherited=True, default=1),
+            "b": ar.DefnAttribute(name="b", inherited=False, default=3),
+            "d": ar.DefnAttribute(name="d", dtype=float, inherited=False, default=4.0),
+        }
 
-    def test_attribs(self):
-        """Ensure that the attribs method with the inherited flag exposes all available
-        attribute definitions."""
+        assert Derived().attributes(inherited=True) == expected
+
+    def test_values(self):
+        """Ensure that the values method by default only exposes the values of the
+        attributes that were directly declared."""
 
         @ar.definition
         def Base(width: int, height: int, *, a=1, b=2):
             return 3
 
-        attrs = Base.attribs()
-        assert {"a", "b"} == set(attrs.keys())
-
-        for name, attr in attrs.items():
-            assert name == attr.name
+        assert {"a": 1, "b": 2} == Base().values()
 
         @ar.definition()
         def Derived(base: Base, *, b=3, d=4):
             return 5
 
-        attrs = Derived.attribs()
-        assert {"b", "d"} == set(attrs.keys())
+        assert {"b": 3, "d": 4} == Derived().values()
 
-        for name, attr in attrs.items():
-            assert name == attr.name
-
-    def test_inherited_attribs(self):
-        """Ensure that the attribs method with the inherited flag exposes all available
-        attribute definitions."""
+    def test_inherited_values(self):
+        """Ensure that the values method with the inherited flag exposes all attribute
+        values."""
 
         @ar.definition
         def Base(width: int, height: int, *, a=1, b=2):
             return 3
 
-        attrs = Base.attribs(inherited=True)
-        assert {"a", "b"} == set(attrs.keys())
-
-        for name, attr in attrs.items():
-            assert name == attr.name
+        assert {"a": 1, "b": 2} == Base().values(inherited=True)
 
         @ar.definition()
         def Derived(base: Base, *, b=3, d=4):
             return 5
 
-        attrs = Derived.attribs(inherited=True)
-        assert {"a", "b", "d"} == set(attrs.keys())
-
-        for name, attr in attrs.items():
-            assert name == attr.name
+        assert {"a": 1, "b": 3, "d": 4} == Derived().values(inherited=True)
 
     def test_eval_kwargs(self):
         """Ensure that a definition can be evaluted with inputs provided as keyword
@@ -379,7 +384,10 @@ class TestDerivedDefinitions:
         d = Derived(start=5, offset=-1)
         d(width=1, height=1) == 6
 
-    @py.test.mark.parametrize("defn,expected", [(Base, {}), (Tunnel, {"base": Base})])
+    @py.test.mark.parametrize(
+        "defn,expected",
+        [(Base, {}), (Tunnel, {"base": ar.DefnBase(name="base", defn=Base)})],
+    )
     def test_bases(self, defn, expected):
         """Ensure that any bases a definition is derived from is exposed."""
 
