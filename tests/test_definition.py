@@ -26,18 +26,28 @@ def Tunnel(base: Base, length: int):
     return 4
 
 
+@ar.definition()
+def Circle(width: int, height: int, *, radius=0.5):
+    return radius
+
+
 class TestDefinition:
     """Tests around the basic properties of a definition"""
 
-    def test_name(self):
+    @py.test.mark.parametrize(
+        "defn,name",
+        [
+            (Base, "Base"),
+            (Circle, "Circle"),
+            (Const, "Const"),
+            (Cuboid, "Cuboid"),
+            (Tunnel, "Tunnel"),
+        ],
+    )
+    def test_name(self, defn, name):
         """Ensure that the returned definition keeps the name of the decorated
         function."""
-
-        @ar.definition
-        def Circle():
-            pass
-
-        assert Circle.__name__ == "Circle"
+        assert defn.__name__ == name
 
     def test_module(self):
         """Ensure that the returned definition reports its module as the one it was

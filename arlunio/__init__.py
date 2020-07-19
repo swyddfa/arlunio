@@ -61,6 +61,100 @@ class DefnSignature:
         return f"Defn[{t}]"
 
 
+@attr.s(auto_attribs=True)
+class DefnInput:
+    """A class that represents an input to a definition"""
+
+    name: str
+    """The name of the input."""
+
+    dtype: Any
+    """The type of the input"""
+
+    inherited: bool
+    """Flag to indicate if the input has been inherited from another definition."""
+
+    sources: "Optional[List[Defn]]" = None
+    """List of definitions to indicate which definitions an input has been inherited
+    from."""
+
+    @classmethod
+    def fromparam(cls, parameter: inspect.Parameter, dtype: Any):
+        """Given a parameter and a type hint, construct an input."""
+
+        name = parameter.name
+        return cls(name=name, dtype=dtype, inherited=False)
+
+
+@attr.s(auto_attribs=True)
+class DefnBase:
+    """A definition base."""
+
+    name: str
+    """The name of the base."""
+
+    defn: "Defn"
+    """The actual definition."""
+
+    @classmethod
+    def fromparam(cls, parameter: inspect.Parameter, defn: "Defn"):
+        """Given a parameter and type hint, construct a base"""
+
+        name = parameter.name
+        return cls(name=name, defn=defn)
+
+
+@attr.s(auto_attribs=True)
+class DefnAttribute:
+    """A definition attribute"""
+
+    name: str
+    """The name of the attribute."""
+
+    default: Any
+    """The default value of the attrbute."""
+
+    inherited: bool
+    """Indicates whether this attribute is inherited."""
+
+    dtype: Optional[Any] = None
+    """The type of the attribute."""
+
+    @classmethod
+    def copy(cls, existing):
+        """Copy an existing attribute definition."""
+        return cls(**attr.asdict(existing))
+
+    @classmethod
+    def fromparam(cls, parameter: inspect.Parameter, dtype: Any):
+        """Given a parameter and type hints, construct an attribute."""
+
+        args = {
+            "name": parameter.name,
+            "default": parameter.default,
+            "dtype": dtype,
+            "inherited": False,
+        }
+
+        return cls(**args)
+
+    def to_attr(self):
+        """Convert our representation of an attribute into an attrs attribute."""
+
+        metadata = {Defn.ATTR_ID: {"inherited": self.inherited}}
+
+        args = {
+            "default": self.default,
+            "kw_only": True,
+            "metadata": metadata,
+        }
+
+        if self.dtype is not None:
+            args["type"] = self.dtype
+
+        return attr.ib(**args)
+
+
 class _BaseDefn(type):
     """A metaclass for prodviding a few goodies on the definition class itself."""
 
@@ -249,7 +343,7 @@ class Defn(metaclass=_BaseDefn):
         return {k: getattr(self, k) for k in self.attributes(inherited)}
 
     @classmethod
-    def attributes(cls, inherited=False):
+    def attributes(cls, inherited=False) -> Dict[str, DefnAttribute]:
         """Return all attributes defined on this definition.
 
         Parameters
@@ -266,7 +360,7 @@ class Defn(metaclass=_BaseDefn):
         return {k: v for k, v in cls._attributes.items() if not v.inherited}
 
     @classmethod
-    def bases(cls):
+    def bases(cls) -> Dict[str, DefnBase]:
         """Return all the definitions this defintion is derived from."""
 
         if not hasattr(cls, "_bases"):
@@ -275,7 +369,7 @@ class Defn(metaclass=_BaseDefn):
         return dict(cls._bases)
 
     @classmethod
-    def inputs(cls, inherited=True):
+    def inputs(cls, inherited=True) -> Dict[str, DefnInput]:
         """Return all the inputs required to evaluate this definition.
 
         Parameters
@@ -300,100 +394,6 @@ class Defn(metaclass=_BaseDefn):
 
         rtype = inspect.signature(cls._impl).return_annotation
         return rtype if rtype != inspect._empty else Any
-
-
-@attr.s(auto_attribs=True)
-class DefnInput:
-    """A class that represents an input to a definition"""
-
-    name: str
-    """The name of the input."""
-
-    dtype: Any
-    """The type of the input"""
-
-    inherited: bool
-    """Flag to indicate if the input has been inherited from another definition."""
-
-    sources: Optional[List[Defn]] = None
-    """List of definitions to indicate which definitions an input has been inherited
-    from."""
-
-    @classmethod
-    def fromparam(cls, parameter: inspect.Parameter, dtype: Any):
-        """Given a parameter and a type hint, construct an input."""
-
-        name = parameter.name
-        return cls(name=name, dtype=dtype, inherited=False)
-
-
-@attr.s(auto_attribs=True)
-class DefnBase:
-    """A definition base."""
-
-    name: str
-    """The name of the base."""
-
-    defn: Defn
-    """The actual definition."""
-
-    @classmethod
-    def fromparam(cls, parameter: inspect.Parameter, defn: Defn):
-        """Given a parameter and type hint, construct a base"""
-
-        name = parameter.name
-        return cls(name=name, defn=defn)
-
-
-@attr.s(auto_attribs=True)
-class DefnAttribute:
-    """A definition attribute"""
-
-    name: str
-    """The name of the attribute."""
-
-    default: Any
-    """The default value of the attrbute."""
-
-    inherited: bool
-    """Indicates whether this attribute is inherited."""
-
-    dtype: Optional[Any] = None
-    """The type of the attribute."""
-
-    @classmethod
-    def copy(cls, existing):
-        """Copy an existing attribute definition."""
-        return cls(**attr.asdict(existing))
-
-    @classmethod
-    def fromparam(cls, parameter: inspect.Parameter, dtype: Any):
-        """Given a parameter and type hints, construct an attribute."""
-
-        args = {
-            "name": parameter.name,
-            "default": parameter.default,
-            "dtype": dtype,
-            "inherited": False,
-        }
-
-        return cls(**args)
-
-    def to_attr(self):
-        """Convert our representation of an attribute into an attrs attribute."""
-
-        metadata = {Defn.ATTR_ID: {"inherited": self.inherited}}
-
-        args = {
-            "default": self.default,
-            "kw_only": True,
-            "metadata": metadata,
-        }
-
-        if self.dtype is not None:
-            args["type"] = self.dtype
-
-        return attr.ib(**args)
 
 
 def _inspect_arguments(fn: Callable):
@@ -560,7 +560,7 @@ def definition(f=None, *, operation: str = None, operator_pool=None) -> Defn:
 
     def wrapper(fn):
 
-        name = fn.__name__
+        defn_name = fn.__name__
         operators = operator_pool if operator_pool is not None else _OPERATOR_POOL
 
         attributes = {
@@ -573,13 +573,13 @@ def definition(f=None, *, operation: str = None, operator_pool=None) -> Defn:
         inputs, bases, attribs = _inspect_arguments(fn)
 
         for name, attrib in attribs.items():
-            attributes[attrib.name] = attrib.to_attr()
+            attributes[name] = attrib.to_attr()
 
         attributes["_attributes"] = attribs
         attributes["_bases"] = bases
         attributes["_inputs"] = inputs
 
-        defn = attr.s(type(name, (Defn,), attributes))
+        defn = attr.s(type(defn_name, (Defn,), attributes))
 
         if operation is not None:
             _define_operator(defn, operation, operators)
