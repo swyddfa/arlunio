@@ -164,7 +164,9 @@
            <div itemprop="articleBody">
             
   <h1>Source code for arlunio.mask</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">functools</span>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span> <span class="nn">functools</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
 
@@ -278,7 +280,7 @@
 
 <span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span><span class="p">(</span><span class="n">operation</span><span class="o">=</span><span class="n">ar</span><span class="o">.</span><span class="n">Defn</span><span class="o">.</span><span class="n">OP_ADD</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">MaskAdd</span><span class="p">(</span>
-    <span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="n">ar</span><span class="o">.</span><span class="n">Defn</span><span class="p">[</span><span class="n">Mask</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">ar</span><span class="o">.</span><span class="n">Defn</span><span class="p">[</span><span class="n">Mask</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="n">ar</span><span class="o">.</span><span class="n">Defn</span><span class="p">[</span><span class="n">Mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">Empty</span><span class="p">(),</span> <span class="n">b</span><span class="p">:</span> <span class="n">ar</span><span class="o">.</span><span class="n">Defn</span><span class="p">[</span><span class="n">Mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">Empty</span><span class="p">()</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mask</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Add any two mask producing definitions together.</span>
 
@@ -298,7 +300,7 @@
 
 <span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span><span class="p">(</span><span class="n">operation</span><span class="o">=</span><span class="n">ar</span><span class="o">.</span><span class="n">Defn</span><span class="o">.</span><span class="n">OP_SUB</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">MaskSub</span><span class="p">(</span>
-    <span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="n">ar</span><span class="o">.</span><span class="n">Defn</span><span class="p">[</span><span class="n">Mask</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">ar</span><span class="o">.</span><span class="n">Defn</span><span class="p">[</span><span class="n">Mask</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="n">ar</span><span class="o">.</span><span class="n">Defn</span><span class="p">[</span><span class="n">Mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">Full</span><span class="p">(),</span> <span class="n">b</span><span class="p">:</span> <span class="n">ar</span><span class="o">.</span><span class="n">Defn</span><span class="p">[</span><span class="n">Mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">Empty</span><span class="p">()</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mask</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Subtract one mask away from another mask.</span>
 
@@ -322,7 +324,7 @@
 
 <span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span><span class="p">(</span><span class="n">operation</span><span class="o">=</span><span class="n">ar</span><span class="o">.</span><span class="n">Defn</span><span class="o">.</span><span class="n">OP_MUL</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">MaskMul</span><span class="p">(</span>
-    <span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="n">ar</span><span class="o">.</span><span class="n">Defn</span><span class="p">[</span><span class="n">Mask</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">ar</span><span class="o">.</span><span class="n">Defn</span><span class="p">[</span><span class="n">Mask</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="n">ar</span><span class="o">.</span><span class="n">Defn</span><span class="p">[</span><span class="n">Mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">Full</span><span class="p">(),</span> <span class="n">b</span><span class="p">:</span> <span class="n">ar</span><span class="o">.</span><span class="n">Defn</span><span class="p">[</span><span class="n">Mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">Full</span><span class="p">()</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mask</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Muliply any two mask producing definitions together.</span>
 

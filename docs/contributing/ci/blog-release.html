@@ -263,12 +263,18 @@ which we will build now. The details of this are handled by the
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Build Gallery</span>
   <span class="nt">run</span><span class="p">:</span> <span class="p p-Indicator">|</span>
     <span class="no">cd docs</span>
-    <span class="no">make nbgallery</span>
 
+    <span class="no"># Extract examples from the docs as a notebook and copy into gallery</span>
+    <span class="no">make nbgallery</span>
     <span class="no">ls -1 _build/nbgallery/examples/</span>
     <span class="no">cp _build/nbgallery/examples/*.ipynb ../blog/src/gallery</span>
 
+    <span class="no"># Also make the source notebooks available for binder.</span>
     <span class="no">cd ../blog</span>
+    <span class="no">mkdir public/examples</span>
+    <span class="no">cp src/gallery/*.ipynb public/examples</span>
+
+    <span class="no"># Build the gallery</span>
     <span class="no">python gallery.py</span>
 </pre></div>
 </div>
