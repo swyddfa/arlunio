@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import functools
 import logging
 from typing import Union
@@ -112,7 +114,7 @@ def Full(width: int, height: int) -> Mask:
 
 @ar.definition(operation=ar.Defn.OP_ADD)
 def MaskAdd(
-    width: int, height: int, *, a: ar.Defn[Mask] = None, b: ar.Defn[Mask] = None
+    width: int, height: int, *, a: ar.Defn[Mask] = Empty(), b: ar.Defn[Mask] = Empty()
 ) -> Mask:
     """Add any two mask producing definitions together.
 
@@ -132,7 +134,7 @@ def MaskAdd(
 
 @ar.definition(operation=ar.Defn.OP_SUB)
 def MaskSub(
-    width: int, height: int, *, a: ar.Defn[Mask] = None, b: ar.Defn[Mask] = None
+    width: int, height: int, *, a: ar.Defn[Mask] = Full(), b: ar.Defn[Mask] = Empty()
 ) -> Mask:
     """Subtract one mask away from another mask.
 
@@ -156,7 +158,7 @@ def MaskSub(
 
 @ar.definition(operation=ar.Defn.OP_MUL)
 def MaskMul(
-    width: int, height: int, *, a: ar.Defn[Mask] = None, b: ar.Defn[Mask] = None
+    width: int, height: int, *, a: ar.Defn[Mask] = Full(), b: ar.Defn[Mask] = Full()
 ) -> Mask:
     """Muliply any two mask producing definitions together.
 

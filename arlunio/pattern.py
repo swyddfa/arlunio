@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import arlunio as ar
 import arlunio.mask as mask
 import arlunio.math as math

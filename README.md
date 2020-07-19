@@ -17,7 +17,7 @@
 **Arlunio is in early development, no guarantees we won't break something.**
 
 Inspired by ideas in mathematics Arlunio is library that aims to make drawing
-and animating with code not only possible but easy and fun! 
+and animating with code not only possible but easy and fun!
 
 <p align="center">
   <a href="https://www.arlun.io/gallery/">
@@ -29,7 +29,7 @@ Be sure to check out more examples in our [gallery](https://www.arlun.io/gallery
 
 ## Getting Started
 
-Arlunio is available for Python 3.6+ and can be installed using `pip`. It comes
+Arlunio is available for Python 3.7+ and can be installed using `pip`. It comes
 with an interactive tutorial based on Jupyter Notebooks:
 
 ```sh
