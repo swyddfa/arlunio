@@ -1,12 +1,7 @@
 import inspect
 import logging
 import typing
-from typing import Any
-from typing import Callable
-from typing import ClassVar
-from typing import Dict
-from typing import List
-from typing import Optional
+import typing as t
 
 import attr
 
@@ -24,7 +19,7 @@ __all__ = [
 logger = logging.getLogger(__name__)
 
 
-def _format_type(obj: Optional[Any] = None, type_: Optional[Any] = None) -> str:
+def _format_type(obj: t.Optional[t.Any] = None, type_: t.Optional[t.Any] = None) -> str:
     """Given an object, return an appropriate representation for its type."""
 
     if obj is not None and type_ is not None:
@@ -49,18 +44,6 @@ def _format_type(obj: Optional[Any] = None, type_: Optional[Any] = None) -> str:
         return str(type_).split(".")[-1]
 
 
-@attr.s(auto_attribs=True, repr=False, frozen=True)
-class DefnSignature:
-    """A class that represents the 'function signature' of a definition."""
-
-    produces: Any
-    """The type of object the definition produces."""
-
-    def __repr__(self):
-        t = _format_type(type_=self.produces)
-        return f"Defn[{t}]"
-
-
 @attr.s(auto_attribs=True)
 class DefnInput:
     """A class that represents an input to a definition"""
@@ -68,18 +51,18 @@ class DefnInput:
     name: str
     """The name of the input."""
 
-    dtype: Any
+    dtype: t.Any
     """The type of the input"""
 
     inherited: bool
     """Flag to indicate if the input has been inherited from another definition."""
 
-    sources: "Optional[List[Defn]]" = None
+    sources: "t.Optional[t.List[Defn]]" = None
     """List of definitions to indicate which definitions an input has been inherited
     from."""
 
     @classmethod
-    def fromparam(cls, parameter: inspect.Parameter, dtype: Any):
+    def fromparam(cls, parameter: inspect.Parameter, dtype: t.Any):
         """Given a parameter and a type hint, construct an input."""
 
         name = parameter.name
@@ -111,13 +94,13 @@ class DefnAttribute:
     name: str
     """The name of the attribute."""
 
-    default: Any
+    default: t.Any
     """The default value of the attrbute."""
 
     inherited: bool
     """Indicates whether this attribute is inherited."""
 
-    dtype: Optional[Any] = None
+    dtype: t.Optional[t.Any] = None
     """The type of the attribute."""
 
     @classmethod
@@ -126,7 +109,7 @@ class DefnAttribute:
         return cls(**attr.asdict(existing))
 
     @classmethod
-    def fromparam(cls, parameter: inspect.Parameter, dtype: Any):
+    def fromparam(cls, parameter: inspect.Parameter, dtype: t.Any):
         """Given a parameter and type hints, construct an attribute."""
 
         args = {
@@ -155,34 +138,30 @@ class DefnAttribute:
         return attr.ib(**args)
 
 
-class _BaseDefn(type):
-    """A metaclass for prodviding a few goodies on the definition class itself."""
-
-    def __getitem__(self, key):
-        return DefnSignature(produces=key)
+T = t.TypeVar("T")
 
 
 @attr.s(auto_attribs=True)
-class Defn(metaclass=_BaseDefn):
+class Defn(t.Generic[T]):
     """Defn, short for 'Definition' is the object that powers the rest of
     :code:`arlunio`.
     """
 
-    ATTR_ID: ClassVar[str] = "arlunio.attribute"
+    ATTR_ID: t.ClassVar[str] = "arlunio.attribute"
 
-    OP_ADD: ClassVar[str] = "addition"
-    OP_AND: ClassVar[str] = "and"
-    OP_DIV: ClassVar[str] = "division"
-    OP_FLOORDIV: ClassVar[str] = "floor_division"
-    OP_LSHIFT: ClassVar[str] = "left_shift"
-    OP_MATMUL: ClassVar[str] = "matrix_multiplication"
-    OP_MOD: ClassVar[str] = "modulus"
-    OP_MUL: ClassVar[str] = "multiplication"
-    OP_OR: ClassVar[str] = "or"
-    OP_POW: ClassVar[str] = "power"
-    OP_RSHIFT: ClassVar[str] = "right_shift"
-    OP_SUB: ClassVar[str] = "subtraction"
-    OP_XOR: ClassVar[str] = "exclusive_or"
+    OP_ADD: t.ClassVar[str] = "addition"
+    OP_AND: t.ClassVar[str] = "and"
+    OP_DIV: t.ClassVar[str] = "division"
+    OP_FLOORDIV: t.ClassVar[str] = "floor_division"
+    OP_LSHIFT: t.ClassVar[str] = "left_shift"
+    OP_MATMUL: t.ClassVar[str] = "matrix_multiplication"
+    OP_MOD: t.ClassVar[str] = "modulus"
+    OP_MUL: t.ClassVar[str] = "multiplication"
+    OP_OR: t.ClassVar[str] = "or"
+    OP_POW: t.ClassVar[str] = "power"
+    OP_RSHIFT: t.ClassVar[str] = "right_shift"
+    OP_SUB: t.ClassVar[str] = "subtraction"
+    OP_XOR: t.ClassVar[str] = "exclusive_or"
 
     def __call__(self, *pos, **kwargs):
         logger.debug("Preparing: '%s'", self.__class__.__name__)
@@ -246,8 +225,8 @@ class Defn(metaclass=_BaseDefn):
         a_is_defn = isinstance(a, Defn)
         b_is_defn = isinstance(b, Defn)
 
-        t1 = type(a) if not a_is_defn else a.produces()
-        t2 = type(b) if not b_is_defn else b.produces()
+        t1 = type(a) if not a_is_defn else Defn[a.produces()]
+        t2 = type(b) if not b_is_defn else Defn[b.produces()]
 
         impl = self._operators.get((operation, t1, t2), None)
 
@@ -338,12 +317,12 @@ class Defn(metaclass=_BaseDefn):
     def __rxor__(self, other):
         return self._special_method(self.OP_XOR, other, self)
 
-    def values(self, inherited=False) -> Dict[str, Any]:
+    def values(self, inherited=False) -> t.Dict[str, t.Any]:
         """Return all the attribute values on this definition."""
         return {k: getattr(self, k) for k in self.attributes(inherited)}
 
     @classmethod
-    def attributes(cls, inherited=False) -> Dict[str, DefnAttribute]:
+    def attributes(cls, inherited=False) -> t.Dict[str, DefnAttribute]:
         """Return all attributes defined on this definition.
 
         Parameters
@@ -360,7 +339,7 @@ class Defn(metaclass=_BaseDefn):
         return {k: v for k, v in cls._attributes.items() if not v.inherited}
 
     @classmethod
-    def bases(cls) -> Dict[str, DefnBase]:
+    def bases(cls) -> t.Dict[str, DefnBase]:
         """Return all the definitions this defintion is derived from."""
 
         if not hasattr(cls, "_bases"):
@@ -369,7 +348,7 @@ class Defn(metaclass=_BaseDefn):
         return dict(cls._bases)
 
     @classmethod
-    def inputs(cls, inherited=True) -> Dict[str, DefnInput]:
+    def inputs(cls, inherited=True) -> t.Dict[str, DefnInput]:
         """Return all the inputs required to evaluate this definition.
 
         Parameters
@@ -390,13 +369,13 @@ class Defn(metaclass=_BaseDefn):
         """Return the type of the object that this definition produces."""
 
         if not hasattr(cls, "_impl"):
-            return Any
+            return t.Any
 
         rtype = inspect.signature(cls._impl).return_annotation
-        return rtype if rtype != inspect._empty else Any
+        return rtype if rtype != inspect._empty else t.Any
 
 
-def _inspect_arguments(fn: Callable):
+def _inspect_arguments(fn: t.Callable):
     """Given a function, determine what its arguments are and their properties."""
 
     KW_ONLY = inspect.Parameter.KEYWORD_ONLY
@@ -528,12 +507,6 @@ def _define_operator(defn: Defn, operation: str, operator_pool):
 
     if b is None:
         raise TypeError("Operator input 'b' is missing a valid type annotation")
-
-    if isinstance(a, DefnSignature):
-        a = a.produces
-
-    if isinstance(b, DefnSignature):
-        b = b.produces
 
     key = (operation, a, b)
 
