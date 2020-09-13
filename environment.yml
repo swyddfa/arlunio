@@ -1,6 +1,0 @@
-name: arlunio
-dependencies:
-  - python
-  - pip
-  - pip:
-    - arlunio>=0.10.0
