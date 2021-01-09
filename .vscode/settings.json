@@ -38,5 +38,6 @@
             79
         ]
     },
-    "restructuredtext.linter.disabled": true
+    "restructuredtext.linter.disabled": true,
+    "python.analysis.completeFunctionParens": true
 }
