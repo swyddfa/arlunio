@@ -72,6 +72,9 @@ setup(
     entry_points={
         "console_scripts": ["arlunio = arlunio.cli.__main__:main"],
         "sphinx.builders": ["nbtutorial = arlunio.doc", "nbgallery = arlunio.doc"],
+        "arlunio.backends": [
+            "numpy = arlunio.backends.numpy:NumpyBackend",
+        ],
         "arlunio.cli.commands": [
             "repl = arlunio.cli.repl:Repl",
             "tutorial = arlunio.cli.tutorial:Tutorial",

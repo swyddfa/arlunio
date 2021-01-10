@@ -2,9 +2,15 @@ from __future__ import annotations
 
 from typing import Callable
 
+# TODO: Remove this, all numpy specifics should be confined to the backend.
 import numpy as np
 
 import arlunio as ar
+import arlunio.ast as ast
+
+
+def sqrt(x):
+    return ast.Node.sqrt(x)
 
 
 def clamp(vs, min_=0, max_=1):
@@ -107,7 +113,7 @@ def normalise(vs):
 
 
 @ar.definition
-def X(width: int, height: int, *, x0=0, scale=1, stretch=False):
+def X(*, x0=0, scale=1, stretch=False):
     """Cartesian :math:`x` coordinates.
 
     .. arlunio-image:: X Coordinates
@@ -172,19 +178,11 @@ def X(width: int, height: int, *, x0=0, scale=1, stretch=False):
               [0.        , 1.33333333, 2.66666667, 4.        ]])
 
     """
-    ratio = width / height
-
-    if not stretch and ratio > 1:
-        scale = scale * ratio
-
-    x = np.linspace(-scale, scale, width)
-    x = np.array([x for _ in range(height)])
-
-    return x - x0
+    return ast.Node.builtin(name="x", x0=x0, scale=scale, stretch=stretch)
 
 
 @ar.definition
-def Y(width: int, height: int, *, y0=0, scale=1, stretch=False):
+def Y(*, y0=0, scale=1, stretch=False):
     """Cartesian :math:`y` coordinates
 
     .. arlunio-image:: Y Coordinates
@@ -253,15 +251,7 @@ def Y(width: int, height: int, *, y0=0, scale=1, stretch=False):
               [0.        , 0.        , 0.        , 0.        ]])
 
     """
-    ratio = height / width
-
-    if not stretch and ratio > 1:
-        scale = scale * ratio
-
-    y = np.linspace(scale, -scale, height)
-    y = np.array([y for _ in range(width)]).transpose()
-
-    return y - y0
+    return ast.Node.builtin(name="y", y0=y0, scale=scale, stretch=stretch)
 
 
 @ar.definition

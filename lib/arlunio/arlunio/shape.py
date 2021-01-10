@@ -3,12 +3,15 @@ from __future__ import annotations
 import numpy as np
 
 import arlunio as ar
-import arlunio.mask as mask
 import arlunio.math as math
+import arlunio.region as region
+
+# TODO: Remove this in favour of 'region'
+import arlunio.mask as mask
 
 
 @ar.definition
-def Circle(x: math.X, y: math.Y, *, xc=0, yc=0, r=0.8, pt=None) -> mask.Mask:
+def Circle(x: math.X, y: math.Y, *, xc=0, yc=0, r1=0, r2=0.8) -> mask.Mask:
     """
     .. arlunio-image:: Basic Circle
        :align: right
@@ -120,15 +123,9 @@ def Circle(x: math.X, y: math.Y, *, xc=0, yc=0, r=0.8, pt=None) -> mask.Mask:
 
     x = (x - xc) ** 2
     y = (y - yc) ** 2
-    circle = np.sqrt(x + y)
+    circle = math.sqrt(x + y)
 
-    if pt is None:
-        return mask.Mask(circle < r ** 2)
-
-    inner = (1 - pt) * r ** 2
-    outer = (1 + pt) * r ** 2
-
-    return mask.all_(inner < circle, circle < outer)
+    return region.intersect(r1 < circle, circle < r2)
 
 
 @ar.definition

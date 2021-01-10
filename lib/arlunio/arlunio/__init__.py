@@ -6,6 +6,7 @@ import typing
 import typing as t
 
 import attr
+import pkg_resources
 
 from ._version import __version__
 
@@ -567,3 +568,23 @@ def definition(f=None, *, operation: str = None, operator_pool=None) -> Defn:
         return wrapper
 
     return wrapper(f)
+
+
+_default_backend = None
+"""This holds the default backend ar.xxx() commands should use."""
+
+
+# Configure the default backend...
+for backend in pkg_resources.iter_entry_points("arlunio.backends"):
+    if backend.name == "numpy":
+        impl = backend.load()
+        _default_backend = impl()
+
+
+def preview(obj):
+    """Preview the given object."""
+
+    if _default_backend is None:
+        raise RuntimeError("No configured backenscd")
+
+    _default_backend.preview(obj)
