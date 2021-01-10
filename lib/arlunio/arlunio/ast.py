@@ -29,6 +29,8 @@ class NodeType(enum.IntEnum):
     INTERSECT = enum.auto()
     UNION = enum.auto()
 
+    FILL = enum.auto()
+
 
 def binary_op(ntype: NodeType, a, b) -> Node:
     """Construct a binary operation."""
@@ -76,6 +78,12 @@ class Node:
     @classmethod
     def union(cls, r1, r2):
         return cls(ntype=NodeType.UNION, children=[r1, r2])
+
+    @classmethod
+    def fill(cls, image, region, color):
+        return cls(
+            ntype=NodeType.FILL, children=[image, region], attributes={"color": color}
+        )
 
     def __len__(self):
         if self.children is not None:

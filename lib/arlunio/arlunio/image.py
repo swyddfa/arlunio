@@ -6,9 +6,11 @@ import logging
 import pathlib
 from typing import Optional
 
+# TODO: Remove these, as they should be contained in the numpy backend.
 import numpy as np
 import PIL.Image as PImage
 
+import arlunio.ast as ast
 import arlunio.color as color
 import arlunio.mask as mask
 import arlunio.math as math
@@ -100,35 +102,9 @@ class Image:
         self.img.thumbnail(*args, **kwargs)
 
 
-def new(size, *args, mode="RGBA", **kwargs) -> Image:
-    """Creates a new image with the given size.
-
-    This function by default will return a new :code:`RGBA` image with the given
-    dimensions. Dimensions can be specified either using a tuple :code:`(width, height)`
-    or by passing in :code:`width` and :code:`height` individually as positional
-    parameters.
-
-    This makes use of pillow's :func:`pillow:PIL.Image.new` function, additional keyword
-    arguments passed to this function will be passed onto it.
-
-    Parameters
-    ----------
-    size:
-        The dimensions of the image, :code:`(width, height)`
-    mode:
-        The type of image to create, default :code:`RGBA`. See
-        :ref:`pillow:concept-modes` for more details.
-
-    """
-
-    if isinstance(size, int):
-        if len(args) == 0:
-            raise ValueError("You must specify a width and a height")
-
-        height, args = args[0], args[1:]
-        size = (size, height)
-
-    return Image(PImage.new(mode, size, *args, **kwargs))
+def new(color) -> Image:
+    """Creates a new image with the given background color."""
+    return ast.Node.builtin(name="image", color=color)
 
 
 def fromarray(*args, **kwargs):
@@ -298,7 +274,7 @@ def colorramp(values, start: Optional[str] = None, stop: Optional[str] = None) -
 
 
 def fill(
-    mask: mask.Mask,
+    region,
     foreground: Optional[str] = None,
     background: Optional[str] = None,
     image: Optional[Image] = None,
@@ -346,17 +322,11 @@ def fill(
     foreground = "#000" if foreground is None else foreground
     fill_color = color.getcolor(foreground, "RGBA")
 
-    mask_img = PImage.fromarray(mask)
-
     if image is None:
         background = "#0000" if background is None else background
+        image = new(color=background)
 
-        height, width = mask.shape
-        image = new((width, height), color=background)
+    if not isinstance(region, ast.Node):
+        region = region()
 
-    else:
-        image = image.copy()
-
-    image.paste(fill_color, mask=mask_img)
-
-    return image
+    return ast.Node.fill(image, region, fill_color)

@@ -38,11 +38,18 @@ def builtin_y(backend: NumpyBackend, tree: ast.Node):
     return y - y0
 
 
-BUILTINS = {"x": builtin_x, "y": builtin_y}
+def builtin_image(backend: NumpyBackend, tree: ast.Node):
+    width, height = backend.width, backend.height
+    color = tree.attributes["color"]
+
+    return Image.new("RGBA", (width, height), color=color)
+
+
+BUILTINS = {"x": builtin_x, "y": builtin_y, "image": builtin_image}
 
 
 class NumpyBackend:
-    def __init__(self, width=1920, height=1080):
+    def __init__(self, width=480, height=270):
         self.width = width
         self.height = height
 
@@ -74,6 +81,16 @@ class NumpyBackend:
             raise NotImplementedError(message)
 
         return impl(self, tree)
+
+    def eval_fill(self, tree: ast.Node):
+        image, region = tree.children
+        color = tree.attributes["color"]
+
+        image = self.eval(image)
+        region = self.eval(region)
+
+        image.paste(color, mask=Image.fromarray(region))
+        return image
 
     def eval_greater(self, tree: ast.Node):
         a, b = tree.children
