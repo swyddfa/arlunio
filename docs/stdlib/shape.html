@@ -1,0 +1,873 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Shape &mdash; Arlunio V0.11.0b9 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.svg"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Background" href="../background/index.html" />
+    <link rel="prev" title="Raytrace" href="raytrace.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html">
+          
+
+          
+            
+            <img src="../_static/arlunio.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                V0.11.0b9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../users/index.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Standard Library</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="image.html">Image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mask.html">Mask</a></li>
+<li class="toctree-l2"><a class="reference internal" href="math.html">Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pattern.html">Pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="raytrace.html">Raytrace</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Shape</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/index.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog/index.html">Changelog</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Arlunio</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">Standard Library</a> &raquo;</li>
+        
+      <li>Shape</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/swyddfa/arlunio/blob/develop/docs/stdlib/shape.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-arlunio.shape">
+<span id="shape"></span><span id="stdlib-shape"></span><h1>Shape<a class="headerlink" href="#module-arlunio.shape" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="arlunio.shape.Circle">
+<em class="property">class </em><code class="sig-prename descclassname">arlunio.shape.</code><code class="sig-name descname">Circle</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/shape.html#Circle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.shape.Circle" title="Permalink to this definition">¶</a></dt>
+<dd><table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>Inputs:</strong></p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">width:</span> <span class="pre">int</span></code> <code class="code docutils literal notranslate"><span class="pre">height:</span> <span class="pre">int</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Bases:</strong></p></td>
+<td><p><a class="reference internal" href="math.html#arlunio.math.X" title="arlunio.math.X"><code class="xref py py-class docutils literal notranslate"><span class="pre">X</span></code></a> <a class="reference internal" href="math.html#arlunio.math.Y" title="arlunio.math.Y"><code class="xref py py-class docutils literal notranslate"><span class="pre">Y</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Produces:</strong></p></td>
+<td><p><a class="reference internal" href="mask.html#arlunio.mask.Mask" title="arlunio.mask.Mask"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mask</span></code></a></p></td>
+</tr>
+</tbody>
+</table>
+<div class="figure align-right">
+<img alt="../_images/basic-circle.png" src="../_images/basic-circle.png" />
+</div>
+<p>We define a circle using the following equality.</p>
+<div class="math notranslate nohighlight">
+\[(x - x_c)^2 + (y - y_c)^2 = r^2\]</div>
+<dl class="py attribute">
+<dt id="arlunio.shape.Circle.xc">
+<code class="sig-name descname">xc</code><a class="headerlink" href="#arlunio.shape.Circle.xc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Corresponds with the <span class="math notranslate nohighlight">\(x_c\)</span> variable in the equation above and defines the
+<span class="math notranslate nohighlight">\(x\)</span>-coordinate of the circle’s center.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="arlunio.shape.Circle.yc">
+<code class="sig-name descname">yc</code><a class="headerlink" href="#arlunio.shape.Circle.yc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Corresponds with the <span class="math notranslate nohighlight">\(y_c\)</span> variable in the equation above and defines the
+<span class="math notranslate nohighlight">\(y\)</span>-coordinate of the circle’s center.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="arlunio.shape.Circle.r">
+<code class="sig-name descname">r</code><a class="headerlink" href="#arlunio.shape.Circle.r" title="Permalink to this definition">¶</a></dt>
+<dd><p>Corresponds with the <span class="math notranslate nohighlight">\(r\)</span> variable in the equation above and defines the
+radius of the circle.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="arlunio.shape.Circle.pt">
+<code class="sig-name descname">pt</code><a class="headerlink" href="#arlunio.shape.Circle.pt" title="Permalink to this definition">¶</a></dt>
+<dd><p>If <code class="code docutils literal notranslate"><span class="pre">None</span></code>, then all points within the radius of the circle will be
+considered to be part of it. If this is set to some positive number then all
+points between radii <code class="code docutils literal notranslate"><span class="pre">(1</span> <span class="pre">-</span> <span class="pre">pt)</span> <span class="pre">*</span> <span class="pre">r</span></code> and <code class="code docutils literal notranslate"><span class="pre">(1</span> <span class="pre">+</span> <span class="pre">pt)</span> <span class="pre">*</span> <span class="pre">r</span></code> will be
+considered part of the circle.</p>
+</dd></dl>
+
+<p class="rubric">Examples</p>
+<div class="figure align-default" id="id1">
+<img alt="../_images/target.png" src="../_images/target.png" />
+<p class="caption"><span class="caption-text">Combining a few circles we’re able to draw a target:</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+<div class="legend">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arlunio</span> <span class="k">as</span> <span class="nn">ar</span>
+<span class="kn">import</span> <span class="nn">arlunio.image</span> <span class="k">as</span> <span class="nn">image</span>
+<span class="kn">import</span> <span class="nn">arlunio.shape</span> <span class="k">as</span> <span class="nn">shape</span>
+
+<span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
+<span class="k">def</span> <span class="nf">Target</span><span class="p">(</span><span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">image</span><span class="o">.</span><span class="n">Image</span><span class="p">:</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">new</span><span class="p">((</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">)</span>
+    <span class="n">parts</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="n">shape</span><span class="o">.</span><span class="n">Circle</span><span class="p">(</span><span class="n">pt</span><span class="o">=</span><span class="mf">0.02</span><span class="p">),</span> <span class="s2">&quot;#000&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">shape</span><span class="o">.</span><span class="n">Circle</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span> <span class="n">pt</span><span class="o">=</span><span class="mf">0.12</span><span class="p">),</span> <span class="s2">&quot;#f00&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">shape</span><span class="o">.</span><span class="n">Circle</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">pt</span><span class="o">=</span><span class="mf">0.05</span><span class="p">),</span> <span class="s2">&quot;#f00&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">shape</span><span class="o">.</span><span class="n">Circle</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="mf">0.4</span><span class="p">),</span> <span class="s2">&quot;#f00&quot;</span><span class="p">),</span>
+    <span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">part</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="n">parts</span><span class="p">:</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span>
+            <span class="n">part</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">),</span> <span class="n">foreground</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="n">img</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">img</span>
+
+<span class="n">target</span> <span class="o">=</span> <span class="n">Target</span><span class="p">()</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">target</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1920</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Making use of the <code class="code docutils literal notranslate"><span class="pre">xc</span></code> and <code class="code docutils literal notranslate"><span class="pre">yc</span></code> attributes we can produce an
+approximation of the olympics logo</p>
+<div class="figure align-default">
+<img alt="../_images/olympic-rings.png" src="../_images/olympic-rings.png" />
+<div class="legend">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arlunio</span> <span class="k">as</span> <span class="nn">ar</span>
+<span class="kn">import</span> <span class="nn">arlunio.image</span> <span class="k">as</span> <span class="nn">image</span>
+<span class="kn">import</span> <span class="nn">arlunio.shape</span> <span class="k">as</span> <span class="nn">shape</span>
+
+<span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
+<span class="k">def</span> <span class="nf">OlympicRings</span><span class="p">(</span><span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">spacing</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">pt</span><span class="o">=</span><span class="mf">0.025</span><span class="p">):</span>
+
+    <span class="n">dy</span> <span class="o">=</span> <span class="n">spacing</span> <span class="o">/</span> <span class="mi">4</span>
+    <span class="n">dx</span> <span class="o">=</span> <span class="n">spacing</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;scale&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">:</span> <span class="n">spacing</span><span class="p">,</span> <span class="s2">&quot;pt&quot;</span><span class="p">:</span> <span class="n">pt</span><span class="p">}</span>
+
+    <span class="n">img</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">new</span><span class="p">((</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">)</span>
+    <span class="n">rings</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="n">shape</span><span class="o">.</span><span class="n">Circle</span><span class="p">(</span><span class="n">yc</span><span class="o">=</span><span class="n">dy</span><span class="p">,</span> <span class="n">xc</span><span class="o">=-</span><span class="p">(</span><span class="mf">2.2</span> <span class="o">*</span> <span class="n">dx</span><span class="p">),</span> <span class="o">**</span><span class="n">args</span><span class="p">),</span> <span class="s2">&quot;#0ff&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">shape</span><span class="o">.</span><span class="n">Circle</span><span class="p">(</span><span class="n">yc</span><span class="o">=</span><span class="n">dy</span><span class="p">,</span> <span class="o">**</span><span class="n">args</span><span class="p">),</span> <span class="s2">&quot;#000&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">shape</span><span class="o">.</span><span class="n">Circle</span><span class="p">(</span><span class="n">yc</span><span class="o">=</span><span class="n">dy</span><span class="p">,</span> <span class="n">xc</span><span class="o">=</span><span class="p">(</span><span class="mf">2.2</span> <span class="o">*</span> <span class="n">dx</span><span class="p">),</span> <span class="o">**</span><span class="n">args</span><span class="p">),</span> <span class="s2">&quot;#f00&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">shape</span><span class="o">.</span><span class="n">Circle</span><span class="p">(</span><span class="n">yc</span><span class="o">=-</span><span class="n">dy</span><span class="p">,</span> <span class="n">xc</span><span class="o">=-</span><span class="p">(</span><span class="mf">1.1</span> <span class="o">*</span> <span class="n">dx</span><span class="p">),</span> <span class="o">**</span><span class="n">args</span><span class="p">),</span> <span class="s2">&quot;#ff0&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">shape</span><span class="o">.</span><span class="n">Circle</span><span class="p">(</span><span class="n">yc</span><span class="o">=-</span><span class="n">dy</span><span class="p">,</span> <span class="n">xc</span><span class="o">=</span><span class="p">(</span><span class="mf">1.1</span> <span class="o">*</span> <span class="n">dx</span><span class="p">),</span> <span class="o">**</span><span class="n">args</span><span class="p">),</span> <span class="s2">&quot;#0f0&quot;</span><span class="p">)</span>
+    <span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">ring</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="n">rings</span><span class="p">:</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span>
+            <span class="n">ring</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">),</span> <span class="n">foreground</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="n">img</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">img</span>
+
+<span class="n">rings</span> <span class="o">=</span> <span class="n">OlympicRings</span><span class="p">()</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">rings</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1920</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt id="arlunio.shape.Ellipse">
+<em class="property">class </em><code class="sig-prename descclassname">arlunio.shape.</code><code class="sig-name descname">Ellipse</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/shape.html#Ellipse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.shape.Ellipse" title="Permalink to this definition">¶</a></dt>
+<dd><table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>Inputs:</strong></p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">width:</span> <span class="pre">int</span></code> <code class="code docutils literal notranslate"><span class="pre">height:</span> <span class="pre">int</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Bases:</strong></p></td>
+<td><p><a class="reference internal" href="math.html#arlunio.math.X" title="arlunio.math.X"><code class="xref py py-class docutils literal notranslate"><span class="pre">X</span></code></a> <a class="reference internal" href="math.html#arlunio.math.Y" title="arlunio.math.Y"><code class="xref py py-class docutils literal notranslate"><span class="pre">Y</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Produces:</strong></p></td>
+<td><p><a class="reference internal" href="mask.html#arlunio.mask.Mask" title="arlunio.mask.Mask"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mask</span></code></a></p></td>
+</tr>
+</tbody>
+</table>
+<div class="figure align-right">
+<img alt="../_images/simple-ellipse.png" src="../_images/simple-ellipse.png" />
+</div>
+<p>An ellipse can be defined using the following equality.</p>
+<div class="math notranslate nohighlight">
+\[\left(\frac{x - x_c}{a}\right)^2 +
+\left(\frac{y - y_c}{b}\right)^2 = r^2\]</div>
+<dl class="py attribute">
+<dt id="arlunio.shape.Ellipse.xc">
+<code class="sig-name descname">xc</code><a class="headerlink" href="#arlunio.shape.Ellipse.xc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Corresponds with the <span class="math notranslate nohighlight">\(x_c\)</span> variable in the equation above and defines the
+<span class="math notranslate nohighlight">\(x\)</span>-coordinate of the ellipse’s center.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="arlunio.shape.Ellipse.yc">
+<code class="sig-name descname">yc</code><a class="headerlink" href="#arlunio.shape.Ellipse.yc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Corresponds with the <span class="math notranslate nohighlight">\(y_c\)</span> variable in the equation above and defines the
+<span class="math notranslate nohighlight">\(y\)</span>-coordinate of the ellipse’s center.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="arlunio.shape.Ellipse.r">
+<code class="sig-name descname">r</code><a class="headerlink" href="#arlunio.shape.Ellipse.r" title="Permalink to this definition">¶</a></dt>
+<dd><p>Corresponds with the <span class="math notranslate nohighlight">\(r\)</span> variable in the equation above and controls the
+overall size of the ellipse.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="arlunio.shape.Ellipse.a">
+<code class="sig-name descname">a</code><a class="headerlink" href="#arlunio.shape.Ellipse.a" title="Permalink to this definition">¶</a></dt>
+<dd><p>Corresponds with the <span class="math notranslate nohighlight">\(a\)</span> variable in the equation above and controls the
+width of the ellipse.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="arlunio.shape.Ellipse.b">
+<code class="sig-name descname">b</code><a class="headerlink" href="#arlunio.shape.Ellipse.b" title="Permalink to this definition">¶</a></dt>
+<dd><p>Corresponds with the <span class="math notranslate nohighlight">\(b\)</span> variable in the equation above and controls the
+height of the ellipse.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="arlunio.shape.Ellipse.pt">
+<code class="sig-name descname">pt</code><a class="headerlink" href="#arlunio.shape.Ellipse.pt" title="Permalink to this definition">¶</a></dt>
+<dd><p>If <code class="code docutils literal notranslate"><span class="pre">None</span></code> then all points within the radius of the ellipse will be
+considered to be part of it. If this is set to some positive number then all
+points between radii <code class="code docutils literal notranslate"><span class="pre">(1</span> <span class="pre">-</span> <span class="pre">pt)</span> <span class="pre">*</span> <span class="pre">r</span></code> and <code class="code docutils literal notranslate"><span class="pre">(1</span> <span class="pre">+</span> <span class="pre">pt)</span> <span class="pre">*</span> <span class="pre">r</span></code> will be
+considered part of the ellipse.</p>
+</dd></dl>
+
+<p class="rubric">Examples</p>
+<p><code class="code docutils literal notranslate"><span class="pre">a</span></code> and <code class="code docutils literal notranslate"><span class="pre">b</span></code> together determine the overall shape of the ellipse.
+Increasing the value of <code class="code docutils literal notranslate"><span class="pre">a</span></code> will stretch the ellipse width wise, increasing
+<code class="code docutils literal notranslate"><span class="pre">b</span></code> has a similar effect for the height. It’s worth noting that it’s the
+ratio of these 2 values rather than their absolute values that has a greater effect
+on the shape of the ellipse. If <code class="code docutils literal notranslate"><span class="pre">a</span> <span class="pre">=</span> <span class="pre">b</span></code> then the equation simplifies to that
+of a circle</p>
+<div class="figure align-default">
+<img alt="../_images/ellipse-demo.png" src="../_images/ellipse-demo.png" />
+<div class="legend">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arlunio</span> <span class="k">as</span> <span class="nn">ar</span>
+<span class="kn">import</span> <span class="nn">arlunio.image</span> <span class="k">as</span> <span class="nn">image</span>
+<span class="kn">import</span> <span class="nn">arlunio.shape</span> <span class="k">as</span> <span class="nn">shape</span>
+
+<span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
+<span class="k">def</span> <span class="nf">EllipseDemo</span><span class="p">(</span><span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">)</span>
+    <span class="n">ellipses</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">shape</span><span class="o">.</span><span class="n">Ellipse</span><span class="p">(</span><span class="n">xc</span><span class="o">=-</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">yc</span><span class="o">=-</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mf">0.4</span><span class="p">),</span>
+        <span class="n">shape</span><span class="o">.</span><span class="n">Ellipse</span><span class="p">(</span><span class="n">yc</span><span class="o">=-</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mf">0.4</span><span class="p">),</span>
+        <span class="n">shape</span><span class="o">.</span><span class="n">Ellipse</span><span class="p">(</span><span class="n">xc</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">yc</span><span class="o">=-</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mf">0.4</span><span class="p">),</span>
+        <span class="n">shape</span><span class="o">.</span><span class="n">Ellipse</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mf">0.4</span><span class="p">),</span>
+        <span class="n">shape</span><span class="o">.</span><span class="n">Ellipse</span><span class="p">(</span><span class="n">xc</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">yc</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mf">0.4</span><span class="p">),</span>
+        <span class="n">shape</span><span class="o">.</span><span class="n">Ellipse</span><span class="p">(</span><span class="n">xc</span><span class="o">=-</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mf">0.4</span><span class="p">),</span>
+        <span class="n">shape</span><span class="o">.</span><span class="n">Ellipse</span><span class="p">(</span><span class="n">xc</span><span class="o">=-</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">yc</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+    <span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">ellipse</span> <span class="ow">in</span> <span class="n">ellipses</span><span class="p">:</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">ellipse</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1920</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">),</span> <span class="n">image</span><span class="o">=</span><span class="n">img</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">img</span>
+
+<span class="n">demo</span> <span class="o">=</span> <span class="n">EllipseDemo</span><span class="p">()</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">demo</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1920</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="figure align-default" id="id2">
+<img alt="../_images/atom.png" src="../_images/atom.png" />
+<p class="caption"><span class="caption-text">Playing around with the values and the coordinate inputs it’s possible to
+draw something that looks like a diagram of an atom:</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+<div class="legend">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arlunio</span> <span class="k">as</span> <span class="nn">ar</span>
+<span class="kn">import</span> <span class="nn">arlunio.image</span> <span class="k">as</span> <span class="nn">image</span>
+<span class="kn">import</span> <span class="nn">arlunio.math</span> <span class="k">as</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">arlunio.shape</span> <span class="k">as</span> <span class="nn">shape</span>
+
+<span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
+<span class="k">def</span> <span class="nf">Atom</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">math</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">math</span><span class="o">.</span><span class="n">Y</span><span class="p">):</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="n">ellipses</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="n">shape</span><span class="o">.</span><span class="n">Ellipse</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">pt</span><span class="o">=</span><span class="mf">0.005</span><span class="p">),</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">shape</span><span class="o">.</span><span class="n">Ellipse</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">pt</span><span class="o">=</span><span class="mf">0.005</span><span class="p">),</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">,</span> <span class="n">y</span> <span class="o">-</span> <span class="n">x</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">shape</span><span class="o">.</span><span class="n">Ellipse</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">pt</span><span class="o">=</span><span class="mf">0.005</span><span class="p">),</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">shape</span><span class="o">.</span><span class="n">Ellipse</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">pt</span><span class="o">=</span><span class="mf">0.005</span><span class="p">),</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">shape</span><span class="o">.</span><span class="n">Ellipse</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mf">0.15</span><span class="p">),</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="p">]</span>
+
+    <span class="n">bg</span> <span class="o">=</span> <span class="s2">&quot;white&quot;</span>
+
+    <span class="k">for</span> <span class="n">ellipse</span><span class="p">,</span> <span class="n">ex</span><span class="p">,</span> <span class="n">ey</span> <span class="ow">in</span> <span class="n">ellipses</span><span class="p">:</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">ellipse</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">ex</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">ey</span><span class="p">),</span> <span class="n">image</span><span class="o">=</span><span class="n">img</span><span class="p">,</span> <span class="n">background</span><span class="o">=</span><span class="n">bg</span><span class="p">)</span>
+        <span class="n">bg</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">return</span> <span class="n">img</span>
+
+<span class="n">atom</span> <span class="o">=</span> <span class="n">Atom</span><span class="p">()</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">atom</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1920</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt id="arlunio.shape.Rectangle">
+<em class="property">class </em><code class="sig-prename descclassname">arlunio.shape.</code><code class="sig-name descname">Rectangle</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/shape.html#Rectangle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.shape.Rectangle" title="Permalink to this definition">¶</a></dt>
+<dd><table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>Inputs:</strong></p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">width:</span> <span class="pre">int</span></code> <code class="code docutils literal notranslate"><span class="pre">height:</span> <span class="pre">int</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Bases:</strong></p></td>
+<td><p><a class="reference internal" href="math.html#arlunio.math.X" title="arlunio.math.X"><code class="xref py py-class docutils literal notranslate"><span class="pre">X</span></code></a> <a class="reference internal" href="math.html#arlunio.math.Y" title="arlunio.math.Y"><code class="xref py py-class docutils literal notranslate"><span class="pre">Y</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Produces:</strong></p></td>
+<td><p><a class="reference internal" href="mask.html#arlunio.mask.Mask" title="arlunio.mask.Mask"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mask</span></code></a></p></td>
+</tr>
+</tbody>
+</table>
+<div class="figure align-right" id="id3">
+<img alt="../_images/simple-rectangle.png" src="../_images/simple-rectangle.png" />
+<p class="caption"><span class="caption-text">A rectangle:</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+</div>
+<dl class="py attribute">
+<dt id="arlunio.shape.Rectangle.xc">
+<code class="sig-name descname">xc</code><a class="headerlink" href="#arlunio.shape.Rectangle.xc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines the <span class="math notranslate nohighlight">\(x\)</span>-coordinate of the center of the rectangle</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="arlunio.shape.Rectangle.yc">
+<code class="sig-name descname">yc</code><a class="headerlink" href="#arlunio.shape.Rectangle.yc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines the <span class="math notranslate nohighlight">\(y\)</span>-coordinate of the center of the rectangle</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="arlunio.shape.Rectangle.size">
+<code class="sig-name descname">size</code><a class="headerlink" href="#arlunio.shape.Rectangle.size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines the area of the rectangle</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="arlunio.shape.Rectangle.ratio">
+<code class="sig-name descname">ratio</code><a class="headerlink" href="#arlunio.shape.Rectangle.ratio" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines the ratio of the width to the height of the rectangle</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="arlunio.shape.Rectangle.pt">
+<code class="sig-name descname">pt</code><a class="headerlink" href="#arlunio.shape.Rectangle.pt" title="Permalink to this definition">¶</a></dt>
+<dd><p>If <code class="code docutils literal notranslate"><span class="pre">None</span></code> then all points within the rectangle’s border will be considered
+to be part of it. If set to some positive number then all points within
+<code class="code docutils literal notranslate"><span class="pre">(1</span> <span class="pre">-</span> <span class="pre">pt)</span> <span class="pre">*</span> <span class="pre">size</span></code> to <code class="code docutils literal notranslate"><span class="pre">(1</span> <span class="pre">+</span> <span class="pre">pt)</span> <span class="pre">*</span> <span class="pre">size</span></code> of the border will be
+considered to be part of the rectangle.</p>
+</dd></dl>
+
+<p class="rubric">Examples</p>
+<div class="figure align-default">
+<img alt="../_images/rectangle-demo.png" src="../_images/rectangle-demo.png" />
+<div class="legend">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arlunio</span> <span class="k">as</span> <span class="nn">ar</span>
+
+<span class="kn">from</span> <span class="nn">arlunio.shape</span> <span class="kn">import</span> <span class="n">Rectangle</span>
+<span class="kn">from</span> <span class="nn">arlunio.image</span> <span class="kn">import</span> <span class="n">fill</span>
+
+<span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
+<span class="k">def</span> <span class="nf">RectangleDemo</span><span class="p">(</span><span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">rects</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">Rectangle</span><span class="p">(</span><span class="n">xc</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">ratio</span><span class="o">=</span><span class="mf">0.5</span><span class="p">),</span>
+        <span class="n">Rectangle</span><span class="p">(</span><span class="n">xc</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">yc</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">ratio</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+        <span class="n">Rectangle</span><span class="p">(</span><span class="n">xc</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">yc</span><span class="o">=-</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">ratio</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">rects</span><span class="p">:</span>
+        <span class="n">image</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span><span class="n">r</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">),</span> <span class="n">image</span><span class="o">=</span><span class="n">image</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">image</span>
+
+<span class="n">demo</span> <span class="o">=</span> <span class="n">RectangleDemo</span><span class="p">()</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">demo</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1920</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt id="arlunio.shape.Square">
+<em class="property">class </em><code class="sig-prename descclassname">arlunio.shape.</code><code class="sig-name descname">Square</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/shape.html#Square"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.shape.Square" title="Permalink to this definition">¶</a></dt>
+<dd><table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>Inputs:</strong></p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">width:</span> <span class="pre">int</span></code> <code class="code docutils literal notranslate"><span class="pre">height:</span> <span class="pre">int</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Bases:</strong></p></td>
+<td><p><a class="reference internal" href="math.html#arlunio.math.X" title="arlunio.math.X"><code class="xref py py-class docutils literal notranslate"><span class="pre">X</span></code></a> <a class="reference internal" href="math.html#arlunio.math.Y" title="arlunio.math.Y"><code class="xref py py-class docutils literal notranslate"><span class="pre">Y</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Produces:</strong></p></td>
+<td><p><a class="reference internal" href="mask.html#arlunio.mask.Mask" title="arlunio.mask.Mask"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mask</span></code></a></p></td>
+</tr>
+</tbody>
+</table>
+<div class="figure align-right" id="id4">
+<img alt="../_images/simple-square.png" src="../_images/simple-square.png" />
+<p class="caption"><span class="caption-text">A square:</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
+</div>
+<dl class="py attribute">
+<dt id="arlunio.shape.Square.xc">
+<code class="sig-name descname">xc</code><a class="headerlink" href="#arlunio.shape.Square.xc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines the <span class="math notranslate nohighlight">\(x\)</span>-coordinate of the square’s center</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="arlunio.shape.Square.yc">
+<code class="sig-name descname">yc</code><a class="headerlink" href="#arlunio.shape.Square.yc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines the <span class="math notranslate nohighlight">\(y\)</span>-coordinate of the square’s center</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="arlunio.shape.Square.size">
+<code class="sig-name descname">size</code><a class="headerlink" href="#arlunio.shape.Square.size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines the size of the square, sides will have a length of <code class="code docutils literal notranslate"><span class="pre">2</span> <span class="pre">*</span> <span class="pre">size</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="arlunio.shape.Square.pt">
+<code class="sig-name descname">pt</code><a class="headerlink" href="#arlunio.shape.Square.pt" title="Permalink to this definition">¶</a></dt>
+<dd><p>If <code class="code docutils literal notranslate"><span class="pre">None</span></code> then all points within the square’s border will be considered to
+be part of it. If set to some positive number then all points within
+<code class="code docutils literal notranslate"><span class="pre">(1</span> <span class="pre">-</span> <span class="pre">pt)</span> <span class="pre">*</span> <span class="pre">size</span></code> to <code class="code docutils literal notranslate"><span class="pre">(1</span> <span class="pre">+</span> <span class="pre">pt)</span> <span class="pre">*</span> <span class="pre">size</span></code> of the border will be
+considered to be part of the square.</p>
+</dd></dl>
+
+<p class="rubric">Example</p>
+<div class="figure align-default">
+<img alt="../_images/square-demo.png" src="../_images/square-demo.png" />
+<div class="legend">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arlunio</span> <span class="k">as</span> <span class="nn">ar</span>
+<span class="kn">import</span> <span class="nn">arlunio.image</span> <span class="k">as</span> <span class="nn">image</span>
+<span class="kn">import</span> <span class="nn">arlunio.math</span> <span class="k">as</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">arlunio.shape</span> <span class="k">as</span> <span class="nn">shape</span>
+
+<span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
+<span class="k">def</span> <span class="nf">SquareDemo</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">math</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">math</span><span class="o">.</span><span class="n">Y</span><span class="p">):</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">squares</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="n">shape</span><span class="o">.</span><span class="n">Square</span><span class="p">(</span><span class="n">pt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">),</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">shape</span><span class="o">.</span><span class="n">Square</span><span class="p">(</span><span class="n">pt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">),</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">shape</span><span class="o">.</span><span class="n">Square</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mf">0.39</span><span class="p">,</span> <span class="n">pt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">),</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">shape</span><span class="o">.</span><span class="n">Square</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mf">0.39</span><span class="p">,</span> <span class="n">pt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">),</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">shape</span><span class="o">.</span><span class="n">Square</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">),</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span>
+    <span class="p">]</span>
+
+    <span class="n">bg</span> <span class="o">=</span> <span class="s2">&quot;white&quot;</span>
+
+    <span class="k">for</span> <span class="n">square</span><span class="p">,</span> <span class="n">sx</span><span class="p">,</span> <span class="n">sy</span> <span class="ow">in</span> <span class="n">squares</span><span class="p">:</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">square</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">sx</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">sy</span><span class="p">),</span> <span class="n">image</span><span class="o">=</span><span class="n">img</span><span class="p">,</span> <span class="n">background</span><span class="o">=</span><span class="n">bg</span><span class="p">)</span>
+        <span class="n">bg</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">return</span> <span class="n">img</span>
+
+<span class="n">square</span> <span class="o">=</span> <span class="n">SquareDemo</span><span class="p">()</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">square</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1920</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt id="arlunio.shape.SuperEllipse">
+<em class="property">class </em><code class="sig-prename descclassname">arlunio.shape.</code><code class="sig-name descname">SuperEllipse</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/shape.html#SuperEllipse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.shape.SuperEllipse" title="Permalink to this definition">¶</a></dt>
+<dd><table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>Inputs:</strong></p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">width:</span> <span class="pre">int</span></code> <code class="code docutils literal notranslate"><span class="pre">height:</span> <span class="pre">int</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Bases:</strong></p></td>
+<td><p><a class="reference internal" href="math.html#arlunio.math.X" title="arlunio.math.X"><code class="xref py py-class docutils literal notranslate"><span class="pre">X</span></code></a> <a class="reference internal" href="math.html#arlunio.math.Y" title="arlunio.math.Y"><code class="xref py py-class docutils literal notranslate"><span class="pre">Y</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Produces:</strong></p></td>
+<td><p><a class="reference internal" href="mask.html#arlunio.mask.Mask" title="arlunio.mask.Mask"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mask</span></code></a></p></td>
+</tr>
+</tbody>
+</table>
+<div class="figure align-right">
+<img alt="../_images/superellipse.png" src="../_images/superellipse.png" />
+</div>
+<p>We define a <a class="reference external" href="https://en.wikipedia.org/wiki/Superellipse">SuperEllipse</a> by the following equality.</p>
+<div class="math notranslate nohighlight">
+\[\left|\frac{(x - x_c)}{a}\right|^n + \left|\frac{(y - y_c)}{b}\right|^m = r\]</div>
+<dl class="py attribute">
+<dt id="arlunio.shape.SuperEllipse.xc">
+<code class="sig-name descname">xc</code><a class="headerlink" href="#arlunio.shape.SuperEllipse.xc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Corresponds with the <span class="math notranslate nohighlight">\(x_c\)</span> variable in the equation above and defines the
+<span class="math notranslate nohighlight">\(x\)</span>-coordinate of the center of the super ellipse.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="arlunio.shape.SuperEllipse.yc">
+<code class="sig-name descname">yc</code><a class="headerlink" href="#arlunio.shape.SuperEllipse.yc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Corresponds with the <span class="math notranslate nohighlight">\(y_c\)</span> variable in the equation above and defines the
+<span class="math notranslate nohighlight">\(y\)</span> -coordinate of the center of the super ellipse.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="arlunio.shape.SuperEllipse.r">
+<code class="sig-name descname">r</code><a class="headerlink" href="#arlunio.shape.SuperEllipse.r" title="Permalink to this definition">¶</a></dt>
+<dd><p>Corresponds with the <span class="math notranslate nohighlight">\(r\)</span> variable in the equation above and controls the
+size of the super ellipse.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="arlunio.shape.SuperEllipse.a">
+<code class="sig-name descname">a</code><a class="headerlink" href="#arlunio.shape.SuperEllipse.a" title="Permalink to this definition">¶</a></dt>
+<dd><p>Corresponds with the <span class="math notranslate nohighlight">\(a\)</span> variable in the equation above and controls the
+width of the super ellipse.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="arlunio.shape.SuperEllipse.b">
+<code class="sig-name descname">b</code><a class="headerlink" href="#arlunio.shape.SuperEllipse.b" title="Permalink to this definition">¶</a></dt>
+<dd><p>Corresponds with the <span class="math notranslate nohighlight">\(b\)</span> variable in the equation above and controls the
+height of the super ellipse.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="arlunio.shape.SuperEllipse.n">
+<code class="sig-name descname">n</code><a class="headerlink" href="#arlunio.shape.SuperEllipse.n" title="Permalink to this definition">¶</a></dt>
+<dd><p>Corresponds with the <span class="math notranslate nohighlight">\(n\)</span> variable in the equation above and controls the
+profile of the curve far from <span class="math notranslate nohighlight">\(x = 0\)</span></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="arlunio.shape.SuperEllipse.m">
+<code class="sig-name descname">m</code><a class="headerlink" href="#arlunio.shape.SuperEllipse.m" title="Permalink to this definition">¶</a></dt>
+<dd><p>Corresponds with the <span class="math notranslate nohighlight">\(m\)</span> variable in the equation above and controls the
+profile of the curve close to <span class="math notranslate nohighlight">\(x = 0\)</span>. If <code class="code docutils literal notranslate"><span class="pre">m</span> <span class="pre">=</span> <span class="pre">None</span></code> (default) then
+it will be set to the value of <code class="code docutils literal notranslate"><span class="pre">n</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="arlunio.shape.SuperEllipse.pt">
+<code class="sig-name descname">pt</code><a class="headerlink" href="#arlunio.shape.SuperEllipse.pt" title="Permalink to this definition">¶</a></dt>
+<dd><p>If <code class="code docutils literal notranslate"><span class="pre">None</span></code> then all points within the radius of the super ellipse will be
+considered to be part of it. If this is set to some positive number then all
+points between radii <code class="code docutils literal notranslate"><span class="pre">(1</span> <span class="pre">-</span> <span class="pre">pt)</span> <span class="pre">*</span> <span class="pre">r</span></code> and <code class="code docutils literal notranslate"><span class="pre">(1</span> <span class="pre">+</span> <span class="pre">pt)</span> <span class="pre">*</span> <span class="pre">r</span></code> will be
+considered part of the super ellipse.</p>
+</dd></dl>
+
+<p class="rubric">Examples</p>
+<p>Being a generalisation of the regular <a class="reference internal" href="#arlunio.shape.Ellipse" title="arlunio.shape.Ellipse"><code class="xref py py-class docutils literal notranslate"><span class="pre">arlunio.shape.Ellipse</span></code></a> definition most
+of the attributes will have a similar effect on the outcome so be sure to check it
+out for additional examples. For the <code class="code docutils literal notranslate"><span class="pre">SuperEllipse</span></code> definition the most
+interesting attributes are <code class="code docutils literal notranslate"><span class="pre">n</span></code> and <code class="code docutils literal notranslate"><span class="pre">m</span></code> greatly affect the shape of the
+super ellipse.</p>
+<div class="figure align-default">
+<img alt="../_images/superellipse-demo.png" src="../_images/superellipse-demo.png" />
+<div class="legend">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arlunio</span> <span class="k">as</span> <span class="nn">ar</span>
+<span class="kn">import</span> <span class="nn">arlunio.image</span> <span class="k">as</span> <span class="nn">image</span>
+<span class="kn">import</span> <span class="nn">arlunio.shape</span> <span class="k">as</span> <span class="nn">shape</span>
+
+<span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
+<span class="k">def</span> <span class="nf">SuperEllipseDemo</span><span class="p">(</span><span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">)</span>
+    <span class="n">ellipses</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="n">shape</span><span class="o">.</span><span class="n">SuperEllipse</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">pt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">),</span><span class="s1">&#39;#f00&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">shape</span><span class="o">.</span><span class="n">SuperEllipse</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">pt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">),</span><span class="s1">&#39;#0f0&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">shape</span><span class="o">.</span><span class="n">SuperEllipse</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">pt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">),</span> <span class="s1">&#39;#00f&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">shape</span><span class="o">.</span><span class="n">SuperEllipse</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">pt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">),</span> <span class="s1">&#39;#ff0&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">shape</span><span class="o">.</span><span class="n">SuperEllipse</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">pt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">),</span> <span class="s1">&#39;#0ff&#39;</span><span class="p">)</span>
+    <span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">ellipse</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="n">ellipses</span><span class="p">:</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span>
+            <span class="n">ellipse</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1920</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">),</span> <span class="n">foreground</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="n">img</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">img</span>
+
+<span class="n">demo</span> <span class="o">=</span> <span class="n">SuperEllipseDemo</span><span class="p">()</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">demo</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1920</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>By default if you don’t specify a value for <code class="code docutils literal notranslate"><span class="pre">m</span></code> it will inherit the value
+assigned to <code class="code docutils literal notranslate"><span class="pre">n</span></code>. However if you set <code class="code docutils literal notranslate"><span class="pre">m</span></code> to a different value then you
+can get even more interesting results!</p>
+<div class="figure align-default" id="id5">
+<img alt="../_images/eye-of-sauron.png" src="../_images/eye-of-sauron.png" />
+<p class="caption"><span class="caption-text">“Eye of Sauron”:</span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
+<div class="legend">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arlunio</span> <span class="k">as</span> <span class="nn">ar</span>
+<span class="kn">import</span> <span class="nn">arlunio.image</span> <span class="k">as</span> <span class="nn">image</span>
+<span class="kn">import</span> <span class="nn">arlunio.shape</span> <span class="k">as</span> <span class="nn">shape</span>
+
+
+<span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
+<span class="k">def</span> <span class="nf">Sauron</span><span class="p">(</span><span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">)</span>
+    <span class="n">ellipses</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="n">shape</span><span class="o">.</span><span class="n">SuperEllipse</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mf">0.98</span><span class="p">),</span><span class="s1">&#39;#f00&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">shape</span><span class="o">.</span><span class="n">SuperEllipse</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span><span class="s1">&#39;#f50&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">shape</span><span class="o">.</span><span class="n">SuperEllipse</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span> <span class="s1">&#39;#000&#39;</span><span class="p">),</span>
+    <span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">ellipse</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="n">ellipses</span><span class="p">:</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span>
+            <span class="n">ellipse</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1920</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">),</span> <span class="n">foreground</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="n">img</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">img</span>
+
+<span class="n">eye</span> <span class="o">=</span> <span class="n">Sauron</span><span class="p">()</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">eye</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1920</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt id="arlunio.shape.Triangle">
+<em class="property">class </em><code class="sig-prename descclassname">arlunio.shape.</code><code class="sig-name descname">Triangle</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/shape.html#Triangle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.shape.Triangle" title="Permalink to this definition">¶</a></dt>
+<dd><table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>Inputs:</strong></p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">width:</span> <span class="pre">int</span></code> <code class="code docutils literal notranslate"><span class="pre">height:</span> <span class="pre">int</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Bases:</strong></p></td>
+<td><p><a class="reference internal" href="math.html#arlunio.math.Barycentric" title="arlunio.math.Barycentric"><code class="xref py py-class docutils literal notranslate"><span class="pre">Barycentric</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Produces:</strong></p></td>
+<td><p><a class="reference internal" href="mask.html#arlunio.mask.Mask" title="arlunio.mask.Mask"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mask</span></code></a></p></td>
+</tr>
+</tbody>
+</table>
+<p>A triangle.</p>
+<div class="figure align-right">
+<img alt="../_images/triangle-demo.png" src="../_images/triangle-demo.png" />
+</div>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../background/index.html" class="btn btn-neutral float-right" title="Background" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="raytrace.html" class="btn btn-neutral float-left" title="Raytrace" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Swyddfa Developers
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

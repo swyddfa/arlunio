@@ -1,0 +1,474 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>arlunio.lib.parameters &mdash; Arlunio V0.0.7b32 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Arlunio
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                V0.0.7b32
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../users/index.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../stdlib/index.html">Standard Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing/index.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog/index.html">Changelog</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Arlunio</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>arlunio.lib.parameters</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for arlunio.lib.parameters</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">arlunio</span> <span class="k">as</span> <span class="nn">ar</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<div class="viewcode-block" id="X"><a class="viewcode-back" href="../../../stdlib/parameters.html#arlunio.lib.parameters.X">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
+<span class="k">def</span> <span class="nf">X</span><span class="p">(</span><span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">x0</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">stretch</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    .. arlunio-image::</span>
+
+<span class="sd">       import arlunio as ar</span>
+<span class="sd">       from arlunio.lib import X</span>
+
+<span class="sd">       x = X()</span>
+<span class="sd">       image = ar.colorramp(x(width=1920, height=1080))</span>
+
+<span class="sd">    Cartesian :math:`x` coordinates.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x0:</span>
+<span class="sd">        Shift all the coordinate values by :code:`x0`</span>
+<span class="sd">    scale:</span>
+<span class="sd">        Controls the magnitude of the extreme values.</span>
+<span class="sd">    stretch:</span>
+<span class="sd">        If :code:`True` and the image is wider than it is tall then the grid will be</span>
+<span class="sd">        stretched so that :code:`x = scale` falls on the image border. Otherwise the</span>
+<span class="sd">        image&#39;s aspect ratio will be taken into account and :code:`x = scale` will fall</span>
+<span class="sd">        somewhere within the boundaries of the image.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    By default values will be generated between :math:`\\pm 1`::</span>
+
+<span class="sd">       &gt;&gt;&gt; from arlunio.lib import X</span>
+<span class="sd">       &gt;&gt;&gt; x = X()</span>
+<span class="sd">       &gt;&gt;&gt; x(width=4, height=4)</span>
+<span class="sd">       array([[-1.        , -0.33333333,  0.33333333,  1.        ],</span>
+<span class="sd">              [-1.        , -0.33333333,  0.33333333,  1.        ],</span>
+<span class="sd">              [-1.        , -0.33333333,  0.33333333,  1.        ],</span>
+<span class="sd">              [-1.        , -0.33333333,  0.33333333,  1.        ]])</span>
+
+<span class="sd">    If however the image is wider than it is tall this range will be extended so that</span>
+<span class="sd">    the resulting image is not stretched::</span>
+
+<span class="sd">       &gt;&gt;&gt; x(width=4, height=2)</span>
+<span class="sd">       array([[-2.        , -0.66666667,  0.66666667,  2.        ],</span>
+<span class="sd">              [-2.        , -0.66666667,  0.66666667,  2.        ]])</span>
+
+<span class="sd">    This behaviour can be disabled with the :code:`stretch` attribute::</span>
+
+<span class="sd">       &gt;&gt;&gt; x.stretch = True</span>
+<span class="sd">       &gt;&gt;&gt; x(width=4, height=2)</span>
+<span class="sd">       array([[-1.        , -0.33333333,  0.33333333,  1.        ],</span>
+<span class="sd">              [-1.        , -0.33333333,  0.33333333,  1.        ]])</span>
+
+<span class="sd">    Additionally the :code:`scale` attribute can be used to adjust the magnitude of the</span>
+<span class="sd">    extreme values generated, while the :code:`x0` attribute can be used to shift all</span>
+<span class="sd">    the values by a given amount::</span>
+
+<span class="sd">       &gt;&gt;&gt; x = X(x0=-2, scale=2)</span>
+<span class="sd">       &gt;&gt;&gt; x(width=4, height=4)</span>
+<span class="sd">       array([[0.        , 1.33333333, 2.66666667, 4.        ],</span>
+<span class="sd">              [0.        , 1.33333333, 2.66666667, 4.        ],</span>
+<span class="sd">              [0.        , 1.33333333, 2.66666667, 4.        ],</span>
+<span class="sd">              [0.        , 1.33333333, 2.66666667, 4.        ]])</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ratio</span> <span class="o">=</span> <span class="n">width</span> <span class="o">/</span> <span class="n">height</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">stretch</span> <span class="ow">and</span> <span class="n">ratio</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">scale</span> <span class="o">=</span> <span class="n">scale</span> <span class="o">*</span> <span class="n">ratio</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">scale</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">width</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">height</span><span class="p">)])</span>
+
+    <span class="k">return</span> <span class="n">x</span> <span class="o">-</span> <span class="n">x0</span></div>
+
+
+<div class="viewcode-block" id="Y"><a class="viewcode-back" href="../../../stdlib/parameters.html#arlunio.lib.parameters.Y">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
+<span class="k">def</span> <span class="nf">Y</span><span class="p">(</span><span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">y0</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">stretch</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    .. arlunio-image::</span>
+
+<span class="sd">       import arlunio as ar</span>
+<span class="sd">       from arlunio.lib import Y</span>
+
+<span class="sd">       y = Y()</span>
+<span class="sd">       image = ar.colorramp(y(width=1920, height=1080))</span>
+
+<span class="sd">    Cartesian :math:`y` coordinates.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    y0:</span>
+<span class="sd">        Shift all the coordinate values by :code:`y0`</span>
+<span class="sd">    scale:</span>
+<span class="sd">        Controls the size of the extreme values</span>
+<span class="sd">    stretch:</span>
+<span class="sd">        If :code:`True` and the image is taller than it is wide then the grid will be</span>
+<span class="sd">        stretched so that :code:`y = scale` falls on the border. Otherwise the image&#39;s</span>
+<span class="sd">        aspect ratio will be taken into account and :code:`y = scale` will fall</span>
+<span class="sd">        somewhere within the boundaries of the image.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    By default values will be generated between :math:`\\pm 1`::</span>
+
+<span class="sd">       &gt;&gt;&gt; from arlunio.lib import Y</span>
+<span class="sd">       &gt;&gt;&gt; y = Y()</span>
+<span class="sd">       &gt;&gt;&gt; y(width=4, height=4)</span>
+<span class="sd">       array([[ 1.        ,  1.        ,  1.        ,  1.        ],</span>
+<span class="sd">              [ 0.33333333,  0.33333333,  0.33333333,  0.33333333],</span>
+<span class="sd">              [-0.33333333, -0.33333333, -0.33333333, -0.33333333],</span>
+<span class="sd">              [-1.        , -1.        , -1.        , -1.        ]])</span>
+
+<span class="sd">    If however the image is taller than it is wide this range will be extended so that</span>
+<span class="sd">    the resulting image is not stretched::</span>
+
+<span class="sd">       &gt;&gt;&gt; y(width=2, height=4)</span>
+<span class="sd">       array([[ 2.        ,  2.        ],</span>
+<span class="sd">              [ 0.66666667,  0.66666667],</span>
+<span class="sd">              [-0.66666667, -0.66666667],</span>
+<span class="sd">              [-2.        , -2.        ]])</span>
+
+<span class="sd">    This behaviour can be disabled with the :code:`stretch` attribute::</span>
+
+<span class="sd">       &gt;&gt;&gt; y.stretch = True</span>
+<span class="sd">       &gt;&gt;&gt; y(width=2, height=4)</span>
+<span class="sd">       array([[ 1.        ,  1.        ],</span>
+<span class="sd">              [ 0.33333333,  0.33333333],</span>
+<span class="sd">              [-0.33333333, -0.33333333],</span>
+<span class="sd">              [-1.        , -1.        ]])</span>
+
+<span class="sd">    Additionally the :code:`scale` attribute can be used to adjust the magnitude of the</span>
+<span class="sd">    extreme values generated, while the :code:`y0` attribute can be used to shift all</span>
+<span class="sd">    the values by a given amount::</span>
+
+<span class="sd">       &gt;&gt;&gt; y = Y(y0=-2, scale=2)</span>
+<span class="sd">       &gt;&gt;&gt; y(width=4, height=4)</span>
+<span class="sd">       array([[4.        , 4.        , 4.        , 4.        ],</span>
+<span class="sd">              [2.66666667, 2.66666667, 2.66666667, 2.66666667],</span>
+<span class="sd">              [1.33333333, 1.33333333, 1.33333333, 1.33333333],</span>
+<span class="sd">              [0.        , 0.        , 0.        , 0.        ]])</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ratio</span> <span class="o">=</span> <span class="n">height</span> <span class="o">/</span> <span class="n">width</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">stretch</span> <span class="ow">and</span> <span class="n">ratio</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">scale</span> <span class="o">=</span> <span class="n">scale</span> <span class="o">*</span> <span class="n">ratio</span>
+
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">scale</span><span class="p">,</span> <span class="o">-</span><span class="n">scale</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">y</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">width</span><span class="p">)])</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">y</span> <span class="o">-</span> <span class="n">y0</span></div>
+
+
+<div class="viewcode-block" id="R"><a class="viewcode-back" href="../../../stdlib/parameters.html#arlunio.lib.parameters.R">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
+<span class="k">def</span> <span class="nf">R</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Y</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    .. arlunio-image::</span>
+
+<span class="sd">       import arlunio as ar</span>
+<span class="sd">       from arlunio.lib import R</span>
+
+<span class="sd">       r = R()</span>
+<span class="sd">       image = ar.colorramp(r(width=1920, height=1080))</span>
+
+<span class="sd">    Polar :math:`r` coordinates.</span>
+
+<span class="sd">    This definition corresponds with the distance a given point is from the origin and</span>
+<span class="sd">    can be calculated from the point&#39;s equivalent Cartesian coordinate representation</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">       r = \\sqrt{x^2 + y^2}</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    ::</span>
+
+<span class="sd">       &gt;&gt;&gt; from arlunio.lib import R</span>
+<span class="sd">       &gt;&gt;&gt; r = R()</span>
+<span class="sd">       &gt;&gt;&gt; r(width=5, height=5)</span>
+<span class="sd">       array([[1.41421356, 1.11803399, 1.        , 1.11803399, 1.41421356],</span>
+<span class="sd">              [1.11803399, 0.70710678, 0.5       , 0.70710678, 1.11803399],</span>
+<span class="sd">              [1.        , 0.5       , 0.        , 0.5       , 1.        ],</span>
+<span class="sd">              [1.11803399, 0.70710678, 0.5       , 0.70710678, 1.11803399],</span>
+<span class="sd">              [1.41421356, 1.11803399, 1.        , 1.11803399, 1.41421356]])</span>
+
+<span class="sd">    While this definition does not currently have any attributes of its own, since it&#39;s</span>
+<span class="sd">    derived from the |X| and |Y| definitions it automatically inherits the attributes</span>
+<span class="sd">    from these base definitions::</span>
+
+<span class="sd">       &gt;&gt;&gt; r = R(x0=-2, y0=-2, scale=2)</span>
+<span class="sd">       &gt;&gt;&gt; r(width=5, height=5)</span>
+<span class="sd">       array([[4.        , 4.12310563, 4.47213595, 5.        , 5.65685425],</span>
+<span class="sd">              [3.        , 3.16227766, 3.60555128, 4.24264069, 5.        ],</span>
+<span class="sd">              [2.        , 2.23606798, 2.82842712, 3.60555128, 4.47213595],</span>
+<span class="sd">              [1.        , 1.41421356, 2.23606798, 3.16227766, 4.12310563],</span>
+<span class="sd">              [0.        , 1.        , 2.        , 3.        , 4.        ]])</span>
+
+<span class="sd">    Notice how in the case where the base definitions share a attribute (:code:`scale`</span>
+<span class="sd">    in this case) they both share the value that is set when creating an instance of the</span>
+<span class="sd">    :code:`R` definition.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">y</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="T"><a class="viewcode-back" href="../../../stdlib/parameters.html#arlunio.lib.parameters.T">[docs]</a><span class="nd">@ar</span><span class="o">.</span><span class="n">definition</span>
+<span class="k">def</span> <span class="nf">T</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Y</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">t0</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    .. arlunio-image::</span>
+
+<span class="sd">       import arlunio as ar</span>
+<span class="sd">       from arlunio.lib import T</span>
+
+<span class="sd">       t = T()</span>
+<span class="sd">       image = ar.colorramp(t(width=1920, height=1080))</span>
+
+<span class="sd">    Polar, :math:`t` coordinates.</span>
+
+<span class="sd">    This definition corresponds with the angle a given point is around from the positive</span>
+<span class="sd">    :math:`x`-axis. This can be calculated from the point&#39;s equivalent Cartesian</span>
+<span class="sd">    coordinate representation. All angles are given in :term:`radians`</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">       t = atan2\\left(\\frac{y}{x}\\right)</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    t0:</span>
+<span class="sd">        Shift all the coordinate values by :code:`t0`</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    By default all point on the :math:`x`-axis will have a value of :code:`t = 0`::</span>
+
+<span class="sd">       &gt;&gt;&gt; from arlunio.lib import T</span>
+<span class="sd">       &gt;&gt;&gt; t = T()</span>
+<span class="sd">       &gt;&gt;&gt; t(width=5, height=5)</span>
+<span class="sd">       array([[ 2.35619449,  2.03444394,  1.57079633,  1.10714872,  0.78539816],</span>
+<span class="sd">              [ 2.67794504,  2.35619449,  1.57079633,  0.78539816,  0.46364761],</span>
+<span class="sd">              [ 3.14159265,  3.14159265,  0.        ,  0.        ,  0.        ],</span>
+<span class="sd">              [-2.67794504, -2.35619449, -1.57079633, -0.78539816, -0.46364761],</span>
+<span class="sd">              [-2.35619449, -2.03444394, -1.57079633, -1.10714872, -0.78539816]])</span>
+
+<span class="sd">    This can be changed however with the :code:`t0` attribute::</span>
+
+<span class="sd">       &gt;&gt;&gt; from math import pi</span>
+<span class="sd">       &gt;&gt;&gt; t.t0 = pi</span>
+<span class="sd">       &gt;&gt;&gt; t(width=5, height=5)</span>
+<span class="sd">       array([[-0.78539816, -1.10714872, -1.57079633, -2.03444394, -2.35619449],</span>
+<span class="sd">              [-0.46364761, -0.78539816, -1.57079633, -2.35619449, -2.67794504],</span>
+<span class="sd">              [ 0.        ,  0.        , -3.14159265, -3.14159265, -3.14159265],</span>
+<span class="sd">              [-5.8195377 , -5.49778714, -4.71238898, -3.92699082, -3.60524026],</span>
+<span class="sd">              [-5.49778714, -5.17603659, -4.71238898, -4.24874137, -3.92699082]])</span>
+
+<span class="sd">    Also, being a definition derived from |X| and |Y| the attributes for these</span>
+<span class="sd">    definitions are also available to control the output::</span>
+
+<span class="sd">       &gt;&gt;&gt; t = T(x0=-2, y0=-2, scale=2)</span>
+<span class="sd">       &gt;&gt;&gt; t(width=5, height=5)</span>
+<span class="sd">       array([[1.57079633, 1.32581766, 1.10714872, 0.92729522, 0.78539816],</span>
+<span class="sd">              [1.57079633, 1.24904577, 0.98279372, 0.78539816, 0.64350111],</span>
+<span class="sd">              [1.57079633, 1.10714872, 0.78539816, 0.5880026 , 0.46364761],</span>
+<span class="sd">              [1.57079633, 0.78539816, 0.46364761, 0.32175055, 0.24497866],</span>
+<span class="sd">              [0.        , 0.        , 0.        , 0.        , 0.        ]])</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">t</span> <span class="o">-</span> <span class="n">t0</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-, Swyddfa Developers
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

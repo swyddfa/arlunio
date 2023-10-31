@@ -1,0 +1,546 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Raytrace &mdash; Arlunio V0.11.0b9 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.svg"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Shape" href="shape.html" />
+    <link rel="prev" title="Pattern" href="pattern.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html">
+          
+
+          
+            
+            <img src="../_static/arlunio.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                V0.11.0b9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../users/index.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Standard Library</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="image.html">Image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mask.html">Mask</a></li>
+<li class="toctree-l2"><a class="reference internal" href="math.html">Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pattern.html">Pattern</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Raytrace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="shape.html">Shape</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/index.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog/index.html">Changelog</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Arlunio</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">Standard Library</a> &raquo;</li>
+        
+      <li>Raytrace</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/swyddfa/arlunio/blob/develop/docs/stdlib/raytrace.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-arlunio.raytrace">
+<span id="raytrace"></span><span id="stdlib-raytrace"></span><h1>Raytrace<a class="headerlink" href="#module-arlunio.raytrace" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="arlunio.raytrace.ClayRenderer">
+<em class="property">class </em><code class="sig-prename descclassname">arlunio.raytrace.</code><code class="sig-name descname">ClayRenderer</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/raytrace/render.html#ClayRenderer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.raytrace.ClayRenderer" title="Permalink to this definition">¶</a></dt>
+<dd><table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>Inputs:</strong></p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">width:</span> <span class="pre">int</span></code> <code class="code docutils literal notranslate"><span class="pre">height:</span> <span class="pre">int</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Produces:</strong></p></td>
+<td><p><a class="reference internal" href="image.html#arlunio.image.Image" title="arlunio.image.Image"><code class="xref py py-class docutils literal notranslate"><span class="pre">Image</span></code></a></p></td>
+</tr>
+</tbody>
+</table>
+<p>A simple clay renderer.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="arlunio.raytrace.Gradient">
+<em class="property">class </em><code class="sig-prename descclassname">arlunio.raytrace.</code><code class="sig-name descname">Gradient</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/raytrace/material.html#Gradient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.raytrace.Gradient" title="Permalink to this definition">¶</a></dt>
+<dd><table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>Inputs:</strong></p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">scatter:</span> <span class="pre">ScatterPoint</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>A basic gradient color.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="arlunio.raytrace.LambertianDiffuse">
+<em class="property">class </em><code class="sig-prename descclassname">arlunio.raytrace.</code><code class="sig-name descname">LambertianDiffuse</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/raytrace/material.html#LambertianDiffuse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.raytrace.LambertianDiffuse" title="Permalink to this definition">¶</a></dt>
+<dd><table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>Inputs:</strong></p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">scatter:</span> <span class="pre">ScatterPoint</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>Lambertian diffuse material.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="arlunio.raytrace.MaterialRenderer">
+<em class="property">class </em><code class="sig-prename descclassname">arlunio.raytrace.</code><code class="sig-name descname">MaterialRenderer</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/raytrace/render.html#MaterialRenderer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.raytrace.MaterialRenderer" title="Permalink to this definition">¶</a></dt>
+<dd><table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>Inputs:</strong></p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">width:</span> <span class="pre">int</span></code> <code class="code docutils literal notranslate"><span class="pre">height:</span> <span class="pre">int</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>A renderer capable of rendering materials.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="arlunio.raytrace.NormalMap">
+<em class="property">class </em><code class="sig-prename descclassname">arlunio.raytrace.</code><code class="sig-name descname">NormalMap</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/raytrace/material.html#NormalMap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.raytrace.NormalMap" title="Permalink to this definition">¶</a></dt>
+<dd><table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>Inputs:</strong></p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">scatter:</span> <span class="pre">ScatterPoint</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>Visualise the normals on a given surface.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="arlunio.raytrace.Rays">
+<em class="property">class </em><code class="sig-prename descclassname">arlunio.raytrace.</code><code class="sig-name descname">Rays</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">origin</span><span class="p">:</span> <span class="n">np.ndarray</span></em>, <em class="sig-param"><span class="n">direction</span><span class="p">:</span> <span class="n">np.ndarray</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/raytrace/data.html#Rays"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.raytrace.Rays" title="Permalink to this definition">¶</a></dt>
+<dd><p>A collection of rays</p>
+<dl class="py method">
+<dt id="arlunio.raytrace.Rays.at">
+<code class="sig-name descname">at</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">t</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/raytrace/data.html#Rays.at"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.raytrace.Rays.at" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the position for each value of t.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="arlunio.raytrace.Rays.direction">
+<code class="sig-name descname">direction</code><em class="property">: np.ndarray</em><a class="headerlink" href="#arlunio.raytrace.Rays.direction" title="Permalink to this definition">¶</a></dt>
+<dd><p>An array of vectors indicating which direction each ray is pointing</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="arlunio.raytrace.Rays.origin">
+<code class="sig-name descname">origin</code><em class="property">: np.ndarray</em><a class="headerlink" href="#arlunio.raytrace.Rays.origin" title="Permalink to this definition">¶</a></dt>
+<dd><p>The point where the rays originate from.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="arlunio.raytrace.SampledRenderer">
+<em class="property">class </em><code class="sig-prename descclassname">arlunio.raytrace.</code><code class="sig-name descname">SampledRenderer</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/raytrace/render.html#SampledRenderer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.raytrace.SampledRenderer" title="Permalink to this definition">¶</a></dt>
+<dd><table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>Inputs:</strong></p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">width:</span> <span class="pre">int</span></code> <code class="code docutils literal notranslate"><span class="pre">height:</span> <span class="pre">int</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Produces:</strong></p></td>
+<td><p><a class="reference internal" href="image.html#arlunio.image.Image" title="arlunio.image.Image"><code class="xref py py-class docutils literal notranslate"><span class="pre">Image</span></code></a></p></td>
+</tr>
+</tbody>
+</table>
+<p>A renderer is responsible for orchestrating the entire process.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="arlunio.raytrace.ScatterPoint">
+<em class="property">class </em><code class="sig-prename descclassname">arlunio.raytrace.</code><code class="sig-name descname">ScatterPoint</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">hit</span><span class="p">:</span> <span class="n">np.ndarray</span></em>, <em class="sig-param"><span class="n">t</span><span class="p">:</span> <span class="n">np.ndarray</span></em>, <em class="sig-param"><span class="n">p</span><span class="p">:</span> <span class="n">np.ndarray</span></em>, <em class="sig-param"><span class="n">normal</span><span class="p">:</span> <span class="n">np.ndarray</span></em>, <em class="sig-param"><span class="n">front_face</span><span class="p">:</span> <span class="n">np.ndarray</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/raytrace/data.html#ScatterPoint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.raytrace.ScatterPoint" title="Permalink to this definition">¶</a></dt>
+<dd><p>A scatter point is where rays have intersected an object and where various
+calculations should take place.</p>
+<dl class="py method">
+<dt id="arlunio.raytrace.ScatterPoint.merge">
+<code class="sig-name descname">merge</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/raytrace/data.html#ScatterPoint.merge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.raytrace.ScatterPoint.merge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merge the results of another scatter point in with this one.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="arlunio.raytrace.ScatterPoint.new">
+<em class="property">classmethod </em><code class="sig-name descname">new</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">rays</span><span class="p">:</span> <span class="n">arlunio.raytrace.data.Rays</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/raytrace/data.html#ScatterPoint.new"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.raytrace.ScatterPoint.new" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new scatter point based on an initial cluster of rays.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="arlunio.raytrace.ScatterPoint.front_face">
+<code class="sig-name descname">front_face</code><em class="property">: np.ndarray</em><a class="headerlink" href="#arlunio.raytrace.ScatterPoint.front_face" title="Permalink to this definition">¶</a></dt>
+<dd><p>A boolean array with shape <code class="code docutils literal notranslate"><span class="pre">(n,</span> <span class="pre">3)</span></code> indicating which side of the surface
+the incoming ray was on.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="arlunio.raytrace.ScatterPoint.hit">
+<code class="sig-name descname">hit</code><em class="property">: np.ndarray</em><a class="headerlink" href="#arlunio.raytrace.ScatterPoint.hit" title="Permalink to this definition">¶</a></dt>
+<dd><p>A boolean array with shape <code class="code docutils literal notranslate"><span class="pre">(n,)</span></code> indicating which rays have intersected
+some object.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="arlunio.raytrace.ScatterPoint.normal">
+<code class="sig-name descname">normal</code><em class="property">: np.ndarray</em><a class="headerlink" href="#arlunio.raytrace.ScatterPoint.normal" title="Permalink to this definition">¶</a></dt>
+<dd><p>An array of vectors with shape <code class="code docutils literal notranslate"><span class="pre">(n,</span> <span class="pre">3)</span></code> indicating the direction of the
+surface normal at the point of intersection.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="arlunio.raytrace.ScatterPoint.p">
+<code class="sig-name descname">p</code><em class="property">: np.ndarray</em><a class="headerlink" href="#arlunio.raytrace.ScatterPoint.p" title="Permalink to this definition">¶</a></dt>
+<dd><p>An array of vectors with shape <code class="code docutils literal notranslate"><span class="pre">(n,</span> <span class="pre">3)</span></code> indicating the point of
+intersection in space.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="arlunio.raytrace.ScatterPoint.t">
+<code class="sig-name descname">t</code><em class="property">: np.ndarray</em><a class="headerlink" href="#arlunio.raytrace.ScatterPoint.t" title="Permalink to this definition">¶</a></dt>
+<dd><p>A scalar array with shape <code class="code docutils literal notranslate"><span class="pre">(n,)</span></code> indicating the value of the parameter
+<code class="code docutils literal notranslate"><span class="pre">t</span></code> at the point of intersection.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="arlunio.raytrace.SimpleCamera">
+<em class="property">class </em><code class="sig-prename descclassname">arlunio.raytrace.</code><code class="sig-name descname">SimpleCamera</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/raytrace/camera.html#SimpleCamera"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.raytrace.SimpleCamera" title="Permalink to this definition">¶</a></dt>
+<dd><table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>Inputs:</strong></p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">width:</span> <span class="pre">int</span></code> <code class="code docutils literal notranslate"><span class="pre">height:</span> <span class="pre">int</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Produces:</strong></p></td>
+<td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Rays</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>A simple camera that generates rays to be cast into the scene.</p>
+<dl class="py attribute">
+<dt id="arlunio.raytrace.SimpleCamera.focal_length">
+<code class="sig-name descname">focal_length</code><a class="headerlink" href="#arlunio.raytrace.SimpleCamera.focal_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>Something something focal length</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="arlunio.raytrace.SimpleCamera.origin">
+<code class="sig-name descname">origin</code><a class="headerlink" href="#arlunio.raytrace.SimpleCamera.origin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the position of the camera in space. If not set this will default to
+<span class="math notranslate nohighlight">\((0, 0, 0)\)</span></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="arlunio.raytrace.SimpleCamera.sampler">
+<code class="sig-name descname">sampler</code><a class="headerlink" href="#arlunio.raytrace.SimpleCamera.sampler" title="Permalink to this definition">¶</a></dt>
+<dd><p>The sampler the camera should use in order to generate rays. If not set this
+will default to an instance of <a class="reference internal" href="#arlunio.raytrace.UniformSampler" title="arlunio.raytrace.UniformSampler"><code class="xref py py-class docutils literal notranslate"><span class="pre">arlunio.raytrace.UniformSampler</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="arlunio.raytrace.SimpleCamera.scale">
+<code class="sig-name descname">scale</code><a class="headerlink" href="#arlunio.raytrace.SimpleCamera.scale" title="Permalink to this definition">¶</a></dt>
+<dd><p>Something something scale.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="arlunio.raytrace.SimpleSampler">
+<em class="property">class </em><code class="sig-prename descclassname">arlunio.raytrace.</code><code class="sig-name descname">SimpleSampler</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/raytrace/camera.html#SimpleSampler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.raytrace.SimpleSampler" title="Permalink to this definition">¶</a></dt>
+<dd><table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>Inputs:</strong></p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">width:</span> <span class="pre">int</span></code> <code class="code docutils literal notranslate"><span class="pre">height:</span> <span class="pre">int</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>The simplest sampler.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="arlunio.raytrace.Sphere">
+<em class="property">class </em><code class="sig-prename descclassname">arlunio.raytrace.</code><code class="sig-name descname">Sphere</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/raytrace/object.html#Sphere"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.raytrace.Sphere" title="Permalink to this definition">¶</a></dt>
+<dd><table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>Inputs:</strong></p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">rays:</span> <span class="pre">Rays</span></code> <code class="code docutils literal notranslate"><span class="pre">t_min:</span> <span class="pre">float</span></code> <code class="code docutils literal notranslate"><span class="pre">t_max:</span> <span class="pre">float</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Produces:</strong></p></td>
+<td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ScatterPoint</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>A sphere.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="arlunio.raytrace.UniformSampler">
+<em class="property">class </em><code class="sig-prename descclassname">arlunio.raytrace.</code><code class="sig-name descname">UniformSampler</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/raytrace/camera.html#UniformSampler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.raytrace.UniformSampler" title="Permalink to this definition">¶</a></dt>
+<dd><table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>Inputs:</strong></p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">width:</span> <span class="pre">int</span></code> <code class="code docutils literal notranslate"><span class="pre">height:</span> <span class="pre">int</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>Generate samples according to the uniform distribution</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="arlunio.raytrace.ZDepthRenderer">
+<em class="property">class </em><code class="sig-prename descclassname">arlunio.raytrace.</code><code class="sig-name descname">ZDepthRenderer</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/raytrace/render.html#ZDepthRenderer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.raytrace.ZDepthRenderer" title="Permalink to this definition">¶</a></dt>
+<dd><table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>Inputs:</strong></p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">width:</span> <span class="pre">int</span></code> <code class="code docutils literal notranslate"><span class="pre">height:</span> <span class="pre">int</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Produces:</strong></p></td>
+<td><p><a class="reference internal" href="image.html#arlunio.image.Image" title="arlunio.image.Image"><code class="xref py py-class docutils literal notranslate"><span class="pre">Image</span></code></a></p></td>
+</tr>
+</tbody>
+</table>
+<p>A renderer that returns a z-depth pass.</p>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="shape.html" class="btn btn-neutral float-right" title="Shape" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="pattern.html" class="btn btn-neutral float-left" title="Pattern" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Swyddfa Developers
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

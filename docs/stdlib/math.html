@@ -1,0 +1,681 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Math &mdash; Arlunio V0.11.0b9 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.svg"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Pattern" href="pattern.html" />
+    <link rel="prev" title="Mask" href="mask.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html">
+          
+
+          
+            
+            <img src="../_static/arlunio.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                V0.11.0b9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../users/index.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Standard Library</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="image.html">Image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mask.html">Mask</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pattern.html">Pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="raytrace.html">Raytrace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="shape.html">Shape</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/index.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog/index.html">Changelog</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Arlunio</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">Standard Library</a> &raquo;</li>
+        
+      <li>Math</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/swyddfa/arlunio/blob/develop/docs/stdlib/math.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-arlunio.math">
+<span id="math"></span><span id="stdlib-math"></span><h1>Math<a class="headerlink" href="#module-arlunio.math" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="arlunio.math.Barycentric">
+<em class="property">class </em><code class="sig-prename descclassname">arlunio.math.</code><code class="sig-name descname">Barycentric</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/math.html#Barycentric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.math.Barycentric" title="Permalink to this definition">¶</a></dt>
+<dd><table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>Inputs:</strong></p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">width:</span> <span class="pre">int</span></code> <code class="code docutils literal notranslate"><span class="pre">height:</span> <span class="pre">int</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Bases:</strong></p></td>
+<td><p><a class="reference internal" href="#arlunio.math.X" title="arlunio.math.X"><code class="xref py py-class docutils literal notranslate"><span class="pre">X</span></code></a> <a class="reference internal" href="#arlunio.math.Y" title="arlunio.math.Y"><code class="xref py py-class docutils literal notranslate"><span class="pre">Y</span></code></a></p></td>
+</tr>
+</tbody>
+</table>
+<p>Barycentric coordinates.</p>
+<div class="figure align-right">
+<img alt="../_images/barycentric-demo.png" src="../_images/barycentric-demo.png" />
+</div>
+<p>Returns the Barycentric coordinate grid as defined by the given triangle.</p>
+<dl class="py attribute">
+<dt id="arlunio.math.Barycentric.a">
+<code class="sig-name descname">a</code><a class="headerlink" href="#arlunio.math.Barycentric.a" title="Permalink to this definition">¶</a></dt>
+<dd><p>The cartesian <span class="math notranslate nohighlight">\((x, y)\)</span> coordinates of the point <span class="math notranslate nohighlight">\(a\)</span></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="arlunio.math.Barycentric.b">
+<code class="sig-name descname">b</code><a class="headerlink" href="#arlunio.math.Barycentric.b" title="Permalink to this definition">¶</a></dt>
+<dd><p>The cartesian <span class="math notranslate nohighlight">\((x, y)\)</span> coordinates of the point <span class="math notranslate nohighlight">\(b\)</span></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="arlunio.math.Barycentric.c">
+<code class="sig-name descname">c</code><a class="headerlink" href="#arlunio.math.Barycentric.c" title="Permalink to this definition">¶</a></dt>
+<dd><p>The cartesian <span class="math notranslate nohighlight">\((x, y)\)</span> coordinates of the point <span class="math notranslate nohighlight">\(c\)</span></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="arlunio.math.Cartesian">
+<em class="property">class </em><code class="sig-prename descclassname">arlunio.math.</code><code class="sig-name descname">Cartesian</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/math.html#Cartesian"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.math.Cartesian" title="Permalink to this definition">¶</a></dt>
+<dd><table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>Inputs:</strong></p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">width:</span> <span class="pre">int</span></code> <code class="code docutils literal notranslate"><span class="pre">height:</span> <span class="pre">int</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Bases:</strong></p></td>
+<td><p><a class="reference internal" href="#arlunio.math.X" title="arlunio.math.X"><code class="xref py py-class docutils literal notranslate"><span class="pre">X</span></code></a> <a class="reference internal" href="#arlunio.math.Y" title="arlunio.math.Y"><code class="xref py py-class docutils literal notranslate"><span class="pre">Y</span></code></a></p></td>
+</tr>
+</tbody>
+</table>
+<p>Cartesian coordinates.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="arlunio.math.Polar">
+<em class="property">class </em><code class="sig-prename descclassname">arlunio.math.</code><code class="sig-name descname">Polar</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/math.html#Polar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.math.Polar" title="Permalink to this definition">¶</a></dt>
+<dd><table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>Inputs:</strong></p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">width:</span> <span class="pre">int</span></code> <code class="code docutils literal notranslate"><span class="pre">height:</span> <span class="pre">int</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Bases:</strong></p></td>
+<td><p><a class="reference internal" href="#arlunio.math.R" title="arlunio.math.R"><code class="xref py py-class docutils literal notranslate"><span class="pre">R</span></code></a> <a class="reference internal" href="#arlunio.math.T" title="arlunio.math.T"><code class="xref py py-class docutils literal notranslate"><span class="pre">T</span></code></a></p></td>
+</tr>
+</tbody>
+</table>
+<p>Polar coordinates.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="arlunio.math.R">
+<em class="property">class </em><code class="sig-prename descclassname">arlunio.math.</code><code class="sig-name descname">R</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/math.html#R"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.math.R" title="Permalink to this definition">¶</a></dt>
+<dd><table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>Inputs:</strong></p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">width:</span> <span class="pre">int</span></code> <code class="code docutils literal notranslate"><span class="pre">height:</span> <span class="pre">int</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Bases:</strong></p></td>
+<td><p><a class="reference internal" href="#arlunio.math.X" title="arlunio.math.X"><code class="xref py py-class docutils literal notranslate"><span class="pre">X</span></code></a> <a class="reference internal" href="#arlunio.math.Y" title="arlunio.math.Y"><code class="xref py py-class docutils literal notranslate"><span class="pre">Y</span></code></a></p></td>
+</tr>
+</tbody>
+</table>
+<p>Polar <span class="math notranslate nohighlight">\(r\)</span> coordinates.</p>
+<div class="figure align-right">
+<img alt="../_images/r-coordinates.png" src="../_images/r-coordinates.png" />
+</div>
+<p>This definition corresponds with the distance a given point is from the origin and
+can be calculated from the point’s equivalent Cartesian coordinate representation</p>
+<div class="math notranslate nohighlight">
+\[r = \sqrt{x^2 + y^2}\]</div>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">arlunio.math</span> <span class="kn">import</span> <span class="n">R</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">R</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="go">array([[1.41421356, 1.11803399, 1.        , 1.11803399, 1.41421356],</span>
+<span class="go">       [1.11803399, 0.70710678, 0.5       , 0.70710678, 1.11803399],</span>
+<span class="go">       [1.        , 0.5       , 0.        , 0.5       , 1.        ],</span>
+<span class="go">       [1.11803399, 0.70710678, 0.5       , 0.70710678, 1.11803399],</span>
+<span class="go">       [1.41421356, 1.11803399, 1.        , 1.11803399, 1.41421356]])</span>
+</pre></div>
+</div>
+<p>While this definition does not currently have any attributes of its own, since it’s
+derived from the <a class="reference internal" href="#arlunio.math.X" title="arlunio.math.X"><code class="xref py py-class docutils literal notranslate"><span class="pre">arlunio.math.X</span></code></a> and <a class="reference internal" href="#arlunio.math.Y" title="arlunio.math.Y"><code class="xref py py-class docutils literal notranslate"><span class="pre">arlunio.math.Y</span></code></a> definitions it
+automatically inherits the attributes from these base definitions:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">R</span><span class="p">(</span><span class="n">x0</span><span class="o">=-</span><span class="mi">2</span><span class="p">,</span> <span class="n">y0</span><span class="o">=-</span><span class="mi">2</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="go">array([[4.        , 4.12310563, 4.47213595, 5.        , 5.65685425],</span>
+<span class="go">       [3.        , 3.16227766, 3.60555128, 4.24264069, 5.        ],</span>
+<span class="go">       [2.        , 2.23606798, 2.82842712, 3.60555128, 4.47213595],</span>
+<span class="go">       [1.        , 1.41421356, 2.23606798, 3.16227766, 4.12310563],</span>
+<span class="go">       [0.        , 1.        , 2.        , 3.        , 4.        ]])</span>
+</pre></div>
+</div>
+<p>Notice how in the case where the base definitions share a attribute (<code class="code docutils literal notranslate"><span class="pre">scale</span></code>
+in this case) they both share the value that is set when creating an instance of the
+<code class="code docutils literal notranslate"><span class="pre">R</span></code> definition.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="arlunio.math.T">
+<em class="property">class </em><code class="sig-prename descclassname">arlunio.math.</code><code class="sig-name descname">T</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/math.html#T"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.math.T" title="Permalink to this definition">¶</a></dt>
+<dd><table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>Inputs:</strong></p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">width:</span> <span class="pre">int</span></code> <code class="code docutils literal notranslate"><span class="pre">height:</span> <span class="pre">int</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Bases:</strong></p></td>
+<td><p><a class="reference internal" href="#arlunio.math.X" title="arlunio.math.X"><code class="xref py py-class docutils literal notranslate"><span class="pre">X</span></code></a> <a class="reference internal" href="#arlunio.math.Y" title="arlunio.math.Y"><code class="xref py py-class docutils literal notranslate"><span class="pre">Y</span></code></a></p></td>
+</tr>
+</tbody>
+</table>
+<p>Polar <span class="math notranslate nohighlight">\(\theta\)</span> coordinates.</p>
+<div class="figure align-right">
+<img alt="../_images/t-coordinates.png" src="../_images/t-coordinates.png" />
+</div>
+<p>This definition corresponds with the angle a given point is around from the positive
+<span class="math notranslate nohighlight">\(x\)</span>-axis. This can be calculated from the point’s equivalent Cartesian
+coordinate representation. All angles are given in <a class="reference internal" href="../glossary.html#term-radians"><span class="xref std std-term">radians</span></a></p>
+<div class="math notranslate nohighlight">
+\[t = atan2\left(\frac{y}{x}\right)\]</div>
+<dl class="py attribute">
+<dt id="arlunio.math.T.t0">
+<code class="sig-name descname">t0</code><a class="headerlink" href="#arlunio.math.T.t0" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shift all the coordinate values by <code class="code docutils literal notranslate"><span class="pre">t0</span></code></p>
+</dd></dl>
+
+<p class="rubric">Examples</p>
+<p>By default all point on the <span class="math notranslate nohighlight">\(x\)</span>-axis will have a value of <code class="code docutils literal notranslate"><span class="pre">t</span> <span class="pre">=</span> <span class="pre">0</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">arlunio.math</span> <span class="kn">import</span> <span class="n">T</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">T</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="go">array([[ 2.35619449,  2.03444394,  1.57079633,  1.10714872,  0.78539816],</span>
+<span class="go">       [ 2.67794504,  2.35619449,  1.57079633,  0.78539816,  0.46364761],</span>
+<span class="go">       [ 3.14159265,  3.14159265,  0.        ,  0.        ,  0.        ],</span>
+<span class="go">       [-2.67794504, -2.35619449, -1.57079633, -0.78539816, -0.46364761],</span>
+<span class="go">       [-2.35619449, -2.03444394, -1.57079633, -1.10714872, -0.78539816]])</span>
+</pre></div>
+</div>
+<p>This can be changed however with the <code class="code docutils literal notranslate"><span class="pre">t0</span></code> attribute:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">pi</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">t0</span> <span class="o">=</span> <span class="n">pi</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="go">array([[-0.78539816, -1.10714872, -1.57079633, -2.03444394, -2.35619449],</span>
+<span class="go">       [-0.46364761, -0.78539816, -1.57079633, -2.35619449, -2.67794504],</span>
+<span class="go">       [ 0.        ,  0.        , -3.14159265, -3.14159265, -3.14159265],</span>
+<span class="go">       [-5.8195377 , -5.49778714, -4.71238898, -3.92699082, -3.60524026],</span>
+<span class="go">       [-5.49778714, -5.17603659, -4.71238898, -4.24874137, -3.92699082]])</span>
+</pre></div>
+</div>
+<p>Also, being a definition derived from <a class="reference internal" href="#arlunio.math.X" title="arlunio.math.X"><code class="xref py py-class docutils literal notranslate"><span class="pre">arlunio.math.X</span></code></a> and
+<a class="reference internal" href="#arlunio.math.Y" title="arlunio.math.Y"><code class="xref py py-class docutils literal notranslate"><span class="pre">arlunio.math.Y</span></code></a> the attributes for these definitions are also available to
+control the output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">T</span><span class="p">(</span><span class="n">x0</span><span class="o">=-</span><span class="mi">2</span><span class="p">,</span> <span class="n">y0</span><span class="o">=-</span><span class="mi">2</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="go">array([[1.57079633, 1.32581766, 1.10714872, 0.92729522, 0.78539816],</span>
+<span class="go">       [1.57079633, 1.24904577, 0.98279372, 0.78539816, 0.64350111],</span>
+<span class="go">       [1.57079633, 1.10714872, 0.78539816, 0.5880026 , 0.46364761],</span>
+<span class="go">       [1.57079633, 0.78539816, 0.46364761, 0.32175055, 0.24497866],</span>
+<span class="go">       [0.        , 0.        , 0.        , 0.        , 0.        ]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt id="arlunio.math.X">
+<em class="property">class </em><code class="sig-prename descclassname">arlunio.math.</code><code class="sig-name descname">X</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/math.html#X"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.math.X" title="Permalink to this definition">¶</a></dt>
+<dd><table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>Inputs:</strong></p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">width:</span> <span class="pre">int</span></code> <code class="code docutils literal notranslate"><span class="pre">height:</span> <span class="pre">int</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>Cartesian <span class="math notranslate nohighlight">\(x\)</span> coordinates.</p>
+<div class="figure align-right">
+<img alt="../_images/x-coordinates.png" src="../_images/x-coordinates.png" />
+</div>
+<dl class="py attribute">
+<dt id="arlunio.math.X.x0">
+<code class="sig-name descname">x0</code><a class="headerlink" href="#arlunio.math.X.x0" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shift all the coordinate values by <code class="code docutils literal notranslate"><span class="pre">x0</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="arlunio.math.X.scale">
+<code class="sig-name descname">scale</code><a class="headerlink" href="#arlunio.math.X.scale" title="Permalink to this definition">¶</a></dt>
+<dd><p>Controls the magnitude of the extreme values.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="arlunio.math.X.stretch">
+<code class="sig-name descname">stretch</code><a class="headerlink" href="#arlunio.math.X.stretch" title="Permalink to this definition">¶</a></dt>
+<dd><p>If <code class="code docutils literal notranslate"><span class="pre">True</span></code> and the image is wider than it is tall then the grid will be
+stretched so that <code class="code docutils literal notranslate"><span class="pre">x</span> <span class="pre">=</span> <span class="pre">scale</span></code> falls on the image border. Otherwise the
+image’s aspect ratio will be taken into account and <code class="code docutils literal notranslate"><span class="pre">x</span> <span class="pre">=</span> <span class="pre">scale</span></code> will fall
+somewhere within the boundaries of the image.</p>
+</dd></dl>
+
+<p class="rubric">Examples</p>
+<p>By default values will be generated between <span class="math notranslate nohighlight">\(\pm 1\)</span>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">arlunio.math</span> <span class="kn">import</span> <span class="n">X</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">X</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="go">array([[-1.        , -0.33333333,  0.33333333,  1.        ],</span>
+<span class="go">       [-1.        , -0.33333333,  0.33333333,  1.        ],</span>
+<span class="go">       [-1.        , -0.33333333,  0.33333333,  1.        ],</span>
+<span class="go">       [-1.        , -0.33333333,  0.33333333,  1.        ]])</span>
+</pre></div>
+</div>
+<p>If however the image is wider than it is tall this range will be extended so that
+the resulting image is not stretched:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">array([[-2.        , -0.66666667,  0.66666667,  2.        ],</span>
+<span class="go">       [-2.        , -0.66666667,  0.66666667,  2.        ]])</span>
+</pre></div>
+</div>
+<p>This behaviour can be disabled with the <code class="code docutils literal notranslate"><span class="pre">stretch</span></code> attribute:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">stretch</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">array([[-1.        , -0.33333333,  0.33333333,  1.        ],</span>
+<span class="go">       [-1.        , -0.33333333,  0.33333333,  1.        ]])</span>
+</pre></div>
+</div>
+<p>Additionally the <code class="code docutils literal notranslate"><span class="pre">scale</span></code> attribute can be used to adjust the magnitude of the
+extreme values generated, while the <code class="code docutils literal notranslate"><span class="pre">x0</span></code> attribute can be used to shift all
+the values by a given amount:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">X</span><span class="p">(</span><span class="n">x0</span><span class="o">=-</span><span class="mi">2</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="go">array([[0.        , 1.33333333, 2.66666667, 4.        ],</span>
+<span class="go">       [0.        , 1.33333333, 2.66666667, 4.        ],</span>
+<span class="go">       [0.        , 1.33333333, 2.66666667, 4.        ],</span>
+<span class="go">       [0.        , 1.33333333, 2.66666667, 4.        ]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt id="arlunio.math.Y">
+<em class="property">class </em><code class="sig-prename descclassname">arlunio.math.</code><code class="sig-name descname">Y</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/math.html#Y"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.math.Y" title="Permalink to this definition">¶</a></dt>
+<dd><table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>Inputs:</strong></p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">width:</span> <span class="pre">int</span></code> <code class="code docutils literal notranslate"><span class="pre">height:</span> <span class="pre">int</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>Cartesian <span class="math notranslate nohighlight">\(y\)</span> coordinates</p>
+<div class="figure align-right">
+<img alt="../_images/y-coordinates.png" src="../_images/y-coordinates.png" />
+</div>
+<dl class="py attribute">
+<dt id="arlunio.math.Y.y0">
+<code class="sig-name descname">y0</code><a class="headerlink" href="#arlunio.math.Y.y0" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shift all the coordinate values by <code class="code docutils literal notranslate"><span class="pre">y0</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="arlunio.math.Y.scale">
+<code class="sig-name descname">scale</code><a class="headerlink" href="#arlunio.math.Y.scale" title="Permalink to this definition">¶</a></dt>
+<dd><p>Controls the size of the extreme values</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="arlunio.math.Y.stretch">
+<code class="sig-name descname">stretch</code><a class="headerlink" href="#arlunio.math.Y.stretch" title="Permalink to this definition">¶</a></dt>
+<dd><p>If <code class="code docutils literal notranslate"><span class="pre">True</span></code> and the image is taller than it is wide then the grid will be
+stretched so that <code class="code docutils literal notranslate"><span class="pre">y</span> <span class="pre">=</span> <span class="pre">scale</span></code> falls on the border. Otherwise the image’s
+aspect ratio will be taken into account and <code class="code docutils literal notranslate"><span class="pre">y</span> <span class="pre">=</span> <span class="pre">scale</span></code> will fall
+somewhere within the boundaries of the image.</p>
+</dd></dl>
+
+<p class="rubric">Examples</p>
+<p>By default values will be generated between <span class="math notranslate nohighlight">\(\pm 1\)</span>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">arlunio.math</span> <span class="kn">import</span> <span class="n">Y</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">Y</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="go">array([[ 1.        ,  1.        ,  1.        ,  1.        ],</span>
+<span class="go">       [ 0.33333333,  0.33333333,  0.33333333,  0.33333333],</span>
+<span class="go">       [-0.33333333, -0.33333333, -0.33333333, -0.33333333],</span>
+<span class="go">       [-1.        , -1.        , -1.        , -1.        ]])</span>
+</pre></div>
+</div>
+<p>If however the image is taller than it is wide this range will be extended so that
+the resulting image is not stretched:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="go">array([[ 2.        ,  2.        ],</span>
+<span class="go">       [ 0.66666667,  0.66666667],</span>
+<span class="go">       [-0.66666667, -0.66666667],</span>
+<span class="go">       [-2.        , -2.        ]])</span>
+</pre></div>
+</div>
+<p>This behaviour can be disabled with the <code class="code docutils literal notranslate"><span class="pre">stretch</span></code> attribute:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="o">.</span><span class="n">stretch</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="go">array([[ 1.        ,  1.        ],</span>
+<span class="go">       [ 0.33333333,  0.33333333],</span>
+<span class="go">       [-0.33333333, -0.33333333],</span>
+<span class="go">       [-1.        , -1.        ]])</span>
+</pre></div>
+</div>
+<p>Additionally the <code class="code docutils literal notranslate"><span class="pre">scale</span></code> attribute can be used to adjust the magnitude of the
+extreme values generated, while the <code class="code docutils literal notranslate"><span class="pre">y0</span></code> attribute can be used to shift all
+the values by a given amount:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">Y</span><span class="p">(</span><span class="n">y0</span><span class="o">=-</span><span class="mi">2</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="go">array([[4.        , 4.        , 4.        , 4.        ],</span>
+<span class="go">       [2.66666667, 2.66666667, 2.66666667, 2.66666667],</span>
+<span class="go">       [1.33333333, 1.33333333, 1.33333333, 1.33333333],</span>
+<span class="go">       [0.        , 0.        , 0.        , 0.        ]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="arlunio.math.clamp">
+<code class="sig-prename descclassname">arlunio.math.</code><code class="sig-name descname">clamp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vs</span></em>, <em class="sig-param"><span class="n">min_</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">max_</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/math.html#clamp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.math.clamp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Force an array of values to stay within a range of values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>vs</strong> – The array of values to clamp</p></li>
+<li><p><strong>min</strong> – The minimum value the result should contain</p></li>
+<li><p><strong>max</strong> – The maximum value the result should contain</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>By default values will be limited to between <code class="code docutils literal notranslate"><span class="pre">0</span></code> and <code class="code docutils literal notranslate"><span class="pre">1</span></code></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">arlunio.math</span> <span class="kn">import</span> <span class="n">clamp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">clamp</span><span class="p">(</span><span class="n">vs</span><span class="p">)</span>
+<span class="go">array([0. , 0. , 0.2, 0.8, 1. , 1. ])</span>
+</pre></div>
+</div>
+<p>But this can be changed with extra arguments to the <code class="code docutils literal notranslate"><span class="pre">clamp</span></code> function</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">clamp</span><span class="p">(</span><span class="n">vs</span><span class="p">,</span> <span class="n">min_</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="go">array([-1. , -0.4,  0.2,  0.5,  0.5,  0.5])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="arlunio.math.dot">
+<code class="sig-prename descclassname">arlunio.math.</code><code class="sig-name descname">dot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">us</span></em>, <em class="sig-param"><span class="n">vs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/math.html#dot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.math.dot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the dot product of two arrays of vectors.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="arlunio.math.lerp">
+<code class="sig-prename descclassname">arlunio.math.</code><code class="sig-name descname">lerp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">start</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a></span> <span class="o">=</span> <span class="default_value">0</span></em>, <em class="sig-param"><span class="n">stop</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a></span> <span class="o">=</span> <span class="default_value">1</span></em><span class="sig-paren">)</span> &#x2192; Callable<span class="p">[</span><span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a><span class="p">]</span><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a><span class="p">]</span><a class="reference internal" href="../_modules/arlunio/math.html#lerp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.math.lerp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a function that will linerarly interpolate between a and b.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start</strong> – The value the interpolation should start from.</p></li>
+<li><p><strong>stop</strong> – The value the interpolation should stop at.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>By default this function will interpolate between <code class="code docutils literal notranslate"><span class="pre">0</span></code> and <code class="code docutils literal notranslate"><span class="pre">1</span></code></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">arlunio.math</span> <span class="kn">import</span> <span class="n">lerp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">lerp</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+<p>However by passing arguments to the <code class="code docutils literal notranslate"><span class="pre">lerp</span></code> function we can change the bounds
+of the interpolation.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">lerp</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stop</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="n">ts</span><span class="p">)</span>
+<span class="go">array([ 3.        ,  1.66666667,  0.33333333, -1.        ])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="arlunio.math.normalise">
+<code class="sig-prename descclassname">arlunio.math.</code><code class="sig-name descname">normalise</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/arlunio/math.html#normalise"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arlunio.math.normalise" title="Permalink to this definition">¶</a></dt>
+<dd><p>Normalise an array into the range <span class="math notranslate nohighlight">\([0, 1]\)</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>vs</strong> – The array to normalise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="pattern.html" class="btn btn-neutral float-right" title="Pattern" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="mask.html" class="btn btn-neutral float-left" title="Mask" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Swyddfa Developers
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

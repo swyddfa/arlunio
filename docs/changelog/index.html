@@ -1,0 +1,474 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Changelog &mdash; Arlunio V0.11.0b9 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.svg"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Archive" href="archive.html" />
+    <link rel="prev" title="Glossary" href="../glossary.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html">
+          
+
+          
+            
+            <img src="../_static/arlunio.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                V0.11.0b9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../users/index.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stdlib/index.html">Standard Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/index.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#v0-11-0-unreleased">v0.11.0 - Unreleased</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#fixes">Fixes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#removed">Removed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#v0-10-0-2020-07-10">v0.10.0 - 2020-07-10</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#standard-library">Standard Library</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#v0-0-7-2020-06-18">v0.0.7 - 2020-06-18</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id7">Fixes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#docs">Docs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">Standard Library</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#misc">Misc</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#v0-0-6-2020-04-18">v0.0.6 - 2020-04-18</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#features">Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id19">Docs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id23">Misc</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#v0-0-5-2020-03-18">v0.0.5 - 2020-03-18</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#added">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#changed">Changed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#v0-0-4-2020-02-15">v0.0.4 - 2020-02-15</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id27">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id28">Removed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#v0-0-3-2019-12-30">v0.0.3 - 2019-12-30</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id29">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id30">Changed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#v0-0-2-2019-09-04">v0.0.2 - 2019-09-04</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v0-0-1-2019-08-04">v0.0.1 - 2019-08-04</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="archive.html">Archive</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Arlunio</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Changelog</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/swyddfa/arlunio/blob/develop/docs/changelog/index.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="changelog">
+<span id="id1"></span><h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="v0-11-0-unreleased">
+<h2>v0.11.0 - Unreleased<a class="headerlink" href="#v0-11-0-unreleased" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="fixes">
+<h3>Fixes<a class="headerlink" href="#fixes" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Ensure that we are future compatible with Python 3.9 by adhereing to <span class="target" id="index-0"></span><a class="pep reference external" href="https://www.python.org/dev/peps/pep-0563"><strong>PEP 563</strong></a> (<a class="reference external" href="https://github.com/swyddfa/arlunio/issues/252">#252</a>)</p></li>
+</ul>
+</div>
+<div class="section" id="removed">
+<h3>Removed<a class="headerlink" href="#removed" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Removed Python 3.6 support. (<a class="reference external" href="https://github.com/swyddfa/arlunio/issues/252">#252</a>)</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="v0-10-0-2020-07-10">
+<h2>v0.10.0 - 2020-07-10<a class="headerlink" href="#v0-10-0-2020-07-10" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="standard-library">
+<h3>Standard Library<a class="headerlink" href="#standard-library" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p>Add new definition <code class="code docutils literal notranslate"><span class="pre">arlunio.shape.Triangle</span></code>, also add
+new <code class="code docutils literal notranslate"><span class="pre">arlunio.math.Barycentric</span></code> definition which serves as the Triangle’s base. (<a class="reference external" href="https://github.com/swyddfa/arlunio/issues/187">#187</a>)</p></li>
+<li><p>Add <code class="code docutils literal notranslate"><span class="pre">arlunio.image.load</span></code> and <code class="code docutils literal notranslate"><span class="pre">arlunio.image.decode</span></code> functions to
+mirror the existing save and encode functions.</p>
+<p>Update <code class="code docutils literal notranslate"><span class="pre">arlunio.image.Image</span></code> to now be a class in its own right, wrapping
+a Pillow image object to add additional functionality</p>
+<p>Make the <code class="code docutils literal notranslate"><span class="pre">arlunio.image.fill</span></code> and <code class="code docutils literal notranslate"><span class="pre">arlunio.image.colorramp</span></code> functions
+return RGBA images to make image composition easier. (<a class="reference external" href="https://github.com/swyddfa/arlunio/issues/247">#247</a>)</p>
+</li>
+<li><p>Moved <code class="code docutils literal notranslate"><span class="pre">arlunio.pattern.Grid</span></code>, <code class="code docutils literal notranslate"><span class="pre">arlunio.pattern.Map</span></code> and
+<code class="code docutils literal notranslate"><span class="pre">arlunio.pattern.Pixelize</span></code> into <code class="code docutils literal notranslate"><span class="pre">arlunio.mask</span></code>. Also <code class="code docutils literal notranslate"><span class="pre">Grid</span></code> has been
+renamed to <code class="code docutils literal notranslate"><span class="pre">Repeat</span></code>. (<a class="reference external" href="https://github.com/swyddfa/arlunio/issues/249">#249</a>)</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="v0-0-7-2020-06-18">
+<h2>v0.0.7 - 2020-06-18<a class="headerlink" href="#v0-0-7-2020-06-18" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id7">
+<h3>Fixes<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Add missing return type annotation to <code class="code docutils literal notranslate"><span class="pre">MaskXXX</span></code> operators, this should
+allow combining multiple definition instances together. (<a class="reference external" href="https://github.com/swyddfa/arlunio/issues/223">#223</a>)</p></li>
+</ul>
+</div>
+<div class="section" id="docs">
+<h3>Docs<a class="headerlink" href="#docs" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Updated the <code class="code docutils literal notranslate"><span class="pre">arlunio-image</span></code> directive to output a warning during a Sphinx build
+if a given image fails to render. (<a class="reference external" href="https://github.com/swyddfa/arlunio/issues/227">#227</a>)</p></li>
+<li><p>Refactor <code class="code docutils literal notranslate"><span class="pre">arlunio-image</span></code> directive to be based on the standard <code class="code docutils literal notranslate"><span class="pre">figure</span></code>
+directive. This means that the standard <code class="code docutils literal notranslate"><span class="pre">figure</span></code> options now also work with
+<code class="code docutils literal notranslate"><span class="pre">arlunio-image</span></code>. (<a class="reference external" href="https://github.com/swyddfa/arlunio/issues/237">#237</a>)</p></li>
+</ul>
+</div>
+<div class="section" id="id11">
+<h3>Standard Library<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p>Moved the “expression” based code out of core into the <code class="code docutils literal notranslate"><span class="pre">arlunio.math</span></code> module.</p>
+<p>New <code class="code docutils literal notranslate"><span class="pre">arlunio.image</span></code> module. This contains the image code that was originally
+part of “core” arlunio. (<a class="reference external" href="https://github.com/swyddfa/arlunio/issues/228">#228</a>)</p>
+</li>
+<li><p>New <code class="code docutils literal notranslate"><span class="pre">arlunio.raytrace</span></code> module based on the <a class="reference external" href="https://raytracing.github.io/books/RayTracingInOneWeekend.html">Ray Tracing in One Weekend</a>
+book. Currently only supports diffuse materials and spheres, will probably need a few
+revisions before it becomes useful. (<a class="reference external" href="https://github.com/swyddfa/arlunio/issues/230">#230</a>)</p></li>
+<li><p>Refine the concept of a <code class="code docutils literal notranslate"><span class="pre">Mask</span></code></p>
+<p>A Mask is now a sub-class of a <code class="code docutils literal notranslate"><span class="pre">numpy.ndarray</span></code> that is geared towards manipulating
+boolean numpy arrays. They can be added (<code class="code docutils literal notranslate"><span class="pre">a</span> <span class="pre">OR</span> <span class="pre">b</span></code>), subtracted
+(<code class="code docutils literal notranslate"><span class="pre">a</span> <span class="pre">AND</span> <span class="pre">(NOT</span> <span class="pre">b)</span></code>), multiplied (<code class="code docutils literal notranslate"><span class="pre">a</span> <span class="pre">AND</span> <span class="pre">b</span></code>) and negated (<code class="code docutils literal notranslate"><span class="pre">NOT</span> <span class="pre">a</span></code>). (<a class="reference external" href="https://github.com/swyddfa/arlunio/issues/231">#231</a>)</p>
+</li>
+<li><p>Rename all standard library modules from <code class="code docutils literal notranslate"><span class="pre">arlunio.lib.X</span></code> to <code class="code docutils literal notranslate"><span class="pre">arlunio.X</span></code> (<a class="reference external" href="https://github.com/swyddfa/arlunio/issues/233">#233</a>)</p></li>
+</ul>
+</div>
+<div class="section" id="misc">
+<h3>Misc<a class="headerlink" href="#misc" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Fix reference to <code class="code docutils literal notranslate"><span class="pre">flake8</span></code> in <code class="code docutils literal notranslate"><span class="pre">.pre-commit-config.yaml</span></code>. Changed virtualenv
+name from <code class="code docutils literal notranslate"><span class="pre">.dev</span></code> to <code class="code docutils literal notranslate"><span class="pre">.env</span></code> (<a class="reference external" href="https://github.com/swyddfa/arlunio/issues/227">#227</a>)</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="v0-0-6-2020-04-18">
+<h2>v0.0.6 - 2020-04-18<a class="headerlink" href="#v0-0-6-2020-04-18" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="features">
+<h3>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Introduce the concept of operators. Operators are definitions that can provide
+implementations of the arithmetic operators in Python like <code class="code docutils literal notranslate"><span class="pre">+</span></code> and
+<code class="code docutils literal notranslate"><span class="pre">-</span></code>. Depending on the type a definition produces different operators can
+be defined that allow them to be combined in some way. The standard library has
+been updated to incorporate a few operators for working with masks. (<a class="reference external" href="https://github.com/swyddfa/arlunio/issues/207">#207</a>)</p></li>
+<li><p>Generalise definitions to accept any “regular” value as an input, not just
+<code class="code docutils literal notranslate"><span class="pre">width</span></code> and <code class="code docutils literal notranslate"><span class="pre">height</span></code>. In a similar way to attributes, when deriving
+from other definitions any inputs will be automatically inherited. (<a class="reference external" href="https://github.com/swyddfa/arlunio/issues/216">#216</a>)</p></li>
+</ul>
+</div>
+<div class="section" id="id19">
+<h3>Docs<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Added some documentation around the CI build for the blog. Also updated the blog
+build to run every day. (<a class="reference external" href="https://github.com/swyddfa/arlunio/issues/177">#177</a>)</p></li>
+<li><p>Tidied up and updated existing changelog, started using towncrier for changelog
+entries going forward. (<a class="reference external" href="https://github.com/swyddfa/arlunio/issues/204">#204</a>)</p></li>
+<li><p>Flatten structure of the User Guide section and add placeholder first tutorial (<a class="reference external" href="https://github.com/swyddfa/arlunio/issues/205">#205</a>)</p></li>
+</ul>
+</div>
+<div class="section" id="id23">
+<h3>Misc<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Fix handling of multiple notebooks in  <code class="code docutils literal notranslate"><span class="pre">clean-notebook.sh</span></code> and add VSCode
+tasks to aid with tutorial development (<a class="reference external" href="https://github.com/swyddfa/arlunio/issues/205">#205</a>)</p></li>
+<li><p>Switch the linting workflow to explicitly list the paths that should trigger a
+build. (<a class="reference external" href="https://github.com/swyddfa/arlunio/issues/210">#210</a>)</p></li>
+<li><p>Fix packaging so that our tests are no longer installed (<a class="reference external" href="https://github.com/swyddfa/arlunio/issues/216">#216</a>)</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="v0-0-5-2020-03-18">
+<h2>v0.0.5 - 2020-03-18<a class="headerlink" href="#v0-0-5-2020-03-18" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="added">
+<h3>Added<a class="headerlink" href="#added" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p><code class="code docutils literal notranslate"><span class="pre">Empty</span></code> and <code class="code docutils literal notranslate"><span class="pre">Full</span></code> definitions</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">normalise</span></code>, <code class="code docutils literal notranslate"><span class="pre">clamp</span></code> and <code class="code docutils literal notranslate"><span class="pre">lerp</span></code> functions</p></li>
+</ul>
+</div>
+<div class="section" id="changed">
+<h3>Changed<a class="headerlink" href="#changed" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Definitions now have a <code class="code docutils literal notranslate"><span class="pre">produces</span></code> classmethod that will report the type
+of object they produce - assuming that the type annotation has been given of
+course.</p></li>
+<li><p>The <code class="code docutils literal notranslate"><span class="pre">ar.definition</span></code> decorator now accurately reports the module a
+definition was defined in.</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="v0-0-4-2020-02-15">
+<h2>v0.0.4 - 2020-02-15<a class="headerlink" href="#v0-0-4-2020-02-15" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id27">
+<h3>Added<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>The concept of a <code class="code docutils literal notranslate"><span class="pre">Definition</span></code>.</p>
+<ul>
+<li><p>This incorporates the existing concept of a <code class="code docutils literal notranslate"><span class="pre">Shape</span></code> and expands on it
+to cover input parameters and more</p></li>
+<li><p>Definitions can be derived from other definitions by passing in existing
+definitions as positional arguments. Derived definitions will inherit all
+attributes from their “parent” definitions.</p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="id28">
+<h3>Removed<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>The “magic” shape entry point, shapes should now be imported like regular
+Python classes.</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="v0-0-3-2019-12-30">
+<h2>v0.0.3 - 2019-12-30<a class="headerlink" href="#v0-0-3-2019-12-30" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id29">
+<h3>Added<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p><code class="code docutils literal notranslate"><span class="pre">Pixelize</span></code> shape that can take another shape and and render a lower res
+version of that shape giving it a pixel art vibe</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">Map</span></code> shape that can take a grid of values representing some layout and
+a dictionary that maps those values to shapes that should be drawn there.</p></li>
+<li><p>Proof of concept notebook importer</p></li>
+</ul>
+</div>
+<div class="section" id="id30">
+<h3>Changed<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Add <code class="code docutils literal notranslate"><span class="pre">mkdirs</span></code> flag to the :code`Image.save` function to have the option
+of automatically creating any required parent directories</p></li>
+<li><p>Tweak the <code class="code docutils literal notranslate"><span class="pre">find_notebook</span></code> function to handle the way we are using it
+in the gallery</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="v0-0-2-2019-09-04">
+<h2>v0.0.2 - 2019-09-04<a class="headerlink" href="#v0-0-2-2019-09-04" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Release to test new CI/CD setup</p></li>
+</ul>
+</div>
+<div class="section" id="v0-0-1-2019-08-04">
+<h2>v0.0.1 - 2019-08-04<a class="headerlink" href="#v0-0-1-2019-08-04" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Stylo has been renamed to Arlunio, resetting the version number</p></li>
+<li><p>Initial release to secure the name, more to follow</p></li>
+</ul>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="archive.html">Archive</a></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="archive.html" class="btn btn-neutral float-right" title="Archive" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../glossary.html" class="btn btn-neutral float-left" title="Glossary" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Swyddfa Developers
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

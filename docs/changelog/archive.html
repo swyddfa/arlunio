@@ -1,0 +1,801 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Archive &mdash; Arlunio V0.11.0b9 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.svg"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Changelog" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html">
+          
+
+          
+            
+            <img src="../_static/arlunio.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                V0.11.0b9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../users/index.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stdlib/index.html">Standard Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/index.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Changelog</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#v0-11-0-unreleased">v0.11.0 - Unreleased</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#v0-10-0-2020-07-10">v0.10.0 - 2020-07-10</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#v0-0-7-2020-06-18">v0.0.7 - 2020-06-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#v0-0-6-2020-04-18">v0.0.6 - 2020-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#v0-0-5-2020-03-18">v0.0.5 - 2020-03-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#v0-0-4-2020-02-15">v0.0.4 - 2020-02-15</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#v0-0-3-2019-12-30">v0.0.3 - 2019-12-30</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#v0-0-2-2019-09-04">v0.0.2 - 2019-09-04</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#v0-0-1-2019-08-04">v0.0.1 - 2019-08-04</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Archive</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#v0-9-3-2019-01-12">v0.9.3 - 2019-01-12</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#v0-9-2-2019-01-07">v0.9.2 - 2019-01-07</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#v0-9-1-2018-12-27">v0.9.1 - 2018-12-27</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#v0-9-0-2018-11-11">v0.9.0 - 2018-11-11</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#v0-8-0-2018-11-07">v0.8.0 - 2018-11-07</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#v0-7-0-2018-10-25">v0.7.0 - 2018-10-25</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#v0-6-1-2018-10-20">v0.6.1 - 2018-10-20</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#v0-6-0-2018-10-07">v0.6.0 - 2018-10-07</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#v0-5-0-2018-09-27">v0.5.0 - 2018-09-27</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#v0-4-2-2018-09-17">v0.4.2 - 2018-09-17</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#v0-4-1-2018-09-17">v0.4.1 - 2018-09-17</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#v0-4-0-2018-09-16">v0.4.0 - 2018-09-16</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#v0-3-0-2017-12-09">v0.3.0 - 2017-12-09</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#v0-2-3-2017-11-15">v0.2.3 - 2017-11-15</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#v0-2-2-2017-10-30">v0.2.2 - 2017-10-30</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#v0-2-1-2017-10-29">v0.2.1 - 2017-10-29</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#v0-2-0-2017-10-27">v0.2.0 - 2017-10-27</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#v0-1-0-2017-08-02">v0.1.0 - 2017-08-02</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Arlunio</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">Changelog</a> &raquo;</li>
+        
+      <li>Archive</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/swyddfa/arlunio/blob/develop/docs/changelog/archive.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="archive">
+<h1>Archive<a class="headerlink" href="#archive" title="Permalink to this headline">¶</a></h1>
+<p>These previous releases are no longer relevant to the project but are still
+described here for historical interest.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This project was previously named <code class="code docutils literal notranslate"><span class="pre">stylo</span></code></p>
+</div>
+<div class="section" id="v0-9-3-2019-01-12">
+<h2>v0.9.3 - 2019-01-12<a class="headerlink" href="#v0-9-3-2019-01-12" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="changed">
+<h3>Changed<a class="headerlink" href="#changed" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>When adding layers the <code class="code docutils literal notranslate"><span class="pre">LayeredImage</span></code> now accepts the color as a
+string automatically converting it to a <code class="code docutils literal notranslate"><span class="pre">FillColor</span></code> behind the scenes.</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="v0-9-2-2019-01-07">
+<h2>v0.9.2 - 2019-01-07<a class="headerlink" href="#v0-9-2-2019-01-07" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h3>Changed<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p>Most commonly used objects have been imported into the top level namespace.
+This means that it is now possible to write code like the following.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">stylo</span> <span class="k">as</span> <span class="nn">st</span>
+
+<span class="n">black</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">FillColor</span><span class="p">()</span>
+<span class="n">circle</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">Circle</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">image</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">SimpleImage</span><span class="p">(</span><span class="n">circle</span><span class="p">,</span> <span class="n">black</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>The way stylo has been packaged has been changed. It now comes with a couple
+of “extras”. Instead of requiring dependencies for everything, the default
+installation now only contains the packages that are absolutely required to
+run stylo.</p>
+<p>The other dependencies have been split into a couple of extras</p>
+<ul class="simple">
+<li><p><code class="code docutils literal notranslate"><span class="pre">testing</span></code>: The dependencies required to import items from the
+<cite>stylo.testing</cite> package.</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">jupyer</span></code>: Dependencies required to use stylo interactively in a
+jupyter notebook.</p></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="v0-9-1-2018-12-27">
+<h2>v0.9.1 - 2018-12-27<a class="headerlink" href="#v0-9-1-2018-12-27" title="Permalink to this headline">¶</a></h2>
+<p>There are no changes.</p>
+<p>This release is a test to ensure that internal changes to how <code class="code docutils literal notranslate"><span class="pre">stylo</span></code> is
+packaged and deployed are working correctly.</p>
+</div>
+<div class="section" id="v0-9-0-2018-11-11">
+<h2>v0.9.0 - 2018-11-11<a class="headerlink" href="#v0-9-0-2018-11-11" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="added">
+<h3>Added<a class="headerlink" href="#added" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p>New <code class="code docutils literal notranslate"><span class="pre">stylo.math</span></code> module! Currently it contains a <code class="code docutils literal notranslate"><span class="pre">lerp</span></code>
+function to do linear implementation between two values <code class="code docutils literal notranslate"><span class="pre">a</span></code> and
+<code class="code docutils literal notranslate"><span class="pre">b</span></code></p></li>
+<li><p>New <code class="code docutils literal notranslate"><span class="pre">stylo.design</span></code> module! This is the start of the “next level” in
+styo’s API abstracting away from the lower level objects such as shapes and
+colormaps.</p>
+<ul>
+<li><p>This module adds the notion of a parameter group, this is a collection of
+values that can be passed into functions as a single object using the
+dictionary unpacking syntax (<code class="code docutils literal notranslate"><span class="pre">**params</span></code>)</p>
+<p>Parameter groups are defined using the <code class="code docutils literal notranslate"><span class="pre">define_parameter_group</span></code>
+function and taking a name and a comma separated string of parameter names.
+There is also <code class="code docutils literal notranslate"><span class="pre">define_time_dependent_parameter_group</span></code> that can be
+used to define a parameter group that depends on time.</p>
+<p>Currently there are two pre-defined paramters groups, <code class="code docutils literal notranslate"><span class="pre">Position</span></code> and
+<code class="code docutils literal notranslate"><span class="pre">Trajectory</span></code>. They both combine the <code class="code docutils literal notranslate"><span class="pre">x</span></code> and <code class="code docutils literal notranslate"><span class="pre">y</span></code> values
+into a single object, with the second being the time dependent version of
+the first.</p>
+<p>Finally there are two built-in implementations of these parameter groups.
+<code class="code docutils literal notranslate"><span class="pre">StaticPosition</span></code> and <code class="code docutils literal notranslate"><span class="pre">ParametricPosition</span></code> the first takes two
+values and returns them. The second takes two functions in time and calls
+them at each supplied time value.</p>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="v0-8-0-2018-11-07">
+<h2>v0.8.0 - 2018-11-07<a class="headerlink" href="#v0-8-0-2018-11-07" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id2">
+<h3>Added<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>New <code class="code docutils literal notranslate"><span class="pre">Timeline</span></code> system! This finally introduces explicit support for
+animations to <code class="code docutils literal notranslate"><span class="pre">stylo.</span></code></p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="v0-7-0-2018-10-25">
+<h2>v0.7.0 - 2018-10-25<a class="headerlink" href="#v0-7-0-2018-10-25" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h3>Added<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>New <code class="code docutils literal notranslate"><span class="pre">Line</span></code> shape!</p></li>
+<li><p>New <code class="code docutils literal notranslate"><span class="pre">ImplicitXY</span></code> shape! Draw any curve that is implicitly defined by a
+function <span class="math notranslate nohighlight">\(f(x, y)\)</span></p></li>
+</ul>
+</div>
+<div class="section" id="id4">
+<h3>Changed<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>The <code class="code docutils literal notranslate"><span class="pre">Circle</span></code> and <code class="code docutils literal notranslate"><span class="pre">Ellipse</span></code> shapes now take more arguments. By
+default the shapes will now draw an outline rather than a filled in shape.</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="v0-6-1-2018-10-20">
+<h2>v0.6.1 - 2018-10-20<a class="headerlink" href="#v0-6-1-2018-10-20" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id5">
+<h3>Added<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>New <code class="code docutils literal notranslate"><span class="pre">preview</span></code> keyword argument to images, set this to <code class="code docutils literal notranslate"><span class="pre">False</span></code> if
+you don’t want a matplotlib figure returned.</p></li>
+<li><p>New <code class="code docutils literal notranslate"><span class="pre">encode</span></code> keyword argument to images, setting this to <code class="code docutils literal notranslate"><span class="pre">True</span></code>
+will return a base64 encoded string representation of the image in PNG format.</p></li>
+</ul>
+</div>
+<div class="section" id="fixed">
+<h3>Fixed<a class="headerlink" href="#fixed" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Preview images are no longer displayed twice in jupyter notebooks</p></li>
+<li><p>Preview images no longer display the x and y axis numbers.</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="v0-6-0-2018-10-07">
+<h2>v0.6.0 - 2018-10-07<a class="headerlink" href="#v0-6-0-2018-10-07" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id6">
+<h3>Added<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p><strong>Users</strong></p>
+<ul class="simple">
+<li><p>New <code class="code docutils literal notranslate"><span class="pre">Triangle</span></code> shape</p></li>
+<li><p>Shapes can now be inverted using the <code class="code docutils literal notranslate"><span class="pre">~</span></code> operator.</p></li>
+</ul>
+<p><strong>Contributors</strong></p>
+<ul class="simple">
+<li><p>Added new shape <code class="code docutils literal notranslate"><span class="pre">InvertedShape</span></code> which handles the inversion of a shape
+behind the scenes.</p></li>
+<li><p>Tests for all the composite shapes and operators.</p></li>
+<li><p>More documentation on how to get involved</p></li>
+</ul>
+</div>
+<div class="section" id="id7">
+<h3>Changed<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<p><strong>Users</strong></p>
+<ul class="simple">
+<li><p>Shapes now have defined <code class="code docutils literal notranslate"><span class="pre">__repr__</span></code> methods, including shapes that have
+been combined, where a representation of a tree will be produced showing how
+the various shapes have been combined together.</p></li>
+<li><p>Preview images in Jupyter notebooks are now larger by default</p></li>
+</ul>
+<p>This release of <code class="code docutils literal notranslate"><span class="pre">stylo</span></code> was brought to you thanks to contributions from
+the following awesome people!</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/mvinoba">mvinoba</a></p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="v0-5-0-2018-09-27">
+<h2>v0.5.0 - 2018-09-27<a class="headerlink" href="#v0-5-0-2018-09-27" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id8">
+<h3>Added<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<p><strong>Users</strong></p>
+<ul class="simple">
+<li><p>New Image object <code class="code docutils literal notranslate"><span class="pre">LayeredImage</span></code> object that can now draw more
+than one object</p></li>
+<li><p>Added an introductory tutorial for first time users to the documentation</p></li>
+<li><p>Functions from the <code class="code docutils literal notranslate"><span class="pre">stylo.domain.transform</span></code> package can now be applied
+to shapes, meaning that most images can now be made without handling domains
+directly.</p></li>
+</ul>
+<p><strong>Contributors</strong></p>
+<ul class="simple">
+<li><p>Added a <code class="code docutils literal notranslate"><span class="pre">Drawable</span></code> class, this allows a domain, shape and colormap to
+be treated as a single entity.</p></li>
+<li><p>Added a <code class="code docutils literal notranslate"><span class="pre">render_drawable</span></code> function that takes a drawable and some
+existing image data and applies it to the data.</p></li>
+<li><p>Added a <code class="code docutils literal notranslate"><span class="pre">get_real_domain</span></code> function that given a width, height and scale
+returns a <code class="code docutils literal notranslate"><span class="pre">RectangularDomain</span></code> with appropriate aspect ratio,
+<span class="math notranslate nohighlight">\((0, 0)\)</span> at the centre of the image and the scale corresponding to the
+interval <span class="math notranslate nohighlight">\([ymin, ymax]\)</span></p></li>
+<li><p>We now make use of the <code class="code docutils literal notranslate"><span class="pre">[scripts]</span></code> section of  <code class="code docutils literal notranslate"><span class="pre">Pipfile</span></code> so
+running common commands is now easier to remember</p>
+<ul>
+<li><p><code class="code docutils literal notranslate"><span class="pre">pipenv</span> <span class="pre">run</span> <span class="pre">test</span></code>: to run the test suite</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">pipenv</span> <span class="pre">run</span> <span class="pre">lint</span></code>: to lint the codebase</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">pipenv</span> <span class="pre">run</span> <span class="pre">docs</span></code>: to run a full build of the documentation</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">pipenv</span> <span class="pre">run</span> <span class="pre">docs_fast</span></code>: to run a less complete but faster build of
+the documentation.</p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="id9">
+<h3>Changed<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<p><strong>Users</strong></p>
+<ul class="simple">
+<li><p>Altered <code class="code docutils literal notranslate"><span class="pre">SimpleImage</span></code> to no longer take a domain, reducing the
+cognitive load on first time users. It now instead takes an optional
+<code class="code docutils literal notranslate"><span class="pre">scale</span></code> variable to control the size of the domain underneath. This
+also means that the domain now automatically matches the aspect ratio of the
+image so no more distortion in non-square images.</p></li>
+</ul>
+<p><strong>Contributors</strong></p>
+<ul class="simple">
+<li><p>The tests now take advantage of multi-core machines and should now run much
+faster</p></li>
+<li><p>Building the docs now takes advantage of multi-core machines and should now
+run much faster.</p></li>
+</ul>
+</div>
+<div class="section" id="id10">
+<h3>Fixed<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<p><strong>Contributors</strong></p>
+<ul class="simple">
+<li><p>Fixed crashes in <code class="code docutils literal notranslate"><span class="pre">exampledoc.py</span></code> and <code class="code docutils literal notranslate"><span class="pre">apidoc.py</span></code> for first time
+users</p></li>
+<li><p>Fixed issue with <code class="code docutils literal notranslate"><span class="pre">sed</span></code> on a Mac for people running the
+<code class="code docutils literal notranslate"><span class="pre">devenv-setup.sh</span></code> script</p></li>
+</ul>
+<p>This release of <code class="code docutils literal notranslate"><span class="pre">stylo</span></code> was brought to you thanks to contributions from
+the following awesome people!</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/mvinoba">mvinoba</a></p></li>
+<li><p><a class="reference external" href="https://github.com/LordTandy">LordTandy</a></p></li>
+<li><p><a class="reference external" href="https://github.com/StephanieAngharad">StephanieAngharad</a></p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="v0-4-2-2018-09-17">
+<h2>v0.4.2 - 2018-09-17<a class="headerlink" href="#v0-4-2-2018-09-17" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id12">
+<h3>Added<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p><code class="code docutils literal notranslate"><span class="pre">Image</span></code> objects can now take a <code class="code docutils literal notranslate"><span class="pre">size</span></code> keyword argument to adjust
+the size of the matplotlib preview plots</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="v0-4-1-2018-09-17">
+<h2>v0.4.1 - 2018-09-17<a class="headerlink" href="#v0-4-1-2018-09-17" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id13">
+<h3>Fixed<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Fixed an issue with <code class="code docutils literal notranslate"><span class="pre">setup.py</span></code> that meant most of the code wasn’t
+published to PyPi!</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="v0-4-0-2018-09-16">
+<h2>v0.4.0 - 2018-09-16<a class="headerlink" href="#v0-4-0-2018-09-16" title="Permalink to this headline">¶</a></h2>
+<p>Out of the ashes of the previous version rises the biggest release to date!
+Stylo has been rewritten from the ground up and should now be easier to use,
+more modular and easier to extend!</p>
+<p>None (or very little) of the original code remains and not everything has been
+reimplemented yet so some of the features listed below may not be available in
+this version. There is a lot more work to be done particularly in the tests and
+docs departments however core functionality is now in place and it’s been long
+enough since the previous release.</p>
+<p>I’m hoping that from now on releases will be smaller and more frequent as what
+is now here is refined and tested to create a stable base from which Stylo can
+be extended.</p>
+<div class="section" id="id14">
+<h3>Added<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<p><strong>Users</strong></p>
+<p>One of the main ideas behind the latest incarnation of stylo is the idea of
+interfaces borrowed from Java. Where you have an object such as <code class="code docutils literal notranslate"><span class="pre">Shape</span></code>
+and all shapes have certain behaviors in common represented by methods on an
+interface. Then there are a number of implementations that provide the details
+specific to each shape.</p>
+<p>In stylo this is modelled by having a number of abstract classes that define
+the interfaces that represent different parts of the stylo image creation
+process. Then regular classes inherit from these to provide the details.</p>
+<p>With that in mind this release provides the following “interfaces”.</p>
+<ul class="simple">
+<li><p>New <code class="code docutils literal notranslate"><span class="pre">RealDomain</span></code> and <code class="code docutils literal notranslate"><span class="pre">RealDomainTransform</span></code> interfaces, these
+model the mapping of a continuous mathematical domain
+<span class="math notranslate nohighlight">\(D \subset \mathbb{R}^2\)</span> onto a discrete grid of pixels.</p></li>
+<li><p>New <code class="code docutils literal notranslate"><span class="pre">Shape</span></code> interface this models the mapping of the grid of values
+generated by a domain into a boolean numpy array representing which pixels
+are a part of the shape.</p></li>
+<li><p>New <code class="code docutils literal notranslate"><span class="pre">ColorSpace</span></code> system this currently doesn’t do much but should allow
+support for the use of different color representations. Current only 8^bit
+RGB values are supported.</p></li>
+<li><p>New <code class="code docutils literal notranslate"><span class="pre">ColorMap</span></code> interface, this represents the mapping of the boolean
+numpy array generated by the <code class="code docutils literal notranslate"><span class="pre">Shape</span></code> interface into a numpy array
+containing the color values that will be eventually interpreted as an image.</p></li>
+<li><p>New <code class="code docutils literal notranslate"><span class="pre">Image</span></code> interface. Implementations of this interface will implement
+common image creation workflows as well as providing a unified way to preview
+and save images to a file.</p></li>
+</ul>
+<p>With the main interfaces introduced here is a (very) brief introduction to each
+of the implementations provided in this release</p>
+<p><strong>RealDomain</strong></p>
+<ul class="simple">
+<li><p><code class="code docutils literal notranslate"><span class="pre">RectangularDomain</span></code>: Models a rectangular subset of the :math`xy`^plane
+<span class="math notranslate nohighlight">\([a, b] \times [c, d] \subset \mathbb{R}^2\)</span></p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">SquareDomain</span></code>: Similar to above but in the cases where <span class="math notranslate nohighlight">\(c = a\)</span>
+and <span class="math notranslate nohighlight">\(d = b\)</span></p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">UnitSquare</span></code>: Similar to above but the case where <span class="math notranslate nohighlight">\(a = 0\)</span> and
+<span class="math notranslate nohighlight">\(b = 1\)</span></p></li>
+</ul>
+<p><strong>RealDomainTransform</strong></p>
+<ul class="simple">
+<li><p><code class="code docutils literal notranslate"><span class="pre">HorizontalShear</span></code>: Given a domain this applies a horizontal shear to it</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">Rotation</span></code>: Given a domain this rotates it by a given angle</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">Translation</span></code>: Given a domain this applies a translation to it</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">VerticalShear</span></code>: Given a domain this applies a vertical shear to it</p></li>
+</ul>
+<p><strong>Shape</strong></p>
+<ul class="simple">
+<li><p><code class="code docutils literal notranslate"><span class="pre">Square</span></code></p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">Rectangle</span></code></p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">Circle</span></code></p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">Ellipse</span></code></p></li>
+</ul>
+<p><strong>ColorSpace</strong></p>
+<ul class="simple">
+<li><p><code class="code docutils literal notranslate"><span class="pre">RGB8</span></code>: 8^bit RGB valued colors</p></li>
+</ul>
+<p><strong>ColorMap</strong></p>
+<ul class="simple">
+<li><p><code class="code docutils literal notranslate"><span class="pre">FillColor</span></code>: Given a background and a foreground color. Color all
+<code class="code docutils literal notranslate"><span class="pre">False</span></code> pixels with the background color and color all the <code class="code docutils literal notranslate"><span class="pre">True</span></code>
+pixels the foreground color.</p></li>
+</ul>
+<p><strong>Image</strong></p>
+<ul class="simple">
+<li><p><code class="code docutils literal notranslate"><span class="pre">SimpleImage</span></code>: Currently the only image implementation, this implements
+one of the simplest workflows that can result in an interesting image. Take
+a <code class="code docutils literal notranslate"><span class="pre">Domain</span></code>, pass it to a <code class="code docutils literal notranslate"><span class="pre">Shape</span></code> and then apply a <code class="code docutils literal notranslate"><span class="pre">ColorMap</span></code>
+to the result.</p></li>
+</ul>
+<p><strong>Extenders/Contributors</strong></p>
+<p>From the beginning this new attempt at <code class="code docutils literal notranslate"><span class="pre">stylo</span></code> has been designed with
+extensibility in mind so included in the library are also a number of utilities
+aimed to help you develop your own tools that integrate well with the rest of
+stylo.</p>
+<p><strong>Domains</strong> and <strong>DomainTransforms</strong></p>
+<p>While <code class="code docutils literal notranslate"><span class="pre">stylo</span></code> only currently ships with <code class="code docutils literal notranslate"><span class="pre">RealDomain</span></code> and
+<code class="code docutils literal notranslate"><span class="pre">RealDomainTransform</span></code> interfaces it is developed in a way to allow the
+addition of new “families” of domain. If you want to create your own stylo
+provides the following functions:</p>
+<ul class="simple">
+<li><p><code class="code docutils literal notranslate"><span class="pre">define_domain</span></code>: This will write your base domain class (like the
+<code class="code docutils literal notranslate"><span class="pre">RealDomain</span></code>) just give it a name and a list of parameters.</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">define_domain_transform</span></code>: The will write the <code class="code docutils literal notranslate"><span class="pre">DomainTransform</span></code>
+base class for you.</p></li>
+</ul>
+<p>In addition to defining new families <code class="code docutils literal notranslate"><span class="pre">stylo</span></code> provides a few helper
+classes to help you write your own domains and transforms for the existing
+<code class="code docutils literal notranslate"><span class="pre">RealDomain</span></code> family</p>
+<ul class="simple">
+<li><p><code class="code docutils literal notranslate"><span class="pre">PolarConversion</span></code>: If your domain is only “interesting” in cartesian
+coordinates this helper class will automatically write the conversion to
+polar coordinates for you.</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">CartesianConversion</span></code>: If your domain is only “interesting” in polar
+coordinates this helper class will automatically write the conversion to
+cartesian coordinates for you.</p></li>
+</ul>
+<p><strong>stylo.testing</strong></p>
+<p><code class="code docutils literal notranslate"><span class="pre">stylo</span></code> also comes with a testing package that provides a number of
+utilities to help you ensure that any extensions you write will integrate well
+with the rest of <code class="code docutils literal notranslate"><span class="pre">stylo</span></code></p>
+<ul class="simple">
+<li><p><code class="code docutils literal notranslate"><span class="pre">BaseRealDomainTest</span></code>: This is a class that you can base your test case
+on for any domains in the <code class="code docutils literal notranslate"><span class="pre">RealDomain</span></code> family to ensure that they
+function as expected.</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">define_domain_test</span></code>: Similar to the <code class="code docutils literal notranslate"><span class="pre">define_domain</span></code> and
+<code class="code docutils literal notranslate"><span class="pre">define_domain_transform</span></code> functions this defines a base test class to
+ensure that domains in your new family work as expected.</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">BaseShapeTest</span></code> Basing your test case on this for any new shapes will
+ensure that your shapes will function as expected by the rest of <code class="code docutils literal notranslate"><span class="pre">stylo</span></code></p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">define_benchmarked_example</span></code>: This is for those of you wishing to
+contribute an example to the documentation, using this function with your
+example code will ensure that your example is automatically included in the
+documentation when it is next built.</p></li>
+</ul>
+<p><strong>stylo.testing.strategies</strong></p>
+<p>This module defines a number of hypothesis strategies for common data types in
+<code class="code docutils literal notranslate"><span class="pre">stylo</span></code>. Using these (and hypothesis) in your test cases where possible
+will ensure that your objects will work with the same kind of data as
+<code class="code docutils literal notranslate"><span class="pre">stylo</span></code> itself.</p>
+</div>
+<div class="section" id="removed">
+<h3>Removed<a class="headerlink" href="#removed" title="Permalink to this headline">¶</a></h3>
+<p>Everything mentioned below.</p>
+</div>
+</div>
+<div class="section" id="v0-3-0-2017-12-09">
+<h2>v0.3.0 - 2017-12-09<a class="headerlink" href="#v0-3-0-2017-12-09" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id15">
+<h3>Added<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>New Domain class, it is responsible for generating the grids of numbers
+passed to Drawables when they are mapped onto Images. It replaces most of the
+old decorators.</p></li>
+<li><p>Drawables are now classes! Any drawable is now a class that inherits from
+Drawable, it brings back much of the old Puppet functionality with some
+improvements.</p></li>
+<li><p>More tests!</p></li>
+</ul>
+</div>
+<div class="section" id="id16">
+<h3>Changed<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>ANDing Images (a &amp; b) has been reimplemented so that it hopefully makes more
+sense. The alpha value of b is used to scale the color values of a.</p></li>
+<li><p>Along with the new Domain system mapping Drawables onto Images has been
+reworked to hopefully make coordinate calculations faster</p></li>
+</ul>
+</div>
+<div class="section" id="id17">
+<h3>Removed<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>stylo/coords.py has been deleted, this means the following functions and
+decorators no longer exist
++ mk_domain - Domains are now a class
++ cartesian (now built into the new Domain object)
++ polar     (now built into the new Domain object)
++ extend_periocally (now the .repeat() method on the new Domain object)
++ translate (now the .transform() method on the new Domain object)
++ reflect (not yet implemented in the new system)</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="v0-2-3-2017-11-15">
+<h2>v0.2.3 - 2017-11-15<a class="headerlink" href="#v0-2-3-2017-11-15" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id18">
+<h3>Added<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Image objects can now be added together, this is simply the sum of the color
+values at each pixel</p></li>
+<li><p>Image objects can now be subtracted, which is simply the difference of the
+colour values at each pixel</p></li>
+</ul>
+</div>
+<div class="section" id="id19">
+<h3>Changed<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Renamed hex_to_rgb to hexcolor. It now also can cope with rgb and rgba
+arguments, with the ability to promote rgb to rgba colors</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="v0-2-2-2017-10-30">
+<h2>v0.2.2 - 2017-10-30<a class="headerlink" href="#v0-2-2-2017-10-30" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id20">
+<h3>Added<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Keyword argument ‘only’ to the ‘polar’ decorator which allows you to ignore
+the x and y variables if you dont need them</p></li>
+</ul>
+</div>
+<div class="section" id="id21">
+<h3>Fixed<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Forgot to expose the objects from interpolate.py to the top level stylo
+import</p></li>
+<li><p>Examples in the documentation and enabled doctests for them</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="v0-2-1-2017-10-29">
+<h2>v0.2.1 - 2017-10-29<a class="headerlink" href="#v0-2-1-2017-10-29" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id22">
+<h3>Fixed<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Stylo should now also work on python 3.5</p></li>
+</ul>
+</div>
+<div class="section" id="id23">
+<h3>Removed<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Deleted stylo/motion.py as its something better suited to a plugin</p></li>
+<li><p>Deleted Pupptet, PuppetMaster and supporting functions as they are broken and
+better to be rewritten from scratch</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="v0-2-0-2017-10-27">
+<h2>v0.2.0 - 2017-10-27<a class="headerlink" href="#v0-2-0-2017-10-27" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id24">
+<h3>Added<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Sampler object which forms the basis of the new Driver implementations</p></li>
+<li><p>Channel object which can manage many Sampler like objects to form a
+single ‘track’ of animation data</p></li>
+<li><p>A very simple Driver object which allows you to collect multiple Channel
+objects into a single place</p></li>
+<li><p>linear, quad_ease_in, quad_ease_out interpolation functions</p></li>
+</ul>
+<p><strong>Docs</strong></p>
+<ul class="simple">
+<li><p>Added the following reference pages</p>
+<ul>
+<li><p>Image</p></li>
+<li><p>Drawable</p></li>
+<li><p>Primitive</p></li>
+<li><p>Sampler</p></li>
+</ul>
+</li>
+<li><p>A How To section</p></li>
+<li><p>How To invert the colours of an Image</p></li>
+</ul>
+</div>
+<div class="section" id="id25">
+<h3>Changed<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Image.__and__() now uses a new method which produces better results with
+colour images</p></li>
+</ul>
+</div>
+<div class="section" id="id26">
+<h3>Fixed<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Numpy shape error in Image.__neg__()</p></li>
+</ul>
+</div>
+<div class="section" id="id27">
+<h3>Removed<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>stylo.prims.thicken was redundant so it has been removed</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="v0-1-0-2017-08-02">
+<h2>v0.1.0 - 2017-08-02<a class="headerlink" href="#v0-1-0-2017-08-02" title="Permalink to this headline">¶</a></h2>
+<p>Initial Release</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="Changelog" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Swyddfa Developers
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
